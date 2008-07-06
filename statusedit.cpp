@@ -1,8 +1,9 @@
 #include "statusedit.h"
 
-StatusEdit::StatusEdit( QWidget * parent = 0 ) : QLineEdit( parent ) {
-  statusClean = true;
-}
+StatusEdit::StatusEdit( QWidget * parent = 0 ) :
+  QLineEdit( parent ),
+  statusClean( true )
+  {}
 
 void StatusEdit::focusInEvent( QFocusEvent * event )
 {
