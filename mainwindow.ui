@@ -5,8 +5,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>405</width>
-    <height>274</height>
+    <width>419</width>
+    <height>282</height>
    </rect>
   </property>
   <property name="windowTitle" >
@@ -98,50 +98,38 @@
       </widget>
      </item>
      <item>
-      <widget class="QPlainTextEdit" name="statusEdit" >
-       <property name="enabled" >
-        <bool>true</bool>
-       </property>
-       <property name="sizePolicy" >
-        <sizepolicy vsizetype="Fixed" hsizetype="Expanding" >
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <widget class="StatusEdit" name="statusEdit" >
+       <property name="minimumSize" >
+        <size>
+         <width>0</width>
+         <height>25</height>
+        </size>
        </property>
        <property name="maximumSize" >
         <size>
          <width>16777215</width>
-         <height>25</height>
+         <height>32</height>
         </size>
        </property>
-       <property name="plainText" >
+       <property name="text" >
         <string>What are you doing?</string>
        </property>
-       <property name="tabStopWidth" >
-        <number>80</number>
-       </property>
-       <property name="maximumBlockCount" >
-        <number>0</number>
-       </property>
-       <property name="backgroundVisible" >
-        <bool>true</bool>
-       </property>
-       <property name="centerOnScroll" >
-        <bool>false</bool>
+       <property name="maxLength" >
+        <number>140</number>
        </property>
       </widget>
      </item>
      <item>
       <widget class="QLabel" name="countdownLabel" >
        <property name="sizePolicy" >
-        <sizepolicy vsizetype="Preferred" hsizetype="Preferred" >
+        <sizepolicy vsizetype="Preferred" hsizetype="Fixed" >
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
        <property name="minimumSize" >
         <size>
-         <width>0</width>
+         <width>32</width>
          <height>0</height>
         </size>
        </property>
@@ -150,6 +138,9 @@
        </property>
        <property name="text" >
         <string>140</string>
+       </property>
+       <property name="alignment" >
+        <set>Qt::AlignCenter</set>
        </property>
        <property name="wordWrap" >
         <bool>false</bool>
@@ -169,9 +160,15 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>StatusEdit</class>
+   <extends>QLineEdit</extends>
+   <header>statusedit.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>statusTableView</tabstop>
-  <tabstop>statusEdit</tabstop>
   <tabstop>updateToolButton</tabstop>
   <tabstop>settingsToolButton</tabstop>
   <tabstop>homeToolButton</tabstop>
