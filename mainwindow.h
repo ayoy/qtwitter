@@ -16,14 +16,23 @@ class MainWindow : public QWidget
 public:
   MainWindow();
 
-private slots:
+public slots:
   void changeLabel();
   void sendStatus(QKeyEvent *key);
   void resetStatus();
 
+  void httpRequestFinished(int requestId, bool error);
+  void readResponseHeader(const QHttpResponseHeader &responseHeader);
+  void updateDataReadProgress(int bytesRead, int totalBytes);
+  void slotAuthenticationRequired(const QString &, quint16, QAuthenticator *);
+
 private:
-  //QHttp *http;
+  QHttp *http;
+  QFile *file;
+  QNetworkProxy proxy;
   int statusFormerLength;
+  bool httpRequestAborted;
+  int httpGetId;
   Ui::MainWindow ui;
 };
 
