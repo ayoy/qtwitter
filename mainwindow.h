@@ -6,6 +6,7 @@
 #include <qevent.h>
 #include "statusedit.h"
 #include "ui_mainwindow.h"
+#include "xmlparser.h"
 
 #define STATUS_MAX_LEN 140
 
@@ -15,7 +16,7 @@ class MainWindow : public QWidget
 
 public:
   MainWindow();
-
+  
 public slots:
   void changeLabel();
   void sendStatus(QKeyEvent *key);
@@ -25,11 +26,18 @@ public slots:
   void readResponseHeader(const QHttpResponseHeader &responseHeader);
   void updateDataReadProgress(int bytesRead, int totalBytes);
   void slotAuthenticationRequired(const QString &, quint16, QAuthenticator *);
+  
+  void updateText( const QString& text );
+  void addEntry( const QUrl &avatar, const QString &status );
 
 private:
   QHttp *http;
-  QFile *file;
+  //QFile *file;
+  QByteArray *bytearray;
+  QTextStream *textstream;
+  QBuffer *buffer; 
   QNetworkProxy proxy;
+  XmlParser parser;
   int statusFormerLength;
   bool httpRequestAborted;
   int httpGetId;

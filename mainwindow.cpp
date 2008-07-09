@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "statusfilter.h"
 #include "xmlparser.h"
+#include "entry.h"
 
 #include <QtDebug>
 #include <QMessageBox>
@@ -22,10 +23,12 @@ MainWindow::MainWindow() : QWidget()
   connect( ui.statusEdit, SIGNAL( textChanged(QString) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( filter, SIGNAL( enterPressed(QKeyEvent*) ), this, SLOT( sendStatus(QKeyEvent*) ) );
-  connect(http, SIGNAL(requestFinished(int, bool)),this, SLOT(httpRequestFinished(int, bool)));
-  connect(http, SIGNAL(dataReadProgress(int, int)),this, SLOT(updateDataReadProgress(int, int)));
-  connect(http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)),this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
-  connect(http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)),this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
+  connect( http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
+  connect( http, SIGNAL(dataReadProgress(int, int)), this, SLOT(updateDataReadProgress(int, int)));
+  connect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
+  connect( http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
+  connect( &parser, SIGNAL(dataParsed(const QString&)), this, SLOT(updateText(const QString&)));
+  connect( &parser, SIGNAL(newEntry(const QUrl&, const QString&)), this, SLOT(addEntry(const QUrl&, const QString&)));
 }
 
 /*void MainWindow::addItem()
@@ -55,8 +58,11 @@ void MainWindow::sendStatus( QKeyEvent *key )
   
   http->setHost( "www.twitter.com" );
   
-  file = new QFile( "friends_timeline.xml" );
-  if (!file->open(QIODevice::WriteOnly))
+  //file = new QFile( "friends_timeline.xml" );
+  bytearray = new QByteArray();
+  buffer = new QBuffer( bytearray );
+  textstream = new QTextStream( bytearray );
+  /*if (!file->open(QIODevice::WriteOnly))
   {
     QMessageBox::information(this, tr("HTTP"),
       tr("Unable to save the file %1.")
@@ -64,7 +70,7 @@ void MainWindow::sendStatus( QKeyEvent *key )
     delete file;
     file = 0;
     return;
-  }
+  }*/
   QHttp::ConnectionMode mode = QHttp::ConnectionModeHttp;
   if (!url.userName().isEmpty())
     http->setUser(url.userName(), url.password());
@@ -75,7 +81,7 @@ void MainWindow::sendStatus( QKeyEvent *key )
     path = "/";
   qDebug() << url.toString();
   qDebug() << path;
-  httpGetId = http->get( path, file );
+  httpGetId = http->get( path, buffer );
   ui.statusEdit->setText( QString::number( key->key( ) ) + " pressed " + QString::number( httpGetId ) );
 }
 
@@ -95,19 +101,19 @@ void MainWindow::httpRequestFinished(int requestId, bool error)
   if (requestId != httpGetId)
     return;
   if (httpRequestAborted) {
-    if (file) {
-      file->close();
-      file->remove();
-      delete file;
-      file = 0;
+    if (buffer) {
+      buffer->close();
+      //file->remove();
+      delete buffer;
+      buffer = 0;
     }
     return;
   }
   if (requestId != httpGetId)
     return;
-  file->close();
+  buffer->close();
   if (error) {
-    file->remove();
+    //file->remove();
     QMessageBox::information(this, tr("HTTP"),
                              tr("ZOMFG! Download failed: %1.")
                              .arg(http->errorString()));
@@ -115,25 +121,14 @@ void MainWindow::httpRequestFinished(int requestId, bool error)
     ui.statusEdit->setText(tr("Downloaded friends_timeline.xml to current directory."));
   }
 
-  if ( !file->open( QIODevice::ReadOnly ) )
-  {
-    QMessageBox::information(this, tr("HTTP"),
-      tr("Unable to save the file %1.")
-      .arg(file->errorString()));
-    delete file;
-    file = 0;
-    return;
-  }
-
-  QXmlInputSource source( file );
-  XmlParser parser;
+  QXmlInputSource source( buffer );
   QXmlSimpleReader reader;
   reader.setContentHandler( &parser );
   reader.parse( source );
-  file->close();
+  buffer->close();
 
-  delete file;
-  file = 0;
+  delete buffer;
+  buffer = 0;
 }
 
 void MainWindow::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -175,4 +170,13 @@ void MainWindow::slotAuthenticationRequired(const QString &hostName, quint16, QA
         authenticator->setPassword("vodafone");
     //}
 }
+
+void MainWindow::updateText( const QString &text )
+{
+  ui.textEdit->append( text );
+}
+
+void MainWindow::addEntry( const QUrl &photo, const QString &status )
+{
   
+}
