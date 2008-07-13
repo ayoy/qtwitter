@@ -25,66 +25,57 @@
       <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
 &lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
-&lt;/style>&lt;/head>&lt;body style=" font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;">
-&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:8pt;">&lt;/p>&lt;/body>&lt;/html></string>
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Lucida Grande'; font-size:13pt; font-weight:400; font-style:normal;">
+&lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8pt;">&lt;/p>&lt;/body>&lt;/html></string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QTableView" name="statusTableView" >
-     <property name="minimumSize" >
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="baseSize" >
-      <size>
-       <width>0</width>
-       <height>0</height>
-      </size>
-     </property>
-     <property name="frameShape" >
-      <enum>QFrame::StyledPanel</enum>
-     </property>
+    <widget class="QListView" name="statusListView" >
      <property name="verticalScrollBarPolicy" >
-      <enum>Qt::ScrollBarAsNeeded</enum>
+      <enum>Qt::ScrollBarAlwaysOn</enum>
      </property>
      <property name="horizontalScrollBarPolicy" >
       <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
+     <property name="autoScroll" >
+      <bool>true</bool>
+     </property>
+     <property name="autoScrollMargin" >
+      <number>1</number>
+     </property>
      <property name="editTriggers" >
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
-     <property name="tabKeyNavigation" >
-      <bool>false</bool>
-     </property>
      <property name="showDropIndicator" stdset="0" >
-      <bool>false</bool>
-     </property>
-     <property name="dragDropOverwriteMode" >
-      <bool>false</bool>
+      <bool>true</bool>
      </property>
      <property name="selectionMode" >
-      <enum>QAbstractItemView::NoSelection</enum>
+      <enum>QAbstractItemView::SingleSelection</enum>
      </property>
-     <property name="selectionBehavior" >
-      <enum>QAbstractItemView::SelectRows</enum>
+     <property name="iconSize" >
+      <size>
+       <width>48</width>
+       <height>48</height>
+      </size>
      </property>
      <property name="verticalScrollMode" >
       <enum>QAbstractItemView::ScrollPerPixel</enum>
      </property>
-     <property name="showGrid" >
-      <bool>false</bool>
+     <property name="horizontalScrollMode" >
+      <enum>QAbstractItemView::ScrollPerPixel</enum>
      </property>
-     <property name="gridStyle" >
-      <enum>Qt::SolidLine</enum>
+     <property name="flow" >
+      <enum>QListView::LeftToRight</enum>
+     </property>
+     <property name="isWrapping" stdset="0" >
+      <bool>true</bool>
+     </property>
+     <property name="spacing" >
+      <number>5</number>
      </property>
      <property name="wordWrap" >
       <bool>true</bool>
-     </property>
-     <property name="cornerButtonEnabled" >
-      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -227,7 +218,6 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>statusTableView</tabstop>
   <tabstop>updateToolButton</tabstop>
   <tabstop>settingsToolButton</tabstop>
   <tabstop>homeToolButton</tabstop>

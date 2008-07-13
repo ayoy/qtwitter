@@ -21,16 +21,18 @@ public:
   
 public slots:
   void changeLabel();
-  void sendStatus(QKeyEvent *key);
+  void sendStatus( QKeyEvent *key );
   void resetStatus();
 
-  void httpRequestFinished(int requestId, bool error);
-  void readResponseHeader(const QHttpResponseHeader &responseHeader);
-  void updateDataReadProgress(int bytesRead, int totalBytes);
-  void slotAuthenticationRequired(const QString &, quint16, QAuthenticator *);
+  void httpRequestFinished( int requestId, bool error );
+  void readResponseHeader( const QHttpResponseHeader &responseHeader );
+  void updateDataReadProgress( int bytesRead, int totalBytes );
+  void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
   
   void updateText( const QString& text );
   void addEntry( const Entry &entry );
+  
+  void resizeEvent( QResizeEvent *event );
 
 private:
   QHttp *http;

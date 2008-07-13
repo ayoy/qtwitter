@@ -9,7 +9,7 @@
 
 //#define PROXY
 
-MainWindow::MainWindow() : QWidget(), model(0,0)
+MainWindow::MainWindow() : QWidget(), model( 0,0 )
 {
   ui.setupUi( this );
 #ifdef PROXY
@@ -24,19 +24,7 @@ MainWindow::MainWindow() : QWidget(), model(0,0)
   ui.textEdit->setVisible( false );
   
   ui.statusEdit->installEventFilter( filter );
-  ui.statusTableView->setModel( &model );
-  
-  QHeaderView *horizHeader = new QHeaderView( Qt::Horizontal, this );
-  horizHeader->setVisible( false );   
-  horizHeader->resizeSections( QHeaderView::Fixed );
-  horizHeader->resizeSection( 1, 658); 
-  ui.statusTableView->setVerticalHeader( horizHeader );
-  
-  QHeaderView *vertHeader = new QHeaderView( Qt::Vertical, this );
-  vertHeader->setVisible( false );
-  vertHeader->resizeSections( QHeaderView::Fixed );
-  vertHeader->resizeSection( 1, 658);   
-  ui.statusTableView->setVerticalHeader( vertHeader );
+  ui.statusListView->setModel( &model );
     
   connect( ui.statusEdit, SIGNAL( textChanged(QString) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
@@ -168,7 +156,7 @@ void MainWindow::readResponseHeader(const QHttpResponseHeader &responseHeader)
   }
 }
 
-void MainWindow::updateDataReadProgress(int bytesRead, int totalBytes)
+void MainWindow::updateDataReadProgress(int /* bytesRead */, int /* totalBytes */)
 {
   if (httpRequestAborted)
     return;
@@ -176,7 +164,7 @@ void MainWindow::updateDataReadProgress(int bytesRead, int totalBytes)
   ui.countdownLabel->setText( "..." );
 }
 
-void MainWindow::slotAuthenticationRequired(const QString &hostName, quint16, QAuthenticator *authenticator)
+void MainWindow::slotAuthenticationRequired(const QString & /* hostName */, quint16, QAuthenticator *authenticator)
 {
     //QDialog dlg;
     //Ui::Dialog ui;
@@ -201,10 +189,33 @@ void MainWindow::addEntry( const Entry &entry )
   ui.textEdit->append( info.arg(entry.name()).arg(entry.text()).arg(entry.image()) );
   ui.textEdit->append("END ENTRY\n");
   
-  QList<QStandardItem*> itemList;
-  QStandardItem *imageItem = new QStandardItem( entry.image() );
-  QStandardItem *descItem = new QStandardItem( entry.name() + "\r\n" + entry.text() );
-  itemList << imageItem << descItem;
-  model.appendRow( itemList ); 
+//  QList<QStandardItem*> itemList;
+//  QStandardItem *imageItem = new QStandardItem( entry.image() );
+//  QStandardItem *descItem = new QStandardItem( entry.name() + "\r\n" + entry.text() );
+//  itemList << imageItem << descItem;
+
+  QString iconPath;
+  ( entry.name() == "ayoy" ) ? iconPath = "./ayoy.jpg" : iconPath = "./bragi.jpg";
+  QIcon *icon = new QIcon( iconPath );
+  QStandardItem *szokeItem = new QStandardItem( entry.name() + "\r\n" + entry.text() );
+  szokeItem->setIcon( *icon );
+  QSize itemSize( ui.statusListView->size().width() - 20, 58 );
+//  qDebug() << ui.statusListView->size().width();
+//  itemSize.rwidth() -= 50;
+//  itemSize.rheight() = 58;
+  szokeItem->setSizeHint( itemSize );
   
+  model.appendRow( szokeItem ); 
+  
+}
+
+void MainWindow::resizeEvent( QResizeEvent *event )
+{
+  if ( model.rowCount() == 0 )
+    return;
+    
+  QSize itemSize( event->size().width() - 20, 58 );
+  for ( int i = 0; i < model.rowCount(); i++ ) {
+    model.item(i)->setSizeHint( itemSize );
+  }
 }
