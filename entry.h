@@ -4,34 +4,40 @@
 #include <QString>
 #include <QUrl>
 
-class Entry {
-
-public:
-  Entry() :
-    userName( "" ),
-    userAvatar( "" ),
-    userStatus( "" )
-    {}
-  Entry(const QString &name, const QUrl &avatar, const QString &status) :
-    userName( name ),
-    userAvatar( avatar ),
-    userStatus( status )
-    {}
-    
-  const QString& name() const { return userName; }
-  const QUrl& avatar() const { return userAvatar; }
-  const QString& status() const { return userStatus; }
-  
-  void setName( const QString& newName ) { userName = newName; }
-  void setAvatar( const QUrl& newAvatar ) { userAvatar = newAvatar; }
-  void setStatus( const QString& newStatus ) { userStatus = newStatus; }
-  
+class Entry  : public QObject {
 
 private:
   QString userName;
-  QUrl userAvatar;
-  QString userStatus;
+  QString userImage;
+  QString userText;
   
+public:
+  Entry() :
+    userName( "" ),
+    userImage( "" ),
+    userText( "" )
+    {}
+  Entry(const QString &name, const QString &image, const QString &text) :
+    userName( name ),
+    userImage( image ),
+    userText( text )
+    {}
+  bool checkContents() { 
+    if ( userName.compare( "" ) && 
+         userImage.compare( "" ) &&
+         userText.compare( "" ) ) {
+      return true;
+    }
+    return false;
+  }
+      
+  QString name() const { return userName; }
+  QString image() const { return userImage; }
+  QString text() const { return userText; }
+  
+  void setName( const QString& newName ) { userName = newName; }
+  void setImage( const QString& newImage ) { userImage = newImage; }
+  void setText( const QString& newText ) { userText = newText; }
 };
 
 #endif

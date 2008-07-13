@@ -4,7 +4,8 @@
 #include <QtXml>
 #include <QUrl>
 #include <QObject>
-#include <QRegExp>
+
+#include "entry.h"
 
 class XmlParser : public QObject, public QXmlDefaultHandler
 {
@@ -12,11 +13,13 @@ class XmlParser : public QObject, public QXmlDefaultHandler
 
 private:
   QString message;  
-  QString lastTag;
-  QUrl *avatar;
+  QUrl *image;
   QString *status;
-  QRegExp spaces;
+  int lastField;
+  Entry *entry;
   bool important;
+  int checkFieldType( const QString &element );
+
 
 public:
   XmlParser();
@@ -33,9 +36,16 @@ public:
                    
   bool characters( const QString &ch );
 
+  enum FieldType {
+    None,
+    Name,
+    Image,
+    Text    
+  };
+
 signals:
   void dataParsed( const QString &text );
-  void newEntry( const QUrl &avatar, const QString &status );
+  void newEntry( const Entry &entry );
 
 };
 

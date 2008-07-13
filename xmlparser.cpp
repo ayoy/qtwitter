@@ -1,14 +1,17 @@
 #include "xmlparser.h"
 #include "mainwindow.h"
-#include "entry.h"
 
 #include <QtDebug>
 
+#define USER_STATUS "text"
+#define USER_LOGIN "name"
+#define USER_PHOTO "profile_image_url"
+
 XmlParser::XmlParser() :
   QXmlDefaultHandler(),
-  lastTag( "" ),
-  spaces( "\\s*" ),
-  important(false)
+  lastField( None ),
+  important( false ),
+  entry( 0 )
   {}
 
 bool XmlParser::startDocument() {
@@ -23,13 +26,12 @@ bool XmlParser::endDocument() {
 
 bool XmlParser::startElement( const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &atts ) {
   qDebug() << "Start of element" << qName;
-  if ( qName.compare("text") == 0 || qName.compare("name") == 0 || qName.compare("profile_image_url") == 0 ) {
-    important = true;
-  }
-  else {
-    important = false;
-  }
   
+  ( (lastField = checkFieldType( qName )) != None ) ? important = true : important = false;
+  if (!entry && important) {
+    entry = new Entry();
+  }
+    
   for( int i = 0; i<atts.length(); ++i ) {
     qDebug() << " " << atts.qName(i) << "=" << atts.value(i);
   }                                                                
@@ -42,11 +44,31 @@ bool XmlParser::endElement( const QString &namespaceURI, const QString &localNam
 }
 
 bool XmlParser::characters( const QString &ch ) {
-  if ( !spaces.exactMatch(ch) && important == true ) {
-    important == false;
-    qDebug() << ch;
-    emit dataParsed( ch );
+  if ( entry && important ) {
+    if ( lastField == Name && !entry->name().compare( "" ) ) {
+      entry->setName( ch );
+    }
+    if ( lastField == Text && !entry->text().compare( "" ) ) {
+      entry->setText( ch );
+    }
+    if ( lastField == Image && !entry->image().compare( "" ) ) {
+      entry->setImage( ch );
+    }  
+    if ( entry->checkContents() ) {
+      emit newEntry( *entry );
+      delete entry;
+      entry = NULL;
+    }
   }
   return true;
 }
 
+int XmlParser::checkFieldType(const QString &element ) {
+  if ( !element.compare(USER_STATUS) )
+    return Text;
+  if ( !element.compare(USER_LOGIN) )
+    return Name;
+  if ( !element.compare(USER_PHOTO) )
+    return Image;
+  return None;
+}

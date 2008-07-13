@@ -4,9 +4,11 @@
 #include <QDialog>
 #include <QtNetwork>
 #include <qevent.h>
+#include <QStandardItemModel>
 #include "statusedit.h"
 #include "ui_mainwindow.h"
 #include "xmlparser.h"
+#include "entry.h"
 
 #define STATUS_MAX_LEN 140
 
@@ -28,13 +30,14 @@ public slots:
   void slotAuthenticationRequired(const QString &, quint16, QAuthenticator *);
   
   void updateText( const QString& text );
-  void addEntry( const QUrl &avatar, const QString &status );
+  void addEntry( const Entry &entry );
 
 private:
   QHttp *http;
   //QFile *file;
   QByteArray *bytearray;
   QTextStream *textstream;
+  QStandardItemModel model;
   QBuffer *buffer; 
   QNetworkProxy proxy;
   XmlParser parser;

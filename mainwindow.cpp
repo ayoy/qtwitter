@@ -5,10 +5,11 @@
 
 #include <QtDebug>
 #include <QMessageBox>
+#include <QHeaderView>
 
 //#define PROXY
 
-MainWindow::MainWindow() : QWidget()
+MainWindow::MainWindow() : QWidget(), model(0,0)
 {
   ui.setupUi( this );
 #ifdef PROXY
@@ -19,7 +20,24 @@ MainWindow::MainWindow() : QWidget()
 #endif
   StatusFilter *filter = new StatusFilter();
   http = new QHttp(this);
+  
+  ui.textEdit->setVisible( false );
+  
   ui.statusEdit->installEventFilter( filter );
+  ui.statusTableView->setModel( &model );
+  
+  QHeaderView *horizHeader = new QHeaderView( Qt::Horizontal, this );
+  horizHeader->setVisible( false );   
+  horizHeader->resizeSections( QHeaderView::Fixed );
+  horizHeader->resizeSection( 1, 658); 
+  ui.statusTableView->setVerticalHeader( horizHeader );
+  
+  QHeaderView *vertHeader = new QHeaderView( Qt::Vertical, this );
+  vertHeader->setVisible( false );
+  vertHeader->resizeSections( QHeaderView::Fixed );
+  vertHeader->resizeSection( 1, 658);   
+  ui.statusTableView->setVerticalHeader( vertHeader );
+    
   connect( ui.statusEdit, SIGNAL( textChanged(QString) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( filter, SIGNAL( enterPressed(QKeyEvent*) ), this, SLOT( sendStatus(QKeyEvent*) ) );
@@ -28,7 +46,7 @@ MainWindow::MainWindow() : QWidget()
   connect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
   connect( http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
   connect( &parser, SIGNAL(dataParsed(const QString&)), this, SLOT(updateText(const QString&)));
-  connect( &parser, SIGNAL(newEntry(const QUrl&, const QString&)), this, SLOT(addEntry(const QUrl&, const QString&)));
+  connect( &parser, SIGNAL(newEntry(const Entry&)), this, SLOT(addEntry(const Entry&)));
 }
 
 /*void MainWindow::addItem()
@@ -176,7 +194,17 @@ void MainWindow::updateText( const QString &text )
   ui.textEdit->append( text );
 }
 
-void MainWindow::addEntry( const QUrl &photo, const QString &status )
+void MainWindow::addEntry( const Entry &entry )
 {
+  QString info("user: %1\nstatus: %2\nimage: %3");
+  ui.textEdit->append("BEGIN ENTRY:");
+  ui.textEdit->append( info.arg(entry.name()).arg(entry.text()).arg(entry.image()) );
+  ui.textEdit->append("END ENTRY\n");
+  
+  QList<QStandardItem*> itemList;
+  QStandardItem *imageItem = new QStandardItem( entry.image() );
+  QStandardItem *descItem = new QStandardItem( entry.name() + "\r\n" + entry.text() );
+  itemList << imageItem << descItem;
+  model.appendRow( itemList ); 
   
 }
