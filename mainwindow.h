@@ -11,6 +11,8 @@
 #include "entry.h"
 
 #define STATUS_MAX_LEN 140
+#define ICON_SIZE 48
+#define SCROLLBAR_MARGIN 20
 
 class MainWindow : public QWidget
 {

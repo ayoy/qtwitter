@@ -71,8 +71,11 @@ p, li { white-space: pre-wrap; }
      <property name="isWrapping" stdset="0" >
       <bool>true</bool>
      </property>
+     <property name="resizeMode" >
+      <enum>QListView::Adjust</enum>
+     </property>
      <property name="spacing" >
-      <number>5</number>
+      <number>0</number>
      </property>
      <property name="wordWrap" >
       <bool>true</bool>

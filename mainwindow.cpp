@@ -64,7 +64,6 @@ void MainWindow::sendStatus( QKeyEvent *key )
   
   http->setHost( "www.twitter.com" );
   
-  //file = new QFile( "friends_timeline.xml" );
   bytearray = new QByteArray();
   buffer = new QBuffer( bytearray );
   textstream = new QTextStream( bytearray );
@@ -189,20 +188,13 @@ void MainWindow::addEntry( const Entry &entry )
   ui.textEdit->append( info.arg(entry.name()).arg(entry.text()).arg(entry.image()) );
   ui.textEdit->append("END ENTRY\n");
   
-//  QList<QStandardItem*> itemList;
-//  QStandardItem *imageItem = new QStandardItem( entry.image() );
-//  QStandardItem *descItem = new QStandardItem( entry.name() + "\r\n" + entry.text() );
-//  itemList << imageItem << descItem;
-
   QString iconPath;
   ( entry.name() == "ayoy" ) ? iconPath = "./ayoy.jpg" : iconPath = "./bragi.jpg";
   QIcon *icon = new QIcon( iconPath );
-  QStandardItem *szokeItem = new QStandardItem( entry.name() + "\r\n" + entry.text() );
+  QStandardItem *szokeItem = new QStandardItem( entry.name() + "\n" + entry.text() );
   szokeItem->setIcon( *icon );
-  QSize itemSize( ui.statusListView->size().width() - 20, 58 );
-//  qDebug() << ui.statusListView->size().width();
-//  itemSize.rwidth() -= 50;
-//  itemSize.rheight() = 58;
+  QSize itemSize( ui.statusListView->size().width() - SCROLLBAR_MARGIN, ICON_SIZE + 10 );
+
   szokeItem->setSizeHint( itemSize );
   
   model.appendRow( szokeItem ); 
@@ -214,8 +206,27 @@ void MainWindow::resizeEvent( QResizeEvent *event )
   if ( model.rowCount() == 0 )
     return;
     
-  QSize itemSize( event->size().width() - 20, 58 );
+  int realWidth = event->size().width() - SCROLLBAR_MARGIN - ICON_SIZE;
+  
+  QRegExp enter( "\n" );
+  QString rest;
+  QFontMetrics fm( ui.statusListView->font() );
+  int fontHeight = fm.height();
+  int lines;
+  QSize itemSize;
+  
   for ( int i = 0; i < model.rowCount(); i++ ) {
+    itemSize = model.item(i)->sizeHint();
+    lines = (itemSize.height() - 10 ) / fontHeight - 1; // (wysokosc - 10) / wysokość jednej linii - jedna linia na nazwę usera
+    itemSize.rwidth() = realWidth + ICON_SIZE;
+
+    rest = model.item(i)->text().right( model.item(i)->text().length() - enter.indexIn( model.item(i)->text() ) - 1 );
+
+    if ( fm.width( rest ) > lines * realWidth ) {
+      itemSize.rheight() += fontHeight;
+    } else if ( ( lines > 2 ) && ( fm.width( rest ) < (lines-1) * realWidth ) ) {
+      itemSize.rheight() -= fontHeight;
+    }
     model.item(i)->setSizeHint( itemSize );
   }
 }
