@@ -3,10 +3,6 @@
 
 #include <QtDebug>
 
-#define USER_STATUS "text"
-#define USER_LOGIN "name"
-#define USER_PHOTO "profile_image_url"
-
 XmlParser::XmlParser() :
   QXmlDefaultHandler(),
   lastField( None ),

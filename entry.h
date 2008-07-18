@@ -12,15 +12,20 @@ private:
   QString userText;
   
 public:
-  Entry() :
+  Entry() : QObject(),
     userName( "" ),
     userImage( "" ),
     userText( "" )
     {}
-  Entry(const QString &name, const QString &image, const QString &text) :
+  Entry(const QString &name, const QString &image, const QString &text) : QObject(),
     userName( name ),
     userImage( image ),
     userText( text )
+    {}
+  Entry(const Entry &right) : QObject(),
+    userName( right.userName ),
+    userImage( right.userImage ),
+    userText( right.userText )
     {}
   bool checkContents() { 
     if ( userName.compare( "" ) && 
@@ -29,6 +34,12 @@ public:
       return true;
     }
     return false;
+  }
+  Entry& operator=(const Entry &right) {
+    userName = right.userName;
+    userImage = right.userImage;
+    userText = right.userText;
+    return *this;
   }
       
   QString name() const { return userName; }

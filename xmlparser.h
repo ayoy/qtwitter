@@ -7,6 +7,10 @@
 
 #include "entry.h"
 
+#define USER_STATUS "text"
+#define USER_LOGIN "name"
+#define USER_PHOTO "profile_image_url"
+
 class XmlParser : public QObject, public QXmlDefaultHandler
 {
   Q_OBJECT

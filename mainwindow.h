@@ -2,17 +2,18 @@
 #define MAINWINDOW_H
 
 #include <QDialog>
-#include <QtNetwork>
 #include <qevent.h>
 #include <QStandardItemModel>
+
 #include "statusedit.h"
 #include "ui_mainwindow.h"
-#include "xmlparser.h"
 #include "entry.h"
+#include "httpconnection.h"
 
 #define STATUS_MAX_LEN 140
 #define ICON_SIZE 48
 #define SCROLLBAR_MARGIN 20
+#define ITEM_SPACING 10
 
 class MainWindow : public QWidget
 {
@@ -25,29 +26,18 @@ public slots:
   void changeLabel();
   void sendStatus( QKeyEvent *key );
   void resetStatus();
-
-  void httpRequestFinished( int requestId, bool error );
-  void readResponseHeader( const QHttpResponseHeader &responseHeader );
-  void updateDataReadProgress( int bytesRead, int totalBytes );
-  void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
-  
+ 
   void updateText( const QString& text );
   void addEntry( const Entry &entry );
+  void saveImage( const QImage &image );
   
   void resizeEvent( QResizeEvent *event );
 
-private:
-  QHttp *http;
-  //QFile *file;
-  QByteArray *bytearray;
-  QTextStream *textstream;
+private:  
+  HttpConnection http;     
   QStandardItemModel model;
-  QBuffer *buffer; 
-  QNetworkProxy proxy;
-  XmlParser parser;
-  int statusFormerLength;
-  bool httpRequestAborted;
-  int httpGetId;
+  QImage userImage;
+  Entry userEntry;
   Ui::MainWindow ui;
 };
 

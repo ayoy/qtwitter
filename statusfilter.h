@@ -1,7 +1,6 @@
 #ifndef STATUSFILTER_H
 #define STATUSFILTER_H
 #include <QObject>
-#include <QList>
 #include <QEvent>
 #include <qevent.h>
 
@@ -12,7 +11,6 @@ class StatusFilter : public QObject
 public:
   StatusFilter( QObject *parent = 0 ) : QObject( parent ) 
   {
-    keyList << Qt::Key_Escape << Qt::Key_Tab << Qt::Key_Backspace << Qt::Key_Insert << Qt::Key_Delete << Qt::Key_Left << Qt::Key_Right << Qt::Key_Shift;
   }
 
 signals:
@@ -32,9 +30,6 @@ protected:
     }
     return QObject::eventFilter(dist, event);
   }
-  
-private:
-  QList<int> keyList;
 };
 
 #endif //STATUSFILTER_H
