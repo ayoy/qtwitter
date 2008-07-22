@@ -34,7 +34,8 @@ public slots:
   void resizeEvent( QResizeEvent *event );
 
 private:  
-  HttpConnection http;     
+  HttpConnection http;  
+  HttpConnection imageDownload;   
   QStandardItemModel model;
   QImage userImage;
   Entry userEntry;

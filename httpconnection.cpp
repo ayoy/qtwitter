@@ -27,7 +27,7 @@ HttpConnection::HttpConnection() : QWidget()
 void HttpConnection::get( const QString &path )
 {
   url.setUrl( path ); 
-  
+  qDebug() << QImageReader::supportedImageFormats();
   http->setHost( url.host(), QHttp::ConnectionModeHttp);
     
   bytearray = new QByteArray();
@@ -59,7 +59,8 @@ void HttpConnection::get( const QString &path )
 
 void HttpConnection::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
-  qDebug() << responseHeader.statusCode() << ": " << responseHeader.reasonPhrase();
+  qDebug() << url.path();
+  qDebug() << responseHeader.statusCode() << ": " << responseHeader.reasonPhrase() << "\n";
   switch (responseHeader.statusCode()) {
   case 200:                   // Ok
   case 301:                   // Moved Permanently
@@ -120,6 +121,7 @@ void HttpConnection::httpRequestFinished(int requestId, bool error)
       xmlReader.setContentHandler( &parser );
       xmlReader.parse( source );
     } else {
+      qDebug() << QImageReader::supportedImageFormats();
       QImageReader imageReader( buffer );
       QImage userImage = imageReader.read();
       emit imageDownloaded( userImage );

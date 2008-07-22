@@ -20,7 +20,7 @@ private:
   QUrl *image;
   QString *status;
   int lastField;
-  Entry *entry;
+  Entry entry;
   bool important;
   int checkFieldType( const QString &element );
 

@@ -19,8 +19,10 @@ MainWindow::MainWindow() : QWidget(), model( 0,0 )
   connect( filter, SIGNAL( enterPressed( QKeyEvent* ) ), this, SLOT( sendStatus( QKeyEvent* ) ) );
   connect( &http, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
   connect( &http, SIGNAL( newEntry( const Entry& ) ), this, SLOT( addEntry( const Entry& ) ));
-  connect( &http, SIGNAL( imageDownloaded( const QImage& ) ), this, SLOT( saveImage( const QImage& ) ));
-  
+  //connect( &http, SIGNAL( imageDownloaded( const QImage& ) ), this, SLOT( saveImage( const QImage& ) ));
+  connect( &imageDownload, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
+  connect( &imageDownload, SIGNAL( newEntry( const Entry& ) ), this, SLOT( addEntry( const Entry& ) ));
+  connect( &imageDownload, SIGNAL( imageDownloaded( const QImage& ) ), this, SLOT( saveImage( const QImage& ) ));  
 }
 
 void MainWindow::changeLabel()
@@ -63,7 +65,7 @@ void MainWindow::addEntry( const Entry &entry )
   //ui.textEdit->append( userEntry.image() );
   //ui.textEdit->append("END ENTRY\n");
   
-  http.get( userEntry.image() );
+  imageDownload.get( userEntry.image() );
   
   //QString iconPath;
   
