@@ -2,7 +2,7 @@
 
 //#define PROXY
 
-HttpConnection::HttpConnection() : QWidget()
+HttpConnection::HttpConnection() : QThread()
 {
 #ifdef PROXY
   proxy.setType(QNetworkProxy::HttpProxy);
@@ -22,9 +22,13 @@ HttpConnection::HttpConnection() : QWidget()
   connect( &parser, SIGNAL(newEntry(const Entry&)), this, SLOT(forwardNewEntry(const Entry&)));
 }
 
+void HttpConnection::run() {
+  
+}
+
 void HttpConnection::get( const QString &path )
 {
-  //url.setUrl( "http://s3.amazonaws.com/twitter_production/profile_images/53492115/avatar_normal.jpg" );
+  //url.setUrl( "http://s3.amazonaws.com/twitter_production/profile_images/53492115/avatar2_normal.jpg" );
   url.setUrl( path );
   http->setHost( url.host(), QHttp::ConnectionModeHttp);
     
@@ -33,9 +37,7 @@ void HttpConnection::get( const QString &path )
 
   if ( !buffer->open(QIODevice::ReadWrite) )
   {                                     
-    QMessageBox::information(this, tr("HTTP"),
-      tr("Unable to save the file %1.")
-      .arg(buffer->errorString()));
+    emit errorMessage( "Unable to save the file " + buffer->errorString() );
     delete buffer;
     buffer = 0;
     delete bytearray;
@@ -70,10 +72,14 @@ void HttpConnection::readResponseHeader(const QHttpResponseHeader &responseHeade
   case 307:                   // Temporary Redirect
     // these are not error conditions
     break;
+  case 404:                   // Not Found
+    userImage = new QImage( ":/icons/icons/noimage.png" );
+    emit imageDownloaded( *userImage );
+    delete userImage;
+    userImage = 0;
+    break;
   default:
-    QMessageBox::information(this, tr("HTTP"),
-                           tr("Download failed: %1.")
-                           .arg(responseHeader.reasonPhrase()));
+    emit errorMessage( "Download failed: " + responseHeader.reasonPhrase() );
     httpRequestAborted = true;
     http->abort();
     if (buffer) {
@@ -110,9 +116,7 @@ void HttpConnection::httpRequestFinished(int requestId, bool error)
   buffer->close();             //  <<<<<<< WTF?! o_O >>>>>>>
 
   if (error) {
-    QMessageBox::information(this, tr("HTTP"),
-                             tr("ZOMFG! Download failed: %1.")
-                             .arg(http->errorString()));
+    emit errorMessage( "Download failed: " + http->errorString() );
   }
   QRegExp *resourceType = new QRegExp( "\\.(\\w\\w\\w\\w?)$", Qt::CaseInsensitive );
   int pos = resourceType->indexIn( url.toString() );

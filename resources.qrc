@@ -1,5 +1,6 @@
 <RCC>
   <qresource prefix="icons" >
+    <file>icons/noimage.jpg</file>
     <file>icons/configure.png</file>
     <file>icons/noimage.png</file>
     <file>icons/home.png</file>

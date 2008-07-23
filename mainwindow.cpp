@@ -17,11 +17,11 @@ MainWindow::MainWindow() : QWidget(), model( 0,0 )
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( filter, SIGNAL( enterPressed( QKeyEvent* ) ), this, SLOT( sendStatus( QKeyEvent* ) ) );
+  connect( &http, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
+  connect( &imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
   connect( &http, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
   connect( &http, SIGNAL( newEntry( const Entry& ) ), this, SLOT( addEntry( const Entry& ) ));
-  //connect( &http, SIGNAL( imageDownloaded( const QImage& ) ), this, SLOT( saveImage( const QImage& ) ));
   connect( &imageDownload, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
-  //connect( &imageDownload, SIGNAL( newEntry( const Entry& ) ), this, SLOT( addEntry( const Entry& ) ));
   connect( &imageDownload, SIGNAL( imageDownloaded( const QImage& ) ), this, SLOT( saveImage( const QImage& ) ));  
 }
 
@@ -62,27 +62,17 @@ void MainWindow::addEntry( const Entry &entry )
   //qDebug() << "Acquiring image for: ";
   //qDebug() << "    User: " << userEntry.name();
   //qDebug() << "  Status: " << userEntry.text();
-  qDebug() << "   Image: " << userEntry.image();
-  //qDebug() << "======================================";  
+  //qDebug() << "   Image: " << userEntry.image();
+  //qDebug() << "======================================";
 
-  if ( urlsList.empty() ) {
-  //if ( !urlsList.contains( userEntry.image() ) ) {
-    urlsList << userEntry.image();
+  if ( imagesHash.contains( userEntry.image() ) ) {
+    saveImage( imagesHash[ userEntry.image() ] );
+  } else {
+    wait = true;
+    QImage tempImage(":/icons/icons/noimage.png");
+    imagesHash[ userEntry.image() ] = tempImage;
     imageDownload.get( userEntry.image() );
   }
-  
-  //QString iconPath;
-  
-  //( entry.name() == "ayoy" ) ? iconPath = "./ayoy.jpg" : iconPath = "./bragi.jpg";
-  //QIcon *icon = new QIcon( iconPath );
-/*  QIcon *icon = new QIcon( QPixmap::fromImage( userImage ) );
-  QStandardItem *szokeItem = new QStandardItem( entry.name() + "\n" + entry.text() );
-  szokeItem->setIcon( *icon );
-  QSize itemSize( ui.statusListView->size().width() - SCROLLBAR_MARGIN, ICON_SIZE + ITEM_SPACING );
-
-  szokeItem->setSizeHint( itemSize );
-  
-  model.appendRow( szokeItem );*/ 
   
 }
 
@@ -117,9 +107,10 @@ void MainWindow::resizeEvent( QResizeEvent *event )
 }
 
 void MainWindow::saveImage ( const QImage &image ) {
-  userImage = image;
-  //userImage = new QImage( image );
-  QIcon *icon = new QIcon( QPixmap::fromImage( userImage ) );
+  //QImage tempImage( "./ayoy.jpg" );
+  imagesHash[ userEntry.image() ] = image;
+  QIcon *icon = new QIcon( QPixmap::fromImage( imagesHash[ userEntry.image() ] ) );
+  //QIcon *icon = new QIcon( QPixmap::fromImage( tempImage ) );
   QStandardItem *newItem = new QStandardItem( userEntry.name() + "\n" + userEntry.text() );
   newItem->setIcon( *icon );
   QSize itemSize( ui.statusListView->size().width() - SCROLLBAR_MARGIN, ICON_SIZE + ITEM_SPACING );
@@ -127,4 +118,9 @@ void MainWindow::saveImage ( const QImage &image ) {
   newItem->setSizeHint( itemSize );
   
   model.appendRow( newItem );
+  wait = false;
+}
+
+void MainWindow::popupError ( const QString &message ) {
+  QMessageBox::information( this, tr("Error"), message );
 }

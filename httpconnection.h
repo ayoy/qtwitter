@@ -5,11 +5,10 @@
 #include "entry.h"
 #include "xmlparser.h"
                         
-#include <QMessageBox>
 #include <QtNetwork>
 #include <QImageReader>
 
-class HttpConnection : public QWidget {
+class HttpConnection : public QThread {
 
   Q_OBJECT
 
@@ -22,13 +21,17 @@ public slots:
   void readResponseHeader( const QHttpResponseHeader &responseHeader );
   void updateDataReadProgress( int bytesRead, int totalBytes );
   void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
-  void forwardDataParsed(const QString&);
-  void forwardNewEntry(const Entry&);
+  void forwardDataParsed( const QString& );
+  void forwardNewEntry( const Entry& );
 
 signals:
   void dataParsed( const QString& );
   void newEntry( const Entry& );
   void imageDownloaded( const QImage& );
+  void errorMessage( const QString& );
+
+protected:
+  void run();
 
 private:
   QHttp *http;
