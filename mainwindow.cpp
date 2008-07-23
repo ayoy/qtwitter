@@ -9,7 +9,7 @@ MainWindow::MainWindow() : QWidget(), model( 0,0 )
   ui.setupUi( this );
   StatusFilter *filter = new StatusFilter();
   
-  //ui.textEdit->setVisible( false );
+  ui.textEdit->setVisible( false );
   
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
@@ -21,7 +21,7 @@ MainWindow::MainWindow() : QWidget(), model( 0,0 )
   connect( &http, SIGNAL( newEntry( const Entry& ) ), this, SLOT( addEntry( const Entry& ) ));
   //connect( &http, SIGNAL( imageDownloaded( const QImage& ) ), this, SLOT( saveImage( const QImage& ) ));
   connect( &imageDownload, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
-  connect( &imageDownload, SIGNAL( newEntry( const Entry& ) ), this, SLOT( addEntry( const Entry& ) ));
+  //connect( &imageDownload, SIGNAL( newEntry( const Entry& ) ), this, SLOT( addEntry( const Entry& ) ));
   connect( &imageDownload, SIGNAL( imageDownloaded( const QImage& ) ), this, SLOT( saveImage( const QImage& ) ));  
 }
 
@@ -59,13 +59,17 @@ void MainWindow::updateText( const QString &text )
 void MainWindow::addEntry( const Entry &entry )
 {
   userEntry = entry;
-  QString info("user: %1\nstatus: %2\nimage: %3");
-  //ui.textEdit->append("BEGIN ENTRY:");
-  //ui.textEdit->append( info.arg(entry.name()).arg(entry.text()).arg(entry.image()) );
-  //ui.textEdit->append( userEntry.image() );
-  //ui.textEdit->append("END ENTRY\n");
-  
-  imageDownload.get( userEntry.image() );
+  //qDebug() << "Acquiring image for: ";
+  //qDebug() << "    User: " << userEntry.name();
+  //qDebug() << "  Status: " << userEntry.text();
+  qDebug() << "   Image: " << userEntry.image();
+  //qDebug() << "======================================";  
+
+  if ( urlsList.empty() ) {
+  //if ( !urlsList.contains( userEntry.image() ) ) {
+    urlsList << userEntry.image();
+    imageDownload.get( userEntry.image() );
+  }
   
   //QString iconPath;
   
@@ -113,14 +117,14 @@ void MainWindow::resizeEvent( QResizeEvent *event )
 }
 
 void MainWindow::saveImage ( const QImage &image ) {
-  //userImage = image;
+  userImage = image;
   //userImage = new QImage( image );
-  QIcon *icon = new QIcon( QPixmap::fromImage( image ) );
+  QIcon *icon = new QIcon( QPixmap::fromImage( userImage ) );
   QStandardItem *newItem = new QStandardItem( userEntry.name() + "\n" + userEntry.text() );
   newItem->setIcon( *icon );
   QSize itemSize( ui.statusListView->size().width() - SCROLLBAR_MARGIN, ICON_SIZE + ITEM_SPACING );
 
   newItem->setSizeHint( itemSize );
   
-  model.appendRow( newItem ); 
+  model.appendRow( newItem );
 }

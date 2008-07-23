@@ -7,6 +7,7 @@
                         
 #include <QMessageBox>
 #include <QtNetwork>
+#include <QImageReader>
 
 class HttpConnection : public QWidget {
 
@@ -33,10 +34,8 @@ private:
   QHttp *http;
   QUrl url;
   QByteArray *bytearray;
-  QTextStream *textstream;
   QBuffer *buffer; 
-  QFile *file;
-  QImage userImage;
+  QImage *userImage;
   QNetworkProxy proxy;
   XmlParser parser;
   bool httpRequestAborted;

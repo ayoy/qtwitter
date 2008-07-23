@@ -4,7 +4,7 @@
 #include <QString>
 #include <QUrl>
 
-class Entry  : public QObject {
+class Entry {
 
 private:
   QString userName;
@@ -12,17 +12,17 @@ private:
   QString userText;
   
 public:
-  Entry() : QObject(),
+  Entry() :
     userName( "" ),
     userImage( "" ),
     userText( "" )
     {}
-  Entry(const QString &name, const QString &image, const QString &text) : QObject(),
+  Entry(const QString &name, const QString &image, const QString &text) :
     userName( name ),
     userImage( image ),
     userText( text )
     {}
-  Entry(const Entry &right) : QObject(),
+  Entry(const Entry &right) :
     userName( right.userName ),
     userImage( right.userImage ),
     userText( right.userText )
@@ -35,7 +35,7 @@ public:
     }
     return false;
   }
-  Entry& operator=(const Entry &right) {
+  Entry& operator=( const Entry &right ) {
     userName = right.userName;
     userImage = right.userImage;
     userText = right.userText;
@@ -51,4 +51,4 @@ public:
   void setText( const QString& newText ) { userText = newText; }
 };
 
-#endif
+#endif //ENTRY_H

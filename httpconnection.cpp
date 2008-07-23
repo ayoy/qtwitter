@@ -1,7 +1,5 @@
 #include "httpconnection.h"
 
-#include <QImageReader>
-
 //#define PROXY
 
 HttpConnection::HttpConnection() : QWidget()
@@ -26,12 +24,13 @@ HttpConnection::HttpConnection() : QWidget()
 
 void HttpConnection::get( const QString &path )
 {
-  url.setUrl( path ); 
-  qDebug() << QImageReader::supportedImageFormats();
+  //url.setUrl( "http://s3.amazonaws.com/twitter_production/profile_images/53492115/avatar_normal.jpg" );
+  url.setUrl( path );
   http->setHost( url.host(), QHttp::ConnectionModeHttp);
     
   bytearray = new QByteArray();
   buffer = new QBuffer( bytearray );
+
   if ( !buffer->open(QIODevice::ReadWrite) )
   {                                     
     QMessageBox::information(this, tr("HTTP"),
@@ -42,7 +41,8 @@ void HttpConnection::get( const QString &path )
     delete bytearray;
     bytearray = 0;
     return;
-  }
+  }  
+  
   //QHttp::ConnectionMode mode = QHttp::ConnectionModeHttp;
   if (!url.userName().isEmpty())
     http->setUser(url.userName(), url.password());
@@ -53,8 +53,9 @@ void HttpConnection::get( const QString &path )
   QByteArray encodedPath = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
   if ( encodedPath.isEmpty() )
     encodedPath = "/";
-  emit dataParsed( "About to download: " + encodedPath + " from: " + url.host() );
+  qDebug() << "About to download: " + encodedPath + " from: " + url.host();
   httpGetId = http->get( encodedPath, buffer );
+  //httpGetId = http->get( encodedPath, file );
 }
 
 void HttpConnection::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -105,8 +106,9 @@ void HttpConnection::httpRequestFinished(int requestId, bool error)
   }
   if (requestId != httpGetId)
     return;
-  buffer->close();             //  <<<<<<< WTF?! o_O >>>>>>>
   
+  buffer->close();             //  <<<<<<< WTF?! o_O >>>>>>>
+
   if (error) {
     QMessageBox::information(this, tr("HTTP"),
                              tr("ZOMFG! Download failed: %1.")
@@ -121,13 +123,13 @@ void HttpConnection::httpRequestFinished(int requestId, bool error)
       xmlReader.setContentHandler( &parser );
       xmlReader.parse( source );
     } else {
-      qDebug() << QImageReader::supportedImageFormats();
-      QImageReader imageReader( buffer );
-      QImage userImage = imageReader.read();
-      emit imageDownloaded( userImage );
+      userImage = new QImage();
+      userImage->loadFromData( *bytearray, "jpg" );
+      emit imageDownloaded( *userImage );
+      delete userImage;
+      userImage = 0;
     }
   }
-
   delete buffer;
   buffer = 0;
   delete bytearray;

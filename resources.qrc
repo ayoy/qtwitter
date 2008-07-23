@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="icons" >
     <file>icons/configure.png</file>
+    <file>icons/noimage.png</file>
     <file>icons/home.png</file>
     <file>icons/reload.png</file>
   </qresource>

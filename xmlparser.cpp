@@ -6,36 +6,37 @@
 XmlParser::XmlParser() :
   QXmlDefaultHandler(),
   lastField( None ),
+  entry(),
   important( false )
-  //entry( 0 )
-  {}
+  {
+  }
 
 bool XmlParser::startDocument() {
-  qDebug() << "Start of document";
+  //qDebug() << "Start of document";
   return true;
 }
 
 bool XmlParser::endDocument() {
-  qDebug() << "End of document";
+  //qDebug() << "End of document";
   return true;
 }
 
 bool XmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes &atts ) {
-  qDebug() << "Start of element" << qName;
+  //qDebug() << "Start of element" << qName;
   
   ( (lastField = checkFieldType( qName )) != None ) ? important = true : important = false;
   //if (!entry && important) {
   //  entry = new Entry();
   //}
-    
+  
   for( int i = 0; i<atts.length(); ++i ) {
-    qDebug() << " " << atts.qName(i) << "=" << atts.value(i);
+    //qDebug() << " " << atts.qName(i) << "=" << atts.value(i);
   }                                                                
   return true;
 }
 
-bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName ) {
-  qDebug() << "End of element" << qName;
+bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &/*qName*/ ) {
+  //qDebug() << "End of element" << qName;
   return true;
 }
 
@@ -43,15 +44,22 @@ bool XmlParser::characters( const QString &ch ) {
   if ( important ) {
     if ( lastField == Name && !entry.name().compare( "" ) ) {
       entry.setName( ch );
+      //qDebug() << "Setting name  with: " << ch;
     }
     if ( lastField == Text && !entry.text().compare( "" ) ) {
       entry.setText( ch );
+      //qDebug() << "Setting text  with: " << ch;
     }
     if ( lastField == Image && !entry.image().compare( "" ) ) {
       entry.setImage( ch );
+      //qDebug() << "Setting image with: " << ch;
     }  
     if ( entry.checkContents() ) {
       emit newEntry( entry );
+      lastField = None;
+      entry.setName( "" );
+      entry.setText( "" );
+      entry.setImage( "" );
     }
   }
   return true;
