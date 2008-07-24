@@ -17,8 +17,8 @@ public:
   void get( const QString &path );
   
 public slots:
-  void httpRequestFinished( int requestId, bool error );
-  void readResponseHeader( const QHttpResponseHeader &responseHeader );
+  virtual void httpRequestFinished( int requestId, bool error );
+  virtual void readResponseHeader( const QHttpResponseHeader &responseHeader );
   void updateDataReadProgress( int bytesRead, int totalBytes );
   void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
   void forwardDataParsed( const QString& );
@@ -31,16 +31,13 @@ signals:
   void errorMessage( const QString& );
 
 protected:
-  void run();
+  virtual void run() = 0;
 
-private:
   QHttp *http;
   QUrl url;
   QByteArray *bytearray;
-  QBuffer *buffer; 
-  QImage *userImage;
+  QBuffer *buffer;
   QNetworkProxy proxy;
-  XmlParser parser;
   bool httpRequestAborted;
   int httpGetId;
 };

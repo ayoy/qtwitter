@@ -68,7 +68,7 @@ void MainWindow::addEntry( const Entry &entry )
   if ( imagesHash.contains( userEntry.image() ) ) {
     saveImage( imagesHash[ userEntry.image() ] );
   } else {
-    wait = true;
+    //wait = true;
     QImage tempImage(":/icons/icons/noimage.png");
     imagesHash[ userEntry.image() ] = tempImage;
     imageDownload.get( userEntry.image() );
@@ -118,7 +118,7 @@ void MainWindow::saveImage ( const QImage &image ) {
   newItem->setSizeHint( itemSize );
   
   model.appendRow( newItem );
-  wait = false;
+  //wait = false;
 }
 
 void MainWindow::popupError ( const QString &message ) {

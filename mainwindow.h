@@ -9,7 +9,8 @@
 #include "statusedit.h"
 #include "ui_mainwindow.h"
 #include "entry.h"
-#include "httpconnection.h"
+#include "xmldownload.h"
+#include "imagedownload.h"
 
 #define STATUS_MAX_LEN 140
 #define ICON_SIZE 48
@@ -50,8 +51,8 @@ public slots:
   void resizeEvent( QResizeEvent *event );
   
 private:  
-  HttpConnection http;
-  HttpConnection imageDownload; 
+  XmlDownload http;
+  ImageDownload imageDownload; 
   QMap<QString, QImage> imagesHash;
   QStandardItemModel model;
   QImage userImage;

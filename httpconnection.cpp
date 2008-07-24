@@ -18,8 +18,6 @@ HttpConnection::HttpConnection() : QThread()
   connect( http, SIGNAL(dataReadProgress(int, int)), this, SLOT(updateDataReadProgress(int, int)));
   connect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
   connect( http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
-  connect( &parser, SIGNAL(dataParsed(const QString&)), this, SLOT(forwardDataParsed(const QString&)));
-  connect( &parser, SIGNAL(newEntry(const Entry&)), this, SLOT(forwardNewEntry(const Entry&)));
 }
 
 void HttpConnection::run() {
@@ -57,7 +55,6 @@ void HttpConnection::get( const QString &path )
     encodedPath = "/";
   qDebug() << "About to download: " + encodedPath + " from: " + url.host();
   httpGetId = http->get( encodedPath, buffer );
-  //httpGetId = http->get( encodedPath, file );
 }
 
 void HttpConnection::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -73,10 +70,6 @@ void HttpConnection::readResponseHeader(const QHttpResponseHeader &responseHeade
     // these are not error conditions
     break;
   case 404:                   // Not Found
-    userImage = new QImage( ":/icons/icons/noimage.png" );
-    emit imageDownloaded( *userImage );
-    delete userImage;
-    userImage = 0;
     break;
   default:
     emit errorMessage( "Download failed: " + responseHeader.reasonPhrase() );
@@ -113,31 +106,12 @@ void HttpConnection::httpRequestFinished(int requestId, bool error)
   if (requestId != httpGetId)
     return;
   
-  buffer->close();             //  <<<<<<< WTF?! o_O >>>>>>>
-
+  buffer->close(); 
+  
   if (error) {
     emit errorMessage( "Download failed: " + http->errorString() );
   }
-  QRegExp *resourceType = new QRegExp( "\\.(\\w\\w\\w\\w?)$", Qt::CaseInsensitive );
-  int pos = resourceType->indexIn( url.toString() );
-  if ( pos > -1 ) {
-    if ( resourceType->cap(1) == "xml" ) {
-      QXmlInputSource source( buffer );
-      QXmlSimpleReader xmlReader;
-      xmlReader.setContentHandler( &parser );
-      xmlReader.parse( source );
-    } else {
-      userImage = new QImage();
-      userImage->loadFromData( *bytearray, "jpg" );
-      emit imageDownloaded( *userImage );
-      delete userImage;
-      userImage = 0;
-    }
-  }
-  delete buffer;
-  buffer = 0;
-  delete bytearray;
-  bytearray = 0;    
+   
 }
 
 void HttpConnection::updateDataReadProgress(int /* bytesRead */, int /* totalBytes */)
@@ -152,7 +126,6 @@ void HttpConnection::slotAuthenticationRequired(const QString & /* hostName */, 
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
   dlg.adjustSize();
-  //ui.siteDescription->setText(tr("%1 at %2").arg(authenticator->realm()).arg(hostName));
   if (dlg.exec() == QDialog::Accepted) {
     authenticator->setUser( ui.loginEdit->text() );
     authenticator->setPassword( ui.passwordEdit->text() );
