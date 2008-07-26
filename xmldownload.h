@@ -2,8 +2,6 @@
 #define XMLDOWNLOAD_H
 
 #include "httpconnection.h"
-                        
-#include <QtNetwork>
 
 class XmlDownload : public HttpConnection {
 

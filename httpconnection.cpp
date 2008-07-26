@@ -87,7 +87,7 @@ void HttpConnection::readResponseHeader(const QHttpResponseHeader &responseHeade
   }
 }
 
-void HttpConnection::httpRequestFinished(int requestId, bool error)
+void HttpConnection::requestFinished(int requestId, bool error)
 {
   if (requestId != httpGetId)
     return;

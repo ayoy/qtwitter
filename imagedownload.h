@@ -2,8 +2,6 @@
 #define IMAGEDOWNLOAD_H
 
 #include "httpconnection.h"
-                        
-#include <QtNetwork>
 #include <QImageReader>
 
 class ImageDownload : public HttpConnection {

@@ -6,7 +6,6 @@
 #include "xmlparser.h"
                         
 #include <QtNetwork>
-#include <QImageReader>
 
 class HttpConnection : public QThread {
 
@@ -16,9 +15,13 @@ public:
   HttpConnection();
   void get( const QString &path );
   
+protected:
+  void requestFinished( int requestId, bool error );
+  
 public slots:
-  virtual void httpRequestFinished( int requestId, bool error );
-  virtual void readResponseHeader( const QHttpResponseHeader &responseHeader );
+  virtual void httpRequestFinished( int requestId, bool error ) = 0;
+  void readResponseHeader( const QHttpResponseHeader &responseHeader );
+  
   void updateDataReadProgress( int bytesRead, int totalBytes );
   void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
   void forwardDataParsed( const QString& );

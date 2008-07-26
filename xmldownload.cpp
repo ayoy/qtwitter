@@ -41,6 +41,7 @@ void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 
 void XmlDownload::httpRequestFinished(int requestId, bool error)
 {
+  //requestFinished( requestId, error );
   if (requestId != httpGetId)
     return;
   if (httpRequestAborted) {
@@ -62,7 +63,8 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   
   if (error) {
     emit errorMessage( "Download failed: " + http->errorString() );
-  }
+  }  
+  
 
   QXmlInputSource source( buffer );
   QXmlSimpleReader xmlReader;

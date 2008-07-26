@@ -17,20 +17,6 @@
 #define SCROLLBAR_MARGIN 20
 #define ITEM_SPACING 10
 
-/*class ImageInfo {
-public:
-  ImageInfo() : QImage(), Entry() {};
-  ImageInfo( const Entry &other ) : QImage(), Entry( other ) {};
-//  ImageInfo( const QString &url, const Entry &other ) : QImage( url ), Entry( other ) {};
-  bool isImageDefined( const QString& url ) { return ( details.userImage() == url ); }
-
-private:
-  QImage image;
-  Entry details;
-
-};*/
-
-
 class MainWindow : public QWidget
 {
   Q_OBJECT

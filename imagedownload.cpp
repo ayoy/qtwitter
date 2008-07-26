@@ -42,6 +42,7 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
 
 void ImageDownload::httpRequestFinished(int requestId, bool error)
 {
+  //requestFinished( requestId, error );
   if (requestId != httpGetId)
     return;
   if (httpRequestAborted) {
@@ -64,7 +65,6 @@ void ImageDownload::httpRequestFinished(int requestId, bool error)
   if (error) {
     emit errorMessage( "Download failed: " + http->errorString() );
   }
-
   userImage = new QImage();
   userImage->loadFromData( *bytearray, "jpg" );
   emit imageDownloaded( *userImage );
