@@ -8,6 +8,7 @@
 #include "xmldownload.h"
 #include "imagedownload.h"
 
+
 class ImageThread : public QThread {
   Q_OBJECT
 
@@ -25,10 +26,12 @@ public slots:
     
 signals:
   void readyToDisplay( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash );
+  
 public:
   XmlDownload http;
   
 private:
+  QMutex mutex;
   ImageDownload imageDownload;
   QMap<QString, QImage> imagesHash;
   QStandardItemModel model;

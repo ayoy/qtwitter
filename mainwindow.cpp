@@ -31,6 +31,7 @@ void MainWindow::sendStatus( QKeyEvent *key )
   if ( key->key() == Qt::Key_Enter || key->key() == Qt::Key_Return )
   {
     ui.statusEdit->setText(QString::number(key->key( )) + " pressed");
+    imageSaver.http.setUrl( "http://twitter.com/statuses/friends_timeline.xml" );
     imageSaver.http.get( "http://twitter.com/statuses/friends_timeline.xml" );
   }
   //ui.statusEdit->setText( QString::number( key->key( ) ) + " pressed " + QString::number( httpGetId ) );

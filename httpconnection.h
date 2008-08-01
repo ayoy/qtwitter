@@ -4,7 +4,7 @@
 #include "ui_authdialog.h"
 #include "entry.h"
 #include "xmlparser.h"
-                        
+
 #include <QtNetwork>
 
 class HttpConnection : public QThread {
@@ -14,13 +14,14 @@ class HttpConnection : public QThread {
 public:
   HttpConnection();
   void get( const QString &path );
+  void setUrl( const QString &path );
   
 protected:
   void requestFinished( int requestId, bool error );
   
 public slots:
   virtual void httpRequestFinished( int requestId, bool error ) = 0;
-  void readResponseHeader( const QHttpResponseHeader &responseHeader );
+  virtual void readResponseHeader( const QHttpResponseHeader &responseHeader );
   
   void updateDataReadProgress( int bytesRead, int totalBytes );
   void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
@@ -34,7 +35,7 @@ signals:
   void errorMessage( const QString& );
 
 protected:
-  virtual void run() = 0;
+  void run();
 
   QHttp *http;
   QUrl url;

@@ -3,12 +3,12 @@
 ImageDownload::ImageDownload() : HttpConnection() {}
 
 void ImageDownload::run() {
-
+  get( url.toString() );
 }
 
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
-  qDebug() << url.path();
+  qDebug() << "Response for" << url.path();
   qDebug() << responseHeader.statusCode() << ": " << responseHeader.reasonPhrase() << "\n";
   switch (responseHeader.statusCode()) {
   case 200:                   // Ok

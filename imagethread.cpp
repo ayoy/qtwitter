@@ -1,5 +1,8 @@
 #include "imagethread.h"
 
+QReadWriteLock lock;
+QWaitCondition gettingImage;
+
 ImageThread::ImageThread() : QThread() {
   connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));
 //  connect( &http, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
@@ -20,9 +23,16 @@ void ImageThread::run() {
       saveImage( entries[i].image(), imagesHash[ entries[i].image() ] );
     } else {
       qDebug() << "Noah, iz gonna download...";
-      QImage tempImage(":/icons/icons/noimage.png");
-      imagesHash[ entries[i].image() ] = tempImage;
-      imageDownload.get( entries[i].image() );
+      mutex.lock();
+      //QImage tempImage(":/icons/icons/noimage.png");
+      //imagesHash[ entries[i].image() ] = tempImage;
+      imageDownload.setUrl( entries[i].image() );
+      imageDownload.start();
+      imageDownload.wait();
+      //imageDownload.get( entries[i].image() );
+      qDebug() << "Waiting here...";
+      gettingImage.wait( &mutex );
+      mutex.unlock();
     }
   }
 }
@@ -33,22 +43,14 @@ void ImageThread::addEntry( const Entry &entry )
 }
 
 void ImageThread::downloadImages() {
-  qDebug() << "Will be downloading images now.";
-  for ( int i = 0; i < entries.size(); i++ ) {
-    qDebug() << i << "image: " << entries[i].image();
-    if ( imagesHash.contains( entries[i].image() ) ) {
-      qDebug() << "Oh Yes, it contains!";
-      saveImage( entries[i].image(), imagesHash[ entries[i].image() ] );
-    } else {
-      qDebug() << "Noah, iz gonna download...";
-      QImage tempImage(":/icons/icons/noimage.png");
-      imagesHash[ entries[i].image() ] = tempImage;
-      imageDownload.get( entries[i].image() );
-    }
-  }
+  start();
+  wait();
   emit readyToDisplay( entries, imagesHash );
 }
 
 void ImageThread::saveImage ( const QString &imageUrl, const QImage &image ) {
   imagesHash[ imageUrl ] = image;
+  qDebug() << "Am I ever here?";
+  gettingImage.wakeAll();
+//  mutex.unlock();
 }

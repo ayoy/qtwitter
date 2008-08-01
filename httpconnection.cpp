@@ -21,13 +21,17 @@ HttpConnection::HttpConnection() : QThread()
 }
 
 void HttpConnection::run() {
-  
+  get( url.toString() );
+}
+
+void HttpConnection::setUrl( const QString &path ) {
+  url.setUrl( path );
 }
 
 void HttpConnection::get( const QString &path )
 {
-  //url.setUrl( "http://s3.amazonaws.com/twitter_production/profile_images/53492115/avatar2_normal.jpg" );
   url.setUrl( path );
+  //url.setUrl( "http://s3.amazonaws.com/twitter_production/profile_images/53492115/avatar2_normal.jpg" );
   http->setHost( url.host(), QHttp::ConnectionModeHttp);
     
   bytearray = new QByteArray();
