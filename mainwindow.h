@@ -11,6 +11,7 @@
 #include "entry.h"
 #include "xmldownload.h"
 #include "imagedownload.h"
+#include "imagethread.h"
 
 #define STATUS_MAX_LEN 140
 #define ICON_SIZE 48
@@ -30,22 +31,14 @@ public slots:
   void resetStatus();
  
   void updateText( const QString& text );
-  void addEntry( const Entry &entry );
-  void saveImage( const QString &imageUrl, const QImage &image );
-  void downloadImages();
   void popupError( const QString &message );
   
   void resizeEvent( QResizeEvent *event );
+  void display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash );
   
 private:  
-  void display();
-  XmlDownload http;
-  ImageDownload imageDownload; 
-  QMap<QString, QImage> imagesHash;
+  ImageThread imageSaver;
   QStandardItemModel model;
-  QList<Entry> entries;
-  QImage userImage;
-  Entry userEntry;
   Ui::MainWindow ui;
 };
 
