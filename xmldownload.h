@@ -4,13 +4,19 @@
 #include "httpconnection.h"
 
 class XmlDownload : public HttpConnection {
-
+  Q_OBJECT
+  
 public:
   XmlDownload();
-  
+
 public slots:
   void httpRequestFinished( int requestId, bool error );
   void readResponseHeader( const QHttpResponseHeader &responseHeader );
+  void forwardXmlParsed();
+
+signals:
+  void xmlParsed();
+
 
 protected:
   void run();

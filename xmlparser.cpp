@@ -18,6 +18,7 @@ bool XmlParser::startDocument() {
 
 bool XmlParser::endDocument() {
   //qDebug() << "End of document";
+  emit xmlParsed();
   return true;
 }
 

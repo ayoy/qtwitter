@@ -30,7 +30,7 @@ public slots:
 signals:
   void dataParsed( const QString& );
   void newEntry( const Entry& );
-  void imageDownloaded( const QImage& );
+  void imageDownloaded( const QString&, const QImage& );
   void errorMessage( const QString& );
 
 protected:

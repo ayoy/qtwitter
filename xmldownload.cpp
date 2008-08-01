@@ -3,6 +3,7 @@
 XmlDownload::XmlDownload() : HttpConnection() {
   connect( &parser, SIGNAL(dataParsed(const QString&)), this, SLOT(forwardDataParsed(const QString&)));
   connect( &parser, SIGNAL(newEntry(const Entry&)), this, SLOT(forwardNewEntry(const Entry&)));
+  connect( &parser, SIGNAL(xmlParsed()), this, SLOT(forwardXmlParsed()));
 }
 
 void XmlDownload::run() {
@@ -63,16 +64,21 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   
   if (error) {
     emit errorMessage( "Download failed: " + http->errorString() );
-  }  
+  } else {
+    QXmlInputSource source( buffer );
+    QXmlSimpleReader xmlReader;
+    xmlReader.setContentHandler( &parser );
+    xmlReader.parse( source );
+    qDebug() << "========= XML PARSING FINISHED =========";
+  }
   
-
-  QXmlInputSource source( buffer );
-  QXmlSimpleReader xmlReader;
-  xmlReader.setContentHandler( &parser );
-  xmlReader.parse( source );
-
   delete buffer;
   buffer = 0;
   delete bytearray;
   bytearray = 0;    
+}
+
+void XmlDownload::forwardXmlParsed() {
+  qDebug() << "Document is supposed to be parsed here.";
+  emit xmlParsed();
 }

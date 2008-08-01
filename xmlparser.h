@@ -14,7 +14,7 @@
 class XmlParser : public QObject, public QXmlDefaultHandler
 {
   Q_OBJECT
-
+  
 private:
   QString message;  
   QUrl *image;
@@ -23,8 +23,7 @@ private:
   Entry entry;
   bool important;
   int checkFieldType( const QString &element );
-
-
+  
 public:
   XmlParser();
   bool startDocument();
@@ -50,6 +49,7 @@ public:
 signals:
   void dataParsed( const QString &text );
   void newEntry( const Entry &entry );
+  void xmlParsed();
 
 };
 

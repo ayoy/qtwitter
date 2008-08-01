@@ -31,16 +31,19 @@ public slots:
  
   void updateText( const QString& text );
   void addEntry( const Entry &entry );
-  void saveImage( const QImage &image );
+  void saveImage( const QString &imageUrl, const QImage &image );
+  void downloadImages();
   void popupError( const QString &message );
   
   void resizeEvent( QResizeEvent *event );
   
 private:  
+  void display();
   XmlDownload http;
   ImageDownload imageDownload; 
   QMap<QString, QImage> imagesHash;
   QStandardItemModel model;
+  QList<Entry> entries;
   QImage userImage;
   Entry userEntry;
   Ui::MainWindow ui;

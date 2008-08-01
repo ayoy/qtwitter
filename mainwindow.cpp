@@ -21,8 +21,9 @@ MainWindow::MainWindow() : QWidget(), model( 0,0 )
   connect( &imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
   connect( &http, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
   connect( &http, SIGNAL( newEntry( const Entry& ) ), this, SLOT( addEntry( const Entry& ) ));
+  connect( &http, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
   connect( &imageDownload, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
-  connect( &imageDownload, SIGNAL( imageDownloaded( const QImage& ) ), this, SLOT( saveImage( const QImage& ) ));  
+  connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));  
 }
 
 void MainWindow::changeLabel()
@@ -58,21 +59,23 @@ void MainWindow::updateText( const QString &text )
 
 void MainWindow::addEntry( const Entry &entry )
 {
-  userEntry = entry;
+  //userEntry = entry;
   //qDebug() << "Acquiring image for: ";
   //qDebug() << "    User: " << userEntry.name();
   //qDebug() << "  Status: " << userEntry.text();
   //qDebug() << "   Image: " << userEntry.image();
   //qDebug() << "======================================";
 
-  if ( imagesHash.contains( userEntry.image() ) ) {
+  /*if ( imagesHash.contains( userEntry.image() ) ) {
     saveImage( imagesHash[ userEntry.image() ] );
   } else {
     //wait = true;
     QImage tempImage(":/icons/icons/noimage.png");
     imagesHash[ userEntry.image() ] = tempImage;
     imageDownload.get( userEntry.image() );
-  }
+  }*/
+  
+  entries << entry;
   
 }
 
@@ -106,19 +109,47 @@ void MainWindow::resizeEvent( QResizeEvent *event )
   }
 }
 
-void MainWindow::saveImage ( const QImage &image ) {
+void MainWindow::downloadImages() {
+  qDebug() << "Will be downloading images now.";
+  for ( int i = 0; i < entries.size(); i++ ) {
+    qDebug() << i << "image: " << entries[i].image();
+    if ( imagesHash.contains( entries[i].image() ) ) {
+      qDebug() << "Oh Yes, it contains!";
+      saveImage( entries[i].image(), imagesHash[ entries[i].image() ] );
+    } else {
+      qDebug() << "Noah, iz gonna download...";
+      QImage tempImage(":/icons/icons/noimage.png");
+      imagesHash[ entries[i].image() ] = tempImage;
+      imageDownload.get( entries[i].image() );
+    }
+  }
+  display();
+}
+
+void MainWindow::display() {
+  for ( int i = 0; i < entries.size(); i++ ) {
+    QIcon *icon = new QIcon( QPixmap::fromImage( imagesHash[ entries[i].image() ] ) );
+    QStandardItem *newItem = new QStandardItem( entries[i].name() + "\n" + entries[i].text() );
+    newItem->setIcon( *icon );
+    QSize itemSize( ui.statusListView->size().width() - SCROLLBAR_MARGIN, ICON_SIZE + ITEM_SPACING );
+    
+    newItem->setSizeHint( itemSize );
+  
+    model.appendRow( newItem );
+  }
+}
+
+void MainWindow::saveImage ( const QString &imageUrl, const QImage &image ) {
   //QImage tempImage( "./ayoy.jpg" );
-  imagesHash[ userEntry.image() ] = image;
-  QIcon *icon = new QIcon( QPixmap::fromImage( imagesHash[ userEntry.image() ] ) );
-  //QIcon *icon = new QIcon( QPixmap::fromImage( tempImage ) );
+  imagesHash[ imageUrl ] = image;
+  /*QIcon *icon = new QIcon( QPixmap::fromImage( imagesHash[ imageUrl ] ) );
   QStandardItem *newItem = new QStandardItem( userEntry.name() + "\n" + userEntry.text() );
   newItem->setIcon( *icon );
   QSize itemSize( ui.statusListView->size().width() - SCROLLBAR_MARGIN, ICON_SIZE + ITEM_SPACING );
 
   newItem->setSizeHint( itemSize );
   
-  model.appendRow( newItem );
-  //wait = false;
+  model.appendRow( newItem );*/
 }
 
 void MainWindow::popupError ( const QString &message ) {

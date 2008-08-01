@@ -3,7 +3,7 @@
 ImageDownload::ImageDownload() : HttpConnection() {}
 
 void ImageDownload::run() {
-  
+
 }
 
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -20,7 +20,7 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
     break;
   case 404:                   // Not Found
     userImage = new QImage( ":/icons/icons/noimage.png" );
-    emit imageDownloaded( *userImage );
+    emit imageDownloaded( url.toString(), *userImage );
     delete userImage;
     userImage = 0;
     break;
@@ -67,7 +67,7 @@ void ImageDownload::httpRequestFinished(int requestId, bool error)
   }
   userImage = new QImage();
   userImage->loadFromData( *bytearray, "jpg" );
-  emit imageDownloaded( *userImage );
+  emit imageDownloaded( url.toString(), *userImage );
   delete userImage;
   userImage = 0;
 
@@ -76,3 +76,4 @@ void ImageDownload::httpRequestFinished(int requestId, bool error)
   delete bytearray;
   bytearray = 0;    
 }
+
