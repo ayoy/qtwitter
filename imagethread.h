@@ -20,7 +20,7 @@ protected:
 
 public slots:
 
-  void addEntry( const Entry &entry );
+  void addEntry( const Entry &entry, int type );
   void saveImage( const QString &imageUrl, const QImage &image );
   void downloadImages();
     

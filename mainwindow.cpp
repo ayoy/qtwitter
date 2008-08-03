@@ -9,8 +9,6 @@ MainWindow::MainWindow() : QWidget(), model( 0,0 )
   ui.setupUi( this );
   StatusFilter *filter = new StatusFilter();
   
-  ui.textEdit->setVisible( false );
-  
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
   
@@ -42,6 +40,12 @@ void MainWindow::sendStatus()
   //qDebug() << status;
   const QString path("http://twitter.com/statuses/update.xml");
   imageSaver.upload.post( path, status );
+  
+  /*QByteArray status( "status=" );
+  status.append( ui.statusEdit->text().toUtf8() );
+  qDebug() << status;
+  const QString path("http://twitter.com/statuses/update.xml");
+  imageSaver.upload.post( path, status );*/
 }
 
 void MainWindow::resetStatus()
@@ -52,11 +56,6 @@ void MainWindow::resetStatus()
     ui.countdownLabel->setText( QString::number(STATUS_MAX_LEN) );
     ui.statusEdit->setStatusClean( true );
   }
-}
-
-void MainWindow::updateText( const QString &text )
-{
-  ui.textEdit->append( text );
 }
 
 void MainWindow::resizeEvent( QResizeEvent *event )

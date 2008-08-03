@@ -2,7 +2,13 @@
 
 XmlDownload::XmlDownload() : HttpConnection() {
   connect( &parser, SIGNAL(dataParsed(const QString&)), this, SLOT(forwardDataParsed(const QString&)));
-  connect( &parser, SIGNAL(newEntry(const Entry&)), this, SLOT(forwardNewEntry(const Entry&)));
+  connect( &parser, SIGNAL(newEntry(const Entry&, int )), this, SLOT(forwardNewEntry(const Entry&, int )));
+  connect( &parser, SIGNAL(xmlParsed()), this, SLOT(forwardXmlParsed()));
+}
+
+XmlDownload::XmlDownload( int type ) : HttpConnection(), parser( type ) {
+  connect( &parser, SIGNAL(dataParsed(const QString&)), this, SLOT(forwardDataParsed(const QString&)));
+  connect( &parser, SIGNAL(newEntry(const Entry&, int )), this, SLOT(forwardNewEntry(const Entry&, int )));
   connect( &parser, SIGNAL(xmlParsed()), this, SLOT(forwardXmlParsed()));
 }
 
@@ -81,4 +87,14 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
 void XmlDownload::forwardXmlParsed() {
   qDebug() << "Document is supposed to be parsed here.";
   emit xmlParsed();
+}
+
+void XmlDownload::forwardDataParsed(const QString &data)
+{
+  emit dataParsed( data );
+}
+
+void XmlDownload::forwardNewEntry( const Entry &entry, int type )
+{
+  emit newEntry( entry, type );
 }

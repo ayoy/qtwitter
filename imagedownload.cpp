@@ -7,8 +7,8 @@ void ImageDownload::run() {
   for (int i = 0; i < count; i++) {
     qDebug() << "Locking image mutex...";
     gmutex.lock();
-    qDebug() << "Setting global condition in imageDownload...";
     gwc.wait( &gmutex );
+    qDebug() << "Setting global condition in imageDownload...";
     qDebug() << "IMAGEDOWNLOAD: running download for " << url.toString();
     //mutex.lock();
     //get( url.toString() );

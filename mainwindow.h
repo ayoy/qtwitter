@@ -31,7 +31,6 @@ public slots:
   void resetStatus();
  
   void updateTweets();
-  void updateText( const QString& text );
   void popupError( const QString &message );
   
   void resizeEvent( QResizeEvent *event );

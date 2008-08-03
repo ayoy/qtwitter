@@ -1,17 +1,18 @@
 #include "imagethread.h"
+#include "xmlparser.h"
 
 QWaitCondition gwc;
 QMutex gmutex;
 
-ImageThread::ImageThread() : QThread() {
-  
+ImageThread::ImageThread() : QThread(), upload( XmlParser::One ) {  
   connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));
 //  connect( &http, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
 //  connect( &imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
 //  connect( &http, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
-  connect( &http, SIGNAL( newEntry( const Entry& ) ), this, SLOT( addEntry( const Entry& ) ));
+  connect( &http, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
   connect( &http, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
-  connect( &upload, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
+  connect( &upload, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
+//  connect( &upload, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
 //  connect( &imageDownload, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
   connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));  
 }
@@ -34,13 +35,20 @@ void ImageThread::run() {
   }
 }
 
-void ImageThread::addEntry( const Entry &entry )
+void ImageThread::addEntry( const Entry &entry, int type )
 {
-  if ( !xmlBeingProcessed ) {
-    xmlBeingProcessed = true;
-    entries.clear();
+  qDebug() << "About to add new Entry";
+  if ( type == XmlParser::All ) {
+    if ( !xmlBeingProcessed ) {
+      xmlBeingProcessed = true;
+      entries.clear();
+    }
+    entries << entry;
+  } else if ( type == XmlParser::One ) {
+    entries.prepend( entry );
+    qDebug() << "New entry prepended";
+    downloadImages();
   }
-  entries << entry;
 }
 
 void ImageThread::downloadImages() {

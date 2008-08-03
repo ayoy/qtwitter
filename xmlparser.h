@@ -20,12 +20,14 @@ private:
   QUrl *image;
   QString *status;
   int lastField;
+  int type;
   Entry entry;
   bool important;
   int checkFieldType( const QString &element );
   
 public:
   XmlParser();
+  XmlParser( int type );
   bool startDocument();
   bool endDocument();
   
@@ -53,7 +55,7 @@ public:
 
 signals:
   void dataParsed( const QString &text );
-  void newEntry( const Entry &entry );
+  void newEntry( const Entry &entry, int type );
   void xmlParsed();
 
 };

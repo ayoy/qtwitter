@@ -24,6 +24,7 @@ public:
   
 protected:
   void requestFinished( int requestId, bool error );
+  QByteArray prepareRequest( const QString &path );
   
 public slots:
   virtual void httpRequestFinished( int requestId, bool error ) = 0;
@@ -32,12 +33,10 @@ public slots:
   void httpRequestStarted( int requestId );
   void updateDataReadProgress( int bytesRead, int totalBytes );
   void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
-  void forwardDataParsed( const QString& );
-  void forwardNewEntry( const Entry& );
 
 signals:
   void dataParsed( const QString& );
-  void newEntry( const Entry& );
+  void newEntry( const Entry&, int );
   void imageDownloaded( const QString&, const QImage& );
   void errorMessage( const QString& );
 

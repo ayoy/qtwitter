@@ -6,10 +6,21 @@
 XmlParser::XmlParser() :
   QXmlDefaultHandler(),
   lastField( None ),
+  type( All ),
   entry(),
   important( false )
   {
   }
+
+XmlParser::XmlParser( int type ) :
+  QXmlDefaultHandler(),
+  lastField( None ),
+  type( type ),
+  entry(),
+  important( false )
+  {
+  }
+
 
 bool XmlParser::startDocument() {
   //qDebug() << "Start of document";
@@ -56,7 +67,8 @@ bool XmlParser::characters( const QString &ch ) {
       //qDebug() << "Setting image with: " << ch;
     }  
     if ( entry.checkContents() ) {
-      emit newEntry( entry );
+      qDebug() << "New entry is here :)";
+      emit newEntry( entry, type );
       lastField = None;
       entry.setName( "" );
       entry.setText( "" );

@@ -8,11 +8,14 @@ class XmlDownload : public HttpConnection {
   
 public:
   XmlDownload();
+  XmlDownload( int type );
 
 public slots:
   void httpRequestFinished( int requestId, bool error );
   void readResponseHeader( const QHttpResponseHeader &responseHeader );
   void forwardXmlParsed();
+  void forwardDataParsed( const QString& );
+  void forwardNewEntry( const Entry&, int type );
 
 signals:
   void xmlParsed();
