@@ -7,6 +7,8 @@
 
 #include <QtNetwork>
 
+extern QWaitCondition gwc;
+
 class HttpConnection : public QThread {
 
   Q_OBJECT
@@ -15,6 +17,9 @@ public:
   HttpConnection();
   void get( const QString &path );
   void setUrl( const QString &path );
+  QWaitCondition wc;
+  QMutex mutex;
+  
   
 protected:
   void requestFinished( int requestId, bool error );
@@ -23,6 +28,7 @@ public slots:
   virtual void httpRequestFinished( int requestId, bool error ) = 0;
   virtual void readResponseHeader( const QHttpResponseHeader &responseHeader );
   
+  void httpRequestStarted( int requestId );
   void updateDataReadProgress( int bytesRead, int totalBytes );
   void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
   void forwardDataParsed( const QString& );
@@ -35,8 +41,9 @@ signals:
   void errorMessage( const QString& );
 
 protected:
-  void run();
+  virtual void run();
 
+  bool got;
   QHttp *http;
   QUrl url;
   QByteArray *bytearray;

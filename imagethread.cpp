@@ -1,7 +1,7 @@
 #include "imagethread.h"
 
-QReadWriteLock lock;
-QWaitCondition gettingImage;
+QWaitCondition gwc;
+QMutex gmutex;
 
 ImageThread::ImageThread() : QThread() {
   connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));
@@ -22,17 +22,12 @@ void ImageThread::run() {
       qDebug() << "Oh Yes, it contains!";
       saveImage( entries[i].image(), imagesHash[ entries[i].image() ] );
     } else {
-      qDebug() << "Noah, iz gonna download...";
-      mutex.lock();
-      //QImage tempImage(":/icons/icons/noimage.png");
-      //imagesHash[ entries[i].image() ] = tempImage;
+      qDebug() << "Noes, iz gonna download...";
+      gmutex.lock();
       imageDownload.setUrl( entries[i].image() );
-      imageDownload.start();
-      imageDownload.wait();
-      //imageDownload.get( entries[i].image() );
-      qDebug() << "Waiting here...";
-      gettingImage.wait( &mutex );
-      mutex.unlock();
+      gwc.wakeAll();
+      gwc.wait( &gmutex );
+      gmutex.unlock();
     }
   }
 }
@@ -43,14 +38,20 @@ void ImageThread::addEntry( const Entry &entry )
 }
 
 void ImageThread::downloadImages() {
+  imageDownload.count = entries.size();
+  imageDownload.start();
   start();
+
   wait();
+  qDebug() << "Now ready to display";
   emit readyToDisplay( entries, imagesHash );
 }
 
 void ImageThread::saveImage ( const QString &imageUrl, const QImage &image ) {
   imagesHash[ imageUrl ] = image;
+  qDebug() << "setting imagesHash[" << imageUrl << "]";
   qDebug() << "Am I ever here?";
-  gettingImage.wakeAll();
-//  mutex.unlock();
+  //imageDownload.wc.wakeAll();
+  //gettingImage.wakeAll();
+  //mutex.unlock();
 }

@@ -1,15 +1,28 @@
 #include "imagedownload.h"
 
+
 ImageDownload::ImageDownload() : HttpConnection() {}
 
 void ImageDownload::run() {
-  get( url.toString() );
+  for (int i = 0; i < count; i++) {
+    qDebug() << "Locking image mutex...";
+    gmutex.lock();
+    qDebug() << "Setting global condition in imageDownload...";
+    gwc.wait( &gmutex );
+    qDebug() << "IMAGEDOWNLOAD: running download for " << url.toString();
+    //mutex.lock();
+    //get( url.toString() );
+    qDebug() << "IMAGEDOWNLOAD: getting... ";
+    //wc.wait( &mutex );
+    gwc.wakeAll();
+    gmutex.unlock();
+  }
 }
 
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
   qDebug() << "Response for" << url.path();
-  qDebug() << responseHeader.statusCode() << ": " << responseHeader.reasonPhrase() << "\n";
+  qDebug() << "Code is:" << responseHeader.statusCode() << ", status is:" << responseHeader.reasonPhrase() << "\n";
   switch (responseHeader.statusCode()) {
   case 200:                   // Ok
   case 301:                   // Moved Permanently
@@ -37,6 +50,8 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
       delete bytearray;
       bytearray = 0;
     }
+    wc.wakeAll();
+    mutex.unlock();
   }
 }
 
@@ -68,6 +83,8 @@ void ImageDownload::httpRequestFinished(int requestId, bool error)
   userImage = new QImage();
   userImage->loadFromData( *bytearray, "jpg" );
   emit imageDownloaded( url.toString(), *userImage );
+  wc.wakeAll();
+  mutex.unlock();
   delete userImage;
   userImage = 0;
 

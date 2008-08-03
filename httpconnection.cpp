@@ -14,14 +14,20 @@ HttpConnection::HttpConnection() : QThread()
   bytearray = 0;
   buffer = 0;
   
+  connect( http, SIGNAL(requestStarted(int)), this, SLOT(httpRequestStarted(int)));  
   connect( http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
   connect( http, SIGNAL(dataReadProgress(int, int)), this, SLOT(updateDataReadProgress(int, int)));
   connect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
   connect( http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
 }
 
+void HttpConnection::httpRequestStarted( int requestId ) {
+  qDebug() << "The request has started";
+}
+
 void HttpConnection::run() {
-  get( url.toString() );
+  //wc.wakeAll();
+  //qDebug() << "Wait condition released";
 }
 
 void HttpConnection::setUrl( const QString &path ) {
@@ -59,6 +65,11 @@ void HttpConnection::get( const QString &path )
     encodedPath = "/";
   qDebug() << "About to download: " + encodedPath + " from: " + url.host();
   httpGetId = http->get( encodedPath, buffer );
+  qDebug() << httpGetId;
+  /*if ( url.path().contains( "jpg", Qt::CaseInsensitive ) ) {
+    qDebug() << "We're downloading an image, so going to block the thread...";
+    wc.wait( &mutex );
+  }*/
 }
 
 void HttpConnection::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -91,7 +102,7 @@ void HttpConnection::readResponseHeader(const QHttpResponseHeader &responseHeade
   }
 }
 
-void HttpConnection::requestFinished(int requestId, bool error)
+/*void HttpConnection::httpRequestFinished(int requestId, bool error)
 {
   if (requestId != httpGetId)
     return;
@@ -116,7 +127,7 @@ void HttpConnection::requestFinished(int requestId, bool error)
     emit errorMessage( "Download failed: " + http->errorString() );
   }
    
-}
+}*/
 
 void HttpConnection::updateDataReadProgress(int /* bytesRead */, int /* totalBytes */)
 {

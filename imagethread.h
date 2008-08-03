@@ -41,4 +41,5 @@ private:
 
 };
 
+
 #endif //IMAGETHREAD_H
