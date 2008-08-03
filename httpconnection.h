@@ -16,6 +16,7 @@ class HttpConnection : public QThread {
 public:
   HttpConnection();
   void get( const QString &path );
+  void post( const QString &path, const QByteArray &status );
   void setUrl( const QString &path );
   QWaitCondition wc;
   QMutex mutex;

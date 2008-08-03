@@ -13,11 +13,15 @@ MainWindow::MainWindow() : QWidget(), model( 0,0 )
   
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
-    
+  
+  connect( ui.updateButton, SIGNAL( clicked() ), this, SLOT( updateTweets() ) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
-  connect( filter, SIGNAL( enterPressed( QKeyEvent* ) ), this, SLOT( sendStatus( QKeyEvent* ) ) );
+  connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
+  
   connect( &imageSaver, SIGNAL( readyToDisplay( const QList<Entry>&, const QMap<QString, QImage>& ) ), this, SLOT( display( const QList<Entry>&, const QMap<QString, QImage>& ) ) );
+
+  updateTweets();
 }
 
 void MainWindow::changeLabel()
@@ -26,22 +30,25 @@ void MainWindow::changeLabel()
   ui.statusEdit->setStatusClean( false );
 }
 
-void MainWindow::sendStatus( QKeyEvent *key )
+void MainWindow::updateTweets()
 {
-  if ( key->key() == Qt::Key_Enter || key->key() == Qt::Key_Return )
-  {
-    ui.statusEdit->setText(QString::number(key->key( )) + " pressed");
-    imageSaver.http.setUrl( "http://twitter.com/statuses/friends_timeline.xml" );
-    imageSaver.http.get( "http://twitter.com/statuses/friends_timeline.xml" );
-  }
-  //ui.statusEdit->setText( QString::number( key->key( ) ) + " pressed " + QString::number( httpGetId ) );
+  imageSaver.http.get( "http://twitter.com/statuses/friends_timeline.xml" );
+}
+
+void MainWindow::sendStatus()
+{
+  QString statusString( "status=%1" );
+  QByteArray status = statusString.arg( ui.statusEdit->text() ).toUtf8();
+  //qDebug() << status;
+  const QString path("http://twitter.com/statuses/update.xml");
+  imageSaver.upload.post( path, status );
 }
 
 void MainWindow::resetStatus()
 {
   if ( ui.statusEdit->text().length() == 0 )
   {
-    ui.statusEdit->setText( "What are you doing?" );
+    ui.statusEdit->setText( tr("What are you doing?") );
     ui.countdownLabel->setText( QString::number(STATUS_MAX_LEN) );
     ui.statusEdit->setStatusClean( true );
   }
@@ -83,6 +90,7 @@ void MainWindow::resizeEvent( QResizeEvent *event )
 }
 
 void MainWindow::display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash ) {
+  model.clear();
   for ( int i = 0; i < entries.size(); i++ ) {
     QIcon *icon = new QIcon( QPixmap::fromImage( imagesHash[ entries[i].image() ] ) );
     QStandardItem *newItem = new QStandardItem( entries[i].name() + "\n" + entries[i].text() );

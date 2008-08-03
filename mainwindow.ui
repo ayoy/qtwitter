@@ -94,7 +94,7 @@ p, li { white-space: pre-wrap; }
       <number>0</number>
      </property>
      <item>
-      <widget class="QToolButton" name="homeToolButton" >
+      <widget class="QToolButton" name="homeButton" >
        <property name="text" >
         <string>...</string>
        </property>
@@ -111,7 +111,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="settingsToolButton" >
+      <widget class="QToolButton" name="settingsButton" >
        <property name="text" >
         <string>...</string>
        </property>
@@ -128,7 +128,7 @@ p, li { white-space: pre-wrap; }
       </widget>
      </item>
      <item>
-      <widget class="QToolButton" name="updateToolButton" >
+      <widget class="QToolButton" name="updateButton" >
        <property name="maximumSize" >
         <size>
          <width>100</width>
@@ -222,9 +222,9 @@ p, li { white-space: pre-wrap; }
  </customwidgets>
  <tabstops>
   <tabstop>statusEdit</tabstop>
-  <tabstop>updateToolButton</tabstop>
-  <tabstop>settingsToolButton</tabstop>
-  <tabstop>homeToolButton</tabstop>
+  <tabstop>updateButton</tabstop>
+  <tabstop>settingsButton</tabstop>
+  <tabstop>homeButton</tabstop>
   <tabstop>statusListView</tabstop>
   <tabstop>textEdit</tabstop>
  </tabstops>

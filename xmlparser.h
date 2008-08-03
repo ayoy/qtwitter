@@ -45,6 +45,11 @@ public:
     Image,
     Text    
   };
+  
+  enum XmlType {
+    One,
+    All
+  };
 
 signals:
   void dataParsed( const QString &text );

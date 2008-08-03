@@ -14,7 +14,7 @@ public:
   }
 
 signals:
-  void enterPressed( QKeyEvent *key );
+  void enterPressed();
 
 protected:
   bool eventFilter( QObject *dist, QEvent *event )
@@ -24,7 +24,7 @@ protected:
       QKeyEvent *keyEvent = static_cast<QKeyEvent*>( event );
       if ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return )
       {
-        emit enterPressed(keyEvent);
+        emit enterPressed();
         return true;
       }
     }

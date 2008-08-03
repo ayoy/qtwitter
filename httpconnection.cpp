@@ -21,7 +21,7 @@ HttpConnection::HttpConnection() : QThread()
   connect( http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
 }
 
-void HttpConnection::httpRequestStarted( int requestId ) {
+void HttpConnection::httpRequestStarted( int /*requestId*/ ) {
   qDebug() << "The request has started";
 }
 
@@ -45,7 +45,7 @@ void HttpConnection::get( const QString &path )
 
   if ( !buffer->open(QIODevice::ReadWrite) )
   {                                     
-    emit errorMessage( "Unable to save the file " + buffer->errorString() );
+    emit errorMessage( tr("Unable to open device: ") + buffer->errorString() );
     delete buffer;
     buffer = 0;
     delete bytearray;
@@ -72,6 +72,41 @@ void HttpConnection::get( const QString &path )
   }*/
 }
 
+void HttpConnection::post( const QString &path, const QByteArray &status )
+{
+  url.setUrl( path );
+  //url.setUrl( "http://s3.amazonaws.com/twitter_production/profile_images/53492115/avatar2_normal.jpg" );
+  http->setHost( url.host(), QHttp::ConnectionModeHttp);
+    
+  bytearray = new QByteArray();
+  buffer = new QBuffer( bytearray );
+
+  if ( !buffer->open(QIODevice::ReadWrite) )
+  {                                     
+    emit errorMessage( tr("Unable to open device: ") + buffer->errorString() );
+    delete buffer;
+    buffer = 0;
+    delete bytearray;
+    bytearray = 0;
+    return;
+  }  
+  
+  //QHttp::ConnectionMode mode = QHttp::ConnectionModeHttp;
+  if (!url.userName().isEmpty())
+    http->setUser(url.userName(), url.password());
+  else
+    http->setUser( "", "" );
+    
+  httpRequestAborted = false;
+  QByteArray encodedPath = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
+  if ( encodedPath.isEmpty() )
+    encodedPath = "/";
+  qDebug() << "About to download: " + encodedPath + " from: " + url.host();
+  httpGetId = http->post( encodedPath, status, buffer );
+  qDebug() << httpGetId;
+}
+
+
 void HttpConnection::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
   qDebug() << url.path();
@@ -87,7 +122,7 @@ void HttpConnection::readResponseHeader(const QHttpResponseHeader &responseHeade
   case 404:                   // Not Found
     break;
   default:
-    emit errorMessage( "Download failed: " + responseHeader.reasonPhrase() );
+    emit errorMessage( tr("Download failed: ") + responseHeader.reasonPhrase() );
     httpRequestAborted = true;
     http->abort();
     if (buffer) {

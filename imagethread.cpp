@@ -4,12 +4,14 @@ QWaitCondition gwc;
 QMutex gmutex;
 
 ImageThread::ImageThread() : QThread() {
+  
   connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));
 //  connect( &http, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
 //  connect( &imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
 //  connect( &http, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
   connect( &http, SIGNAL( newEntry( const Entry& ) ), this, SLOT( addEntry( const Entry& ) ));
   connect( &http, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
+  connect( &upload, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
 //  connect( &imageDownload, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
   connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));  
 }
@@ -34,14 +36,19 @@ void ImageThread::run() {
 
 void ImageThread::addEntry( const Entry &entry )
 {
+  if ( !xmlBeingProcessed ) {
+    xmlBeingProcessed = true;
+    entries.clear();
+  }
   entries << entry;
 }
 
 void ImageThread::downloadImages() {
+  xmlBeingProcessed = false;
   imageDownload.count = entries.size();
   imageDownload.start();
   start();
-
+  imageDownload.wait();
   wait();
   qDebug() << "Now ready to display";
   emit readyToDisplay( entries, imagesHash );

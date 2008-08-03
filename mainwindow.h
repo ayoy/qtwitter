@@ -27,9 +27,10 @@ public:
   
 public slots:
   void changeLabel();
-  void sendStatus( QKeyEvent *key );
+  void sendStatus();
   void resetStatus();
  
+  void updateTweets();
   void updateText( const QString& text );
   void popupError( const QString &message );
   

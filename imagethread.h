@@ -29,8 +29,10 @@ signals:
   
 public:
   XmlDownload http;
+  XmlDownload upload;
   
 private:
+  bool xmlBeingProcessed;
   QMutex mutex;
   ImageDownload imageDownload;
   QMap<QString, QImage> imagesHash;

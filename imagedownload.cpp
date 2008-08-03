@@ -78,7 +78,7 @@ void ImageDownload::httpRequestFinished(int requestId, bool error)
   buffer->close(); 
   
   if (error) {
-    emit errorMessage( "Download failed: " + http->errorString() );
+    emit errorMessage( tr("Download failed: ") + http->errorString() );
   }
   userImage = new QImage();
   userImage->loadFromData( *bytearray, "jpg" );
