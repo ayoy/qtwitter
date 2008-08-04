@@ -12,6 +12,7 @@ class ImageDownload : public HttpConnection {
 
 public:
   ImageDownload();
+  ~ImageDownload();
   int count;
   
 public slots:

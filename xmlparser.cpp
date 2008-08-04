@@ -20,8 +20,7 @@ XmlParser::XmlParser( int type ) :
   important( false )
   {
   }
-
-
+  
 bool XmlParser::startDocument() {
   //qDebug() << "Start of document";
   return true;
@@ -37,13 +36,10 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
   //qDebug() << "Start of element" << qName;
   
   ( (lastField = checkFieldType( qName )) != None ) ? important = true : important = false;
-  //if (!entry && important) {
-  //  entry = new Entry();
-  //}
   
-  for( int i = 0; i<atts.length(); ++i ) {
-    //qDebug() << " " << atts.qName(i) << "=" << atts.value(i);
-  }                                                                
+  /*for( int i = 0; i<atts.length(); ++i ) {
+    qDebug() << " " << atts.qName(i) << "=" << atts.value(i);
+  }*/                                                                
   return true;
 }
 
@@ -67,7 +63,6 @@ bool XmlParser::characters( const QString &ch ) {
       //qDebug() << "Setting image with: " << ch;
     }  
     if ( entry.checkContents() ) {
-      qDebug() << "New entry is here :)";
       emit newEntry( entry, type );
       lastField = None;
       entry.setName( "" );

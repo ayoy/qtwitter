@@ -21,6 +21,21 @@ HttpConnection::HttpConnection() : QThread()
   connect( http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
 }
 
+HttpConnection::~HttpConnection() {
+  if ( http ) {
+    delete http;
+    http = 0;
+  }
+  if( buffer ) {
+    delete buffer;
+    buffer = 0;
+  }
+  if( bytearray ) {
+    delete bytearray;
+    bytearray = 0;
+  }
+}
+
 void HttpConnection::httpRequestStarted( int /*requestId*/ ) {
   qDebug() << "The request has started";
 }
@@ -86,64 +101,6 @@ void HttpConnection::post( const QString &path, const QByteArray &status )
   httpGetId = http->post( encodedPath, status, buffer );
   qDebug() << httpGetId;
 }
-
-
-void HttpConnection::readResponseHeader(const QHttpResponseHeader &responseHeader)
-{
-  qDebug() << url.path();
-  qDebug() << responseHeader.statusCode() << ": " << responseHeader.reasonPhrase() << "\n";
-  switch (responseHeader.statusCode()) {
-  case 200:                   // Ok
-  case 301:                   // Moved Permanently
-  case 302:                   // Found
-  case 303:                   // See Other
-  case 307:                   // Temporary Redirect
-    // these are not error conditions
-    break;
-  case 404:                   // Not Found
-    break;
-  default:
-    emit errorMessage( tr("Download failed: ") + responseHeader.reasonPhrase() );
-    httpRequestAborted = true;
-    http->abort();
-    if (buffer) {
-      buffer->close();
-      delete buffer;
-      buffer = 0;
-    }
-    if(bytearray) {
-      delete bytearray;
-      bytearray = 0;
-    }
-  }
-}
-
-/*void HttpConnection::httpRequestFinished(int requestId, bool error)
-{
-  if (requestId != httpGetId)
-    return;
-  if (httpRequestAborted) {
-    if (buffer) {
-      buffer->close();
-      delete buffer;
-      buffer = 0;
-    }
-    if(bytearray) {
-      delete bytearray;
-      bytearray = 0;
-    }
-    return;
-  }
-  if (requestId != httpGetId)
-    return;
-  
-  buffer->close(); 
-  
-  if (error) {
-    emit errorMessage( "Download failed: " + http->errorString() );
-  }
-   
-}*/
 
 void HttpConnection::updateDataReadProgress(int /* bytesRead */, int /* totalBytes */)
 {

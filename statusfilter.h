@@ -9,9 +9,7 @@ class StatusFilter : public QObject
   Q_OBJECT
 
 public:
-  StatusFilter( QObject *parent = 0 ) : QObject( parent ) 
-  {
-  }
+  StatusFilter( QObject *parent = 0 ) : QObject( parent ) {}
 
 signals:
   void enterPressed();

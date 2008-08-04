@@ -15,12 +15,7 @@ void StatusEdit::focusInEvent( QFocusEvent * event )
   QLineEdit::focusInEvent(event);
 }
 
-bool StatusEdit::isStatusClean() const
-{
-  return statusClean;
-}
-
-void StatusEdit::setStatusClean( const bool &set )
-{
-  statusClean = set;
+void StatusEdit::initialize() {
+  setText( tr( "What are you doing?" ) );
+  statusClean = true;
 }

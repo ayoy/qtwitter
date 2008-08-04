@@ -16,9 +16,6 @@ class XmlParser : public QObject, public QXmlDefaultHandler
   Q_OBJECT
   
 private:
-  QString message;  
-  QUrl *image;
-  QString *status;
   int lastField;
   int type;
   Entry entry;
@@ -28,6 +25,7 @@ private:
 public:
   XmlParser();
   XmlParser( int type );
+  
   bool startDocument();
   bool endDocument();
   

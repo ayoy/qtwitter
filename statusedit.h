@@ -8,8 +8,7 @@ class StatusEdit : public QLineEdit
 public:
   StatusEdit( QWidget * parent );
   void focusInEvent( QFocusEvent * event );
-  bool isStatusClean() const;
-  void setStatusClean( const bool &set );
+  void initialize();
   
 private:
   bool statusClean; 

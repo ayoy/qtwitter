@@ -4,11 +4,11 @@
 #include <QtDebug>
 
 
-MainWindow::MainWindow() : QWidget(), model( 0,0 )
+MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 {
   ui.setupUi( this );
-  StatusFilter *filter = new StatusFilter();
-  
+  filter = new StatusFilter();
+  fm = new QFontMetrics( ui.statusListView->font() );
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
   
@@ -16,76 +16,79 @@ MainWindow::MainWindow() : QWidget(), model( 0,0 )
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
-  
+  connect( &imageSaver, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
   connect( &imageSaver, SIGNAL( readyToDisplay( const QList<Entry>&, const QMap<QString, QImage>& ) ), this, SLOT( display( const QList<Entry>&, const QMap<QString, QImage>& ) ) );
 
   updateTweets();
 }
 
-void MainWindow::changeLabel()
-{
-  ui.countdownLabel->setText( QString::number( STATUS_MAX_LEN - ui.statusEdit->text().length() ) );
-  ui.statusEdit->setStatusClean( false );
-}
-
-void MainWindow::updateTweets()
-{
-  imageSaver.http.get( "http://twitter.com/statuses/friends_timeline.xml" );
-}
-
-void MainWindow::sendStatus()
-{
-  QString statusString( "status=%1" );
-  QByteArray status = statusString.arg( ui.statusEdit->text() ).toUtf8();
-  //qDebug() << status;
-  const QString path("http://twitter.com/statuses/update.xml");
-  imageSaver.upload.post( path, status );
-  
-  /*QByteArray status( "status=" );
-  status.append( ui.statusEdit->text().toUtf8() );
-  qDebug() << status;
-  const QString path("http://twitter.com/statuses/update.xml");
-  imageSaver.upload.post( path, status );*/
-}
-
-void MainWindow::resetStatus()
-{
-  if ( ui.statusEdit->text().length() == 0 )
-  {
-    ui.statusEdit->setText( tr("What are you doing?") );
-    ui.countdownLabel->setText( QString::number(STATUS_MAX_LEN) );
-    ui.statusEdit->setStatusClean( true );
+MainWindow::~MainWindow() {
+  if ( filter ) {
+    delete filter;
+    filter = 0;
+  }
+  if ( fm ) {
+    delete fm;
+    fm = 0;
   }
 }
 
-void MainWindow::resizeEvent( QResizeEvent *event )
-{
+void MainWindow::changeLabel() {
+  ui.countdownLabel->setText( QString::number( STATUS_MAX_LEN - ui.statusEdit->text().length() ) );
+}
+
+void MainWindow::updateTweets() {
+  ui.updateButton->setEnabled( false );
+  imageSaver.get( "http://twitter.com/statuses/friends_timeline.xml" );
+}
+
+void MainWindow::sendStatus() {
+  QByteArray status( "status=" );
+  status.append( ui.statusEdit->text().toUtf8() );
+  //qDebug() << status;
+  const QString path("http://twitter.com/statuses/update.xml");
+  imageSaver.post( path, status );
+}
+
+void MainWindow::resetStatus() {
+  if ( ui.statusEdit->text().length() == 0 )
+  {
+    ui.statusEdit->initialize();
+    ui.countdownLabel->setText( QString::number(STATUS_MAX_LEN) );
+  }
+}
+
+void MainWindow::checkAlign( int width ) {
   if ( model.rowCount() == 0 )
     return;
     
-  int realWidth = event->size().width() - SCROLLBAR_MARGIN - ICON_SIZE;
+  int realWidth =  width - SCROLLBAR_MARGIN - ICON_SIZE;
   
   QRegExp enter( "\n" );
   QString rest;
-  QFontMetrics fm( ui.statusListView->font() );
-  int fontHeight = fm.height();
+  //QFontMetrics fm( ui.statusListView->font() );
+  int fontHeight = fm->height();
   int lines;
   QSize itemSize;
   
   for ( int i = 0; i < model.rowCount(); i++ ) {
     itemSize = model.item(i)->sizeHint();
-    lines = (itemSize.height() - ITEM_SPACING ) / fontHeight - 1; // (wysokosc - 10) / wysokość jednej linii - jedna linia na nazwę usera
+    lines = (itemSize.height() - ITEM_SPACING ) / fontHeight - 1; // (field height - 10) / line height - 1 line for username
     itemSize.rwidth() = realWidth + ICON_SIZE;
 
     rest = model.item(i)->text().right( model.item(i)->text().length() - enter.indexIn( model.item(i)->text() ) - 1 );
 
-    if ( fm.width( rest ) > lines * realWidth ) {
+    if ( fm->width( rest ) > lines * realWidth ) {
       itemSize.rheight() += fontHeight;
-    } else if ( ( lines > 2 ) && ( fm.width( rest ) < (lines-1) * realWidth ) ) {
+    } else if ( ( lines > 2 ) && ( fm->width( rest ) < (lines-1) * realWidth ) ) {
       itemSize.rheight() -= fontHeight;
     }
     model.item(i)->setSizeHint( itemSize );
   }
+}
+
+void MainWindow::resizeEvent( QResizeEvent *event ) {
+  checkAlign( event->size().width() );
 }
 
 void MainWindow::display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash ) {
@@ -100,8 +103,19 @@ void MainWindow::display( const QList<Entry> &entries, const QMap<QString, QImag
   
     model.appendRow( newItem );
   }
+  checkAlign( size().width() );
+  unlockState();
+}
+
+void MainWindow::unlockState() {
+  ui.updateButton->setEnabled( true );
+  if ( !ui.statusEdit->isEnabled() ) {
+    ui.statusEdit->setEnabled( true );
+    ui.statusEdit->initialize();
+  }
 }
 
 void MainWindow::popupError ( const QString &message ) {
   QMessageBox::information( this, tr("Error"), message );
+  unlockState();
 }

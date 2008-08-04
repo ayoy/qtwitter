@@ -48,7 +48,6 @@ void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 
 void XmlDownload::httpRequestFinished(int requestId, bool error)
 {
-  //requestFinished( requestId, error );
   if (requestId != httpGetId)
     return;
   if (httpRequestAborted) {

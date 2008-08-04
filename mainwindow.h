@@ -3,10 +3,10 @@
 
 #include <QDialog>
 #include <QMessageBox>
-#include <qevent.h>
 #include <QStandardItemModel>
 
 #include "statusedit.h"
+#include "statusfilter.h"
 #include "ui_mainwindow.h"
 #include "entry.h"
 #include "xmldownload.h"
@@ -24,6 +24,9 @@ class MainWindow : public QWidget
 
 public:
   MainWindow();
+  ~MainWindow();
+  void resizeEvent( QResizeEvent *event );
+  void checkAlign( int width );
   
 public slots:
   void changeLabel();
@@ -33,12 +36,15 @@ public slots:
   void updateTweets();
   void popupError( const QString &message );
   
-  void resizeEvent( QResizeEvent *event );
+
   void display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash );
   
-private:  
+private:
+  void unlockState();
   ImageThread imageSaver;
   QStandardItemModel model;
+  QFontMetrics *fm;
+  StatusFilter *filter;
   Ui::MainWindow ui;
 };
 

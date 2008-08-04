@@ -15,6 +15,7 @@ class HttpConnection : public QThread {
 
 public:
   HttpConnection();
+  virtual ~HttpConnection();
   void get( const QString &path );
   void post( const QString &path, const QByteArray &status );
   void setUrl( const QString &path );
@@ -28,7 +29,7 @@ protected:
   
 public slots:
   virtual void httpRequestFinished( int requestId, bool error ) = 0;
-  virtual void readResponseHeader( const QHttpResponseHeader &responseHeader );
+  virtual void readResponseHeader( const QHttpResponseHeader &responseHeader ) = 0;
   
   void httpRequestStarted( int requestId );
   void updateDataReadProgress( int bytesRead, int totalBytes );

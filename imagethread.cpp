@@ -6,14 +6,12 @@ QMutex gmutex;
 
 ImageThread::ImageThread() : QThread(), upload( XmlParser::One ) {  
   connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));
-//  connect( &http, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
-//  connect( &imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
-//  connect( &http, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
+  connect( &http, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
+  connect( &upload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
+  connect( &imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( &http, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
   connect( &http, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
   connect( &upload, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
-//  connect( &upload, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
-//  connect( &imageDownload, SIGNAL( dataParsed( const QString& ) ), this, SLOT( updateText( const QString& ) ) );
   connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));  
 }
 
@@ -33,6 +31,14 @@ void ImageThread::run() {
       gmutex.unlock();
     }
   }
+}
+
+void ImageThread::get( const QString &path) {
+  http.get( path );
+}
+
+void ImageThread::post( const QString &path, const QByteArray &status ) {
+  upload.post( path, status );
 }
 
 void ImageThread::addEntry( const Entry &entry, int type )
@@ -69,4 +75,8 @@ void ImageThread::saveImage ( const QString &imageUrl, const QImage &image ) {
   //imageDownload.wc.wakeAll();
   //gettingImage.wakeAll();
   //mutex.unlock();
+}
+
+void ImageThread::error( const QString &message ) {
+  emit errorMessage( message );
 }

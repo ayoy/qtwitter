@@ -1,7 +1,16 @@
 #include "imagedownload.h"
 
 
-ImageDownload::ImageDownload() : HttpConnection() {}
+ImageDownload::ImageDownload() : HttpConnection() {
+  userImage = 0;
+}
+
+ImageDownload::~ImageDownload() {
+  if ( userImage ) {
+    delete userImage;
+    userImage = 0;
+  }
+}
 
 void ImageDownload::run() {
   for (int i = 0; i < count; i++) {
@@ -57,7 +66,6 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
 
 void ImageDownload::httpRequestFinished(int requestId, bool error)
 {
-  //requestFinished( requestId, error );
   if (requestId != httpGetId)
     return;
   if (httpRequestAborted) {
