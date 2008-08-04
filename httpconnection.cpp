@@ -1,15 +1,7 @@
 #include "httpconnection.h"
 
-//#define PROXY
-
 HttpConnection::HttpConnection() : QThread()
 {
-#ifdef PROXY
-  proxy.setType(QNetworkProxy::HttpProxy);
-  proxy.setHostName("10.220.1.16");
-  proxy.setPort(8080);
-  QNetworkProxy::setApplicationProxy(proxy);
-#endif
   http = new QHttp(this);
   bytearray = 0;
   buffer = 0;

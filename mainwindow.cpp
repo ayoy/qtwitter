@@ -44,7 +44,8 @@ void MainWindow::updateTweets() {
 void MainWindow::sendStatus() {
   QByteArray status( "status=" );
   status.append( ui.statusEdit->text().toUtf8() );
-  //qDebug() << status;
+  status.append( "&source=qtwitter" );
+  qDebug() << status;
   const QString path("http://twitter.com/statuses/update.xml");
   threadingEngine.post( path, status );
 }
