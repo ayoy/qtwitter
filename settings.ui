@@ -1,0 +1,188 @@
+<ui version="4.0" >
+ <class>Settings</class>
+ <widget class="QDialog" name="Settings" >
+  <property name="geometry" >
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>296</width>
+    <height>178</height>
+   </rect>
+  </property>
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="windowTitle" >
+   <string>Settings</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout" >
+   <item row="0" column="0" >
+    <widget class="QFrame" name="frame" >
+     <property name="frameShape" >
+      <enum>QFrame::StyledPanel</enum>
+     </property>
+     <property name="frameShadow" >
+      <enum>QFrame::Raised</enum>
+     </property>
+     <widget class="QLineEdit" name="hostEdit" >
+      <property name="enabled" >
+       <bool>false</bool>
+      </property>
+      <property name="geometry" >
+       <rect>
+        <x>79</x>
+        <y>48</y>
+        <width>161</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text" >
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="portEdit" >
+      <property name="enabled" >
+       <bool>false</bool>
+      </property>
+      <property name="geometry" >
+       <rect>
+        <x>179</x>
+        <y>80</y>
+        <width>61</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="sizePolicy" >
+       <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+        <horstretch>0</horstretch>
+        <verstretch>0</verstretch>
+       </sizepolicy>
+      </property>
+      <property name="text" >
+       <string/>
+      </property>
+     </widget>
+     <widget class="QLabel" name="hostLabel" >
+      <property name="geometry" >
+       <rect>
+        <x>30</x>
+        <y>48</y>
+        <width>41</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text" >
+       <string>Host:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="portLabel" >
+      <property name="geometry" >
+       <rect>
+        <x>130</x>
+        <y>80</y>
+        <width>29</width>
+        <height>22</height>
+       </rect>
+      </property>
+      <property name="text" >
+       <string>Port:</string>
+      </property>
+     </widget>
+     <widget class="QCheckBox" name="proxyBox" >
+      <property name="geometry" >
+       <rect>
+        <x>20</x>
+        <y>10</y>
+        <width>131</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="text" >
+       <string>Use HTTP &amp;proxy</string>
+      </property>
+     </widget>
+    </widget>
+   </item>
+   <item row="1" column="0" >
+    <widget class="QDialogButtonBox" name="buttonBox" >
+     <property name="orientation" >
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons" >
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
+  </layout>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Settings</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>248</x>
+     <y>194</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>157</x>
+     <y>235</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Settings</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>316</x>
+     <y>200</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>286</x>
+     <y>235</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proxyBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>hostEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>83</x>
+     <y>42</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>137</x>
+     <y>74</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>proxyBox</sender>
+   <signal>clicked(bool)</signal>
+   <receiver>portEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel" >
+     <x>107</x>
+     <y>49</y>
+    </hint>
+    <hint type="destinationlabel" >
+     <x>226</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
