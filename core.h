@@ -1,5 +1,5 @@
-#ifndef IMAGETHREAD_H
-#define IMAGETHREAD_H
+#ifndef CORE_H
+#define CORE_H
 
 #include <QStandardItemModel>
 
@@ -8,11 +8,11 @@
 #include "imagedownload.h"
 
 
-class ImageThread : public QThread {
+class Core : public QThread {
   Q_OBJECT
 
 public:
-  ImageThread();
+  Core();
   void get( const QString &path );
   void post( const QString &path, const QByteArray &status );
 
@@ -31,18 +31,14 @@ signals:
   void errorMessage( const QString &message );
   
 private:
-  XmlDownload http;
-  XmlDownload upload;
   bool xmlBeingProcessed;
-  QMutex mutex;
+  XmlDownload xmlGet;
+  XmlDownload xmlPost;
   ImageDownload imageDownload;
   QMap<QString, QImage> imagesHash;
-  QStandardItemModel model;
   QList<Entry> entries;
-  QImage userImage;
-  Entry userEntry;
-
+  QStandardItemModel model;
 };
 
 
-#endif //IMAGETHREAD_H
+#endif //CORE_H

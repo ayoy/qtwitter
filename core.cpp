@@ -1,21 +1,20 @@
-#include "imagethread.h"
-#include "xmlparser.h"
+#include "core.h"
 
 QWaitCondition gwc;
 QMutex gmutex;
 
-ImageThread::ImageThread() : QThread(), upload( XmlParser::One ) {  
+Core::Core() : QThread(), xmlPost( XmlParser::One ) {  
   connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));
-  connect( &http, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
-  connect( &upload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
+  connect( &xmlGet, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
+  connect( &xmlPost, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( &imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
-  connect( &http, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
-  connect( &http, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
-  connect( &upload, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
+  connect( &xmlGet, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
+  connect( &xmlGet, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
+  connect( &xmlPost, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
   connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));  
 }
 
-void ImageThread::run() {
+void Core::run() {
   qDebug() << "Will be downloading images now.";
   for ( int i = 0; i < entries.size(); i++ ) {
     qDebug() << i << "image: " << entries[i].image();
@@ -33,17 +32,16 @@ void ImageThread::run() {
   }
 }
 
-void ImageThread::get( const QString &path) {
-  http.get( path );
+void Core::get( const QString &path ) {
+  xmlGet.get( path);
 }
 
-void ImageThread::post( const QString &path, const QByteArray &status ) {
-  upload.post( path, status );
+void Core::post( const QString &path, const QByteArray &status ) {
+  xmlPost.post( path, status );
 }
 
-void ImageThread::addEntry( const Entry &entry, int type )
+void Core::addEntry( const Entry &entry, int type )
 {
-  qDebug() << "About to add new Entry";
   if ( type == XmlParser::All ) {
     if ( !xmlBeingProcessed ) {
       xmlBeingProcessed = true;
@@ -52,31 +50,27 @@ void ImageThread::addEntry( const Entry &entry, int type )
     entries << entry;
   } else if ( type == XmlParser::One ) {
     entries.prepend( entry );
-    qDebug() << "New entry prepended";
     downloadImages();
   }
 }
 
-void ImageThread::downloadImages() {
+void Core::downloadImages() {
   xmlBeingProcessed = false;
   imageDownload.count = entries.size();
   imageDownload.start();
   start();
   imageDownload.wait();
   wait();
-  qDebug() << "Now ready to display";
   emit readyToDisplay( entries, imagesHash );
 }
 
-void ImageThread::saveImage ( const QString &imageUrl, const QImage &image ) {
+void Core::saveImage ( const QString &imageUrl, const QImage &image ) {
   imagesHash[ imageUrl ] = image;
   qDebug() << "setting imagesHash[" << imageUrl << "]";
-  qDebug() << "Am I ever here?";
   //imageDownload.wc.wakeAll();
-  //gettingImage.wakeAll();
   //mutex.unlock();
 }
 
-void ImageThread::error( const QString &message ) {
+void Core::error( const QString &message ) {
   emit errorMessage( message );
 }

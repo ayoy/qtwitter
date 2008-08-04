@@ -2,7 +2,6 @@
 #define HTTPCONNECTION_H
 
 #include "ui_authdialog.h"
-#include "entry.h"
 #include "xmlparser.h"
 
 #include <QtNetwork>
@@ -22,17 +21,11 @@ public:
   QWaitCondition wc;
   QMutex mutex;
   
-  
-protected:
-  void requestFinished( int requestId, bool error );
-  QByteArray prepareRequest( const QString &path );
-  
 public slots:
   virtual void httpRequestFinished( int requestId, bool error ) = 0;
   virtual void readResponseHeader( const QHttpResponseHeader &responseHeader ) = 0;
   
   void httpRequestStarted( int requestId );
-  void updateDataReadProgress( int bytesRead, int totalBytes );
   void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
 
 signals:
@@ -43,12 +36,13 @@ signals:
 
 protected:
   virtual void run();
+  void requestFinished( int requestId, bool error );
+  QByteArray prepareRequest( const QString &path );
 
-  bool got;
   QHttp *http;
-  QUrl url;
   QByteArray *bytearray;
   QBuffer *buffer;
+  QUrl url;
   QNetworkProxy proxy;
   bool httpRequestAborted;
   int httpGetId;

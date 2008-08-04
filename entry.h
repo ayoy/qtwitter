@@ -1,9 +1,6 @@
 #ifndef ENTRY_H
 #define ENTRY_H
 
-#include <QString>
-#include <QUrl>
-
 class Entry {
 
 private:

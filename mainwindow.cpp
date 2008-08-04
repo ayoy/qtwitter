@@ -1,7 +1,4 @@
 #include "mainwindow.h"
-#include "statusfilter.h"
-
-#include <QtDebug>
 
 
 MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
@@ -11,13 +8,15 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   fm = new QFontMetrics( ui.statusListView->font() );
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
+  proxy.setType( QNetworkProxy::NoProxy );
   
   connect( ui.updateButton, SIGNAL( clicked() ), this, SLOT( updateTweets() ) );
+  connect( ui.settingsButton, SIGNAL( clicked() ), this, SLOT( openSettings() ) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
-  connect( &imageSaver, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
-  connect( &imageSaver, SIGNAL( readyToDisplay( const QList<Entry>&, const QMap<QString, QImage>& ) ), this, SLOT( display( const QList<Entry>&, const QMap<QString, QImage>& ) ) );
+  connect( &threadingEngine, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
+  connect( &threadingEngine, SIGNAL( readyToDisplay( const QList<Entry>&, const QMap<QString, QImage>& ) ), this, SLOT( display( const QList<Entry>&, const QMap<QString, QImage>& ) ) );
 
   updateTweets();
 }
@@ -39,7 +38,7 @@ void MainWindow::changeLabel() {
 
 void MainWindow::updateTweets() {
   ui.updateButton->setEnabled( false );
-  imageSaver.get( "http://twitter.com/statuses/friends_timeline.xml" );
+  threadingEngine.get( "http://twitter.com/statuses/friends_timeline.xml" );
 }
 
 void MainWindow::sendStatus() {
@@ -47,7 +46,7 @@ void MainWindow::sendStatus() {
   status.append( ui.statusEdit->text().toUtf8() );
   //qDebug() << status;
   const QString path("http://twitter.com/statuses/update.xml");
-  imageSaver.post( path, status );
+  threadingEngine.post( path, status );
 }
 
 void MainWindow::resetStatus() {
@@ -66,7 +65,6 @@ void MainWindow::checkAlign( int width ) {
   
   QRegExp enter( "\n" );
   QString rest;
-  //QFontMetrics fm( ui.statusListView->font() );
   int fontHeight = fm->height();
   int lines;
   QSize itemSize;
@@ -115,7 +113,32 @@ void MainWindow::unlockState() {
   }
 }
 
-void MainWindow::popupError ( const QString &message ) {
+void MainWindow::popupError( const QString &message ) {
   QMessageBox::information( this, tr("Error"), message );
   unlockState();
 }
+
+void MainWindow::openSettings() {
+  QDialog dlg;
+  ui_s.setupUi(&dlg);
+  if ( proxy.type() != QNetworkProxy::NoProxy ) {
+    ui_s.proxyBox->setChecked( true );
+    ui_s.hostEdit->setEnabled( true );
+    ui_s.portEdit->setEnabled( true );
+  }
+  ui_s.hostEdit->setText( proxy.hostName() );
+  if ( proxy.port() ) {
+    ui_s.portEdit->setText( QString::number( proxy.port() ) );
+  }
+  if ( dlg.exec() == QDialog::Accepted ) {
+    if ( ui_s.proxyBox->isChecked() ) {
+      proxy.setType( QNetworkProxy::HttpProxy );
+      proxy.setHostName( ui_s.hostEdit->text() );
+      proxy.setPort( ui_s.portEdit->text().toInt() );
+    } else {
+      proxy.setType( QNetworkProxy::NoProxy );
+    }
+    QNetworkProxy::setApplicationProxy( proxy );
+  }
+}
+

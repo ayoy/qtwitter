@@ -16,7 +16,6 @@ HttpConnection::HttpConnection() : QThread()
   
   connect( http, SIGNAL(requestStarted(int)), this, SLOT(httpRequestStarted(int)));  
   connect( http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
-  connect( http, SIGNAL(dataReadProgress(int, int)), this, SLOT(updateDataReadProgress(int, int)));
   connect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
   connect( http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
 }
@@ -102,12 +101,6 @@ void HttpConnection::post( const QString &path, const QByteArray &status )
   qDebug() << httpGetId;
 }
 
-void HttpConnection::updateDataReadProgress(int /* bytesRead */, int /* totalBytes */)
-{
-  if (httpRequestAborted)
-    return;
-}
-
 void HttpConnection::slotAuthenticationRequired(const QString & /* hostName */, quint16, QAuthenticator *authenticator)
 {
   QDialog dlg;
@@ -119,14 +112,3 @@ void HttpConnection::slotAuthenticationRequired(const QString & /* hostName */, 
     authenticator->setPassword( ui.passwordEdit->text() );
   }
 }
-
-/*void HttpConnection::forwardDataParsed(const QString &data)
-{
-  emit dataParsed( data );
-}
-
-void HttpConnection::forwardNewEntry( const Entry &entry, int type )
-{
-  emit newEntry( entry, type );
-}
-*/

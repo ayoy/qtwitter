@@ -2,8 +2,6 @@
 #define XMLPARSER_H
 
 #include <QtXml>
-#include <QUrl>
-#include <QObject>
 
 #include "entry.h"
 

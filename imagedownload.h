@@ -2,7 +2,6 @@
 #define IMAGEDOWNLOAD_H
 
 #include "httpconnection.h"
-#include <QImageReader>
 
 extern QWaitCondition gwc;
 extern QMutex gmutex;

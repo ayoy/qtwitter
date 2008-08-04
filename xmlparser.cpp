@@ -1,7 +1,4 @@
 #include "xmlparser.h"
-#include "mainwindow.h"
-
-#include <QtDebug>
 
 XmlParser::XmlParser() :
   QXmlDefaultHandler(),
@@ -32,7 +29,7 @@ bool XmlParser::endDocument() {
   return true;
 }
 
-bool XmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes &atts ) {
+bool XmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ ) {
   //qDebug() << "Start of element" << qName;
   
   ( (lastField = checkFieldType( qName )) != None ) ? important = true : important = false;

@@ -1,17 +1,13 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QDialog>
 #include <QMessageBox>
-#include <QStandardItemModel>
 
 #include "statusedit.h"
 #include "statusfilter.h"
 #include "ui_mainwindow.h"
-#include "entry.h"
-#include "xmldownload.h"
-#include "imagedownload.h"
-#include "imagethread.h"
+#include "ui_settings.h"
+#include "core.h"
 
 #define STATUS_MAX_LEN 140
 #define ICON_SIZE 48
@@ -34,6 +30,7 @@ public slots:
   void resetStatus();
  
   void updateTweets();
+  void openSettings();
   void popupError( const QString &message );
   
 
@@ -41,11 +38,13 @@ public slots:
   
 private:
   void unlockState();
-  ImageThread imageSaver;
+  Core threadingEngine;
   QStandardItemModel model;
   QFontMetrics *fm;
+  QNetworkProxy proxy;
   StatusFilter *filter;
   Ui::MainWindow ui;
+  Ui::Settings ui_s;
 };
 
 #endif //MAINWINDOW_H
