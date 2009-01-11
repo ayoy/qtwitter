@@ -5,6 +5,7 @@
 
 class StatusEdit : public QLineEdit
 {
+  Q_OBJECT
 public:
   StatusEdit( QWidget * parent );
   void focusInEvent( QFocusEvent * event );

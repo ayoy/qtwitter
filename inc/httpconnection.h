@@ -8,7 +8,7 @@
 
 extern QWaitCondition gwc;
 
-class HttpConnection : public QThread {
+class HttpConnection : public QObject {
 
   Q_OBJECT
 
@@ -24,14 +24,12 @@ public:
 public slots:
   virtual void httpRequestFinished( int requestId, bool error ) = 0;
   virtual void readResponseHeader( const QHttpResponseHeader &responseHeader ) = 0;
-  
-  void httpRequestStarted( int requestId );
+  virtual void httpRequestStarted( int requestId );
   void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
 
 signals:
   void dataParsed( const QString& );
   void newEntry( const Entry&, int );
-  void imageDownloaded( const QString&, const QImage& );
   void errorMessage( const QString& );
 
 protected:
@@ -46,6 +44,9 @@ protected:
   QNetworkProxy proxy;
   bool httpRequestAborted;
   int httpGetId;
+  int httpHostId;
+  int httpUserId;
+  int closeId;
 };
 
 #endif //HTTPCONNECTION_H

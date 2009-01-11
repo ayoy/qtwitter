@@ -3,10 +3,10 @@
 
 #include <QMessageBox>
 
+#include "settings.h"
 #include "statusedit.h"
 #include "statusfilter.h"
 #include "ui_mainwindow.h"
-#include "ui_settings.h"
 #include "core.h"
 
 #define STATUS_MAX_LEN 140
@@ -19,7 +19,7 @@ class MainWindow : public QWidget
   Q_OBJECT
 
 public:
-  MainWindow();
+  MainWindow( QTranslator& );
   ~MainWindow();
   void resizeEvent( QResizeEvent *event );
   void checkAlign( int width );
@@ -32,7 +32,6 @@ public slots:
   void updateTweets();
   void openSettings();
   void popupError( const QString &message );
-  
 
   void display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash );
   
@@ -41,10 +40,9 @@ private:
   Core threadingEngine;
   QStandardItemModel model;
   QFontMetrics *fm;
-  QNetworkProxy proxy;
   StatusFilter *filter;
+  Settings *settingsDialog;
   Ui::MainWindow ui;
-  Ui::Settings ui_s;
 };
 
 #endif //MAINWINDOW_H

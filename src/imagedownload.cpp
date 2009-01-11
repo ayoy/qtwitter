@@ -1,8 +1,11 @@
 #include "imagedownload.h"
 
-
 ImageDownload::ImageDownload() : HttpConnection() {
   userImage = 0;
+	m_eventLoop = new QEventLoop( this );
+	//connect( this, SIGNAL(imageDownloaded( const QString&, const QImage& )), m_eventLoop, SLOT( quit() ));
+  //connect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), m_eventLoop, SLOT( quit() ));
+  connect( this, SIGNAL(quitLoop()), m_eventLoop, SLOT( quit() ));
 }
 
 ImageDownload::~ImageDownload() {
@@ -13,19 +16,45 @@ ImageDownload::~ImageDownload() {
 }
 
 void ImageDownload::run() {
-  for (int i = 0; i < count; i++) {
-    qDebug() << "Locking image mutex...";
-    gmutex.lock();
-    gwc.wait( &gmutex );
-    qDebug() << "Setting global condition in imageDownload...";
+  /*//for (int i = 0; i < count; i++) {
+    //gwc.wakeAll();
     qDebug() << "IMAGEDOWNLOAD: running download for " << url.toString();
-    //mutex.lock();
+    blockingThing();
     //get( url.toString() );
     qDebug() << "IMAGEDOWNLOAD: getting... ";
-    //wc.wait( &mutex );
-    gwc.wakeAll();
-    gmutex.unlock();
+  //}*/
+}
+
+void ImageDownload::httpRequestStarted( int requestId ) {
+  qDebug() << httpHostId << requestId << "(in ImageDownload)";
+  if ( requestId == httpHostId ) {
+    qDebug() << "setHost()";
+    return;
   }
+  else if ( requestId == httpUserId ) {
+    qDebug() << "setUser()";
+    return;
+  }
+  else if ( requestId == closeId ) {
+    qDebug() << "close()";
+  }
+  //  if ( requestId != id )
+  qDebug() << "The request" << requestId << "has started\n" << url.toString();
+}
+
+void ImageDownload::blockingThing() {
+//	connect( this, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), m_eventLoop, SLOT( quit() ));
+  //connect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), m_eventLoop, SLOT( quit() ));
+//  connect( this, SIGNAL( quitLoop() ), m_eventLoop, SLOT( quit() ));
+
+  get( url.toString() );
+  qDebug() << "szoke";
+  m_eventLoop->exec( QEventLoop::ExcludeUserInputEvents );
+  qDebug() << "poczekane";
+
+//  disconnect( this, SIGNAL(imageDownloaded( const QString&, const QImage& )), m_eventLoop, SLOT( quit() ));
+  //disconnect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), m_eventLoop, SLOT( quit() ));
+//  disconnect( this, SIGNAL( quitLoop() ), m_eventLoop, SLOT( quit() ));
 }
 
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -59,15 +88,13 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
       delete bytearray;
       bytearray = 0;
     }
-    wc.wakeAll();
-    mutex.unlock();
   }
 }
 
 void ImageDownload::httpRequestFinished(int requestId, bool error)
 {
-  if (requestId != httpGetId)
-    return;
+  closeId = http->close();
+  qDebug() << "HTTP REQUEST FINISHED - ID:" << requestId;
   if (httpRequestAborted) {
     if (buffer) {
       buffer->close();
@@ -90,15 +117,16 @@ void ImageDownload::httpRequestFinished(int requestId, bool error)
   }
   userImage = new QImage();
   userImage->loadFromData( *bytearray, "jpg" );
+  qDebug() << "got it";
   emit imageDownloaded( url.toString(), *userImage );
-  wc.wakeAll();
-  mutex.unlock();
   delete userImage;
   userImage = 0;
 
   delete buffer;
   buffer = 0;
   delete bytearray;
-  bytearray = 0;    
+  bytearray = 0;
+  
+  emit quitLoop();
 }
 

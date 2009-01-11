@@ -27,7 +27,7 @@
 <context>
     <name>HttpConnection</name>
     <message>
-        <location filename="httpconnection.cpp" line="53"/>
+        <location filename="httpconnection.cpp" line="58"/>
         <source>Unable to open device: </source>
         <translation>Nie można otworzyć urządzenia:</translation>
     </message>
@@ -35,7 +35,7 @@
 <context>
     <name>ImageDownload</name>
     <message>
-        <location filename="imagedownload.cpp" line="89"/>
+        <location filename="imagedownload.cpp" line="116"/>
         <source>Download failed: </source>
         <translation>Błąd pobierania:</translation>
     </message>
@@ -43,7 +43,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="118"/>
+        <location filename="mainwindow.cpp" line="121"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -53,19 +53,39 @@
         <translation>qTwitter</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="128"/>
+        <location filename="mainwindow.ui" line="137"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="157"/>
+        <location filename="mainwindow.ui" line="166"/>
         <source>What are you doing?</source>
         <translation>Co teraz robisz?</translation>
     </message>
     <message>
-        <location filename="mainwindow.ui" line="182"/>
+        <location filename="mainwindow.ui" line="194"/>
         <source>140</source>
         <translation>140</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="39"/>
+        <source> characters left</source>
+        <translation> znaków pozostało</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="88"/>
+        <source>Go to twitter.com</source>
+        <translation>Idź do twitter.com</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="108"/>
+        <source>Settings</source>
+        <translation>Ustawienia</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.ui" line="134"/>
+        <source>Update tweets</source>
+        <translation>Aktualizuj statusy</translation>
     </message>
 </context>
 <context>
@@ -76,97 +96,97 @@
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="50"/>
+        <location filename="settings.ui" line="42"/>
         <source>General</source>
         <translation>Ogólne</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="71"/>
+        <location filename="settings.ui" line="63"/>
         <source>Refresh every</source>
         <translation>Odświeżaj co</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="79"/>
+        <location filename="settings.ui" line="71"/>
         <source>3</source>
         <translation>3</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="84"/>
+        <location filename="settings.ui" line="76"/>
         <source>5</source>
         <translation>5</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="89"/>
+        <location filename="settings.ui" line="81"/>
         <source>10</source>
         <translation>10</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="94"/>
+        <location filename="settings.ui" line="86"/>
         <source>15</source>
         <translation>15</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="99"/>
+        <location filename="settings.ui" line="91"/>
         <source>30</source>
         <translation>30</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="104"/>
+        <location filename="settings.ui" line="96"/>
         <source>45</source>
         <translation>45</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="109"/>
+        <location filename="settings.ui" line="101"/>
         <source>60</source>
         <translation>60</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="117"/>
+        <location filename="settings.ui" line="109"/>
         <source>minutes</source>
         <translation>minut</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="124"/>
+        <location filename="settings.ui" line="116"/>
         <source>Language</source>
         <translation>Język</translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="settings.ui" line="135"/>
+        <location filename="settings.ui" line="127"/>
         <source>Català</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="140"/>
+        <location filename="settings.ui" line="132"/>
         <source>English</source>
         <translation></translation>
     </message>
     <message encoding="UTF-8">
-        <location filename="settings.ui" line="145"/>
+        <location filename="settings.ui" line="137"/>
         <source>Español</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="150"/>
+        <location filename="settings.ui" line="142"/>
         <source>Polski</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="182"/>
+        <location filename="settings.ui" line="166"/>
         <source>Network</source>
         <translation>Sieć</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="188"/>
+        <location filename="settings.ui" line="172"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Używaj &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="settings.ui" line="221"/>
+        <location filename="settings.ui" line="205"/>
         <source>Host:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="settings.ui" line="251"/>
+        <location filename="settings.ui" line="235"/>
         <source>Port:</source>
         <translation></translation>
     </message>

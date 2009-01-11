@@ -4,12 +4,14 @@ XmlDownload::XmlDownload() : HttpConnection() {
   connect( &parser, SIGNAL(dataParsed(const QString&)), this, SLOT(forwardDataParsed(const QString&)));
   connect( &parser, SIGNAL(newEntry(const Entry&, int )), this, SLOT(forwardNewEntry(const Entry&, int )));
   connect( &parser, SIGNAL(xmlParsed()), this, SLOT(forwardXmlParsed()));
+//  connect( http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 }
 
 XmlDownload::XmlDownload( int type ) : HttpConnection(), parser( type ) {
   connect( &parser, SIGNAL(dataParsed(const QString&)), this, SLOT(forwardDataParsed(const QString&)));
   connect( &parser, SIGNAL(newEntry(const Entry&, int )), this, SLOT(forwardNewEntry(const Entry&, int )));
   connect( &parser, SIGNAL(xmlParsed()), this, SLOT(forwardXmlParsed()));
+//  connect( http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 }
 
 void XmlDownload::run() {
@@ -48,8 +50,7 @@ void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 
 void XmlDownload::httpRequestFinished(int requestId, bool error)
 {
-  if (requestId != httpGetId)
-    return;
+  closeId = http->close();  
   if (httpRequestAborted) {
     if (buffer) {
       buffer->close();
@@ -80,7 +81,7 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   delete buffer;
   buffer = 0;
   delete bytearray;
-  bytearray = 0;    
+  bytearray = 0;
 }
 
 void XmlDownload::forwardXmlParsed() {

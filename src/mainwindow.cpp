@@ -1,24 +1,26 @@
 #include "mainwindow.h"
 
 
-MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
+MainWindow::MainWindow( QTranslator &_translator ) : QWidget(), model( 0, 0, this )
 {
   ui.setupUi( this );
+  ui.countdownLabel->setToolTip( ui.countdownLabel->text() + tr( " characters left" ) );
   filter = new StatusFilter();
   fm = new QFontMetrics( ui.statusListView->font() );
+  settingsDialog = new Settings( _translator, this );
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
-  proxy.setType( QNetworkProxy::NoProxy );
+//  proxy.setType( QNetworkProxy::NoProxy );
   
   connect( ui.updateButton, SIGNAL( clicked() ), this, SLOT( updateTweets() ) );
-  connect( ui.settingsButton, SIGNAL( clicked() ), this, SLOT( openSettings() ) );
+  connect( ui.settingsButton, SIGNAL( clicked() ), settingsDialog, SLOT( show() ) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( &threadingEngine, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
   connect( &threadingEngine, SIGNAL( readyToDisplay( const QList<Entry>&, const QMap<QString, QImage>& ) ), this, SLOT( display( const QList<Entry>&, const QMap<QString, QImage>& ) ) );
 
-  updateTweets();
+  //updateTweets();
 }
 
 MainWindow::~MainWindow() {
@@ -34,6 +36,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::changeLabel() {
   ui.countdownLabel->setText( QString::number( STATUS_MAX_LEN - ui.statusEdit->text().length() ) );
+  ui.countdownLabel->setToolTip( ui.countdownLabel->text() + tr( " characters left" ) );
 }
 
 void MainWindow::updateTweets() {
@@ -120,8 +123,10 @@ void MainWindow::popupError( const QString &message ) {
 }
 
 void MainWindow::openSettings() {
-  QDialog dlg;
-  ui_s.setupUi(&dlg);
+    
+  //Settings dlg( this );
+  //dlg.exec();
+  /*ui_s.setupUi(&dlg);
   if ( proxy.type() != QNetworkProxy::NoProxy ) {
     ui_s.proxyBox->setChecked( true );
     ui_s.hostEdit->setEnabled( true );
@@ -131,6 +136,7 @@ void MainWindow::openSettings() {
   if ( proxy.port() ) {
     ui_s.portEdit->setText( QString::number( proxy.port() ) );
   }
+  
   if ( dlg.exec() == QDialog::Accepted ) {
     if ( ui_s.proxyBox->isChecked() ) {
       proxy.setType( QNetworkProxy::HttpProxy );
@@ -140,6 +146,6 @@ void MainWindow::openSettings() {
       proxy.setType( QNetworkProxy::NoProxy );
     }
     QNetworkProxy::setApplicationProxy( proxy );
-  }
+  }*/
 }
 

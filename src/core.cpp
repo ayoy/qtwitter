@@ -4,14 +4,13 @@ QWaitCondition gwc;
 QMutex gmutex;
 
 Core::Core() : QThread(), xmlPost( XmlParser::One ) {  
-  connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));
   connect( &xmlGet, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( &xmlPost, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( &imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( &xmlGet, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
   connect( &xmlGet, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
   connect( &xmlPost, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
-  connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));  
+  connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));
 }
 
 void Core::run() {
@@ -23,17 +22,18 @@ void Core::run() {
       saveImage( entries[i].image(), imagesHash[ entries[i].image() ] );
     } else {
       qDebug() << "Noes, iz gonna download...";
-      gmutex.lock();
+      //gmutex.lock();
       imageDownload.setUrl( entries[i].image() );
-      gwc.wakeAll();
-      gwc.wait( &gmutex );
-      gmutex.unlock();
+      imageDownload.blockingThing();
+      qDebug() << "finished waiting ;)";
+      //gwc.wait( &gmutex );
+      qDebug() << "proceeding to next entry";
     }
   }
 }
 
 void Core::get( const QString &path ) {
-  xmlGet.get( path);
+  xmlGet.get( path );
 }
 
 void Core::post( const QString &path, const QByteArray &status ) {
@@ -57,9 +57,7 @@ void Core::addEntry( const Entry &entry, int type )
 void Core::downloadImages() {
   xmlBeingProcessed = false;
   imageDownload.count = entries.size();
-  imageDownload.start();
   start();
-  imageDownload.wait();
   wait();
   emit readyToDisplay( entries, imagesHash );
 }

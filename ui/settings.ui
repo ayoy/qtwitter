@@ -38,14 +38,6 @@
       <bool>true</bool>
      </property>
      <widget class="QWidget" name="general" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>432</width>
-        <height>112</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>General</string>
       </attribute>
@@ -126,7 +118,7 @@
           </widget>
          </item>
          <item row="1" column="1" colspan="2" >
-          <widget class="QComboBox" name="comboBox" >
+          <widget class="QComboBox" name="languageCombo" >
            <property name="currentIndex" >
             <number>1</number>
            </property>
@@ -170,14 +162,6 @@
       </layout>
      </widget>
      <widget class="QWidget" name="network" >
-      <property name="geometry" >
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>432</width>
-        <height>112</height>
-       </rect>
-      </property>
       <attribute name="title" >
        <string>Network</string>
       </attribute>
