@@ -20,10 +20,6 @@ public slots:
 signals:
   void xmlParsed();
 
-
-protected:
-  void run();
-
 private:
   XmlParser parser;
 };

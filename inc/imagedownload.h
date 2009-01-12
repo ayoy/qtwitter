@@ -15,13 +15,12 @@ public:
   ImageDownload();
   ~ImageDownload();
   void blockingThing();
-  
-protected:
-  void run();
+  void syncGet( const QString& path, bool isSync = false );
+
 
 private:
   QImage *userImage;
-  QEventLoop *m_eventLoop;
+  QEventLoop m_eventLoop;
 
 public slots:
   void httpRequestFinished( int requestId, bool error );

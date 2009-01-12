@@ -14,9 +14,6 @@ XmlDownload::XmlDownload( int type ) : HttpConnection(), parser( type ) {
 //  connect( http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
 }
 
-void XmlDownload::run() {
-  
-}
 
 void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
@@ -35,7 +32,7 @@ void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
   default:
     emit errorMessage( "Download failed: " + responseHeader.reasonPhrase() );
     httpRequestAborted = true;
-    http->abort();
+    abort();
     if (buffer) {
       buffer->close();
       delete buffer;
@@ -50,7 +47,7 @@ void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 
 void XmlDownload::httpRequestFinished(int requestId, bool error)
 {
-  closeId = http->close();  
+  closeId = close();
   if (httpRequestAborted) {
     if (buffer) {
       buffer->close();
@@ -69,7 +66,7 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   buffer->close(); 
   
   if (error) {
-    emit errorMessage( "Download failed: " + http->errorString() );
+    emit errorMessage( "Download failed: " + errorString() );
   } else {
     QXmlInputSource source( buffer );
     QXmlSimpleReader xmlReader;

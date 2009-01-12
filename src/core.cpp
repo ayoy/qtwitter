@@ -33,11 +33,11 @@ void Core::run() {
 }
 
 void Core::get( const QString &path ) {
-  xmlGet.get( path );
+  xmlGet.syncGet( path );
 }
 
 void Core::post( const QString &path, const QByteArray &status ) {
-  xmlPost.post( path, status );
+  xmlPost.syncPost( path, status );
 }
 
 void Core::addEntry( const Entry &entry, int type )

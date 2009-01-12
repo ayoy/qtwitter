@@ -1,22 +1,22 @@
 #include "httpconnection.h"
 
-HttpConnection::HttpConnection() : QObject()
+HttpConnection::HttpConnection() : QHttp( ""/*url.host()*/, QHttp::ConnectionModeHttp, 0 )
 {
-  http = new QHttp( url.host(), QHttp::ConnectionModeHttp, 0, this);
-  connect( http, SIGNAL(requestStarted(int)), this, SLOT(httpRequestStarted(int)));  
-  connect( http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
-  connect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
-  connect( http, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
+  //http = new QHttp( url.host(), QHttp::ConnectionModeHttp, 0, this);
+  connect( this, SIGNAL(requestStarted(int)), this, SLOT(httpRequestStarted(int)));
+  connect( this, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
+  connect( this, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
+  connect( this, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
   
   bytearray = 0;
   buffer = 0;
 }
 
 HttpConnection::~HttpConnection() {
-  if ( http ) {
+/*  if ( http ) {
     delete http;
     http = 0;
-  }
+  }*/
   if( buffer ) {
     delete buffer;
     buffer = 0;
@@ -36,11 +36,6 @@ void HttpConnection::httpRequestStarted( int /*requestId*/ ) {
     qDebug() << "setUser()";*/
 }
 
-void HttpConnection::run() {
-  //wc.wakeAll();
-  //qDebug() << "Wait condition released";
-}
-
 void HttpConnection::setUrl( const QString &path ) {
   url.setUrl( path );
 }
@@ -48,7 +43,7 @@ void HttpConnection::setUrl( const QString &path ) {
 QByteArray HttpConnection::prepareRequest( const QString &path ) {
   url.setUrl( path );
   //url.setUrl( "http://s3.amazonaws.com/twitter_production/profile_images/53492115/avatar2_normal.jpg" );
-  httpHostId = http->setHost( url.host(), QHttp::ConnectionModeHttp);
+  httpHostId = setHost( url.host(), QHttp::ConnectionModeHttp);
     
   bytearray = new QByteArray();
   buffer = new QBuffer( bytearray );
@@ -64,9 +59,9 @@ QByteArray HttpConnection::prepareRequest( const QString &path ) {
   }  
   
   if (!url.userName().isEmpty())
-    httpUserId = http->setUser(url.userName(), url.password());
+    httpUserId = setUser(url.userName(), url.password());
   else
-    httpUserId = http->setUser( "", "" );
+    httpUserId = setUser( "", "" );
     
   httpRequestAborted = false;
   QByteArray encodedPath = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
@@ -76,25 +71,26 @@ QByteArray HttpConnection::prepareRequest( const QString &path ) {
   return encodedPath;
 }
 
-void HttpConnection::get( const QString &path )
+bool HttpConnection::syncGet( const QString &path, bool /*isSync*/ )
 {
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
     httpRequestAborted = true;
     return;
   }
-  httpGetId = http->get( encodedPath, buffer );
+  httpGetId = get( encodedPath, buffer );
   qDebug() << httpGetId;
+  return status;
 }
 
-void HttpConnection::post( const QString &path, const QByteArray &status )
+void HttpConnection::syncPost( const QString &path, const QByteArray &status, bool /*isSync*/ )
 {
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
     httpRequestAborted = true;
     return;
   }
-  httpGetId = http->post( encodedPath, status, buffer );
+  httpGetId = post( encodedPath, status, buffer );
   qDebug() << httpGetId;
 }
 

@@ -8,15 +8,15 @@
 
 extern QWaitCondition gwc;
 
-class HttpConnection : public QObject {
+class HttpConnection : public QHttp {
 
   Q_OBJECT
 
 public:
   HttpConnection();
   virtual ~HttpConnection();
-  void get( const QString &path );
-  void post( const QString &path, const QByteArray &status );
+  virtual bool syncGet( const QString &path, bool isSync = false );
+  void syncPost( const QString &path, const QByteArray &status, bool isSync = false );
   void setUrl( const QString &path );
   QWaitCondition wc;
   QMutex mutex;
@@ -33,11 +33,10 @@ signals:
   void errorMessage( const QString& );
 
 protected:
-  virtual void run();
-  void requestFinished( int requestId, bool error );
+  //void requestFinished( int requestId, bool error );
   QByteArray prepareRequest( const QString &path );
 
-  QHttp *http;
+  //QHttp *http;
   QByteArray *bytearray;
   QBuffer *buffer;
   QUrl url;
@@ -47,6 +46,7 @@ protected:
   int httpHostId;
   int httpUserId;
   int closeId;
+  bool status;
 };
 
 #endif //HTTPCONNECTION_H

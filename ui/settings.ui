@@ -1,53 +1,54 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>Settings</class>
- <widget class="QDialog" name="Settings" >
-  <property name="geometry" >
+ <widget class="QDialog" name="Settings">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>462</width>
-    <height>191</height>
+    <width>396</width>
+    <height>193</height>
    </rect>
   </property>
-  <property name="sizePolicy" >
-   <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>Settings</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout" >
-   <item row="2" column="0" >
-    <widget class="QDialogButtonBox" name="buttonBox" >
-     <property name="orientation" >
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="2" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
       <enum>Qt::Horizontal</enum>
      </property>
-     <property name="standardButtons" >
+     <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
      </property>
     </widget>
    </item>
-   <item row="0" column="0" >
-    <widget class="QTabWidget" name="tabs" >
-     <property name="currentIndex" >
+   <item row="0" column="0">
+    <widget class="QTabWidget" name="tabs">
+     <property name="currentIndex">
       <number>0</number>
      </property>
-     <property name="usesScrollButtons" >
+     <property name="usesScrollButtons">
       <bool>true</bool>
      </property>
-     <widget class="QWidget" name="general" >
-      <attribute name="title" >
+     <widget class="QWidget" name="general">
+      <attribute name="title">
        <string>General</string>
       </attribute>
-      <layout class="QHBoxLayout" name="horizontalLayout" >
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <spacer name="horizontalSpacer" >
-         <property name="orientation" >
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>44</width>
            <height>20</height>
@@ -56,89 +57,89 @@
         </spacer>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout_3" >
-         <item row="0" column="0" >
-          <widget class="QLabel" name="label" >
-           <property name="text" >
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label">
+           <property name="text">
             <string>Refresh every</string>
            </property>
           </widget>
          </item>
-         <item row="0" column="1" >
-          <widget class="QComboBox" name="refreshCombo" >
+         <item row="0" column="1">
+          <widget class="QComboBox" name="refreshCombo">
            <item>
-            <property name="text" >
+            <property name="text">
              <string>3</string>
             </property>
            </item>
            <item>
-            <property name="text" >
+            <property name="text">
              <string>5</string>
             </property>
            </item>
            <item>
-            <property name="text" >
+            <property name="text">
              <string>10</string>
             </property>
            </item>
            <item>
-            <property name="text" >
+            <property name="text">
              <string>15</string>
             </property>
            </item>
            <item>
-            <property name="text" >
+            <property name="text">
              <string>30</string>
             </property>
            </item>
            <item>
-            <property name="text" >
+            <property name="text">
              <string>45</string>
             </property>
            </item>
            <item>
-            <property name="text" >
+            <property name="text">
              <string>60</string>
             </property>
            </item>
           </widget>
          </item>
-         <item row="0" column="2" >
-          <widget class="QLabel" name="label_2" >
-           <property name="text" >
+         <item row="0" column="2">
+          <widget class="QLabel" name="label_2">
+           <property name="text">
             <string>minutes</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0" >
-          <widget class="QLabel" name="label_3" >
-           <property name="text" >
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_3">
+           <property name="text">
             <string>Language</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="1" colspan="2" >
-          <widget class="QComboBox" name="languageCombo" >
-           <property name="currentIndex" >
+         <item row="1" column="1" colspan="2">
+          <widget class="QComboBox" name="languageCombo">
+           <property name="currentIndex">
             <number>1</number>
            </property>
            <item>
-            <property name="text" >
+            <property name="text">
              <string>Català</string>
             </property>
            </item>
            <item>
-            <property name="text" >
+            <property name="text">
              <string>English</string>
             </property>
            </item>
            <item>
-            <property name="text" >
+            <property name="text">
              <string>Español</string>
             </property>
            </item>
            <item>
-            <property name="text" >
+            <property name="text">
              <string>Polski</string>
             </property>
            </item>
@@ -147,11 +148,11 @@
         </layout>
        </item>
        <item>
-        <spacer name="horizontalSpacer_2" >
-         <property name="orientation" >
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>44</width>
            <height>20</height>
@@ -161,24 +162,24 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="network" >
-      <attribute name="title" >
+     <widget class="QWidget" name="network">
+      <attribute name="title">
        <string>Network</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_2" >
-       <item row="0" column="0" colspan="3" >
-        <widget class="QCheckBox" name="proxyBox" >
-         <property name="text" >
+      <layout class="QGridLayout" name="gridLayout_2">
+       <item row="0" column="0" colspan="3">
+        <widget class="QCheckBox" name="proxyBox">
+         <property name="text">
           <string>Use HTTP &amp;proxy</string>
          </property>
         </widget>
        </item>
-       <item row="0" column="4" >
-        <spacer name="horizontalSpacer_3" >
-         <property name="orientation" >
+       <item row="0" column="4">
+        <spacer name="horizontalSpacer_3">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>107</width>
            <height>20</height>
@@ -186,12 +187,12 @@
          </property>
         </spacer>
        </item>
-       <item row="1" column="0" >
-        <spacer name="horizontalSpacer_5" >
-         <property name="orientation" >
+       <item row="1" column="0">
+        <spacer name="horizontalSpacer_5">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>40</width>
            <height>20</height>
@@ -199,29 +200,29 @@
          </property>
         </spacer>
        </item>
-       <item row="1" column="1" >
-        <widget class="QLabel" name="hostLabel" >
-         <property name="text" >
+       <item row="1" column="1">
+        <widget class="QLabel" name="hostLabel">
+         <property name="text">
           <string>Host:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="2" colspan="3" >
-        <widget class="QLineEdit" name="hostEdit" >
-         <property name="enabled" >
+       <item row="1" column="2" colspan="3">
+        <widget class="QLineEdit" name="hostEdit">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="text" >
+         <property name="text">
           <string/>
          </property>
         </widget>
        </item>
-       <item row="2" column="2" >
-        <spacer name="horizontalSpacer_4" >
-         <property name="orientation" >
+       <item row="2" column="2">
+        <spacer name="horizontalSpacer_4">
+         <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>
-         <property name="sizeHint" stdset="0" >
+         <property name="sizeHint" stdset="0">
           <size>
            <width>40</width>
            <height>20</height>
@@ -229,25 +230,25 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="3" >
-        <widget class="QLabel" name="portLabel" >
-         <property name="text" >
+       <item row="2" column="3">
+        <widget class="QLabel" name="portLabel">
+         <property name="text">
           <string>Port:</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="4" >
-        <widget class="QLineEdit" name="portEdit" >
-         <property name="enabled" >
+       <item row="2" column="4">
+        <widget class="QLineEdit" name="portEdit">
+         <property name="enabled">
           <bool>false</bool>
          </property>
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
-         <property name="text" >
+         <property name="text">
           <string/>
          </property>
         </widget>
@@ -266,11 +267,11 @@
    <receiver>Settings</receiver>
    <slot>accept()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>257</x>
      <y>171</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>157</x>
      <y>180</y>
     </hint>
@@ -282,11 +283,11 @@
    <receiver>Settings</receiver>
    <slot>reject()</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>300</x>
      <y>171</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>286</x>
      <y>180</y>
     </hint>
@@ -298,11 +299,11 @@
    <receiver>hostEdit</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>80</x>
      <y>51</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>267</x>
      <y>76</y>
     </hint>
@@ -314,11 +315,11 @@
    <receiver>portEdit</receiver>
    <slot>setEnabled(bool)</slot>
    <hints>
-    <hint type="sourcelabel" >
+    <hint type="sourcelabel">
      <x>41</x>
      <y>54</y>
     </hint>
-    <hint type="destinationlabel" >
+    <hint type="destinationlabel">
      <x>189</x>
      <y>117</y>
     </hint>
