@@ -3,18 +3,22 @@
 QWaitCondition gwc;
 QMutex gmutex;
 
-Core::Core() : QThread(), xmlPost( XmlParser::One ) {  
+Core::Core() : QThread(), xmlPost( XmlParser::One ) {
   connect( &xmlGet, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( &xmlPost, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
-  connect( &imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( &xmlGet, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
   connect( &xmlGet, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
   connect( &xmlPost, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
-  connect( &imageDownload, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), this, SLOT( saveImage( const QString&, const QImage& ) ));
 }
 
+Core::~Core() {}
+
 void Core::run() {
-  qDebug() << "Will be downloading images now.";
+  qDebug() << "Will be downloading" << entries.size() << "images now.";
+  imageDownload = new ImageDownload;
+  //imageDownload->count = entries.size();
+  connect( imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
+  connect( imageDownload, SIGNAL( imageDownloaded( const QString&, QImage ) ), this, SLOT( saveImage( const QString&, QImage ) ));
   for ( int i = 0; i < entries.size(); i++ ) {
     qDebug() << i << "image: " << entries[i].image();
     if ( imagesHash.contains( entries[i].image() ) ) {
@@ -22,14 +26,13 @@ void Core::run() {
       saveImage( entries[i].image(), imagesHash[ entries[i].image() ] );
     } else {
       qDebug() << "Noes, iz gonna download...";
-      //gmutex.lock();
-      imageDownload.setUrl( entries[i].image() );
-      imageDownload.blockingThing();
-      qDebug() << "finished waiting ;)";
-      //gwc.wait( &gmutex );
-      qDebug() << "proceeding to next entry";
+      imageDownload->syncGet( entries[i].image(), true );
+      saveImage( entries[i].image(), imageDownload->getUserImage() );
     }
+    qDebug() << "proceeding to next entry";
   }
+  delete imageDownload;
+  imageDownload = NULL;
 }
 
 void Core::get( const QString &path ) {
@@ -56,17 +59,14 @@ void Core::addEntry( const Entry &entry, int type )
 
 void Core::downloadImages() {
   xmlBeingProcessed = false;
-  imageDownload.count = entries.size();
   start();
   wait();
   emit readyToDisplay( entries, imagesHash );
 }
 
-void Core::saveImage ( const QString &imageUrl, const QImage &image ) {
+void Core::saveImage ( const QString &imageUrl, QImage image ) {
   imagesHash[ imageUrl ] = image;
   qDebug() << "setting imagesHash[" << imageUrl << "]";
-  //imageDownload.wc.wakeAll();
-  //mutex.unlock();
 }
 
 void Core::error( const QString &message ) {

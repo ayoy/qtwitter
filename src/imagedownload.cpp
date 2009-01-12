@@ -1,37 +1,37 @@
 #include "imagedownload.h"
 
-ImageDownload::ImageDownload() : HttpConnection() {
-  userImage = 0;
-  //connect( this, SIGNAL(imageDownloaded( const QString&, const QImage& )), m_eventLoop, SLOT( quit() ));
-  //connect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), m_eventLoop, SLOT( quit() ));
-  connect( this, SIGNAL(quitLoop()), &m_eventLoop, SLOT( quit() ) );
-}
+ImageDownload::ImageDownload() : HttpConnection(), userImage( NULL ) {}
 
 ImageDownload::~ImageDownload() {
   if ( userImage ) {
     delete userImage;
-    userImage = 0;
+    userImage = NULL;
   }
 }
 
-void ImageDownload::syncGet( const QString &path, bool isSync )
+bool ImageDownload::syncGet( const QString &path, bool isSync )
 {
+  status = false;
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
     httpRequestAborted = true;
-    return;
+    return status;
+  }
+  if ( userImage ) {
+    delete userImage;
+    userImage = NULL;
   }
   httpGetId = get( encodedPath, buffer );
   if ( isSync ) {
-    qDebug() << "szoke";
-    m_eventLoop.exec( QEventLoop::ExcludeUserInputEvents );
+    getEventLoop.exec( QEventLoop::ExcludeUserInputEvents );
     qDebug() << "poczekane";
   }
   qDebug() << httpGetId;
+  return status;
 }
 
 void ImageDownload::httpRequestStarted( int requestId ) {
-  qDebug() << httpHostId << requestId << "(in ImageDownload)";
+  //qDebug() << httpHostId << requestId << "(in ImageDownload)";
   if ( requestId == httpHostId ) {
     qDebug() << "setHost()";
     return;
@@ -42,32 +42,28 @@ void ImageDownload::httpRequestStarted( int requestId ) {
   }
   if ( requestId == httpGetId ) {
     qDebug() << "get()";
+    qDebug() << "The get() request of id:" << requestId << "has started\n" << url.toString();
     return;
   }
   if ( requestId == closeId ) {
     qDebug() << "close()";
+    if ( !state() ) {
+      getEventLoop.quit();
+    }
   }
   //  if ( requestId != id )
-  qDebug() << "The request" << requestId << "has started\n" << url.toString();
+  //qDebug() << "The request" << requestId << "has started\n" << url.toString();
 }
 
 void ImageDownload::blockingThing() {
-  //connect( this, SIGNAL( imageDownloaded( const QString&, const QImage& ) ), m_eventLoop, SLOT( quit() ));
-  //connect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), m_eventLoop, SLOT( quit() ));
-  //connect( this, SIGNAL( quitLoop() ), m_eventLoop, SLOT( quit() ));
-
   syncGet( url.toString(), true );
-
-  //disconnect( this, SIGNAL(imageDownloaded( const QString&, const QImage& )), m_eventLoop, SLOT( quit() ));
-  //disconnect( http, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), m_eventLoop, SLOT( quit() ));
-  //disconnect( this, SIGNAL( quitLoop() ), m_eventLoop, SLOT( quit() ));
 }
 
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
   qDebug() << "Response for" << url.path();
   qDebug() << "Code is:" << responseHeader.statusCode() << ", status is:" << responseHeader.reasonPhrase() << "\n";
-  switch (responseHeader.statusCode()) {
+  switch ( responseHeader.statusCode() ) {
   case 200:                   // Ok
   case 301:                   // Moved Permanently
   case 302:                   // Found
@@ -76,31 +72,33 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
     // these are not error conditions
     break;
   case 404:                   // Not Found
+    if ( userImage ) {
+      delete userImage;
+      userImage = NULL;
+    }
     userImage = new QImage( ":/icons/icons/noimage.png" );
     emit imageDownloaded( url.toString(), *userImage );
-    delete userImage;
-    userImage = 0;
     break;
+
+
   default:
-    emit errorMessage( "Download failed: " + responseHeader.reasonPhrase() );
+    emit errorMessage( tr( "Download failed: " ) + responseHeader.reasonPhrase() );
     httpRequestAborted = true;
     abort();
-    if (buffer) {
+    if ( buffer ) {
       buffer->close();
       delete buffer;
       buffer = 0;
     }
-    if(bytearray) {
+    if ( bytearray ) {
       delete bytearray;
       bytearray = 0;
     }
   }
 }
 
-void ImageDownload::httpRequestFinished(int requestId, bool error)
+void ImageDownload::httpRequestFinished( int requestId, bool error )
 {
-  closeId = close();
-  qDebug() << "HTTP REQUEST FINISHED - ID:" << requestId;
   if (httpRequestAborted) {
     if (buffer) {
       buffer->close();
@@ -113,26 +111,39 @@ void ImageDownload::httpRequestFinished(int requestId, bool error)
     }
     return;
   }
-  if (requestId != httpGetId)
+  if ( requestId == closeId ) {
+    getEventLoop.quit();
     return;
-  
-  m_eventLoop.exit();
+  }
+  if ( requestId != httpGetId )
+    return;
+
   buffer->close();
-  
+  qDebug() << "HTTP GET REQUEST FINISHED - ID:" << requestId;
   if (error) {
     emit errorMessage( tr("Download failed: ") + errorString() );
   }
-  userImage = new QImage();
-  userImage->loadFromData( *bytearray, "jpg" );
+  userImage = new QImage;
+  qDebug() << url.toString().right(3);
+  userImage->loadFromData( *bytearray );
+  /*if ( !url.toString().right(3).compare( "jpg", Qt::CaseInsensitive )  || !url.toString().right(4).compare( "jpeg", Qt::CaseInsensitive ) ) {
+    userImage->loadFromData( *bytearray, "jpg" );
+  } else if ( !url.toString().right(3).compare( "png", Qt::CaseInsensitive ) ) {
+    userImage->loadFromData( *bytearray, "png" );
+  } else {
+    userImage->loadFromData( ":/icons/icons/noimage.png", "png" );
+  }*/
   qDebug() << "got it";
-  emit imageDownloaded( url.toString(), *userImage );
-  delete userImage;
-  userImage = 0;
 
   delete buffer;
   buffer = 0;
   delete bytearray;
   bytearray = 0;
-  m_eventLoop.exit();
-//  emit quitLoop();
+  status = !error;
+  closeId = close();
+  //getEventLoop.quit();
+}
+
+QImage ImageDownload::getUserImage() {
+  return *userImage;
 }

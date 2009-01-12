@@ -37,6 +37,7 @@ protected:
   QByteArray prepareRequest( const QString &path );
 
   //QHttp *http;
+  bool status;
   QByteArray *bytearray;
   QBuffer *buffer;
   QUrl url;
@@ -46,7 +47,6 @@ protected:
   int httpHostId;
   int httpUserId;
   int closeId;
-  bool status;
 };
 
 #endif //HTTPCONNECTION_H

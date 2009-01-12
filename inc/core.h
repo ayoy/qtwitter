@@ -13,6 +13,7 @@ class Core : public QThread {
 
 public:
   Core();
+  virtual ~Core();
   void get( const QString &path );
   void post( const QString &path, const QByteArray &status );
 
@@ -22,7 +23,7 @@ protected:
 public slots:
 
   void addEntry( const Entry &entry, int type );
-  void saveImage( const QString &imageUrl, const QImage &image );
+  void saveImage( const QString &imageUrl, QImage image );
   void downloadImages();
   void error( const QString &message );
     
@@ -34,7 +35,7 @@ private:
   bool xmlBeingProcessed;
   XmlDownload xmlGet;
   XmlDownload xmlPost;
-  ImageDownload imageDownload;
+  ImageDownload *imageDownload;
   QMap<QString, QImage> imagesHash;
   QList<Entry> entries;
   QStandardItemModel model;

@@ -1,29 +1,23 @@
 #include "httpconnection.h"
 
-HttpConnection::HttpConnection() : QHttp( ""/*url.host()*/, QHttp::ConnectionModeHttp, 0 )
+HttpConnection::HttpConnection() : QHttp( "/*url.host()*/", QHttp::ConnectionModeHttp, 0 ),
+                                   status(false), bytearray( NULL ), buffer( NULL )
 {
   //http = new QHttp( url.host(), QHttp::ConnectionModeHttp, 0, this);
   connect( this, SIGNAL(requestStarted(int)), this, SLOT(httpRequestStarted(int)));
   connect( this, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
   connect( this, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
   connect( this, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
-  
-  bytearray = 0;
-  buffer = 0;
 }
 
 HttpConnection::~HttpConnection() {
-/*  if ( http ) {
-    delete http;
-    http = 0;
-  }*/
   if( buffer ) {
     delete buffer;
-    buffer = 0;
+    buffer = NULL;
   }
   if( bytearray ) {
     delete bytearray;
-    bytearray = 0;
+    bytearray = NULL;
   }
 }
 
@@ -56,7 +50,7 @@ QByteArray HttpConnection::prepareRequest( const QString &path ) {
     delete bytearray;
     bytearray = 0;
     return "invalid";
-  }  
+  }
   
   if (!url.userName().isEmpty())
     httpUserId = setUser(url.userName(), url.password());
@@ -76,7 +70,7 @@ bool HttpConnection::syncGet( const QString &path, bool /*isSync*/ )
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
     httpRequestAborted = true;
-    return;
+    return status;
   }
   httpGetId = get( encodedPath, buffer );
   qDebug() << httpGetId;

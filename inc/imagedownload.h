@@ -15,12 +15,12 @@ public:
   ImageDownload();
   ~ImageDownload();
   void blockingThing();
-  void syncGet( const QString& path, bool isSync = false );
-
+  bool syncGet( const QString& path, bool isSync = false );
+  QImage getUserImage();
 
 private:
   QImage *userImage;
-  QEventLoop m_eventLoop;
+  QEventLoop getEventLoop;
 
 public slots:
   void httpRequestFinished( int requestId, bool error );
@@ -28,8 +28,7 @@ public slots:
   void httpRequestStarted( int requestId );
   
 signals:  
-  void imageDownloaded( const QString&, const QImage& );
-  void quitLoop();
+  void imageDownloaded( const QString&, QImage );
 };
 
 #endif //IMAGEDOWNLOAD_H
