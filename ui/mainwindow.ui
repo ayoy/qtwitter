@@ -91,7 +91,7 @@
         <string>...</string>
        </property>
        <property name="icon" >
-        <iconset resource="resources.qrc" >
+        <iconset resource="../res/resources.qrc" >
          <normaloff>:/icons/icons/home.png</normaloff>:/icons/icons/home.png</iconset>
        </property>
        <property name="iconSize" >
@@ -111,7 +111,7 @@
         <string>...</string>
        </property>
        <property name="icon" >
-        <iconset resource="resources.qrc" >
+        <iconset resource="../res/resources.qrc" >
          <normaloff>:/icons/icons/configure.png</normaloff>:/icons/icons/configure.png</iconset>
        </property>
        <property name="iconSize" >
@@ -137,7 +137,7 @@
         <string>...</string>
        </property>
        <property name="icon" >
-        <iconset resource="resources.qrc" >
+        <iconset resource="../res/resources.qrc" >
          <normaloff>:/icons/icons/reload.png</normaloff>:/icons/icons/reload.png</iconset>
        </property>
        <property name="iconSize" >
@@ -229,7 +229,7 @@
   <tabstop>homeButton</tabstop>
  </tabstops>
  <resources>
-  <include location="resources.qrc" />
+  <include location="../res/resources.qrc" />
  </resources>
  <connections/>
 </ui>

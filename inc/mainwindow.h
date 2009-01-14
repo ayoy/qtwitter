@@ -19,7 +19,7 @@ class MainWindow : public QWidget
   Q_OBJECT
 
 public:
-  MainWindow( QTranslator& );
+  MainWindow();
   ~MainWindow();
   void resizeEvent( QResizeEvent *event );
   void checkAlign( int width );
@@ -30,7 +30,6 @@ public slots:
   void resetStatus();
  
   void updateTweets();
-  void openSettings();
   void popupError( const QString &message );
 
   void display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash );

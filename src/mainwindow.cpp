@@ -1,13 +1,14 @@
 #include "mainwindow.h"
 
 
-MainWindow::MainWindow( QTranslator &_translator ) : QWidget(), model( 0, 0, this )
+MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 {
   ui.setupUi( this );
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + tr( " characters left" ) );
   filter = new StatusFilter();
   fm = new QFontMetrics( ui.statusListView->font() );
-  settingsDialog = new Settings( _translator, this );
+  settingsDialog = new Settings( this );
+  settingsDialog->loadConfig();
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
 //  proxy.setType( QNetworkProxy::NoProxy );
@@ -26,11 +27,11 @@ MainWindow::MainWindow( QTranslator &_translator ) : QWidget(), model( 0, 0, thi
 MainWindow::~MainWindow() {
   if ( filter ) {
     delete filter;
-    filter = 0;
+    filter = NULL;
   }
   if ( fm ) {
     delete fm;
-    fm = 0;
+    fm = NULL;
   }
 }
 
@@ -120,32 +121,5 @@ void MainWindow::unlockState() {
 void MainWindow::popupError( const QString &message ) {
   QMessageBox::information( this, tr("Error"), message );
   unlockState();
-}
-
-void MainWindow::openSettings() {
-    
-  //Settings dlg( this );
-  //dlg.exec();
-  /*ui_s.setupUi(&dlg);
-  if ( proxy.type() != QNetworkProxy::NoProxy ) {
-    ui_s.proxyBox->setChecked( true );
-    ui_s.hostEdit->setEnabled( true );
-    ui_s.portEdit->setEnabled( true );
-  }
-  ui_s.hostEdit->setText( proxy.hostName() );
-  if ( proxy.port() ) {
-    ui_s.portEdit->setText( QString::number( proxy.port() ) );
-  }
-  
-  if ( dlg.exec() == QDialog::Accepted ) {
-    if ( ui_s.proxyBox->isChecked() ) {
-      proxy.setType( QNetworkProxy::HttpProxy );
-      proxy.setHostName( ui_s.hostEdit->text() );
-      proxy.setPort( ui_s.portEdit->text().toInt() );
-    } else {
-      proxy.setType( QNetworkProxy::NoProxy );
-    }
-    QNetworkProxy::setApplicationProxy( proxy );
-  }*/
 }
 

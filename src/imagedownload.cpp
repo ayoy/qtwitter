@@ -51,8 +51,6 @@ void ImageDownload::httpRequestStarted( int requestId ) {
       getEventLoop.quit();
     }
   }
-  //  if ( requestId != id )
-  //qDebug() << "The request" << requestId << "has started\n" << url.toString();
 }
 
 void ImageDownload::blockingThing() {
@@ -126,13 +124,6 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   userImage = new QImage;
   qDebug() << url.toString().right(3);
   userImage->loadFromData( *bytearray );
-  /*if ( !url.toString().right(3).compare( "jpg", Qt::CaseInsensitive )  || !url.toString().right(4).compare( "jpeg", Qt::CaseInsensitive ) ) {
-    userImage->loadFromData( *bytearray, "jpg" );
-  } else if ( !url.toString().right(3).compare( "png", Qt::CaseInsensitive ) ) {
-    userImage->loadFromData( *bytearray, "png" );
-  } else {
-    userImage->loadFromData( ":/icons/icons/noimage.png", "png" );
-  }*/
   qDebug() << "got it";
 
   delete buffer;

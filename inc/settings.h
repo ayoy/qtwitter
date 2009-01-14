@@ -3,6 +3,8 @@
 
 #include <QNetworkProxy>
 #include <QTranslator>
+#include <QFile>
+#include <QSettings>
 #include "ui_settings.h"
 
 class Settings : public QDialog
@@ -10,13 +12,19 @@ class Settings : public QDialog
   Q_OBJECT
 
 public:
-  Settings( QTranslator&, QWidget *parent = 0 );
+  Settings( QWidget *parent = 0 );
   ~Settings();
+  inline QString stateForXML ( QCheckBox* );
+  bool createConfigFile();
+  bool loadConfig();
+  bool saveConfig();
+
 public slots:
   void accept();
   void changeLanguage( const QString& );
+
 private:
-  QTranslator &translator;
+  QFile configFile;
   QNetworkProxy proxy;
   Ui::Settings ui;
 };
