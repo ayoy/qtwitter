@@ -6,6 +6,7 @@
 #include "settings.h"
 #include "statusedit.h"
 #include "statusfilter.h"
+#include "updateslist.h"
 #include "ui_mainwindow.h"
 #include "core.h"
 
@@ -21,8 +22,6 @@ class MainWindow : public QWidget
 public:
   MainWindow();
   ~MainWindow();
-  void resizeEvent( QResizeEvent *event );
-  void checkAlign( int width );
   
 public slots:
   void changeLabel();
@@ -31,11 +30,15 @@ public slots:
  
   void updateTweets();
   void popupError( const QString &message );
+  void popupMenu();
 
   void display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash );
   
 private:
+  void resizeEvent( QResizeEvent* );
+  void checkAlign( int width );
   void unlockState();
+  QMenu *menu;
   Core threadingEngine;
   QStandardItemModel model;
   QFontMetrics *fm;

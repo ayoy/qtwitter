@@ -1,5 +1,7 @@
 #include "mainwindow.h"
+#include "tweet.h"
 
+#include <QMenu>
 
 MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 {
@@ -12,7 +14,18 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
 //  proxy.setType( QNetworkProxy::NoProxy );
-  
+
+  menu = new QMenu( this );
+  QAction *openaction = new QAction("Open", this);
+  QAction *closeaction = new QAction("Close", this);
+  QAction *deleteaction = new QAction("Delete", this);
+  QAction *aboutaction = new QAction("About", this);
+
+  menu->addAction(openaction);
+  menu->addAction(closeaction);
+  menu->addAction(deleteaction);
+  menu->addAction(aboutaction);
+
   connect( ui.updateButton, SIGNAL( clicked() ), this, SLOT( updateTweets() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), settingsDialog, SLOT( show() ) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
@@ -20,8 +33,13 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( &threadingEngine, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
   connect( &threadingEngine, SIGNAL( readyToDisplay( const QList<Entry>&, const QMap<QString, QImage>& ) ), this, SLOT( display( const QList<Entry>&, const QMap<QString, QImage>& ) ) );
+  connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
 
   //updateTweets();
+}
+
+void MainWindow::popupMenu() {
+  menu->exec( QCursor::pos() );
 }
 
 MainWindow::~MainWindow() {
@@ -68,6 +86,7 @@ void MainWindow::checkAlign( int width ) {
     
   int realWidth =  width - SCROLLBAR_MARGIN - ICON_SIZE;
   
+
   QRegExp enter( "\n" );
   QString rest;
   int fontHeight = fm->height();
@@ -91,22 +110,52 @@ void MainWindow::checkAlign( int width ) {
 }
 
 void MainWindow::resizeEvent( QResizeEvent *event ) {
-  checkAlign( event->size().width() );
+  //checkAlign( event->size().width() );
+  if ( model.rowCount() == 0 )
+  return;
+
+  //int realWidth =  width - SCROLLBAR_MARGIN - ICON_SIZE;
+
+
+  QRegExp enter( "\n" );
+  QString rest;
+  int fontHeight = fm->height();
+  int lines;
+  QSize itemSize;
+
+  for ( int i = 0; i < model.rowCount(); i++ ) {
+    Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model.indexFromItem( model.item(i) ) ) );
+    aTweet->resize( aTweet->size().width(), event->size().height() );
+    itemSize = model.item(i)->sizeHint();
+    /*lines = (itemSize.height() - ITEM_SPACING ) / fontHeight - 1; // (field height - 10) / line height - 1 line for username
+    itemSize.rwidth() = realWidth + ICON_SIZE;
+
+    rest = model.item(i)->text().right( model.item(i)->text().length() - enter.indexIn( model.item(i)->text() ) - 1 );
+
+    if ( fm->width( rest ) > lines * realWidth ) {
+      itemSize.rheight() += fontHeight;
+    } else if ( ( lines > 2 ) && ( fm->width( rest ) < (lines-1) * realWidth ) ) {
+      itemSize.rheight() -= fontHeight;
+    }*/
+    model.item(i)->setSizeHint( itemSize );
+  }
 }
 
 void MainWindow::display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash ) {
   model.clear();
   for ( int i = 0; i < entries.size(); i++ ) {
-    QIcon *icon = new QIcon( QPixmap::fromImage( imagesHash[ entries[i].image() ] ) );
-    QStandardItem *newItem = new QStandardItem( entries[i].name() + "\n" + entries[i].text() );
-    newItem->setIcon( *icon );
-    QSize itemSize( ui.statusListView->size().width() - SCROLLBAR_MARGIN, ICON_SIZE + ITEM_SPACING );
-    
-    newItem->setSizeHint( itemSize );
-  
+    //QStandardItem *newItem = new QStandardItem( entries[i].name() + "\n" + entries[i].text() );
+    //QSize itemSize( ui.statusListView->size().width() - SCROLLBAR_MARGIN, ICON_SIZE + ITEM_SPACING );
+    //newItem->setSizeHint( itemSize );
+    //newItem->setIcon( *icon );
+
+    QStandardItem *newItem = new QStandardItem();
+    Tweet *newTweet = new Tweet( entries[i].name(), entries[i].text(), imagesHash[ entries[i].image() ], this );
+    newItem->setSizeHint( newTweet->size() );
     model.appendRow( newItem );
+    ui.statusListView->setIndexWidget( model.indexFromItem( newItem ), newTweet );
   }
-  checkAlign( size().width() );
+  //checkAlign( size().width() );
   unlockState();
 }
 
@@ -122,4 +171,3 @@ void MainWindow::popupError( const QString &message ) {
   QMessageBox::information( this, tr("Error"), message );
   unlockState();
 }
-

@@ -21,8 +21,10 @@ bool ImageDownload::syncGet( const QString &path, bool isSync )
     delete userImage;
     userImage = NULL;
   }
+  qDebug() << "KULKULKULKULKULKUL" << state() << getEventLoop.isRunning() << "sync:" << isSync;
   httpGetId = get( encodedPath, buffer );
   if ( isSync ) {
+    qDebug() << "entering event loop...";
     getEventLoop.exec( QEventLoop::ExcludeUserInputEvents );
     qDebug() << "poczekane";
   }
@@ -46,7 +48,7 @@ void ImageDownload::httpRequestStarted( int requestId ) {
     return;
   }
   if ( requestId == closeId ) {
-    qDebug() << "close()";
+    qDebug() << "close()" << state();
     if ( !state() ) {
       getEventLoop.quit();
     }
