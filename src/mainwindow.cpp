@@ -80,63 +80,18 @@ void MainWindow::resetStatus() {
   }
 }
 
-void MainWindow::checkAlign( int width ) {
+void MainWindow::resizeEvent( QResizeEvent *event ) {
   if ( model.rowCount() == 0 )
     return;
-    
-  int realWidth =  width - SCROLLBAR_MARGIN - ICON_SIZE;
-  
 
-  QRegExp enter( "\n" );
-  QString rest;
-  int fontHeight = fm->height();
-  int lines;
-  QSize itemSize;
-  
-  for ( int i = 0; i < model.rowCount(); i++ ) {
-    itemSize = model.item(i)->sizeHint();
-    lines = (itemSize.height() - ITEM_SPACING ) / fontHeight - 1; // (field height - 10) / line height - 1 line for username
-    itemSize.rwidth() = realWidth + ICON_SIZE;
-
-    rest = model.item(i)->text().right( model.item(i)->text().length() - enter.indexIn( model.item(i)->text() ) - 1 );
-
-    if ( fm->width( rest ) > lines * realWidth ) {
-      itemSize.rheight() += fontHeight;
-    } else if ( ( lines > 2 ) && ( fm->width( rest ) < (lines-1) * realWidth ) ) {
-      itemSize.rheight() -= fontHeight;
-    }
-    model.item(i)->setSizeHint( itemSize );
-  }
-}
-
-void MainWindow::resizeEvent( QResizeEvent *event ) {
-  //checkAlign( event->size().width() );
-  if ( model.rowCount() == 0 )
-  return;
-
-  //int realWidth =  width - SCROLLBAR_MARGIN - ICON_SIZE;
-
-
-  QRegExp enter( "\n" );
-  QString rest;
-  int fontHeight = fm->height();
-  int lines;
   QSize itemSize;
 
   for ( int i = 0; i < model.rowCount(); i++ ) {
     Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model.indexFromItem( model.item(i) ) ) );
-    aTweet->resize( aTweet->size().width(), event->size().height() );
+    aTweet->resize( event->size().width(), aTweet->size().height() );
     itemSize = model.item(i)->sizeHint();
-    /*lines = (itemSize.height() - ITEM_SPACING ) / fontHeight - 1; // (field height - 10) / line height - 1 line for username
-    itemSize.rwidth() = realWidth + ICON_SIZE;
-
-    rest = model.item(i)->text().right( model.item(i)->text().length() - enter.indexIn( model.item(i)->text() ) - 1 );
-
-    if ( fm->width( rest ) > lines * realWidth ) {
-      itemSize.rheight() += fontHeight;
-    } else if ( ( lines > 2 ) && ( fm->width( rest ) < (lines-1) * realWidth ) ) {
-      itemSize.rheight() -= fontHeight;
-    }*/
+    itemSize.rwidth() += event->size().width() - event->oldSize().width();
+    itemSize.rheight() = aTweet->size().height();
     model.item(i)->setSizeHint( itemSize );
   }
 }
@@ -144,18 +99,12 @@ void MainWindow::resizeEvent( QResizeEvent *event ) {
 void MainWindow::display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash ) {
   model.clear();
   for ( int i = 0; i < entries.size(); i++ ) {
-    //QStandardItem *newItem = new QStandardItem( entries[i].name() + "\n" + entries[i].text() );
-    //QSize itemSize( ui.statusListView->size().width() - SCROLLBAR_MARGIN, ICON_SIZE + ITEM_SPACING );
-    //newItem->setSizeHint( itemSize );
-    //newItem->setIcon( *icon );
-
     QStandardItem *newItem = new QStandardItem();
     Tweet *newTweet = new Tweet( entries[i].name(), entries[i].text(), imagesHash[ entries[i].image() ], this );
     newItem->setSizeHint( newTweet->size() );
     model.appendRow( newItem );
     ui.statusListView->setIndexWidget( model.indexFromItem( newItem ), newTweet );
   }
-  //checkAlign( size().width() );
   unlockState();
 }
 
@@ -171,3 +120,4 @@ void MainWindow::popupError( const QString &message ) {
   QMessageBox::information( this, tr("Error"), message );
   unlockState();
 }
+

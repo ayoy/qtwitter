@@ -26,7 +26,10 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>false</bool>
      </property>
     </widget>
    </item>
@@ -121,26 +124,11 @@
          <item row="1" column="1" colspan="2">
           <widget class="QComboBox" name="languageCombo">
            <property name="currentIndex">
-            <number>1</number>
+            <number>0</number>
            </property>
            <item>
             <property name="text">
-             <string>Català</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
              <string>English</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Español</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Polski</string>
             </property>
            </item>
           </widget>

@@ -10,6 +10,12 @@
     <height>68</height>
    </rect>
   </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -32,6 +38,12 @@ border-radius: 0px }</string>
      <width>287</width>
      <height>68</height>
     </rect>
+   </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
    </property>
    <property name="frameShape">
     <enum>QFrame::StyledPanel</enum>
@@ -60,7 +72,7 @@ border-width: 0px;
 border-radius: 0px}</string>
     </property>
     <property name="text">
-     <string/>
+     <string notr="true"/>
     </property>
    </widget>
    <widget class="QTextEdit" name="userStatus">
@@ -102,7 +114,7 @@ border-style: normal }
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Lucida Grande'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TextEdit: Status goes here&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TextEdit: Status goes here here here here herer&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="cursorWidth">
      <number>1</number>
@@ -124,7 +136,7 @@ p, li { white-space: pre-wrap; }
      <string notr="true">QLabel { font: bold }</string>
     </property>
     <property name="text">
-     <string>TextLabel</string>
+     <string notr="true">TextLabel</string>
     </property>
     <property name="textInteractionFlags">
      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>

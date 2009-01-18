@@ -43,47 +43,42 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="121"/>
+        <location filename="../src/mainwindow.cpp" line="120"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="13"/>
+        <location filename="../ui/mainwindow.ui" line="20"/>
         <source>qTwitter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="137"/>
+        <location filename="../ui/mainwindow.ui" line="187"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="166"/>
+        <location filename="../ui/mainwindow.ui" line="219"/>
         <source>What are you doing?</source>
         <translation>Qué estás haciendo ahora?</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="194"/>
-        <source>140</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="39"/>
+        <location filename="../src/mainwindow.cpp" line="58"/>
         <source> characters left</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="88"/>
+        <location filename="../ui/mainwindow.ui" line="138"/>
         <source>Go to twitter.com</source>
         <translation>Ir a twitter.com</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="108"/>
+        <location filename="../ui/mainwindow.ui" line="158"/>
         <source>Settings</source>
         <translation>Configuración</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="134"/>
+        <location filename="../ui/mainwindow.ui" line="181"/>
         <source>Update tweets</source>
         <translation>Actualizar estatutos</translation>
     </message>
@@ -96,97 +91,82 @@
         <translation>Configuración</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="43"/>
+        <location filename="../ui/settings.ui" line="46"/>
         <source>General</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="64"/>
+        <location filename="../ui/settings.ui" line="67"/>
         <source>Refresh every</source>
         <translation>Actualiza cada</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="72"/>
+        <location filename="../ui/settings.ui" line="75"/>
         <source>3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="77"/>
+        <location filename="../ui/settings.ui" line="80"/>
         <source>5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="82"/>
+        <location filename="../ui/settings.ui" line="85"/>
         <source>10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="87"/>
+        <location filename="../ui/settings.ui" line="90"/>
         <source>15</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="92"/>
+        <location filename="../ui/settings.ui" line="95"/>
         <source>30</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="97"/>
+        <location filename="../ui/settings.ui" line="100"/>
         <source>45</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="102"/>
+        <location filename="../ui/settings.ui" line="105"/>
         <source>60</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="110"/>
+        <location filename="../ui/settings.ui" line="113"/>
         <source>minutes</source>
         <translation>minutos</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="117"/>
+        <location filename="../ui/settings.ui" line="120"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
-    <message encoding="UTF-8">
-        <location filename="../ui/settings.ui" line="128"/>
-        <source>Català</source>
-        <translation></translation>
-    </message>
     <message>
-        <location filename="../ui/settings.ui" line="133"/>
+        <location filename="../ui/settings.ui" line="131"/>
         <source>English</source>
-        <translation></translation>
-    </message>
-    <message encoding="UTF-8">
-        <location filename="../ui/settings.ui" line="138"/>
-        <source>Español</source>
-        <translation></translation>
+        <translation>Español</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="143"/>
-        <source>Polski</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../ui/settings.ui" line="167"/>
+        <location filename="../ui/settings.ui" line="155"/>
         <source>Network</source>
         <translation>Red</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="173"/>
+        <location filename="../ui/settings.ui" line="161"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Usar el &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="206"/>
+        <location filename="../ui/settings.ui" line="194"/>
         <source>Host:</source>
         <translation>Servidor:</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="236"/>
+        <location filename="../ui/settings.ui" line="224"/>
         <source>Port:</source>
         <translation>Puerto:</translation>
     </message>
@@ -197,6 +177,23 @@
         <location filename="../src/statusedit.cpp" line="19"/>
         <source>What are you doing?</source>
         <translation>Qué estás haciendo ahora?</translation>
+    </message>
+</context>
+<context>
+    <name>Tweet</name>
+    <message>
+        <location filename="../ui/tweet.ui" line="20"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/tweet.ui" line="113"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TextEdit: Status goes here here here here herer&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

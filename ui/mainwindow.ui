@@ -10,8 +10,17 @@
     <height>245</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>264</width>
+    <height>100</height>
+   </size>
+  </property>
   <property name="windowTitle">
    <string>qTwitter</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -22,6 +31,46 @@
    </property>
    <item>
     <widget class="UpdatesList" name="statusListView">
+     <property name="palette">
+      <palette>
+       <active>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>51</red>
+           <green>51</green>
+           <blue>51</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </active>
+       <inactive>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>51</red>
+           <green>51</green>
+           <blue>51</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </inactive>
+       <disabled>
+        <colorrole role="Base">
+         <brush brushstyle="SolidPattern">
+          <color alpha="255">
+           <red>212</red>
+           <green>208</green>
+           <blue>200</blue>
+          </color>
+         </brush>
+        </colorrole>
+       </disabled>
+      </palette>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="verticalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOn</enum>
      </property>
@@ -108,6 +157,9 @@
        <property name="toolTip">
         <string>Settings</string>
        </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <property name="text">
         <string>...</string>
        </property>
@@ -125,14 +177,11 @@
      </item>
      <item>
       <widget class="QToolButton" name="updateButton">
-       <property name="maximumSize">
-        <size>
-         <width>100</width>
-         <height>100</height>
-        </size>
-       </property>
        <property name="toolTip">
         <string>Update tweets</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <property name="text">
         <string>...</string>
@@ -163,6 +212,9 @@
          <height>32</height>
         </size>
        </property>
+       <property name="styleSheet">
+        <string notr="true">QStatusEdit { background-color: rgb(76, 76, 76) }</string>
+       </property>
        <property name="text">
         <string>What are you doing?</string>
        </property>
@@ -191,8 +243,11 @@
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <property name="text">
-        <string>140</string>
+        <string notr="true">140</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -208,6 +263,9 @@
        </property>
        <property name="openExternalLinks">
         <bool>false</bool>
+       </property>
+       <property name="textInteractionFlags">
+        <set>Qt::NoTextInteraction</set>
        </property>
       </widget>
      </item>

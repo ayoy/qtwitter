@@ -1,5 +1,6 @@
 #include "tweet.h"
 #include "ui_tweet.h"
+#include "mainwindow.h"
 
 #include <QDebug>
 #include <QScrollBar>
@@ -33,14 +34,14 @@ void Tweet::resize( const QSize &s ) {
   QWidget::resize( s );
 }
 
-void Tweet::resize( int w, int h ) {
-  size().setWidth( w );
-  //size().setHeight( h );
-  m_ui->frame->size().setWidth( w );
-  //adjustSize();
+void Tweet::resize( int w, int /*h*/ ) {
+  w -= SCROLLBAR_MARGIN;
+  QWidget::resize( w, size().height() );
+  m_ui->frame->resize( w, size().height() );
+  m_ui->userStatus->resize( size().width() - m_ui->userStatus->geometry().x() - 18, m_ui->userStatus->size().height() );
+  adjustSize();
   qDebug() << "setting width to" << m_ui->frame->size().width();
   qDebug() << "setting height to" << m_ui->frame->size().height();
-  //QWidget::resize( w, h );
 }
 
 void Tweet::adjustSize() {

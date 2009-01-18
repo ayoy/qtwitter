@@ -3,35 +3,13 @@
 #include <QtXml>
 
 Settings::Settings( QWidget *parent ) : QDialog( parent ) {
-/*  QStringList env( QProcess::systemEnvironment() );
-  QString confFileName = env.join( ";" );
 
-#if defined Q_WS_X11 || defined Q_WS_MAC
-  QRegExp homeRX( ".*;HOME=([^;]+);.*", Qt::CaseSensitive );
-#endif
-
-  if ( homeRX.exactMatch( confFileName ) ) {
-    qDebug() << "matches";
-    confFileName = homeRX.cap( 1 );
-  }
-
-#ifdef Q_WS_X11
-  confFileName.append( "/.qtwitter" );
-#endif
-#ifdef Q_WS_MAC
-  confFileName.append( "/.qtwitter" );
-#endif
-#ifdef Q_WS_WIN
-  confFileName.append( "/qtwitter.cfg" );
-#endif
-
-  qDebug() << confFileName;
-  configFile.setFileName( confFileName );
-*/
   QCoreApplication::setOrganizationDomain( "ayoy.net" );
-
+  qApp->installTranslator( &translator );
 
   ui.setupUi( this );
+  ui.languageCombo->setItemData( 0, "en" );
+  createLanguageMenu();
   QIntValidator *portValidator= new QIntValidator( 1, 65535, this );
   ui.portEdit->setValidator( portValidator );
   proxy.setType( QNetworkProxy::NoProxy );
@@ -44,7 +22,7 @@ Settings::Settings( QWidget *parent ) : QDialog( parent ) {
   if ( proxy.port() ) {
     ui.portEdit->setText( QString::number( proxy.port() ) );
   }
-  //connect( ui.languageCombo, SIGNAL( currentIndexChanged( const QString& )), this, SLOT( changeLanguage( const QString& ) ) );
+  connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
 }
 
 Settings::~Settings() {}
@@ -62,39 +40,11 @@ void Settings::accept() {
   QDialog::accept();
 }
 
-void Settings::changeLanguage( const QString& /*lang*/ ) {
-  //qDebug() << "CHANGE LANGUAGE KPLZ";
-  //translator.load( "qtwitter_ca" );
-  //qApp->installTranslator( &translator );
-}
-
 bool createConfigFile() {
   return true;
 }
 
 bool Settings::loadConfig() {
-  /*QDomDocument config( "qtwitter" );
-  bool openConfig = false;
-  if ( configFile.exists() ) {
-    qDebug() << "conf file exists";
-    openConfig = configFile.open( QIODevice::ReadWrite | QIODevice::Text );
-  } else {
-    qDebug() << "conf file not found, creating one";
-    openConfig = configFile.open( QIODevice::WriteOnly | QIODevice::Text );
-  }
-  if ( openConfig ) {
-    QTextStream out( &configFile );
-    config.setContent( &configFile );
-
-    QDomElement docElem = config.documentElement();
-    QDomElement elem = config.createElement( "img" );
-    elem.setAttribute( "src", "myimage.png" );
-    config.appendChild( elem );
-    qDebug() << config.toString().toAscii();
-    out << config.toString();
-    configFile.close();
-  }*/
-
   QSettings settings( "ayoy", "qTwitter" );
 
   settings.beginGroup( "General" );
@@ -113,47 +63,6 @@ bool Settings::loadConfig() {
 }
 
 bool Settings::saveConfig() {
-  /*QDomDocument config( "qtwitter" );
-  if ( configFile.exists() ) {
-    qDebug() << "conf file (" << configFile.fileName() << ") exists";
-  } else {
-    qDebug() << "conf file (" << configFile.fileName() << ") not found, creating one";
-  }
-  if ( configFile.open( QIODevice::WriteOnly | QIODevice::Text ) ) {
-    QTextStream out( &configFile );
-    config.setContent( &configFile );
-
-    QDomElement domSettings = config.createElement( "settings" );
-    QDomElement domGeneral = config.createElement( "general" );
-      QDomElement domRefresh = config.createElement( "refresh" );
-        QDomText domRefreshVal = config.createTextNode( ui.refreshCombo->currentText() );
-    QDomElement domNetwork = config.createElement( "network" );
-      QDomElement domProxy = config.createElement( "proxy" );
-        QDomElement domEnabled = config.createElement( "enabled" );
-          QDomText domEnabledVal = config.createTextNode( stateForXML( ui.proxyBox ) );
-        QDomElement domHost = config.createElement( "host" );
-          QDomText domHostVal = config.createTextNode( ui.hostEdit->text() );
-        QDomElement domPort = config.createElement( "port" );
-          QDomText domPortVal = config.createTextNode( ui.portEdit->text() );
-
-    config.appendChild( domSettings );
-    domSettings.appendChild( domGeneral );
-    domGeneral.appendChild( domRefresh );
-    domRefresh.appendChild( domRefreshVal );
-    domSettings.appendChild( domNetwork );
-    domNetwork.appendChild( domProxy );
-    domProxy.appendChild( domEnabled );
-    domEnabled.appendChild( domEnabledVal );
-    domProxy.appendChild( domHost );
-    domHost.appendChild( domHostVal );
-    domProxy.appendChild( domPort );
-    domPort.appendChild( domPortVal );
-
-    //qDebug() << config.toString().toAscii();
-    //out << config.toString();
-    config.save( out, 2 );
-    configFile.close();
-  }*/
   QSettings settings( "ayoy", "qTwitter" );
 
   settings.beginGroup( "General" );
@@ -176,4 +85,58 @@ QString Settings::stateForXML ( QCheckBox *checkBox ) {
       return "1";
   }
   return "0";
+}
+
+QDir Settings::directoryOf(const QString &subdir)
+{
+    QDir dir(QApplication::applicationDirPath());
+
+#if defined(Q_OS_WIN)
+    if (dir.dirName().toLower() == "debug"
+            || dir.dirName().toLower() == "release")
+        dir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (dir.dirName() == "MacOS") {
+        dir.cdUp();
+        dir.cdUp();
+        dir.cdUp();
+    }
+#endif
+    dir.cd(subdir);
+    return dir;
+}
+
+void Settings::switchLanguage( int index )
+{
+    QString locale = ui.languageCombo->itemData( index ).toString();
+    QString qmPath = directoryOf("loc").absolutePath();
+    qDebug() << "switching locale to" << locale << "from" << qmPath;
+    translator.load( "qtwitter_" + locale, qmPath);
+    retranslateUi();
+}
+
+void Settings::createLanguageMenu()
+{
+    QDir qmDir = directoryOf("loc");
+    QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
+    //ui.languageCombo->addItem( "English", "en" );
+    for (int i = 0; i < fileNames.size(); ++i) {
+        QString locale = fileNames[i];
+        locale.remove(0, locale.indexOf('_') + 1);
+        locale.chop(3);
+
+        QTranslator translator;
+        translator.load(fileNames[i], qmDir.absolutePath());
+        QString language = translator.translate("Settings", "English");
+
+        ui.languageCombo->addItem( language, locale );
+        //if (language == "English")
+        //    action->setChecked(true);
+    }
+}
+
+void Settings::retranslateUi() {
+  ui.label->setText( tr("Refresh every") );
+  ui.label_2->setText( tr("minutes") );
+  ui.label_3->setText( tr("Language") );
 }

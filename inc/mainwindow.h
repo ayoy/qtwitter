@@ -36,7 +36,6 @@ public slots:
   
 private:
   void resizeEvent( QResizeEvent* );
-  void checkAlign( int width );
   void unlockState();
   QMenu *menu;
   Core threadingEngine;
