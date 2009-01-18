@@ -2,6 +2,7 @@
 #include "tweet.h"
 
 #include <QMenu>
+#include <QScrollBar>
 
 MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 {
@@ -31,6 +32,7 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
+  connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( &threadingEngine, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
   connect( &threadingEngine, SIGNAL( readyToDisplay( const QList<Entry>&, const QMap<QString, QImage>& ) ), this, SLOT( display( const QList<Entry>&, const QMap<QString, QImage>& ) ) );
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
@@ -54,8 +56,8 @@ MainWindow::~MainWindow() {
 }
 
 void MainWindow::changeLabel() {
-  ui.countdownLabel->setText( QString::number( STATUS_MAX_LEN - ui.statusEdit->text().length() ) );
-  ui.countdownLabel->setToolTip( ui.countdownLabel->text() + tr( " characters left" ) );
+  ui.countdownLabel->setText( ui.statusEdit->isStatusClean() ? QString::number( STATUS_MAX_LEN ) : QString::number( STATUS_MAX_LEN - ui.statusEdit->text().length() ) );
+  ui.countdownLabel->setToolTip( (ui.statusEdit->isStatusClean() ? QString::number( STATUS_MAX_LEN ) : ui.countdownLabel->text()) + tr( " characters left" ) );
 }
 
 void MainWindow::updateTweets() {
@@ -73,10 +75,8 @@ void MainWindow::sendStatus() {
 }
 
 void MainWindow::resetStatus() {
-  if ( ui.statusEdit->text().length() == 0 )
-  {
-    ui.statusEdit->initialize();
-    ui.countdownLabel->setText( QString::number(STATUS_MAX_LEN) );
+  if ( ui.statusEdit->isStatusClean() ) {
+    changeLabel();
   }
 }
 
@@ -85,10 +85,10 @@ void MainWindow::resizeEvent( QResizeEvent *event ) {
     return;
 
   QSize itemSize;
-
+  int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
   for ( int i = 0; i < model.rowCount(); i++ ) {
     Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model.indexFromItem( model.item(i) ) ) );
-    aTweet->resize( event->size().width(), aTweet->size().height() );
+    aTweet->resize( event->size().width() - scrollBarMargin, aTweet->size().height() );
     itemSize = model.item(i)->sizeHint();
     itemSize.rwidth() += event->size().width() - event->oldSize().width();
     itemSize.rheight() = aTweet->size().height();
@@ -120,4 +120,3 @@ void MainWindow::popupError( const QString &message ) {
   QMessageBox::information( this, tr("Error"), message );
   unlockState();
 }
-

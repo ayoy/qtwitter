@@ -93,7 +93,7 @@
     <message>
         <location filename="../ui/settings.ui" line="46"/>
         <source>General</source>
-        <translation></translation>
+        <translation>General</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="67"/>

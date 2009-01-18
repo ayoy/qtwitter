@@ -1,8 +1,6 @@
 #include "tweet.h"
 #include "ui_tweet.h"
-#include "mainwindow.h"
 
-#include <QDebug>
 #include <QScrollBar>
 
 Tweet::Tweet(QWidget *parent) :
@@ -17,9 +15,8 @@ Tweet::Tweet( const QString &name, const QString &status, const QImage &icon, QW
   m_ui(new Ui::Tweet)
 {
   m_ui->setupUi( this );
-  //connect( m_ui->userStatus, SIGNAL( textChanged() ), this, SLOT( adjustSize() ) );
   m_ui->userName->setText( name );
-  m_ui->userStatus->setText( status );
+  m_ui->userStatus->setHtml( status );
   m_ui->userIcon->setPixmap( QPixmap::fromImage( icon ) );
   adjustSize();
 }
@@ -34,14 +31,11 @@ void Tweet::resize( const QSize &s ) {
   QWidget::resize( s );
 }
 
-void Tweet::resize( int w, int /*h*/ ) {
-  w -= SCROLLBAR_MARGIN;
-  QWidget::resize( w, size().height() );
-  m_ui->frame->resize( w, size().height() );
+void Tweet::resize( int w, int h ) {
+  QWidget::resize( w, h );
+  m_ui->frame->resize( w, h );
   m_ui->userStatus->resize( size().width() - m_ui->userStatus->geometry().x() - 18, m_ui->userStatus->size().height() );
   adjustSize();
-  qDebug() << "setting width to" << m_ui->frame->size().width();
-  qDebug() << "setting height to" << m_ui->frame->size().height();
 }
 
 void Tweet::adjustSize() {

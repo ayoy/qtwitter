@@ -13,6 +13,7 @@ public:
 
 signals:
   void enterPressed();
+  void escPressed();
 
 protected:
   bool eventFilter( QObject *dist, QEvent *event )
@@ -23,6 +24,11 @@ protected:
       if ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return )
       {
         emit enterPressed();
+        return true;
+      }
+      if ( keyEvent->key() == Qt::Key_Escape )
+      {
+        emit escPressed();
         return true;
       }
     }

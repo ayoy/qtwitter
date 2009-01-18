@@ -9,8 +9,13 @@ class StatusEdit : public QLineEdit
 public:
   StatusEdit( QWidget * parent );
   void focusInEvent( QFocusEvent * event );
+  void focusOutEvent( QFocusEvent * event );
   void initialize();
-  
+  inline bool isStatusClean() { return statusClean; }
+
+public slots:
+  void cancelEditing();
+
 private:
   bool statusClean; 
 };

@@ -2,18 +2,15 @@
 #define MAINWINDOW_H
 
 #include <QMessageBox>
+#include <QDockWidget>
 
 #include "settings.h"
 #include "statusedit.h"
 #include "statusfilter.h"
-#include "updateslist.h"
 #include "ui_mainwindow.h"
 #include "core.h"
 
 #define STATUS_MAX_LEN 140
-#define ICON_SIZE 48
-#define SCROLLBAR_MARGIN 20
-#define ITEM_SPACING 10
 
 class MainWindow : public QWidget
 {
