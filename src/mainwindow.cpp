@@ -57,7 +57,7 @@ MainWindow::~MainWindow() {
 
 void MainWindow::changeLabel() {
   ui.countdownLabel->setText( ui.statusEdit->isStatusClean() ? QString::number( STATUS_MAX_LEN ) : QString::number( STATUS_MAX_LEN - ui.statusEdit->text().length() ) );
-  ui.countdownLabel->setToolTip( (ui.statusEdit->isStatusClean() ? QString::number( STATUS_MAX_LEN ) : ui.countdownLabel->text()) + tr( " characters left" ) );
+  ui.countdownLabel->setToolTip( ui.countdownLabel->text() + tr( " characters left" ) );
 }
 
 void MainWindow::updateTweets() {
