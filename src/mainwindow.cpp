@@ -3,6 +3,7 @@
 
 #include <QMenu>
 #include <QScrollBar>
+#include <QMessageBox>
 
 MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 {
@@ -27,6 +28,9 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   menu->addAction(deleteaction);
   menu->addAction(aboutaction);
 
+  qDebug() << qRegisterMetaType<ListOfEntries>( "ListOfEntries" );
+  qDebug() << qRegisterMetaType<MapStringImage>( "MapStringImage" );
+
   connect( ui.updateButton, SIGNAL( clicked() ), this, SLOT( updateTweets() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), settingsDialog, SLOT( show() ) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
@@ -34,7 +38,7 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( &threadingEngine, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
-  connect( &threadingEngine, SIGNAL( readyToDisplay( const QList<Entry>&, const QMap<QString, QImage>& ) ), this, SLOT( display( const QList<Entry>&, const QMap<QString, QImage>& ) ) );
+  connect( &threadingEngine, SIGNAL( readyToDisplay( const ListOfEntries&, const MapStringImage& ) ), this, SLOT( display( const ListOfEntries&, const MapStringImage& ) ) );
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
 
   //updateTweets();
@@ -98,9 +102,11 @@ void MainWindow::resizeEvent( QResizeEvent *event ) {
 
 void MainWindow::display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash ) {
   model.clear();
+  int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
   for ( int i = 0; i < entries.size(); i++ ) {
     QStandardItem *newItem = new QStandardItem();
     Tweet *newTweet = new Tweet( entries[i].name(), entries[i].text(), imagesHash[ entries[i].image() ], this );
+    newTweet->resize( ui.statusListView->width() - scrollBarMargin, newTweet->size().height() );
     newItem->setSizeHint( newTweet->size() );
     model.appendRow( newItem );
     ui.statusListView->setIndexWidget( model.indexFromItem( newItem ), newTweet );

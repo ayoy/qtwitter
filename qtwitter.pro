@@ -9,7 +9,8 @@ SOURCES += src/main.cpp \
     src/imagedownload.cpp \
     src/core.cpp \
     src/settings.cpp \
-    src/tweet.cpp
+    src/tweet.cpp \
+    src/entry.cpp
 HEADERS += inc/mainwindow.h \
     inc/statusfilter.h \
     inc/statusedit.h \

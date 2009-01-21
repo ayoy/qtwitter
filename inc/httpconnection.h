@@ -6,8 +6,6 @@
 
 #include <QtNetwork>
 
-extern QWaitCondition gwc;
-
 class HttpConnection : public QHttp {
 
   Q_OBJECT

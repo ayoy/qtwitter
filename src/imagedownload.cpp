@@ -119,7 +119,6 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
     return;
 
   buffer->close();
-  qDebug() << "HTTP GET REQUEST FINISHED - ID:" << requestId;
   if (error) {
     emit errorMessage( tr("Download failed: ") + errorString() );
   }
@@ -133,8 +132,11 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   delete bytearray;
   bytearray = 0;
   status = !error;
-  closeId = close();
-  //getEventLoop.quit();
+  if ( state() != QHttp::Unconnected ) {
+    closeId = close();
+  } else {
+    getEventLoop.quit();
+  }
 }
 
 QImage ImageDownload::getUserImage() {

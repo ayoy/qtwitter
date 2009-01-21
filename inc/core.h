@@ -7,6 +7,8 @@
 #include "xmldownload.h"
 #include "imagedownload.h"
 
+typedef QList<Entry> ListOfEntries;
+typedef QMap<QString, QImage> MapStringImage;
 
 class Core : public QThread {
   Q_OBJECT
@@ -28,7 +30,7 @@ public slots:
   void error( const QString &message );
     
 signals:
-  void readyToDisplay( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash );
+  void readyToDisplay( const ListOfEntries &entries, const MapStringImage &imagesHash );
   void errorMessage( const QString &message );
   
 private:
@@ -36,8 +38,8 @@ private:
   XmlDownload xmlGet;
   XmlDownload xmlPost;
   ImageDownload *imageDownload;
-  QMap<QString, QImage> imagesHash;
-  QList<Entry> entries;
+  MapStringImage imagesHash;
+  ListOfEntries entries;
   QStandardItemModel model;
 };
 

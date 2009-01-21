@@ -17,7 +17,7 @@ XmlParser::XmlParser( int type ) :
   important( false )
   {
   }
-  
+
 bool XmlParser::startDocument() {
   //qDebug() << "Start of document";
   return true;
@@ -30,13 +30,10 @@ bool XmlParser::endDocument() {
 }
 
 bool XmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ ) {
-  //qDebug() << "Start of element" << qName;
-  
   ( (lastField = checkFieldType( qName )) != None ) ? important = true : important = false;
-  
   /*for( int i = 0; i<atts.length(); ++i ) {
     qDebug() << " " << atts.qName(i) << "=" << atts.value(i);
-  }*/                                                                
+  }*/
   return true;
 }
 
@@ -50,22 +47,18 @@ bool XmlParser::characters( const QString &ch ) {
     if ( lastField == Name && !entry.name().compare( "" ) ) {
       entry.setName( ch );
       //qDebug() << "Setting name  with: " << ch;
-    }
-    if ( lastField == Text && !entry.text().compare( "" ) ) {
+    } else if ( lastField == Text && !entry.text().compare( "" ) ) {
       entry.setText( ch );
       //qDebug() << "Setting text  with: " << ch;
-    }
-    if ( lastField == Image && !entry.image().compare( "" ) ) {
+    } else if ( lastField == Image && !entry.image().compare( "" ) ) {
       entry.setImage( ch );
       //qDebug() << "Setting image with: " << ch;
-    }  
+    }
     if ( entry.checkContents() ) {
       emit newEntry( entry, type );
       lastField = None;
-      entry.setName( "" );
-      entry.setText( "" );
-      entry.setImage( "" );
     }
+    important = false;
   }
   return true;
 }
@@ -77,5 +70,10 @@ int XmlParser::checkFieldType(const QString &element ) {
     return Name;
   if ( !element.compare(USER_PHOTO) )
     return Image;
+  if ( !element.compare( "status" ) ) {
+    entry.setName( "" );
+    entry.setText( "" );
+    entry.setImage( "" );
+  }
   return None;
 }

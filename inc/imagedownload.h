@@ -3,10 +3,6 @@
 
 #include "httpconnection.h"
 
-extern QWaitCondition gwc;
-extern QMutex gmutex;
-
-
 class ImageDownload : public HttpConnection {
   Q_OBJECT
 public:

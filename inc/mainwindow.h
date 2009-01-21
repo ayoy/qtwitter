@@ -1,9 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMessageBox>
-#include <QDockWidget>
-
 #include "settings.h"
 #include "statusedit.h"
 #include "statusfilter.h"
@@ -11,6 +8,9 @@
 #include "core.h"
 
 #define STATUS_MAX_LEN 140
+
+typedef QList<Entry> ListOfEntries;
+typedef QMap<QString, QImage> MapStringImage;
 
 class MainWindow : public QWidget
 {
@@ -29,7 +29,7 @@ public slots:
   void popupError( const QString &message );
   void popupMenu();
 
-  void display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash );
+  void display( const ListOfEntries &entries, const MapStringImage &imagesHash );
   
 private:
   void resizeEvent( QResizeEvent* );

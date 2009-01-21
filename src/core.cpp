@@ -1,8 +1,5 @@
 #include "core.h"
 
-QWaitCondition gwc;
-QMutex gmutex;
-
 Core::Core() : QThread(), xmlPost( XmlParser::One ) {
   connect( &xmlGet, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( &xmlPost, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
@@ -33,6 +30,7 @@ void Core::run() {
   }
   delete imageDownload;
   imageDownload = NULL;
+  emit readyToDisplay( entries, imagesHash );
 }
 
 void Core::get( const QString &path ) {
@@ -60,8 +58,8 @@ void Core::addEntry( const Entry &entry, int type )
 void Core::downloadImages() {
   xmlBeingProcessed = false;
   start();
-  wait();
-  emit readyToDisplay( entries, imagesHash );
+  //wait();
+  //emit readyToDisplay( entries, imagesHash );
 }
 
 void Core::saveImage ( const QString &imageUrl, QImage image ) {

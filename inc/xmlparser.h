@@ -16,6 +16,7 @@ class XmlParser : public QObject, public QXmlDefaultHandler
 private:
   int lastField;
   int type;
+  int sendIn;
   Entry entry;
   bool important;
   int checkFieldType( const QString &element );

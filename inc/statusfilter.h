@@ -1,5 +1,6 @@
 #ifndef STATUSFILTER_H
 #define STATUSFILTER_H
+
 #include <QObject>
 #include <QEvent>
 #include <qevent.h>
