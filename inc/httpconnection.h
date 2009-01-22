@@ -16,8 +16,6 @@ public:
   virtual bool syncGet( const QString &path, bool isSync = false );
   void syncPost( const QString &path, const QByteArray &status, bool isSync = false );
   void setUrl( const QString &path );
-  QWaitCondition wc;
-  QMutex mutex;
   
 public slots:
   virtual void httpRequestFinished( int requestId, bool error ) = 0;

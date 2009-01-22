@@ -12,7 +12,7 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   filter = new StatusFilter();
   fm = new QFontMetrics( ui.statusListView->font() );
   settingsDialog = new Settings( this );
-  settingsDialog->loadConfig();
+  loadConfig();
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
 //  proxy.setType( QNetworkProxy::NoProxy );
@@ -40,7 +40,7 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( &threadingEngine, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
   connect( &threadingEngine, SIGNAL( readyToDisplay( const ListOfEntries&, const MapStringImage& ) ), this, SLOT( display( const ListOfEntries&, const MapStringImage& ) ) );
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
-
+  connect( settingsDialog, SIGNAL( settingsOK() ), this, SLOT( saveConfig() ) );
   //updateTweets();
 }
 
@@ -49,6 +49,7 @@ void MainWindow::popupMenu() {
 }
 
 MainWindow::~MainWindow() {
+  saveConfig();
   if ( filter ) {
     delete filter;
     filter = NULL;
@@ -125,4 +126,59 @@ void MainWindow::unlockState() {
 void MainWindow::popupError( const QString &message ) {
   QMessageBox::information( this, tr("Error"), message );
   unlockState();
+}
+
+void MainWindow::loadConfig() {
+
+#if defined Q_WS_X11 || defined Q_WS_MAC
+  QSettings settings( "ayoy", "qTwitter" );
+#endif
+#if defined Q_WS_WIN
+  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
+#endif
+  settings.beginGroup( "MainWindow" );
+    resize( settings.value( "size", QSize(307, 245) ).toSize() );
+    move( settings.value( "pos", QPoint(500, 300) ).toPoint() );
+  settings.endGroup();
+  settings.beginGroup( "General" );
+    settingsDialog->ui.refreshCombo->setCurrentIndex( settings.value( "refresh" ).toInt() );
+    settingsDialog->ui.languageCombo->setCurrentIndex( settings.value( "languge", 1 ).toInt() );
+  settings.endGroup();
+  settings.beginGroup( "Network" );
+    settings.beginGroup( "Proxy" );
+      settingsDialog->ui.proxyBox->setCheckState( (Qt::CheckState)settings.value( "enabled" ).toInt() );
+      settingsDialog->ui.hostEdit->setText( settings.value( "host" ).toString() );
+      settingsDialog->ui.portEdit->setText( settings.value( "port" ).toString() );
+      settingsDialog->setProxy();
+    settings.endGroup();
+  settings.endGroup();
+
+  settingsDialog->ui.hostEdit->setEnabled( (bool) settingsDialog->ui.proxyBox->checkState() );
+  settingsDialog->ui.portEdit->setEnabled( (bool) settingsDialog->ui.proxyBox->checkState() );
+}
+
+void MainWindow::saveConfig() {
+
+#if defined Q_WS_X11 || defined Q_WS_MAC
+  QSettings settings( "ayoy", "qTwitter" );
+#endif
+#if defined Q_WS_WIN
+  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
+#endif
+  qDebug() << size().width() << size().height();
+  settings.beginGroup( "MainWindow" );
+    settings.setValue( "size", size() );
+    settings.setValue( "pos", pos() );
+  settings.endGroup();
+  settings.beginGroup( "General" );
+    settings.setValue( "refresh", settingsDialog->ui.refreshCombo->currentIndex() );
+    settings.setValue( "language", settingsDialog->ui.languageCombo->currentIndex() );
+  settings.endGroup();
+  settings.beginGroup( "Network" );
+    settings.beginGroup( "Proxy" );
+      settings.setValue( "enabled", settingsDialog->ui.proxyBox->checkState() );
+      settings.setValue( "host", settingsDialog->ui.hostEdit->text() );
+      settings.setValue( "port", settingsDialog->ui.portEdit->text() );
+    settings.endGroup();
+  settings.endGroup();
 }

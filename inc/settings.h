@@ -20,10 +20,13 @@ public:
   bool loadConfig();
   bool saveConfig();
   QDir directoryOf( const QString& );
+  void setProxy();
 
 public slots:
   void accept();
   void switchLanguage( int );
+signals:
+  void settingsOK();
 
 private:
   void createLanguageMenu();
@@ -32,6 +35,7 @@ private:
   QFile configFile;
   QNetworkProxy proxy;
   Ui::Settings ui;
+  friend class MainWindow;
 };
 
 #endif //SETTINGS_H

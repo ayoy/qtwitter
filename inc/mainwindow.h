@@ -30,10 +30,12 @@ public slots:
   void popupMenu();
 
   void display( const ListOfEntries &entries, const MapStringImage &imagesHash );
+  void saveConfig();
   
 private:
   void resizeEvent( QResizeEvent* );
   void unlockState();
+  void loadConfig();
   QMenu *menu;
   Core threadingEngine;
   QStandardItemModel model;

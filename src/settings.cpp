@@ -27,6 +27,12 @@ Settings::Settings( QWidget *parent ) : QDialog( parent ) {
 Settings::~Settings() {}
 
 void Settings::accept() {
+  setProxy();
+  emit settingsOK();
+  QDialog::accept();
+}
+
+void Settings::setProxy() {
   if ( ui.proxyBox->isChecked() ) {
     proxy.setType( QNetworkProxy::HttpProxy );
     proxy.setHostName( ui.hostEdit->text() );
@@ -35,55 +41,6 @@ void Settings::accept() {
     proxy.setType( QNetworkProxy::NoProxy );
   }
   QNetworkProxy::setApplicationProxy( proxy );
-  saveConfig();
-  QDialog::accept();
-}
-
-bool createConfigFile() {
-  return true;
-}
-
-bool Settings::loadConfig() {
-  QSettings settings( "ayoy", "qTwitter" );
-
-  settings.beginGroup( "General" );
-  ui.refreshCombo->setCurrentIndex( settings.value( "refresh" ).toInt() );
-  ui.languageCombo->setCurrentIndex( settings.value( "languge", 0 ).toInt() );
-  settings.endGroup();
-  settings.beginGroup( "Network" );
-  settings.beginGroup( "Proxy" );
-  ui.proxyBox->setCheckState( (Qt::CheckState)settings.value( "enabled" ).toInt() );
-  ui.hostEdit->setText( settings.value( "host" ).toString() );
-  ui.portEdit->setText( settings.value( "port" ).toString() );
-  settings.endGroup();
-  settings.endGroup();
-
-  return true;
-}
-
-bool Settings::saveConfig() {
-  QSettings settings( "ayoy", "qTwitter" );
-
-  settings.beginGroup( "General" );
-  settings.setValue( "refresh", ui.refreshCombo->currentIndex() );
-  settings.setValue( "language", ui.languageCombo->currentIndex() );
-  settings.endGroup();
-  settings.beginGroup( "Network" );
-  settings.beginGroup( "Proxy" );
-  settings.setValue( "enabled", ui.proxyBox->checkState() );
-  settings.setValue( "host", ui.hostEdit->text() );
-  settings.setValue( "port", ui.portEdit->text() );
-  settings.endGroup();
-  settings.endGroup();
-
-  return true;
-}
-
-QString Settings::stateForXML ( QCheckBox *checkBox ) {
-  if ( checkBox->checkState() == Qt::Checked ) {
-      return "1";
-  }
-  return "0";
 }
 
 QDir Settings::directoryOf(const QString &subdir)
