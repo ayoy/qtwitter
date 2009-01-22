@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="pl">
-<defaultcodec></defaultcodec>
 <context>
     <name>AuthDialog</name>
     <message>
@@ -35,7 +34,7 @@
 <context>
     <name>ImageDownload</name>
     <message>
-        <location filename="../src/imagedownload.cpp" line="124"/>
+        <location filename="../src/imagedownload.cpp" line="123"/>
         <source>Download failed: </source>
         <translation>Błąd pobierania:</translation>
     </message>
@@ -43,7 +42,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="120"/>
+        <location filename="../src/mainwindow.cpp" line="127"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -53,12 +52,12 @@
         <translation>qTwitter</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="187"/>
+        <location filename="../ui/mainwindow.ui" line="190"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="219"/>
+        <location filename="../ui/mainwindow.ui" line="222"/>
         <source>What are you doing?</source>
         <translation>Co teraz robisz?</translation>
     </message>
@@ -68,22 +67,22 @@
         <translation type="obsolete">140</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="58"/>
+        <location filename="../src/mainwindow.cpp" line="65"/>
         <source> characters left</source>
         <translation> znaków pozostało</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="138"/>
+        <location filename="../ui/mainwindow.ui" line="141"/>
         <source>Go to twitter.com</source>
         <translation>Idź do twitter.com</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="158"/>
+        <location filename="../ui/mainwindow.ui" line="161"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="181"/>
+        <location filename="../ui/mainwindow.ui" line="184"/>
         <source>Update tweets</source>
         <translation>Aktualizuj statusy</translation>
     </message>
@@ -151,35 +150,65 @@
         <translation>Język</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="131"/>
+        <location filename="../ui/settings.ui" line="134"/>
         <source>English</source>
         <translation>Polski</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="155"/>
+        <location filename="../ui/settings.ui" line="158"/>
         <source>Network</source>
         <translation>Sieć</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="161"/>
+        <location filename="../ui/settings.ui" line="164"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Używaj &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="194"/>
+        <location filename="../ui/settings.ui" line="197"/>
         <source>Host:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="224"/>
+        <location filename="../ui/settings.ui" line="227"/>
         <source>Port:</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="97"/>
+        <source>General </source>
+        <translation>Ogólne</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="98"/>
+        <source>Network </source>
+        <translation>Sieć</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="99"/>
+        <source>Use HTTP proxy</source>
+        <translation type="obsolete">Używaj &amp;proxy HTTP</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="104"/>
+        <source>Apply</source>
+        <translation>Zastosuj</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="105"/>
+        <source>Cancel</source>
+        <translation>Anuluj</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="106"/>
+        <source>OK</source>
+        <translation>OK</translation>
     </message>
 </context>
 <context>
     <name>StatusEdit</name>
     <message>
-        <location filename="../src/statusedit.cpp" line="19"/>
+        <location filename="../src/statusedit.cpp" line="24"/>
         <source>What are you doing?</source>
         <translation>Co teraz robisz?</translation>
     </message>
@@ -189,15 +218,6 @@
     <message>
         <location filename="../ui/tweet.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/tweet.ui" line="113"/>
-        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TextEdit: Status goes here here here here herer&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

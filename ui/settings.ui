@@ -35,9 +35,6 @@
    </item>
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabs">
-     <property name="currentIndex">
-      <number>0</number>
-     </property>
      <property name="usesScrollButtons">
       <bool>true</bool>
      </property>
@@ -125,6 +122,9 @@
           <widget class="QComboBox" name="languageCombo">
            <property name="currentIndex">
             <number>0</number>
+           </property>
+           <property name="insertPolicy">
+            <enum>QComboBox::InsertAlphabetically</enum>
            </property>
            <item>
             <property name="text">

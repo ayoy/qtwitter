@@ -1,5 +1,6 @@
 #include "settings.h"
 
+#include <QPushButton>
 
 Settings::Settings( QWidget *parent ) : QDialog( parent ) {
 
@@ -7,7 +8,7 @@ Settings::Settings( QWidget *parent ) : QDialog( parent ) {
   qApp->installTranslator( &translator );
 
   ui.setupUi( this );
-  ui.languageCombo->setItemData( 0, "en" );
+  connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
   createLanguageMenu();
   QIntValidator *portValidator= new QIntValidator( 1, 65535, this );
   ui.portEdit->setValidator( portValidator );
@@ -21,7 +22,6 @@ Settings::Settings( QWidget *parent ) : QDialog( parent ) {
   if ( proxy.port() ) {
     ui.portEdit->setText( QString::number( proxy.port() ) );
   }
-  connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
 }
 
 Settings::~Settings() {}
@@ -82,11 +82,15 @@ void Settings::createLanguageMenu()
     QTranslator translator;
     translator.load(fileNames[i], qmDir.absolutePath());
     QString language = translator.translate("Settings", "English");
-
+    qDebug() << "adding language" << language << ", locale" << locale;
     ui.languageCombo->addItem( language, locale );
     //if (language == "English")
     //    action->setChecked(true);
   }
+  QString systemLocale = QLocale::system().name();
+  systemLocale.chop(3);
+  qDebug() << systemLocale << ui.languageCombo->findData( systemLocale );
+  ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
 }
 
 void Settings::retranslateUi() {
@@ -95,5 +99,24 @@ void Settings::retranslateUi() {
   ui.label_3->setText( tr("Language") );
   ui.tabs->setTabText( 0, tr( "General " ) );
   ui.tabs->setTabText( 1, tr( "Network " ) );
-  ui.proxyBox->setText( tr( "Use HTTP proxy" ) );
+  ui.proxyBox->setText( tr( "Use HTTP &proxy" ) );
+  ui.hostLabel->setText( tr( "Host:" ) );
+  ui.portLabel->setText( tr( "Port:" ) );
+  ui.network->setWindowTitle( tr( "Network" ) );
+  ui.general->setWindowTitle( tr( "General" ) );
+  ui.buttonBox->button( QDialogButtonBox::Apply )->setText( tr( "Apply" ) );
+  ui.buttonBox->button( QDialogButtonBox::Cancel )->setText( tr( "Cancel" ) );
+  ui.buttonBox->button( QDialogButtonBox::Ok )->setText( tr( "OK" ) );
 }
+
+
+
+
+
+
+
+
+
+
+
+

@@ -142,7 +142,7 @@ void MainWindow::loadConfig() {
   settings.endGroup();
   settings.beginGroup( "General" );
     settingsDialog->ui.refreshCombo->setCurrentIndex( settings.value( "refresh" ).toInt() );
-    settingsDialog->ui.languageCombo->setCurrentIndex( settings.value( "languge", 1 ).toInt() );
+    settingsDialog->ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
