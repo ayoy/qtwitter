@@ -1,6 +1,6 @@
 #include "loopedsignal.h"
 
-LoopedSignal::LoopedSignal( int _period) : QThread(), period ( _period )
+LoopedSignal::LoopedSignal( int _period, QObject *parent ) : QThread( parent ), period ( _period )
 {
   start();
 }

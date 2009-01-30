@@ -38,7 +38,7 @@ private:
   void unlockState();
   void loadConfig();
   QMenu *menu;
-  Core threadingEngine;
+  Core core;
   LoopedSignal *repeat;
   QStandardItemModel model;
   StatusFilter *filter;

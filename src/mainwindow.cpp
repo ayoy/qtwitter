@@ -4,6 +4,8 @@
 #include <QMenu>
 #include <QScrollBar>
 #include <QMessageBox>
+#include <QDesktopWidget>
+#include <QPoint>
 
 MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 {
@@ -36,12 +38,12 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
-  connect( &threadingEngine, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
-  connect( &threadingEngine, SIGNAL( readyToDisplay( const ListOfEntries&, const MapStringImage& ) ), this, SLOT( display( const ListOfEntries&, const MapStringImage& ) ) );
+  connect( &core, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
+  connect( &core, SIGNAL( readyToDisplay( const ListOfEntries&, const MapStringImage& ) ), this, SLOT( display( const ListOfEntries&, const MapStringImage& ) ) );
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
   connect( settingsDialog, SIGNAL( settingsOK() ), this, SLOT( saveConfig() ) );
 
-  repeat = new LoopedSignal( settingsDialog->ui.refreshCombo->currentText().toInt() * 60 );
+  repeat = new LoopedSignal( settingsDialog->ui.refreshCombo->currentText().toInt() * 60, this );
   connect( repeat, SIGNAL( ping() ), this, SLOT( updateTweets() ) );
 
   //updateTweets();
@@ -66,7 +68,7 @@ void MainWindow::changeLabel() {
 
 void MainWindow::updateTweets() {
   ui.updateButton->setEnabled( false );
-  threadingEngine.get( "http://twitter.com/statuses/friends_timeline.xml" );
+  core.get( "http://twitter.com/statuses/friends_timeline.xml" );
 }
 
 void MainWindow::sendStatus() {
@@ -75,7 +77,7 @@ void MainWindow::sendStatus() {
   status.append( "&source=qtwitter" );
   qDebug() << status;
   const QString path("http://twitter.com/statuses/update.xml");
-  threadingEngine.post( path, status );
+  core.post( path, status );
 }
 
 void MainWindow::resetStatus() {
@@ -137,7 +139,14 @@ void MainWindow::loadConfig() {
 #endif
   settings.beginGroup( "MainWindow" );
     resize( settings.value( "size", QSize(307, 245) ).toSize() );
-    move( settings.value( "pos", QPoint(500, 300) ).toPoint() );
+    QPoint offset( settings.value( "pos" ).toPoint() );
+    if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
+      offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
+    }
+    if ( QApplication::desktop()->height() < offset.y() + settings.value( "size" ).toSize().height() ) {
+      offset.setY( QApplication::desktop()->height() - settings.value( "size" ).toSize().height() );
+    }
+    move( offset );
   settings.endGroup();
   settings.beginGroup( "General" );
     settingsDialog->ui.refreshCombo->setCurrentIndex( settings.value( "refresh" ).toInt() );

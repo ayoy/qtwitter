@@ -18,10 +18,7 @@ Tweet::Tweet( const QString &name, const QString &status, const QImage &icon, QW
 {
   m_ui->setupUi( this );
   m_ui->userName->setText( name );
-  qDebug() << "STATUUUUUUUUUUUUUUUUUUUS:\n" << status;
-  //status.replace( QRegExp( "(http://[^ ]+)", Qt::CaseInsensitive ), "<a href=\1>\1</a>" );
   m_ui->userStatus->setHtml( status );
-  //qDebug() << "HTMLLLLLLLLLLLLLLLLLLLLL:\n" << m_ui->userStatus->toHtml();
   m_ui->userIcon->setPixmap( QPixmap::fromImage( icon ) );
   adjustSize();
 }

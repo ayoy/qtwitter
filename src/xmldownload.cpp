@@ -1,19 +1,25 @@
 #include "xmldownload.h"
 
-XmlDownload::XmlDownload() : HttpConnection() {
+XmlDownload::XmlDownload( QPair<QString,QString> _authData, QObject *whereToConnectTo, bool isForGet ) : HttpConnection(), authData( _authData ) {
+  createConnections( whereToConnectTo, isForGet );
+}
+
+XmlDownload::XmlDownload( QPair<QString,QString> _authData, int type, QObject *whereToConnectTo, bool isForGet ) : HttpConnection(), authData( _authData ), parser( type ) {
+  createConnections( whereToConnectTo, isForGet );
+}
+
+void XmlDownload::createConnections( QObject *whereToConnectTo, bool isForGet ) {
   connect( &parser, SIGNAL(dataParsed(const QString&)), this, SIGNAL(dataParsed(const QString&)));
   connect( &parser, SIGNAL(newEntry(const Entry&, int )), this, SIGNAL(newEntry(const Entry&, int )));
   connect( &parser, SIGNAL(xmlParsed()), this, SIGNAL(xmlParsed()));
-//  connect( http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
+  connect( this, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
+  connect( this, SIGNAL( errorMessage( const QString& ) ), whereToConnectTo, SLOT( error( const QString& ) ) );
+  connect( this, SIGNAL( newEntry( const Entry&, int ) ), whereToConnectTo, SLOT( addEntry( const Entry&, int ) ));
+  connect( this, SIGNAL( cookieReceived( const QStringList ) ), whereToConnectTo, SLOT(storeCookie(QStringList)) );
+  if ( isForGet ) {
+    connect( this, SIGNAL( xmlParsed() ), whereToConnectTo, SLOT( downloadImages() ) );
+  }
 }
-
-XmlDownload::XmlDownload( int type ) : HttpConnection(), parser( type ) {
-  connect( &parser, SIGNAL(dataParsed(const QString&)), this, SIGNAL(dataParsed(const QString&)));
-  connect( &parser, SIGNAL(newEntry(const Entry&, int )), this, SIGNAL(newEntry(const Entry&, int )));
-  connect( &parser, SIGNAL(xmlParsed()), this, SIGNAL(xmlParsed()));
-//  connect( http, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
-}
-
 
 void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
@@ -81,5 +87,11 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   buffer = 0;
   delete bytearray;
   bytearray = 0;
+}
+
+void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, quint16, QAuthenticator *authenticator)
+{
+  authenticator->setUser( authData.first );
+  authenticator->setPassword( authData.second );
 }
 

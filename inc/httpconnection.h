@@ -5,6 +5,7 @@
 #include "xmlparser.h"
 
 #include <QtNetwork>
+#include <QPair>
 
 class HttpConnection : public QHttp {
 
@@ -21,7 +22,6 @@ public slots:
   virtual void httpRequestFinished( int requestId, bool error ) = 0;
   virtual void readResponseHeader( const QHttpResponseHeader &responseHeader ) = 0;
   virtual void httpRequestStarted( int requestId );
-  void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
 
 signals:
   void dataParsed( const QString& );

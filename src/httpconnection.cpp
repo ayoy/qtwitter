@@ -9,7 +9,6 @@ HttpConnection::HttpConnection() : QHttp( "/*url.host()*/", QHttp::ConnectionMod
   connect( this, SIGNAL(requestStarted(int)), this, SLOT(httpRequestStarted(int)));
   connect( this, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
   connect( this, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
-  connect( this, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
 }
 
 HttpConnection::~HttpConnection() {
@@ -75,7 +74,7 @@ bool HttpConnection::syncGet( const QString &path, bool /*isSync*/, QStringList 
     httpRequestAborted = true;
     return status;
   }
-  QHttpRequestHeader *getHeader = new QHttpRequestHeader( "GET", QString( encodedPath ) );
+/*  QHttpRequestHeader *getHeader = new QHttpRequestHeader( "GET", QString( encodedPath ) );
   getHeader->setValue( "Host", url.host() );
   getHeader->setValue( "Connection", "Keep-Alive" );
   if ( !cookie.isEmpty() ) {
@@ -83,9 +82,10 @@ bool HttpConnection::syncGet( const QString &path, bool /*isSync*/, QStringList 
       getHeader->addValue( "Cookie", *i );
     }
   }
-  qDebug() << "header:" << getHeader->toString() << getHeader->isValid();
-  httpGetId = request( *getHeader, 0, buffer );
-  //httpGetId = get( encodedPath, buffer );
+  qDebug() << "header:" << getHeader->toString() << getHeader->isValid();*/
+
+//  httpGetId = request( *getHeader, 0, buffer );
+  httpGetId = get( encodedPath, buffer );
   qDebug() << httpGetId << status;
   return status;
 }
@@ -97,12 +97,16 @@ void HttpConnection::syncPost( const QString &path, const QByteArray &status, bo
     httpRequestAborted = true;
     return;
   }
+
   httpGetId = post( encodedPath, status, buffer );
   qDebug() << httpGetId;
 }
 
-void HttpConnection::slotAuthenticationRequired(const QString & /* hostName */, quint16, QAuthenticator *authenticator)
+/*void HttpConnection::slotAuthenticationRequired(const QString & hostName , quint16, QAuthenticator *authenticator)
 {
+  authenticator->setUser( authData.first );
+  authenticator->setPassword( authData.second );
+
   QDialog dlg;
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
@@ -111,4 +115,4 @@ void HttpConnection::slotAuthenticationRequired(const QString & /* hostName */, 
     authenticator->setUser( ui.loginEdit->text() );
     authenticator->setPassword( ui.passwordEdit->text() );
   }
-}
+}*/

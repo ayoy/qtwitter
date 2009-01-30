@@ -2,6 +2,7 @@
 #define CORE_H
 
 #include <QStandardItemModel>
+#include <QPair>
 
 #include "entry.h"
 #include "xmldownload.h"
@@ -24,6 +25,7 @@ protected:
 
 public slots:
 
+  void setAuthData();
   void addEntry( const Entry &entry, int type );
   void saveImage( const QString &imageUrl, QImage image );
   void downloadImages();
@@ -41,6 +43,7 @@ private:
   ImageDownload *imageDownload;
   MapStringImage imagesHash;
   ListOfEntries entries;
+  QPair<QString,QString> authData;
   QStringList cookie;
   QStandardItemModel model;
 };

@@ -21,7 +21,6 @@ bool ImageDownload::syncGet( const QString &path, bool isSync )
     delete userImage;
     userImage = NULL;
   }
-  qDebug() << "KULKULKULKULKULKUL" << state() << getEventLoop.isRunning() << "sync:" << isSync;
   httpGetId = get( encodedPath, buffer );
   if ( isSync ) {
     qDebug() << "entering event loop...";
@@ -34,7 +33,7 @@ bool ImageDownload::syncGet( const QString &path, bool isSync )
 
 void ImageDownload::httpRequestStarted( int requestId ) {
   //qDebug() << httpHostId << requestId << "(in ImageDownload)";
-  if ( requestId == httpHostId ) {
+  /*if ( requestId == httpHostId ) {
     qDebug() << "setHost()";
     return;
   }
@@ -46,7 +45,7 @@ void ImageDownload::httpRequestStarted( int requestId ) {
     qDebug() << "get()";
     qDebug() << "The get() request of id:" << requestId << "has started\n" << url.toString();
     return;
-  }
+  }*/
   if ( requestId == closeId ) {
     qDebug() << "close()" << state();
     if ( !state() ) {
@@ -125,7 +124,6 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   userImage = new QImage;
   qDebug() << url.toString().right(3);
   userImage->loadFromData( *bytearray );
-  qDebug() << "got it";
 
   delete buffer;
   buffer = 0;
