@@ -28,6 +28,7 @@ public slots:
   void saveImage( const QString &imageUrl, QImage image );
   void downloadImages();
   void error( const QString &message );
+  void storeCookie( const QStringList );
     
 signals:
   void readyToDisplay( const ListOfEntries &entries, const MapStringImage &imagesHash );
@@ -40,6 +41,7 @@ private:
   ImageDownload *imageDownload;
   MapStringImage imagesHash;
   ListOfEntries entries;
+  QStringList cookie;
   QStandardItemModel model;
 };
 

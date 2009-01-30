@@ -13,8 +13,8 @@ class HttpConnection : public QHttp {
 public:
   HttpConnection();
   virtual ~HttpConnection();
-  virtual bool syncGet( const QString &path, bool isSync = false );
-  void syncPost( const QString &path, const QByteArray &status, bool isSync = false );
+  virtual bool syncGet( const QString &path, bool isSync = false, QStringList cookie = QStringList() );
+  void syncPost( const QString &path, const QByteArray &status, bool isSync = false, QStringList cookie = QStringList() );
   void setUrl( const QString &path );
   
 public slots:

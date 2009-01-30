@@ -16,6 +16,7 @@ public slots:
 
 signals:
   void xmlParsed();
+  void cookieReceived( const QStringList );
 
 private:
   XmlParser parser;

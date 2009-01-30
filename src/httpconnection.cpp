@@ -1,5 +1,7 @@
 #include "httpconnection.h"
 
+#include <QHttpRequestHeader>
+
 HttpConnection::HttpConnection() : QHttp( "/*url.host()*/", QHttp::ConnectionModeHttp, 0 ),
                                    status(false), bytearray( NULL ), buffer( NULL )
 {
@@ -23,7 +25,8 @@ HttpConnection::~HttpConnection() {
 
 void HttpConnection::httpRequestStarted( int /*requestId*/ ) {
 //  qDebug() << httpHostId << requestId << "(in HttpConnection)";
-  qDebug() << "The request has started";
+  qDebug() << currentRequest().toString() << currentRequest().isValid();
+//  qDebug() << "The request has started";
 /*  if ( requestId == httpHostId )
     qDebug() << "setHost()";
   else if ( requestId == httpUserId )
@@ -65,19 +68,29 @@ QByteArray HttpConnection::prepareRequest( const QString &path ) {
   return encodedPath;
 }
 
-bool HttpConnection::syncGet( const QString &path, bool /*isSync*/ )
+bool HttpConnection::syncGet( const QString &path, bool /*isSync*/, QStringList cookie )
 {
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
     httpRequestAborted = true;
     return status;
   }
-  httpGetId = get( encodedPath, buffer );
+  QHttpRequestHeader *getHeader = new QHttpRequestHeader( "GET", QString( encodedPath ) );
+  getHeader->setValue( "Host", url.host() );
+  getHeader->setValue( "Connection", "Keep-Alive" );
+  if ( !cookie.isEmpty() ) {
+    for ( QStringList::iterator i = cookie.begin(); i != cookie.end(); ++i ) {
+      getHeader->addValue( "Cookie", *i );
+    }
+  }
+  qDebug() << "header:" << getHeader->toString() << getHeader->isValid();
+  httpGetId = request( *getHeader, 0, buffer );
+  //httpGetId = get( encodedPath, buffer );
   qDebug() << httpGetId << status;
   return status;
 }
 
-void HttpConnection::syncPost( const QString &path, const QByteArray &status, bool /*isSync*/ )
+void HttpConnection::syncPost( const QString &path, const QByteArray &status, bool /*isSync*/, QStringList /*cookie = QString()*/ )
 {
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {

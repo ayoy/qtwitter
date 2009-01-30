@@ -1,5 +1,7 @@
 #include "core.h"
 
+#include <QHttpRequestHeader>
+
 Core::Core() : QThread(), xmlGet( NULL), xmlPost( NULL ) {/*xmlPost( XmlParser::One ) {
   connect( &xmlGet, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( &xmlPost, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
@@ -31,10 +33,12 @@ void Core::run() {
   delete imageDownload;
   imageDownload = NULL;
   if ( xmlPost ) {
+    qDebug() << "destroying xmlPost";
     delete xmlPost;
     xmlPost = NULL;
   }
   if ( xmlGet ) {
+    qDebug() << "destroying xmlGet";
     delete xmlGet;
     xmlGet = NULL;
   }
@@ -46,14 +50,16 @@ void Core::get( const QString &path ) {
   connect( xmlGet, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( xmlGet, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
   connect( xmlGet, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
-  xmlGet->syncGet( path );
+  connect( xmlGet, SIGNAL( cookieReceived( const QStringList ) ), this, SLOT(storeCookie(QStringList)) );
+  xmlGet->syncGet( path, false, cookie );
 }
 
 void Core::post( const QString &path, const QByteArray &status ) {
   xmlPost = new XmlDownload( XmlParser::One );
   connect( xmlPost, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( xmlPost, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
-  xmlPost->syncPost( path, status );
+  connect( xmlPost, SIGNAL( cookieReceived( const QStringList ) ), this, SLOT(storeCookie(QStringList)) );
+  xmlPost->syncPost( path, status, false, cookie );
   //  xmlPost.syncPost( path, status );
 }
 
@@ -85,6 +91,10 @@ void Core::downloadImages() {
 void Core::saveImage ( const QString &imageUrl, QImage image ) {
   imagesHash[ imageUrl ] = image;
   qDebug() << "setting imagesHash[" << imageUrl << "]";
+}
+
+void Core::storeCookie( const QStringList newCookie ) {
+  cookie = newCookie;
 }
 
 void Core::error( const QString &message ) {
