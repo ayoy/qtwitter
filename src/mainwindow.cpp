@@ -10,7 +10,6 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   ui.setupUi( this );
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + tr( " characters left" ) );
   filter = new StatusFilter();
-  fm = new QFontMetrics( ui.statusListView->font() );
   settingsDialog = new Settings( this );
   loadConfig();
   ui.statusEdit->installEventFilter( filter );
@@ -41,6 +40,10 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( &threadingEngine, SIGNAL( readyToDisplay( const ListOfEntries&, const MapStringImage& ) ), this, SLOT( display( const ListOfEntries&, const MapStringImage& ) ) );
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
   connect( settingsDialog, SIGNAL( settingsOK() ), this, SLOT( saveConfig() ) );
+
+  repeat = new LoopedSignal( settingsDialog->ui.refreshCombo->currentText().toInt() * 60 );
+  connect( repeat, SIGNAL( ping() ), this, SLOT( updateTweets() ) );
+
   //updateTweets();
 }
 
@@ -53,10 +56,6 @@ MainWindow::~MainWindow() {
   if ( filter ) {
     delete filter;
     filter = NULL;
-  }
-  if ( fm ) {
-    delete fm;
-    fm = NULL;
   }
 }
 
@@ -181,4 +180,7 @@ void MainWindow::saveConfig() {
       settings.setValue( "port", settingsDialog->ui.portEdit->text() );
     settings.endGroup();
   settings.endGroup();
+
+  repeat->setPeriod( settingsDialog->ui.refreshCombo->currentText().toInt() * 60 );
+
 }

@@ -17,6 +17,7 @@ XmlDownload::XmlDownload( int type ) : HttpConnection(), parser( type ) {
 
 void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
+  qDebug() << responseHeader.allValues( "Set-Cookie" );
   qDebug() << url.path();
   qDebug() << responseHeader.statusCode() << ": " << responseHeader.reasonPhrase() << "\n";
   switch (responseHeader.statusCode()) {

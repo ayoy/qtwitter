@@ -23,7 +23,7 @@ HttpConnection::~HttpConnection() {
 
 void HttpConnection::httpRequestStarted( int /*requestId*/ ) {
 //  qDebug() << httpHostId << requestId << "(in HttpConnection)";
-//  qDebug() << "The request" << requestId << "has started";
+  qDebug() << "The request has started";
 /*  if ( requestId == httpHostId )
     qDebug() << "setHost()";
   else if ( requestId == httpUserId )
@@ -73,7 +73,7 @@ bool HttpConnection::syncGet( const QString &path, bool /*isSync*/ )
     return status;
   }
   httpGetId = get( encodedPath, buffer );
-  qDebug() << httpGetId;
+  qDebug() << httpGetId << status;
   return status;
 }
 

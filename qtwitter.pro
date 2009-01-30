@@ -10,7 +10,8 @@ SOURCES += src/main.cpp \
     src/core.cpp \
     src/settings.cpp \
     src/tweet.cpp \
-    src/entry.cpp
+    src/entry.cpp \
+    src/loopedsignal.cpp
 HEADERS += inc/mainwindow.h \
     inc/statusfilter.h \
     inc/statusedit.h \
@@ -22,7 +23,8 @@ HEADERS += inc/mainwindow.h \
     inc/core.h \
     inc/settings.h \
     inc/updateslist.h \
-    inc/tweet.h
+    inc/tweet.h \
+    inc/loopedsignal.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
@@ -37,4 +39,5 @@ UI_DIR = tmp
 MOC_DIR = tmp
 RCC_DIR = tmp
 OBJECTS_DIR = tmp
-INCLUDEPATH = inc
+INCLUDEPATH = inc \
+    tmp

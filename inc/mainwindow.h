@@ -4,6 +4,7 @@
 #include "settings.h"
 #include "statusedit.h"
 #include "statusfilter.h"
+#include "loopedsignal.h"
 #include "ui_mainwindow.h"
 #include "core.h"
 
@@ -38,8 +39,8 @@ private:
   void loadConfig();
   QMenu *menu;
   Core threadingEngine;
+  LoopedSignal *repeat;
   QStandardItemModel model;
-  QFontMetrics *fm;
   StatusFilter *filter;
   Settings *settingsDialog;
   Ui::MainWindow ui;

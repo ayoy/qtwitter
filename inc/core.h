@@ -35,8 +35,8 @@ signals:
   
 private:
   bool xmlBeingProcessed;
-  XmlDownload xmlGet;
-  XmlDownload xmlPost;
+  XmlDownload *xmlGet;
+  XmlDownload *xmlPost;
   ImageDownload *imageDownload;
   MapStringImage imagesHash;
   ListOfEntries entries;

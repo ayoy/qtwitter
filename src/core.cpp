@@ -1,12 +1,12 @@
 #include "core.h"
 
-Core::Core() : QThread(), xmlPost( XmlParser::One ) {
+Core::Core() : QThread(), xmlGet( NULL), xmlPost( NULL ) {/*xmlPost( XmlParser::One ) {
   connect( &xmlGet, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( &xmlPost, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
   connect( &xmlGet, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
   connect( &xmlGet, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
   connect( &xmlPost, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
-}
+*/}
 
 Core::~Core() {}
 
@@ -30,15 +30,31 @@ void Core::run() {
   }
   delete imageDownload;
   imageDownload = NULL;
+  if ( xmlPost ) {
+    delete xmlPost;
+    xmlPost = NULL;
+  }
+  if ( xmlGet ) {
+    delete xmlGet;
+    xmlGet = NULL;
+  }
   emit readyToDisplay( entries, imagesHash );
 }
 
 void Core::get( const QString &path ) {
-  xmlGet.syncGet( path );
+  xmlGet = new XmlDownload;
+  connect( xmlGet, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
+  connect( xmlGet, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
+  connect( xmlGet, SIGNAL( xmlParsed() ), this, SLOT( downloadImages() ) );
+  xmlGet->syncGet( path );
 }
 
 void Core::post( const QString &path, const QByteArray &status ) {
-  xmlPost.syncPost( path, status );
+  xmlPost = new XmlDownload( XmlParser::One );
+  connect( xmlPost, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
+  connect( xmlPost, SIGNAL( newEntry( const Entry&, int ) ), this, SLOT( addEntry( const Entry&, int ) ));
+  xmlPost->syncPost( path, status );
+  //  xmlPost.syncPost( path, status );
 }
 
 void Core::addEntry( const Entry &entry, int type )
@@ -56,6 +72,10 @@ void Core::addEntry( const Entry &entry, int type )
 }
 
 void Core::downloadImages() {
+  /*if ( xmlGet ) {
+    delete xmlGet;
+    xmlGet = NULL;
+  }*/
   xmlBeingProcessed = false;
   start();
   //wait();

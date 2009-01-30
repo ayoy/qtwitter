@@ -8,7 +8,16 @@ Features summary:
   - HTTP proxy support,
   - being recognized as a source of updates.
 
-The to-do list for now includes getting deeply into http request processing, as it makes application crash in some circumstances. Also, a clear i18n scheme has to be implemented, as for now it's just a huge mess... I'm still working on everything, but having work and living a real life, apart from programming, I can't devote too much time to having fun with Qt <- as this is what I mainly look for in writing this app :) Thanks for your time reading this and trying qTwitter!
+To-do list for now:
+  * cookie-based session storing,
+  * settings section correction and extension,
+  * tray icon,
+  * support for hyperlinks,
+  * i18n scheme correction,
+  * ...?
+
+
+Thanks for your time reading this and trying qTwitter!
 
 ayoy
 
