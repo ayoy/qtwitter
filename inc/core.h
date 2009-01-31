@@ -2,7 +2,7 @@
 #define CORE_H
 
 #include <QStandardItemModel>
-#include <QPair>
+#include <QAuthenticator>
 
 #include "entry.h"
 #include "xmldownload.h"
@@ -43,7 +43,7 @@ private:
   ImageDownload *imageDownload;
   MapStringImage imagesHash;
   ListOfEntries entries;
-  QPair<QString,QString> authData;
+  QAuthenticator authData;
   QStringList cookie;
   QStandardItemModel model;
 };

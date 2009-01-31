@@ -2,14 +2,14 @@
 #define XMLDOWNLOAD_H
 
 #include "httpconnection.h"
-#include <QPair>
+#include <QAuthenticator>
 
 class XmlDownload : public HttpConnection {
   Q_OBJECT
 
 public:
-  XmlDownload( QPair<QString,QString> _authData, QObject *whereToConnectTo, bool isForGet = false );
-  XmlDownload( QPair<QString,QString> _authData, int type, QObject *whereToConnectTo, bool isForGet = false );
+  XmlDownload( QAuthenticator _authData, QObject *whereToConnectTo, bool isForGet = false );
+  XmlDownload( QAuthenticator _authData, int type, QObject *whereToConnectTo, bool isForGet = false );
 
 public slots:
   void httpRequestFinished( int requestId, bool error );
@@ -22,7 +22,7 @@ signals:
 
 private:
   void createConnections( QObject *whereToConnectTo, bool isForGet = false );
-  QPair<QString,QString> authData;
+  QAuthenticator authData;
   XmlParser parser;
 };
 

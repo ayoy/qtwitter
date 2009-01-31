@@ -64,11 +64,10 @@ void Entry::setImage( const QString& newImage ) {
 
 void Entry::setText( const QString& newText ) {
   userText = newText;
-  QRegExp ahref( "(http://[^ ]+) ?", Qt::CaseInsensitive );
-  userText.replace( ahref, "<a href=\\1>\\1</a>" );
+  QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
+  userText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
   userText.replace( QRegExp( "(^| )@([^ ]+)( ?)" ), " <a href=http://twitter.com/\\2>@\\2</a>\\3" );
-  ahref.setPattern( "(<a href=[^ ]+)/+&gt" );
+  ahref.setPattern( "(<a href=[^ ]+)/>" );
   ahref.setMinimal( true );
   userText.replace( ahref, "\\1>" );
-  qDebug() << "STATUS:\n" << userText;
 }

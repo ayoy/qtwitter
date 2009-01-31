@@ -1,10 +1,10 @@
 #include "xmldownload.h"
 
-XmlDownload::XmlDownload( QPair<QString,QString> _authData, QObject *whereToConnectTo, bool isForGet ) : HttpConnection(), authData( _authData ) {
+XmlDownload::XmlDownload( QAuthenticator _authData, QObject *whereToConnectTo, bool isForGet ) : HttpConnection(), authData( _authData ) {
   createConnections( whereToConnectTo, isForGet );
 }
 
-XmlDownload::XmlDownload( QPair<QString,QString> _authData, int type, QObject *whereToConnectTo, bool isForGet ) : HttpConnection(), authData( _authData ), parser( type ) {
+XmlDownload::XmlDownload( QAuthenticator _authData, int type, QObject *whereToConnectTo, bool isForGet ) : HttpConnection(), authData( _authData ), parser( type ) {
   createConnections( whereToConnectTo, isForGet );
 }
 
@@ -91,7 +91,6 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
 
 void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, quint16, QAuthenticator *authenticator)
 {
-  authenticator->setUser( authData.first );
-  authenticator->setPassword( authData.second );
+  *authenticator = authData;
 }
 

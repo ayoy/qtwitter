@@ -3,9 +3,7 @@
 #include <QHttpRequestHeader>
 #include "ui_authdialog.h"
 
-Core::Core() : QThread(), xmlGet( NULL), xmlPost( NULL ) {
-  setAuthData();
-}
+Core::Core() : QThread(), xmlGet( NULL), xmlPost( NULL ) {}
 
 Core::~Core() {}
 
@@ -39,11 +37,17 @@ void Core::run() {
 }
 
 void Core::get( const QString &path ) {
+  if ( authData.isNull() ) {
+    setAuthData();
+  }
   xmlGet = new XmlDownload ( authData, this, true );
   xmlGet->syncGet( path, false, cookie );
 }
 
 void Core::post( const QString &path, const QByteArray &status ) {
+  if ( authData.isNull() ) {
+    setAuthData();
+  }
   xmlPost = new XmlDownload( authData, XmlParser::One, this );
   xmlPost->syncPost( path, status, false, cookie );
   //  xmlPost.syncPost( path, status );
@@ -89,8 +93,8 @@ void Core::setAuthData() {
   ui.setupUi(&dlg);
   dlg.adjustSize();
   if (dlg.exec() == QDialog::Accepted) {
-    authData.first = ui.loginEdit->text();
-    authData.second = ui.passwordEdit->text();
+    authData.setUser( ui.loginEdit->text() );
+    authData.setPassword( ui.passwordEdit->text() );
   }
 }
 
