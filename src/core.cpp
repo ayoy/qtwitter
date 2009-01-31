@@ -38,7 +38,7 @@ void Core::run() {
 
 void Core::get( const QString &path ) {
   if ( authData.isNull() ) {
-    setAuthData();
+    authDataDialog();
   }
   xmlGet = new XmlDownload ( authData, this, true );
   xmlGet->syncGet( path, false, cookie );
@@ -46,7 +46,7 @@ void Core::get( const QString &path ) {
 
 void Core::post( const QString &path, const QByteArray &status ) {
   if ( authData.isNull() ) {
-    setAuthData();
+    authDataDialog();
   }
   xmlPost = new XmlDownload( authData, XmlParser::One, this );
   xmlPost->syncPost( path, status, false, cookie );
@@ -87,7 +87,7 @@ void Core::storeCookie( const QStringList newCookie ) {
   cookie = newCookie;
 }
 
-void Core::setAuthData() {
+void Core::authDataDialog() {
   QDialog dlg;
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
@@ -96,8 +96,24 @@ void Core::setAuthData() {
     authData.setUser( ui.loginEdit->text() );
     authData.setPassword( ui.passwordEdit->text() );
   }
+  emit authDataSet( authData );
 }
 
 void Core::error( const QString &message ) {
   emit errorMessage( message );
+}
+
+void Core::setAuthData( const QString &username, const QString &password ) {
+  bool refreshTweets = false;
+  if ( authData.user().compare( username ) ) {
+    authData.setUser( username );
+    refreshTweets = true;
+  }
+  if ( authData.password().compare( password ) ) {
+    authData.setPassword( password );
+    refreshTweets = true;
+  }
+  if ( refreshTweets ) {
+    emit updateNeeded();
+  }
 }

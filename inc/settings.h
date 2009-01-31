@@ -5,6 +5,7 @@
 #include <QTranslator>
 #include <QFile>
 #include <QDir>
+#include <QAuthenticator>
 #include <QSettings>
 #include "ui_settings.h"
 
@@ -25,6 +26,7 @@ public:
 public slots:
   void accept();
   void switchLanguage( int );
+  void setAuthDataInDialog( const QAuthenticator& );
 signals:
   void settingsOK();
 

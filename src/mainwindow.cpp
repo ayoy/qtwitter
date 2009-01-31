@@ -16,7 +16,6 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   loadConfig();
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
-//  proxy.setType( QNetworkProxy::NoProxy );
 
   menu = new QMenu( this );
   QAction *openaction = new QAction("Open", this);
@@ -42,6 +41,8 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( &core, SIGNAL( readyToDisplay( const ListOfEntries&, const MapStringImage& ) ), this, SLOT( display( const ListOfEntries&, const MapStringImage& ) ) );
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
   connect( settingsDialog, SIGNAL( settingsOK() ), this, SLOT( saveConfig() ) );
+  connect( &core, SIGNAL( authDataSet( const QAuthenticator& ) ), settingsDialog, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;
+  connect( &core, SIGNAL( updateNeeded() ), this, SLOT(updateTweets()) );
 
   repeat = new LoopedSignal( settingsDialog->ui.refreshCombo->currentText().toInt() * 60, this );
   connect( repeat, SIGNAL( ping() ), this, SLOT( updateTweets() ) );
@@ -191,5 +192,6 @@ void MainWindow::saveConfig() {
   settings.endGroup();
 
   repeat->setPeriod( settingsDialog->ui.refreshCombo->currentText().toInt() * 60 );
+  core.setAuthData( settingsDialog->ui.userNameEdit->text(), settingsDialog->ui.passwordEdit->text() );
 
 }

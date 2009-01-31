@@ -27,7 +27,7 @@
 <context>
     <name>HttpConnection</name>
     <message>
-        <location filename="../src/httpconnection.cpp" line="47"/>
+        <location filename="../src/httpconnection.cpp" line="49"/>
         <source>Unable to open device: </source>
         <translation>No es pot obrir el dispositiu:</translation>
     </message>
@@ -35,7 +35,7 @@
 <context>
     <name>ImageDownload</name>
     <message>
-        <location filename="../src/imagedownload.cpp" line="123"/>
+        <location filename="../src/imagedownload.cpp" line="122"/>
         <source>Download failed: </source>
         <translation>Fallada de descarregament:</translation>
     </message>
@@ -43,7 +43,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="127"/>
+        <location filename="../src/mainwindow.cpp" line="128"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -63,7 +63,7 @@
         <translation>Què estàs fent ara?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="65"/>
+        <location filename="../src/mainwindow.cpp" line="66"/>
         <source> characters left</source>
         <translation></translation>
     </message>
@@ -96,87 +96,87 @@
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="67"/>
+        <location filename="../ui/settings.ui" line="54"/>
         <source>Refresh every</source>
         <translation>Actualitza cada</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="75"/>
+        <location filename="../ui/settings.ui" line="62"/>
         <source>3</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="80"/>
+        <location filename="../ui/settings.ui" line="67"/>
         <source>5</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="85"/>
+        <location filename="../ui/settings.ui" line="72"/>
         <source>10</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="90"/>
+        <location filename="../ui/settings.ui" line="77"/>
         <source>15</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="95"/>
+        <location filename="../ui/settings.ui" line="82"/>
         <source>30</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="100"/>
+        <location filename="../ui/settings.ui" line="87"/>
         <source>45</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="105"/>
+        <location filename="../ui/settings.ui" line="92"/>
         <source>60</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="113"/>
+        <location filename="../ui/settings.ui" line="100"/>
         <source>minutes</source>
         <translation>minuts</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="120"/>
+        <location filename="../ui/settings.ui" line="107"/>
         <source>Language</source>
         <translation>Llengua</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="134"/>
+        <location filename="../ui/settings.ui" line="121"/>
         <source>English</source>
         <translation>Català</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="158"/>
+        <location filename="../ui/settings.ui" line="156"/>
         <source>Network</source>
         <translation>Xarxa</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="164"/>
+        <location filename="../ui/settings.ui" line="162"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Utilitza el &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="197"/>
+        <location filename="../ui/settings.ui" line="171"/>
         <source>Host:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="227"/>
+        <location filename="../ui/settings.ui" line="204"/>
         <source>Port:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="97"/>
+        <location filename="../src/settings.cpp" line="105"/>
         <source>General </source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="98"/>
+        <location filename="../src/settings.cpp" line="106"/>
         <source>Network </source>
         <translation>Xarxa</translation>
     </message>
@@ -196,19 +196,29 @@
         <translation type="obsolete">Port</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="104"/>
+        <location filename="../src/settings.cpp" line="112"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="105"/>
+        <location filename="../src/settings.cpp" line="113"/>
         <source>Cancel</source>
         <translation>Anul·la</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="106"/>
+        <location filename="../src/settings.cpp" line="114"/>
         <source>OK</source>
         <translation>Bé</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="129"/>
+        <source>Username</source>
+        <translation>Nom d&apos;usuari</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="139"/>
+        <source>Password</source>
+        <translation>Contrasenya</translation>
     </message>
 </context>
 <context>
@@ -224,7 +234,7 @@
     <message>
         <location filename="../ui/tweet.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 </TS>

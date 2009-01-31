@@ -32,6 +32,11 @@ void Settings::accept() {
   QDialog::accept();
 }
 
+void Settings::setAuthDataInDialog( const QAuthenticator &authData ) {
+  ui.userNameEdit->setText( authData.user() );
+  ui.passwordEdit->setText( authData.password() );
+}
+
 void Settings::setProxy() {
   if ( ui.proxyBox->isChecked() ) {
     proxy.setType( QNetworkProxy::HttpProxy );
@@ -97,6 +102,8 @@ void Settings::retranslateUi() {
   ui.label->setText( tr("Refresh every") );
   ui.label_2->setText( tr("minutes") );
   ui.label_3->setText( tr("Language") );
+  ui.userNameLabel->setText( tr( "Username" ) );
+  ui.passwordLabel->setText( tr( "Password" ) );
   ui.tabs->setTabText( 0, tr( "General " ) );
   ui.tabs->setTabText( 1, tr( "Network " ) );
   ui.proxyBox->setText( tr( "Use HTTP &proxy" ) );
@@ -108,15 +115,3 @@ void Settings::retranslateUi() {
   ui.buttonBox->button( QDialogButtonBox::Cancel )->setText( tr( "Cancel" ) );
   ui.buttonBox->button( QDialogButtonBox::Ok )->setText( tr( "OK" ) );
 }
-
-
-
-
-
-
-
-
-
-
-
-
