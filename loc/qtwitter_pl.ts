@@ -43,7 +43,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="128"/>
+        <location filename="../src/mainwindow.cpp" line="133"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -68,7 +68,7 @@
         <translation type="obsolete">140</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="66"/>
+        <location filename="../src/mainwindow.cpp" line="67"/>
         <source> characters left</source>
         <translation> znaków pozostało</translation>
     </message>
@@ -101,87 +101,87 @@
         <translation>Ogólne</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="54"/>
+        <location filename="../ui/settings.ui" line="52"/>
         <source>Refresh every</source>
         <translation>Odświeżaj co</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="62"/>
+        <location filename="../ui/settings.ui" line="60"/>
         <source>3</source>
         <translation>3</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="67"/>
+        <location filename="../ui/settings.ui" line="65"/>
         <source>5</source>
         <translation>5</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="72"/>
+        <location filename="../ui/settings.ui" line="70"/>
         <source>10</source>
         <translation>10</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="77"/>
+        <location filename="../ui/settings.ui" line="75"/>
         <source>15</source>
         <translation>15</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="82"/>
+        <location filename="../ui/settings.ui" line="80"/>
         <source>30</source>
         <translation>30</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="87"/>
+        <location filename="../ui/settings.ui" line="85"/>
         <source>45</source>
         <translation>45</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="92"/>
+        <location filename="../ui/settings.ui" line="90"/>
         <source>60</source>
         <translation>60</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="100"/>
+        <location filename="../ui/settings.ui" line="98"/>
         <source>minutes</source>
         <translation>minut</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="107"/>
+        <location filename="../ui/settings.ui" line="105"/>
         <source>Language</source>
         <translation>Język</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="121"/>
+        <location filename="../ui/settings.ui" line="119"/>
         <source>English</source>
         <translation>Polski</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="156"/>
+        <location filename="../ui/settings.ui" line="175"/>
         <source>Network</source>
         <translation>Sieć</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="162"/>
+        <location filename="../ui/settings.ui" line="183"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Używaj &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="171"/>
+        <location filename="../ui/settings.ui" line="190"/>
         <source>Host:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="204"/>
+        <location filename="../ui/settings.ui" line="223"/>
         <source>Port:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="105"/>
+        <location filename="../src/settings.cpp" line="107"/>
         <source>General </source>
         <translation>Ogólne</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="106"/>
+        <location filename="../src/settings.cpp" line="108"/>
         <source>Network </source>
         <translation>Sieć</translation>
     </message>
@@ -191,29 +191,44 @@
         <translation type="obsolete">Używaj &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="112"/>
+        <location filename="../src/settings.cpp" line="114"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="113"/>
+        <location filename="../src/settings.cpp" line="115"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="114"/>
+        <location filename="../src/settings.cpp" line="116"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="129"/>
+        <location filename="../ui/settings.ui" line="127"/>
         <source>Username</source>
         <translation>Nazwa użytkownika</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="139"/>
+        <location filename="../ui/settings.ui" line="137"/>
         <source>Password</source>
         <translation>Hasło</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="151"/>
+        <source>Download</source>
+        <translation>Ściągaj</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="157"/>
+        <source>friends timeline</source>
+        <translation>aktualizacje przyjaciół</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="164"/>
+        <source>public timeline</source>
+        <translation>aktualizacje wszystkich użytkowników</translation>
     </message>
 </context>
 <context>

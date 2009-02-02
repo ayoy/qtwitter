@@ -1,6 +1,6 @@
 #include "mainwindow.h"
 #include "tweet.h"
-
+#include "settings.h"
 #include <QMenu>
 #include <QScrollBar>
 #include <QMessageBox>
@@ -69,7 +69,11 @@ void MainWindow::changeLabel() {
 
 void MainWindow::updateTweets() {
   ui.updateButton->setEnabled( false );
-  core.get( "http://twitter.com/statuses/friends_timeline.xml" );
+  if ( settingsDialog->ui.radioFriends->isChecked() ) {
+    core.get( "http://twitter.com/statuses/friends_timeline.xml" );
+  } else {
+    core.get( "http://twitter.com/statuses/public_timeline.xml" );
+  }
 }
 
 void MainWindow::sendStatus() {
@@ -152,6 +156,8 @@ void MainWindow::loadConfig() {
   settings.beginGroup( "General" );
     settingsDialog->ui.refreshCombo->setCurrentIndex( settings.value( "refresh" ).toInt() );
     settingsDialog->ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
+    settingsDialog->ui.radioFriends->setChecked( settings.value( "timeline", true ).toBool() );
+    settingsDialog->ui.radioPublic->setChecked( !settingsDialog->ui.radioFriends->isChecked() );
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
@@ -182,6 +188,7 @@ void MainWindow::saveConfig() {
   settings.beginGroup( "General" );
     settings.setValue( "refresh", settingsDialog->ui.refreshCombo->currentIndex() );
     settings.setValue( "language", settingsDialog->ui.languageCombo->currentIndex() );
+    settings.setValue( "timeline", settingsDialog->ui.radioFriends->isChecked() );
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );

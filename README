@@ -3,13 +3,13 @@ qTwitter is a simple application allowing to use twitter.com social networking w
 The project is still in deep alpha phase (I don't even call it v. 0.1), although it provides basic functionality already.
 
 Features summary:
-  - downloading friends timeline (together with avatars, at last :) )
+  - downloading friends or public timeline,
+  - in-session password storing,
   - posting status updates to Twitter,
   - HTTP proxy support,
   - being recognized as a source of updates.
 
 To-do list for now:
-  * cookie-based session storing,
   * settings section correction and extension,
   * tray icon,
   * support for hyperlinks,

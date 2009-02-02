@@ -111,6 +111,9 @@ void Settings::retranslateUi() {
   ui.portLabel->setText( tr( "Port:" ) );
   ui.network->setWindowTitle( tr( "Network" ) );
   ui.general->setWindowTitle( tr( "General" ) );
+  ui.downloadBox->setTitle( tr( "Download" ) );
+  ui.radioFriends->setText( tr( "friends timeline" ) );
+  ui.radioPublic->setText( tr( "public timeline" ) );
   ui.buttonBox->button( QDialogButtonBox::Apply )->setText( tr( "Apply" ) );
   ui.buttonBox->button( QDialogButtonBox::Cancel )->setText( tr( "Cancel" ) );
   ui.buttonBox->button( QDialogButtonBox::Ok )->setText( tr( "OK" ) );
