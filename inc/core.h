@@ -15,15 +15,16 @@ class Core : public QThread {
   Q_OBJECT
 
 public:
-  Core();
+  Core( QObject *parent = 0 );
   virtual ~Core();
-  void get( const QString &path );
-  void post( const QString &path, const QByteArray &status );
+  bool downloadsPublicTimeline();
 
 protected:
   void run();
 
 public slots:
+  void get();
+  void post( const QByteArray &status );
 
   void authDataDialog();
   void setAuthData( const QString &name, const QString &password );
@@ -32,6 +33,7 @@ public slots:
   void downloadImages();
   void error( const QString &message );
   void storeCookie( const QStringList );
+  void setDownloadPublicTimeline( bool );
     
 signals:
   void readyToDisplay( const ListOfEntries &entries, const MapStringImage &imagesHash );
@@ -41,6 +43,7 @@ signals:
   
 private:
   bool xmlBeingProcessed;
+  bool downloadPublicTimeline;
   XmlDownload *xmlGet;
   XmlDownload *xmlPost;
   ImageDownload *imageDownload;

@@ -1,35 +1,106 @@
 #include "settings.h"
-
+#include "mainwindow.h"
 #include <QPushButton>
+#include <QPoint>
+#include <QDesktopWidget>
 
-Settings::Settings( QWidget *parent ) : QDialog( parent ) {
+Settings::Settings( MainWindow *mainwinSettings, LoopedSignal *loopSettings, Core *coreSettings, QWidget *parent ) :
+    QDialog( parent ),
+    mainWindow( mainwinSettings ),
+    loopedSignal( loopSettings ),
+    core( coreSettings )
+{
 
-  QCoreApplication::setOrganizationDomain( "ayoy.net" );
   qApp->installTranslator( &translator );
 
   ui.setupUi( this );
   connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
   createLanguageMenu();
-  QIntValidator *portValidator= new QIntValidator( 1, 65535, this );
+  QIntValidator *portValidator = new QIntValidator( 1, 65535, this );
   ui.portEdit->setValidator( portValidator );
-  proxy.setType( QNetworkProxy::NoProxy );
-  if ( proxy.type() != QNetworkProxy::NoProxy ) {
-    ui.proxyBox->setChecked( true );
-    ui.hostEdit->setEnabled( true );
-    ui.portEdit->setEnabled( true );
-  }
-  ui.hostEdit->setText( proxy.hostName() );
-  if ( proxy.port() ) {
-    ui.portEdit->setText( QString::number( proxy.port() ) );
-  }
+  loadConfig();
 }
 
 Settings::~Settings() {}
 
 void Settings::accept() {
-  setProxy();
-  emit settingsOK();
+  saveConfig();
   QDialog::accept();
+}
+
+void Settings::loadConfig() {
+
+#if defined Q_WS_X11 || defined Q_WS_MAC
+  QSettings settings( "ayoy", "qTwitter" );
+#endif
+#if defined Q_WS_WIN
+  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
+#endif
+  settings.beginGroup( "MainWindow" );
+    mainWindow->resize( settings.value( "size", QSize(307, 245) ).toSize() );
+    QPoint offset( settings.value( "pos" ).toPoint() );
+    if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
+      offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
+    }
+    if ( QApplication::desktop()->height() < offset.y() + settings.value( "size" ).toSize().height() ) {
+      offset.setY( QApplication::desktop()->height() - settings.value( "size" ).toSize().height() );
+    }
+    mainWindow->move( offset );
+  settings.endGroup();
+  settings.beginGroup( "General" );
+    ui.refreshCombo->setCurrentIndex( settings.value( "refresh" ).toInt() );
+    ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
+    ui.radioFriends->setChecked( settings.value( "timeline", true ).toBool() );
+    ui.radioPublic->setChecked( !ui.radioFriends->isChecked() );
+  settings.endGroup();
+  settings.beginGroup( "Network" );
+    settings.beginGroup( "Proxy" );
+      ui.proxyBox->setCheckState( (Qt::CheckState)settings.value( "enabled" ).toInt() );
+      ui.hostEdit->setText( settings.value( "host" ).toString() );
+      ui.portEdit->setText( settings.value( "port" ).toString() );
+    settings.endGroup();
+  settings.endGroup();
+
+  ui.hostEdit->setEnabled( (bool) ui.proxyBox->checkState() );
+  ui.portEdit->setEnabled( (bool) ui.proxyBox->checkState() );
+  applySettings();
+  qDebug() << "settings loaded and applied";
+}
+
+void Settings::saveConfig() {
+
+#if defined Q_WS_X11 || defined Q_WS_MAC
+  QSettings settings( "ayoy", "qTwitter" );
+#endif
+#if defined Q_WS_WIN
+  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
+#endif
+  settings.beginGroup( "MainWindow" );
+    settings.setValue( "size", mainWindow->size() );
+    settings.setValue( "pos", mainWindow->pos() );
+  settings.endGroup();
+  settings.beginGroup( "General" );
+    settings.setValue( "refresh", ui.refreshCombo->currentIndex() );
+    settings.setValue( "language", ui.languageCombo->currentIndex() );
+    settings.setValue( "timeline", ui.radioFriends->isChecked() );
+  settings.endGroup();
+  settings.beginGroup( "Network" );
+    settings.beginGroup( "Proxy" );
+      settings.setValue( "enabled", ui.proxyBox->checkState() );
+      settings.setValue( "host", ui.hostEdit->text() );
+      settings.setValue( "port", ui.portEdit->text() );
+    settings.endGroup();
+  settings.endGroup();
+
+  applySettings();
+  qDebug() << "settings applied and saved";
+}
+
+void Settings::applySettings() {
+  setProxy();
+  loopedSignal->setPeriod( ui.refreshCombo->currentText().toInt() * 60 );
+  core->setDownloadPublicTimeline( ui.radioPublic->isChecked() );
+  core->setAuthData( ui.userNameEdit->text(), ui.passwordEdit->text() );
 }
 
 void Settings::setAuthDataInDialog( const QAuthenticator &authData ) {

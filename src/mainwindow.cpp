@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "tweet.h"
 #include "settings.h"
+#include "statusfilter.h"
 #include <QMenu>
 #include <QScrollBar>
 #include <QMessageBox>
@@ -11,9 +12,7 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 {
   ui.setupUi( this );
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + tr( " characters left" ) );
-  filter = new StatusFilter();
-  settingsDialog = new Settings( this );
-  loadConfig();
+  StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
 
@@ -32,20 +31,15 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   qDebug() << qRegisterMetaType<MapStringImage>( "MapStringImage" );
 
   connect( ui.updateButton, SIGNAL( clicked() ), this, SLOT( updateTweets() ) );
-  connect( ui.settingsButton, SIGNAL( clicked() ), settingsDialog, SLOT( show() ) );
+  connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
-  connect( &core, SIGNAL( errorMessage( const QString& ) ), this, SLOT( popupError( const QString& ) ) );
-  connect( &core, SIGNAL( readyToDisplay( const ListOfEntries&, const MapStringImage& ) ), this, SLOT( display( const ListOfEntries&, const MapStringImage& ) ) );
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
-  connect( settingsDialog, SIGNAL( settingsOK() ), this, SLOT( saveConfig() ) );
-  connect( &core, SIGNAL( authDataSet( const QAuthenticator& ) ), settingsDialog, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;
-  connect( &core, SIGNAL( updateNeeded() ), this, SLOT(updateTweets()) );
 
-  repeat = new LoopedSignal( settingsDialog->ui.refreshCombo->currentText().toInt() * 60, this );
-  connect( repeat, SIGNAL( ping() ), this, SLOT( updateTweets() ) );
+//  repeat = new LoopedSignal( settingsDialog->ui.refreshCombo->currentText().toInt() * 60, this );
+//  connect( repeat, SIGNAL( ping() ), this, SLOT( updateTweets() ) );
 
   //updateTweets();
 }
@@ -54,13 +48,7 @@ void MainWindow::popupMenu() {
   menu->exec( QCursor::pos() );
 }
 
-MainWindow::~MainWindow() {
-  saveConfig();
-  if ( filter ) {
-    delete filter;
-    filter = NULL;
-  }
-}
+MainWindow::~MainWindow() {}
 
 void MainWindow::changeLabel() {
   ui.countdownLabel->setText( ui.statusEdit->isStatusClean() ? QString::number( STATUS_MAX_LEN ) : QString::number( STATUS_MAX_LEN - ui.statusEdit->text().length() ) );
@@ -69,20 +57,11 @@ void MainWindow::changeLabel() {
 
 void MainWindow::updateTweets() {
   ui.updateButton->setEnabled( false );
-  if ( settingsDialog->ui.radioFriends->isChecked() ) {
-    core.get( "http://twitter.com/statuses/friends_timeline.xml" );
-  } else {
-    core.get( "http://twitter.com/statuses/public_timeline.xml" );
-  }
+  emit get();
 }
 
 void MainWindow::sendStatus() {
-  QByteArray status( "status=" );
-  status.append( ui.statusEdit->text().toUtf8() );
-  status.append( "&source=qtwitter" );
-  qDebug() << status;
-  const QString path("http://twitter.com/statuses/update.xml");
-  core.post( path, status );
+  emit post( ui.statusEdit->text().toUtf8() );
 }
 
 void MainWindow::resetStatus() {
@@ -107,7 +86,7 @@ void MainWindow::resizeEvent( QResizeEvent *event ) {
   }
 }
 
-void MainWindow::display( const QList<Entry> &entries, const QMap<QString, QImage> &imagesHash ) {
+void MainWindow::display( const ListOfEntries &entries, const MapStringImage &imagesHash ) {
   model.clear();
   int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
   for ( int i = 0; i < entries.size(); i++ ) {
@@ -118,10 +97,10 @@ void MainWindow::display( const QList<Entry> &entries, const QMap<QString, QImag
     model.appendRow( newItem );
     ui.statusListView->setIndexWidget( model.indexFromItem( newItem ), newTweet );
   }
-  unlockState();
+  unlock();
 }
 
-void MainWindow::unlockState() {
+void MainWindow::unlock() {
   ui.updateButton->setEnabled( true );
   if ( !ui.statusEdit->isEnabled() ) {
     ui.statusEdit->setEnabled( true );
@@ -131,74 +110,5 @@ void MainWindow::unlockState() {
 
 void MainWindow::popupError( const QString &message ) {
   QMessageBox::information( this, tr("Error"), message );
-  unlockState();
-}
-
-void MainWindow::loadConfig() {
-
-#if defined Q_WS_X11 || defined Q_WS_MAC
-  QSettings settings( "ayoy", "qTwitter" );
-#endif
-#if defined Q_WS_WIN
-  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
-#endif
-  settings.beginGroup( "MainWindow" );
-    resize( settings.value( "size", QSize(307, 245) ).toSize() );
-    QPoint offset( settings.value( "pos" ).toPoint() );
-    if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
-      offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
-    }
-    if ( QApplication::desktop()->height() < offset.y() + settings.value( "size" ).toSize().height() ) {
-      offset.setY( QApplication::desktop()->height() - settings.value( "size" ).toSize().height() );
-    }
-    move( offset );
-  settings.endGroup();
-  settings.beginGroup( "General" );
-    settingsDialog->ui.refreshCombo->setCurrentIndex( settings.value( "refresh" ).toInt() );
-    settingsDialog->ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
-    settingsDialog->ui.radioFriends->setChecked( settings.value( "timeline", true ).toBool() );
-    settingsDialog->ui.radioPublic->setChecked( !settingsDialog->ui.radioFriends->isChecked() );
-  settings.endGroup();
-  settings.beginGroup( "Network" );
-    settings.beginGroup( "Proxy" );
-      settingsDialog->ui.proxyBox->setCheckState( (Qt::CheckState)settings.value( "enabled" ).toInt() );
-      settingsDialog->ui.hostEdit->setText( settings.value( "host" ).toString() );
-      settingsDialog->ui.portEdit->setText( settings.value( "port" ).toString() );
-      settingsDialog->setProxy();
-    settings.endGroup();
-  settings.endGroup();
-
-  settingsDialog->ui.hostEdit->setEnabled( (bool) settingsDialog->ui.proxyBox->checkState() );
-  settingsDialog->ui.portEdit->setEnabled( (bool) settingsDialog->ui.proxyBox->checkState() );
-}
-
-void MainWindow::saveConfig() {
-
-#if defined Q_WS_X11 || defined Q_WS_MAC
-  QSettings settings( "ayoy", "qTwitter" );
-#endif
-#if defined Q_WS_WIN
-  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
-#endif
-  qDebug() << size().width() << size().height();
-  settings.beginGroup( "MainWindow" );
-    settings.setValue( "size", size() );
-    settings.setValue( "pos", pos() );
-  settings.endGroup();
-  settings.beginGroup( "General" );
-    settings.setValue( "refresh", settingsDialog->ui.refreshCombo->currentIndex() );
-    settings.setValue( "language", settingsDialog->ui.languageCombo->currentIndex() );
-    settings.setValue( "timeline", settingsDialog->ui.radioFriends->isChecked() );
-  settings.endGroup();
-  settings.beginGroup( "Network" );
-    settings.beginGroup( "Proxy" );
-      settings.setValue( "enabled", settingsDialog->ui.proxyBox->checkState() );
-      settings.setValue( "host", settingsDialog->ui.hostEdit->text() );
-      settings.setValue( "port", settingsDialog->ui.portEdit->text() );
-    settings.endGroup();
-  settings.endGroup();
-
-  repeat->setPeriod( settingsDialog->ui.refreshCombo->currentText().toInt() * 60 );
-  core.setAuthData( settingsDialog->ui.userNameEdit->text(), settingsDialog->ui.passwordEdit->text() );
-
+  unlock();
 }

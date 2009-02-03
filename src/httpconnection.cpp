@@ -5,7 +5,6 @@
 HttpConnection::HttpConnection() : QHttp( "/*url.host()*/", QHttp::ConnectionModeHttp, 0 ),
                                    status(false), bytearray( NULL ), buffer( NULL )
 {
-  //http = new QHttp( url.host(), QHttp::ConnectionModeHttp, 0, this);
   connect( this, SIGNAL(requestStarted(int)), this, SLOT(httpRequestStarted(int)));
   connect( this, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
   connect( this, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
@@ -23,13 +22,7 @@ HttpConnection::~HttpConnection() {
 }
 
 void HttpConnection::httpRequestStarted( int /*requestId*/ ) {
-//  qDebug() << httpHostId << requestId << "(in HttpConnection)";
-  qDebug() << currentRequest().toString() << currentRequest().isValid();
-//  qDebug() << "The request has started";
-/*  if ( requestId == httpHostId )
-    qDebug() << "setHost()";
-  else if ( requestId == httpUserId )
-    qDebug() << "setUser()";*/
+  //qDebug() << currentRequest().toString();
 }
 
 void HttpConnection::setUrl( const QString &path ) {
@@ -38,7 +31,6 @@ void HttpConnection::setUrl( const QString &path ) {
 
 QByteArray HttpConnection::prepareRequest( const QString &path ) {
   url.setUrl( path );
-  //url.setUrl( "http://s3.amazonaws.com/twitter_production/profile_images/53492115/avatar2_normal.jpg" );
   httpHostId = setHost( url.host(), QHttp::ConnectionModeHttp);
     
   bytearray = new QByteArray();
@@ -54,11 +46,6 @@ QByteArray HttpConnection::prepareRequest( const QString &path ) {
     return "invalid";
   }
   
-  if (!url.userName().isEmpty())
-    httpUserId = setUser(url.userName(), url.password());
-  else
-    httpUserId = setUser( "", "" );
-    
   httpRequestAborted = false;
   QByteArray encodedPath = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
   if ( encodedPath.isEmpty() )
@@ -101,18 +88,3 @@ void HttpConnection::syncPost( const QString &path, const QByteArray &status, bo
   httpGetId = post( encodedPath, status, buffer );
   qDebug() << httpGetId;
 }
-
-/*void HttpConnection::slotAuthenticationRequired(const QString & hostName , quint16, QAuthenticator *authenticator)
-{
-  authenticator->setUser( authData.first );
-  authenticator->setPassword( authData.second );
-
-  QDialog dlg;
-  Ui::AuthDialog ui;
-  ui.setupUi(&dlg);
-  dlg.adjustSize();
-  if (dlg.exec() == QDialog::Accepted) {
-    authenticator->setUser( ui.loginEdit->text() );
-    authenticator->setPassword( ui.passwordEdit->text() );
-  }
-}*/

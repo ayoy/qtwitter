@@ -3,7 +3,7 @@
 #include <QHttpRequestHeader>
 #include "ui_authdialog.h"
 
-Core::Core() : QThread(), xmlGet( NULL), xmlPost( NULL ) {}
+Core::Core( QObject *parent ) : QThread( parent ), xmlGet( NULL), xmlPost( NULL ), downloadPublicTimeline( false ) {}
 
 Core::~Core() {}
 
@@ -36,21 +36,37 @@ void Core::run() {
   emit readyToDisplay( entries, imagesHash );
 }
 
-void Core::get( const QString &path ) {
-  if ( authData.isNull() ) {
-    authDataDialog();
-  }
-  xmlGet = new XmlDownload ( authData, this, true );
-  xmlGet->syncGet( path, false, cookie );
+void Core::setDownloadPublicTimeline( bool b ) {
+  downloadPublicTimeline = b;
 }
 
-void Core::post( const QString &path, const QByteArray &status ) {
+bool Core::downloadsPublicTimeline() {
+  return downloadPublicTimeline;
+}
+
+void Core::get() {
+  if ( downloadPublicTimeline ) {
+    xmlGet = new XmlDownload ( authData, this, true );
+    xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
+  } else {
+    if ( authData.isNull() ) {
+      authDataDialog();
+    }
+    xmlGet = new XmlDownload ( authData, this, true );
+    xmlGet->syncGet( "http://twitter.com/statuses/friends_timeline.xml", false, cookie );
+  }
+}
+
+void Core::post( const QByteArray &status ) {
   if ( authData.isNull() ) {
     authDataDialog();
   }
+  QByteArray request( "status=" );
+  request.append( status );
+  request.append( "&source=qtwitter" );
+  qDebug() << request;
   xmlPost = new XmlDownload( authData, XmlParser::One, this );
-  xmlPost->syncPost( path, status, false, cookie );
-  //  xmlPost.syncPost( path, status );
+  xmlPost->syncPost( "http://twitter.com/statuses/update.xml", request, false, cookie );
 }
 
 void Core::addEntry( const Entry &entry, int type )
@@ -68,19 +84,12 @@ void Core::addEntry( const Entry &entry, int type )
 }
 
 void Core::downloadImages() {
-  /*if ( xmlGet ) {
-    delete xmlGet;
-    xmlGet = NULL;
-  }*/
   xmlBeingProcessed = false;
   start();
-  //wait();
-  //emit readyToDisplay( entries, imagesHash );
 }
 
 void Core::saveImage ( const QString &imageUrl, QImage image ) {
   imagesHash[ imageUrl ] = image;
-  //qDebug() << "setting imagesHash[" << imageUrl << "]";
 }
 
 void Core::storeCookie( const QStringList newCookie ) {

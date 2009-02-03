@@ -3,7 +3,6 @@
 
 #include "settings.h"
 #include "statusedit.h"
-#include "statusfilter.h"
 #include "loopedsignal.h"
 #include "ui_mainwindow.h"
 #include "core.h"
@@ -31,17 +30,19 @@ public slots:
   void popupMenu();
 
   void display( const ListOfEntries &entries, const MapStringImage &imagesHash );
-  void saveConfig();
+
+signals:
+  void settingsDialogRequested();
+  void get();
+  void post( const QByteArray& );
   
 private:
   void resizeEvent( QResizeEvent* );
-  void unlockState();
-  void loadConfig();
+  void unlock();
+
   QMenu *menu;
-  Core core;
   LoopedSignal *repeat;
   QStandardItemModel model;
-  StatusFilter *filter;
   Settings *settingsDialog;
   Ui::MainWindow ui;
 };

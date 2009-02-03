@@ -9,17 +9,21 @@
 #include <QSettings>
 #include "ui_settings.h"
 
+class MainWindow;
+class LoopedSignal;
+class Core;
+
 class Settings : public QDialog
 {
   Q_OBJECT
 
 public:
-  Settings( QWidget *parent = 0 );
+  Settings( MainWindow *mainwinSettings, LoopedSignal *loopSettings, Core *coreSettings, QWidget *parent = 0 );
   ~Settings();
   inline QString stateForXML ( QCheckBox* );
   bool createConfigFile();
-  bool loadConfig();
-  bool saveConfig();
+  void loadConfig();
+  void saveConfig();
   QDir directoryOf( const QString& );
   void setProxy();
 
@@ -31,13 +35,17 @@ signals:
   void settingsOK();
 
 private:
+  void applySettings();
   void createLanguageMenu();
   void retranslateUi();
   QTranslator translator;
   QFile configFile;
   QNetworkProxy proxy;
   Ui::Settings ui;
-  friend class MainWindow;
+//  friend class MainWindow;
+  MainWindow *mainWindow;
+  LoopedSignal *loopedSignal;
+  Core *core;
 };
 
 #endif //SETTINGS_H
