@@ -1,9 +1,9 @@
 <RCC>
-  <qresource prefix="icons" >
-    <file>icons/noimage.jpg</file>
-    <file>icons/configure.png</file>
-    <file>icons/noimage.png</file>
-    <file>icons/home.png</file>
-    <file>icons/reload.png</file>
-  </qresource>
+    <qresource prefix="/icons" >
+        <file>icons/configure.png</file>
+        <file>icons/noimage.png</file>
+        <file>icons/home.png</file>
+        <file>icons/reload.png</file>
+        <file>icons/twitter_48.png</file>
+    </qresource>
 </RCC>

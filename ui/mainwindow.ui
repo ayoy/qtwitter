@@ -19,6 +19,10 @@
   <property name="windowTitle">
    <string>qTwitter</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../res/resources.qrc">
+    <normaloff>:/icons/icons/twitter_48.png</normaloff>:/icons/icons/twitter_48.png</iconset>
+  </property>
   <property name="styleSheet">
    <string notr="true"/>
   </property>

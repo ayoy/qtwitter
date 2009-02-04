@@ -6,6 +6,8 @@
 #include "ui_mainwindow.h"
 #include "core.h"
 
+#include <QSystemTrayIcon>
+
 #define STATUS_MAX_LEN 140
 
 typedef QList<Entry> ListOfEntries;
@@ -38,7 +40,7 @@ signals:
 private:
   void resizeEvent( QResizeEvent* );
   void unlock();
-
+  QSystemTrayIcon *icon;
   QMenu *menu;
   LoopedSignal *repeat;
   QStandardItemModel model;

@@ -5,6 +5,7 @@
 #include <QMenu>
 #include <QScrollBar>
 #include <QMessageBox>
+#include <QIcon>
 
 MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 {
@@ -13,6 +14,7 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
+
 
   menu = new QMenu( this );
   QAction *openaction = new QAction("Open", this);
@@ -35,6 +37,11 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
+
+  icon = new QSystemTrayIcon( this );
+  icon->setIcon( QIcon( ":/icons/icons/twitter_48.png" ) );
+  icon->show();
+
 }
 
 void MainWindow::popupMenu()

@@ -6,7 +6,8 @@
 int main( int argc, char **argv )
 {
   QApplication app( argc, argv );
-  
+  qApp->setWindowIcon( QIcon( ":/icons/icons/twitter_48.png" ) );
+
   MainWindow dlg;
   LoopedSignal *loopedsignal = new LoopedSignal( &dlg );
   Core *core = new Core( &dlg );
@@ -21,7 +22,6 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(readyToDisplay(ListOfEntries,MapStringImage)), &dlg, SLOT(display(ListOfEntries,MapStringImage)) );
   QObject::connect( core, SIGNAL(updateNeeded()), &dlg, SLOT(updateTweets()) );
   //connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
-
   dlg.show();
 
   if ( !loopedsignal->isRunning() )
