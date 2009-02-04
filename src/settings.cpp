@@ -10,9 +10,7 @@ Settings::Settings( MainWindow *mainwinSettings, LoopedSignal *loopSettings, Cor
     loopedSignal( loopSettings ),
     core( coreSettings )
 {
-
   qApp->installTranslator( &translator );
-
   ui.setupUi( this );
   connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
   createLanguageMenu();
@@ -28,7 +26,12 @@ void Settings::accept() {
   QDialog::accept();
 }
 
-void Settings::loadConfig() {
+void Settings::reject() {
+  loadConfig( true );
+  QDialog::reject();
+}
+
+void Settings::loadConfig( bool dialogRejected ) {
 
 #if defined Q_WS_X11 || defined Q_WS_MAC
   QSettings settings( "ayoy", "qTwitter" );
@@ -36,17 +39,6 @@ void Settings::loadConfig() {
 #if defined Q_WS_WIN
   QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
 #endif
-  settings.beginGroup( "MainWindow" );
-    mainWindow->resize( settings.value( "size", QSize(307, 245) ).toSize() );
-    QPoint offset( settings.value( "pos" ).toPoint() );
-    if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
-      offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
-    }
-    if ( QApplication::desktop()->height() < offset.y() + settings.value( "size" ).toSize().height() ) {
-      offset.setY( QApplication::desktop()->height() - settings.value( "size" ).toSize().height() );
-    }
-    mainWindow->move( offset );
-  settings.endGroup();
   settings.beginGroup( "General" );
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh" ).toInt() );
     ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
@@ -63,7 +55,21 @@ void Settings::loadConfig() {
 
   ui.hostEdit->setEnabled( (bool) ui.proxyBox->checkState() );
   ui.portEdit->setEnabled( (bool) ui.proxyBox->checkState() );
-  applySettings();
+
+  if ( !dialogRejected ) {
+    settings.beginGroup( "MainWindow" );
+    mainWindow->resize( settings.value( "size", QSize(307, 245) ).toSize() );
+    QPoint offset( settings.value( "pos" ).toPoint() );
+    if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
+      offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
+    }
+    if ( QApplication::desktop()->height() < offset.y() + settings.value( "size" ).toSize().height() ) {
+      offset.setY( QApplication::desktop()->height() - settings.value( "size" ).toSize().height() );
+    }
+    mainWindow->move( offset );
+    settings.endGroup();
+    applySettings();
+  }
   qDebug() << "settings loaded and applied";
 }
 
@@ -123,10 +129,10 @@ QDir Settings::directoryOf(const QString &subdir)
 {
   QDir dir(QApplication::applicationDirPath());
 
-#if defined(Q_OS_WIN)
+#if defined Q_WS_WIN
   if (dir.dirName().toLower() == "debug" || dir.dirName().toLower() == "release")
     dir.cdUp();
-#elif defined(Q_OS_MAC)
+#elif defined Q_WS_MAC
   if (dir.dirName() == "MacOS") {
     dir.cdUp();
     dir.cdUp();

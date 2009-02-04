@@ -20,15 +20,15 @@ class Settings : public QDialog
 public:
   Settings( MainWindow *mainwinSettings, LoopedSignal *loopSettings, Core *coreSettings, QWidget *parent = 0 );
   ~Settings();
-  inline QString stateForXML ( QCheckBox* );
   bool createConfigFile();
-  void loadConfig();
+  void loadConfig( bool dialogRejected = false );
   void saveConfig();
   QDir directoryOf( const QString& );
   void setProxy();
 
 public slots:
   void accept();
+  void reject();
   void switchLanguage( int );
   void setAuthDataInDialog( const QAuthenticator& );
 signals:
