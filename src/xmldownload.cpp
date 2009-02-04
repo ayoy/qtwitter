@@ -1,23 +1,36 @@
 #include "xmldownload.h"
+#include "core.h"
 
-XmlDownload::XmlDownload( QAuthenticator _authData, QObject *whereToConnectTo, bool isForGet ) : HttpConnection(), authData( _authData ) {
-  createConnections( whereToConnectTo, isForGet );
+XmlDownload::XmlDownload( QAuthenticator _authData, Core *coreParent, bool isForGet, QObject *parent ) :
+    HttpConnection( parent ),
+    authData( _authData ),
+    core( coreParent ),
+    authenticated( false )
+{
+  createConnections( coreParent, isForGet );
 }
 
-XmlDownload::XmlDownload( QAuthenticator _authData, int type, QObject *whereToConnectTo, bool isForGet ) : HttpConnection(), authData( _authData ), parser( type ) {
-  createConnections( whereToConnectTo, isForGet );
+XmlDownload::XmlDownload( QAuthenticator _authData, int type, Core *coreParent, bool isForGet, QObject *parent ) :
+    HttpConnection( parent ),
+    authData( _authData ),
+    parser( type ),
+    core( coreParent ),
+    authenticated( false )
+{
+  createConnections( coreParent, isForGet );
 }
 
-void XmlDownload::createConnections( QObject *whereToConnectTo, bool isForGet ) {
+void XmlDownload::createConnections( Core *coreParent, bool isForGet )
+{
   connect( &parser, SIGNAL(dataParsed(const QString&)), this, SIGNAL(dataParsed(const QString&)));
   connect( &parser, SIGNAL(newEntry(const Entry&, int )), this, SIGNAL(newEntry(const Entry&, int )));
   connect( &parser, SIGNAL(xmlParsed()), this, SIGNAL(xmlParsed()));
   connect( this, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
-  connect( this, SIGNAL( errorMessage( const QString& ) ), whereToConnectTo, SLOT( error( const QString& ) ) );
-  connect( this, SIGNAL( newEntry( const Entry&, int ) ), whereToConnectTo, SLOT( addEntry( const Entry&, int ) ));
-  connect( this, SIGNAL( cookieReceived( const QStringList ) ), whereToConnectTo, SLOT(storeCookie(QStringList)) );
+  connect( this, SIGNAL( errorMessage( const QString& ) ), coreParent, SLOT( error( const QString& ) ) );
+  connect( this, SIGNAL( newEntry( const Entry&, int ) ), coreParent, SLOT( addEntry( const Entry&, int ) ));
+  connect( this, SIGNAL( cookieReceived( const QStringList ) ), coreParent, SLOT(storeCookie(QStringList)) );
   if ( isForGet ) {
-    connect( this, SIGNAL( xmlParsed() ), whereToConnectTo, SLOT( downloadImages() ) );
+    connect( this, SIGNAL( xmlParsed() ), coreParent, SLOT( downloadImages() ) );
   }
 }
 
@@ -66,6 +79,8 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
       delete bytearray;
       bytearray = 0;
     }
+    qDebug() << "request aborted";
+    authenticated = false;
     return;
   }
   if (requestId != httpGetId)
@@ -87,10 +102,20 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   buffer = 0;
   delete bytearray;
   bytearray = 0;
+  authenticated = false;
 }
 
 void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, quint16, QAuthenticator *authenticator)
 {
+  qDebug() << "auth required";
+  if ( authenticated ) {
+    core->authDataDialog();
+    qDebug() << "auth dialog";
+  }
   *authenticator = authData;
+  authenticated = true;
 }
 
+void XmlDownload::setAuthData( const QAuthenticator _authData ) {
+  authData = _authData;
+}

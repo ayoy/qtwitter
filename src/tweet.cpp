@@ -1,10 +1,6 @@
 #include "tweet.h"
 #include "ui_tweet.h"
 
-#include <QScrollBar>
-#include <QDebug>
-#include <QRegExp>
-
 Tweet::Tweet(QWidget *parent) :
   QWidget(parent),
   m_ui(new Ui::Tweet)
@@ -28,26 +24,30 @@ Tweet::~Tweet()
   delete m_ui;
 }
 
-void Tweet::resize( const QSize &s ) {
+void Tweet::resize( const QSize &s )
+{
   m_ui->frame->resize( s );
   QWidget::resize( s );
 }
 
-void Tweet::resize( int w, int h ) {
+void Tweet::resize( int w, int h )
+{
   QWidget::resize( w, h );
   m_ui->frame->resize( w, h );
   m_ui->userStatus->resize( size().width() - m_ui->userStatus->geometry().x() - 18, m_ui->userStatus->size().height() );
   adjustSize();
 }
 
-void Tweet::adjustSize() {
+void Tweet::adjustSize()
+{
   m_ui->userStatus->document()->setTextWidth( m_ui->userStatus->width() );
   m_ui->userStatus->resize( m_ui->userStatus->size().width(), (int)m_ui->userStatus->document()->size().height() );
   m_ui->frame->resize( m_ui->frame->width(), ( 68 > m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + 11) ? 68 : m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + 11 );
   resize( m_ui->frame->size() );
 }
 
-void Tweet::changeEvent(QEvent *e) {
+void Tweet::changeEvent(QEvent *e)
+{
   switch (e->type()) {
   case QEvent::LanguageChange:
     m_ui->retranslateUi(this);

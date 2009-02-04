@@ -2,7 +2,6 @@
 #define MAINWINDOW_H
 
 #include "settings.h"
-#include "statusedit.h"
 #include "loopedsignal.h"
 #include "ui_mainwindow.h"
 #include "core.h"

@@ -3,7 +3,12 @@
 #include <QHttpRequestHeader>
 #include "ui_authdialog.h"
 
-Core::Core( QObject *parent ) : QThread( parent ), xmlGet( NULL), xmlPost( NULL ), downloadPublicTimeline( false ) {}
+Core::Core( QObject *parent ) :
+    QThread( parent ),
+    downloadPublicTimeline( false ),
+    xmlGet( NULL ),
+    xmlPost( NULL )
+{}
 
 Core::~Core() {}
 
@@ -104,8 +109,14 @@ void Core::authDataDialog() {
   if (dlg.exec() == QDialog::Accepted) {
     authData.setUser( ui.loginEdit->text() );
     authData.setPassword( ui.passwordEdit->text() );
+    emit authDataSet( authData );
+    if ( xmlGet ) {
+      xmlGet->setAuthData( authData );
+    }
+    if ( xmlPost ) {
+      xmlPost->setAuthData( authData );
+    }
   }
-  emit authDataSet( authData );
 }
 
 void Core::error( const QString &message ) {

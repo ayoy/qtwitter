@@ -1,12 +1,10 @@
 #include "mainwindow.h"
-#include "tweet.h"
-#include "settings.h"
 #include "statusfilter.h"
+#include "tweet.h"
+
 #include <QMenu>
 #include <QScrollBar>
 #include <QMessageBox>
-#include <QDesktopWidget>
-#include <QPoint>
 
 MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 {
@@ -37,40 +35,41 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
-
-//  repeat = new LoopedSignal( settingsDialog->ui.refreshCombo->currentText().toInt() * 60, this );
-//  connect( repeat, SIGNAL( ping() ), this, SLOT( updateTweets() ) );
-
-  //updateTweets();
 }
 
-void MainWindow::popupMenu() {
+void MainWindow::popupMenu()
+{
   menu->exec( QCursor::pos() );
 }
 
 MainWindow::~MainWindow() {}
 
-void MainWindow::changeLabel() {
+void MainWindow::changeLabel()
+{
   ui.countdownLabel->setText( ui.statusEdit->isStatusClean() ? QString::number( STATUS_MAX_LEN ) : QString::number( STATUS_MAX_LEN - ui.statusEdit->text().length() ) );
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + tr( " characters left" ) );
 }
 
-void MainWindow::updateTweets() {
+void MainWindow::updateTweets()
+{
   ui.updateButton->setEnabled( false );
   emit get();
 }
 
-void MainWindow::sendStatus() {
+void MainWindow::sendStatus()
+{
   emit post( ui.statusEdit->text().toUtf8() );
 }
 
-void MainWindow::resetStatus() {
+void MainWindow::resetStatus()
+{
   if ( ui.statusEdit->isStatusClean() ) {
     changeLabel();
   }
 }
 
-void MainWindow::resizeEvent( QResizeEvent *event ) {
+void MainWindow::resizeEvent( QResizeEvent *event )
+{
   if ( model.rowCount() == 0 )
     return;
 
@@ -86,7 +85,8 @@ void MainWindow::resizeEvent( QResizeEvent *event ) {
   }
 }
 
-void MainWindow::display( const ListOfEntries &entries, const MapStringImage &imagesHash ) {
+void MainWindow::display( const ListOfEntries &entries, const MapStringImage &imagesHash )
+{
   model.clear();
   int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
   for ( int i = 0; i < entries.size(); i++ ) {
@@ -100,7 +100,8 @@ void MainWindow::display( const ListOfEntries &entries, const MapStringImage &im
   unlock();
 }
 
-void MainWindow::unlock() {
+void MainWindow::unlock()
+{
   ui.updateButton->setEnabled( true );
   if ( !ui.statusEdit->isEnabled() ) {
     ui.statusEdit->setEnabled( true );
@@ -108,7 +109,8 @@ void MainWindow::unlock() {
   }
 }
 
-void MainWindow::popupError( const QString &message ) {
+void MainWindow::popupError( const QString &message )
+{
   QMessageBox::information( this, tr("Error"), message );
   unlock();
 }

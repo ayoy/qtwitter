@@ -13,7 +13,7 @@ protected:
   virtual void run();
 
 public:
-  LoopedSignal( int, QObject *parent = 0 );
+  LoopedSignal( QObject *parent = 0 );
   void setPeriod ( int );
 
 signals:

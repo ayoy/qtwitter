@@ -1,16 +1,17 @@
 #include "httpconnection.h"
 
-#include <QHttpRequestHeader>
-
-HttpConnection::HttpConnection() : QHttp( "/*url.host()*/", QHttp::ConnectionModeHttp, 0 ),
-                                   status(false), bytearray( NULL ), buffer( NULL )
+HttpConnection::HttpConnection( QObject *parent ) :
+    QHttp( "/*url.host()*/", QHttp::ConnectionModeHttp, 80, parent ),
+    bytearray( NULL ),
+    buffer( NULL )
 {
-  connect( this, SIGNAL(requestStarted(int)), this, SLOT(httpRequestStarted(int)));
-  connect( this, SIGNAL(requestFinished(int, bool)), this, SLOT(httpRequestFinished(int, bool)));
-  connect( this, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), this, SLOT(readResponseHeader(const QHttpResponseHeader &)));
+  connect( this, SIGNAL(requestStarted(int)), SLOT(httpRequestStarted(int)));
+  connect( this, SIGNAL(requestFinished(int, bool)), SLOT(httpRequestFinished(int, bool)));
+  connect( this, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), SLOT(readResponseHeader(const QHttpResponseHeader &)));
 }
 
-HttpConnection::~HttpConnection() {
+HttpConnection::~HttpConnection()
+{
   if( buffer ) {
     delete buffer;
     buffer = NULL;
@@ -21,15 +22,18 @@ HttpConnection::~HttpConnection() {
   }
 }
 
-void HttpConnection::httpRequestStarted( int /*requestId*/ ) {
+void HttpConnection::httpRequestStarted( int /*requestId*/ )
+{
   //qDebug() << currentRequest().toString();
 }
 
-void HttpConnection::setUrl( const QString &path ) {
+void HttpConnection::setUrl( const QString &path )
+{
   url.setUrl( path );
 }
 
-QByteArray HttpConnection::prepareRequest( const QString &path ) {
+QByteArray HttpConnection::prepareRequest( const QString &path )
+{
   url.setUrl( path );
   httpHostId = setHost( url.host(), QHttp::ConnectionModeHttp);
     
@@ -54,12 +58,12 @@ QByteArray HttpConnection::prepareRequest( const QString &path ) {
   return encodedPath;
 }
 
-bool HttpConnection::syncGet( const QString &path, bool /*isSync*/, QStringList cookie )
+void HttpConnection::syncGet( const QString &path, bool /*isSync*/, QStringList cookie )
 {
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
     httpRequestAborted = true;
-    return status;
+    return;
   }
 /*  QHttpRequestHeader *getHeader = new QHttpRequestHeader( "GET", QString( encodedPath ) );
   getHeader->setValue( "Host", url.host() );
@@ -73,8 +77,7 @@ bool HttpConnection::syncGet( const QString &path, bool /*isSync*/, QStringList 
 
 //  httpGetId = request( *getHeader, 0, buffer );
   httpGetId = get( encodedPath, buffer );
-  qDebug() << httpGetId << status;
-  return status;
+  qDebug() << httpGetId;
 }
 
 void HttpConnection::syncPost( const QString &path, const QByteArray &status, bool /*isSync*/, QStringList /*cookie = QString()*/ )

@@ -1,9 +1,11 @@
 #include "loopedsignal.h"
 
-LoopedSignal::LoopedSignal( int _period, QObject *parent ) : QThread( parent ), period ( _period ) {}
+LoopedSignal::LoopedSignal( QObject *parent ) : QThread( parent ), period( 0 ) {}
 
 void LoopedSignal::run()
 {
+  if ( period == 0 )
+    return;
   forever {
     emit ping();
     sleep( period );
@@ -13,7 +15,8 @@ void LoopedSignal::run()
 void LoopedSignal::setPeriod( int _period )
 {
   if ( period != _period ) {
-    terminate();
+    if ( this->isRunning() )
+      terminate();
     period = _period;
     start();
   }

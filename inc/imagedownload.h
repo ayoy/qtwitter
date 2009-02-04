@@ -10,8 +10,7 @@ public:
   
   ImageDownload();
   ~ImageDownload();
-  void blockingThing();
-  bool syncGet( const QString& path, bool isSync = false );
+  void syncGet( const QString& path, bool isSync = false );
   QImage getUserImage();
 
 private:

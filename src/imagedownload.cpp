@@ -2,20 +2,20 @@
 
 ImageDownload::ImageDownload() : HttpConnection(), userImage( NULL ) {}
 
-ImageDownload::~ImageDownload() {
+ImageDownload::~ImageDownload()
+{
   if ( userImage ) {
     delete userImage;
     userImage = NULL;
   }
 }
 
-bool ImageDownload::syncGet( const QString &path, bool isSync )
+void ImageDownload::syncGet( const QString &path, bool isSync )
 {
-  status = false;
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
     httpRequestAborted = true;
-    return status;
+    return;
   }
   if ( userImage ) {
     delete userImage;
@@ -25,37 +25,17 @@ bool ImageDownload::syncGet( const QString &path, bool isSync )
   if ( isSync ) {
     qDebug() << "entering event loop...";
     getEventLoop.exec( QEventLoop::ExcludeUserInputEvents );
-    qDebug() << "poczekane";
   }
   qDebug() << httpGetId;
-  return status;
 }
 
 void ImageDownload::httpRequestStarted( int requestId ) {
-  //qDebug() << httpHostId << requestId << "(in ImageDownload)";
-  /*if ( requestId == httpHostId ) {
-    qDebug() << "setHost()";
-    return;
-  }
-  if ( requestId == httpUserId ) {
-    qDebug() << "setUser()";
-    return;
-  }
-  if ( requestId == httpGetId ) {
-    qDebug() << "get()";
-    qDebug() << "The get() request of id:" << requestId << "has started\n" << url.toString();
-    return;
-  }*/
   if ( requestId == closeId ) {
     qDebug() << "close()" << state();
     if ( !state() ) {
       getEventLoop.quit();
     }
   }
-}
-
-void ImageDownload::blockingThing() {
-  syncGet( url.toString(), true );
 }
 
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -129,7 +109,6 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   buffer = 0;
   delete bytearray;
   bytearray = 0;
-  status = !error;
   if ( state() != QHttp::Unconnected ) {
     closeId = close();
   } else {
@@ -137,6 +116,7 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   }
 }
 
-QImage ImageDownload::getUserImage() {
+QImage ImageDownload::getUserImage()
+{
   return *userImage;
 }
