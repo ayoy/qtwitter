@@ -29,18 +29,21 @@ public slots:
   void authDataDialog();
   void setAuthData( const QString &name, const QString &password );
   void addEntry( const Entry &entry, int type );
-  void saveImage( const QString &imageUrl, QImage image );
   void downloadImages();
   void error( const QString &message );
   void storeCookie( const QStringList );
   void setDownloadPublicTimeline( bool );
-    
+
+private slots:
+  void destroyXmlConnection();
+
 signals:
   void readyToDisplay( const ListOfEntries &entries, const MapStringImage &imagesHash );
   void errorMessage( const QString &message );
   void authDataSet( const QAuthenticator& );
   void updateNeeded();
-  
+  void xmlConnectionIdle();
+
 private:
   bool xmlBeingProcessed;
   bool downloadPublicTimeline;

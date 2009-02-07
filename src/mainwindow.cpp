@@ -15,7 +15,6 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
 
-
   menu = new QMenu( this );
   QAction *openaction = new QAction("Open", this);
   QAction *closeaction = new QAction("Close", this);

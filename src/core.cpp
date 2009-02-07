@@ -1,6 +1,5 @@
 #include "core.h"
 
-#include <QHttpRequestHeader>
 #include "ui_authdialog.h"
 
 Core::Core( QObject *parent ) :
@@ -8,7 +7,9 @@ Core::Core( QObject *parent ) :
     downloadPublicTimeline( false ),
     xmlGet( NULL ),
     xmlPost( NULL )
-{}
+{
+  connect( this, SIGNAL(xmlConnectionIdle()), SLOT(destroyXmlConnection()) );
+}
 
 Core::~Core() {}
 
@@ -20,24 +21,15 @@ void Core::run() {
   for ( int i = 0; i < entries.size(); i++ ) {
     qDebug() << i << "image: " << entries[i].image();
     if ( imagesHash.contains( entries[i].image() ) ) {
-      saveImage( entries[i].image(), imagesHash[ entries[i].image() ] );
+      imagesHash[ entries[i].image() ] = imagesHash[ entries[i].image() ];
     } else {
       imageDownload->syncGet( entries[i].image(), true );
-      saveImage( entries[i].image(), imageDownload->getUserImage() );
+      imagesHash[ entries[i].image() ] = imageDownload->getUserImage();
     }
   }
   delete imageDownload;
   imageDownload = NULL;
-  if ( xmlPost ) {
-    qDebug() << "destroying xmlPost";
-    delete xmlPost;
-    xmlPost = NULL;
-  }
-  if ( xmlGet ) {
-    qDebug() << "destroying xmlGet";
-    delete xmlGet;
-    xmlGet = NULL;
-  }
+  emit xmlConnectionIdle();
   emit readyToDisplay( entries, imagesHash );
 }
 
@@ -50,16 +42,16 @@ bool Core::downloadsPublicTimeline() {
 }
 
 void Core::get() {
-  if ( downloadPublicTimeline ) {
-    xmlGet = new XmlDownload ( authData, this, true );
-    xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
-  } else {
-    if ( authData.isNull() ) {
-      authDataDialog();
-    }
-    xmlGet = new XmlDownload ( authData, this, true );
-    xmlGet->syncGet( "http://twitter.com/statuses/friends_timeline.xml", false, cookie );
-  }
+   if ( downloadPublicTimeline ) {
+     xmlGet = new XmlDownload ( authData, this, true );
+     xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
+   } else {
+     if ( authData.isNull() ) {
+       authDataDialog();
+     }
+     xmlGet = new XmlDownload ( authData, this, true );
+     xmlGet->syncGet( "http://twitter.com/statuses/friends_timeline.xml", false, cookie );
+   }
 }
 
 void Core::post( const QByteArray &status ) {
@@ -72,6 +64,19 @@ void Core::post( const QByteArray &status ) {
   qDebug() << request;
   xmlPost = new XmlDownload( authData, XmlParser::One, this );
   xmlPost->syncPost( "http://twitter.com/statuses/update.xml", request, false, cookie );
+}
+
+void Core::destroyXmlConnection() {
+  if ( xmlPost ) {
+    qDebug() << "destroying xmlPost";
+    delete xmlPost;
+    xmlPost = NULL;
+  }
+  if ( xmlGet ) {
+    qDebug() << "destroying xmlGet";
+    delete xmlGet;
+    xmlGet = NULL;
+  }
 }
 
 void Core::addEntry( const Entry &entry, int type )
@@ -91,10 +96,6 @@ void Core::addEntry( const Entry &entry, int type )
 void Core::downloadImages() {
   xmlBeingProcessed = false;
   start();
-}
-
-void Core::saveImage ( const QString &imageUrl, QImage image ) {
-  imagesHash[ imageUrl ] = image;
 }
 
 void Core::storeCookie( const QStringList newCookie ) {

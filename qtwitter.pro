@@ -32,6 +32,8 @@ FORMS += ui/mainwindow.ui \
 RESOURCES += res/resources.qrc
 QT += network \
     xml
+#QTPLUGIN += qjpeg \
+#    qgif
 TRANSLATIONS += loc/qtwitter_pl.ts \
     loc/qtwitter_ca.ts \
     loc/qtwitter_es.ts
