@@ -31,6 +31,7 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 
   connect( ui.updateButton, SIGNAL( clicked() ), this, SLOT( updateTweets() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
+  connect( ui.homeButton, SIGNAL(clicked()), this, SIGNAL(openBrowser()) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );

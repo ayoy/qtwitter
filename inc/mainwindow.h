@@ -36,7 +36,8 @@ signals:
   void settingsDialogRequested();
   void get();
   void post( const QByteArray& );
-  
+  void openBrowser();
+
 private:
   void resizeEvent( QResizeEvent* );
   void unlock();

@@ -32,6 +32,7 @@ public slots:
   void downloadImages();
   void storeCookie( const QStringList );
   void setDownloadPublicTimeline( bool );
+  void openBrowser();
 
 private slots:
   void destroyXmlConnection();
@@ -46,6 +47,7 @@ signals:
 private:
   bool xmlBeingProcessed;
   bool downloadPublicTimeline;
+  bool isShowingDialog;
   XmlDownload *xmlGet;
   XmlDownload *xmlPost;
   ImageDownload *imageDownload;

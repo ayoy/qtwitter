@@ -6,7 +6,8 @@ Core::Core( QObject *parent ) :
     QThread( parent ),
     downloadPublicTimeline( false ),
     xmlGet( NULL ),
-    xmlPost( NULL )
+    xmlPost( NULL ),
+    isShowingDialog( false )
 {
   connect( this, SIGNAL(xmlConnectionIdle()), SLOT(destroyXmlConnection()) );
 }
@@ -108,11 +109,14 @@ void Core::storeCookie( const QStringList newCookie ) {
 }
 
 bool Core::authDataDialog() {
+  if ( isShowingDialog )
+    return true;
   QDialog dlg;
   //dlg.setWindowFlags( Qt::FramelessWindowHint );
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
   //dlg.adjustSize();
+  isShowingDialog = true;
   if (dlg.exec() == QDialog::Accepted) {
     authData.setUser( ui.loginEdit->text() );
     authData.setPassword( ui.passwordEdit->text() );
@@ -125,6 +129,7 @@ bool Core::authDataDialog() {
     }
     return true;
   }
+  isShowingDialog = false;
   return false;
 }
 
@@ -142,3 +147,25 @@ void Core::setAuthData( const QString &username, const QString &password ) {
     emit updateNeeded();
   }
 }
+
+void Core::openBrowser()
+{
+  QString address( "http://twitter.com/home" );
+#ifdef Q_WS_MAC
+  QProcess *browser = new QProcess;
+  browser->start( "open " + address );
+#elif defined Q_WS_X11
+#elif defined Q_WS_WIN
+#endif
+}
+
+
+
+
+
+
+
+
+
+
+
