@@ -42,7 +42,6 @@ private:
   QFile configFile;
   QNetworkProxy proxy;
   Ui::Settings ui;
-//  friend class MainWindow;
   MainWindow *mainWindow;
   LoopedSignal *loopedSignal;
   Core *core;

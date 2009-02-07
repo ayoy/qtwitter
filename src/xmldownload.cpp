@@ -26,7 +26,6 @@ void XmlDownload::createConnections( Core *coreParent, bool isForGet )
   connect( &parser, SIGNAL(newEntry(const Entry&, int )), this, SIGNAL(newEntry(const Entry&, int )));
   connect( &parser, SIGNAL(xmlParsed()), this, SIGNAL(xmlParsed()));
   connect( this, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
-  connect( this, SIGNAL( errorMessage( const QString& ) ), coreParent, SLOT( error( const QString& ) ) );
   connect( this, SIGNAL( newEntry( const Entry&, int ) ), coreParent, SLOT( addEntry( const Entry&, int ) ));
   connect( this, SIGNAL( cookieReceived( const QStringList ) ), coreParent, SLOT(storeCookie(QStringList)) );
   if ( isForGet ) {
@@ -109,11 +108,16 @@ void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, qui
 {
   qDebug() << "auth required";
   if ( authenticated ) {
-    core->authDataDialog();
+    if ( !core->authDataDialog() ) {
+      httpRequestAborted = true;
+      abort();
+    }
     qDebug() << "auth dialog";
   }
-  *authenticator = authData;
-  authenticated = true;
+  if ( !authData.user().isEmpty() && !authData.password().isEmpty() ) {
+    *authenticator = authData;
+    authenticated = true;
+  }
 }
 
 void XmlDownload::setAuthData( const QAuthenticator _authData ) {

@@ -10,7 +10,7 @@
 int main( int argc, char **argv )
 {
   QApplication app( argc, argv );
-  qApp->setWindowIcon( QIcon( ":/icons/icons/twitter_48.png" ) );
+  qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
 
   MainWindow qtwitter;
   LoopedSignal *loopedsignal = new LoopedSignal( &qtwitter );

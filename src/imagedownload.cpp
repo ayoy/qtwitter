@@ -55,7 +55,7 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
       delete userImage;
       userImage = NULL;
     }
-    userImage = new QImage( ":/icons/icons/noimage.png" );
+    userImage = new QImage( ":/icons/noimage.png" );
     emit imageDownloaded( url.toString(), *userImage );
     break;
 

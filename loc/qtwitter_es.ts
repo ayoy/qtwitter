@@ -4,30 +4,43 @@
 <context>
     <name>AuthDialog</name>
     <message>
-        <location filename="../ui/authdialog.ui" line="31"/>
+        <location filename="../ui/authdialog.ui" line="32"/>
         <source>Authentication required</source>
         <translation>Autenticación necesitada</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="39"/>
+        <location filename="../ui/authdialog.ui" line="52"/>
         <source>Username:</source>
         <translation>Nombre de usuario:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="66"/>
+        <location filename="../ui/authdialog.ui" line="79"/>
         <source>Password:</source>
         <translation>Contraseña:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="95"/>
+        <location filename="../ui/authdialog.ui" line="108"/>
         <source>You must authenticate to connect to Twitter</source>
         <translation>Tiene que autenticarse para connectar con Twitter</translation>
     </message>
 </context>
 <context>
+    <name>Core</name>
+    <message>
+        <location filename="../src/core.cpp" line="50"/>
+        <source>Authentication is required to get your friends&apos; updates</source>
+        <translation>Autenticación es requerida para obtener actualitzaciones de sus amigos</translation>
+    </message>
+    <message>
+        <location filename="../src/core.cpp" line="62"/>
+        <source>Authentication is required to post updates</source>
+        <translation>Autenticación es requerida para publicar sus actualitzaciones</translation>
+    </message>
+</context>
+<context>
     <name>HttpConnection</name>
     <message>
-        <location filename="../src/httpconnection.cpp" line="49"/>
+        <location filename="../src/httpconnection.cpp" line="45"/>
         <source>Unable to open device: </source>
         <translation>No se puede abrir el dispositivo:</translation>
     </message>
@@ -35,7 +48,7 @@
 <context>
     <name>ImageDownload</name>
     <message>
-        <location filename="../src/imagedownload.cpp" line="122"/>
+        <location filename="../src/imagedownload.cpp" line="102"/>
         <source>Download failed: </source>
         <translation>Fallo de descargar:</translation>
     </message>
@@ -43,7 +56,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="133"/>
+        <location filename="../src/mainwindow.cpp" line="120"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -53,32 +66,32 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="190"/>
+        <location filename="../ui/mainwindow.ui" line="194"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="222"/>
+        <location filename="../ui/mainwindow.ui" line="226"/>
         <source>What are you doing?</source>
         <translation>Qué estás haciendo ahora?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="67"/>
+        <location filename="../src/mainwindow.cpp" line="56"/>
         <source> characters left</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="141"/>
+        <location filename="../ui/mainwindow.ui" line="145"/>
         <source>Go to twitter.com</source>
         <translation>Ir a twitter.com</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="161"/>
+        <location filename="../ui/mainwindow.ui" line="165"/>
         <source>Settings</source>
         <translation>Configuración</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="184"/>
+        <location filename="../ui/mainwindow.ui" line="188"/>
         <source>Update tweets</source>
         <translation>Actualizar estatutos</translation>
     </message>
@@ -171,12 +184,12 @@
         <translation>Puerto:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="107"/>
+        <location filename="../src/settings.cpp" line="190"/>
         <source>General </source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="108"/>
+        <location filename="../src/settings.cpp" line="191"/>
         <source>Network </source>
         <translation>Red</translation>
     </message>
@@ -196,17 +209,17 @@
         <translation type="obsolete">Puerto:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="114"/>
+        <location filename="../src/settings.cpp" line="200"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="115"/>
+        <location filename="../src/settings.cpp" line="201"/>
         <source>Cancel</source>
         <translation>Anula</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="116"/>
+        <location filename="../src/settings.cpp" line="202"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>

@@ -21,17 +21,20 @@ Settings::Settings( MainWindow *mainwinSettings, LoopedSignal *loopSettings, Cor
 
 Settings::~Settings() {}
 
-void Settings::accept() {
+void Settings::accept()
+{
   saveConfig();
   QDialog::accept();
 }
 
-void Settings::reject() {
+void Settings::reject()
+{
   loadConfig( true );
   QDialog::reject();
 }
 
-void Settings::loadConfig( bool dialogRejected ) {
+void Settings::loadConfig( bool dialogRejected )
+{
 
 #if defined Q_WS_X11 || defined Q_WS_MAC
   QSettings settings( "ayoy", "qTwitter" );
@@ -73,7 +76,8 @@ void Settings::loadConfig( bool dialogRejected ) {
   qDebug() << "settings loaded and applied";
 }
 
-void Settings::saveConfig() {
+void Settings::saveConfig()
+{
 
 #if defined Q_WS_X11 || defined Q_WS_MAC
   QSettings settings( "ayoy", "qTwitter" );
@@ -102,19 +106,22 @@ void Settings::saveConfig() {
   qDebug() << "settings applied and saved";
 }
 
-void Settings::applySettings() {
+void Settings::applySettings()
+{
   setProxy();
   loopedSignal->setPeriod( ui.refreshCombo->currentText().toInt() * 60 );
   core->setDownloadPublicTimeline( ui.radioPublic->isChecked() );
   core->setAuthData( ui.userNameEdit->text(), ui.passwordEdit->text() );
 }
 
-void Settings::setAuthDataInDialog( const QAuthenticator &authData ) {
+void Settings::setAuthDataInDialog( const QAuthenticator &authData )
+{
   ui.userNameEdit->setText( authData.user() );
   ui.passwordEdit->setText( authData.password() );
 }
 
-void Settings::setProxy() {
+void Settings::setProxy()
+{
   if ( ui.proxyBox->isChecked() ) {
     proxy.setType( QNetworkProxy::HttpProxy );
     proxy.setHostName( ui.hostEdit->text() );
@@ -146,15 +153,15 @@ QDir Settings::directoryOf(const QString &subdir)
 void Settings::switchLanguage( int index )
 {
   QString locale = ui.languageCombo->itemData( index ).toString();
-  QString qmPath = directoryOf("loc").absolutePath();
-  qDebug() << "switching locale to" << locale << "from" << qmPath;
+  QString qmPath( ":/translations" );
+  qDebug() << "switching language to" << locale << "from" << qmPath;
   translator.load( "qtwitter_" + locale, qmPath);
   retranslateUi();
 }
 
 void Settings::createLanguageMenu()
 {
-  QDir qmDir = directoryOf("loc");
+  QDir qmDir( ":/translations" );
   QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
   for (int i = 0; i < fileNames.size(); ++i) {
     QString locale = fileNames[i];
@@ -166,8 +173,6 @@ void Settings::createLanguageMenu()
     QString language = translator.translate("Settings", "English");
     qDebug() << "adding language" << language << ", locale" << locale;
     ui.languageCombo->addItem( language, locale );
-    //if (language == "English")
-    //    action->setChecked(true);
   }
   QString systemLocale = QLocale::system().name();
   systemLocale.chop(3);
@@ -175,7 +180,8 @@ void Settings::createLanguageMenu()
   ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
 }
 
-void Settings::retranslateUi() {
+void Settings::retranslateUi()
+{
   ui.label->setText( tr("Refresh every") );
   ui.label_2->setText( tr("minutes") );
   ui.label_3->setText( tr("Language") );

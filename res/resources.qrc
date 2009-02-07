@@ -1,9 +1,16 @@
 <RCC>
     <qresource prefix="/icons" >
-        <file>icons/configure.png</file>
-        <file>icons/noimage.png</file>
-        <file>icons/home.png</file>
-        <file>icons/reload.png</file>
-        <file>icons/twitter_48.png</file>
+        <file>cancel_48.png</file>
+        <file>noimage.png</file>
+        <file>twitter_48.png</file>
+        <file>warning_48.png</file>
+        <file>home_48.png</file>
+        <file>refresh_48.png</file>
+        <file>spanner_48.png</file>
+    </qresource>
+    <qresource prefix="/translations" >
+        <file>qtwitter_ca.qm</file>
+        <file>qtwitter_es.qm</file>
+        <file>qtwitter_pl.qm</file>
     </qresource>
 </RCC>

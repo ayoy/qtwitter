@@ -38,7 +38,7 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
 
   icon = new QSystemTrayIcon( this );
-  icon->setIcon( QIcon( ":/icons/icons/twitter_48.png" ) );
+  icon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
   icon->show();
 
 }

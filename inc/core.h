@@ -26,11 +26,10 @@ public slots:
   void get();
   void post( const QByteArray &status );
 
-  void authDataDialog();
+  bool authDataDialog();
   void setAuthData( const QString &name, const QString &password );
   void addEntry( const Entry &entry, int type );
   void downloadImages();
-  void error( const QString &message );
   void storeCookie( const QStringList );
   void setDownloadPublicTimeline( bool );
 

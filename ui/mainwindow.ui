@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../res/resources.qrc">
-    <normaloff>:/icons/icons/twitter_48.png</normaloff>:/icons/icons/twitter_48.png</iconset>
+    <normaloff>:/icons/twitter_48.png</normaloff>:/icons/twitter_48.png</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -149,7 +149,7 @@
        </property>
        <property name="icon">
         <iconset resource="../res/resources.qrc">
-         <normaloff>:/icons/icons/home.png</normaloff>:/icons/icons/home.png</iconset>
+         <normaloff>:/icons/home_48.png</normaloff>:/icons/home_48.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -172,7 +172,7 @@
        </property>
        <property name="icon">
         <iconset resource="../res/resources.qrc">
-         <normaloff>:/icons/icons/configure.png</normaloff>:/icons/icons/configure.png</iconset>
+         <normaloff>:/icons/spanner_48.png</normaloff>:/icons/spanner_48.png</iconset>
        </property>
        <property name="iconSize">
         <size>
@@ -195,7 +195,7 @@
        </property>
        <property name="icon">
         <iconset resource="../res/resources.qrc">
-         <normaloff>:/icons/icons/reload.png</normaloff>:/icons/icons/reload.png</iconset>
+         <normaloff>:/icons/refresh_48.png</normaloff>:/icons/refresh_48.png</iconset>
        </property>
        <property name="iconSize">
         <size>

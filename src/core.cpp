@@ -16,8 +16,7 @@ Core::~Core() {}
 void Core::run() {
   qDebug() << "Will be downloading" << entries.size() << "images now.";
   imageDownload = new ImageDownload;
-  connect( imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SLOT( error( const QString& ) ) );
-  connect( imageDownload, SIGNAL( imageDownloaded( const QString&, QImage ) ), this, SLOT( saveImage( const QString&, QImage ) ));
+  connect( imageDownload, SIGNAL( errorMessage( const QString& ) ), this, SIGNAL( errorMessage( const QString& ) ) );
   for ( int i = 0; i < entries.size(); i++ ) {
     qDebug() << i << "image: " << entries[i].image();
     if ( imagesHash.contains( entries[i].image() ) ) {
@@ -46,8 +45,11 @@ void Core::get() {
      xmlGet = new XmlDownload ( authData, this, true );
      xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
    } else {
-     if ( authData.isNull() ) {
-       authDataDialog();
+     if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
+       if ( !authDataDialog() ) {
+         emit errorMessage( tr("Authentication is required to get your friends' updates") );
+         return;
+       }
      }
      xmlGet = new XmlDownload ( authData, this, true );
      xmlGet->syncGet( "http://twitter.com/statuses/friends_timeline.xml", false, cookie );
@@ -55,8 +57,11 @@ void Core::get() {
 }
 
 void Core::post( const QByteArray &status ) {
-  if ( authData.isNull() ) {
-    authDataDialog();
+  if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
+    if ( !authDataDialog() ) {
+      emit errorMessage( tr("Authentication is required to post updates") );
+      return;
+    }
   }
   QByteArray request( "status=" );
   request.append( status );
@@ -102,11 +107,12 @@ void Core::storeCookie( const QStringList newCookie ) {
   cookie = newCookie;
 }
 
-void Core::authDataDialog() {
+bool Core::authDataDialog() {
   QDialog dlg;
+  //dlg.setWindowFlags( Qt::FramelessWindowHint );
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
-  dlg.adjustSize();
+  //dlg.adjustSize();
   if (dlg.exec() == QDialog::Accepted) {
     authData.setUser( ui.loginEdit->text() );
     authData.setPassword( ui.passwordEdit->text() );
@@ -117,11 +123,9 @@ void Core::authDataDialog() {
     if ( xmlPost ) {
       xmlPost->setAuthData( authData );
     }
+    return true;
   }
-}
-
-void Core::error( const QString &message ) {
-  emit errorMessage( message );
+  return false;
 }
 
 void Core::setAuthData( const QString &username, const QString &password ) {
