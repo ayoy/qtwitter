@@ -31,6 +31,7 @@ public slots:
   void reject();
   void switchLanguage( int );
   void setAuthDataInDialog( const QAuthenticator& );
+  void switchToPublic();
 signals:
   void settingsOK();
 

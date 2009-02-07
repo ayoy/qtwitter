@@ -114,10 +114,24 @@ void Settings::applySettings()
   core->setAuthData( ui.userNameEdit->text(), ui.passwordEdit->text() );
 }
 
-void Settings::setAuthDataInDialog( const QAuthenticator &authData )
+void Settings::setAuthDataInDialog( const QAuthenticator &authData)
 {
   ui.userNameEdit->setText( authData.user() );
   ui.passwordEdit->setText( authData.password() );
+}
+
+void Settings::switchToPublic() {
+  if ( !ui.radioPublic->isChecked() ) {
+    ui.radioPublic->setChecked( true );
+
+#if defined Q_WS_X11 || defined Q_WS_MAC
+    QSettings settings( "ayoy", "qTwitter" );
+#endif
+#if defined Q_WS_WIN
+    QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
+#endif
+    settings.setValue( "General/timeline", ui.radioFriends->isChecked() );
+  }
 }
 
 void Settings::setProxy()
@@ -157,6 +171,7 @@ void Settings::switchLanguage( int index )
   qDebug() << "switching language to" << locale << "from" << qmPath;
   translator.load( "qtwitter_" + locale, qmPath);
   retranslateUi();
+  adjustSize();
 }
 
 void Settings::createLanguageMenu()

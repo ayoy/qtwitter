@@ -9,30 +9,40 @@
         <translation>Wymagana autoryzacja</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="52"/>
+        <location filename="../ui/authdialog.ui" line="72"/>
         <source>Username:</source>
         <translation>Nazwa użytkownika:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="79"/>
+        <location filename="../ui/authdialog.ui" line="99"/>
         <source>Password:</source>
         <translation>Hasło:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="108"/>
+        <location filename="../ui/authdialog.ui" line="59"/>
         <source>You must authenticate to connect to Twitter</source>
         <translation>Twitter wymaga autoryzacji przed połączeniem</translation>
+    </message>
+    <message>
+        <location filename="../ui/authdialog.ui" line="126"/>
+        <source>or</source>
+        <translation>lub</translation>
+    </message>
+    <message>
+        <location filename="../ui/authdialog.ui" line="136"/>
+        <source>download public timeline</source>
+        <translation>pokaż publiczne aktualizacje</translation>
     </message>
 </context>
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="50"/>
+        <location filename="../src/core.cpp" line="51"/>
         <source>Authentication is required to get your friends&apos; updates</source>
         <translation>Do pobrania statusów znajomych wymagana jest autoryzacja</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="62"/>
+        <location filename="../src/core.cpp" line="68"/>
         <source>Authentication is required to post updates</source>
         <translation>Do publikowania aktualizacji wymagana jest autoryzacja</translation>
     </message>
@@ -56,7 +66,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="120"/>
+        <location filename="../src/mainwindow.cpp" line="161"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -81,7 +91,7 @@
         <translation type="obsolete">140</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="56"/>
+        <location filename="../src/mainwindow.cpp" line="97"/>
         <source> characters left</source>
         <translation> znaków pozostało</translation>
     </message>
@@ -189,12 +199,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="190"/>
+        <location filename="../src/settings.cpp" line="205"/>
         <source>General </source>
         <translation>Ogólne</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="191"/>
+        <location filename="../src/settings.cpp" line="206"/>
         <source>Network </source>
         <translation>Sieć</translation>
     </message>
@@ -204,17 +214,17 @@
         <translation type="obsolete">Używaj &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="200"/>
+        <location filename="../src/settings.cpp" line="215"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="201"/>
+        <location filename="../src/settings.cpp" line="216"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="202"/>
+        <location filename="../src/settings.cpp" line="217"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>

@@ -23,6 +23,7 @@ int main( int argc, char **argv )
   QObject::connect( &qtwitter, SIGNAL(post(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
   QObject::connect( core, SIGNAL(authDataSet(QAuthenticator)), settings, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;
+  QObject::connect( core, SIGNAL(switchToPublic()), settings, SLOT(switchToPublic()) );
   QObject::connect( core, SIGNAL(errorMessage(QString)), &qtwitter, SLOT(popupError(QString)) );
   QObject::connect( core, SIGNAL(readyToDisplay(ListOfEntries,MapStringImage)), &qtwitter, SLOT(display(ListOfEntries,MapStringImage)) );
   QObject::connect( core, SIGNAL(updateNeeded()), &qtwitter, SLOT(updateTweets()) );

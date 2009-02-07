@@ -22,15 +22,16 @@ public:
   ~MainWindow();
   
 public slots:
+  void updateTweets();
+  void popupError( const QString &message );
+  void display( const ListOfEntries &entries, const MapStringImage &imagesHash );
+
+private slots:
+  void iconActivated( QSystemTrayIcon::ActivationReason reason );
   void changeLabel();
   void sendStatus();
   void resetStatus();
- 
-  void updateTweets();
-  void popupError( const QString &message );
   void popupMenu();
-
-  void display( const ListOfEntries &entries, const MapStringImage &imagesHash );
 
 signals:
   void settingsDialogRequested();
@@ -38,11 +39,15 @@ signals:
   void post( const QByteArray& );
   void openBrowser();
 
+protected:
+  void closeEvent( QCloseEvent *e );
+
 private:
   void resizeEvent( QResizeEvent* );
   void unlock();
-  QSystemTrayIcon *icon;
+  QSystemTrayIcon *trayIcon;
   QMenu *menu;
+  QMenu *trayMenu;
   LoopedSignal *repeat;
   QStandardItemModel model;
   Settings *settingsDialog;

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>275</width>
-    <height>150</height>
+    <height>189</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -19,33 +19,53 @@
   <property name="minimumSize">
    <size>
     <width>275</width>
-    <height>150</height>
+    <height>180</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>400</width>
-    <height>150</height>
+    <width>275</width>
+    <height>189</height>
    </size>
   </property>
   <property name="windowTitle">
    <string>Authentication required</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout_2">
-   <property name="leftMargin">
-    <number>6</number>
-   </property>
-   <property name="topMargin">
-    <number>0</number>
-   </property>
-   <property name="rightMargin">
-    <number>6</number>
-   </property>
-   <property name="bottomMargin">
-    <number>0</number>
-   </property>
-   <item row="0" column="0">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
     <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../res/resources.qrc">:/icons/warning_48.png</pixmap>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" colspan="2">
+      <widget class="QLabel" name="titleLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>You must authenticate to connect to Twitter</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+       <property name="wordWrap">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
      <item row="1" column="0">
       <widget class="QLabel" name="loginLabel">
        <property name="text">
@@ -96,35 +116,24 @@
        </property>
       </widget>
      </item>
-     <item row="0" column="1" colspan="2">
-      <widget class="QLabel" name="titleLabel">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
+    </layout>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLabel" name="label_2">
        <property name="text">
-        <string>You must authenticate to connect to Twitter</string>
+        <string>or</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
        </property>
       </widget>
      </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label">
+     <item>
+      <widget class="QCheckBox" name="publicBox">
        <property name="text">
-        <string/>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../res/resources.qrc">:/icons/warning_48.png</pixmap>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <string>download public timeline</string>
        </property>
       </widget>
      </item>
@@ -148,12 +157,12 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>260</y>
+     <x>262</x>
+     <y>142</y>
     </hint>
     <hint type="destinationlabel">
-     <x>286</x>
-     <y>274</y>
+     <x>274</x>
+     <y>194</y>
     </hint>
    </hints>
   </connection>
@@ -164,12 +173,76 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>262</x>
+     <y>142</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
-     <y>274</y>
+     <y>194</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>publicBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>passwordEdit</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>124</x>
+     <y>166</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>126</x>
+     <y>127</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>publicBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>loginEdit</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>167</x>
+     <y>161</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>167</x>
+     <y>91</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>publicBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>passwordLabel</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>99</x>
+     <y>167</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>37</x>
+     <y>122</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>publicBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>loginLabel</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>111</x>
+     <y>159</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>67</x>
+     <y>85</y>
     </hint>
    </hints>
   </connection>

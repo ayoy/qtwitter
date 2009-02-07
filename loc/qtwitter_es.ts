@@ -9,30 +9,40 @@
         <translation>Autenticación necesitada</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="52"/>
+        <location filename="../ui/authdialog.ui" line="72"/>
         <source>Username:</source>
         <translation>Nombre de usuario:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="79"/>
+        <location filename="../ui/authdialog.ui" line="99"/>
         <source>Password:</source>
         <translation>Contraseña:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="108"/>
+        <location filename="../ui/authdialog.ui" line="59"/>
         <source>You must authenticate to connect to Twitter</source>
         <translation>Tiene que autenticarse para connectar con Twitter</translation>
+    </message>
+    <message>
+        <location filename="../ui/authdialog.ui" line="126"/>
+        <source>or</source>
+        <translation>o</translation>
+    </message>
+    <message>
+        <location filename="../ui/authdialog.ui" line="136"/>
+        <source>download public timeline</source>
+        <translation>baja las actualizationes públicas</translation>
     </message>
 </context>
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="50"/>
+        <location filename="../src/core.cpp" line="51"/>
         <source>Authentication is required to get your friends&apos; updates</source>
         <translation>Autenticación es requerida para obtener actualitzaciones de sus amigos</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="62"/>
+        <location filename="../src/core.cpp" line="68"/>
         <source>Authentication is required to post updates</source>
         <translation>Autenticación es requerida para publicar sus actualitzaciones</translation>
     </message>
@@ -56,7 +66,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="120"/>
+        <location filename="../src/mainwindow.cpp" line="161"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -76,7 +86,7 @@
         <translation>Qué estás haciendo ahora?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="56"/>
+        <location filename="../src/mainwindow.cpp" line="97"/>
         <source> characters left</source>
         <translation></translation>
     </message>
@@ -184,12 +194,12 @@
         <translation>Puerto:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="190"/>
+        <location filename="../src/settings.cpp" line="205"/>
         <source>General </source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="191"/>
+        <location filename="../src/settings.cpp" line="206"/>
         <source>Network </source>
         <translation>Red</translation>
     </message>
@@ -209,17 +219,17 @@
         <translation type="obsolete">Puerto:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="200"/>
+        <location filename="../src/settings.cpp" line="215"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="201"/>
+        <location filename="../src/settings.cpp" line="216"/>
         <source>Cancel</source>
         <translation>Anula</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="202"/>
+        <location filename="../src/settings.cpp" line="217"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>

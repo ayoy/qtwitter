@@ -52,9 +52,14 @@ void Core::get() {
          return;
        }
      }
-     xmlGet = new XmlDownload ( authData, this, true );
-     xmlGet->syncGet( "http://twitter.com/statuses/friends_timeline.xml", false, cookie );
-   }
+     if ( downloadPublicTimeline ) {
+       xmlGet = new XmlDownload ( authData, this, true );
+       xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
+     } else {
+       xmlGet = new XmlDownload ( authData, this, true );
+       xmlGet->syncGet( "http://twitter.com/statuses/friends_timeline.xml", false, cookie );
+    }
+  }
 }
 
 void Core::post( const QByteArray &status ) {
@@ -112,21 +117,27 @@ bool Core::authDataDialog() {
   if ( isShowingDialog )
     return true;
   QDialog dlg;
-  //dlg.setWindowFlags( Qt::FramelessWindowHint );
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
   //dlg.adjustSize();
   isShowingDialog = true;
+
   if (dlg.exec() == QDialog::Accepted) {
-    authData.setUser( ui.loginEdit->text() );
-    authData.setPassword( ui.passwordEdit->text() );
-    emit authDataSet( authData );
-    if ( xmlGet ) {
-      xmlGet->setAuthData( authData );
+    if ( ui.publicBox->isChecked() ) {
+      downloadPublicTimeline = true;
+      emit switchToPublic();
+    } else {
+      authData.setUser( ui.loginEdit->text() );
+      authData.setPassword( ui.passwordEdit->text() );
+      emit authDataSet( authData );
+      if ( xmlGet ) {
+        xmlGet->setAuthData( authData );
+      }
+      if ( xmlPost ) {
+        xmlPost->setAuthData( authData );
+      }
     }
-    if ( xmlPost ) {
-      xmlPost->setAuthData( authData );
-    }
+    isShowingDialog = false;
     return true;
   }
   isShowingDialog = false;

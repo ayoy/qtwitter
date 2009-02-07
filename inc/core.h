@@ -41,6 +41,7 @@ signals:
   void readyToDisplay( const ListOfEntries &entries, const MapStringImage &imagesHash );
   void errorMessage( const QString &message );
   void authDataSet( const QAuthenticator& );
+  void switchToPublic();
   void updateNeeded();
   void xmlConnectionIdle();
 
