@@ -3,6 +3,10 @@
 #include "core.h"
 #include "loopedsignal.h"
 
+#include <QSystemTrayIcon>
+#include <QMenu>
+#include <QAction>
+
 //Q_IMPORT_PLUGIN(qjpeg)
 //Q_IMPORT_PLUGIN(qgif)
 
@@ -27,7 +31,7 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(errorMessage(QString)), &qtwitter, SLOT(popupError(QString)) );
   QObject::connect( core, SIGNAL(readyToDisplay(ListOfEntries,MapStringImage)), &qtwitter, SLOT(display(ListOfEntries,MapStringImage)) );
   QObject::connect( core, SIGNAL(updateNeeded()), &qtwitter, SLOT(updateTweets()) );
-  //connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
+
   qtwitter.show();
 
   if ( !loopedsignal->isRunning() )

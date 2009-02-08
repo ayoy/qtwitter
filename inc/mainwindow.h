@@ -45,9 +45,8 @@ protected:
 private:
   void resizeEvent( QResizeEvent* );
   void unlock();
-  QSystemTrayIcon *trayIcon;
   QMenu *menu;
-  QMenu *trayMenu;
+  QSystemTrayIcon *trayIcon;
   LoopedSignal *repeat;
   QStandardItemModel model;
   Settings *settingsDialog;

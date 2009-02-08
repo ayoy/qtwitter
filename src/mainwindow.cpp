@@ -39,25 +39,27 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
 
   trayIcon = new QSystemTrayIcon( this );
-  connect( trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)) );
   trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
-#ifndef Q_WS_MAC
-  trayIcon->setToolTip( "qTwitter" );
-#endif
-  trayIcon->show();
 
-  trayMenu = new QMenu( this );
-  QAction *showaction = new QAction("Show", this);
-  QAction *settingsaction = new QAction("Settings", this);
-  QAction *quitaction = new QAction("Quit", this);
+  QObject::connect( trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)) );
+#ifndef Q_WS_MAC
+  QMenu *trayMenu = new QMenu( this );
+  QAction *showaction = new QAction("Show", trayMenu);
+  QAction *settingsaction = new QAction("Settings", trayMenu);
+  QAction *quitaction = new QAction("Quit", trayMenu);
+
+  QObject::connect( showaction, SIGNAL(triggered()), this, SLOT(show()) );
+  QObject::connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
+  QObject::connect( settingsaction, SIGNAL(triggered()), this, SIGNAL(settingsDialogRequested()) );
 
   trayMenu->addAction(showaction);
   trayMenu->addAction(settingsaction);
-  trayMenu->addAction(aboutaction);
   trayMenu->addAction(quitaction);
-
   trayIcon->setContextMenu( trayMenu );
 
+  trayIcon->setToolTip( "qTwitter" );
+#endif
+  trayIcon->show();
 }
 
 void MainWindow::popupMenu()
@@ -86,6 +88,8 @@ void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
         showNormal();
       else
         hide();
+      break;
+    default:
       break;
   }
 }
