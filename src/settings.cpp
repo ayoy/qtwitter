@@ -197,6 +197,7 @@ void Settings::createLanguageMenu()
 
 void Settings::retranslateUi()
 {
+  mainWindow->retranslateUi();
   ui.label->setText( tr("Refresh every") );
   ui.label_2->setText( tr("minutes") );
   ui.label_3->setText( tr("Language") );
@@ -215,4 +216,5 @@ void Settings::retranslateUi()
   ui.buttonBox->button( QDialogButtonBox::Apply )->setText( tr( "Apply" ) );
   ui.buttonBox->button( QDialogButtonBox::Cancel )->setText( tr( "Cancel" ) );
   ui.buttonBox->button( QDialogButtonBox::Ok )->setText( tr( "OK" ) );
+  adjustSize();
 }

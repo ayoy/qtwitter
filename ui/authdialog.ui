@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>275</width>
+    <width>300</width>
     <height>189</height>
    </rect>
   </property>
@@ -18,13 +18,13 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>275</width>
-    <height>180</height>
+    <width>300</width>
+    <height>189</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>275</width>
+    <width>400</width>
     <height>189</height>
    </size>
   </property>
@@ -36,6 +36,12 @@
     <layout class="QGridLayout" name="gridLayout">
      <item row="0" column="0">
       <widget class="QLabel" name="label">
+       <property name="minimumSize">
+        <size>
+         <width>0</width>
+         <height>48</height>
+        </size>
+       </property>
        <property name="text">
         <string/>
        </property>
@@ -105,6 +111,12 @@
      </item>
      <item row="2" column="1">
       <widget class="QLineEdit" name="passwordEdit">
+       <property name="minimumSize">
+        <size>
+         <width>90</width>
+         <height>0</height>
+        </size>
+       </property>
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
        </property>
@@ -126,7 +138,7 @@
         <string>or</string>
        </property>
        <property name="alignment">
-        <set>Qt::AlignCenter</set>
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
       </widget>
      </item>
@@ -144,6 +156,7 @@
  <tabstops>
   <tabstop>loginEdit</tabstop>
   <tabstop>passwordEdit</tabstop>
+  <tabstop>publicBox</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>

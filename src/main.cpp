@@ -3,10 +3,6 @@
 #include "core.h"
 #include "loopedsignal.h"
 
-#include <QSystemTrayIcon>
-#include <QMenu>
-#include <QAction>
-
 //Q_IMPORT_PLUGIN(qjpeg)
 //Q_IMPORT_PLUGIN(qgif)
 
