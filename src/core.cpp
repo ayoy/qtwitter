@@ -6,9 +6,9 @@
 Core::Core( QObject *parent ) :
     QThread( parent ),
     downloadPublicTimeline( false ),
+    isShowingDialog( false ),
     xmlGet( NULL ),
-    xmlPost( NULL ),
-    isShowingDialog( false )
+    xmlPost( NULL )
 {
   connect( this, SIGNAL(xmlConnectionIdle()), SLOT(destroyXmlConnection()) );
 }
@@ -120,7 +120,7 @@ bool Core::authDataDialog() {
   QDialog dlg;
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
-  //dlg.adjustSize();
+  dlg.adjustSize();
   isShowingDialog = true;
 
   if (dlg.exec() == QDialog::Accepted) {

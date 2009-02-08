@@ -296,11 +296,11 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>statusListView</tabstop>
-  <tabstop>statusEdit</tabstop>
   <tabstop>updateButton</tabstop>
+  <tabstop>statusEdit</tabstop>
   <tabstop>settingsButton</tabstop>
   <tabstop>homeButton</tabstop>
+  <tabstop>statusListView</tabstop>
  </tabstops>
  <resources>
   <include location="../res/resources.qrc"/>

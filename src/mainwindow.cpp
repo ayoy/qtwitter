@@ -15,16 +15,16 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
 
-  menu = new QMenu( this );
-  QAction *openaction = new QAction("Open", this);
-  QAction *closeaction = new QAction("Close", this);
-  QAction *deleteaction = new QAction("Delete", this);
-  QAction *aboutaction = new QAction("About", this);
+//  menu = new QMenu( this );
+//  QAction *openaction = new QAction("Open", this);
+//  QAction *closeaction = new QAction("Close", this);
+//  QAction *deleteaction = new QAction("Delete", this);
+//  QAction *aboutaction = new QAction("About", this);
 
-  menu->addAction(openaction);
-  menu->addAction(closeaction);
-  menu->addAction(deleteaction);
-  menu->addAction(aboutaction);
+//  menu->addAction(openaction);
+//  menu->addAction(closeaction);
+//  menu->addAction(deleteaction);
+//  menu->addAction(aboutaction);
 
   qDebug() << qRegisterMetaType<ListOfEntries>( "ListOfEntries" );
   qDebug() << qRegisterMetaType<MapStringImage>( "MapStringImage" );
@@ -64,7 +64,7 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 
 void MainWindow::popupMenu()
 {
-  menu->exec( QCursor::pos() );
+//  menu->exec( QCursor::pos() );
 }
 
 MainWindow::~MainWindow() {}
@@ -104,11 +104,14 @@ void MainWindow::changeLabel()
 void MainWindow::updateTweets()
 {
   ui.updateButton->setEnabled( false );
+  ui.statusEdit->setEnabled( false );
   emit get();
 }
 
 void MainWindow::sendStatus()
 {
+  ui.updateButton->setEnabled( false );
+  ui.statusEdit->setEnabled( false );
   emit post( ui.statusEdit->text().toUtf8() );
 }
 
@@ -164,4 +167,15 @@ void MainWindow::popupError( const QString &message )
 {
   QMessageBox::information( this, tr("Error"), message );
   unlock();
+}
+
+void MainWindow::retranslateUi()
+{
+  ui.homeButton->setToolTip( tr("Go to twitter.com") );
+  ui.settingsButton->setToolTip( tr("Settings") );
+  ui.updateButton->setToolTip( tr("Update tweets") );
+  if ( ui.statusEdit->isStatusClean() ) {
+    ui.statusEdit->initialize();
+  }
+  ui.statusEdit->setText( tr("What are you doing?") );
 }

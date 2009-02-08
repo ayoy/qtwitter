@@ -20,6 +20,7 @@ class MainWindow : public QWidget
 public:
   MainWindow();
   ~MainWindow();
+  void retranslateUi();
   
 public slots:
   void updateTweets();
