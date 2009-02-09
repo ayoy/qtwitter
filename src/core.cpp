@@ -168,8 +168,8 @@ void Core::openBrowser()
   browser->start( "open " + address );
 #elif defined Q_WS_X11
 #elif defined Q_WS_WIN
-  QSettings settings( "HKEY_CLASSES_ROOT\\http\\shell\\open", QSettings::NativeFormat );
+  QSettings settings( "HKEY_CLASSES_ROOT\\http\\shell\\open\\command", QSettings::NativeFormat );
   QProcess *browser = new QProcess;
-  browser->start( settings.value( "command" ).toString() + address );
+  browser->start( settings.value( "Default" ).toString() + " " + address );
 #endif
 }
