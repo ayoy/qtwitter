@@ -28,8 +28,9 @@ Tweet::Tweet(QWidget *parent) :
   m_ui->setupUi(this);
 }
 
-Tweet::Tweet( const QString &name, const QString &status, const QImage &icon, QWidget *parent ) :
+Tweet::Tweet( const QString &name, const QString &status, const QString &url, const QImage &icon, QWidget *parent ) :
   QWidget(parent),
+  urlForIcon(url),
   m_ui(new Ui::Tweet)
 {
   m_ui->setupUi( this );
@@ -43,6 +44,16 @@ Tweet::Tweet( const QString &name, const QString &status, const QImage &icon, QW
 Tweet::~Tweet()
 {
   delete m_ui;
+}
+
+QString Tweet::getUrlForIcon() const
+{
+  return urlForIcon;
+}
+
+void Tweet::setIcon( const QImage &image )
+{
+  m_ui->userIcon->setPixmap( QPixmap::fromImage( image ) );
 }
 
 void Tweet::resize( const QSize &s )

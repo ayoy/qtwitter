@@ -44,7 +44,6 @@ public slots:
 
 signals:
   void dataParsed( const QString& );
-  void newEntry( const Entry&, int );
   void errorMessage( const QString& );
 
 protected:

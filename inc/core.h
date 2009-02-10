@@ -26,6 +26,7 @@
 
 #include "entry.h"
 #include "xmldownload.h"
+#include "xmlparser.h"
 #include "imagedownload.h"
 
 typedef QList<Entry> ListOfEntries;
@@ -48,14 +49,16 @@ public slots:
 
   bool authDataDialog();
   void setAuthData( const QString &name, const QString &password );
-  void addEntry( const Entry &entry, int type );
+  void addEntry( const Entry &entry, XmlParser::XmlType type );
   void downloadImages();
   void storeCookie( const QStringList );
   void setDownloadPublicTimeline( bool );
   void openBrowser();
+  void downloadOneImage( const Entry &entry );
 
 private slots:
   void destroyXmlConnection();
+  void setImageInHash( const QString&, QImage );
 
 signals:
   void readyToDisplay( const ListOfEntries &entries, const MapStringImage &imagesHash );
@@ -64,6 +67,10 @@ signals:
   void switchToPublic();
   void updateNeeded();
   void xmlConnectionIdle();
+  void addOneEntry( const Entry& );
+  void setImage( const Entry&, QImage );
+  void setImageForUrl( const QString&, QImage );
+  void requestListRefresh();
 
 private:
   bool xmlBeingProcessed;
@@ -72,6 +79,7 @@ private:
   XmlDownload *xmlGet;
   XmlDownload *xmlPost;
   ImageDownload *imageDownload;
+  QMap<QString,ImageDownload*> imagesGetter;
   MapStringImage imagesHash;
   ListOfEntries entries;
   QAuthenticator authData;

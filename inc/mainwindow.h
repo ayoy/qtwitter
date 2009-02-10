@@ -46,6 +46,9 @@ public slots:
   void updateTweets();
   void popupError( const QString &message );
   void display( const ListOfEntries &entries, const MapStringImage &imagesHash );
+  void displayItem( const Entry &entry );
+  void setImageForUrl( const QString&, QImage );
+  void setModelToBeCleared();
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
@@ -71,6 +74,7 @@ private:
   LoopedSignal *repeat;
   QStandardItemModel model;
   Settings *settingsDialog;
+  bool modelToBeCleared;
   Ui::MainWindow ui;
 };
 

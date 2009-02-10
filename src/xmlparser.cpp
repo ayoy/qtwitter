@@ -29,7 +29,7 @@ XmlParser::XmlParser() :
   {
   }
 
-XmlParser::XmlParser( int type ) :
+XmlParser::XmlParser( XmlType type ) :
   QXmlDefaultHandler(),
   lastField( None ),
   type( type ),
@@ -51,6 +51,9 @@ bool XmlParser::endDocument() {
 
 bool XmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ ) {
   ( (lastField = checkFieldType( qName )) != None ) ? important = true : important = false;
+  if ( lastField == Text ) {
+    entry.setId( entry.getId() + 1 );
+  }
   /*for( int i = 0; i<atts.length(); ++i ) {
     qDebug() << " " << atts.qName(i) << "=" << atts.value(i);
   }*/

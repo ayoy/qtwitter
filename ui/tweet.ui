@@ -67,8 +67,7 @@ border-radius: 0px }</string>
      </sizepolicy>
     </property>
     <property name="styleSheet">
-     <string notr="true">QLabel { background-color: rgb(255, 255, 255);
-border-style: outset;
+     <string notr="true">QLabel { border-style: outset;
 border-width: 0px;
 border-radius: 0px}</string>
     </property>

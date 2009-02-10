@@ -35,6 +35,37 @@ Core::Core( QObject *parent ) :
 
 Core::~Core() {}
 
+void Core::downloadOneImage( const Entry &entry ) {
+  if ( imagesHash.contains( entry.image() ) ) {
+    if ( imagesHash[ entry.image() ].isNull() ) {
+      qDebug() << "not downloading";
+    } else {
+      emit setImageForUrl( entry.image(), imagesHash[ entry.image() ] );
+    }
+    return;
+  }
+  QString host = QUrl( entry.image() ).host();
+  if ( imagesGetter.contains( host ) ) {
+    imagesGetter[host]->imgGet( entry );
+    imagesHash[ entry.image() ] = QImage();
+    qDebug() << "setting null image";
+    return;
+  }
+  ImageDownload *getter = new ImageDownload();
+  imagesGetter[host] = getter;
+  connect( getter, SIGNAL( errorMessage( const QString& ) ), this, SIGNAL( errorMessage( const QString& ) ) );
+  connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
+  getter->imgGet( entry );
+  imagesHash[ entry.image() ] = QImage();
+  qDebug() << "setting null image" << imagesHash[ entry.image() ].isNull();
+}
+
+void Core::setImageInHash( const QString &url, QImage image ) {
+  qDebug() << "assigning image to url:" << url;
+  imagesHash[ url ] = image;
+  emit setImageForUrl( url, image );
+}
+
 void Core::run() {
   qDebug() << "Will be downloading" << entries.size() << "images now.";
   imageDownload = new ImageDownload;
@@ -63,7 +94,8 @@ bool Core::downloadsPublicTimeline() {
 }
 
 void Core::get() {
-   if ( downloadPublicTimeline ) {
+  emit requestListRefresh();
+  if ( downloadPublicTimeline ) {
      xmlGet = new XmlDownload ( authData, this, true );
      xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
    } else {
@@ -111,7 +143,7 @@ void Core::destroyXmlConnection() {
   }
 }
 
-void Core::addEntry( const Entry &entry, int type )
+void Core::addEntry( const Entry &entry, XmlParser::XmlType type )
 {
   if ( type == XmlParser::All ) {
     if ( !xmlBeingProcessed ) {

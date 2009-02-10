@@ -30,6 +30,50 @@ ImageDownload::~ImageDownload()
   }
 }
 
+void ImageDownload::imgGet( const Entry &entry )      //requestByEntry[entry.getId()] = httpGetId;
+{
+
+  url.setUrl( entry.image() );
+  httpHostId = setHost( url.host(), QHttp::ConnectionModeHttp);
+
+  bytearray = new QByteArray();
+  buffer = new QBuffer( bytearray );
+
+  if ( !buffer->open(QIODevice::ReadWrite) )
+  {
+    emit errorMessage( tr("Unable to open device: ") + buffer->errorString() );
+    delete buffer;
+    buffer = 0;
+    delete bytearray;
+    bytearray = 0;
+    httpRequestAborted = true;
+    return;
+  }
+
+  httpRequestAborted = false;
+  QByteArray encodedPath = QUrl::toPercentEncoding(url.path(), "!$&'()*+,;=:@/");
+  if ( encodedPath.isEmpty() )
+    encodedPath = "/";
+  qDebug() << "About to download: " + encodedPath + " from: " + url.host();
+
+  if ( userImage ) {
+    delete userImage;
+    userImage = NULL;
+  }
+  qDebug() << "getting " << encodedPath << "\nentry :" << entry.image();
+  httpGetId = get( encodedPath, buffer );
+
+  requestByEntry[entry.image()] = httpGetId;
+  imageByEntry[ requestByEntry.key( httpGetId ) ].buffer = buffer;
+  imageByEntry[ requestByEntry.key( httpGetId ) ].bytearray = bytearray;
+
+  /*if ( isSync ) {
+    qDebug() << "entering event loop...";
+    getEventLoop.exec( QEventLoop::ExcludeUserInputEvents );
+  }*/
+  qDebug() << "Request of type GET and id" << httpGetId << "started";
+}
+
 void ImageDownload::syncGet( const QString &path, bool isSync )
 {
   QByteArray encodedPath = prepareRequest( path );
@@ -50,17 +94,17 @@ void ImageDownload::syncGet( const QString &path, bool isSync )
 }
 
 void ImageDownload::httpRequestStarted( int requestId ) {
-  if ( requestId == closeId ) {
+  /*if ( requestId == closeId ) {
     qDebug() << "close()" << state();
     if ( !state() ) {
       getEventLoop.quit();
     }
-  }
+  }*/
 }
 
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
-  qDebug() << "Response for" << url.path();
+  qDebug() << "Response for" << requestByEntry.key( currentId() );//url.path();
   qDebug() << "Code is:" << responseHeader.statusCode() << ", status is:" << responseHeader.reasonPhrase() << "\n";
   switch ( responseHeader.statusCode() ) {
   case 200:                   // Ok
@@ -84,14 +128,14 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
     emit errorMessage( tr( "Download failed: " ) + responseHeader.reasonPhrase() );
     httpRequestAborted = true;
     abort();
-    if ( buffer ) {
-      buffer->close();
-      delete buffer;
-      buffer = 0;
+    if ( imageByEntry[ requestByEntry.key( currentId() ) ].buffer ) {
+      imageByEntry[ requestByEntry.key( currentId() ) ].buffer->close();
+      delete imageByEntry[ requestByEntry.key( currentId() ) ].buffer;
+      imageByEntry[ requestByEntry.key( currentId() ) ].buffer = 0;
     }
-    if ( bytearray ) {
-      delete bytearray;
-      bytearray = 0;
+    if ( imageByEntry[ requestByEntry.key( currentId() ) ].bytearray ) {
+      delete imageByEntry[ requestByEntry.key( currentId() ) ].bytearray;
+      imageByEntry[ requestByEntry.key( currentId() ) ].bytearray = 0;
     }
   }
 }
@@ -99,41 +143,45 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
 void ImageDownload::httpRequestFinished( int requestId, bool error )
 {
   if (httpRequestAborted) {
-    if (buffer) {
-      buffer->close();
-      delete buffer;
-      buffer = 0;
+    if (imageByEntry[ requestByEntry.key( requestId ) ].buffer) {
+      imageByEntry[ requestByEntry.key( requestId ) ].buffer->close();
+      delete imageByEntry[ requestByEntry.key( requestId ) ].buffer;
+      imageByEntry[ requestByEntry.key( requestId ) ].buffer = 0;
     }
-    if(bytearray) {
-      delete bytearray;
-      bytearray = 0;
+    if(imageByEntry[ requestByEntry.key( requestId ) ].bytearray) {
+      delete imageByEntry[ requestByEntry.key( requestId ) ].bytearray;
+      imageByEntry[ requestByEntry.key( requestId ) ].bytearray = 0;
     }
     return;
   }
-  if ( requestId == closeId ) {
+/*  if ( requestId == closeId ) {
     getEventLoop.quit();
     return;
-  }
-  if ( requestId != httpGetId )
+  }*/
+  if ( !requestByEntry.values().contains( requestId ) )
     return;
 
-  buffer->close();
+  imageByEntry[ requestByEntry.key( requestId ) ].buffer->close();
   if (error) {
     emit errorMessage( tr("Download failed: ") + errorString() );
   }
-  userImage = new QImage;
+  //userImage = new QImage;
   qDebug() << url.toString().right(3);
-  userImage->loadFromData( *bytearray );
+  //userImage->loadFromData( *bytearray );
+  qDebug() << "Request of id" << requestId << "finished";
+  imageByEntry[ requestByEntry.key( requestId ) ].img = new QImage;
+  imageByEntry[ requestByEntry.key( requestId ) ].img->loadFromData( *imageByEntry[ requestByEntry.key( requestId ) ].bytearray );
+  emit imageReadyForUrl( requestByEntry.key( requestId ), *imageByEntry[ requestByEntry.key( requestId ) ].img );
 
-  delete buffer;
-  buffer = 0;
-  delete bytearray;
-  bytearray = 0;
-  if ( state() != QHttp::Unconnected ) {
+  delete imageByEntry[ requestByEntry.key( requestId ) ].buffer;
+  imageByEntry[ requestByEntry.key( requestId ) ].buffer = 0;
+  delete imageByEntry[ requestByEntry.key( requestId ) ].bytearray;
+  imageByEntry[ requestByEntry.key( requestId ) ].bytearray = 0;
+  /*if ( state() != QHttp::Unconnected ) {
     closeId = close();
   } else {
     getEventLoop.quit();
-  }
+  }*/
 }
 
 QImage ImageDownload::getUserImage()

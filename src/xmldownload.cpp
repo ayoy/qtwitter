@@ -30,7 +30,7 @@ XmlDownload::XmlDownload( QAuthenticator _authData, Core *coreParent, bool isFor
   createConnections( coreParent, isForGet );
 }
 
-XmlDownload::XmlDownload( QAuthenticator _authData, int type, Core *coreParent, bool isForGet, QObject *parent ) :
+XmlDownload::XmlDownload( QAuthenticator _authData, XmlParser::XmlType type, Core *coreParent, bool isForGet, QObject *parent ) :
     HttpConnection( parent ),
     authData( _authData ),
     parser( type ),
@@ -43,10 +43,10 @@ XmlDownload::XmlDownload( QAuthenticator _authData, int type, Core *coreParent, 
 void XmlDownload::createConnections( Core *coreParent, bool isForGet )
 {
   connect( &parser, SIGNAL(dataParsed(const QString&)), this, SIGNAL(dataParsed(const QString&)));
-  connect( &parser, SIGNAL(newEntry(const Entry&, int )), this, SIGNAL(newEntry(const Entry&, int )));
+  connect( &parser, SIGNAL(newEntry(const Entry&, XmlParser::XmlType )), coreParent, SIGNAL(addOneEntry(Entry)) );//coreParent, SLOT( addEntry( const Entry&, XmlParser::XmlType ) ));
+  connect( &parser, SIGNAL(newEntry(const Entry&, XmlParser::XmlType )), coreParent, SLOT(downloadOneImage(Entry)) );//coreParent, SLOT( addEntry( const Entry&, XmlParser::XmlType ) ));
   connect( &parser, SIGNAL(xmlParsed()), this, SIGNAL(xmlParsed()));
   connect( this, SIGNAL(authenticationRequired(const QString &, quint16, QAuthenticator *)), this, SLOT(slotAuthenticationRequired(const QString &, quint16, QAuthenticator *)));
-  connect( this, SIGNAL( newEntry( const Entry&, int ) ), coreParent, SLOT( addEntry( const Entry&, int ) ));
   connect( this, SIGNAL( cookieReceived( const QStringList ) ), coreParent, SLOT(storeCookie(QStringList)) );
   if ( isForGet ) {
     connect( this, SIGNAL( xmlParsed() ), coreParent, SLOT( downloadImages() ) );

@@ -161,7 +161,7 @@ void MainWindow::resizeEvent( QResizeEvent *event )
 
 void MainWindow::display( const ListOfEntries &entries, const MapStringImage &imagesHash )
 {
-  model.clear();
+/*  model.clear();
   int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
   for ( int i = 0; i < entries.size(); i++ ) {
     QStandardItem *newItem = new QStandardItem();
@@ -170,8 +170,39 @@ void MainWindow::display( const ListOfEntries &entries, const MapStringImage &im
     newItem->setSizeHint( newTweet->size() );
     model.appendRow( newItem );
     ui.statusListView->setIndexWidget( model.indexFromItem( newItem ), newTweet );
-  }
+  }*/
   unlock();
+}
+
+void MainWindow::displayItem( const Entry &entry )
+{
+  if ( modelToBeCleared ) {
+    model.clear();
+    modelToBeCleared = false;
+  }
+  qDebug() << entry.getId() << entry.name();
+  int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
+  QStandardItem *newItem = new QStandardItem();
+  Tweet *newTweet = new Tweet( entry.name(), entry.text(), entry.image(), QImage(), this );
+  newTweet->resize( ui.statusListView->width() - scrollBarMargin, newTweet->size().height() );
+  newItem->setSizeHint( newTweet->size() );
+  model.insertRow( entry.getId(), newItem );
+  ui.statusListView->setIndexWidget( model.indexFromItem( newItem ), newTweet );
+}
+
+void MainWindow::setModelToBeCleared()
+{
+  modelToBeCleared = true;
+}
+
+void MainWindow::setImageForUrl( const QString& url, QImage image )
+{
+  for ( int i = 0; i < model.rowCount(); i++ ) {
+    Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model.indexFromItem( model.item(i) ) ) );
+    if ( !aTweet->getUrlForIcon().compare( url ) ) {
+      aTweet->setIcon( image );
+    }
+  }
 }
 
 void MainWindow::unlock()

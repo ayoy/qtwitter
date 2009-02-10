@@ -32,7 +32,7 @@ class XmlDownload : public HttpConnection {
 
 public:
   XmlDownload( QAuthenticator _authData, Core *coreParent, bool isForGet = false, QObject *parent = 0 );
-  XmlDownload( QAuthenticator _authData, int type, Core *coreParent, bool isForGet = false, QObject *parent = 0 );
+  XmlDownload( QAuthenticator _authData, XmlParser::XmlType type, Core *coreParent, bool isForGet = false, QObject *parent = 0 );
 
 public slots:
   void httpRequestFinished( int requestId, bool error );

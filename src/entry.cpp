@@ -26,23 +26,25 @@
 #include <QMetaType>
 
 Entry::Entry() :
-    userName( "" ),
-    userImage( "" ),
-    userText( "" )
+  id( -1 ),
+  userName( "" ),
+  userImage( "" ),
+  userText( "" )
 {
 }
 
-Entry::Entry(const QString &name, const QString &image, const QString &text) :
-    userName( name ),
-    userImage( image ),
-    userText( text )
+Entry::Entry(int itemId, const QString &name, const QString &image, const QString &text) :
+  id ( itemId ),
+  userName( name ),
+  userImage( image ),
+  userText( text )
 {
 }
 
 Entry::Entry(const Entry &right) :
-    userName( right.userName ),
-    userImage( right.userImage ),
-    userText( right.userText )
+  userName( right.userName ),
+  userImage( right.userImage ),
+  userText( right.userText )
 {
 }
 
@@ -62,6 +64,10 @@ Entry& Entry::operator=( const Entry &right ) {
   return *this;
 }
 
+int Entry::getId() const {
+  return id;
+}
+
 QString Entry::name() const {
   return userName;
 }
@@ -72,6 +78,10 @@ QString Entry::image() const {
 
 QString Entry::text() const {
   return userText;
+}
+
+void Entry::setId( int itemId ) {
+  id = itemId;
 }
 
 void Entry::setName( const QString& newName ) {

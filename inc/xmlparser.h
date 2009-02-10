@@ -32,10 +32,23 @@
 class XmlParser : public QObject, public QXmlDefaultHandler
 {
   Q_OBJECT
-  
+
+public:
+  enum FieldType {
+    None,
+    Name,
+    Image,
+    Text
+  };
+
+  enum XmlType {
+    One,
+    All
+  };
+
 private:
   int lastField;
-  int type;
+  XmlType type;
   int sendIn;
   Entry entry;
   bool important;
@@ -43,7 +56,7 @@ private:
   
 public:
   XmlParser();
-  XmlParser( int type );
+  XmlParser( XmlType type );
   
   bool startDocument();
   bool endDocument();
@@ -58,21 +71,9 @@ public:
                    
   bool characters( const QString &ch );
 
-  enum FieldType {
-    None,
-    Name,
-    Image,
-    Text    
-  };
-  
-  enum XmlType {
-    One,
-    All
-  };
-
 signals:
   void dataParsed( const QString &text );
-  void newEntry( const Entry &entry, int type );
+  void newEntry( const Entry &entry, XmlParser::XmlType type );
   void xmlParsed();
 
 };
