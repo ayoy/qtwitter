@@ -23,16 +23,6 @@
 XmlParser::XmlParser() :
   QXmlDefaultHandler(),
   lastField( None ),
-  type( All ),
-  entry(),
-  important( false )
-  {
-  }
-
-XmlParser::XmlParser( XmlType type ) :
-  QXmlDefaultHandler(),
-  lastField( None ),
-  type( type ),
   entry(),
   important( false )
   {
@@ -78,7 +68,7 @@ bool XmlParser::characters( const QString &ch ) {
       //qDebug() << "Setting image with: " << ch;
     }
     if ( entry.checkContents() ) {
-      emit newEntry( entry, type );
+      emit newEntry( entry );
       lastField = None;
     }
     important = false;

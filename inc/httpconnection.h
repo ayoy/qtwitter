@@ -37,7 +37,7 @@ public:
   void syncPost( const QString &path, const QByteArray &status, bool isSync = false, QStringList cookie = QStringList() );
   inline void setUrl( const QString &path );
   
-public slots:
+private slots:
   virtual void httpRequestFinished( int requestId, bool error ) = 0;
   virtual void readResponseHeader( const QHttpResponseHeader &responseHeader ) = 0;
   virtual void httpRequestStarted( int requestId );

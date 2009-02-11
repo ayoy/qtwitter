@@ -49,7 +49,7 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   qDebug() << qRegisterMetaType<ListOfEntries>( "ListOfEntries" );
   qDebug() << qRegisterMetaType<MapStringImage>( "MapStringImage" );
 
-  connect( ui.updateButton, SIGNAL( clicked() ), this, SLOT( updateTweets() ) );
+  connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateTweets() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
   connect( ui.homeButton, SIGNAL(clicked()), this, SIGNAL(openBrowser()) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
@@ -121,17 +121,8 @@ void MainWindow::changeLabel()
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + tr( " characters left" ) );
 }
 
-void MainWindow::updateTweets()
-{
-  ui.updateButton->setEnabled( false );
-  ui.statusEdit->setEnabled( false );
-  emit get();
-}
-
 void MainWindow::sendStatus()
 {
-  ui.updateButton->setEnabled( false );
-  ui.statusEdit->setEnabled( false );
   emit post( ui.statusEdit->text().toUtf8() );
 }
 
@@ -157,21 +148,6 @@ void MainWindow::resizeEvent( QResizeEvent *event )
     itemSize.rheight() = aTweet->size().height();
     model.item(i)->setSizeHint( itemSize );
   }
-}
-
-void MainWindow::display( const ListOfEntries &entries, const MapStringImage &imagesHash )
-{
-/*  model.clear();
-  int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
-  for ( int i = 0; i < entries.size(); i++ ) {
-    QStandardItem *newItem = new QStandardItem();
-    Tweet *newTweet = new Tweet( entries[i].name(), entries[i].text(), imagesHash[ entries[i].image() ], this );
-    newTweet->resize( ui.statusListView->width() - scrollBarMargin, newTweet->size().height() );
-    newItem->setSizeHint( newTweet->size() );
-    model.appendRow( newItem );
-    ui.statusListView->setIndexWidget( model.indexFromItem( newItem ), newTweet );
-  }*/
-  unlock();
 }
 
 void MainWindow::displayItem( const Entry &entry )

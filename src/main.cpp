@@ -37,17 +37,15 @@ int main( int argc, char **argv )
   Core *core = new Core( &qtwitter );
   Settings *settings = new Settings( &qtwitter, loopedsignal, core, &qtwitter );
 
-  QObject::connect( loopedsignal, SIGNAL(ping()), &qtwitter, SLOT(updateTweets()) );
-  QObject::connect( &qtwitter, SIGNAL(get()), core, SLOT(get()) );
+  QObject::connect( loopedsignal, SIGNAL(ping()), core, SLOT(get()) );
+  QObject::connect( &qtwitter, SIGNAL(updateTweets()), core, SLOT(get()) );
   QObject::connect( &qtwitter, SIGNAL(openBrowser()), core, SLOT(openBrowser()) );
   QObject::connect( &qtwitter, SIGNAL(post(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
   QObject::connect( core, SIGNAL(authDataSet(QAuthenticator)), settings, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;
   QObject::connect( core, SIGNAL(switchToPublic()), settings, SLOT(switchToPublic()) );
   QObject::connect( core, SIGNAL(errorMessage(QString)), &qtwitter, SLOT(popupError(QString)) );
-  QObject::connect( core, SIGNAL(readyToDisplay(ListOfEntries,MapStringImage)), &qtwitter, SLOT(display(ListOfEntries,MapStringImage)) );
   QObject::connect( core, SIGNAL(addOneEntry(Entry)), &qtwitter, SLOT(displayItem(Entry)) );
-  QObject::connect( core, SIGNAL(updateNeeded()), &qtwitter, SLOT(updateTweets()) );
   QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), &qtwitter, SLOT(setImageForUrl(QString,QImage)) );
   QObject::connect( core, SIGNAL(requestListRefresh()), &qtwitter, SLOT(setModelToBeCleared()) );
 

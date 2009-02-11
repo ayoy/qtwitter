@@ -41,22 +41,15 @@ public:
     Text
   };
 
-  enum XmlType {
-    One,
-    All
-  };
 
 private:
   int lastField;
-  XmlType type;
-  int sendIn;
   Entry entry;
   bool important;
   int checkFieldType( const QString &element );
   
 public:
   XmlParser();
-  XmlParser( XmlType type );
   
   bool startDocument();
   bool endDocument();
@@ -73,7 +66,7 @@ public:
 
 signals:
   void dataParsed( const QString &text );
-  void newEntry( const Entry &entry, XmlParser::XmlType type );
+  void newEntry( const Entry &entry );
   void xmlParsed();
 
 };

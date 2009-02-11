@@ -22,12 +22,26 @@
 #define IMAGEDOWNLOAD_H
 
 #include "httpconnection.h"
-#include <QMap>
 
 struct ImageData {
   QImage *img;
   QByteArray *bytearray;
   QBuffer *buffer;
+
+  ~ImageData() {
+    if ( img ) {
+      delete img;
+      img = 0;
+    }
+    if ( bytearray ) {
+      delete bytearray;
+      bytearray = 0;
+    }
+    if ( buffer ) {
+      delete buffer;
+      buffer = 0;
+    }
+  }
 };
 
 class ImageDownload : public HttpConnection {
@@ -35,21 +49,16 @@ class ImageDownload : public HttpConnection {
 public:
   ImageDownload();
   ~ImageDownload();
-  void syncGet( const QString& path, bool isSync = false );
   void imgGet( const Entry &entry );
-  QImage getUserImage();
 
 private:
-  QImage *userImage;
-  QEventLoop getEventLoop;
   QMap<QString,int> requestByEntry;
   QMap<QString,ImageData> imageByEntry;
 
-public slots:
+private slots:
   void httpRequestFinished( int requestId, bool error );
   void readResponseHeader( const QHttpResponseHeader &responseHeader );
-  void httpRequestStarted( int requestId );
-  
+
 signals:  
   void imageDownloaded( const QString&, QImage );
   void imageReadyForUrl( const QString&, QImage );

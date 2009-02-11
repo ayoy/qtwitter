@@ -32,7 +32,7 @@
 typedef QList<Entry> ListOfEntries;
 typedef QMap<QString, QImage> MapStringImage;
 
-class Core : public QThread {
+class Core : public QObject {
   Q_OBJECT
 
 public:
@@ -40,17 +40,12 @@ public:
   virtual ~Core();
   bool downloadsPublicTimeline();
 
-protected:
-  void run();
-
 public slots:
   void get();
   void post( const QByteArray &status );
 
   bool authDataDialog();
   void setAuthData( const QString &name, const QString &password );
-  void addEntry( const Entry &entry, XmlParser::XmlType type );
-  void downloadImages();
   void storeCookie( const QStringList );
   void setDownloadPublicTimeline( bool );
   void openBrowser();
@@ -61,11 +56,9 @@ private slots:
   void setImageInHash( const QString&, QImage );
 
 signals:
-  void readyToDisplay( const ListOfEntries &entries, const MapStringImage &imagesHash );
   void errorMessage( const QString &message );
   void authDataSet( const QAuthenticator& );
   void switchToPublic();
-  void updateNeeded();
   void xmlConnectionIdle();
   void addOneEntry( const Entry& );
   void setImage( const Entry&, QImage );
@@ -73,7 +66,6 @@ signals:
   void requestListRefresh();
 
 private:
-  bool xmlBeingProcessed;
   bool downloadPublicTimeline;
   bool isShowingDialog;
   XmlDownload *xmlGet;
@@ -81,10 +73,8 @@ private:
   ImageDownload *imageDownload;
   QMap<QString,ImageDownload*> imagesGetter;
   MapStringImage imagesHash;
-  ListOfEntries entries;
   QAuthenticator authData;
   QStringList cookie;
-  QStandardItemModel model;
 };
 
 

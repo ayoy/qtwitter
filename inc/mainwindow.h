@@ -43,12 +43,11 @@ public:
   void retranslateUi();
   
 public slots:
-  void updateTweets();
   void popupError( const QString &message );
-  void display( const ListOfEntries &entries, const MapStringImage &imagesHash );
   void displayItem( const Entry &entry );
   void setImageForUrl( const QString&, QImage );
   void setModelToBeCleared();
+  void unlock();
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
@@ -58,8 +57,8 @@ private slots:
   void popupMenu();
 
 signals:
+  void updateTweets();
   void settingsDialogRequested();
-  void get();
   void post( const QByteArray& );
   void openBrowser();
 
@@ -68,10 +67,8 @@ protected:
 
 private:
   void resizeEvent( QResizeEvent* );
-  void unlock();
   QMenu *menu;
   QSystemTrayIcon *trayIcon;
-  LoopedSignal *repeat;
   QStandardItemModel model;
   Settings *settingsDialog;
   bool modelToBeCleared;

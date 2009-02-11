@@ -31,20 +31,22 @@ class XmlDownload : public HttpConnection {
   Q_OBJECT
 
 public:
-  XmlDownload( QAuthenticator _authData, Core *coreParent, bool isForGet = false, QObject *parent = 0 );
-  XmlDownload( QAuthenticator _authData, XmlParser::XmlType type, Core *coreParent, bool isForGet = false, QObject *parent = 0 );
+  XmlDownload( QAuthenticator _authData, Core *coreParent, QObject *parent = 0 );
 
 public slots:
+  void setAuthData( const QAuthenticator );
+
+private slots:
   void httpRequestFinished( int requestId, bool error );
   void readResponseHeader( const QHttpResponseHeader &responseHeader );
   void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
-  void setAuthData( const QAuthenticator );
+
 signals:
   void xmlParsed();
   void cookieReceived( const QStringList );
 
 private:
-  void createConnections( Core *whereToConnectTo, bool isForGet = false );
+  void createConnections( Core *whereToConnectTo );
   QAuthenticator authData;
   XmlParser parser;
   Core *core;
