@@ -26,7 +26,8 @@
 #include "entry.h"
 
 #define USER_STATUS "text"
-#define USER_LOGIN "name"
+#define USER_NAME "name"
+#define USER_LOGIN "screen_name"
 #define USER_PHOTO "profile_image_url"
 
 class XmlParser : public QObject, public QXmlDefaultHandler
@@ -37,6 +38,7 @@ public:
   enum FieldType {
     None,
     Name,
+    Login,
     Image,
     Text
   };

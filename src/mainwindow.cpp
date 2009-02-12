@@ -181,19 +181,9 @@ void MainWindow::setImageForUrl( const QString& url, QImage image )
   }
 }
 
-void MainWindow::unlock()
-{
-  ui.updateButton->setEnabled( true );
-  if ( !ui.statusEdit->isEnabled() ) {
-    ui.statusEdit->setEnabled( true );
-    ui.statusEdit->initialize();
-  }
-}
-
 void MainWindow::popupError( const QString &message )
 {
   QMessageBox::information( this, tr("Error"), message );
-  unlock();
 }
 
 void MainWindow::retranslateUi()

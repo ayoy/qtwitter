@@ -28,12 +28,13 @@ class Entry {
 private:
   int id;
   QString userName;
+  QString userLogin;
   QString userImage;
   QString userText;
   
 public:
   Entry();
-  Entry(int itemId, const QString &name, const QString &image, const QString &text);
+  Entry(int itemId, const QString &name, const QString &login, const QString &image, const QString &text);
   Entry(const Entry &right);
 
   bool checkContents();
@@ -41,11 +42,13 @@ public:
       
   int getId() const;
   QString name() const;
+  QString login() const;
   QString image() const;
   QString text() const;
 
   void setId( int itemId );
   void setName( const QString& newName );
+  void setLogin( const QString& newLogin );
   void setImage( const QString& newImage );
   void setText( const QString& newText );
 };

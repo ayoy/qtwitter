@@ -60,6 +60,9 @@ bool XmlParser::characters( const QString &ch ) {
     if ( lastField == Name && !entry.name().compare( "" ) ) {
       entry.setName( ch );
       //qDebug() << "Setting name  with: " << ch;
+    } else if ( lastField == Login && !entry.login().compare( "" ) ) {
+      entry.setLogin( ch );
+      //qDebug() << "Setting login  with: " << ch;
     } else if ( lastField == Text && !entry.text().compare( "" ) ) {
       entry.setText( ch );
       //qDebug() << "Setting text  with: " << ch;
@@ -79,12 +82,15 @@ bool XmlParser::characters( const QString &ch ) {
 int XmlParser::checkFieldType(const QString &element ) {
   if ( !element.compare(USER_STATUS) )
     return Text;
-  if ( !element.compare(USER_LOGIN) )
+  if ( !element.compare(USER_NAME) )
     return Name;
+  if ( !element.compare(USER_LOGIN) )
+    return Login;
   if ( !element.compare(USER_PHOTO) )
     return Image;
   if ( !element.compare( "status" ) ) {
     entry.setName( "" );
+    entry.setLogin( "" );
     entry.setText( "" );
     entry.setImage( "" );
   }

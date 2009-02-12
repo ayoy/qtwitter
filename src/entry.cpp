@@ -23,19 +23,20 @@
 #include <QRegExp>
 #include <QDebug>
 #include <QList>
-#include <QMetaType>
 
 Entry::Entry() :
   id( -1 ),
   userName( "" ),
+  userLogin( "" ),
   userImage( "" ),
   userText( "" )
 {
 }
 
-Entry::Entry(int itemId, const QString &name, const QString &image, const QString &text) :
+Entry::Entry(int itemId, const QString &name, const QString &login, const QString &image, const QString &text) :
   id ( itemId ),
   userName( name ),
+  userLogin( login ),
   userImage( image ),
   userText( text )
 {
@@ -43,6 +44,7 @@ Entry::Entry(int itemId, const QString &name, const QString &image, const QStrin
 
 Entry::Entry(const Entry &right) :
   userName( right.userName ),
+  userLogin( right.userLogin ),
   userImage( right.userImage ),
   userText( right.userText )
 {
@@ -50,6 +52,7 @@ Entry::Entry(const Entry &right) :
 
 bool Entry::checkContents() {
   if ( userName.compare( "" ) &&
+       userLogin.compare( "" ) &&
        userImage.compare( "" ) &&
        userText.compare( "" ) ) {
     return true;
@@ -59,6 +62,7 @@ bool Entry::checkContents() {
 
 Entry& Entry::operator=( const Entry &right ) {
   userName = right.userName;
+  userLogin = right.userLogin;
   userImage = right.userImage;
   userText = right.userText;
   return *this;
@@ -70,6 +74,10 @@ int Entry::getId() const {
 
 QString Entry::name() const {
   return userName;
+}
+
+QString Entry::login() const {
+  return userLogin;
 }
 
 QString Entry::image() const {
@@ -88,6 +96,10 @@ void Entry::setName( const QString& newName ) {
   userName = newName;
 }
 
+void Entry::setLogin( const QString& newLogin ) {
+  userLogin = newLogin;
+}
+
 void Entry::setImage( const QString& newImage ) {
   userImage = newImage;
 }
@@ -96,7 +108,7 @@ void Entry::setText( const QString& newText ) {
   userText = newText;
   QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
   userText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
-  userText.replace( QRegExp( "(^| )@([^ ]+)( ?)" ), " <a href=http://twitter.com/\\2>@\\2</a>\\3" );
+  userText.replace( QRegExp( "(^| )@([^ ]+)( |,|:?)" ), " <a href=http://twitter.com/\\2>@\\2</a>\\3" );
   ahref.setPattern( "(<a href=[^ ]+)/>" );
   ahref.setMinimal( true );
   userText.replace( ahref, "\\1>" );

@@ -47,7 +47,6 @@ public slots:
   void displayItem( const Entry &entry );
   void setImageForUrl( const QString&, QImage );
   void setModelToBeCleared();
-  void unlock();
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
