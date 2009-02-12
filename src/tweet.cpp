@@ -28,15 +28,15 @@ Tweet::Tweet(QWidget *parent) :
   m_ui->setupUi(this);
 }
 
-Tweet::Tweet( const QString &name, const QString &status, const QString &url, const QImage &icon, QWidget *parent ) :
+Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   QWidget(parent),
-  urlForIcon(url),
+  model(entry),
   m_ui(new Ui::Tweet)
 {
   m_ui->setupUi( this );
-  m_ui->userName->setText( name );
+  m_ui->userName->setText( model.name() );
   m_ui->userStatus->document()->setDefaultStyleSheet( "a { color: rgb(255, 248, 140); }" );
-  m_ui->userStatus->setHtml( status );
+  m_ui->userStatus->setHtml( model.text() );
   m_ui->userIcon->setPixmap( QPixmap::fromImage( icon ) );
   adjustSize();
 }
@@ -48,7 +48,7 @@ Tweet::~Tweet()
 
 QString Tweet::getUrlForIcon() const
 {
-  return urlForIcon;
+  return model.image();
 }
 
 void Tweet::setIcon( const QImage &image )
@@ -78,7 +78,7 @@ void Tweet::adjustSize()
   resize( m_ui->frame->size() );
 }
 
-void Tweet::changeEvent(QEvent *e)
+void Tweet::changeEvent( QEvent *e )
 {
   switch (e->type()) {
   case QEvent::LanguageChange:

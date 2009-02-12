@@ -159,7 +159,7 @@ void MainWindow::displayItem( const Entry &entry )
   qDebug() << entry.getId() << entry.name();
   int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
   QStandardItem *newItem = new QStandardItem();
-  Tweet *newTweet = new Tweet( entry.name(), entry.text(), entry.image(), QImage(), this );
+  Tweet *newTweet = new Tweet( entry, QImage(), this );//entry.name(), entry.text(), entry.image(), QImage(), this );
   newTweet->resize( ui.statusListView->width() - scrollBarMargin, newTweet->size().height() );
   newItem->setSizeHint( newTweet->size() );
   model.insertRow( entry.getId(), newItem );

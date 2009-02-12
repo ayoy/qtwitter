@@ -22,6 +22,7 @@
 #define TWEET_H
 
 #include <QtGui/QWidget>
+#include "entry.h"
 
 namespace Ui {
     class Tweet;
@@ -32,7 +33,7 @@ class Tweet : public QWidget {
   Q_DISABLE_COPY( Tweet )
 public:
   explicit Tweet( QWidget *parent = 0 );
-  explicit Tweet( const QString &name, const QString &status, const QString &url, const QImage &icon, QWidget *parent = 0 );
+  explicit Tweet( const Entry &entry, const QImage &icon, QWidget *parent );
   virtual ~Tweet();
   void resize( const QSize& );
   void resize( int w, int h );
@@ -47,7 +48,7 @@ protected:
   virtual void changeEvent( QEvent *e );
 
 private:
-  QString urlForIcon;
+  Entry model;
   Ui::Tweet *m_ui;
 };
 

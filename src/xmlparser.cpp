@@ -44,9 +44,9 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
   if ( lastField == Text ) {
     entry.setId( entry.getId() + 1 );
   }
-  /*for( int i = 0; i<atts.length(); ++i ) {
-    qDebug() << " " << atts.qName(i) << "=" << atts.value(i);
-  }*/
+//  for( int i = 0; i<atts.length(); ++i ) {
+//    qDebug() << " " << atts.qName(i) << "=" << atts.value(i);
+//  }
   return true;
 }
 
