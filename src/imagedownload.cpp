@@ -29,13 +29,16 @@ ImageDownload::~ImageDownload()
 
 void ImageDownload::imgGet( const Entry &entry )      //requestByEntry[entry.getId()] = httpGetId;
 {
-  QByteArray encodedPath = prepareRequest( entry.image() );
-  qDebug() << "getting " << encodedPath << "\nentry :" << entry.image();
+  QString imgPath = entry.image();
+  QByteArray encodedPath = prepareRequest( imgPath );
+  qDebug() << "getting" << encodedPath << "\nentry:" << imgPath;
   httpGetId = get( encodedPath, buffer );
-
-  requestByEntry[entry.image()] = httpGetId;
-  imageByEntry[ entry.image() ].buffer = buffer;
-  imageByEntry[ entry.image() ].bytearray = bytearray;
+  qDebug() << httpGetId;
+  requestByEntry.insert( imgPath, httpGetId );
+  ImageData *imgData = new ImageData;
+  imgData->buffer = buffer;
+  imgData->bytearray = bytearray;
+  imageByEntry.insert( imgPath, *imgData );
   qDebug() << "Request of type GET and id" << httpGetId << "started";
 }
 
@@ -71,6 +74,7 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
 
 void ImageDownload::httpRequestFinished( int requestId, bool error )
 {
+  qDebug() << "finished";
   ImageData *imageData = &imageByEntry[ requestByEntry.key( requestId ) ];
   if (httpRequestAborted) {
     if (imageData->buffer) {
@@ -96,9 +100,9 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   imageData->img = new QImage;
   imageData->img->loadFromData( *imageData->bytearray );
   emit imageReadyForUrl( requestByEntry.key( requestId ), *imageData->img );
-
-  delete imageData->buffer;
-  imageData->buffer = 0;
-  delete imageData->bytearray;
-  imageData->bytearray = 0;
+  delete imageData;
+//  delete imageData->buffer;
+//  imageData->buffer = 0;
+//  delete imageData->bytearray;
+//  imageData->bytearray = 0;
 }
