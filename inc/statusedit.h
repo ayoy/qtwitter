@@ -35,6 +35,7 @@ public:
 
 public slots:
   void cancelEditing();
+  void addReplyString( const QString& );
 
 private:
   bool statusClean; 

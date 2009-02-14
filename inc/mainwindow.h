@@ -60,6 +60,7 @@ signals:
   void settingsDialogRequested();
   void post( const QByteArray& );
   void openBrowser();
+  void addReplyString( const QString& );
 
 protected:
   void closeEvent( QCloseEvent *e );

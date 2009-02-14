@@ -23,6 +23,7 @@
 
 #include <QtGui/QWidget>
 #include "entry.h"
+#include <QMenu>
 
 namespace Ui {
     class Tweet;
@@ -38,16 +39,28 @@ public:
   void resize( const QSize& );
   void resize( int w, int h );
   void setIcon( const QImage& );
+  void retranslateUi();
 
   QString getUrlForIcon() const;
 
 public slots:
   void adjustSize();
+  void menuRequested();
+  void sendReply();
+  void gotohomepage();
+
+signals:
+  void reply( const QString& );
 
 protected:
   virtual void changeEvent( QEvent *e );
+  void enterEvent( QEvent *e );
+  void leaveEvent( QEvent *e );
 
 private:
+  QMenu *menu;
+  QAction *replyAction;
+  QAction *gotohomepageAction;
   Entry model;
   Ui::Tweet *m_ui;
 };

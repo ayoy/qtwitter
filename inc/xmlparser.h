@@ -29,6 +29,7 @@
 #define USER_NAME "name"
 #define USER_LOGIN "screen_name"
 #define USER_PHOTO "profile_image_url"
+#define USER_HOMEPAGE "url"
 
 class XmlParser : public QObject, public QXmlDefaultHandler
 {
@@ -39,6 +40,7 @@ public:
     None,
     Name,
     Login,
+    Homepage,
     Image,
     Text
   };
@@ -48,6 +50,7 @@ private:
   int lastField;
   Entry entry;
   bool important;
+  bool entryComplete;
   int checkFieldType( const QString &element );
   
 public:

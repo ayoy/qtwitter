@@ -28,33 +28,44 @@ Entry::Entry() :
   id( -1 ),
   userName( "" ),
   userLogin( "" ),
+  userHomepage( "" ),
+  hasHomepage( false ),
   userImage( "" ),
   userText( "" )
 {
 }
 
-Entry::Entry(int itemId, const QString &name, const QString &login, const QString &image, const QString &text) :
+Entry::Entry(int itemId, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text) :
   id ( itemId ),
   userName( name ),
   userLogin( login ),
+  userHomepage( homepage ),
   userImage( image ),
   userText( text )
 {
 }
 
 Entry::Entry(const Entry &right) :
+  id( right.id ),
   userName( right.userName ),
   userLogin( right.userLogin ),
+  userHomepage( right.userHomepage ),
+  hasHomepage( right.hasHomepage ),
   userImage( right.userImage ),
   userText( right.userText )
 {
 }
 
 bool Entry::checkContents() {
+  if ( !hasHomepage ) {
+    userHomepage = "";
+  }
   if ( userName.compare( "" ) &&
        userLogin.compare( "" ) &&
        userImage.compare( "" ) &&
-       userText.compare( "" ) ) {
+       userText.compare( "" ) &&
+       ( hasHomepage ? userHomepage.compare( "" ) : true ) )
+  {
     return true;
   }
   return false;
@@ -63,6 +74,8 @@ bool Entry::checkContents() {
 Entry& Entry::operator=( const Entry &right ) {
   userName = right.userName;
   userLogin = right.userLogin;
+  userHomepage = right.userHomepage;
+  hasHomepage = right.hasHomepage;
   userImage = right.userImage;
   userText = right.userText;
   return *this;
@@ -78,6 +91,10 @@ QString Entry::name() const {
 
 QString Entry::login() const {
   return userLogin;
+}
+
+QString Entry::homepage() const {
+  return userHomepage;
 }
 
 QString Entry::image() const {
@@ -98,6 +115,14 @@ void Entry::setName( const QString& newName ) {
 
 void Entry::setLogin( const QString& newLogin ) {
   userLogin = newLogin;
+}
+
+void Entry::setHomepage( const QString& newHomepage ) {
+  userHomepage = newHomepage;
+}
+
+void Entry::setHasHomepage( bool b ) {
+  hasHomepage = b;
 }
 
 void Entry::setImage( const QString& newImage ) {

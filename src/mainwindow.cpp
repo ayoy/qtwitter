@@ -57,6 +57,7 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
+  connect( this, SIGNAL(addReplyString(QString)), ui.statusEdit, SLOT(addReplyString(QString)) );
 
   trayIcon = new QSystemTrayIcon( this );
   trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
@@ -159,7 +160,7 @@ void MainWindow::displayItem( const Entry &entry )
   qDebug() << entry.getId() << entry.name();
   int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
   QStandardItem *newItem = new QStandardItem();
-  Tweet *newTweet = new Tweet( entry, QImage(), this );//entry.name(), entry.text(), entry.image(), QImage(), this );
+  Tweet *newTweet = new Tweet( entry, QImage(), this );
   newTweet->resize( ui.statusListView->width() - scrollBarMargin, newTweet->size().height() );
   newItem->setSizeHint( newTweet->size() );
   model.insertRow( entry.getId(), newItem );
@@ -195,4 +196,8 @@ void MainWindow::retranslateUi()
     ui.statusEdit->initialize();
   }
   ui.statusEdit->setText( tr("What are you doing?") );
+  for ( int i = 0; i < model.rowCount(); i++ ) {
+    Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model.indexFromItem( model.item(i) ) ) );
+    aTweet->retranslateUi();
+  }
 }

@@ -1,5 +1,5 @@
 diff --git a/qtwitter.pro b/qtwitter.pro
-index eec99f3..9b25224 100644
+index 2c46c49..3821230 100644
 --- a/qtwitter.pro
 +++ b/qtwitter.pro
 @@ -32,8 +32,8 @@ FORMS += ui/mainwindow.ui \
@@ -14,10 +14,10 @@ index eec99f3..9b25224 100644
      loc/qtwitter_ca.ts \
      loc/qtwitter_es.ts
 diff --git a/src/main.cpp b/src/main.cpp
-index 992db07..473325f 100644
+index 8058a2d..d397daa 100644
 --- a/src/main.cpp
 +++ b/src/main.cpp
-@@ -3,8 +3,8 @@
+@@ -23,8 +23,8 @@
  #include "core.h"
  #include "loopedsignal.h"
  

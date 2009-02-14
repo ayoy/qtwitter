@@ -9,27 +9,27 @@
         <translation>Autenticació necessitada</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="72"/>
+        <location filename="../ui/authdialog.ui" line="78"/>
         <source>Username:</source>
         <translation>Nom d&apos;usuari:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="99"/>
+        <location filename="../ui/authdialog.ui" line="105"/>
         <source>Password:</source>
         <translation>Contrasenya:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="59"/>
+        <location filename="../ui/authdialog.ui" line="65"/>
         <source>You must authenticate to connect to Twitter</source>
-        <translation>Ha d&apos;autenticar-se per a connectar amb Twitter</translation>
+        <translation>Has d&apos;autenticar-se per a connectar amb Twitter</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="126"/>
+        <location filename="../ui/authdialog.ui" line="138"/>
         <source>or</source>
         <translation>o</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="136"/>
+        <location filename="../ui/authdialog.ui" line="148"/>
         <source>download public timeline</source>
         <translation>baixa les actualitzacions públics</translation>
     </message>
@@ -37,12 +37,12 @@
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="51"/>
+        <location filename="../src/core.cpp" line="85"/>
         <source>Authentication is required to get your friends&apos; updates</source>
         <translation>Autenticació és requerida per obtenir actualitzacions dels seus amics</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="68"/>
+        <location filename="../src/core.cpp" line="102"/>
         <source>Authentication is required to post updates</source>
         <translation>Autenticació és requerida per publicar els teus actualitzacions</translation>
     </message>
@@ -50,15 +50,15 @@
 <context>
     <name>HttpConnection</name>
     <message>
-        <location filename="../src/httpconnection.cpp" line="45"/>
+        <location filename="../src/httpconnection.cpp" line="65"/>
         <source>Unable to open device: </source>
-        <translation>No es pot obrir el dispositiu:</translation>
+        <translation>No és pot obrir el dispositiu:</translation>
     </message>
 </context>
 <context>
     <name>ImageDownload</name>
     <message>
-        <location filename="../src/imagedownload.cpp" line="102"/>
+        <location filename="../src/imagedownload.cpp" line="96"/>
         <source>Download failed: </source>
         <translation>Fallada de descarregament:</translation>
     </message>
@@ -66,7 +66,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="161"/>
+        <location filename="../src/mainwindow.cpp" line="187"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -81,19 +81,19 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="226"/>
+        <location filename="../ui/mainwindow.ui" line="229"/>
         <source>What are you doing?</source>
         <translation>Què estàs fent ara?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="97"/>
+        <location filename="../src/mainwindow.cpp" line="122"/>
         <source> characters left</source>
-        <translation></translation>
+        <translation>caràcters queden</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="145"/>
         <source>Go to twitter.com</source>
-        <translation>Anar a twitter.com</translation>
+        <translation>Vés a twitter.com</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="165"/>
@@ -194,12 +194,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="205"/>
+        <location filename="../src/settings.cpp" line="234"/>
         <source>General </source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="206"/>
+        <location filename="../src/settings.cpp" line="235"/>
         <source>Network </source>
         <translation>Xarxa</translation>
     </message>
@@ -219,17 +219,17 @@
         <translation type="obsolete">Port</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="215"/>
+        <location filename="../src/settings.cpp" line="244"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="216"/>
+        <location filename="../src/settings.cpp" line="245"/>
         <source>Cancel</source>
         <translation>Anul·la</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="217"/>
+        <location filename="../src/settings.cpp" line="246"/>
         <source>OK</source>
         <translation>Bé</translation>
     </message>
@@ -262,7 +262,7 @@
 <context>
     <name>StatusEdit</name>
     <message>
-        <location filename="../src/statusedit.cpp" line="24"/>
+        <location filename="../src/statusedit.cpp" line="44"/>
         <source>What are you doing?</source>
         <translation>Què estàs fent ara?</translation>
     </message>
@@ -273,6 +273,21 @@
         <location filename="../ui/tweet.ui" line="20"/>
         <source>Form</source>
         <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/tweet.cpp" line="40"/>
+        <source>Reply to </source>
+        <translation type="obsolete">Respon a</translation>
+    </message>
+    <message>
+        <location filename="../src/tweet.cpp" line="148"/>
+        <source>Go to homepage</source>
+        <translation>Vés a pàgina principal</translation>
+    </message>
+    <message>
+        <location filename="../src/tweet.cpp" line="147"/>
+        <source>Reply to</source>
+        <translation>Respon a</translation>
     </message>
 </context>
 </TS>

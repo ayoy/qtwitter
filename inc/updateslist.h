@@ -38,7 +38,7 @@ signals:
 private:
   void mousePressEvent( QMouseEvent *event ) {
     if ( event->button() == Qt::RightButton ) {
-      qDebug() << "right click on the list";
+      qDebug() << "right click on the list" << event->pos();
       emit contextMenuRequested();
     }
     QListView::mousePressEvent( event );

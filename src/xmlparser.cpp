@@ -24,7 +24,8 @@ XmlParser::XmlParser() :
   QXmlDefaultHandler(),
   lastField( None ),
   entry(),
-  important( false )
+  important( false ),
+  entryComplete( false )
   {
   }
 
@@ -59,20 +60,28 @@ bool XmlParser::characters( const QString &ch ) {
   if ( important ) {
     if ( lastField == Name && !entry.name().compare( "" ) ) {
       entry.setName( ch );
-      //qDebug() << "Setting name  with: " << ch;
+//      qDebug() << "Setting name  with: " << ch;
     } else if ( lastField == Login && !entry.login().compare( "" ) ) {
       entry.setLogin( ch );
-      //qDebug() << "Setting login  with: " << ch;
+//      qDebug() << "Setting login  with: " << ch;
     } else if ( lastField == Text && !entry.text().compare( "" ) ) {
       entry.setText( ch );
-      //qDebug() << "Setting text  with: " << ch;
+//      qDebug() << "Setting text  with: " << ch;
     } else if ( lastField == Image && !entry.image().compare( "" ) ) {
       entry.setImage( ch );
-      //qDebug() << "Setting image with: " << ch;
+//      qDebug() << "Setting image with: " << ch;
+    } else if ( lastField == Homepage ) {
+      entryComplete = true;
+      if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
+        entry.setHasHomepage( true );
+        entry.setHomepage( ch );
+        qDebug() << "Setting homepage with: " << ch;
+      }
     }
-    if ( entry.checkContents() ) {
+    if ( entryComplete && entry.checkContents() ) {
       emit newEntry( entry );
       lastField = None;
+      entryComplete = false;
     }
     important = false;
   }
@@ -86,11 +95,15 @@ int XmlParser::checkFieldType(const QString &element ) {
     return Name;
   if ( !element.compare(USER_LOGIN) )
     return Login;
+  if ( !element.compare(USER_HOMEPAGE) )
+    return Homepage;
   if ( !element.compare(USER_PHOTO) )
     return Image;
   if ( !element.compare( "status" ) ) {
     entry.setName( "" );
     entry.setLogin( "" );
+    entry.setHomepage( "" );
+    entry.setHasHomepage( false );
     entry.setText( "" );
     entry.setImage( "" );
   }

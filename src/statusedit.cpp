@@ -26,7 +26,7 @@ StatusEdit::StatusEdit( QWidget * parent = 0 ) :
   {}
 
 void StatusEdit::focusInEvent( QFocusEvent *event ) {
-  if ( statusClean == true ) {
+  if ( statusClean ) {
     setText( "" );
     statusClean = false;
   }
@@ -48,4 +48,14 @@ void StatusEdit::initialize() {
 void StatusEdit::cancelEditing() {
   initialize();
   clearFocus();
+}
+
+void StatusEdit::addReplyString( const QString &name )
+{
+  if ( statusClean ) {
+    setText( "@" + name + " ");
+    statusClean = false;
+  } else {
+    insert( "@" + name + " ");
+  }
 }
