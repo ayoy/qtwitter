@@ -27,7 +27,11 @@ struct ImageData {
   QImage *img;
   QByteArray *bytearray;
   QBuffer *buffer;
-
+  ImageData() :
+    img(0),
+    bytearray(0),
+    buffer(0)
+    {}
   ~ImageData() {
     if ( img ) {
       delete img;

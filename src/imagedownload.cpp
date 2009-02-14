@@ -100,7 +100,7 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   imageData->img = new QImage;
   imageData->img->loadFromData( *imageData->bytearray );
   emit imageReadyForUrl( requestByEntry.key( requestId ), *imageData->img );
-  delete imageData;
+//  delete imageData;
 //  delete imageData->buffer;
 //  imageData->buffer = 0;
 //  delete imageData->bytearray;
