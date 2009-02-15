@@ -53,6 +53,12 @@ public slots:
   void switchToPublic();
   void saveConfig();
   void show();
+
+#ifdef Q_WS_X11
+private slots:
+  void setBrowser();
+#endif
+
 signals:
   void settingsOK();
 
@@ -64,6 +70,11 @@ private:
   QFile configFile;
   QNetworkProxy proxy;
   Ui::Settings ui;
+#ifdef Q_WS_X11
+  QLineEdit *selectBrowserEdit;
+  QLabel *selectBrowserLabel;
+  QPushButton *selectBrowserButton;
+#endif
   MainWindow *mainWindow;
   LoopedSignal *loopedSignal;
   Core *core;

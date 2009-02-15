@@ -59,7 +59,7 @@ signals:
   void updateTweets();
   void settingsDialogRequested();
   void post( const QByteArray& );
-  void openBrowser();
+  void openBrowser( QString address = QString() );
   void addReplyString( const QString& );
 
 protected:

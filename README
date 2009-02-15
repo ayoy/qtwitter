@@ -8,12 +8,6 @@ Features' summary as for v0.2:
   - being recognized as a source of updates,
   - translation to 4 languages in the run-time (sorry for my poor Catalan/Spanish, I appreciate any help here :) ).
 
-Current to-do list:
-  * making statuses display independent of their images' downloading,
-  * support for homepage button on Linux,
-  * adding a menu for tweets (reply-to, user's homepage, delete, etc.),
-  * ...?
-
 Please let me know about anything that doesn't work properly, or that should be implemented to make this app better.
 
 

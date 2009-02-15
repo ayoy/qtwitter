@@ -46,6 +46,11 @@
         <source>Authentication is required to post updates</source>
         <translation>Autenticación es requerida para publicar sus actualitzaciones</translation>
     </message>
+    <message>
+        <location filename="../src/core.cpp" line="194"/>
+        <source>Browser path is not defined. Specify it in Settings-&gt;Network section. </source>
+        <translation>Tu navegador no está definido. Elígelo a Configuración-&gt;Red.</translation>
+    </message>
 </context>
 <context>
     <name>HttpConnection</name>
@@ -194,12 +199,12 @@
         <translation>Puerto:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="234"/>
+        <location filename="../src/settings.cpp" line="270"/>
         <source>General </source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="235"/>
+        <location filename="../src/settings.cpp" line="271"/>
         <source>Network </source>
         <translation>Red</translation>
     </message>
@@ -219,17 +224,17 @@
         <translation type="obsolete">Puerto:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="244"/>
+        <location filename="../src/settings.cpp" line="284"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="245"/>
+        <location filename="../src/settings.cpp" line="285"/>
         <source>Cancel</source>
         <translation>Anula</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="246"/>
+        <location filename="../src/settings.cpp" line="286"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
@@ -258,6 +263,26 @@
         <source>public timeline</source>
         <translation>actualizaciones de todos los usuarios</translation>
     </message>
+    <message>
+        <location filename="../src/settings.cpp" line="281"/>
+        <source>Specify web browser:</source>
+        <translation>Selecciona el navegador web:</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="282"/>
+        <source>Browse</source>
+        <translation>Navega</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="257"/>
+        <source>Select your browser executable</source>
+        <translation>Marca el archivo de tu navegador</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="257"/>
+        <source>All files (*)</source>
+        <translation>Todos archivos (*)</translation>
+    </message>
 </context>
 <context>
     <name>StatusEdit</name>
@@ -280,12 +305,12 @@
         <translation type="obsolete">Responde a</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="148"/>
+        <location filename="../src/tweet.cpp" line="141"/>
         <source>Go to homepage</source>
         <translation>Ve a página principal</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="147"/>
+        <location filename="../src/tweet.cpp" line="139"/>
         <source>Reply to</source>
         <translation>Responde a</translation>
     </message>

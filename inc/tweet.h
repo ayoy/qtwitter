@@ -23,7 +23,9 @@
 
 #include <QtGui/QWidget>
 #include "entry.h"
+#include "mainwindow.h"
 #include <QMenu>
+#include <QSignalMapper>
 
 namespace Ui {
     class Tweet;
@@ -40,14 +42,12 @@ public:
   void resize( int w, int h );
   void setIcon( const QImage& );
   void retranslateUi();
-
   QString getUrlForIcon() const;
 
 public slots:
   void adjustSize();
   void menuRequested();
   void sendReply();
-  void gotohomepage();
 
 signals:
   void reply( const QString& );
@@ -62,6 +62,8 @@ private:
   QAction *replyAction;
   QAction *gotohomepageAction;
   Entry model;
+  MainWindow *parentMainWindow;
+  QSignalMapper *signalMapper;
   Ui::Tweet *m_ui;
 };
 

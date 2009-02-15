@@ -39,6 +39,9 @@ public:
   Core( QObject *parent = 0 );
   virtual ~Core();
   bool downloadsPublicTimeline();
+#ifdef Q_WS_X11
+  void setBrowserPath( const QString& );
+#endif
 
 public slots:
   void get();
@@ -48,7 +51,7 @@ public slots:
   void setAuthData( const QString &name, const QString &password );
   void storeCookie( const QStringList );
   void setDownloadPublicTimeline( bool );
-  void openBrowser();
+  void openBrowser( QString address = QString() );
   void downloadOneImage( const Entry &entry );
 
 private slots:
@@ -75,6 +78,9 @@ private:
   MapStringImage imagesHash;
   QAuthenticator authData;
   QStringList cookie;
+#ifdef Q_WS_X11
+  QString browserPath;
+#endif
 };
 
 

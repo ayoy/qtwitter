@@ -46,6 +46,11 @@
         <source>Authentication is required to post updates</source>
         <translation>Autenticació és requerida per publicar els teus actualitzacions</translation>
     </message>
+    <message>
+        <location filename="../src/core.cpp" line="194"/>
+        <source>Browser path is not defined. Specify it in Settings-&gt;Network section. </source>
+        <translation>El navegador web no és definit. Configura-ho a Configuració-&gt;Xarxa.</translation>
+    </message>
 </context>
 <context>
     <name>HttpConnection</name>
@@ -194,12 +199,12 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="234"/>
+        <location filename="../src/settings.cpp" line="270"/>
         <source>General </source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="235"/>
+        <location filename="../src/settings.cpp" line="271"/>
         <source>Network </source>
         <translation>Xarxa</translation>
     </message>
@@ -219,17 +224,17 @@
         <translation type="obsolete">Port</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="244"/>
+        <location filename="../src/settings.cpp" line="284"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="245"/>
+        <location filename="../src/settings.cpp" line="285"/>
         <source>Cancel</source>
         <translation>Anul·la</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="246"/>
+        <location filename="../src/settings.cpp" line="286"/>
         <source>OK</source>
         <translation>Bé</translation>
     </message>
@@ -258,6 +263,26 @@
         <source>public timeline</source>
         <translation>actualitzacions de tots els usuaris</translation>
     </message>
+    <message>
+        <location filename="../src/settings.cpp" line="281"/>
+        <source>Specify web browser:</source>
+        <translation>Selecciona el navegador web:</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="282"/>
+        <source>Browse</source>
+        <translation>Navega</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="257"/>
+        <source>Select your browser executable</source>
+        <translation>Escull el arxiu del teu navegador</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="257"/>
+        <source>All files (*)</source>
+        <translation>Tots arxius (*)</translation>
+    </message>
 </context>
 <context>
     <name>StatusEdit</name>
@@ -280,12 +305,12 @@
         <translation type="obsolete">Respon a</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="148"/>
+        <location filename="../src/tweet.cpp" line="141"/>
         <source>Go to homepage</source>
         <translation>Vés a pàgina principal</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="147"/>
+        <location filename="../src/tweet.cpp" line="139"/>
         <source>Reply to</source>
         <translation>Respon a</translation>
     </message>

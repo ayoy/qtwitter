@@ -23,6 +23,7 @@
 #include <QPushButton>
 #include <QPoint>
 #include <QDesktopWidget>
+#include <QFileDialog>
 
 Settings::Settings( MainWindow *mainwinSettings, LoopedSignal *loopSettings, Core *coreSettings, QWidget *parent ) :
     QDialog( parent ),
@@ -32,6 +33,22 @@ Settings::Settings( MainWindow *mainwinSettings, LoopedSignal *loopSettings, Cor
 {
   qApp->installTranslator( &translator );
   ui.setupUi( this );
+
+#ifdef Q_WS_X11
+  QHBoxLayout *hlayout = new QHBoxLayout;
+
+  selectBrowserLabel = new QLabel( tr( "Specify web browser:" ), ui.network );
+  ui.verticalLayout_2->addWidget(selectBrowserLabel);
+
+  selectBrowserEdit = new QLineEdit( ui.network );
+  hlayout->addWidget(selectBrowserEdit);
+  selectBrowserButton = new QPushButton( tr( "Browse" ), ui.network );
+  hlayout->addWidget(selectBrowserButton);
+  ui.verticalLayout_2->addLayout(hlayout);
+
+  connect( selectBrowserButton, SIGNAL(clicked()), this, SLOT(setBrowser()) );
+#endif
+
   connect( ui.buttonBox->button( QDialogButtonBox::Apply ), SIGNAL(clicked()), this, SLOT(saveConfig()) );
   connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
   createLanguageMenu();
@@ -81,6 +98,9 @@ void Settings::loadConfig( bool dialogRejected )
       ui.hostEdit->setText( settings.value( "host" ).toString() );
       ui.portEdit->setText( settings.value( "port" ).toString() );
     settings.endGroup();
+#ifdef Q_WS_X11
+    selectBrowserEdit->setText( settings.value( "browser" ).toString() );
+#endif
   settings.endGroup();
 
   ui.hostEdit->setEnabled( (bool) ui.proxyBox->checkState() );
@@ -127,6 +147,9 @@ void Settings::saveConfig()
       settings.setValue( "host", ui.hostEdit->text() );
       settings.setValue( "port", ui.portEdit->text() );
     settings.endGroup();
+#ifdef Q_WS_X11
+    settings.setValue( "browser", selectBrowserEdit->text() );
+#endif
   settings.endGroup();
 
   applySettings();
@@ -139,6 +162,9 @@ void Settings::applySettings()
   loopedSignal->setPeriod( ui.refreshCombo->currentText().toInt() * 60 );
   core->setDownloadPublicTimeline( ui.radioPublic->isChecked() );
   core->setAuthData( ui.userNameEdit->text(), ui.passwordEdit->text() );
+#ifdef Q_WS_X11
+  core->setBrowserPath( this->selectBrowserEdit->text() );
+#endif
 }
 
 void Settings::setAuthDataInDialog( const QAuthenticator &authData)
@@ -222,6 +248,16 @@ void Settings::createLanguageMenu()
   ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
 }
 
+#ifdef Q_WS_X11
+void Settings::setBrowser()
+{
+  QRegExp rx( ";HOME=(.+);", Qt::CaseSensitive );
+  rx.setMinimal( true );
+  rx.indexIn( QProcess::systemEnvironment().join( ";" ) );
+  selectBrowserEdit->setText( QFileDialog::getOpenFileName( this, tr( "Select your browser executable" ), rx.cap( 1 ), tr( "All files (*)") ) );
+}
+#endif
+
 void Settings::retranslateUi()
 {
   mainWindow->retranslateUi();
@@ -241,6 +277,10 @@ void Settings::retranslateUi()
   ui.downloadBox->setTitle( tr( "Download" ) );
   ui.radioFriends->setText( tr( "friends timeline" ) );
   ui.radioPublic->setText( tr( "public timeline" ) );
+#ifdef Q_WS_X11
+  selectBrowserLabel->setText( tr( "Specify web browser:" ) );
+  selectBrowserButton->setText( tr( "Browse" ) );
+#endif
   ui.buttonBox->button( QDialogButtonBox::Apply )->setText( tr( "Apply" ) );
   ui.buttonBox->button( QDialogButtonBox::Cancel )->setText( tr( "Cancel" ) );
   ui.buttonBox->button( QDialogButtonBox::Ok )->setText( tr( "OK" ) );

@@ -39,7 +39,7 @@ int main( int argc, char **argv )
 
   QObject::connect( loopedsignal, SIGNAL(ping()), core, SLOT(get()) );
   QObject::connect( &qtwitter, SIGNAL(updateTweets()), core, SLOT(get()) );
-  QObject::connect( &qtwitter, SIGNAL(openBrowser()), core, SLOT(openBrowser()) );
+  QObject::connect( &qtwitter, SIGNAL(openBrowser(QString)), core, SLOT(openBrowser(QString)) );
   QObject::connect( &qtwitter, SIGNAL(post(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
   QObject::connect( core, SIGNAL(authDataSet(QAuthenticator)), settings, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;

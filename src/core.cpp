@@ -174,16 +174,29 @@ void Core::setAuthData( const QString &username, const QString &password ) {
   }
 }
 
-void Core::openBrowser()
+#ifdef Q_WS_X11
+void Core::setBrowserPath( const QString &path )
 {
-  QString address( "http://twitter.com/home" );
-#ifdef Q_WS_MAC
+  browserPath = path;
+}
+#endif
+
+void Core::openBrowser( QString address )
+{
+  if ( address.isNull() ) {
+    address = "http://twitter.com/home" ;
+  }
   QProcess *browser = new QProcess;
-  browser->start( "open " + address );
+#ifdef Q_WS_MAC
+  browser->start( "/usr/bin/open " + address );
 #elif defined Q_WS_X11
+  if ( browserPath.isEmpty() ) {
+    emit errorMessage( tr( "Browser path is not defined. Specify it in Settings->Network section. " ) );
+    return;
+  }
+  browser->start( browserPath + " " + address );
 #elif defined Q_WS_WIN
   QSettings settings( "HKEY_CLASSES_ROOT\\http\\shell\\open\\command", QSettings::NativeFormat );
-  QProcess *browser = new QProcess;
   browser->start( settings.value( "Default" ).toString() + " " + address );
 #endif
 }

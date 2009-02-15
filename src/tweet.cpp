@@ -34,6 +34,7 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   QWidget(parent),
   gotohomepageAction(0),
   model(entry),
+  parentMainWindow( dynamic_cast<MainWindow*>(parent) ),
   m_ui(new Ui::Tweet)
 {
   menu = new QMenu( this );
@@ -44,9 +45,13 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   connect( this, SIGNAL(reply(QString)), parent, SIGNAL(addReplyString(QString)) );
 
   if ( entry.homepage().compare("") ) {
-    gotohomepageAction = new QAction( tr("Go to homepage")+ QString(" (%1)").arg( entry.homepage() ), this);
+    signalMapper = new QSignalMapper( this );
+
+    gotohomepageAction = new QAction( tr("Go to homepage")+ QString(" (%1)").arg( model.homepage() ), this);
     menu->addAction(gotohomepageAction);
-    connect( gotohomepageAction, SIGNAL(triggered()), this, SLOT(gotohomepage()) );
+    connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+    signalMapper->setMapping( gotohomepageAction, model.homepage() );
+    connect( signalMapper, SIGNAL(mapped(QString)), parentMainWindow, SIGNAL(openBrowser(QString)) );
   }
 
   m_ui->setupUi( this );
@@ -122,20 +127,6 @@ void Tweet::leaveEvent( QEvent *e )
 {
   m_ui->menuButton->setIcon( QIcon() );
   QWidget::leaveEvent( e );
-}
-
-void Tweet::gotohomepage()
-{
-  QString address( model.homepage() );
-#ifdef Q_WS_MAC
-  QProcess *browser = new QProcess;
-  browser->start( "open " + address );
-#elif defined Q_WS_X11
-#elif defined Q_WS_WIN
-  QSettings settings( "HKEY_CLASSES_ROOT\\http\\shell\\open\\command", QSettings::NativeFormat );
-  QProcess *browser = new QProcess;
-  browser->start( settings.value( "Default" ).toString() + " " + address );
-#endif
 }
 
 void Tweet::sendReply()
