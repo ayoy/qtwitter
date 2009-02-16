@@ -30,24 +30,10 @@
 MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 {
   ui.setupUi( this );
-  ui.countdownLabel->setToolTip( ui.countdownLabel->text() + tr( " characters left" ) );
+  ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
   ui.statusListView->setModel( &model );
-
-//  menu = new QMenu( this );
-//  QAction *openaction = new QAction("Open", this);
-//  QAction *closeaction = new QAction("Close", this);
-//  QAction *deleteaction = new QAction("Delete", this);
-//  QAction *aboutaction = new QAction("About", this);
-
-//  menu->addAction(openaction);
-//  menu->addAction(closeaction);
-//  menu->addAction(deleteaction);
-//  menu->addAction(aboutaction);
-
-  qDebug() << qRegisterMetaType<ListOfEntries>( "ListOfEntries" );
-  qDebug() << qRegisterMetaType<MapStringImage>( "MapStringImage" );
 
   connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateTweets() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
@@ -65,9 +51,9 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   QObject::connect( trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)) );
 #ifndef Q_WS_MAC
   QMenu *trayMenu = new QMenu( this );
-  QAction *showaction = new QAction("Show", trayMenu);
-  QAction *settingsaction = new QAction("Settings", trayMenu);
-  QAction *quitaction = new QAction("Quit", trayMenu);
+  QAction *showaction = new QAction( tr( "Show" ), trayMenu);
+  QAction *settingsaction = new QAction( tr( "Settings" ), trayMenu);
+  QAction *quitaction = new QAction( tr( "Quit" ), trayMenu);
 
   QObject::connect( showaction, SIGNAL(triggered()), this, SLOT(show()) );
   QObject::connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
@@ -119,7 +105,7 @@ void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
 void MainWindow::changeLabel()
 {
   ui.countdownLabel->setText( ui.statusEdit->isStatusClean() ? QString::number( STATUS_MAX_LEN ) : QString::number( STATUS_MAX_LEN - ui.statusEdit->text().length() ) );
-  ui.countdownLabel->setToolTip( ui.countdownLabel->text() + tr( " characters left" ) );
+  ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
 }
 
 void MainWindow::sendStatus()

@@ -30,9 +30,6 @@
 
 #define STATUS_MAX_LEN 140
 
-typedef QList<Entry> ListOfEntries;
-typedef QMap<QString, QImage> MapStringImage;
-
 class MainWindow : public QWidget
 {
   Q_OBJECT

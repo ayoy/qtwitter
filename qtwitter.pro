@@ -1,5 +1,15 @@
 TEMPLATE = app
 TARGET = qtwitter
+unix {
+  isEmpty( PREFIX ) {
+    INSTALL_PREFIX = /usr
+  } else {
+    INSTALL_PREFIX = $${PREFIX}
+  }
+  target.path = $${INSTALL_PREFIX}/bin
+  INSTALLS += target
+}
+
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \

@@ -71,7 +71,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="187"/>
+        <location filename="../src/mainwindow.cpp" line="173"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -96,9 +96,9 @@
         <translation type="obsolete">140</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="122"/>
+        <location filename="../src/mainwindow.cpp" line="33"/>
         <source> characters left</source>
-        <translation> znaków pozostało</translation>
+        <translation type="obsolete"> znaków pozostało</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="145"/>
@@ -114,6 +114,21 @@
         <location filename="../ui/mainwindow.ui" line="188"/>
         <source>Update tweets</source>
         <translation>Aktualizuj statusy</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="54"/>
+        <source>Show</source>
+        <translation>Pokaż</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="56"/>
+        <source>Quit</source>
+        <translation>Wyjdź</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="108"/>
+        <source>characters left</source>
+        <translation>znaków pozostało</translation>
     </message>
 </context>
 <context>

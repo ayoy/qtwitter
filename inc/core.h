@@ -29,7 +29,6 @@
 #include "xmlparser.h"
 #include "imagedownload.h"
 
-typedef QList<Entry> ListOfEntries;
 typedef QMap<QString, QImage> MapStringImage;
 
 class Core : public QObject {

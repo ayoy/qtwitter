@@ -71,7 +71,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="187"/>
+        <location filename="../src/mainwindow.cpp" line="173"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -91,9 +91,9 @@
         <translation>Què estàs fent ara?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="122"/>
+        <location filename="../src/mainwindow.cpp" line="33"/>
         <source> characters left</source>
-        <translation>caràcters queden</translation>
+        <translation type="obsolete">caràcters queden</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="145"/>
@@ -109,6 +109,21 @@
         <location filename="../ui/mainwindow.ui" line="188"/>
         <source>Update tweets</source>
         <translation>Actualitzar estats</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="54"/>
+        <source>Show</source>
+        <translation>Mostra</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="56"/>
+        <source>Quit</source>
+        <translation>Surt</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="108"/>
+        <source>characters left</source>
+        <translation>caràcters queden</translation>
     </message>
 </context>
 <context>

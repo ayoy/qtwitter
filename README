@@ -1,6 +1,6 @@
 qTwitter is a simple application allowing to use twitter.com social networking website. It is intended to imitate Twitterrific, known very well to Mac OS X users. It's being developed in C++ with Qt libraries (v. 4.4.3).
 
-Features' summary as for v0.2:
+Features' summary as for v0.2.1:
   - posting updates to Twitter and downloading friends or public timeline,
   - updates displaying independent on images downloading,
   - in-session password storing,
@@ -32,5 +32,13 @@ To compile qTwitter you'll need Qt package version 4.4.0 or newer. Follow the st
   # qmake
   # make (or make release, depending on your Qt configuration)
 
-4. It's done! Open qTwitter via "qtwitter" (UNIX), "qtwitter.app" (MacOS X) or "release\qtwitter.exe" (Windows).
+4. It's done! Open qTwitter via "qtwitter" (UNIX), "qtwitter.app" (MacOS X) or "release\qtwitter.exe" (Windows). On UNIX-like machines you can also:
+  # make install
+  
+  to have the app added to /usr/bin. If you want to install application in other dir, use PREFIX parameter with qmake:
+
+  # qmake PREFIX="my/preferred/dir"
+  # make
+  # make install
+
 5. Have fun :-)
