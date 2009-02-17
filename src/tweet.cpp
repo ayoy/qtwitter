@@ -91,6 +91,11 @@ QString Tweet::getUrlForIcon() const
   return model.image();
 }
 
+Entry Tweet::getModel() const
+{
+  return model;
+}
+
 void Tweet::menuRequested()
 {
   menu->exec( QCursor::pos() );

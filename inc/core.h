@@ -67,6 +67,7 @@ signals:
   void switchToPublic();
   void xmlConnectionIdle();
   void addOneEntry( Entry* );
+  void deleteEntry( int );
   void setImage( const Entry&, QImage );
   void setImageForUrl( const QString&, QImage );
   void requestListRefresh();

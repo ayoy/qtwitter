@@ -38,12 +38,11 @@ public:
   MainWindow();
   ~MainWindow();
   void retranslateUi();
-//  void setCore( Core* );
-//  Core* getCore();
   
 public slots:
   void popupError( const QString &message );
   void displayItem( Entry *entry );
+  void deleteItem( int id );
   void setImageForUrl( const QString&, QImage );
   void setModelToBeCleared();
 

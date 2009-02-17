@@ -69,16 +69,6 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
 }
 
 MainWindow::~MainWindow() {}
-//
-//void MainWindow::setCore( Core *c )
-//{
-//  core = c;
-//}
-//
-//Core* MainWindow::getCore()
-//{
-//  return core;
-//}
 
 void MainWindow::closeEvent( QCloseEvent *e )
 {
@@ -154,8 +144,18 @@ void MainWindow::displayItem( Entry *entry )
   newTweet->resize( ui.statusListView->width() - scrollBarMargin, newTweet->size().height() );
   newItem->setSizeHint( newTweet->size() );
   model.insertRow( entry->getIndex(), newItem );
-  qDebug() << "CURRENT ID IS" << entry->getIndex();
   ui.statusListView->setIndexWidget( model.indexFromItem( newItem ), newTweet );
+}
+
+void MainWindow::deleteItem( int id )
+{
+  for ( int i = 0; i < model.rowCount(); i++ ) {
+    Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model.indexFromItem( model.item(i) ) ) );
+    if ( id == aTweet->getModel().id() ) {
+      model.removeRow( i );
+      return;
+    }
+  }
 }
 
 void MainWindow::setModelToBeCleared()

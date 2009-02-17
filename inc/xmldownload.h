@@ -31,7 +31,13 @@ class XmlDownload : public HttpConnection {
   Q_OBJECT
 
 public:
-  XmlDownload( QAuthenticator _authData, Core *coreParent, QObject *parent = 0 );
+  enum Role {
+    Refresh,
+    Submit,
+    Destroy
+  };
+  XmlDownload( QAuthenticator _authData, Role function, Core *coreParent, QObject *parent = 0 );
+  Role role() const;
 
 public slots:
   void setAuthData( const QAuthenticator );
@@ -40,12 +46,15 @@ private slots:
   void httpRequestFinished( int requestId, bool error );
   void readResponseHeader( const QHttpResponseHeader &responseHeader );
   void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
+  void extractId( Entry* );
 
 signals:
   void xmlParsed();
   void cookieReceived( const QStringList );
+  void deleteEntry( int id );
 
 private:
+  Role connectionRole;
   void createConnections( Core *whereToConnectTo );
   QAuthenticator authData;
   XmlParser parser;

@@ -22,8 +22,9 @@
 #define ENTRY_H
 
 #include <QString>
+#include <QObject>
 
-class Entry {
+class Entry : public QObject {
 
 private:
   int index;
@@ -38,9 +39,9 @@ private:
   QString userText;
   
 public:
-  Entry();
-  Entry(int itemId, int id, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text);
-  Entry(const Entry &right);
+  Entry( QObject *parent = 0 );
+  Entry( int itemId, int id, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text, QObject *parent = 0 );
+  Entry( const Entry &right );
 
   bool checkContents();
   Entry& operator=( const Entry &right );

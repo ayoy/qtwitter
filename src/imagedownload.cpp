@@ -55,7 +55,7 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
     // these are not error conditions
     break;
   default:
-    emit errorMessage( tr( "Download failed: " ) + responseHeader.reasonPhrase() );
+    //emit errorMessage( tr( "Download failed: " ) + responseHeader.reasonPhrase() );
     httpRequestAborted = true;
     abort();
 

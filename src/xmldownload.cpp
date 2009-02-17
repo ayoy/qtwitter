@@ -21,8 +21,9 @@
 #include "xmldownload.h"
 #include "core.h"
 
-XmlDownload::XmlDownload( QAuthenticator _authData, Core *coreParent, QObject *parent ) :
+XmlDownload::XmlDownload( QAuthenticator _authData, Role role, Core *coreParent, QObject *parent ) :
     HttpConnection( parent ),
+    connectionRole( role ),
     authData( _authData ),
     core( coreParent ),
     authenticated( false )
@@ -30,14 +31,29 @@ XmlDownload::XmlDownload( QAuthenticator _authData, Core *coreParent, QObject *p
   createConnections( coreParent );
 }
 
+XmlDownload::Role XmlDownload::role() const
+{
+  return connectionRole;
+}
+
 void XmlDownload::createConnections( Core *coreParent )
 {
   connect( &parser, SIGNAL(dataParsed(QString)), this, SIGNAL(dataParsed(QString)));
-  connect( &parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
-  connect( &parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(downloadOneImage(Entry*)) );
+  if ( connectionRole == Destroy ) {
+    connect( &parser, SIGNAL(newEntry(Entry*)), this, SLOT(extractId(Entry*)) );
+    connect( this, SIGNAL(deleteEntry(int)), coreParent, SIGNAL(deleteEntry(int)) );
+  } else {
+    connect( &parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
+    connect( &parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(downloadOneImage(Entry*)) );
+  }
   connect( &parser, SIGNAL(xmlParsed()), this, SIGNAL(xmlParsed()));
   connect( this, SIGNAL(authenticationRequired(QString,quint16,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QString,quint16,QAuthenticator*)));
   connect( this, SIGNAL(cookieReceived(QStringList)), coreParent, SLOT(storeCookie(QStringList)) );
+}
+
+void XmlDownload::extractId( Entry *entry )
+{
+  emit deleteEntry( entry->id() );
 }
 
 void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -55,9 +71,13 @@ void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
     // these are not error conditions
     break;
   case 404:                   // Not Found
-    break;
+    if ( connectionRole == Destroy ) {
+      QRegExp rx = QRegExp( "/statuses/destroy/(\\d+)\\.xml", Qt::CaseInsensitive );
+      rx.indexIn( url.path() );
+      emit deleteEntry( rx.cap(1).toInt() );
+    }
   default:
-    emit errorMessage( "Download failed: " + responseHeader.reasonPhrase() );
+    //emit errorMessage( "Download failed: " + responseHeader.reasonPhrase() );
     httpRequestAborted = true;
     abort();
     if (buffer) {

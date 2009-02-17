@@ -24,7 +24,8 @@
 #include <QDebug>
 #include <QList>
 
-Entry::Entry() :
+Entry::Entry( QObject *parent ) :
+  QObject( parent ),
   index( -1 ),
   own( false ),
   userId( -1 ),
@@ -37,7 +38,8 @@ Entry::Entry() :
 {
 }
 
-Entry::Entry(int itemIndex, int id, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text) :
+Entry::Entry(int itemIndex, int id, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text, QObject *parent ) :
+  QObject( parent ),
   index( itemIndex ),
   own( false ),
   userId( id ),
@@ -50,6 +52,7 @@ Entry::Entry(int itemIndex, int id, const QString &name, const QString &login, c
 }
 
 Entry::Entry(const Entry &right) :
+  QObject( right.parent() ),
   index( right.index ),
   own( right.own ),
   userId( right.userId ),

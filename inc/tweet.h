@@ -43,6 +43,7 @@ public:
   void setIcon( const QImage& );
   void retranslateUi();
   QString getUrlForIcon() const;
+  Entry getModel() const;
 
 public slots:
   void adjustSize();

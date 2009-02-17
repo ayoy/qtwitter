@@ -77,7 +77,6 @@ bool Core::downloadsPublicTimeline() {
 
 void Core::newEntry( Entry *entry )
 {
-  qDebug() << "CHECKING OWNERSHIP:" << entry->login() << authData.user();
   if ( entry->login() == authData.user() ) {
     entry->setOwn( true );
   }
@@ -93,14 +92,14 @@ void Core::destroyTweet( int id )
       return;
     }
   }
-  xmlPost = new XmlDownload( authData, this );
-  xmlPost->syncPost( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QString::number(id).toAscii(), false, cookie );
+  xmlPost = new XmlDownload( authData, XmlDownload::Destroy, this );
+  xmlPost->syncPost( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), false, cookie );
 }
 
 void Core::get() {
   emit requestListRefresh();
   if ( downloadPublicTimeline ) {
-     xmlGet = new XmlDownload ( authData, this );
+     xmlGet = new XmlDownload ( authData, XmlDownload::Refresh, this );
      xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
    } else {
      if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
@@ -110,10 +109,10 @@ void Core::get() {
        }
      }
      if ( downloadPublicTimeline ) {
-       xmlGet = new XmlDownload ( authData, this );
+       xmlGet = new XmlDownload ( authData, XmlDownload::Refresh, this );
        xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
      } else {
-       xmlGet = new XmlDownload ( authData, this );
+       xmlGet = new XmlDownload ( authData, XmlDownload::Refresh, this );
        xmlGet->syncGet( "http://twitter.com/statuses/friends_timeline.xml", false, cookie );
     }
   }
@@ -130,7 +129,7 @@ void Core::post( const QByteArray &status ) {
   request.append( status );
   request.append( "&source=qtwitter" );
   qDebug() << request;
-  xmlPost = new XmlDownload( authData, this );
+  xmlPost = new XmlDownload( authData, XmlDownload::Submit, this );
   xmlPost->syncPost( "http://twitter.com/statuses/update.xml", request, false, cookie );
 }
 
