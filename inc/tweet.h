@@ -24,6 +24,7 @@
 #include <QtGui/QWidget>
 #include "entry.h"
 #include "mainwindow.h"
+#include "core.h"
 #include <QMenu>
 #include <QSignalMapper>
 
@@ -35,8 +36,7 @@ class Tweet : public QWidget {
   Q_OBJECT
   Q_DISABLE_COPY( Tweet )
 public:
-  explicit Tweet( QWidget *parent = 0 );
-  explicit Tweet( const Entry &entry, const QImage &icon, QWidget *parent );
+  explicit Tweet( const Entry &entry, const QImage &icon, MainWindow *parent );
   virtual ~Tweet();
   void resize( const QSize& );
   void resize( int w, int h );
@@ -61,9 +61,12 @@ private:
   QMenu *menu;
   QAction *replyAction;
   QAction *gotohomepageAction;
+  QAction *gototwitterpageAction;
+  QAction *deleteAction;
   Entry model;
   MainWindow *parentMainWindow;
   QSignalMapper *signalMapper;
+  QFont *menuFont;
   Ui::Tweet *m_ui;
 };
 

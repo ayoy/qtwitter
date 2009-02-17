@@ -38,10 +38,12 @@ public:
   MainWindow();
   ~MainWindow();
   void retranslateUi();
+//  void setCore( Core* );
+//  Core* getCore();
   
 public slots:
   void popupError( const QString &message );
-  void displayItem( const Entry &entry );
+  void displayItem( Entry *entry );
   void setImageForUrl( const QString&, QImage );
   void setModelToBeCleared();
 
@@ -50,7 +52,6 @@ private slots:
   void changeLabel();
   void sendStatus();
   void resetStatus();
-  void popupMenu();
 
 signals:
   void updateTweets();
@@ -64,6 +65,7 @@ protected:
 
 private:
   void resizeEvent( QResizeEvent* );
+  Core* core;
   QMenu *menu;
   QSystemTrayIcon *trayIcon;
   QStandardItemModel model;

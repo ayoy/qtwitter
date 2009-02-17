@@ -53,7 +53,7 @@ class ImageDownload : public HttpConnection {
 public:
   ImageDownload();
   ~ImageDownload();
-  void imgGet( const Entry &entry );
+  void imgGet( Entry *entry );
 
 private:
   QMap<QString,int> requestByEntry;

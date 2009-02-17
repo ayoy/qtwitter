@@ -27,6 +27,7 @@ class Entry {
 
 private:
   int id;
+  bool own;
   QString userName;
   QString userLogin;
   QString userHomepage;
@@ -43,6 +44,7 @@ public:
   Entry& operator=( const Entry &right );
       
   int getId() const;
+  bool isOwn() const;
   QString name() const;
   QString login() const;
   QString homepage() const;
@@ -50,6 +52,7 @@ public:
   QString text() const;
 
   void setId( int itemId );
+  void setOwn( bool isOwn );
   void setName( const QString& newName );
   void setLogin( const QString& newLogin );
   void setHomepage( const QString& newHomepage );

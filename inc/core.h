@@ -28,6 +28,7 @@
 #include "xmldownload.h"
 #include "xmlparser.h"
 #include "imagedownload.h"
+#include "mainwindow.h"
 
 typedef QMap<QString, QImage> MapStringImage;
 
@@ -35,9 +36,10 @@ class Core : public QObject {
   Q_OBJECT
 
 public:
-  Core( QObject *parent = 0 );
+  Core( MainWindow *parent = 0 );
   virtual ~Core();
   bool downloadsPublicTimeline();
+  QString getAuthLogin();
 #ifdef Q_WS_X11
   void setBrowserPath( const QString& );
 #endif
@@ -51,18 +53,19 @@ public slots:
   void storeCookie( const QStringList );
   void setDownloadPublicTimeline( bool );
   void openBrowser( QString address = QString() );
-  void downloadOneImage( const Entry &entry );
+  void downloadOneImage( Entry *entry );
 
 private slots:
   void destroyXmlConnection();
   void setImageInHash( const QString&, QImage );
+  void newEntry( Entry* );
 
 signals:
   void errorMessage( const QString &message );
   void authDataSet( const QAuthenticator& );
   void switchToPublic();
   void xmlConnectionIdle();
-  void addOneEntry( const Entry& );
+  void addOneEntry( Entry* );
   void setImage( const Entry&, QImage );
   void setImageForUrl( const QString&, QImage );
   void requestListRefresh();

@@ -27,9 +27,9 @@ ImageDownload::~ImageDownload()
 //  imageByEntry.clear();
 }
 
-void ImageDownload::imgGet( const Entry &entry )      //requestByEntry[entry.getId()] = httpGetId;
+void ImageDownload::imgGet( Entry *entry )      //requestByEntry[entry.getId()] = httpGetId;
 {
-  QString imgPath = entry.image();
+  QString imgPath = entry->image();
   QByteArray encodedPath = prepareRequest( imgPath );
   qDebug() << "getting" << encodedPath << "\nentry:" << imgPath;
   httpGetId = get( encodedPath, buffer );

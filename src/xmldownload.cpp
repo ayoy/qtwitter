@@ -33,8 +33,8 @@ XmlDownload::XmlDownload( QAuthenticator _authData, Core *coreParent, QObject *p
 void XmlDownload::createConnections( Core *coreParent )
 {
   connect( &parser, SIGNAL(dataParsed(QString)), this, SIGNAL(dataParsed(QString)));
-  connect( &parser, SIGNAL(newEntry(Entry)), coreParent, SIGNAL(addOneEntry(Entry)) );
-  connect( &parser, SIGNAL(newEntry(Entry)), coreParent, SLOT(downloadOneImage(Entry)) );
+  connect( &parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
+  connect( &parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(downloadOneImage(Entry*)) );
   connect( &parser, SIGNAL(xmlParsed()), this, SIGNAL(xmlParsed()));
   connect( this, SIGNAL(authenticationRequired(QString,quint16,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QString,quint16,QAuthenticator*)));
   connect( this, SIGNAL(cookieReceived(QStringList)), coreParent, SLOT(storeCookie(QStringList)) );

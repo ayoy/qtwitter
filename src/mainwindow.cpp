@@ -42,7 +42,6 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
-  connect( ui.statusListView, SIGNAL( contextMenuRequested() ), this, SLOT( popupMenu() ) );
   connect( this, SIGNAL(addReplyString(QString)), ui.statusEdit, SLOT(addReplyString(QString)) );
 
   trayIcon = new QSystemTrayIcon( this );
@@ -69,12 +68,17 @@ MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
   trayIcon->show();
 }
 
-void MainWindow::popupMenu()
-{
-//  menu->exec( QCursor::pos() );
-}
-
 MainWindow::~MainWindow() {}
+//
+//void MainWindow::setCore( Core *c )
+//{
+//  core = c;
+//}
+//
+//Core* MainWindow::getCore()
+//{
+//  return core;
+//}
 
 void MainWindow::closeEvent( QCloseEvent *e )
 {
@@ -137,19 +141,19 @@ void MainWindow::resizeEvent( QResizeEvent *event )
   }
 }
 
-void MainWindow::displayItem( const Entry &entry )
+void MainWindow::displayItem( Entry *entry )
 {
   if ( modelToBeCleared ) {
     model.clear();
     modelToBeCleared = false;
   }
-  qDebug() << entry.getId() << entry.name();
+  qDebug() << entry->getId() << entry->name();
   int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
   QStandardItem *newItem = new QStandardItem();
-  Tweet *newTweet = new Tweet( entry, QImage(), this );
+  Tweet *newTweet = new Tweet( *entry, QImage(), this );
   newTweet->resize( ui.statusListView->width() - scrollBarMargin, newTweet->size().height() );
   newItem->setSizeHint( newTweet->size() );
-  model.insertRow( entry.getId(), newItem );
+  model.insertRow( entry->getId(), newItem );
   ui.statusListView->setIndexWidget( model.indexFromItem( newItem ), newTweet );
 }
 

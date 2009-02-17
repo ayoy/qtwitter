@@ -38,6 +38,7 @@ class XmlParser : public QObject, public QXmlDefaultHandler
 public:
   enum FieldType {
     None,
+    Id,
     Name,
     Login,
     Homepage,
@@ -71,7 +72,7 @@ public:
 
 signals:
   void dataParsed( const QString &text );
-  void newEntry( const Entry &entry );
+  void newEntry( Entry *entry );
   void xmlParsed();
 
 };

@@ -45,7 +45,7 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(authDataSet(QAuthenticator)), settings, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;
   QObject::connect( core, SIGNAL(switchToPublic()), settings, SLOT(switchToPublic()) );
   QObject::connect( core, SIGNAL(errorMessage(QString)), &qtwitter, SLOT(popupError(QString)) );
-  QObject::connect( core, SIGNAL(addOneEntry(Entry)), &qtwitter, SLOT(displayItem(Entry)) );
+  QObject::connect( core, SIGNAL(addOneEntry(Entry*)), &qtwitter, SLOT(displayItem(Entry*)) );
   QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), &qtwitter, SLOT(setImageForUrl(QString,QImage)) );
   QObject::connect( core, SIGNAL(requestListRefresh()), &qtwitter, SLOT(setModelToBeCleared()) );
 

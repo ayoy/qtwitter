@@ -23,7 +23,7 @@
 #include "ui_authdialog.h"
 #include <QSettings>
 
-Core::Core( QObject *parent ) :
+Core::Core( MainWindow *parent ) :
     QObject( parent ),
     downloadPublicTimeline( false ),
     isShowingDialog( false ),
@@ -31,23 +31,24 @@ Core::Core( QObject *parent ) :
     xmlPost( NULL )
 {
   connect( this, SIGNAL(xmlConnectionIdle()), SLOT(destroyXmlConnection()) );
+//  parent->setCore( this );
 }
 
 Core::~Core() {}
 
-void Core::downloadOneImage( const Entry &entry ) {
-  if ( imagesHash.contains( entry.image() ) ) {
-    if ( imagesHash[ entry.image() ].isNull() ) {
+void Core::downloadOneImage( Entry *entry ) {
+  if ( imagesHash.contains( entry->image() ) ) {
+    if ( imagesHash[ entry->image() ].isNull() ) {
       qDebug() << "not downloading";
     } else {
-      emit setImageForUrl( entry.image(), imagesHash[ entry.image() ] );
+      emit setImageForUrl( entry->image(), imagesHash[ entry->image() ] );
     }
     return;
   }
-  QString host = QUrl( entry.image() ).host();
+  QString host = QUrl( entry->image() ).host();
   if ( imagesGetter.contains( host ) ) {
     imagesGetter[host]->imgGet( entry );
-    imagesHash[ entry.image() ] = QImage();
+    imagesHash[ entry->image() ] = QImage();
     qDebug() << "setting null image";
     return;
   }
@@ -56,8 +57,8 @@ void Core::downloadOneImage( const Entry &entry ) {
   connect( getter, SIGNAL( errorMessage( const QString& ) ), this, SIGNAL( errorMessage( const QString& ) ) );
   connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
   getter->imgGet( entry );
-  imagesHash[ entry.image() ] = QImage();
-  qDebug() << "setting null image" << imagesHash[ entry.image() ].isNull();
+  imagesHash[ entry->image() ] = QImage();
+  qDebug() << "setting null image" << imagesHash[ entry->image() ].isNull();
 }
 
 void Core::setImageInHash( const QString &url, QImage image ) {
@@ -72,6 +73,15 @@ void Core::setDownloadPublicTimeline( bool b ) {
 
 bool Core::downloadsPublicTimeline() {
   return downloadPublicTimeline;
+}
+
+void Core::newEntry( Entry *entry )
+{
+  qDebug() << "CHECKING OWNERSHIP:" << entry->login() << authData.user();
+  if ( entry->login() == authData.user() ) {
+    entry->setOwn( true );
+  }
+  emit addOneEntry( entry );
 }
 
 void Core::get() {
@@ -126,6 +136,11 @@ void Core::destroyXmlConnection() {
 
 void Core::storeCookie( const QStringList newCookie ) {
   cookie = newCookie;
+}
+
+QString Core::getAuthLogin()
+{
+  return authData.user();
 }
 
 bool Core::authDataDialog() {

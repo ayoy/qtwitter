@@ -23,36 +23,49 @@
 #include <QDebug>
 #include <QProcess>
 
-Tweet::Tweet(QWidget *parent) :
-  QWidget(parent),
-  m_ui(new Ui::Tweet)
-{
-  m_ui->setupUi(this);
-}
 
-Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
+Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
   QWidget(parent),
   gotohomepageAction(0),
   model(entry),
-  parentMainWindow( dynamic_cast<MainWindow*>(parent) ),
+  parentMainWindow(parent),
   m_ui(new Ui::Tweet)
 {
   menu = new QMenu( this );
+  menuFont = new QFont( menu->font() );
+  menuFont->setPixelSize( 10 );
+  menu->setFont( *menuFont );
 
   replyAction = new QAction( tr("Reply to") + " " + entry.login(), this);
-  menu->addAction(replyAction);
+  menu->addAction( replyAction );
   connect( replyAction, SIGNAL(triggered()), this, SLOT(sendReply()) );
   connect( this, SIGNAL(reply(QString)), parent, SIGNAL(addReplyString(QString)) );
 
-  if ( entry.homepage().compare("") ) {
-    signalMapper = new QSignalMapper( this );
+  signalMapper = new QSignalMapper( this );
+  gototwitterpageAction = new QAction( tr( "Go to User's Twitter page" ), this );
+  menu->addAction( gototwitterpageAction );
+  signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + model.login() );
+  connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+  connect( signalMapper, SIGNAL(mapped(QString)), parentMainWindow, SIGNAL(openBrowser(QString)) );
 
-    gotohomepageAction = new QAction( tr("Go to homepage")+ QString(" (%1)").arg( model.homepage() ), this);
-    menu->addAction(gotohomepageAction);
-    connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+  if ( model.homepage().compare("") ) {
+    gotohomepageAction = new QAction( tr("Go to User's homepage"), this);
+    menu->addAction( gotohomepageAction );
     signalMapper->setMapping( gotohomepageAction, model.homepage() );
+    connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
     connect( signalMapper, SIGNAL(mapped(QString)), parentMainWindow, SIGNAL(openBrowser(QString)) );
+    gotohomepageAction->setFont( *menuFont );
   }
+
+  if ( model.isOwn() ) {
+    deleteAction = new QAction( tr( "Delete tweet" ), this );
+    menu->addAction( deleteAction );
+    deleteAction->setFont( *menuFont );
+    //connect( deleteAction, SIGNAL(triggered()), core, SLO
+  }
+
+  replyAction->setFont( *menuFont );
+  gototwitterpageAction->setFont( *menuFont );
 
   m_ui->setupUi( this );
   m_ui->userName->setText( model.name() );
@@ -66,6 +79,9 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
 Tweet::~Tweet()
 {
   delete m_ui;
+  m_ui = 0;
+  delete menuFont;
+  menuFont = 0;
 }
 
 QString Tweet::getUrlForIcon() const

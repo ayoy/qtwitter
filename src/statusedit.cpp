@@ -58,4 +58,5 @@ void StatusEdit::addReplyString( const QString &name )
   } else {
     insert( "@" + name + " ");
   }
+  setFocus();
 }

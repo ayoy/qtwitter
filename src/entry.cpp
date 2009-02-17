@@ -26,6 +26,7 @@
 
 Entry::Entry() :
   id( -1 ),
+  own( false ),
   userName( "" ),
   userLogin( "" ),
   userHomepage( "" ),
@@ -36,7 +37,8 @@ Entry::Entry() :
 }
 
 Entry::Entry(int itemId, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text) :
-  id ( itemId ),
+  id( itemId ),
+  own( false ),
   userName( name ),
   userLogin( login ),
   userHomepage( homepage ),
@@ -47,6 +49,7 @@ Entry::Entry(int itemId, const QString &name, const QString &login, const QStrin
 
 Entry::Entry(const Entry &right) :
   id( right.id ),
+  own( right.own ),
   userName( right.userName ),
   userLogin( right.userLogin ),
   userHomepage( right.userHomepage ),
@@ -72,6 +75,8 @@ bool Entry::checkContents() {
 }
 
 Entry& Entry::operator=( const Entry &right ) {
+  id = right.id;
+  own = right.own;
   userName = right.userName;
   userLogin = right.userLogin;
   userHomepage = right.userHomepage;
@@ -83,6 +88,10 @@ Entry& Entry::operator=( const Entry &right ) {
 
 int Entry::getId() const {
   return id;
+}
+
+bool Entry::isOwn() const {
+  return own;
 }
 
 QString Entry::name() const {
@@ -107,6 +116,10 @@ QString Entry::text() const {
 
 void Entry::setId( int itemId ) {
   id = itemId;
+}
+
+void Entry::setOwn( bool isOwn ) {
+  own = isOwn;
 }
 
 void Entry::setName( const QString& newName ) {

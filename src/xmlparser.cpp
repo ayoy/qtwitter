@@ -79,7 +79,7 @@ bool XmlParser::characters( const QString &ch ) {
       }
     }
     if ( entryComplete && entry.checkContents() ) {
-      emit newEntry( entry );
+      emit newEntry( &entry );
       lastField = None;
       entryComplete = false;
     }
