@@ -147,13 +147,14 @@ void MainWindow::displayItem( Entry *entry )
     model.clear();
     modelToBeCleared = false;
   }
-  qDebug() << entry->getId() << entry->name();
+  qDebug() << entry->getIndex() << entry->name();
   int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
   QStandardItem *newItem = new QStandardItem();
   Tweet *newTweet = new Tweet( *entry, QImage(), this );
   newTweet->resize( ui.statusListView->width() - scrollBarMargin, newTweet->size().height() );
   newItem->setSizeHint( newTweet->size() );
-  model.insertRow( entry->getId(), newItem );
+  model.insertRow( entry->getIndex(), newItem );
+  qDebug() << "CURRENT ID IS" << entry->getIndex();
   ui.statusListView->setIndexWidget( model.indexFromItem( newItem ), newTweet );
 }
 

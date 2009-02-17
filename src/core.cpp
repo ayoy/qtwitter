@@ -84,6 +84,19 @@ void Core::newEntry( Entry *entry )
   emit addOneEntry( entry );
 }
 
+void Core::destroyTweet( int id )
+{
+  qDebug() << "Tweet No." << id << "will be destroyed";
+  if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
+    if ( !authDataDialog() ) {
+      emit errorMessage( tr("Authentication is required to post updates") );
+      return;
+    }
+  }
+  xmlPost = new XmlDownload( authData, this );
+  xmlPost->syncPost( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QString::number(id).toAscii(), false, cookie );
+}
+
 void Core::get() {
   emit requestListRefresh();
   if ( downloadPublicTimeline ) {

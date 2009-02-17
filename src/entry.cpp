@@ -25,8 +25,9 @@
 #include <QList>
 
 Entry::Entry() :
-  id( -1 ),
+  index( -1 ),
   own( false ),
+  userId( -1 ),
   userName( "" ),
   userLogin( "" ),
   userHomepage( "" ),
@@ -36,9 +37,10 @@ Entry::Entry() :
 {
 }
 
-Entry::Entry(int itemId, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text) :
-  id( itemId ),
+Entry::Entry(int itemIndex, int id, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text) :
+  index( itemIndex ),
   own( false ),
+  userId( id ),
   userName( name ),
   userLogin( login ),
   userHomepage( homepage ),
@@ -48,8 +50,9 @@ Entry::Entry(int itemId, const QString &name, const QString &login, const QStrin
 }
 
 Entry::Entry(const Entry &right) :
-  id( right.id ),
+  index( right.index ),
   own( right.own ),
+  userId( right.userId ),
   userName( right.userName ),
   userLogin( right.userLogin ),
   userHomepage( right.userHomepage ),
@@ -75,8 +78,9 @@ bool Entry::checkContents() {
 }
 
 Entry& Entry::operator=( const Entry &right ) {
-  id = right.id;
+  index = right.index;
   own = right.own;
+  userId = right.userId;
   userName = right.userName;
   userLogin = right.userLogin;
   userHomepage = right.userHomepage;
@@ -86,12 +90,16 @@ Entry& Entry::operator=( const Entry &right ) {
   return *this;
 }
 
-int Entry::getId() const {
-  return id;
+int Entry::getIndex() const {
+  return index;
 }
 
 bool Entry::isOwn() const {
   return own;
+}
+
+int Entry::id() const {
+  return userId;
 }
 
 QString Entry::name() const {
@@ -114,12 +122,16 @@ QString Entry::text() const {
   return userText;
 }
 
-void Entry::setId( int itemId ) {
-  id = itemId;
+void Entry::setIndex( int itemIndex ) {
+  index = itemIndex;
 }
 
 void Entry::setOwn( bool isOwn ) {
   own = isOwn;
+}
+
+void Entry::setId( int newId ) {
+  userId = newId;
 }
 
 void Entry::setName( const QString& newName ) {

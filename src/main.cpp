@@ -42,6 +42,7 @@ int main( int argc, char **argv )
   QObject::connect( &qtwitter, SIGNAL(openBrowser(QString)), core, SLOT(openBrowser(QString)) );
   QObject::connect( &qtwitter, SIGNAL(post(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
+  QObject::connect( &qtwitter, SIGNAL(destroy(int)), core, SLOT(destroyTweet(int)) );
   QObject::connect( core, SIGNAL(authDataSet(QAuthenticator)), settings, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;
   QObject::connect( core, SIGNAL(switchToPublic()), settings, SLOT(switchToPublic()) );
   QObject::connect( core, SIGNAL(errorMessage(QString)), &qtwitter, SLOT(popupError(QString)) );

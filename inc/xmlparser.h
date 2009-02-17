@@ -25,6 +25,7 @@
 
 #include "entry.h"
 
+#define USER_ID "id"
 #define USER_STATUS "text"
 #define USER_NAME "name"
 #define USER_LOGIN "screen_name"

@@ -59,6 +59,7 @@ signals:
   void post( const QByteArray& );
   void openBrowser( QString address = QString() );
   void addReplyString( const QString& );
+  void destroy( int );
 
 protected:
   void closeEvent( QCloseEvent *e );

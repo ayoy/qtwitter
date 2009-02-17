@@ -43,7 +43,7 @@ bool XmlParser::endDocument() {
 bool XmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ ) {
   ( (lastField = checkFieldType( qName )) != None ) ? important = true : important = false;
   if ( lastField == Text ) {
-    entry.setId( entry.getId() + 1 );
+    entry.setIndex( entry.getIndex() + 1 );
   }
 //  for( int i = 0; i<atts.length(); ++i ) {
 //    qDebug() << " " << atts.qName(i) << "=" << atts.value(i);
@@ -58,7 +58,10 @@ bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & 
 
 bool XmlParser::characters( const QString &ch ) {
   if ( important ) {
-    if ( lastField == Name && !entry.name().compare( "" ) ) {
+    if ( lastField == Id && entry.id() == -1 ) {
+      entry.setId( ch.toInt() );
+//      qDebug() << "Setting id  with: " << ch;
+    } else if ( lastField == Name && !entry.name().compare( "" ) ) {
       entry.setName( ch );
 //      qDebug() << "Setting name  with: " << ch;
     } else if ( lastField == Login && !entry.login().compare( "" ) ) {
@@ -89,6 +92,8 @@ bool XmlParser::characters( const QString &ch ) {
 }
 
 int XmlParser::checkFieldType(const QString &element ) {
+  if ( !element.compare(USER_ID) )
+    return Id;
   if ( !element.compare(USER_STATUS) )
     return Text;
   if ( !element.compare(USER_NAME) )
@@ -100,7 +105,9 @@ int XmlParser::checkFieldType(const QString &element ) {
   if ( !element.compare(USER_PHOTO) )
     return Image;
   if ( !element.compare( "status" ) ) {
+    entry.setId( -1 );
     entry.setName( "" );
+    entry.setOwn( false );
     entry.setLogin( "" );
     entry.setHomepage( "" );
     entry.setHasHomepage( false );

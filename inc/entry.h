@@ -26,8 +26,10 @@
 class Entry {
 
 private:
-  int id;
+  int index;
+
   bool own;
+  int userId;
   QString userName;
   QString userLogin;
   QString userHomepage;
@@ -37,21 +39,23 @@ private:
   
 public:
   Entry();
-  Entry(int itemId, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text);
+  Entry(int itemId, int id, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text);
   Entry(const Entry &right);
 
   bool checkContents();
   Entry& operator=( const Entry &right );
       
-  int getId() const;
+  int getIndex() const;
   bool isOwn() const;
+  int id() const;
   QString name() const;
   QString login() const;
   QString homepage() const;
   QString image() const;
   QString text() const;
 
-  void setId( int itemId );
+  void setIndex( int itemIndex );
+  void setId( int newId );
   void setOwn( bool isOwn );
   void setName( const QString& newName );
   void setLogin( const QString& newLogin );

@@ -51,17 +51,19 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
   if ( model.homepage().compare("") ) {
     gotohomepageAction = new QAction( tr("Go to User's homepage"), this);
     menu->addAction( gotohomepageAction );
+    gotohomepageAction->setFont( *menuFont );
     signalMapper->setMapping( gotohomepageAction, model.homepage() );
     connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
     connect( signalMapper, SIGNAL(mapped(QString)), parentMainWindow, SIGNAL(openBrowser(QString)) );
-    gotohomepageAction->setFont( *menuFont );
   }
 
   if ( model.isOwn() ) {
     deleteAction = new QAction( tr( "Delete tweet" ), this );
     menu->addAction( deleteAction );
     deleteAction->setFont( *menuFont );
-    //connect( deleteAction, SIGNAL(triggered()), core, SLO
+    signalMapper->setMapping( deleteAction, model.id() );
+    connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+    connect( signalMapper, SIGNAL(mapped(int)), parentMainWindow, SIGNAL(destroy(int)) );
   }
 
   replyAction->setFont( *menuFont );

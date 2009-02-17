@@ -54,6 +54,7 @@ public slots:
   void setDownloadPublicTimeline( bool );
   void openBrowser( QString address = QString() );
   void downloadOneImage( Entry *entry );
+  void destroyTweet( int id );
 
 private slots:
   void destroyXmlConnection();
