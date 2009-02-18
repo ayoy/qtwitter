@@ -27,15 +27,15 @@
 #include <QMessageBox>
 #include <QIcon>
 
-MainWindow::MainWindow() : QWidget()
+MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
 {
   ui.setupUi( this );
-  model = new TweetModel( ui.statusListView->verticalScrollBar()->size().width(), ui.statusListView, this );
+//  model = new TweetModel( ui.statusListView->verticalScrollBar()->size().width(), ui.statusListView, this );
 
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
-  ui.statusListView->setModel( model );
+//  ui.statusListView->setModel( model );
 
   connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateTweets() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
@@ -71,6 +71,21 @@ MainWindow::MainWindow() : QWidget()
 }
 
 MainWindow::~MainWindow() {}
+
+QListView* MainWindow::getListView()
+{
+  return ui.statusListView;
+}
+
+int MainWindow::getScrollBarWidth()
+{
+  return ui.statusListView->verticalScrollBar()->size().width();
+}
+
+void MainWindow::setListViewModel( TweetModel *model )
+{
+  ui.statusListView->setModel( model );
+}
 
 void MainWindow::closeEvent( QCloseEvent *e )
 {
@@ -118,33 +133,7 @@ void MainWindow::resetStatus()
 
 void MainWindow::resizeEvent( QResizeEvent *event )
 {
-  if ( model->rowCount() == 0 )
-    return;
-  model->resizeData( event->size().width(), event->oldSize().width() );
-}
-
-void MainWindow::displayItem( Entry *entry )
-{
-  if ( modelToBeCleared ) {
-    model->clear();
-    modelToBeCleared = false;
-  }
-  model->insertTweet( entry );
-}
-
-void MainWindow::deleteItem( int id )
-{
-  model->deleteTweet( id );
-}
-
-void MainWindow::setModelToBeCleared()
-{
-  modelToBeCleared = true;
-}
-
-void MainWindow::setImageForUrl( const QString& url, QImage image )
-{
-  model->setImageForUrl( url, image );
+  emit resizeView( event->size().width(), event->oldSize().width() );
 }
 
 void MainWindow::popupError( const QString &message )
@@ -161,8 +150,4 @@ void MainWindow::retranslateUi()
     ui.statusEdit->initialize();
   }
   ui.statusEdit->setText( tr("What are you doing?") );
-  for ( int i = 0; i < model->rowCount(); i++ ) {
-    Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model->indexFromItem( model->item(i) ) ) );
-    aTweet->retranslateUi();
-  }
 }

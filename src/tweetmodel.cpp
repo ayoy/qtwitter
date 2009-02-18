@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 
+#include <QModelIndex>
 #include "tweetmodel.h"
 #include "entry.h"
 #include "tweet.h"
@@ -25,20 +26,24 @@
 TweetModel::TweetModel( int margin, QListView *parentListView, QObject *parent ) :
   QStandardItemModel( 0, 0, parent ),
   scrollBarMargin( margin ),
+  modelToBeCleared( false ),
   view( parentListView )
 {}
 
-bool TweetModel::insertTweet( Entry *entry )
+void TweetModel::insertTweet( Entry *entry )
 {
-  qDebug() << entry->getIndex() << entry->name();
+  if ( modelToBeCleared ) {
+    clear();
+    modelToBeCleared = false;
+  }
+  QVariant data = qVariantFromValue( *entry );
   QStandardItem *newItem = new QStandardItem();
-  newItem->setData( entry->timestamp() );
+  newItem->setData( data );
   Tweet *newTweet;
-  qDebug() << entry->getType();
   if ( entry->getType() == Entry::DirectMessage ) {
-    newTweet = new Tweet( *entry, QImage( ":/icons/mail_48.png" ), dynamic_cast<MainWindow*>(this->parent()) );
+    newTweet = new Tweet( *entry, QImage( ":/icons/mail_48.png" ), dynamic_cast<MainWindow*>( this->parent()) );
   } else {
-    newTweet = new Tweet( *entry, QImage(), dynamic_cast<MainWindow*>(this->parent()) );
+    newTweet = new Tweet( *entry, QImage(), dynamic_cast<MainWindow*>( this->parent()) );
   }
   newTweet->resize( view->width() - scrollBarMargin, newTweet->size().height() );
   newItem->setSizeHint( newTweet->size() );
@@ -46,25 +51,25 @@ bool TweetModel::insertTweet( Entry *entry )
   if ( rowCount() == 0 ) {
     QStandardItemModel::appendRow( newItem );
     view->setIndexWidget( indexFromItem( newItem ), newTweet );
-    return true;
+    return;
   }
   for ( int i = 0; i < rowCount(); i++ ) {
-    if ( entry->timestamp() > item(i)->data().toDateTime() ) {
+    if ( entry->timestamp() > item(i)->data().value<Entry>().timestamp() ) {
       QStandardItemModel::insertRow( i, newItem );
       view->setIndexWidget( indexFromItem( newItem ), newTweet );
-      return true;
+      return;
     }
   }
   QStandardItemModel::appendRow( newItem );
   view->setIndexWidget( indexFromItem( newItem ), newTweet );
-  return true;
+  return;
 }
+
 
 void TweetModel::deleteTweet( int id )
 {
   for ( int i = 0; i < rowCount(); i++ ) {
-    Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
-    if ( id == aTweet->getModel()->id() ) {
+    if ( id == item(i)->data().value<Entry>().id()  ) {
       removeRow( i );
       return;
     }
@@ -75,7 +80,7 @@ void TweetModel::setImageForUrl( const QString& url, QImage image )
 {
   for ( int i = 0; i < rowCount(); i++ ) {
     Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
-    if ( !aTweet->getUrlForIcon().compare( url ) ) {
+    if ( url == item(i)->data().value<Entry>().image() ) {
       aTweet->setIcon( image );
     }
   }
@@ -88,6 +93,9 @@ void TweetModel::setScrollBarMargin( int width )
 
 void TweetModel::resizeData( int width, int oldWidth )
 {
+  if ( rowCount() == 0 )
+    return;
+
   QSize itemSize;
   for ( int i = 0; i < rowCount(); i++ ) {
     Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
@@ -98,3 +106,17 @@ void TweetModel::resizeData( int width, int oldWidth )
     item(i)->setSizeHint( itemSize );
   }
 }
+
+void TweetModel::setModelToBeCleared()
+{
+  modelToBeCleared = true;
+}
+
+void TweetModel::retranslateUi()
+{
+  for ( int i = 0; i < rowCount(); i++ ) {
+    Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
+    aTweet->retranslateUi();
+  }
+}
+

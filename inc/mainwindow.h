@@ -36,16 +36,15 @@ class MainWindow : public QWidget
   Q_OBJECT
 
 public:
-  MainWindow();
+  MainWindow( QWidget *parent = 0 );
   ~MainWindow();
-  void retranslateUi();
+  QListView* getListView();
+  int getScrollBarWidth();
+  void setListViewModel( TweetModel *model );
   
 public slots:
   void popupError( const QString &message );
-  void displayItem( Entry *entry );
-  void deleteItem( int id );
-  void setImageForUrl( const QString&, QImage );
-  void setModelToBeCleared();
+  void retranslateUi();
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
@@ -60,6 +59,7 @@ signals:
   void openBrowser( QString address = QString() );
   void addReplyString( const QString& );
   void destroy( int );
+  void resizeView( int width, int oldWidth );
 
 protected:
   void closeEvent( QCloseEvent *e );
@@ -69,7 +69,6 @@ private:
   Core *core;
   QMenu *menu;
   QSystemTrayIcon *trayIcon;
-  TweetModel *model;
   Settings *settingsDialog;
   bool modelToBeCleared;
   Ui::MainWindow ui;

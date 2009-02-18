@@ -51,6 +51,7 @@ Settings::Settings( MainWindow *mainwinSettings, LoopedSignal *loopSettings, Cor
 
   connect( ui.buttonBox->button( QDialogButtonBox::Apply ), SIGNAL(clicked()), this, SLOT(saveConfig()) );
   connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
+  connect( this, SIGNAL(languageChanged()), SLOT(retranslateUi()) );
   createLanguageMenu();
   QIntValidator *portValidator = new QIntValidator( 1, 65535, this );
   ui.portEdit->setValidator( portValidator );
@@ -223,7 +224,7 @@ void Settings::switchLanguage( int index )
   QString qmPath( ":/translations" );
   qDebug() << "switching language to" << locale << "from" << qmPath;
   translator.load( "qtwitter_" + locale, qmPath);
-  retranslateUi();
+  emit languageChanged();
   adjustSize();
 }
 
@@ -260,7 +261,6 @@ void Settings::setBrowser()
 
 void Settings::retranslateUi()
 {
-  mainWindow->retranslateUi();
   this->setWindowTitle( tr("Settings") );
   ui.label->setText( tr("Refresh every") );
   ui.label_2->setText( tr("minutes") );

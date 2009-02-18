@@ -24,6 +24,7 @@
 #include <QString>
 #include <QObject>
 #include <QDateTime>
+#include <QMetaType>
 
 class Entry : public QObject {
 
@@ -77,5 +78,7 @@ private:
   bool hasHomepage;
   QDateTime userTimestamp;
 };
+
+Q_DECLARE_METATYPE(Entry)
 
 #endif //ENTRY_H

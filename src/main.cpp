@@ -19,6 +19,7 @@
 
 
 #include "mainwindow.h"
+#include "tweetmodel.h"
 #include "settings.h"
 #include "core.h"
 #include "loopedsignal.h"
@@ -33,6 +34,9 @@ int main( int argc, char **argv )
   qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
 
   MainWindow qtwitter;
+  TweetModel *model = new TweetModel( qtwitter.getScrollBarWidth(), qtwitter.getListView(), &qtwitter );
+  qtwitter.setListViewModel( model );
+
   LoopedSignal *loopedsignal = new LoopedSignal( &qtwitter );
   Core *core = new Core( &qtwitter );
   Settings *settings = new Settings( &qtwitter, loopedsignal, core, &qtwitter );
@@ -43,13 +47,16 @@ int main( int argc, char **argv )
   QObject::connect( &qtwitter, SIGNAL(post(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
   QObject::connect( &qtwitter, SIGNAL(destroy(int)), core, SLOT(destroyTweet(int)) );
+  QObject::connect( &qtwitter, SIGNAL(resizeView(int,int)), model, SLOT(resizeData(int,int)));
   QObject::connect( core, SIGNAL(authDataSet(QAuthenticator)), settings, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;
   QObject::connect( core, SIGNAL(switchToPublic()), settings, SLOT(switchToPublic()) );
   QObject::connect( core, SIGNAL(errorMessage(QString)), &qtwitter, SLOT(popupError(QString)) );
-  QObject::connect( core, SIGNAL(addOneEntry(Entry*)), &qtwitter, SLOT(displayItem(Entry*)) );
-  QObject::connect( core, SIGNAL(deleteEntry(int)), &qtwitter, SLOT(deleteItem(int)) );
-  QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), &qtwitter, SLOT(setImageForUrl(QString,QImage)) );
-  QObject::connect( core, SIGNAL(requestListRefresh()), &qtwitter, SLOT(setModelToBeCleared()) );
+  QObject::connect( core, SIGNAL(addOneEntry(Entry*)), model, SLOT(insertTweet(Entry*)) );
+  QObject::connect( core, SIGNAL(deleteEntry(int)), model, SLOT(deleteTweet(int)) );
+  QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
+  QObject::connect( core, SIGNAL(requestListRefresh()), model, SLOT(setModelToBeCleared()) );
+  QObject::connect( settings, SIGNAL(languageChanged()), &qtwitter, SLOT(retranslateUi()) );
+  QObject::connect( settings, SIGNAL(languageChanged()), model, SLOT(retranslateUi()) );
   QObject::connect( qApp, SIGNAL(aboutToQuit()), settings, SLOT(saveConfig()) );
 
   qtwitter.show();

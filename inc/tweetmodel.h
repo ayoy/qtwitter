@@ -28,16 +28,23 @@
 
 class TweetModel : public QStandardItemModel
 {
+  Q_OBJECT
+
   int scrollBarMargin;
+  bool modelToBeCleared;
   QListView *view;
 
 public:
   TweetModel( int margin, QListView *parentListView, QObject *parent = 0 );
-  bool insertTweet( Entry *entry );
+  void setScrollBarMargin( int width );
+
+public slots:
+  void insertTweet( Entry *entry );
   void deleteTweet( int id );
   void setImageForUrl( const QString& url, QImage image );
-  void setScrollBarMargin( int width );
   void resizeData( int width, int oldWidth );
+  void setModelToBeCleared();
+  void retranslateUi();
 };
 
 #endif // TWEETMODEL_H

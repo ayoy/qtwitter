@@ -54,18 +54,20 @@ public slots:
   void saveConfig();
   void show();
 
-#ifdef Q_WS_X11
+
 private slots:
+  void retranslateUi();
+#ifdef Q_WS_X11
   void setBrowser();
 #endif
 
 signals:
   void settingsOK();
+  void languageChanged();
 
 private:
   void applySettings();
   void createLanguageMenu();
-  void retranslateUi();
   QTranslator translator;
   QFile configFile;
   QNetworkProxy proxy;
