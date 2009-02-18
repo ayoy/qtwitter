@@ -76,6 +76,7 @@ private:
   bool downloadPublicTimeline;
   bool isShowingDialog;
   XmlDownload *xmlGet;
+  XmlDownload *xmlGetDirectMessages;
   XmlDownload *xmlPost;
   ImageDownload *imageDownload;
   QMap<QString,ImageDownload*> imagesGetter;

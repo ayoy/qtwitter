@@ -36,6 +36,15 @@ XmlParser::XmlParser( QObject *parent) :
   {
   }
 
+XmlParser::XmlParser( Entry::Type entryType, QObject *parent) :
+  QObject( parent ),
+  QXmlDefaultHandler(),
+  currentField( None ),
+  entry( entryType ),
+  important( false )
+  {
+  }
+
 bool XmlParser::startDocument() {
   return true;
 }

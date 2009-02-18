@@ -28,6 +28,7 @@ Core::Core( MainWindow *parent ) :
     downloadPublicTimeline( false ),
     isShowingDialog( false ),
     xmlGet( NULL ),
+    xmlGetDirectMessages( NULL ),
     xmlPost( NULL )
 {
   connect( this, SIGNAL(xmlConnectionIdle()), SLOT(destroyXmlConnection()) );
@@ -37,28 +38,30 @@ Core::Core( MainWindow *parent ) :
 Core::~Core() {}
 
 void Core::downloadOneImage( Entry *entry ) {
-  if ( imagesHash.contains( entry->image() ) ) {
-    if ( imagesHash[ entry->image() ].isNull() ) {
-      qDebug() << "not downloading";
-    } else {
-      emit setImageForUrl( entry->image(), imagesHash[ entry->image() ] );
+  if ( entry->getType() == Entry::Status ) {
+    if ( imagesHash.contains( entry->image() ) ) {
+      if ( imagesHash[ entry->image() ].isNull() ) {
+        qDebug() << "not downloading";
+      } else {
+        emit setImageForUrl( entry->image(), imagesHash[ entry->image() ] );
+      }
+      return;
     }
-    return;
-  }
-  QString host = QUrl( entry->image() ).host();
-  if ( imagesGetter.contains( host ) ) {
-    imagesGetter[host]->imgGet( entry );
+    QString host = QUrl( entry->image() ).host();
+    if ( imagesGetter.contains( host ) ) {
+      imagesGetter[host]->imgGet( entry );
+      imagesHash[ entry->image() ] = QImage();
+      qDebug() << "setting null image";
+      return;
+    }
+    ImageDownload *getter = new ImageDownload();
+    imagesGetter[host] = getter;
+    connect( getter, SIGNAL( errorMessage( const QString& ) ), this, SIGNAL( errorMessage( const QString& ) ) );
+    connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
+    getter->imgGet( entry );
     imagesHash[ entry->image() ] = QImage();
-    qDebug() << "setting null image";
-    return;
+    qDebug() << "setting null image" << imagesHash[ entry->image() ].isNull();
   }
-  ImageDownload *getter = new ImageDownload();
-  imagesGetter[host] = getter;
-  connect( getter, SIGNAL( errorMessage( const QString& ) ), this, SIGNAL( errorMessage( const QString& ) ) );
-  connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
-  getter->imgGet( entry );
-  imagesHash[ entry->image() ] = QImage();
-  qDebug() << "setting null image" << imagesHash[ entry->image() ].isNull();
 }
 
 void Core::setImageInHash( const QString &url, QImage image ) {
@@ -99,7 +102,7 @@ void Core::destroyTweet( int id )
 void Core::get() {
   emit requestListRefresh();
   if ( downloadPublicTimeline ) {
-     xmlGet = new XmlDownload ( authData, XmlDownload::Refresh, this );
+     xmlGet = new XmlDownload ( authData, XmlDownload::RefreshStatuses, this );
      xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
    } else {
      if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
@@ -109,11 +112,14 @@ void Core::get() {
        }
      }
      if ( downloadPublicTimeline ) {
-       xmlGet = new XmlDownload ( authData, XmlDownload::Refresh, this );
+       xmlGet = new XmlDownload ( authData, XmlDownload::RefreshStatuses, this );
        xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
      } else {
-       xmlGet = new XmlDownload ( authData, XmlDownload::Refresh, this );
+       qDebug() << "creating XmlDownload";
+       xmlGet = new XmlDownload ( authData, XmlDownload::RefreshStatuses, this );
        xmlGet->syncGet( "http://twitter.com/statuses/friends_timeline.xml", false, cookie );
+       xmlGetDirectMessages = new XmlDownload ( authData, XmlDownload::RefreshDirectMessages, this );
+       xmlGetDirectMessages->syncGet( "http://twitter.com/direct_messages.xml", false, cookie );
     }
   }
 }
@@ -143,6 +149,11 @@ void Core::destroyXmlConnection() {
     qDebug() << "destroying xmlGet";
     delete xmlGet;
     xmlGet = NULL;
+  }
+  if ( xmlGetDirectMessages ) {
+    qDebug() << "destroying xmlGetDirectMessages";
+    delete xmlGetDirectMessages;
+    xmlGetDirectMessages = NULL;
   }
 }
 
@@ -174,6 +185,9 @@ bool Core::authDataDialog() {
       emit authDataSet( authData );
       if ( xmlGet ) {
         xmlGet->setAuthData( authData );
+      }
+      if ( xmlGetDirectMessages ) {
+        xmlGetDirectMessages->setAuthData( authData );
       }
       if ( xmlPost ) {
         xmlPost->setAuthData( authData );

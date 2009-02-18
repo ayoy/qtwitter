@@ -8,6 +8,7 @@
         <file>refresh_48.png</file>
         <file>spanner_48.png</file>
         <file>star_48.png</file>
+        <file>mail_48.png</file>
     </qresource>
     <qresource prefix="/translations" >
         <file>qtwitter_ca.qm</file>

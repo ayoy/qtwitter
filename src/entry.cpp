@@ -24,8 +24,9 @@
 #include <QDebug>
 #include <QList>
 
-Entry::Entry( QObject *parent ) :
+Entry::Entry( Type entryType, QObject *parent ) :
   QObject( parent ),
+  type( entryType ),
   index( -1 ),
   own( false ),
   userId( -1 ),
@@ -53,6 +54,7 @@ Entry::Entry( int itemIndex, int id, const QString &text, const QString &name, c
 
 Entry::Entry(const Entry &right) :
   QObject( right.parent() ),
+  type( right.type ),
   index( right.index ),
   own( right.own ),
   userId( right.userId ),
@@ -71,7 +73,7 @@ bool Entry::checkContents() {
   }
   if ( !userName.isNull() &&
        !userLogin.isNull() &&
-       !userImage.isNull() &&
+       ( type == Status ? !userImage.isNull() : true ) &&
        !userText.isNull() &&
        ( hasHomepage ? !userHomepage.isNull() : true ) ) {
     return true;
@@ -80,6 +82,7 @@ bool Entry::checkContents() {
 }
 
 Entry& Entry::operator=( const Entry &right ) {
+  type = right.type;
   index = right.index;
   own = right.own;
   userId = right.userId;
@@ -107,6 +110,7 @@ void Entry::initialize( bool resetIndex )
   userText = QString();
 }
 
+Entry::Type Entry::getType() const { return type; }
 int Entry::getIndex() const { return index; }
 bool Entry::isOwn() const { return own; }
 int Entry::id() const { return userId; }

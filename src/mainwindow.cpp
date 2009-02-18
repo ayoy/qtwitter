@@ -140,7 +140,12 @@ void MainWindow::displayItem( Entry *entry )
   qDebug() << entry->getIndex() << entry->name();
   int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
   QStandardItem *newItem = new QStandardItem();
-  Tweet *newTweet = new Tweet( *entry, QImage(), this );
+  Tweet *newTweet;
+  if ( entry->getType() == Entry::DirectMessage ) {
+    newTweet = new Tweet( *entry, QImage( ":/icons/mail_48.png" ), this );
+  } else {
+    newTweet = new Tweet( *entry, QImage(), this );
+  }
   newTweet->resize( ui.statusListView->width() - scrollBarMargin, newTweet->size().height() );
   newItem->setSizeHint( newTweet->size() );
   model.insertRow( entry->getIndex(), newItem );

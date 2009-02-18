@@ -40,26 +40,26 @@ public:
   };
 
   XmlParser( QObject *parent = 0 );
+  XmlParser( Entry::Type entryType = Entry::Status, QObject *parent = 0 );
   
-  bool startDocument();
-  bool endDocument();
+  virtual bool startDocument();
+  virtual bool endDocument();
   
-  bool startElement( const QString &namespaceURI,
-                     const QString &localName,
-                     const QString &qName,
-                     const QXmlAttributes &atts );
-  bool endElement( const QString &namespaceURI,
-                   const QString &localName,
-                   const QString &qName );
-                   
-  bool characters( const QString &ch );
+  virtual bool startElement( const QString &namespaceURI,
+                             const QString &localName,
+                             const QString &qName,
+                             const QXmlAttributes &atts );
+  virtual bool endElement( const QString &namespaceURI,
+                           const QString &localName,
+                           const QString &qName );
+  virtual bool characters( const QString &ch );
 
 signals:
   void dataParsed( const QString &text );
   void newEntry( Entry *entry );
   void xmlParsed();
 
-private:
+protected:
   int currentField;
   Entry entry;
   bool important;

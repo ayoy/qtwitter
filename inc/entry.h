@@ -27,21 +27,13 @@
 
 class Entry : public QObject {
 
-private:
-  int index;
-  bool own;
-
-  int userId;
-  QString userText;
-  QString userName;
-  QString userLogin;
-  QString userImage;
-  QString userHomepage;
-  bool hasHomepage;
-  QDateTime userCreatedAt;
-  
 public:
-  Entry( QObject *parent = 0 );
+  enum Type {
+    Status,
+    DirectMessage
+  };
+
+  Entry( Type entryType = Status, QObject *parent = 0 );
   Entry( int itemIndex, int id, const QString &text, const QString &name, const QString &login, const QString &image, const QString &homepage, QObject *parent = 0 );
   Entry( const Entry &right );
 
@@ -50,6 +42,7 @@ public:
   bool checkContents();
   void initialize( bool resetIndex = false );
 
+  Type getType() const;
   int getIndex() const;
   bool isOwn() const;
   int id() const;
@@ -68,6 +61,20 @@ public:
   void setHasHomepage( bool );
   void setImage( const QString& newImage );
   void setText( const QString& newText );
+
+private:
+  Type type;
+  int index;
+  bool own;
+
+  int userId;
+  QString userText;
+  QString userName;
+  QString userLogin;
+  QString userImage;
+  QString userHomepage;
+  bool hasHomepage;
+  QDateTime userCreatedAt;
 };
 
 #endif //ENTRY_H

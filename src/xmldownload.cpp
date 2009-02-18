@@ -19,6 +19,7 @@
 
 
 #include "xmldownload.h"
+#include "xmlparserdirectmsg.h"
 #include "core.h"
 
 XmlDownload::XmlDownload( QAuthenticator _authData, Role role, Core *coreParent, QObject *parent ) :
@@ -28,6 +29,11 @@ XmlDownload::XmlDownload( QAuthenticator _authData, Role role, Core *coreParent,
     core( coreParent ),
     authenticated( false )
 {
+  if ( connectionRole == XmlDownload::RefreshStatuses ) {
+    parser = new XmlParser( this );
+  } else if ( connectionRole == XmlDownload::RefreshDirectMessages ) {
+    parser = new XmlParserDirectMsg( this );
+  }
   createConnections( coreParent );
 }
 
@@ -38,15 +44,15 @@ XmlDownload::Role XmlDownload::role() const
 
 void XmlDownload::createConnections( Core *coreParent )
 {
-  connect( &parser, SIGNAL(dataParsed(QString)), this, SIGNAL(dataParsed(QString)));
+  connect( parser, SIGNAL(dataParsed(QString)), this, SIGNAL(dataParsed(QString)));
   if ( connectionRole == Destroy ) {
-    connect( &parser, SIGNAL(newEntry(Entry*)), this, SLOT(extractId(Entry*)) );
+    connect( parser, SIGNAL(newEntry(Entry*)), this, SLOT(extractId(Entry*)) );
     connect( this, SIGNAL(deleteEntry(int)), coreParent, SIGNAL(deleteEntry(int)) );
   } else {
-    connect( &parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
-    connect( &parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(downloadOneImage(Entry*)) );
+    connect( parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
+    connect( parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(downloadOneImage(Entry*)) );
   }
-  connect( &parser, SIGNAL(xmlParsed()), this, SIGNAL(xmlParsed()));
+  connect( parser, SIGNAL(xmlParsed()), this, SIGNAL(xmlParsed()));
   connect( this, SIGNAL(authenticationRequired(QString,quint16,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QString,quint16,QAuthenticator*)));
   connect( this, SIGNAL(cookieReceived(QStringList)), coreParent, SLOT(storeCookie(QStringList)) );
 }
@@ -119,7 +125,7 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   } else {
     QXmlInputSource source( buffer );
     QXmlSimpleReader xmlReader;
-    xmlReader.setContentHandler( &parser );
+    xmlReader.setContentHandler( parser );
     xmlReader.parse( source );
     qDebug() << "========= XML PARSING FINISHED =========";
   }

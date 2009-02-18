@@ -18,50 +18,27 @@
  ***************************************************************************/
 
 
-#ifndef XMLDOWNLOAD_H
-#define XMLDOWNLOAD_H
+#ifndef XMLPARSERDIRECTMSG_H
+#define XMLPARSERDIRECTMSG_H
 
-#include "httpconnection.h"
 #include "xmlparser.h"
-#include "xmlparserdirectmsg.h"
-#include <QAuthenticator>
 
-class Core;
-
-class XmlDownload : public HttpConnection {
-  Q_OBJECT
+class XmlParserDirectMsg : public XmlParser
+{
+  bool parsingSender;
 
 public:
-  enum Role {
-    RefreshStatuses,
-    RefreshDirectMessages,
-    Submit,
-    Destroy
+  XmlParserDirectMsg( QObject *parent = 0 );
+
+  bool startElement( const QString &namespaceURI,
+                     const QString &localName,
+                     const QString &qName,
+                     const QXmlAttributes &atts );
+  bool endElement( const QString &namespaceURI,
+                   const QString &localName,
+                   const QString &qName );
+  bool characters( const QString &ch );
+
   };
-  XmlDownload( QAuthenticator _authData, Role role, Core *coreParent, QObject *parent = 0 );
-  Role role() const;
 
-public slots:
-  void setAuthData( const QAuthenticator );
-
-private slots:
-  void httpRequestFinished( int requestId, bool error );
-  void readResponseHeader( const QHttpResponseHeader &responseHeader );
-  void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
-  void extractId( Entry* );
-
-signals:
-  void xmlParsed();
-  void cookieReceived( const QStringList );
-  void deleteEntry( int id );
-
-private:
-  Role connectionRole;
-  void createConnections( Core *whereToConnectTo );
-  QAuthenticator authData;
-  XmlParser *parser;
-  Core *core;
-  bool authenticated;
-};
-
-#endif //XMLDOWNLOAD_H
+#endif // XMLPARSERDIRECTMSG_H
