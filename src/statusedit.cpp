@@ -20,6 +20,8 @@
 
 #include "statusedit.h"
 
+const int StatusEdit::STATUS_MAX_LENGTH = 140;
+
 StatusEdit::StatusEdit( QWidget * parent = 0 ) :
   QLineEdit( parent ),
   statusClean( true )

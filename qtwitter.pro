@@ -1,26 +1,22 @@
 TEMPLATE = app
 TARGET = qtwitter
-unix {
-  isEmpty( PREFIX ) {
-    INSTALL_PREFIX = /usr
-  } else {
-    INSTALL_PREFIX = $${PREFIX}
-  }
-  target.path = $${INSTALL_PREFIX}/bin
-  INSTALLS += target
+unix { 
+    isEmpty( PREFIX ):INSTALL_PREFIX = /usr
+    else:INSTALL_PREFIX = $${PREFIX}
+    target.path = $${INSTALL_PREFIX}/bin
+    INSTALLS += target
 }
-
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
     src/xmlparser.cpp \
+    src/entry.cpp \
     src/httpconnection.cpp \
     src/xmldownload.cpp \
     src/imagedownload.cpp \
     src/core.cpp \
     src/settings.cpp \
     src/tweet.cpp \
-    src/entry.cpp \
     src/loopedsignal.cpp
 HEADERS += inc/mainwindow.h \
     inc/statusfilter.h \
@@ -42,8 +38,9 @@ FORMS += ui/mainwindow.ui \
 RESOURCES += res/resources.qrc
 QT += network \
     xml
-#QTPLUGIN += qjpeg \
-#    qgif
+
+# QTPLUGIN += qjpeg \
+# qgif
 TRANSLATIONS += loc/qtwitter_pl.ts \
     loc/qtwitter_ca.ts \
     loc/qtwitter_es.ts

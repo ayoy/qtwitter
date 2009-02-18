@@ -27,6 +27,9 @@ class StatusEdit : public QLineEdit
 {
   Q_OBJECT
 public:
+
+  static const int STATUS_MAX_LENGTH;
+
   StatusEdit( QWidget * parent );
   void focusInEvent( QFocusEvent * event );
   void focusOutEvent( QFocusEvent * event );

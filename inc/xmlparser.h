@@ -22,15 +22,7 @@
 #define XMLPARSER_H
 
 #include <QtXml>
-
 #include "entry.h"
-
-#define USER_ID "id"
-#define USER_STATUS "text"
-#define USER_NAME "name"
-#define USER_LOGIN "screen_name"
-#define USER_PHOTO "profile_image_url"
-#define USER_HOMEPAGE "url"
 
 class XmlParser : public QObject, public QXmlDefaultHandler
 {
@@ -40,21 +32,13 @@ public:
   enum FieldType {
     None,
     Id,
+    Text,
     Name,
     Login,
-    Homepage,
     Image,
-    Text
+    Homepage,
   };
 
-
-private:
-  int currentField;
-  Entry entry;
-  bool important;
-  FieldType checkFieldType( const QString &element );
-  
-public:
   XmlParser( QObject *parent = 0 );
   
   bool startDocument();
@@ -75,6 +59,18 @@ signals:
   void newEntry( Entry *entry );
   void xmlParsed();
 
+private:
+  int currentField;
+  Entry entry;
+  bool important;
+  FieldType checkFieldType( const QString &element );
+
+  static const QByteArray USER_ID;
+  static const QByteArray USER_TEXT;
+  static const QByteArray USER_NAME;
+  static const QByteArray USER_LOGIN;
+  static const QByteArray USER_PHOTO;
+  static const QByteArray USER_HOMEPAGE;
 };
 
 #endif //XMLPARSER_H

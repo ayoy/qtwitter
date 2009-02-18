@@ -28,8 +28,6 @@
 
 #include <QSystemTrayIcon>
 
-#define STATUS_MAX_LEN 140
-
 class MainWindow : public QWidget
 {
   Q_OBJECT

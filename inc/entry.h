@@ -23,24 +23,26 @@
 
 #include <QString>
 #include <QObject>
+#include <QDateTime>
 
 class Entry : public QObject {
 
 private:
   int index;
-
   bool own;
+
   int userId;
+  QString userText;
   QString userName;
   QString userLogin;
+  QString userImage;
   QString userHomepage;
   bool hasHomepage;
-  QString userImage;
-  QString userText;
+  QDateTime userCreatedAt;
   
 public:
   Entry( QObject *parent = 0 );
-  Entry( int itemId, int id, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text, QObject *parent = 0 );
+  Entry( int itemIndex, int id, const QString &text, const QString &name, const QString &login, const QString &image, const QString &homepage, QObject *parent = 0 );
   Entry( const Entry &right );
 
   Entry& operator=( const Entry &right );

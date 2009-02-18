@@ -29,25 +29,25 @@ Entry::Entry( QObject *parent ) :
   index( -1 ),
   own( false ),
   userId( -1 ),
+  userText( "" ),
   userName( "" ),
   userLogin( "" ),
-  userHomepage( "" ),
-  hasHomepage( false ),
   userImage( "" ),
-  userText( "" )
+  userHomepage( "" ),
+  hasHomepage( false )
 {
 }
 
-Entry::Entry(int itemIndex, int id, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text, QObject *parent ) :
+Entry::Entry( int itemIndex, int id, const QString &text, const QString &name, const QString &login, const QString &image, const QString &homepage, QObject *parent ) :
   QObject( parent ),
   index( itemIndex ),
   own( false ),
   userId( id ),
+  userText( text ),
   userName( name ),
   userLogin( login ),
-  userHomepage( homepage ),
   userImage( image ),
-  userText( text )
+  userHomepage( homepage )
 {
 }
 
@@ -56,12 +56,12 @@ Entry::Entry(const Entry &right) :
   index( right.index ),
   own( right.own ),
   userId( right.userId ),
+  userText( right.userText ),
   userName( right.userName ),
   userLogin( right.userLogin ),
-  userHomepage( right.userHomepage ),
-  hasHomepage( right.hasHomepage ),
   userImage( right.userImage ),
-  userText( right.userText )
+  userHomepage( right.userHomepage ),
+  hasHomepage( right.hasHomepage )
 {
 }
 
@@ -117,19 +117,12 @@ QString Entry::image() const { return userImage; }
 QString Entry::text() const { return userText; }
 
 void Entry::setIndex( int itemIndex ) { index = itemIndex; }
-
 void Entry::setOwn( bool isOwn ) { own = isOwn; }
-
 void Entry::setId( int newId ) { userId = newId; }
-
 void Entry::setName( const QString& newName ) { userName = newName; }
-
 void Entry::setLogin( const QString& newLogin ) { userLogin = newLogin; }
-
 void Entry::setHomepage( const QString& newHomepage ) { userHomepage = newHomepage; }
-
 void Entry::setHasHomepage( bool b ) { hasHomepage = b; }
-
 void Entry::setImage( const QString& newImage ) { userImage = newImage; }
 
 void Entry::setText( const QString& newText ) {

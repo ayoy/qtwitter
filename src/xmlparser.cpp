@@ -20,6 +20,13 @@
 
 #include "xmlparser.h"
 
+const QByteArray XmlParser::USER_ID = "id";
+const QByteArray XmlParser::USER_TEXT = "text";
+const QByteArray XmlParser::USER_NAME = "name";
+const QByteArray XmlParser::USER_LOGIN = "screen_name";
+const QByteArray XmlParser::USER_PHOTO = "profile_image_url";
+const QByteArray XmlParser::USER_HOMEPAGE = "url";
+
 XmlParser::XmlParser( QObject *parent) :
   QObject( parent ),
   QXmlDefaultHandler(),
@@ -85,7 +92,7 @@ bool XmlParser::characters( const QString &ch ) {
 XmlParser::FieldType XmlParser::checkFieldType(const QString &element ) {
   if ( !element.compare(USER_ID) )
     return Id;
-  if ( !element.compare(USER_STATUS) )
+  if ( !element.compare(USER_TEXT) )
     return Text;
   if ( !element.compare(USER_NAME) )
     return Name;
