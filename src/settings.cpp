@@ -161,7 +161,7 @@ void Settings::applySettings()
   setProxy();
   loopedSignal->setPeriod( ui.refreshCombo->currentText().toInt() * 60 );
   core->setDownloadPublicTimeline( ui.radioPublic->isChecked() );
-  core->setAuthData( ui.userNameEdit->text(), ui.passwordEdit->text() );
+  //core->setAuthData( ui.userNameEdit->text(), ui.passwordEdit->text() );
 #ifdef Q_WS_X11
   core->setBrowserPath( this->selectBrowserEdit->text() );
 #endif

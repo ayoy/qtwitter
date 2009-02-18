@@ -43,9 +43,11 @@ public:
   Entry( int itemId, int id, const QString &name, const QString &login, const QString &homepage, const QString &image, const QString &text, QObject *parent = 0 );
   Entry( const Entry &right );
 
-  bool checkContents();
   Entry& operator=( const Entry &right );
-      
+
+  bool checkContents();
+  void initialize( bool resetIndex = false );
+
   int getIndex() const;
   bool isOwn() const;
   int id() const;

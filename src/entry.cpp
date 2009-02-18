@@ -67,14 +67,13 @@ Entry::Entry(const Entry &right) :
 
 bool Entry::checkContents() {
   if ( !hasHomepage ) {
-    userHomepage = "";
+    userHomepage = QString();
   }
-  if ( userName.compare( "" ) &&
-       userLogin.compare( "" ) &&
-       userImage.compare( "" ) &&
-       userText.compare( "" ) &&
-       ( hasHomepage ? userHomepage.compare( "" ) : true ) )
-  {
+  if ( !userName.isNull() &&
+       !userLogin.isNull() &&
+       !userImage.isNull() &&
+       !userText.isNull() &&
+       ( hasHomepage ? !userHomepage.isNull() : true ) ) {
     return true;
   }
   return false;
@@ -93,69 +92,45 @@ Entry& Entry::operator=( const Entry &right ) {
   return *this;
 }
 
-int Entry::getIndex() const {
-  return index;
+void Entry::initialize( bool resetIndex )
+{
+  if ( resetIndex ) {
+    index = -1;
+  }
+  own = false;
+  userId = -1;
+  userName = QString();
+  userLogin = QString();
+  userHomepage = QString();
+  hasHomepage = false;
+  userImage = QString();
+  userText = QString();
 }
 
-bool Entry::isOwn() const {
-  return own;
-}
+int Entry::getIndex() const { return index; }
+bool Entry::isOwn() const { return own; }
+int Entry::id() const { return userId; }
+QString Entry::name() const { return userName; }
+QString Entry::login() const { return userLogin; }
+QString Entry::homepage() const { return userHomepage; }
+QString Entry::image() const { return userImage; }
+QString Entry::text() const { return userText; }
 
-int Entry::id() const {
-  return userId;
-}
+void Entry::setIndex( int itemIndex ) { index = itemIndex; }
 
-QString Entry::name() const {
-  return userName;
-}
+void Entry::setOwn( bool isOwn ) { own = isOwn; }
 
-QString Entry::login() const {
-  return userLogin;
-}
+void Entry::setId( int newId ) { userId = newId; }
 
-QString Entry::homepage() const {
-  return userHomepage;
-}
+void Entry::setName( const QString& newName ) { userName = newName; }
 
-QString Entry::image() const {
-  return userImage;
-}
+void Entry::setLogin( const QString& newLogin ) { userLogin = newLogin; }
 
-QString Entry::text() const {
-  return userText;
-}
+void Entry::setHomepage( const QString& newHomepage ) { userHomepage = newHomepage; }
 
-void Entry::setIndex( int itemIndex ) {
-  index = itemIndex;
-}
+void Entry::setHasHomepage( bool b ) { hasHomepage = b; }
 
-void Entry::setOwn( bool isOwn ) {
-  own = isOwn;
-}
-
-void Entry::setId( int newId ) {
-  userId = newId;
-}
-
-void Entry::setName( const QString& newName ) {
-  userName = newName;
-}
-
-void Entry::setLogin( const QString& newLogin ) {
-  userLogin = newLogin;
-}
-
-void Entry::setHomepage( const QString& newHomepage ) {
-  userHomepage = newHomepage;
-}
-
-void Entry::setHasHomepage( bool b ) {
-  hasHomepage = b;
-}
-
-void Entry::setImage( const QString& newImage ) {
-  userImage = newImage;
-}
+void Entry::setImage( const QString& newImage ) { userImage = newImage; }
 
 void Entry::setText( const QString& newText ) {
   userText = newText;

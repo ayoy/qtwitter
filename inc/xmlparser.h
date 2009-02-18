@@ -49,14 +49,13 @@ public:
 
 
 private:
-  int lastField;
+  int currentField;
   Entry entry;
   bool important;
-  bool entryComplete;
-  int checkFieldType( const QString &element );
+  FieldType checkFieldType( const QString &element );
   
 public:
-  XmlParser();
+  XmlParser( QObject *parent = 0 );
   
   bool startDocument();
   bool endDocument();

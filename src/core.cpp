@@ -93,7 +93,7 @@ void Core::destroyTweet( int id )
     }
   }
   xmlPost = new XmlDownload( authData, XmlDownload::Destroy, this );
-  xmlPost->syncPost( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), false, cookie );
+  xmlPost->syncPost( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), false/*, cookie*/ );
 }
 
 void Core::get() {
@@ -130,7 +130,7 @@ void Core::post( const QByteArray &status ) {
   request.append( "&source=qtwitter" );
   qDebug() << request;
   xmlPost = new XmlDownload( authData, XmlDownload::Submit, this );
-  xmlPost->syncPost( "http://twitter.com/statuses/update.xml", request, false, cookie );
+  xmlPost->syncPost( "http://twitter.com/statuses/update.xml", request, false/*, cookie*/ );
 }
 
 void Core::destroyXmlConnection() {
