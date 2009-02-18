@@ -68,6 +68,7 @@ MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
   trayIcon->setToolTip( "qTwitter" );
 #endif
   trayIcon->show();
+  emit ready();
 }
 
 MainWindow::~MainWindow() {}

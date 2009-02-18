@@ -58,11 +58,9 @@ int main( int argc, char **argv )
   QObject::connect( settings, SIGNAL(languageChanged()), &qtwitter, SLOT(retranslateUi()) );
   QObject::connect( settings, SIGNAL(languageChanged()), model, SLOT(retranslateUi()) );
   QObject::connect( qApp, SIGNAL(aboutToQuit()), settings, SLOT(saveConfig()) );
+  QObject::connect( &qtwitter, SIGNAL(ready()), loopedsignal, SLOT(start()) );
 
   qtwitter.show();
-
-  if ( !loopedsignal->isRunning() )
-    loopedsignal->start();
 
   return app.exec();
 }

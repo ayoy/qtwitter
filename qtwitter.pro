@@ -30,7 +30,6 @@ HEADERS += inc/mainwindow.h \
     inc/imagedownload.h \
     inc/core.h \
     inc/settings.h \
-    inc/updateslist.h \
     inc/tweet.h \
     inc/loopedsignal.h \
     inc/xmlparserdirectmsg.h \

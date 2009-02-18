@@ -30,8 +30,8 @@ class TweetModel : public QStandardItemModel
 {
   Q_OBJECT
 
-  int scrollBarMargin;
   bool modelToBeCleared;
+  int scrollBarMargin;
   QListView *view;
 
 public:

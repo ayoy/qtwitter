@@ -60,6 +60,7 @@ signals:
   void addReplyString( const QString& );
   void destroy( int );
   void resizeView( int width, int oldWidth );
+  void ready();
 
 protected:
   void closeEvent( QCloseEvent *e );

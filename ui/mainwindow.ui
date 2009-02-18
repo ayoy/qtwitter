@@ -34,7 +34,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="UpdatesList" name="statusListView">
+    <widget class="QListView" name="statusListView">
      <property name="palette">
       <palette>
        <active>
@@ -285,11 +285,6 @@
    <class>StatusEdit</class>
    <extends>QLineEdit</extends>
    <header>statusedit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>UpdatesList</class>
-   <extends>QListView</extends>
-   <header>updateslist.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

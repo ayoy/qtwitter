@@ -25,8 +25,8 @@
 
 TweetModel::TweetModel( int margin, QListView *parentListView, QObject *parent ) :
   QStandardItemModel( 0, 0, parent ),
-  scrollBarMargin( margin ),
   modelToBeCleared( false ),
+  scrollBarMargin( margin ),
   view( parentListView )
 {}
 
