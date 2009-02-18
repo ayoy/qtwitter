@@ -26,6 +26,7 @@ const QByteArray XmlParser::USER_NAME = "name";
 const QByteArray XmlParser::USER_LOGIN = "screen_name";
 const QByteArray XmlParser::USER_PHOTO = "profile_image_url";
 const QByteArray XmlParser::USER_HOMEPAGE = "url";
+const QByteArray XmlParser::USER_TIMESTAMP = "created_at";
 
 XmlParser::XmlParser( QObject *parent) :
   QObject( parent ),
@@ -87,6 +88,9 @@ bool XmlParser::characters( const QString &ch ) {
     } else if ( currentField == Image && entry.image().isNull() ) {
       entry.setImage( ch );
 //      qDebug() << "Setting image with: " << ch;
+    } else if ( currentField == Timestamp && entry.timestamp().isNull() ) {
+      entry.setTimestamp( toDateTime( ch ) );
+//      qDebug() << "Setting timestamp with: " << ch;
     } else if ( currentField == Homepage ) {
       if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
         entry.setHasHomepage( true );
@@ -96,6 +100,42 @@ bool XmlParser::characters( const QString &ch ) {
     }
   }
   return true;
+}
+
+int XmlParser::getMonth( const QString &month )
+{
+  if ( month == "Jan" )
+    return 1;
+  if ( month == "Feb" )
+    return 2;
+  if ( month == "Mar" )
+    return 3;
+  if ( month == "Apr" )
+    return 4;
+  if ( month == "May" )
+    return 5;
+  if ( month == "Jun" )
+    return 6;
+  if ( month == "Jul" )
+    return 7;
+  if ( month == "Aug" )
+    return 8;
+  if ( month == "Sep" )
+    return 9;
+  if ( month == "Oct" )
+    return 10;
+  if ( month == "Nov" )
+    return 11;
+  if ( month == "Dec" )
+    return 12;
+  else
+    return -1;
+}
+
+QDateTime XmlParser::toDateTime( const QString &timestamp ) {
+  QRegExp rx( "(\\w+) (\\w+) (\\d\\d) (\\d\\d):(\\d\\d):(\\d\\d) .+ (\\d\\d\\d\\d)" );
+  rx.indexIn( timestamp );
+  return QDateTime( QDate( rx.cap(7).toInt(), getMonth( rx.cap(2) ), rx.cap(3).toInt() ), QTime( rx.cap(4).toInt(), rx.cap(5).toInt(), rx.cap(6).toInt() ) );
 }
 
 XmlParser::FieldType XmlParser::checkFieldType(const QString &element ) {
@@ -111,5 +151,7 @@ XmlParser::FieldType XmlParser::checkFieldType(const QString &element ) {
     return Homepage;
   if ( !element.compare(USER_PHOTO) )
     return Image;
+  if ( !element.compare(USER_TIMESTAMP) )
+    return Timestamp;
   return None;
 }

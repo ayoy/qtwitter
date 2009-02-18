@@ -30,25 +30,13 @@ Entry::Entry( Type entryType, QObject *parent ) :
   index( -1 ),
   own( false ),
   userId( -1 ),
-  userText( "" ),
-  userName( "" ),
-  userLogin( "" ),
-  userImage( "" ),
-  userHomepage( "" ),
-  hasHomepage( false )
-{
-}
-
-Entry::Entry( int itemIndex, int id, const QString &text, const QString &name, const QString &login, const QString &image, const QString &homepage, QObject *parent ) :
-  QObject( parent ),
-  index( itemIndex ),
-  own( false ),
-  userId( id ),
-  userText( text ),
-  userName( name ),
-  userLogin( login ),
-  userImage( image ),
-  userHomepage( homepage )
+  userText( QString() ),
+  userName( QString() ),
+  userLogin( QString() ),
+  userImage( QString() ),
+  userHomepage( QString() ),
+  hasHomepage( false ),
+  userTimestamp( QDateTime() )
 {
 }
 
@@ -63,7 +51,8 @@ Entry::Entry(const Entry &right) :
   userLogin( right.userLogin ),
   userImage( right.userImage ),
   userHomepage( right.userHomepage ),
-  hasHomepage( right.hasHomepage )
+  hasHomepage( right.hasHomepage ),
+  userTimestamp( right.userTimestamp )
 {
 }
 
@@ -75,7 +64,8 @@ bool Entry::checkContents() {
        !userLogin.isNull() &&
        ( type == Status ? !userImage.isNull() : true ) &&
        !userText.isNull() &&
-       ( hasHomepage ? !userHomepage.isNull() : true ) ) {
+       ( hasHomepage ? !userHomepage.isNull() : true ) &&
+       !userTimestamp.isNull() ) {
     return true;
   }
   return false;
@@ -92,6 +82,7 @@ Entry& Entry::operator=( const Entry &right ) {
   hasHomepage = right.hasHomepage;
   userImage = right.userImage;
   userText = right.userText;
+  userTimestamp = right.userTimestamp;
   return *this;
 }
 
@@ -108,6 +99,7 @@ void Entry::initialize( bool resetIndex )
   hasHomepage = false;
   userImage = QString();
   userText = QString();
+  userTimestamp = QDateTime();
 }
 
 Entry::Type Entry::getType() const { return type; }
@@ -119,6 +111,7 @@ QString Entry::login() const { return userLogin; }
 QString Entry::homepage() const { return userHomepage; }
 QString Entry::image() const { return userImage; }
 QString Entry::text() const { return userText; }
+QDateTime Entry::timestamp() const { return userTimestamp; }
 
 void Entry::setIndex( int itemIndex ) { index = itemIndex; }
 void Entry::setOwn( bool isOwn ) { own = isOwn; }
@@ -128,6 +121,7 @@ void Entry::setLogin( const QString& newLogin ) { userLogin = newLogin; }
 void Entry::setHomepage( const QString& newHomepage ) { userHomepage = newHomepage; }
 void Entry::setHasHomepage( bool b ) { hasHomepage = b; }
 void Entry::setImage( const QString& newImage ) { userImage = newImage; }
+void Entry::setTimestamp( const QDateTime& newTimestamp ) { userTimestamp = newTimestamp; }
 
 void Entry::setText( const QString& newText ) {
   userText = newText;

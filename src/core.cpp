@@ -96,7 +96,8 @@ void Core::destroyTweet( int id )
     }
   }
   xmlPost = new XmlDownload( authData, XmlDownload::Destroy, this );
-  xmlPost->syncPost( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), false/*, cookie*/ );
+
+  xmlPost->syncPost( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray() );
 }
 
 void Core::get() {

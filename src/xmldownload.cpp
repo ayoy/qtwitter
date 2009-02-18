@@ -29,10 +29,10 @@ XmlDownload::XmlDownload( QAuthenticator _authData, Role role, Core *coreParent,
     core( coreParent ),
     authenticated( false )
 {
-  if ( connectionRole == XmlDownload::RefreshStatuses ) {
-    parser = new XmlParser( this );
-  } else if ( connectionRole == XmlDownload::RefreshDirectMessages ) {
+  if ( connectionRole == XmlDownload::RefreshDirectMessages ) {
     parser = new XmlParserDirectMsg( this );
+  } else {
+    parser = new XmlParser( this );
   }
   createConnections( coreParent );
 }
@@ -64,8 +64,8 @@ void XmlDownload::extractId( Entry *entry )
 
 void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
-  qDebug() << responseHeader.values() ;// allValues( "Set-Cookie" );
-  emit cookieReceived( responseHeader.allValues( "Set-Cookie" ) );
+  //qDebug() << responseHeader.values() ;// allValues( "Set-Cookie" );
+  //emit cookieReceived( responseHeader.allValues( "Set-Cookie" ) );
   qDebug() << url.path();
   qDebug() << responseHeader.statusCode() << ": " << responseHeader.reasonPhrase() << "\n";
   switch (responseHeader.statusCode()) {

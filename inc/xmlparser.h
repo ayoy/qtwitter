@@ -37,6 +37,7 @@ public:
     Login,
     Image,
     Homepage,
+    Timestamp
   };
 
   XmlParser( QObject *parent = 0 );
@@ -64,6 +65,8 @@ protected:
   Entry entry;
   bool important;
   FieldType checkFieldType( const QString &element );
+  QDateTime toDateTime( const QString &timestamp );
+  int getMonth( const QString &month );
 
   static const QByteArray USER_ID;
   static const QByteArray USER_TEXT;
@@ -71,6 +74,7 @@ protected:
   static const QByteArray USER_LOGIN;
   static const QByteArray USER_PHOTO;
   static const QByteArray USER_HOMEPAGE;
+  static const QByteArray USER_TIMESTAMP;
 };
 
 #endif //XMLPARSER_H

@@ -27,6 +27,7 @@
 #include "core.h"
 #include <QMenu>
 #include <QSignalMapper>
+#include <QStandardItem>
 
 namespace Ui {
     class Tweet;
@@ -43,7 +44,7 @@ public:
   void setIcon( const QImage& );
   void retranslateUi();
   QString getUrlForIcon() const;
-  Entry getModel() const;
+  Entry* getModel() const;
 
 public slots:
   void adjustSize();
@@ -64,7 +65,7 @@ private:
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;
-  Entry model;
+  Entry *model;
   MainWindow *parentMainWindow;
   QSignalMapper *signalMapper;
   QFont *menuFont;

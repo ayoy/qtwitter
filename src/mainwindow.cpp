@@ -27,13 +27,15 @@
 #include <QMessageBox>
 #include <QIcon>
 
-MainWindow::MainWindow() : QWidget(), model( 0, 0, this )
+MainWindow::MainWindow() : QWidget()
 {
   ui.setupUi( this );
+  model = new TweetModel( ui.statusListView->verticalScrollBar()->size().width(), ui.statusListView, this );
+
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
-  ui.statusListView->setModel( &model );
+  ui.statusListView->setModel( model );
 
   connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateTweets() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
@@ -116,51 +118,23 @@ void MainWindow::resetStatus()
 
 void MainWindow::resizeEvent( QResizeEvent *event )
 {
-  if ( model.rowCount() == 0 )
+  if ( model->rowCount() == 0 )
     return;
-
-  QSize itemSize;
-  int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
-  for ( int i = 0; i < model.rowCount(); i++ ) {
-    Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model.indexFromItem( model.item(i) ) ) );
-    aTweet->resize( event->size().width() - scrollBarMargin, aTweet->size().height() );
-    itemSize = model.item(i)->sizeHint();
-    itemSize.rwidth() += event->size().width() - event->oldSize().width();
-    itemSize.rheight() = aTweet->size().height();
-    model.item(i)->setSizeHint( itemSize );
-  }
+  model->resizeData( event->size().width(), event->oldSize().width() );
 }
 
 void MainWindow::displayItem( Entry *entry )
 {
   if ( modelToBeCleared ) {
-    model.clear();
+    model->clear();
     modelToBeCleared = false;
   }
-  qDebug() << entry->getIndex() << entry->name();
-  int scrollBarMargin = ui.statusListView->verticalScrollBar()->size().width();
-  QStandardItem *newItem = new QStandardItem();
-  Tweet *newTweet;
-  if ( entry->getType() == Entry::DirectMessage ) {
-    newTweet = new Tweet( *entry, QImage( ":/icons/mail_48.png" ), this );
-  } else {
-    newTweet = new Tweet( *entry, QImage(), this );
-  }
-  newTweet->resize( ui.statusListView->width() - scrollBarMargin, newTweet->size().height() );
-  newItem->setSizeHint( newTweet->size() );
-  model.insertRow( entry->getIndex(), newItem );
-  ui.statusListView->setIndexWidget( model.indexFromItem( newItem ), newTweet );
+  model->insertTweet( entry );
 }
 
 void MainWindow::deleteItem( int id )
 {
-  for ( int i = 0; i < model.rowCount(); i++ ) {
-    Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model.indexFromItem( model.item(i) ) ) );
-    if ( id == aTweet->getModel().id() ) {
-      model.removeRow( i );
-      return;
-    }
-  }
+  model->deleteTweet( id );
 }
 
 void MainWindow::setModelToBeCleared()
@@ -170,12 +144,7 @@ void MainWindow::setModelToBeCleared()
 
 void MainWindow::setImageForUrl( const QString& url, QImage image )
 {
-  for ( int i = 0; i < model.rowCount(); i++ ) {
-    Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model.indexFromItem( model.item(i) ) ) );
-    if ( !aTweet->getUrlForIcon().compare( url ) ) {
-      aTweet->setIcon( image );
-    }
-  }
+  model->setImageForUrl( url, image );
 }
 
 void MainWindow::popupError( const QString &message )
@@ -192,8 +161,8 @@ void MainWindow::retranslateUi()
     ui.statusEdit->initialize();
   }
   ui.statusEdit->setText( tr("What are you doing?") );
-  for ( int i = 0; i < model.rowCount(); i++ ) {
-    Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model.indexFromItem( model.item(i) ) ) );
+  for ( int i = 0; i < model->rowCount(); i++ ) {
+    Tweet *aTweet = dynamic_cast<Tweet*>( ui.statusListView->indexWidget( model->indexFromItem( model->item(i) ) ) );
     aTweet->retranslateUi();
   }
 }

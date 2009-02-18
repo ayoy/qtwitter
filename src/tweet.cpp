@@ -27,7 +27,7 @@
 Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
   QWidget(parent),
   gotohomepageAction(0),
-  model(entry),
+  model( new Entry(entry) ),
   parentMainWindow(parent),
   m_ui(new Ui::Tweet)
 {
@@ -44,24 +44,24 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
   signalMapper = new QSignalMapper( this );
   gototwitterpageAction = new QAction( tr( "Go to User's Twitter page" ), this );
   menu->addAction( gototwitterpageAction );
-  signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + model.login() );
+  signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + model->login() );
   connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   connect( signalMapper, SIGNAL(mapped(QString)), parentMainWindow, SIGNAL(openBrowser(QString)) );
 
-  if ( model.homepage().compare("") ) {
+  if ( model->homepage().compare("") ) {
     gotohomepageAction = new QAction( tr("Go to User's homepage"), this);
     menu->addAction( gotohomepageAction );
     gotohomepageAction->setFont( *menuFont );
-    signalMapper->setMapping( gotohomepageAction, model.homepage() );
+    signalMapper->setMapping( gotohomepageAction, model->homepage() );
     connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
     connect( signalMapper, SIGNAL(mapped(QString)), parentMainWindow, SIGNAL(openBrowser(QString)) );
   }
 
-  if ( model.isOwn() ) {
+  if ( model->isOwn() ) {
     deleteAction = new QAction( tr( "Delete tweet" ), this );
     menu->addAction( deleteAction );
     deleteAction->setFont( *menuFont );
-    signalMapper->setMapping( deleteAction, model.id() );
+    signalMapper->setMapping( deleteAction, model->id() );
     connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
     connect( signalMapper, SIGNAL(mapped(int)), parentMainWindow, SIGNAL(destroy(int)) );
   }
@@ -70,9 +70,9 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
   gototwitterpageAction->setFont( *menuFont );
 
   m_ui->setupUi( this );
-  m_ui->userName->setText( model.name() );
+  m_ui->userName->setText( model->name() );
   m_ui->userStatus->document()->setDefaultStyleSheet( "a { color: rgb(255, 248, 140); }" );
-  m_ui->userStatus->setHtml( model.text() );
+  m_ui->userStatus->setHtml( model->text() );
   m_ui->userIcon->setPixmap( QPixmap::fromImage( icon ) );
   adjustSize();
   connect( m_ui->menuButton, SIGNAL(pressed()), this, SLOT(menuRequested()) );
@@ -88,10 +88,10 @@ Tweet::~Tweet()
 
 QString Tweet::getUrlForIcon() const
 {
-  return model.image();
+  return model->image();
 }
 
-Entry Tweet::getModel() const
+Entry* Tweet::getModel() const
 {
   return model;
 }
@@ -154,13 +154,13 @@ void Tweet::leaveEvent( QEvent *e )
 
 void Tweet::sendReply()
 {
-  emit reply( model.login() );
+  emit reply( model->login() );
 }
 
 void Tweet::retranslateUi()
 {
-  replyAction->setText( tr("Reply to") + " " + model.login() );
+  replyAction->setText( tr("Reply to") + " " + model->login() );
   if ( gotohomepageAction ) {
-    gotohomepageAction->setText( tr("Go to homepage") + QString(" (%1)").arg( model.homepage() ) );
+    gotohomepageAction->setText( tr("Go to homepage") + QString(" (%1)").arg( model->homepage() ) );
   }
 }

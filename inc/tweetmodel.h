@@ -18,64 +18,26 @@
  ***************************************************************************/
 
 
-#ifndef ENTRY_H
-#define ENTRY_H
+#ifndef TWEETMODEL_H
+#define TWEETMODEL_H
 
-#include <QString>
-#include <QObject>
-#include <QDateTime>
+#include <QStandardItemModel>
+#include <QListView>
+#include "mainwindow.h"
+#include "entry.h"
 
-class Entry : public QObject {
+class TweetModel : public QStandardItemModel
+{
+  int scrollBarMargin;
+  QListView *view;
 
 public:
-  enum Type {
-    Status,
-    DirectMessage
-  };
-
-  Entry( Type entryType = Status, QObject *parent = 0 );
-  Entry( const Entry &right );
-
-  Entry& operator=( const Entry &right );
-
-  bool checkContents();
-  void initialize( bool resetIndex = false );
-
-  Type getType() const;
-  int getIndex() const;
-  bool isOwn() const;
-  int id() const;
-  QString name() const;
-  QString login() const;
-  QString homepage() const;
-  QString image() const;
-  QString text() const;
-  QDateTime timestamp() const;
-
-  void setIndex( int itemIndex );
-  void setId( int newId );
-  void setOwn( bool isOwn );
-  void setName( const QString& newName );
-  void setLogin( const QString& newLogin );
-  void setHomepage( const QString& newHomepage );
-  void setHasHomepage( bool );
-  void setImage( const QString& newImage );
-  void setText( const QString& newText );
-  void setTimestamp( const QDateTime& newTimestamp );
-
-private:
-  Type type;
-  int index;
-  bool own;
-
-  int userId;
-  QString userText;
-  QString userName;
-  QString userLogin;
-  QString userImage;
-  QString userHomepage;
-  bool hasHomepage;
-  QDateTime userTimestamp;
+  TweetModel( int margin, QListView *parentListView, QObject *parent = 0 );
+  bool insertTweet( Entry *entry );
+  void deleteTweet( int id );
+  void setImageForUrl( const QString& url, QImage image );
+  void setScrollBarMargin( int width );
+  void resizeData( int width, int oldWidth );
 };
 
-#endif //ENTRY_H
+#endif // TWEETMODEL_H

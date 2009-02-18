@@ -24,9 +24,12 @@
 #include "settings.h"
 #include "loopedsignal.h"
 #include "ui_mainwindow.h"
+#include "tweetmodel.h"
 #include "core.h"
 
 #include <QSystemTrayIcon>
+
+class TweetModel;
 
 class MainWindow : public QWidget
 {
@@ -63,10 +66,10 @@ protected:
 
 private:
   void resizeEvent( QResizeEvent* );
-  Core* core;
+  Core *core;
   QMenu *menu;
   QSystemTrayIcon *trayIcon;
-  QStandardItemModel model;
+  TweetModel *model;
   Settings *settingsDialog;
   bool modelToBeCleared;
   Ui::MainWindow ui;
