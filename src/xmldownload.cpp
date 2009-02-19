@@ -25,14 +25,15 @@
 XmlDownload::XmlDownload( Role role, Core *coreParent, QObject *parent ) :
     HttpConnection( parent ),
     connectionRole( role ),
+    statusParser(0),
+    directMsgParser(0),
     core( coreParent ),
     authenticating( false ),
     authenticated( false )
 {
-  if ( connectionRole == XmlDownload::RefreshDirectMessages ) {
-    parser = new XmlParserDirectMsg( this );
-  } else {
-    parser = new XmlParser( this );
+  statusParser = new XmlParser( this );
+  if ( connectionRole == XmlDownload::RefreshAll ) {
+    directMsgParser = new XmlParserDirectMsg( this );
   }
   connect( this, SIGNAL(canBeUnlocked()), SLOT(unlock()) );
   createConnections( core );
@@ -45,15 +46,20 @@ XmlDownload::Role XmlDownload::role() const
 
 void XmlDownload::createConnections( Core *coreParent )
 {
-  connect( parser, SIGNAL(dataParsed(QString)), this, SIGNAL(dataParsed(QString)));
+  connect( statusParser, SIGNAL(dataParsed(QString)), this, SIGNAL(dataParsed(QString)));
   if ( connectionRole == Destroy ) {
-    connect( parser, SIGNAL(newEntry(Entry*)), this, SLOT(extractId(Entry*)) );
+    connect( statusParser, SIGNAL(newEntry(Entry*)), this, SLOT(extractId(Entry*)) );
     connect( this, SIGNAL(deleteEntry(int)), coreParent, SIGNAL(deleteEntry(int)) );
   } else {
-    connect( parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
-    connect( parser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(downloadOneImage(Entry*)) );
+    connect( statusParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
+    connect( statusParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(downloadOneImage(Entry*)) );
   }
-  connect( parser, SIGNAL(xmlParsed()), this, SIGNAL(xmlParsed()));
+
+  if ( directMsgParser ) {
+    connect( directMsgParser, SIGNAL(dataParsed(QString)), this, SIGNAL(dataParsed(QString)));
+    connect( directMsgParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
+  }
+
   connect( this, SIGNAL(authenticationRequired(QString,quint16,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QString,quint16,QAuthenticator*)));
   connect( this, SIGNAL(cookieReceived(QStringList)), coreParent, SLOT(storeCookie(QStringList)) );
 }
@@ -63,12 +69,51 @@ void XmlDownload::extractId( Entry *entry )
   emit deleteEntry( entry->id() );
 }
 
+void XmlDownload::syncGet( const QString &path, ContentRequested content )
+{
+  QByteArray encodedPath = prepareRequest( path );
+  if ( encodedPath == "invalid" ) {
+    httpRequestAborted = true;
+    return;
+  }
+  httpGetId = get( encodedPath, buffer );
+  if ( content == Statuses ) {
+    statusesData.id = httpGetId;
+    statusesData.buffer = buffer;
+    statusesData.bytearray = bytearray;
+  } else if ( content == DirectMessages ) {
+    directMessagesData.id = httpGetId;
+    directMessagesData.buffer = buffer;
+    directMessagesData.bytearray = bytearray;
+  }
+  qDebug() << "Request of type GET and id" << httpGetId << "started";
+}
+
+void XmlDownload::syncPost( const QString &path, const QByteArray &status, ContentRequested content )
+{
+  QByteArray encodedPath = prepareRequest( path );
+  if ( encodedPath == "invalid" ) {
+    httpRequestAborted = true;
+    return;
+  }
+
+  httpGetId = post( encodedPath, status, buffer );
+  if ( content == Statuses ) {
+    statusesData.id = httpGetId;
+    statusesData.buffer = buffer;
+    statusesData.bytearray = bytearray;
+  } else if ( content == DirectMessages ) {
+    directMessagesData.id = httpGetId;
+    directMessagesData.buffer = buffer;
+    directMessagesData.bytearray = bytearray;
+  }
+  qDebug() << "Request of type POST and id" << httpGetId << "started";
+}
+
 void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
   //qDebug() << responseHeader.values() ;// allValues( "Set-Cookie" );
   //emit cookieReceived( responseHeader.allValues( "Set-Cookie" ) );
-  qDebug() << url.path();
-  qDebug() << responseHeader.statusCode() << ": " << responseHeader.reasonPhrase() << "\n";
   switch (responseHeader.statusCode()) {
   case 200:                   // Ok
   case 301:                   // Moved Permanently
@@ -87,14 +132,26 @@ void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
     //emit errorMessage( "Download failed: " + responseHeader.reasonPhrase() );
     httpRequestAborted = true;
     abort();
-    if (buffer) {
-      buffer->close();
-      delete buffer;
-      buffer = 0;
-    }
-    if(bytearray) {
-      delete bytearray;
-      bytearray = 0;
+    if ( currentId() == statusesData.id ) {
+      if (statusesData.buffer) {
+        statusesData.buffer->close();
+        delete statusesData.buffer;
+        statusesData.buffer = 0;
+      }
+      if(statusesData.bytearray) {
+        delete statusesData.bytearray;
+        statusesData.bytearray = 0;
+      }
+    } else if ( currentId() == directMessagesData.id ) {
+      if (directMessagesData.buffer) {
+        directMessagesData.buffer->close();
+        delete directMessagesData.buffer;
+        directMessagesData.buffer = 0;
+      }
+      if(directMessagesData.bytearray) {
+        delete directMessagesData.bytearray;
+        directMessagesData.bytearray = 0;
+      }
     }
   }
 }
@@ -103,20 +160,32 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
 {
   closeId = close();
   if (httpRequestAborted) {
-    if (buffer) {
-      buffer->close();
-      delete buffer;
-      buffer = 0;
-    }
-    if(bytearray) {
-      delete bytearray;
-      bytearray = 0;
+    if ( requestId == statusesData.id ) {
+      if (statusesData.buffer) {
+        statusesData.buffer->close();
+        delete statusesData.buffer;
+        statusesData.buffer = 0;
+      }
+      if(statusesData.bytearray) {
+        delete statusesData.bytearray;
+        statusesData.bytearray = 0;
+      }
+    } else if ( requestId == directMessagesData.id ) {
+      if (directMessagesData.buffer) {
+        directMessagesData.buffer->close();
+        delete directMessagesData.buffer;
+        directMessagesData.buffer = 0;
+      }
+      if(directMessagesData.bytearray) {
+        delete directMessagesData.bytearray;
+        directMessagesData.bytearray = 0;
+      }
     }
     qDebug() << "request aborted";
     authenticated = false;
     return;
   }
-  if (requestId != httpGetId)
+  if (requestId != statusesData.id && requestId != directMessagesData.id )
     return;
   
   buffer->close(); 
@@ -124,17 +193,41 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   if (error) {
     emit errorMessage( "Download failed: " + errorString() );
   } else {
-    QXmlInputSource source( buffer );
     QXmlSimpleReader xmlReader;
-    xmlReader.setContentHandler( parser );
+    QXmlInputSource source;
+    qDebug() << requestId << statusesData.id << directMessagesData.id;
+    if ( requestId == statusesData.id ) {
+      qDebug() << "parsing statuses data";
+      source.setData( *statusesData.bytearray );
+      xmlReader.setContentHandler( statusParser );
+    } else if ( requestId == directMessagesData.id ) {
+      qDebug() << "parsing direct messages data";
+      source.setData( *directMessagesData.bytearray );
+      xmlReader.setContentHandler( directMsgParser );
+    }
     xmlReader.parse( source );
     qDebug() << "========= XML PARSING FINISHED =========";
   }
   
-  delete buffer;
-  buffer = 0;
-  delete bytearray;
-  bytearray = 0;
+  if ( requestId == statusesData.id ) {
+    if (statusesData.buffer) {
+      delete statusesData.buffer;
+      statusesData.buffer = 0;
+    }
+    if(statusesData.bytearray) {
+      delete statusesData.bytearray;
+      statusesData.bytearray = 0;
+    }
+  } else if ( requestId == directMessagesData.id ) {
+    if (directMessagesData.buffer) {
+      delete directMessagesData.buffer;
+      directMessagesData.buffer = 0;
+    }
+    if(directMessagesData.bytearray) {
+      delete directMessagesData.bytearray;
+      directMessagesData.bytearray = 0;
+    }
+  }
   authenticated = false;
 }
 

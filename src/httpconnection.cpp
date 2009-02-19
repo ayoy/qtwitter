@@ -77,37 +77,3 @@ QByteArray HttpConnection::prepareRequest( const QString &path )
   qDebug() << "About to download: " + encodedPath + " from: " + url.host();
   return encodedPath;
 }
-
-void HttpConnection::syncGet( const QString &path, bool /*isSync*/, QStringList /*cookie*/ )
-{
-  QByteArray encodedPath = prepareRequest( path );
-  if ( encodedPath == "invalid" ) {
-    httpRequestAborted = true;
-    return;
-  }
-//  QHttpRequestHeader *getHeader = new QHttpRequestHeader( "GET", QString( encodedPath ) );
-//  getHeader->setValue( "Host", url.host() );
-//  getHeader->setValue( "Connection", "Keep-Alive" );
-//  if ( !cookie.isEmpty() ) {
-//    for ( QStringList::iterator i = cookie.begin(); i != cookie.end(); ++i ) {
-//      getHeader->addValue( "Cookie", *i );
-//    }
-//  }
-//  qDebug() << "header:" << getHeader->toString() << getHeader->isValid();
-//
-//  httpGetId = request( *getHeader, 0, buffer );
-  httpGetId = get( encodedPath, buffer );
-  qDebug() << httpGetId;
-}
-
-void HttpConnection::syncPost( const QString &path, const QByteArray &status, bool /*isSync*//*, QStringList cookie*/ )
-{
-  QByteArray encodedPath = prepareRequest( path );
-  if ( encodedPath == "invalid" ) {
-    httpRequestAborted = true;
-    return;
-  }
-
-  httpGetId = post( encodedPath, status, buffer );
-  qDebug() << httpGetId;
-}

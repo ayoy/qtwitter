@@ -33,8 +33,6 @@ class HttpConnection : public QHttp {
 public:
   HttpConnection( QObject *parent = 0 );
   virtual ~HttpConnection();
-  virtual void syncGet( const QString &path, bool isSync = false, QStringList cookie = QStringList() );
-  void syncPost( const QString &path, const QByteArray &status, bool isSync = false/*, QStringList cookie = QStringList()*/ );
   inline void setUrl( const QString &path );
   
 private slots:

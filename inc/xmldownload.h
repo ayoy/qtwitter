@@ -26,20 +26,53 @@
 #include "xmlparserdirectmsg.h"
 #include <QAuthenticator>
 
+struct XmlData {
+  int id;
+  QBuffer *buffer;
+  QByteArray *bytearray;
+  XmlData() :
+      id(-1),
+      buffer(0),
+      bytearray(0)
+  {}
+  ~XmlData() {
+    if ( bytearray ) {
+      delete bytearray;
+      bytearray = 0;
+    }
+    if ( buffer ) {
+      delete buffer;
+      buffer = 0;
+    }
+  }
+};
+
 class Core;
 
 class XmlDownload : public HttpConnection {
   Q_OBJECT
 
+  XmlData statusesData;
+  XmlData directMessagesData;
+
 public:
   enum Role {
+    RefreshAll,
     RefreshStatuses,
     RefreshDirectMessages,
     Submit,
     Destroy
   };
+  enum ContentRequested {
+    Statuses,
+    DirectMessages
+  };
+
   XmlDownload( Role role, Core *coreParent, QObject *parent = 0 );
   Role role() const;
+  void syncGet( const QString &path, ContentRequested content );
+  void syncPost( const QString &path, const QByteArray &status, ContentRequested content );
+
 
 public slots:
   void unlock();
@@ -60,7 +93,8 @@ signals:
 private:
   Role connectionRole;
   void createConnections( Core *whereToConnectTo );
-  XmlParser *parser;
+  XmlParser *statusParser;
+  XmlParserDirectMsg *directMsgParser;
   Core *core;
   bool authenticating;
   bool authenticated;
