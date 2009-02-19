@@ -39,7 +39,6 @@ public:
   Core( MainWindow *parent = 0 );
   virtual ~Core();
   bool downloadsPublicTimeline();
-  QList<XmlDownload*> activeConnections();
 #ifdef Q_WS_X11
   void setBrowserPath( const QString& );
 #endif

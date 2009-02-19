@@ -21,10 +21,10 @@
 #ifndef XMLDOWNLOAD_H
 #define XMLDOWNLOAD_H
 
+#include <QAuthenticator>
 #include "httpconnection.h"
 #include "xmlparser.h"
 #include "xmlparserdirectmsg.h"
-#include <QAuthenticator>
 
 struct XmlData {
   int id;
@@ -70,13 +70,8 @@ public:
 
   XmlDownload( Role role, Core *coreParent, QObject *parent = 0 );
   Role role() const;
-  void syncGet( const QString &path, ContentRequested content );
-  void syncPost( const QString &path, const QByteArray &status, ContentRequested content );
-
-
-public slots:
-  void unlock();
-  void lock();
+  void getContent( const QString &path, ContentRequested content );
+  void postContent( const QString &path, const QByteArray &status, ContentRequested content );
 
 private slots:
   void httpRequestFinished( int requestId, bool error );
@@ -88,11 +83,10 @@ signals:
   void xmlParsed();
   void cookieReceived( const QStringList );
   void deleteEntry( int id );
-  void canBeUnlocked();
 
 private:
-  Role connectionRole;
   void createConnections( Core *whereToConnectTo );
+  Role connectionRole;
   XmlParser *statusParser;
   XmlParserDirectMsg *directMsgParser;
   Core *core;

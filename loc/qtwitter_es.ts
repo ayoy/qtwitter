@@ -36,19 +36,24 @@
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="111"/>
+        <location filename="../src/core.cpp" line="109"/>
         <source>Authentication is required to get your friends&apos; updates</source>
         <translation>Autenticación es requerida para obtener actualitzaciones de sus amigos</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="131"/>
+        <location filename="../src/core.cpp" line="128"/>
         <source>Authentication is required to post updates</source>
         <translation>Autenticación es requerida para publicar sus actualitzaciones</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="236"/>
         <source>Browser path is not defined. Specify it in Settings-&gt;Network section. </source>
-        <translation>Tu navegador no está definido. Elígelo a Configuración-&gt;Red.</translation>
+        <translation type="obsolete">Tu navegador no está definido. Elígelo a Configuración-&gt;Red.</translation>
+    </message>
+    <message>
+        <location filename="../src/core.cpp" line="218"/>
+        <source>Browser path is not defined. Specify it in Settings-&gt;Network section.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -238,17 +243,17 @@
         <translation type="obsolete">Puerto:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="312"/>
+        <location filename="../src/settings.cpp" line="314"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="313"/>
+        <location filename="../src/settings.cpp" line="315"/>
         <source>Cancel</source>
         <translation>Anula</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="314"/>
+        <location filename="../src/settings.cpp" line="316"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
@@ -278,22 +283,22 @@
         <translation>actualizaciones de todos los usuarios</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="309"/>
+        <location filename="../src/settings.cpp" line="311"/>
         <source>Specify web browser:</source>
         <translation>Selecciona el navegador web:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="310"/>
+        <location filename="../src/settings.cpp" line="312"/>
         <source>Browse</source>
         <translation>Navega</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="275"/>
+        <location filename="../src/settings.cpp" line="277"/>
         <source>Select your browser executable</source>
         <translation>Marca el archivo de tu navegador</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="275"/>
+        <location filename="../src/settings.cpp" line="277"/>
         <source>All files (*)</source>
         <translation>Todos archivos (*)</translation>
     </message>
@@ -334,22 +339,22 @@
         <translation type="obsolete">Ve a la página principal</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="167"/>
+        <location filename="../src/tweet.cpp" line="170"/>
         <source>Reply to</source>
         <translation>Responde a</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="172"/>
+        <location filename="../src/tweet.cpp" line="176"/>
         <source>Go to User&apos;s Twitter page</source>
         <translation>Ve a la página Twitter de usuario</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="169"/>
+        <location filename="../src/tweet.cpp" line="173"/>
         <source>Go to User&apos;s homepage</source>
         <translation>Ve a la página principal de usuario</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="175"/>
+        <location filename="../src/tweet.cpp" line="179"/>
         <source>Delete tweet</source>
         <translation>Suprimir el estatus</translation>
     </message>

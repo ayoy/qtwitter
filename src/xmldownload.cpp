@@ -35,7 +35,6 @@ XmlDownload::XmlDownload( Role role, Core *coreParent, QObject *parent ) :
   if ( connectionRole == XmlDownload::RefreshAll ) {
     directMsgParser = new XmlParserDirectMsg( this );
   }
-  connect( this, SIGNAL(canBeUnlocked()), SLOT(unlock()) );
   createConnections( core );
 }
 
@@ -69,7 +68,7 @@ void XmlDownload::extractId( Entry *entry )
   emit deleteEntry( entry->id() );
 }
 
-void XmlDownload::syncGet( const QString &path, ContentRequested content )
+void XmlDownload::getContent( const QString &path, ContentRequested content )
 {
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
@@ -89,7 +88,7 @@ void XmlDownload::syncGet( const QString &path, ContentRequested content )
   qDebug() << "Request of type GET and id" << httpGetId << "started";
 }
 
-void XmlDownload::syncPost( const QString &path, const QByteArray &status, ContentRequested content )
+void XmlDownload::postContent( const QString &path, const QByteArray &status, ContentRequested content )
 {
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
@@ -195,7 +194,6 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   } else {
     QXmlSimpleReader xmlReader;
     QXmlInputSource source;
-    qDebug() << requestId << statusesData.id << directMessagesData.id;
     if ( requestId == statusesData.id ) {
       qDebug() << "parsing statuses data";
       source.setData( *statusesData.bytearray );
@@ -238,25 +236,13 @@ void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, qui
   }
   qDebug() << "auth required";
   if ( authenticated ) {
+    qDebug() << "auth dialog";
     if ( !core->authDataDialog() ) {
       httpRequestAborted = true;
       abort();
     }
-    emit canBeUnlocked();
-    qDebug() << "auth dialog";
+    authenticating = false;
   }
-//  if ( !authData.user().isEmpty() && !authData.password().isEmpty() ) {
-    *authenticator = core->getAuthData();
-    authenticated = true;
-//  }
-}
-
-void XmlDownload::unlock()
-{
-  authenticating = false;
-}
-
-void XmlDownload::lock()
-{
-  authenticating = true;
+  *authenticator = core->getAuthData();
+  authenticated = true;
 }

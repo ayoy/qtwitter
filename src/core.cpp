@@ -35,18 +35,6 @@ Core::Core( MainWindow *parent ) :
 
 Core::~Core() {}
 
-QList<XmlDownload*> Core::activeConnections()
-{
-  QList<XmlDownload*> listOfConnections;
-  if ( xmlPost ) {
-    listOfConnections << xmlPost;
-  }
-  if ( xmlGet ) {
-    listOfConnections << xmlGet;
-  }
-  return listOfConnections;
-}
-
 void Core::downloadOneImage( Entry *entry ) {
   if ( entry->getType() == Entry::Status ) {
     if ( imagesHash.contains( entry->image() ) ) {
@@ -107,14 +95,14 @@ void Core::destroyTweet( int id )
   }
   xmlPost = new XmlDownload( XmlDownload::Destroy, this );
 
-  xmlPost->syncPost( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), XmlDownload::Statuses );
+  xmlPost->postContent( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), XmlDownload::Statuses );
 }
 
 void Core::get() {
   emit requestListRefresh();
   if ( downloadPublicTimeline ) {
      xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
-     xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
+     xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
    } else {
      if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
        if ( !authDataDialog() ) {
@@ -124,12 +112,12 @@ void Core::get() {
      }
      if ( downloadPublicTimeline ) {
        xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
-       xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
+       xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
      } else {
        qDebug() << "creating XmlDownload";
        xmlGet = new XmlDownload ( XmlDownload::RefreshAll, this );
-       xmlGet->syncGet( "http://twitter.com/statuses/friends_timeline.xml", XmlDownload::Statuses );
-       xmlGet->syncGet( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
+       xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", XmlDownload::Statuses );
+       xmlGet->getContent( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
     }
   }
 }
@@ -146,7 +134,7 @@ void Core::post( const QByteArray &status ) {
   request.append( "&source=qtwitter" );
   qDebug() << request;
   xmlPost = new XmlDownload( XmlDownload::Submit, this );
-  xmlPost->syncPost( "http://twitter.com/statuses/update.xml", request, XmlDownload::Statuses );
+  xmlPost->postContent( "http://twitter.com/statuses/update.xml", request, XmlDownload::Statuses );
 }
 
 void Core::destroyXmlConnection() {
@@ -167,7 +155,6 @@ void Core::storeCookie( const QStringList newCookie ) {
 }
 
 bool Core::authDataDialog() {
-  QList<XmlDownload*> connections = activeConnections();
   if ( showingDialog )
     return true;
   QDialog dlg;
@@ -175,9 +162,6 @@ bool Core::authDataDialog() {
   ui.setupUi(&dlg);
   dlg.adjustSize();
   showingDialog = true;
-  for (int i = 0; i < connections.size(); ++i) {
-    connections.at(i)->lock();
-  }
   if (dlg.exec() == QDialog::Accepted) {
     if ( ui.publicBox->isChecked() ) {
       downloadPublicTimeline = true;
@@ -188,15 +172,9 @@ bool Core::authDataDialog() {
       emit authDataSet( authData );
     }
     showingDialog = false;
-    for (int i = 0; i < connections.size(); ++i) {
-      connections.at(i)->unlock();
-    }
     return true;
   }
   showingDialog = false;
-  for (int i = 0; i < connections.size(); ++i) {
-    connections.at(i)->unlock();
-  }
   return false;
 }
 

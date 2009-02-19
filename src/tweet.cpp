@@ -61,7 +61,6 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, const ThemeData &theme, Ma
     gotohomepageAction->setFont( *menuFont );
     signalMapper->setMapping( gotohomepageAction, model.homepage() );
     connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-    connect( signalMapper, SIGNAL(mapped(QString)), parentMainWindow, SIGNAL(openBrowser(QString)) );
   }
 
   if ( model.isOwn() ) {
