@@ -20,11 +20,15 @@
 
 #include "tweet.h"
 #include "ui_tweet.h"
+#include "settings.h"
 #include <QDebug>
 #include <QProcess>
 
+const QString Tweet::STYLESHEET_CARAMEL = QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(101, 93, 86, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(219, 204, 56); border-radius: 10px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" );
+const QString Tweet::STYLESHEET_SKY = QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(139, 187, 218, 255), stop:1 rgba(222, 231, 255, 255)); border-width: 3px; border-style: outset; border-color: rgb(203, 239, 255); border-radius: 10px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-style: normal }" );
 
-Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
+
+Tweet::Tweet( const Entry &entry, const QImage &icon, const QString &style, MainWindow *parent ) :
   QWidget(parent),
   gotohomepageAction(0),
   model( entry ),
@@ -70,8 +74,8 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
   gototwitterpageAction->setFont( *menuFont );
 
   m_ui->setupUi( this );
+  applyStyle( style );
   m_ui->userName->setText( model.name() );
-  m_ui->userStatus->document()->setDefaultStyleSheet( "a { color: rgb(255, 248, 140); }" );
   m_ui->userStatus->setHtml( model.text() );
   m_ui->userIcon->setPixmap( QPixmap::fromImage( icon ) );
   adjustSize();
@@ -150,6 +154,20 @@ void Tweet::leaveEvent( QEvent *e )
 void Tweet::sendReply()
 {
   emit reply( model.login() );
+}
+
+void Tweet::applyStyle( const QString &style )
+{
+  if ( style == "Caramel" ) {
+    setStyleSheet( STYLESHEET_CARAMEL );
+    m_ui->userStatus->document()->setDefaultStyleSheet( "a { color: rgb(255, 248, 140); }" );
+    m_ui->userStatus->setHtml( model.text() );
+  } else {
+    setStyleSheet( STYLESHEET_SKY );
+    m_ui->userStatus->document()->setDefaultStyleSheet( "a { color: rgb(0, 0, 255); }" );
+    m_ui->userStatus->setHtml( model.text() );
+  }
+  this->update();
 }
 
 void Tweet::retranslateUi()

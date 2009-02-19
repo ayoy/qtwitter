@@ -33,10 +33,13 @@ class TweetModel : public QStandardItemModel
   bool modelToBeCleared;
   int scrollBarMargin;
   QListView *view;
+  QString currentStyle;
 
 public:
   TweetModel( int margin, QListView *parentListView, QObject *parent = 0 );
   void setScrollBarMargin( int width );
+  const QString& getCurrentStyle();
+  void setCurrentStyle( const QString &style );
 
 public slots:
   void insertTweet( Entry *entry );
@@ -44,6 +47,7 @@ public slots:
   void setImageForUrl( const QString& url, QImage image );
   void resizeData( int width, int oldWidth );
   void setModelToBeCleared();
+  void changeLayout( const QString &style );
   void retranslateUi();
 };
 

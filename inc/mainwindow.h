@@ -45,6 +45,7 @@ public:
 public slots:
   void popupError( const QString &message );
   void retranslateUi();
+  void changePalette( const QString &style );
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );

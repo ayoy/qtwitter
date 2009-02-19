@@ -28,7 +28,13 @@ border-radius: 10px}
 QLabel { background-color: rgba(255, 255, 255, 0);
 color: rgb(255, 255, 255);
 border-width: 0px;
-border-radius: 0px }</string>
+border-radius: 0px }
+QTextBrowser { 
+background-color: rgba(255, 255, 255, 0);
+color: rgb(255, 255, 255);
+border-width: 0px;
+border-style: normal;
+}</string>
   </property>
   <widget class="QFrame" name="frame">
    <property name="geometry">
@@ -195,12 +201,7 @@ border-radius: 0px}</string>
      </palette>
     </property>
     <property name="styleSheet">
-     <string notr="true">QTextBrowser { 
-background-color: rgba(255, 255, 255, 0);
-color: rgb(255, 255, 255);
-border-width: 0px;
-border-style: normal;
-}</string>
+     <string notr="true"/>
     </property>
     <property name="frameShape">
      <enum>QFrame::NoFrame</enum>

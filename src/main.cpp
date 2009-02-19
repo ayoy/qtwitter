@@ -39,7 +39,7 @@ int main( int argc, char **argv )
 
   LoopedSignal *loopedsignal = new LoopedSignal( &qtwitter );
   Core *core = new Core( &qtwitter );
-  Settings *settings = new Settings( &qtwitter, loopedsignal, core, &qtwitter );
+  Settings *settings = new Settings( model, &qtwitter, loopedsignal, core, &qtwitter );
 
   QObject::connect( loopedsignal, SIGNAL(ping()), core, SLOT(get()) );
   QObject::connect( &qtwitter, SIGNAL(updateTweets()), core, SLOT(get()) );

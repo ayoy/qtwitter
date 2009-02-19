@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 
-#include <QModelIndex>
 #include "tweetmodel.h"
 #include "entry.h"
 #include "tweet.h"
@@ -28,7 +27,9 @@ TweetModel::TweetModel( int margin, QListView *parentListView, QObject *parent )
   modelToBeCleared( false ),
   scrollBarMargin( margin ),
   view( parentListView )
-{}
+{
+  qDebug() << "currentStyle:" << currentStyle;
+}
 
 void TweetModel::insertTweet( Entry *entry )
 {
@@ -40,10 +41,11 @@ void TweetModel::insertTweet( Entry *entry )
   QStandardItem *newItem = new QStandardItem();
   newItem->setData( data );
   Tweet *newTweet;
+  qDebug() << currentStyle;
   if ( entry->getType() == Entry::DirectMessage ) {
-    newTweet = new Tweet( *entry, QImage( ":/icons/mail_48.png" ), dynamic_cast<MainWindow*>( this->parent()) );
+    newTweet = new Tweet( *entry, QImage( ":/icons/mail_48.png" ), currentStyle, dynamic_cast<MainWindow*>( this->parent()) );
   } else {
-    newTweet = new Tweet( *entry, QImage(), dynamic_cast<MainWindow*>( this->parent()) );
+    newTweet = new Tweet( *entry, QImage(), currentStyle, dynamic_cast<MainWindow*>( this->parent()) );
   }
   newTweet->resize( view->width() - scrollBarMargin, newTweet->size().height() );
   newItem->setSizeHint( newTweet->size() );
@@ -110,6 +112,28 @@ void TweetModel::resizeData( int width, int oldWidth )
 void TweetModel::setModelToBeCleared()
 {
   modelToBeCleared = true;
+}
+
+void TweetModel::changeLayout( const QString &style )
+{
+  //setCurrentStyle( style );
+  for ( int i = 0; i < rowCount(); i++ ) {
+    Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
+    aTweet->applyStyle( style );
+  }
+}
+
+const QString& TweetModel::getCurrentStyle()
+{
+  return currentStyle;
+}
+
+void TweetModel::setCurrentStyle( const QString &style )
+{
+  currentStyle = style;
+  if ( rowCount() > 0 ) {
+    changeLayout( style );
+  }
 }
 
 void TweetModel::retranslateUi()

@@ -25,8 +25,9 @@
 #include <QDesktopWidget>
 #include <QFileDialog>
 
-Settings::Settings( MainWindow *mainwinSettings, LoopedSignal *loopSettings, Core *coreSettings, QWidget *parent ) :
+Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, LoopedSignal *loopSettings, Core *coreSettings, QWidget *parent ) :
     QDialog( parent ),
+    model( tweetModel ),
     mainWindow( mainwinSettings ),
     loopedSignal( loopSettings ),
     core( coreSettings )
@@ -51,6 +52,7 @@ Settings::Settings( MainWindow *mainwinSettings, LoopedSignal *loopSettings, Cor
 
   connect( ui.buttonBox->button( QDialogButtonBox::Apply ), SIGNAL(clicked()), this, SLOT(saveConfig()) );
   connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
+  connect( ui.colorBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeColors(QString)) );
   connect( this, SIGNAL(languageChanged()), SLOT(retranslateUi()) );
   createLanguageMenu();
   QIntValidator *portValidator = new QIntValidator( 1, 65535, this );
@@ -103,6 +105,9 @@ void Settings::loadConfig( bool dialogRejected )
     selectBrowserEdit->setText( settings.value( "browser" ).toString() );
 #endif
   settings.endGroup();
+  settings.beginGroup( "Appearance" );
+    ui.colorBox->setCurrentIndex( settings.value( "color scheme", 0 ).toInt() );
+  settings.endGroup();
 
   ui.hostEdit->setEnabled( (bool) ui.proxyBox->checkState() );
   ui.portEdit->setEnabled( (bool) ui.proxyBox->checkState() );
@@ -152,6 +157,9 @@ void Settings::saveConfig()
     settings.setValue( "browser", selectBrowserEdit->text() );
 #endif
   settings.endGroup();
+  settings.beginGroup( "Appearance" );
+    settings.setValue( "color scheme", ui.colorBox->currentIndex() );
+  settings.endGroup();
 
   applySettings();
   qDebug() << "settings applied and saved";
@@ -163,6 +171,7 @@ void Settings::applySettings()
   loopedSignal->setPeriod( ui.refreshCombo->currentText().toInt() * 60 );
   core->setDownloadPublicTimeline( ui.radioPublic->isChecked() );
   core->setAuthData( ui.userNameEdit->text(), ui.passwordEdit->text() );
+  changeColors( ui.colorBox->currentText() );
 #ifdef Q_WS_X11
   core->setBrowserPath( this->selectBrowserEdit->text() );
 #endif
@@ -258,6 +267,12 @@ void Settings::setBrowser()
   selectBrowserEdit->setText( QFileDialog::getOpenFileName( this, tr( "Select your browser executable" ), rx.cap( 1 ), tr( "All files (*)") ) );
 }
 #endif
+
+void Settings::changeColors( const QString &style )
+{
+  mainWindow->changePalette( ui.colorBox->currentText() );
+  model->setCurrentStyle( ui.colorBox->currentText() );
+}
 
 void Settings::retranslateUi()
 {

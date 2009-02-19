@@ -36,14 +36,19 @@ namespace Ui {
 class Tweet : public QWidget {
   Q_OBJECT
   Q_DISABLE_COPY( Tweet )
+
+  static const QString STYLESHEET_CARAMEL;
+  static const QString STYLESHEET_SKY;
+
 public:
-  explicit Tweet( const Entry &entry, const QImage &icon, MainWindow *parent );
+  explicit Tweet( const Entry &entry, const QImage &icon, const QString &style, MainWindow *parent );
   virtual ~Tweet();
   void resize( const QSize& );
   void resize( int w, int h );
   void setIcon( const QImage& );
   void retranslateUi();
   QString getUrlForIcon() const;
+  void applyStyle( const QString &style );
 
 public slots:
   void adjustSize();

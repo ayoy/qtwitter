@@ -26,16 +26,15 @@
 #include <QScrollBar>
 #include <QMessageBox>
 #include <QIcon>
+#include <QPalette>
 
 MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
 {
   ui.setupUi( this );
-//  model = new TweetModel( ui.statusListView->verticalScrollBar()->size().width(), ui.statusListView, this );
 
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
-//  ui.statusListView->setModel( model );
 
   connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateTweets() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
@@ -140,6 +139,18 @@ void MainWindow::resizeEvent( QResizeEvent *event )
 void MainWindow::popupError( const QString &message )
 {
   QMessageBox::information( this, tr("Error"), message );
+}
+
+void MainWindow::changePalette(const QString &style )
+{
+  QPalette palette( ui.statusListView->palette() );
+  if ( style == "Caramel" ) {
+    palette.setColor( QPalette::Base, QColor( 51, 51, 51, 255));
+  } else {
+    palette.setColor( QPalette::Base, QColor( 224, 242, 255, 255));
+  }
+  ui.statusListView->setPalette( palette );
+  ui.statusListView->update();
 }
 
 void MainWindow::retranslateUi()
