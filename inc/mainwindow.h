@@ -21,8 +21,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "settings.h"
-#include "loopedsignal.h"
 #include "ui_mainwindow.h"
 #include "tweetmodel.h"
 #include "core.h"
@@ -45,7 +43,7 @@ public:
 public slots:
   void popupError( const QString &message );
   void retranslateUi();
-  void changePalette( const QString &style );
+  void changeListBackgroundColor( const QColor &newColor );
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
@@ -71,8 +69,6 @@ private:
   Core *core;
   QMenu *menu;
   QSystemTrayIcon *trayIcon;
-  Settings *settingsDialog;
-  bool modelToBeCleared;
   Ui::MainWindow ui;
 };
 

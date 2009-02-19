@@ -24,13 +24,12 @@
 #include <QDebug>
 #include <QProcess>
 
-const QString Tweet::STYLESHEET_CARAMEL = QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(101, 93, 86, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(219, 204, 56); border-radius: 10px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" );
-const QString Tweet::STYLESHEET_SKY = QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(139, 187, 218, 255), stop:1 rgba(222, 231, 255, 255)); border-width: 3px; border-style: outset; border-color: rgb(203, 239, 255); border-radius: 10px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-style: normal }" );
-
-
-Tweet::Tweet( const Entry &entry, const QImage &icon, const QString &style, MainWindow *parent ) :
+Tweet::Tweet( const Entry &entry, const QImage &icon, const ThemeData &theme, MainWindow *parent ) :
   QWidget(parent),
+  replyAction(0),
   gotohomepageAction(0),
+  gototwitterpageAction(0),
+  deleteAction(0),
   model( entry ),
   parentMainWindow(parent),
   m_ui(new Ui::Tweet)
@@ -40,14 +39,18 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, const QString &style, Main
   menuFont->setPixelSize( 10 );
   menu->setFont( *menuFont );
 
-  replyAction = new QAction( tr("Reply to") + " " + model.login(), this);
-  menu->addAction( replyAction );
-  connect( replyAction, SIGNAL(triggered()), this, SLOT(sendReply()) );
-  connect( this, SIGNAL(reply(QString)), parent, SIGNAL(addReplyString(QString)) );
+  if ( model.getType() == Entry::Status ) {
+    replyAction = new QAction( tr("Reply to") + " " + model.login(), this);
+    menu->addAction( replyAction );
+    replyAction->setFont( *menuFont );
+    connect( replyAction, SIGNAL(triggered()), this, SLOT(sendReply()) );
+    connect( this, SIGNAL(reply(QString)), parent, SIGNAL(addReplyString(QString)) );
+  }
 
   signalMapper = new QSignalMapper( this );
   gototwitterpageAction = new QAction( tr( "Go to User's Twitter page" ), this );
   menu->addAction( gototwitterpageAction );
+  gototwitterpageAction->setFont( *menuFont );
   signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + model.login() );
   connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   connect( signalMapper, SIGNAL(mapped(QString)), parentMainWindow, SIGNAL(openBrowser(QString)) );
@@ -70,11 +73,8 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, const QString &style, Main
     connect( signalMapper, SIGNAL(mapped(int)), parentMainWindow, SIGNAL(destroy(int)) );
   }
 
-  replyAction->setFont( *menuFont );
-  gototwitterpageAction->setFont( *menuFont );
-
   m_ui->setupUi( this );
-  applyStyle( style );
+  applyTheme( theme );
   m_ui->userName->setText( model.name() );
   m_ui->userStatus->setHtml( model.text() );
   m_ui->userIcon->setPixmap( QPixmap::fromImage( icon ) );
@@ -156,24 +156,26 @@ void Tweet::sendReply()
   emit reply( model.login() );
 }
 
-void Tweet::applyStyle( const QString &style )
+void Tweet::applyTheme( const ThemeData &theme )
 {
-  if ( style == "Caramel" ) {
-    setStyleSheet( STYLESHEET_CARAMEL );
-    m_ui->userStatus->document()->setDefaultStyleSheet( "a { color: rgb(255, 248, 140); }" );
-    m_ui->userStatus->setHtml( model.text() );
-  } else {
-    setStyleSheet( STYLESHEET_SKY );
-    m_ui->userStatus->document()->setDefaultStyleSheet( "a { color: rgb(0, 0, 255); }" );
-    m_ui->userStatus->setHtml( model.text() );
-  }
+  setStyleSheet( theme.styleSheet );
+  m_ui->userStatus->document()->setDefaultStyleSheet( theme.linkColor );
+  m_ui->userStatus->setHtml( model.text() );
   this->update();
 }
 
 void Tweet::retranslateUi()
 {
-  replyAction->setText( tr("Reply to") + " " + model.login() );
+  if ( replyAction ) {
+    replyAction->setText( tr("Reply to") + " " + model.login() );
+  }
   if ( gotohomepageAction ) {
-    gotohomepageAction->setText( tr("Go to homepage") + QString(" (%1)").arg( model.homepage() ) );
+    gotohomepageAction->setText( tr("Go to User's homepage") );
+  }
+  if ( gototwitterpageAction ) {
+    gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
+  }
+  if ( deleteAction ) {
+    deleteAction->setText( tr( "Delete tweet" ) );
   }
 }

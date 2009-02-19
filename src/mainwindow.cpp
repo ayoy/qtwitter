@@ -141,14 +141,10 @@ void MainWindow::popupError( const QString &message )
   QMessageBox::information( this, tr("Error"), message );
 }
 
-void MainWindow::changePalette(const QString &style )
+void MainWindow::changeListBackgroundColor(const QColor &newColor )
 {
   QPalette palette( ui.statusListView->palette() );
-  if ( style == "Caramel" ) {
-    palette.setColor( QPalette::Base, QColor( 51, 51, 51, 255));
-  } else {
-    palette.setColor( QPalette::Base, QColor( 224, 242, 255, 255));
-  }
+  palette.setColor( QPalette::Base, newColor );
   ui.statusListView->setPalette( palette );
   ui.statusListView->update();
 }

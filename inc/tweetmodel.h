@@ -23,8 +23,8 @@
 
 #include <QStandardItemModel>
 #include <QListView>
-#include "mainwindow.h"
 #include "entry.h"
+#include "settings.h"
 
 class TweetModel : public QStandardItemModel
 {
@@ -33,13 +33,12 @@ class TweetModel : public QStandardItemModel
   bool modelToBeCleared;
   int scrollBarMargin;
   QListView *view;
-  QString currentStyle;
+  ThemeData currentTheme;
 
 public:
   TweetModel( int margin, QListView *parentListView, QObject *parent = 0 );
   void setScrollBarMargin( int width );
-  const QString& getCurrentStyle();
-  void setCurrentStyle( const QString &style );
+  void setTheme( const ThemeData &newTheme );
 
 public slots:
   void insertTweet( Entry *entry );
@@ -47,7 +46,6 @@ public slots:
   void setImageForUrl( const QString& url, QImage image );
   void resizeData( int width, int oldWidth );
   void setModelToBeCleared();
-  void changeLayout( const QString &style );
   void retranslateUi();
 };
 

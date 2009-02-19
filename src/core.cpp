@@ -26,16 +26,30 @@
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
     downloadPublicTimeline( false ),
-    isShowingDialog( false ),
+    showingDialog( false ),
     xmlGet( NULL ),
     xmlGetDirectMessages( NULL ),
     xmlPost( NULL )
 {
   connect( this, SIGNAL(xmlConnectionIdle()), SLOT(destroyXmlConnection()) );
-//  parent->setCore( this );
 }
 
 Core::~Core() {}
+
+QList<XmlDownload*> Core::activeConnections()
+{
+  QList<XmlDownload*> listOfConnections;
+  if ( xmlPost ) {
+    listOfConnections << xmlPost;
+  }
+  if ( xmlGet ) {
+    listOfConnections << xmlGet;
+  }
+  if ( xmlGetDirectMessages ) {
+    listOfConnections << xmlGetDirectMessages;
+  }
+  return listOfConnections;
+}
 
 void Core::downloadOneImage( Entry *entry ) {
   if ( entry->getType() == Entry::Status ) {
@@ -95,7 +109,7 @@ void Core::destroyTweet( int id )
       return;
     }
   }
-  xmlPost = new XmlDownload( authData, XmlDownload::Destroy, this );
+  xmlPost = new XmlDownload( XmlDownload::Destroy, this );
 
   xmlPost->syncPost( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray() );
 }
@@ -103,7 +117,7 @@ void Core::destroyTweet( int id )
 void Core::get() {
   emit requestListRefresh();
   if ( downloadPublicTimeline ) {
-     xmlGet = new XmlDownload ( authData, XmlDownload::RefreshStatuses, this );
+     xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
      xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
    } else {
      if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
@@ -113,13 +127,13 @@ void Core::get() {
        }
      }
      if ( downloadPublicTimeline ) {
-       xmlGet = new XmlDownload ( authData, XmlDownload::RefreshStatuses, this );
+       xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
        xmlGet->syncGet( "http://twitter.com/statuses/public_timeline.xml", false, cookie );
      } else {
        qDebug() << "creating XmlDownload";
-       xmlGet = new XmlDownload ( authData, XmlDownload::RefreshStatuses, this );
+       xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
        xmlGet->syncGet( "http://twitter.com/statuses/friends_timeline.xml", false, cookie );
-       xmlGetDirectMessages = new XmlDownload ( authData, XmlDownload::RefreshDirectMessages, this );
+       xmlGetDirectMessages = new XmlDownload ( XmlDownload::RefreshDirectMessages, this );
        xmlGetDirectMessages->syncGet( "http://twitter.com/direct_messages.xml", false, cookie );
     }
   }
@@ -136,7 +150,7 @@ void Core::post( const QByteArray &status ) {
   request.append( status );
   request.append( "&source=qtwitter" );
   qDebug() << request;
-  xmlPost = new XmlDownload( authData, XmlDownload::Submit, this );
+  xmlPost = new XmlDownload( XmlDownload::Submit, this );
   xmlPost->syncPost( "http://twitter.com/statuses/update.xml", request, false/*, cookie*/ );
 }
 
@@ -162,20 +176,18 @@ void Core::storeCookie( const QStringList newCookie ) {
   cookie = newCookie;
 }
 
-QString Core::getAuthLogin()
-{
-  return authData.user();
-}
-
 bool Core::authDataDialog() {
-  if ( isShowingDialog )
+  QList<XmlDownload*> connections = activeConnections();
+  if ( showingDialog )
     return true;
   QDialog dlg;
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
   dlg.adjustSize();
-  isShowingDialog = true;
-
+  showingDialog = true;
+  for (int i = 0; i < connections.size(); ++i) {
+    connections.at(i)->lock();
+  }
   if (dlg.exec() == QDialog::Accepted) {
     if ( ui.publicBox->isChecked() ) {
       downloadPublicTimeline = true;
@@ -184,20 +196,17 @@ bool Core::authDataDialog() {
       authData.setUser( ui.loginEdit->text() );
       authData.setPassword( ui.passwordEdit->text() );
       emit authDataSet( authData );
-      if ( xmlGet ) {
-        xmlGet->setAuthData( authData );
-      }
-      if ( xmlGetDirectMessages ) {
-        xmlGetDirectMessages->setAuthData( authData );
-      }
-      if ( xmlPost ) {
-        xmlPost->setAuthData( authData );
-      }
     }
-    isShowingDialog = false;
+    showingDialog = false;
+    for (int i = 0; i < connections.size(); ++i) {
+      connections.at(i)->unlock();
+    }
     return true;
   }
-  isShowingDialog = false;
+  showingDialog = false;
+  for (int i = 0; i < connections.size(); ++i) {
+    connections.at(i)->unlock();
+  }
   return false;
 }
 
@@ -214,6 +223,11 @@ void Core::setAuthData( const QString &username, const QString &password ) {
   if ( refreshTweets ) {
     get();
   }
+}
+
+const QAuthenticator& Core::getAuthData() const
+{
+  return authData;
 }
 
 #ifdef Q_WS_X11
@@ -233,7 +247,7 @@ void Core::openBrowser( QString address )
   browser->start( "/usr/bin/open " + address );
 #elif defined Q_WS_X11
   if ( browserPath.isEmpty() ) {
-    emit errorMessage( tr( "Browser path is not defined. Specify it in Settings->Network section. " ) );
+    emit errorMessage( tr( "Browser path is not defined. Specify it in Settings->Network section." ) );
     return;
   }
   browser->start( browserPath + " " + address );

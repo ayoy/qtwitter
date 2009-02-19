@@ -18,12 +18,20 @@
  ***************************************************************************/
 
 
-#include "settings.h"
-#include "mainwindow.h"
 #include <QPushButton>
 #include <QPoint>
 #include <QDesktopWidget>
 #include <QFileDialog>
+#include "settings.h"
+#include "mainwindow.h"
+#include "loopedsignal.h"
+
+const ThemeData Settings::STYLESHEET_CARAMEL = ThemeData( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(101, 93, 86, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(219, 204, 56); border-radius: 10px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" ),
+                                                          QString( "a { color: rgb(255, 248, 140); }" ),
+                                                          QColor( 51, 51, 51 ) );
+const ThemeData Settings::STYLESHEET_SKY = ThemeData( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(139, 187, 218, 255), stop:1 rgba(222, 231, 255, 255)); border-width: 3px; border-style: outset; border-color: rgb(203, 239, 255); border-radius: 10px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-style: normal }" ),
+                                                      QString( "a { color: rgb(0, 0, 255); }" ),
+                                                      QColor( 224, 242, 255 ) );
 
 Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, LoopedSignal *loopSettings, Core *coreSettings, QWidget *parent ) :
     QDialog( parent ),
@@ -52,7 +60,7 @@ Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, LoopedS
 
   connect( ui.buttonBox->button( QDialogButtonBox::Apply ), SIGNAL(clicked()), this, SLOT(saveConfig()) );
   connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
-  connect( ui.colorBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeColors(QString)) );
+  connect( ui.colorBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeTheme(QString)) );
   connect( this, SIGNAL(languageChanged()), SLOT(retranslateUi()) );
   createLanguageMenu();
   QIntValidator *portValidator = new QIntValidator( 1, 65535, this );
@@ -171,7 +179,7 @@ void Settings::applySettings()
   loopedSignal->setPeriod( ui.refreshCombo->currentText().toInt() * 60 );
   core->setDownloadPublicTimeline( ui.radioPublic->isChecked() );
   core->setAuthData( ui.userNameEdit->text(), ui.passwordEdit->text() );
-  changeColors( ui.colorBox->currentText() );
+  changeTheme( ui.colorBox->currentText() );
 #ifdef Q_WS_X11
   core->setBrowserPath( this->selectBrowserEdit->text() );
 #endif
@@ -234,6 +242,8 @@ void Settings::switchLanguage( int index )
   qDebug() << "switching language to" << locale << "from" << qmPath;
   translator.load( "qtwitter_" + locale, qmPath);
   emit languageChanged();
+  mainWindow->retranslateUi();
+  model->retranslateUi();
   adjustSize();
 }
 
@@ -268,30 +278,35 @@ void Settings::setBrowser()
 }
 #endif
 
-void Settings::changeColors( const QString &style )
+void Settings::changeTheme( const QString &theme )
 {
-  mainWindow->changePalette( ui.colorBox->currentText() );
-  model->setCurrentStyle( ui.colorBox->currentText() );
+  if ( theme == "Caramel" ) {
+    mainWindow->changeListBackgroundColor( STYLESHEET_CARAMEL.listBackgroundColor );
+    model->setTheme( STYLESHEET_CARAMEL );
+  } else if ( theme == "Sky" ) {
+    mainWindow->changeListBackgroundColor( STYLESHEET_SKY.listBackgroundColor );
+    model->setTheme( STYLESHEET_SKY );
+  }
 }
 
 void Settings::retranslateUi()
 {
   this->setWindowTitle( tr("Settings") );
+  ui.tabs->setTabText( 0, tr( "General" ) );
   ui.label->setText( tr("Refresh every") );
   ui.label_2->setText( tr("minutes") );
   ui.label_3->setText( tr("Language") );
   ui.userNameLabel->setText( tr( "Username" ) );
   ui.passwordLabel->setText( tr( "Password" ) );
-  ui.tabs->setTabText( 0, tr( "General " ) );
-  ui.tabs->setTabText( 1, tr( "Network " ) );
-  ui.proxyBox->setText( tr( "Use HTTP &proxy" ) );
-  ui.hostLabel->setText( tr( "Host:" ) );
-  ui.portLabel->setText( tr( "Port:" ) );
-  ui.network->setWindowTitle( tr( "Network" ) );
-  ui.general->setWindowTitle( tr( "General" ) );
   ui.downloadBox->setTitle( tr( "Download" ) );
   ui.radioFriends->setText( tr( "friends timeline" ) );
   ui.radioPublic->setText( tr( "public timeline" ) );
+  ui.tabs->setTabText( 1, tr( "Network" ) );
+  ui.proxyBox->setText( tr( "Use HTTP &proxy" ) );
+  ui.hostLabel->setText( tr( "Host:" ) );
+  ui.portLabel->setText( tr( "Port:" ) );
+  ui.tabs->setTabText( 2, tr( "Appearance" ) );
+  ui.colorLabel->setText( tr( "Color scheme:" ) );
 #ifdef Q_WS_X11
   selectBrowserLabel->setText( tr( "Specify web browser:" ) );
   selectBrowserButton->setText( tr( "Browse" ) );

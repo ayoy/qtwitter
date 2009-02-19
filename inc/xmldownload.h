@@ -38,11 +38,12 @@ public:
     Submit,
     Destroy
   };
-  XmlDownload( QAuthenticator _authData, Role role, Core *coreParent, QObject *parent = 0 );
+  XmlDownload( Role role, Core *coreParent, QObject *parent = 0 );
   Role role() const;
 
 public slots:
-  void setAuthData( const QAuthenticator );
+  void unlock();
+  void lock();
 
 private slots:
   void httpRequestFinished( int requestId, bool error );
@@ -54,13 +55,14 @@ signals:
   void xmlParsed();
   void cookieReceived( const QStringList );
   void deleteEntry( int id );
+  void canBeUnlocked();
 
 private:
   Role connectionRole;
   void createConnections( Core *whereToConnectTo );
-  QAuthenticator authData;
   XmlParser *parser;
   Core *core;
+  bool authenticating;
   bool authenticated;
 };
 

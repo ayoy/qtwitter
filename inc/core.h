@@ -39,7 +39,7 @@ public:
   Core( MainWindow *parent = 0 );
   virtual ~Core();
   bool downloadsPublicTimeline();
-  QString getAuthLogin();
+  QList<XmlDownload*> activeConnections();
 #ifdef Q_WS_X11
   void setBrowserPath( const QString& );
 #endif
@@ -50,6 +50,7 @@ public slots:
 
   bool authDataDialog();
   void setAuthData( const QString &name, const QString &password );
+  const QAuthenticator& getAuthData() const;
   void storeCookie( const QStringList );
   void setDownloadPublicTimeline( bool );
   void openBrowser( QString address = QString() );
@@ -74,7 +75,7 @@ signals:
 
 private:
   bool downloadPublicTimeline;
-  bool isShowingDialog;
+  bool showingDialog;
   XmlDownload *xmlGet;
   XmlDownload *xmlGetDirectMessages;
   XmlDownload *xmlPost;

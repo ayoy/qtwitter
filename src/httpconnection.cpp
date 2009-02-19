@@ -85,7 +85,6 @@ void HttpConnection::syncGet( const QString &path, bool /*isSync*/, QStringList 
     httpRequestAborted = true;
     return;
   }
-
 //  QHttpRequestHeader *getHeader = new QHttpRequestHeader( "GET", QString( encodedPath ) );
 //  getHeader->setValue( "Host", url.host() );
 //  getHeader->setValue( "Connection", "Keep-Alive" );

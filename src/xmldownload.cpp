@@ -22,11 +22,11 @@
 #include "xmlparserdirectmsg.h"
 #include "core.h"
 
-XmlDownload::XmlDownload( QAuthenticator _authData, Role role, Core *coreParent, QObject *parent ) :
+XmlDownload::XmlDownload( Role role, Core *coreParent, QObject *parent ) :
     HttpConnection( parent ),
     connectionRole( role ),
-    authData( _authData ),
     core( coreParent ),
+    authenticating( false ),
     authenticated( false )
 {
   if ( connectionRole == XmlDownload::RefreshDirectMessages ) {
@@ -34,7 +34,8 @@ XmlDownload::XmlDownload( QAuthenticator _authData, Role role, Core *coreParent,
   } else {
     parser = new XmlParser( this );
   }
-  createConnections( coreParent );
+  connect( this, SIGNAL(canBeUnlocked()), SLOT(unlock()) );
+  createConnections( core );
 }
 
 XmlDownload::Role XmlDownload::role() const
@@ -78,7 +79,7 @@ void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
     break;
   case 404:                   // Not Found
     if ( connectionRole == Destroy ) {
-      QRegExp rx = QRegExp( "/statuses/destroy/(\\d+)\\.xml", Qt::CaseInsensitive );
+      QRegExp rx( "/statuses/destroy/(\\d+)\\.xml", Qt::CaseInsensitive );
       rx.indexIn( url.path() );
       emit deleteEntry( rx.cap(1).toInt() );
     }
@@ -139,20 +140,30 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
 
 void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, quint16, QAuthenticator *authenticator)
 {
+  if ( authenticating ) {
+    return;
+  }
   qDebug() << "auth required";
   if ( authenticated ) {
     if ( !core->authDataDialog() ) {
       httpRequestAborted = true;
       abort();
     }
+    emit canBeUnlocked();
     qDebug() << "auth dialog";
   }
-  if ( !authData.user().isEmpty() && !authData.password().isEmpty() ) {
-    *authenticator = authData;
+//  if ( !authData.user().isEmpty() && !authData.password().isEmpty() ) {
+    *authenticator = core->getAuthData();
     authenticated = true;
-  }
+//  }
 }
 
-void XmlDownload::setAuthData( const QAuthenticator _authData ) {
-  authData = _authData;
+void XmlDownload::unlock()
+{
+  authenticating = false;
+}
+
+void XmlDownload::lock()
+{
+  authenticating = true;
 }

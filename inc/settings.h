@@ -34,11 +34,31 @@ class MainWindow;
 class LoopedSignal;
 class Core;
 
+struct ThemeData {
+  QString styleSheet;
+  QString linkColor;
+  QColor listBackgroundColor;
+  ThemeData() :
+      styleSheet( QString() ),
+      linkColor( QString() ),
+      listBackgroundColor( QColor() )
+  {}
+  ThemeData( const QString &newStyleSheet, const QString &newLinkColor, const QColor &newListBackgroundColor ) :
+      styleSheet( newStyleSheet ),
+      linkColor( newLinkColor ),
+      listBackgroundColor( newListBackgroundColor )
+  {}
+};
+
 class Settings : public QDialog
 {
   Q_OBJECT
 
 public:
+  static const ThemeData STYLESHEET_CARAMEL;
+  static const ThemeData STYLESHEET_SKY;
+//  static const QMap<QString,StyleSheetData> STYLESHEETS;
+
   Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, LoopedSignal *loopSettings, Core *coreSettings, QWidget *parent = 0 );
   ~Settings();
   bool createConfigFile();
@@ -58,7 +78,7 @@ public slots:
 
 private slots:
   void retranslateUi();
-  void changeColors( const QString& );
+  void changeTheme( const QString& );
 #ifdef Q_WS_X11
   void setBrowser();
 #endif

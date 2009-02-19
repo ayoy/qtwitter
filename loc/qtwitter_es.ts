@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="es">
-<defaultcodec></defaultcodec>
 <context>
     <name>AuthDialog</name>
     <message>
@@ -37,17 +36,17 @@
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="85"/>
+        <location filename="../src/core.cpp" line="111"/>
         <source>Authentication is required to get your friends&apos; updates</source>
         <translation>Autenticación es requerida para obtener actualitzaciones de sus amigos</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="102"/>
+        <location filename="../src/core.cpp" line="131"/>
         <source>Authentication is required to post updates</source>
         <translation>Autenticación es requerida para publicar sus actualitzaciones</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="194"/>
+        <location filename="../src/core.cpp" line="236"/>
         <source>Browser path is not defined. Specify it in Settings-&gt;Network section. </source>
         <translation>Tu navegador no está definido. Elígelo a Configuración-&gt;Red.</translation>
     </message>
@@ -71,7 +70,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="173"/>
+        <location filename="../src/mainwindow.cpp" line="141"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -86,7 +85,7 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="229"/>
+        <location filename="../ui/mainwindow.ui" line="226"/>
         <source>What are you doing?</source>
         <translation>Qué estás haciendo ahora?</translation>
     </message>
@@ -98,7 +97,7 @@
     <message>
         <location filename="../ui/mainwindow.ui" line="145"/>
         <source>Go to twitter.com</source>
-        <translation>Ve a twitter.com</translation>
+        <translation>Ve al twitter.com</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="165"/>
@@ -121,7 +120,7 @@
         <translation>Salir</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="108"/>
+        <location filename="../src/mainwindow.cpp" line="119"/>
         <source>characters left</source>
         <translation>carácteres quedan</translation>
     </message>
@@ -214,14 +213,14 @@
         <translation>Puerto:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="270"/>
+        <location filename="../src/settings.cpp" line="298"/>
         <source>General </source>
-        <translation>General</translation>
+        <translation type="obsolete">General</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="271"/>
+        <location filename="../src/settings.cpp" line="299"/>
         <source>Network </source>
-        <translation>Red</translation>
+        <translation type="obsolete">Red</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="99"/>
@@ -239,17 +238,17 @@
         <translation type="obsolete">Puerto:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="284"/>
+        <location filename="../src/settings.cpp" line="312"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="285"/>
+        <location filename="../src/settings.cpp" line="313"/>
         <source>Cancel</source>
         <translation>Anula</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="286"/>
+        <location filename="../src/settings.cpp" line="314"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
@@ -279,30 +278,40 @@
         <translation>actualizaciones de todos los usuarios</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="281"/>
+        <location filename="../src/settings.cpp" line="309"/>
         <source>Specify web browser:</source>
         <translation>Selecciona el navegador web:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="282"/>
+        <location filename="../src/settings.cpp" line="310"/>
         <source>Browse</source>
         <translation>Navega</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="257"/>
+        <location filename="../src/settings.cpp" line="275"/>
         <source>Select your browser executable</source>
         <translation>Marca el archivo de tu navegador</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="257"/>
+        <location filename="../src/settings.cpp" line="275"/>
         <source>All files (*)</source>
         <translation>Todos archivos (*)</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="265"/>
+        <source>Appearance</source>
+        <translation>Apariencia</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="273"/>
+        <source>Color scheme:</source>
+        <translation>Esquema de color:</translation>
     </message>
 </context>
 <context>
     <name>StatusEdit</name>
     <message>
-        <location filename="../src/statusedit.cpp" line="44"/>
+        <location filename="../src/statusedit.cpp" line="46"/>
         <source>What are you doing?</source>
         <translation>Qué estás haciendo ahora?</translation>
     </message>
@@ -320,14 +329,29 @@
         <translation type="obsolete">Responde a</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="141"/>
+        <location filename="../src/tweet.cpp" line="167"/>
         <source>Go to homepage</source>
-        <translation>Ve a página principal</translation>
+        <translation type="obsolete">Ve a la página principal</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="139"/>
+        <location filename="../src/tweet.cpp" line="167"/>
         <source>Reply to</source>
         <translation>Responde a</translation>
+    </message>
+    <message>
+        <location filename="../src/tweet.cpp" line="172"/>
+        <source>Go to User&apos;s Twitter page</source>
+        <translation>Ve a la página Twitter de usuario</translation>
+    </message>
+    <message>
+        <location filename="../src/tweet.cpp" line="169"/>
+        <source>Go to User&apos;s homepage</source>
+        <translation>Ve a la página principal de usuario</translation>
+    </message>
+    <message>
+        <location filename="../src/tweet.cpp" line="175"/>
+        <source>Delete tweet</source>
+        <translation>Suprimir el estatus</translation>
     </message>
 </context>
 </TS>

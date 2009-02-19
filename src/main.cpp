@@ -55,8 +55,8 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(deleteEntry(int)), model, SLOT(deleteTweet(int)) );
   QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
   QObject::connect( core, SIGNAL(requestListRefresh()), model, SLOT(setModelToBeCleared()) );
-  QObject::connect( settings, SIGNAL(languageChanged()), &qtwitter, SLOT(retranslateUi()) );
-  QObject::connect( settings, SIGNAL(languageChanged()), model, SLOT(retranslateUi()) );
+//  QObject::connect( settings, SIGNAL(languageChanged()), &qtwitter, SLOT(retranslateUi()) );
+//  QObject::connect( settings, SIGNAL(languageChanged()), model, SLOT(retranslateUi()) );
   QObject::connect( qApp, SIGNAL(aboutToQuit()), settings, SLOT(saveConfig()) );
   QObject::connect( &qtwitter, SIGNAL(ready()), loopedsignal, SLOT(start()) );
 
