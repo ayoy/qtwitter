@@ -74,6 +74,7 @@ signals:
   void setImage( const Entry&, QImage );
   void setImageForUrl( const QString&, QImage );
   void requestListRefresh();
+  void resetUi();
 
 private:
   bool downloadPublicTimeline;

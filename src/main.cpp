@@ -52,6 +52,7 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(deleteEntry(int)), model, SLOT(deleteTweet(int)) );
   QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
   QObject::connect( core, SIGNAL(requestListRefresh()), model, SLOT(setModelToBeCleared()) );
+  QObject::connect( core, SIGNAL(resetUi()), &qtwitter, SIGNAL(resetStatusEdit()) );
   QObject::connect( qApp, SIGNAL(aboutToQuit()), settings, SLOT(saveConfig()) );
 
   qtwitter.show();

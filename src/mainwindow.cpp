@@ -45,17 +45,16 @@ MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( this, SIGNAL(addReplyString(QString)), ui.statusEdit, SLOT(addReplyString(QString)) );
+  connect( this, SIGNAL(resetStatusEdit()), ui.statusEdit, SLOT(cancelEditing()) );
 
-  QShortcut *quitShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_E ), this );
   QShortcut *typeShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ), this );
 #ifdef Q_WS_MAC
   ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Comma ) );
-#else
-  ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
+  QShortcut *quitShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ), this );
+  connect( quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()) );
 #endif
   ui.updateButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_R ) );
   ui.homeButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
-  connect( quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()) );
   connect( typeShortcut, SIGNAL(activated()), ui.statusEdit, SLOT(setFocus()) );
 
   trayIcon = new QSystemTrayIcon( this );
@@ -64,9 +63,12 @@ MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
   QObject::connect( trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)) );
 #ifndef Q_WS_MAC
   QMenu *trayMenu = new QMenu( this );
+  trayMenu = new QMenu( this );
   QAction *showaction = new QAction( tr( "Show" ), trayMenu);
-  QAction *settingsaction = new QAction( tr( "Settings" ), trayMenu);
   QAction *quitaction = new QAction( tr( "Quit" ), trayMenu);
+  QAction *settingsaction = new QAction( tr( "Settings" ), trayMenu);
+  settingsaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
+  quitaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
 
   QObject::connect( showaction, SIGNAL(triggered()), this, SLOT(show()) );
   QObject::connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );

@@ -46,9 +46,9 @@ void Core::setTimerInterval( int msecs )
   if ( timer->interval() != msecs ) {
     timer->setInterval( msecs );
     timer->start();
-  }
-  if ( !initialization ) {
-    get();
+    if ( !initialization ) {
+      get();
+    }
   }
 }
 

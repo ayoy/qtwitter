@@ -83,6 +83,7 @@ signals:
   void xmlParsed();
   void cookieReceived( const QStringList );
   void deleteEntry( int id );
+  void finished();
 
 private:
   void createConnections( Core *whereToConnectTo );

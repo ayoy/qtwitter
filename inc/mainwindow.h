@@ -58,13 +58,14 @@ signals:
   void addReplyString( const QString& );
   void destroy( int );
   void resizeView( int width, int oldWidth );
+  void resetStatusEdit();
 
 protected:
   void closeEvent( QCloseEvent *e );
 
 private:
   void resizeEvent( QResizeEvent* );
-  QMenu *menu;
+  QMenu *trayMenu;
   QSystemTrayIcon *trayIcon;
   Ui::MainWindow ui;
 };
