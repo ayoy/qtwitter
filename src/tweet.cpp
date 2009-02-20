@@ -72,6 +72,13 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, const ThemeData &theme, Ma
     connect( signalMapper, SIGNAL(mapped(int)), parentMainWindow, SIGNAL(destroy(int)) );
   }
 
+  menu->addSeparator();
+
+  aboutAction = new QAction( tr( "About qTwitter..." ), this );
+  menu->addAction( aboutAction );
+  aboutAction->setFont( *menuFont );
+  connect( aboutAction, SIGNAL(triggered()), parentMainWindow, SLOT(about()) );
+
   m_ui->setupUi( this );
   applyTheme( theme );
   m_ui->userName->setText( model.name() );

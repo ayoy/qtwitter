@@ -35,7 +35,8 @@ HEADERS += inc/mainwindow.h \
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
-    ui/tweet.ui
+    ui/tweet.ui \
+    ui/about.ui
 RESOURCES += res/resources.qrc
 QT += network \
     xml

@@ -21,6 +21,7 @@
 #include "mainwindow.h"
 #include "statusfilter.h"
 #include "tweet.h"
+#include "ui_about.h"
 
 #include <QMenu>
 #include <QScrollBar>
@@ -48,6 +49,8 @@ MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
   connect( this, SIGNAL(resetStatusEdit()), ui.statusEdit, SLOT(cancelEditing()) );
 
   QShortcut *typeShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ), this );
+  QShortcut *hideShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_H ), this );
+  connect( hideShortcut, SIGNAL(activated()), this, SLOT(hide()) );
 #ifdef Q_WS_MAC
   ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Comma ) );
   QShortcut *quitShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ), this );
@@ -73,6 +76,7 @@ MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
   QObject::connect( showaction, SIGNAL(triggered()), this, SLOT(show()) );
   QObject::connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
   QObject::connect( settingsaction, SIGNAL(triggered()), this, SIGNAL(settingsDialogRequested()) );
+  QObject::connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
 
   trayMenu->addAction(showaction);
   trayMenu->addAction(settingsaction);
@@ -127,7 +131,6 @@ void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
   }
 }
 
-
 void MainWindow::changeLabel()
 {
   ui.countdownLabel->setText( ui.statusEdit->isStatusClean() ? QString::number( StatusEdit::STATUS_MAX_LENGTH ) : QString::number( StatusEdit::STATUS_MAX_LENGTH - ui.statusEdit->text().length() ) );
@@ -162,6 +165,15 @@ void MainWindow::changeListBackgroundColor(const QColor &newColor )
   palette.setColor( QPalette::Base, newColor );
   ui.statusListView->setPalette( palette );
   ui.statusListView->update();
+}
+
+void MainWindow::about()
+{
+  QDialog *dlg = new QDialog( this );
+  Ui::AboutDialog aboutUi;
+  aboutUi.setupUi( dlg );
+  dlg->exec();
+  dlg->deleteLater();
 }
 
 void MainWindow::retranslateUi()

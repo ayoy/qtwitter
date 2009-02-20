@@ -66,6 +66,7 @@ private:
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;
+  QAction *aboutAction;
   Entry model;
   MainWindow *parentMainWindow;
   QSignalMapper *signalMapper;

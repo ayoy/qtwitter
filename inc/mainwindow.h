@@ -43,6 +43,7 @@ public slots:
   void popupError( const QString &message );
   void retranslateUi();
   void changeListBackgroundColor( const QColor &newColor );
+  void about();
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
