@@ -37,6 +37,13 @@ class Core : public QObject {
   Q_OBJECT
 
 public:
+
+  enum AuthDialogState {
+    Accepted,
+    Rejected,
+    SwitchToPublic
+  };
+
   Core( MainWindow *parent = 0 );
   virtual ~Core();
   bool downloadsPublicTimeline();
@@ -49,8 +56,8 @@ public slots:
   void get();
   void post( const QByteArray &status );
 
-  bool authDataDialog( const QString &name = QString(), const QString &password = QString() );
-  void setAuthData( const QString &name, const QString &password );
+  AuthDialogState authDataDialog( const QString &user = QString(), const QString &password = QString() );
+  void setAuthData( const QString &user, const QString &password );
   const QAuthenticator& getAuthData() const;
   void storeCookie( const QStringList );
   void setDownloadPublicTimeline( bool );

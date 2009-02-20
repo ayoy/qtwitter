@@ -39,7 +39,7 @@ Core::~Core() {}
 void Core::setTimerInterval( int msecs )
 {
   bool initialization = !(bool) timer;
-  if ( !timer ) {
+  if ( initialization ) {
     timer = new QTimer( this );
     connect( timer, SIGNAL(timeout()), this, SLOT(get()) );
   }
@@ -77,7 +77,7 @@ void Core::downloadOneImage( Entry *entry ) {
     }
     ImageDownload *getter = new ImageDownload();
     imagesGetter[host] = getter;
-    connect( getter, SIGNAL( errorMessage( const QString& ) ), this, SIGNAL( errorMessage( const QString& ) ) );
+    connect( getter, SIGNAL( errorMessage(QString) ), this, SIGNAL( errorMessage(QString) ) );
     connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
     getter->imgGet( entry );
     imagesHash[ entry->image() ] = QImage();
@@ -114,8 +114,8 @@ void Core::destroyTweet( int id )
 {
   qDebug() << "Tweet No." << id << "will be destroyed";
   if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-    if ( !authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.password().isEmpty() ? QString() : authData.password() ) ) {
-      emit errorMessage( tr("Authentication is required to post updates") );
+    if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
+      emit errorMessage( tr("Authentication is required to delete updates.") );
       return;
     }
   }
@@ -131,8 +131,8 @@ void Core::get() {
      xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
    } else {
      if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-       if ( !authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.password().isEmpty() ? QString() : authData.password() ) ) {
-         emit errorMessage( tr("Authentication is required to get your friends' updates") );
+       if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
+         emit errorMessage( tr("Authentication is required to get your friends' updates.") );
          return;
        }
      }
@@ -150,8 +150,8 @@ void Core::get() {
 
 void Core::post( const QByteArray &status ) {
   if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-    if ( !authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.password().isEmpty() ? QString() : authData.password() ) ) {
-      emit errorMessage( tr("Authentication is required to post updates") );
+    if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
+      emit errorMessage( tr("Authentication is required to post updates.") );
       return;
     }
   }
@@ -180,42 +180,43 @@ void Core::storeCookie( const QStringList newCookie ) {
   cookie = newCookie;
 }
 
-bool Core::authDataDialog( const QString &name, const QString &password) {
+Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &password) {
   if ( showingDialog )
-    return true;
+    return Accepted;
   QDialog dlg;
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
-  ui.loginEdit->setText( name );
+  ui.loginEdit->setText( ( user == QString() ) ? authData.user() : user );
+  ui.loginEdit->selectAll();
   ui.passwordEdit->setText( password );
   dlg.adjustSize();
   showingDialog = true;
   if (dlg.exec() == QDialog::Accepted) {
     if ( ui.publicBox->isChecked() ) {
       downloadPublicTimeline = true;
+      showingDialog = false;
       emit switchToPublic();
-    } else {
-      authData.setUser( ui.loginEdit->text() );
-      authData.setPassword( ui.passwordEdit->text() );
-      emit authDataSet( authData );
+      get();
+      return SwitchToPublic;
     }
+    authData.setUser( ui.loginEdit->text() );
+    authData.setPassword( ui.passwordEdit->text() );
+    emit authDataSet( authData );
     showingDialog = false;
-    return true;
+    return Accepted;
   }
+  qDebug() << "returning false";
   showingDialog = false;
-  return false;
+  return Rejected;
 }
 
-void Core::setAuthData( const QString &username, const QString &password ) {
+void Core::setAuthData( const QString &user, const QString &password ) {
   bool refreshTweets = false;
-  if ( authData.user().compare( username ) ) {
-    authData.setUser( username );
+  if ( authData.user().compare( user ) ) {
+    authData.setUser( user );
     refreshTweets = true;
   }
-  if ( authData.password().compare( password ) ) {
-    authData.setPassword( password );
-    refreshTweets = true;
-  }
+  authData.setPassword( password );
   if ( refreshTweets ) {
     get();
   }

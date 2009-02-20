@@ -153,7 +153,7 @@ void MainWindow::resizeEvent( QResizeEvent *event )
 
 void MainWindow::popupError( const QString &message )
 {
-  QMessageBox::information( this, tr("Error"), message );
+  QMessageBox::critical( this, tr("Error"), message );
 }
 
 void MainWindow::changeListBackgroundColor(const QColor &newColor )
