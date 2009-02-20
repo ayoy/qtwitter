@@ -36,12 +36,12 @@
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="109"/>
+        <location filename="../src/core.cpp" line="135"/>
         <source>Authentication is required to get your friends&apos; updates</source>
         <translation>Autenticació és requerida per obtenir actualitzacions dels seus amics</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="128"/>
+        <location filename="../src/core.cpp" line="154"/>
         <source>Authentication is required to post updates</source>
         <translation>Autenticació és requerida per publicar els teus actualitzacions</translation>
     </message>
@@ -51,9 +51,9 @@
         <translation type="obsolete">El navegador web no és definit. Configura-ho a Configuració-&gt;Xarxa.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="218"/>
+        <location filename="../src/core.cpp" line="246"/>
         <source>Browser path is not defined. Specify it in Settings-&gt;Network section.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">El navegador web no és definit. Configura-ho a Configuració-&gt;Xarxa.</translation>
     </message>
 </context>
 <context>
@@ -75,7 +75,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="141"/>
+        <location filename="../src/mainwindow.cpp" line="154"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -115,17 +115,17 @@
         <translation>Actualitzar estats</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="54"/>
+        <location filename="../src/mainwindow.cpp" line="67"/>
         <source>Show</source>
         <translation>Mostra</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="56"/>
+        <location filename="../src/mainwindow.cpp" line="69"/>
         <source>Quit</source>
         <translation>Surt</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="119"/>
+        <location filename="../src/mainwindow.cpp" line="132"/>
         <source>characters left</source>
         <translation>caràcters queden</translation>
     </message>
@@ -243,17 +243,17 @@
         <translation type="obsolete">Port</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="314"/>
+        <location filename="../src/settings.cpp" line="345"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="315"/>
+        <location filename="../src/settings.cpp" line="346"/>
         <source>Cancel</source>
         <translation>Anul·la</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="316"/>
+        <location filename="../src/settings.cpp" line="347"/>
         <source>OK</source>
         <translation>Bé</translation>
     </message>
@@ -283,22 +283,22 @@
         <translation>actualitzacions de tots els usuaris</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="311"/>
+        <location filename="../src/settings.cpp" line="342"/>
         <source>Specify web browser:</source>
         <translation>Selecciona el navegador web:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="312"/>
+        <location filename="../src/settings.cpp" line="343"/>
         <source>Browse</source>
         <translation>Navega</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="277"/>
+        <location filename="../src/settings.cpp" line="313"/>
         <source>Select your browser executable</source>
         <translation>Escull el arxiu del teu navegador</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="277"/>
+        <location filename="../src/settings.cpp" line="313"/>
         <source>All files (*)</source>
         <translation>Tots arxius (*)</translation>
     </message>
@@ -339,22 +339,22 @@
         <translation type="obsolete">Vés a la pàgina principal</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="170"/>
+        <location filename="../src/tweet.cpp" line="169"/>
         <source>Reply to</source>
         <translation>Respon a</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="176"/>
+        <location filename="../src/tweet.cpp" line="175"/>
         <source>Go to User&apos;s Twitter page</source>
         <translation>Vés-hi a la pàgina Twitter d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="173"/>
+        <location filename="../src/tweet.cpp" line="172"/>
         <source>Go to User&apos;s homepage</source>
         <translation>Vés-hi a la pàgina principal d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="179"/>
+        <location filename="../src/tweet.cpp" line="178"/>
         <source>Delete tweet</source>
         <translation>Suprimeix l&apos;estat</translation>
     </message>

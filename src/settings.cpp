@@ -24,24 +24,52 @@
 #include <QFileDialog>
 #include "settings.h"
 #include "mainwindow.h"
-#include "loopedsignal.h"
+#include "core.h"
 
-const ThemeData Settings::STYLESHEET_CARAMEL = ThemeData( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(101, 93, 86, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(219, 204, 56); border-radius: 10px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" ),
-                                                          QString( "a { color: rgb(255, 248, 140); }" ),
-                                                          QColor( 51, 51, 51 ) );
-const ThemeData Settings::STYLESHEET_SKY = ThemeData( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(139, 187, 218, 255), stop:1 rgba(222, 231, 255, 255)); border-width: 3px; border-style: outset; border-color: rgb(203, 239, 255); border-radius: 10px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-style: normal }" ),
-                                                      QString( "a { color: rgb(0, 0, 255); }" ),
-                                                      QColor( 224, 242, 255 ) );
+const ThemeInfo Settings::STYLESHEET_CARAMEL =  ThemeInfo( QString( "Caramel" ),
+                                                           ThemeData( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(101, 93, 86, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(219, 204, 56); border-radius: 15px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" ),
+                                                                      QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                      QColor( 51, 51, 51 ) ) );
+const ThemeInfo Settings::STYLESHEET_COCOA   = ThemeInfo( QString( "Cocoa" ),
+                                                          ThemeData( QString( "QFrame { background-color: rgb(204, 153, 102); border-width: 3px; border-style: outset; border-color: rgb(51, 51, 0); border-radius: 15px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(51, 51, 0); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(51, 51, 0); border-width: 0px; border-style: normal; }" ),
+                                                                     QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                     QColor( 51, 51, 51 ) ) );
+const ThemeInfo Settings::STYLESHEET_GRAY    = ThemeInfo( QString( "Gray" ),
+                                                          ThemeData( QString( "QFrame { background-color: rgb(102, 102, 102); border-width: 3px; border-style: outset; border-color: rgb(0, 0, 0); border-radius: 15px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal; }" ),
+                                                                     QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                     QColor( 51, 51, 51 ) ) );
+const ThemeInfo Settings::STYLESHEET_GREEN   = ThemeInfo( QString( "Green" ),
+                                                          ThemeData( QString( "QFrame { background-color: rgb(102, 153, 0); border-width: 3px; border-style: outset; border-color: rgb(51, 102, 51); border-radius: 15px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal; }" ),
+                                                                     QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                     QColor( 51, 51, 51 ) ) );
+const ThemeInfo Settings::STYLESHEET_PURPLE  = ThemeInfo( QString( "Purple" ),
+                                                          ThemeData( QString( "QFrame { background-color: rgb(153, 102, 204); border-width: 3px; border-style: outset; border-color: rgb(153, 153, 204); border-radius: 15px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(153, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(153, 255, 255); border-width: 0px; border-style: normal; }" ),
+                                                                     QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                     QColor( 51, 51, 51 ) ) );
+const ThemeInfo Settings::STYLESHEET_SKY     = ThemeInfo( QString( "Sky" ),
+                                                          ThemeData( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(139, 187, 218, 255), stop:1 rgba(222, 231, 255, 255)); border-width: 3px; border-style: outset; border-color: rgb(203, 239, 255); border-radius: 15px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-style: normal }" ),
+                                                                     QString( "a { color: rgb(0, 0, 255); }" ),
+                                                                     QColor( 224, 242, 255 ) ) );
 
-Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, LoopedSignal *loopSettings, Core *coreSettings, QWidget *parent ) :
+Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent ) :
     QDialog( parent ),
     model( tweetModel ),
     mainWindow( mainwinSettings ),
-    loopedSignal( loopSettings ),
     core( coreSettings )
 {
   qApp->installTranslator( &translator );
   ui.setupUi( this );
+
+  themes.insert( STYLESHEET_CARAMEL.first, STYLESHEET_CARAMEL.second);
+  themes.insert( STYLESHEET_COCOA.first,   STYLESHEET_COCOA.second);
+  themes.insert( STYLESHEET_GRAY.first,    STYLESHEET_GRAY.second);
+  themes.insert( STYLESHEET_GREEN.first,   STYLESHEET_GREEN.second);
+  themes.insert( STYLESHEET_PURPLE.first,  STYLESHEET_PURPLE.second);
+  themes.insert( STYLESHEET_SKY.first,     STYLESHEET_SKY.second);
+
+  for (int i = 0; i < themes.keys().size(); ++i ) {
+    ui.colorBox->addItem( themes.keys()[i] );
+  }
 
 #ifdef Q_WS_X11
   QHBoxLayout *hlayout = new QHBoxLayout;
@@ -61,7 +89,6 @@ Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, LoopedS
   connect( ui.buttonBox->button( QDialogButtonBox::Apply ), SIGNAL(clicked()), this, SLOT(saveConfig()) );
   connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
   connect( ui.colorBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeTheme(QString)) );
-  connect( this, SIGNAL(languageChanged()), SLOT(retranslateUi()) );
   createLanguageMenu();
   QIntValidator *portValidator = new QIntValidator( 1, 65535, this );
   ui.portEdit->setValidator( portValidator );
@@ -114,7 +141,7 @@ void Settings::loadConfig( bool dialogRejected )
 #endif
   settings.endGroup();
   settings.beginGroup( "Appearance" );
-    ui.colorBox->setCurrentIndex( settings.value( "color scheme", 0 ).toInt() );
+    ui.colorBox->setCurrentIndex( settings.value( "color scheme", 2 ).toInt() );
   settings.endGroup();
 
   ui.hostEdit->setEnabled( (bool) ui.proxyBox->checkState() );
@@ -123,7 +150,7 @@ void Settings::loadConfig( bool dialogRejected )
   if ( !dialogRejected ) {
     settings.beginGroup( "MainWindow" );
     mainWindow->resize( settings.value( "size", QSize(307, 245) ).toSize() );
-    QPoint offset( settings.value( "pos" ).toPoint() );
+    QPoint offset( settings.value( "pos", QPoint(500,500) ).toPoint() );
     if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
       offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
     }
@@ -132,6 +159,14 @@ void Settings::loadConfig( bool dialogRejected )
     }
     mainWindow->move( offset );
     settings.endGroup();
+    offset = settings.value( "SettingsWindow/pos", QPoint(500,500) ).toPoint();
+    if ( QApplication::desktop()->width() < offset.x() + size().width() ) {
+      offset.setX( QApplication::desktop()->width() - size().width() );
+    }
+    if ( QApplication::desktop()->height() < offset.y() + size().height() ) {
+      offset.setY( QApplication::desktop()->height() - size().height() );
+    }
+    move( offset );
     applySettings();
   }
   qDebug() << "settings loaded and applied";
@@ -150,6 +185,7 @@ void Settings::saveConfig()
     settings.setValue( "size", mainWindow->size() );
     settings.setValue( "pos", mainWindow->pos() );
   settings.endGroup();
+    settings.setValue( "SettingsWindow/pos", pos() );
   settings.beginGroup( "General" );
     settings.setValue( "refresh", ui.refreshCombo->currentIndex() );
     settings.setValue( "language", ui.languageCombo->currentIndex() );
@@ -176,7 +212,7 @@ void Settings::saveConfig()
 void Settings::applySettings()
 {
   setProxy();
-  loopedSignal->setPeriod( ui.refreshCombo->currentText().toInt() * 60 );
+  core->setTimerInterval( ui.refreshCombo->currentText().toInt() * 60000 );
   core->setDownloadPublicTimeline( ui.radioPublic->isChecked() );
   core->setAuthData( ui.userNameEdit->text(), ui.passwordEdit->text() );
   changeTheme( ui.colorBox->currentText() );
@@ -241,7 +277,7 @@ void Settings::switchLanguage( int index )
   QString qmPath( ":/translations" );
   qDebug() << "switching language to" << locale << "from" << qmPath;
   translator.load( "qtwitter_" + locale, qmPath);
-  emit languageChanged();
+  retranslateUi();
   mainWindow->retranslateUi();
   model->retranslateUi();
   adjustSize();
@@ -280,13 +316,8 @@ void Settings::setBrowser()
 
 void Settings::changeTheme( const QString &theme )
 {
-  if ( theme == "Caramel" ) {
-    mainWindow->changeListBackgroundColor( STYLESHEET_CARAMEL.listBackgroundColor );
-    model->setTheme( STYLESHEET_CARAMEL );
-  } else if ( theme == "Sky" ) {
-    mainWindow->changeListBackgroundColor( STYLESHEET_SKY.listBackgroundColor );
-    model->setTheme( STYLESHEET_SKY );
-  }
+  mainWindow->changeListBackgroundColor( themes.value( theme ).listBackgroundColor );
+  model->setTheme( themes.value( theme ) );
 }
 
 void Settings::retranslateUi()

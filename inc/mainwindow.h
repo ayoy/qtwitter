@@ -23,7 +23,6 @@
 
 #include "ui_mainwindow.h"
 #include "tweetmodel.h"
-#include "core.h"
 
 #include <QSystemTrayIcon>
 
@@ -59,14 +58,12 @@ signals:
   void addReplyString( const QString& );
   void destroy( int );
   void resizeView( int width, int oldWidth );
-  void ready();
 
 protected:
   void closeEvent( QCloseEvent *e );
 
 private:
   void resizeEvent( QResizeEvent* );
-  Core *core;
   QMenu *menu;
   QSystemTrayIcon *trayIcon;
   Ui::MainWindow ui;

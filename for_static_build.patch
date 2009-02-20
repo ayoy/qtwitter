@@ -1,25 +1,25 @@
 diff --git a/qtwitter.pro b/qtwitter.pro
-index 2c46c49..3821230 100644
+index b3c7788..3fab3e0 100644
 --- a/qtwitter.pro
 +++ b/qtwitter.pro
-@@ -32,8 +32,8 @@ FORMS += ui/mainwindow.ui \
- RESOURCES += res/resources.qrc
+@@ -40,8 +40,8 @@ RESOURCES += res/resources.qrc
  QT += network \
      xml
--#QTPLUGIN += qjpeg \
--#    qgif
+ 
+-# QTPLUGIN += qjpeg \
+-# qgif
 +QTPLUGIN += qjpeg \
 +    qgif
  TRANSLATIONS += loc/qtwitter_pl.ts \
      loc/qtwitter_ca.ts \
      loc/qtwitter_es.ts
 diff --git a/src/main.cpp b/src/main.cpp
-index 8058a2d..d397daa 100644
+index 1fbbb0e..8aa068e 100644
 --- a/src/main.cpp
 +++ b/src/main.cpp
 @@ -23,8 +23,8 @@
+ #include "settings.h"
  #include "core.h"
- #include "loopedsignal.h"
  
 -//Q_IMPORT_PLUGIN(qjpeg)
 -//Q_IMPORT_PLUGIN(qgif)

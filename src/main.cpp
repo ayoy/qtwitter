@@ -22,7 +22,6 @@
 #include "tweetmodel.h"
 #include "settings.h"
 #include "core.h"
-#include "loopedsignal.h"
 
 //Q_IMPORT_PLUGIN(qjpeg)
 //Q_IMPORT_PLUGIN(qgif)
@@ -37,12 +36,10 @@ int main( int argc, char **argv )
   TweetModel *model = new TweetModel( qtwitter.getScrollBarWidth(), qtwitter.getListView(), &qtwitter );
   qtwitter.setListViewModel( model );
 
-  LoopedSignal *loopedsignal = new LoopedSignal( &qtwitter );
   Core *core = new Core( &qtwitter );
-  Settings *settings = new Settings( model, &qtwitter, loopedsignal, core, &qtwitter );
+  Settings *settings = new Settings( model, &qtwitter, core, &qtwitter );
 
-  QObject::connect( loopedsignal, SIGNAL(ping()), core, SLOT(get()) );
-  QObject::connect( &qtwitter, SIGNAL(updateTweets()), core, SLOT(get()) );
+  QObject::connect( &qtwitter, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   QObject::connect( &qtwitter, SIGNAL(openBrowser(QString)), core, SLOT(openBrowser(QString)) );
   QObject::connect( &qtwitter, SIGNAL(post(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
@@ -55,10 +52,7 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(deleteEntry(int)), model, SLOT(deleteTweet(int)) );
   QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
   QObject::connect( core, SIGNAL(requestListRefresh()), model, SLOT(setModelToBeCleared()) );
-//  QObject::connect( settings, SIGNAL(languageChanged()), &qtwitter, SLOT(retranslateUi()) );
-//  QObject::connect( settings, SIGNAL(languageChanged()), model, SLOT(retranslateUi()) );
   QObject::connect( qApp, SIGNAL(aboutToQuit()), settings, SLOT(saveConfig()) );
-  QObject::connect( &qtwitter, SIGNAL(ready()), loopedsignal, SLOT(start()) );
 
   qtwitter.show();
 

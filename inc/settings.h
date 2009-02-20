@@ -31,7 +31,6 @@
 
 class TweetModel;
 class MainWindow;
-class LoopedSignal;
 class Core;
 
 struct ThemeData {
@@ -50,16 +49,21 @@ struct ThemeData {
   {}
 };
 
+typedef QPair<QString,ThemeData> ThemeInfo;
+
 class Settings : public QDialog
 {
   Q_OBJECT
 
 public:
-  static const ThemeData STYLESHEET_CARAMEL;
-  static const ThemeData STYLESHEET_SKY;
-//  static const QMap<QString,StyleSheetData> STYLESHEETS;
+  static const ThemeInfo STYLESHEET_CARAMEL;
+  static const ThemeInfo STYLESHEET_COCOA;
+  static const ThemeInfo STYLESHEET_GRAY;
+  static const ThemeInfo STYLESHEET_GREEN;
+  static const ThemeInfo STYLESHEET_PURPLE;
+  static const ThemeInfo STYLESHEET_SKY;
 
-  Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, LoopedSignal *loopSettings, Core *coreSettings, QWidget *parent = 0 );
+  Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent = 0 );
   ~Settings();
   bool createConfigFile();
   void loadConfig( bool dialogRejected = false );
@@ -101,8 +105,8 @@ private:
 #endif
   TweetModel *model;
   MainWindow *mainWindow;
-  LoopedSignal *loopedSignal;
   Core *core;
+  QMap<QString,ThemeData> themes;
 };
 
 #endif //SETTINGS_H

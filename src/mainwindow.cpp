@@ -27,6 +27,7 @@
 #include <QMessageBox>
 #include <QIcon>
 #include <QPalette>
+#include <QShortcut>
 
 MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
 {
@@ -44,6 +45,18 @@ MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( this, SIGNAL(addReplyString(QString)), ui.statusEdit, SLOT(addReplyString(QString)) );
+
+  QShortcut *quitShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_E ), this );
+  QShortcut *typeShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ), this );
+#ifdef Q_WS_MAC
+  ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Comma ) );
+#else
+  ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
+#endif
+  ui.updateButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_R ) );
+  ui.homeButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
+  connect( quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()) );
+  connect( typeShortcut, SIGNAL(activated()), ui.statusEdit, SLOT(setFocus()) );
 
   trayIcon = new QSystemTrayIcon( this );
   trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
@@ -67,7 +80,7 @@ MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
   trayIcon->setToolTip( "qTwitter" );
 #endif
   trayIcon->show();
-  emit ready();
+  emit updateTweets();
 }
 
 MainWindow::~MainWindow() {}

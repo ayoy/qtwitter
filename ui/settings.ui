@@ -279,16 +279,6 @@
            <property name="currentIndex">
             <number>-1</number>
            </property>
-           <item>
-            <property name="text">
-             <string notr="true">Caramel</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">Sky</string>
-            </property>
-           </item>
           </widget>
          </item>
         </layout>

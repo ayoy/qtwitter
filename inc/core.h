@@ -23,6 +23,7 @@
 
 #include <QStandardItemModel>
 #include <QAuthenticator>
+#include <QTimer>
 
 #include "entry.h"
 #include "xmldownload.h"
@@ -39,6 +40,7 @@ public:
   Core( MainWindow *parent = 0 );
   virtual ~Core();
   bool downloadsPublicTimeline();
+  void setTimerInterval( int msecs );
 #ifdef Q_WS_X11
   void setBrowserPath( const QString& );
 #endif
@@ -47,7 +49,7 @@ public slots:
   void get();
   void post( const QByteArray &status );
 
-  bool authDataDialog();
+  bool authDataDialog( const QString &name = QString(), const QString &password = QString() );
   void setAuthData( const QString &name, const QString &password );
   const QAuthenticator& getAuthData() const;
   void storeCookie( const QStringList );
@@ -55,6 +57,7 @@ public slots:
   void openBrowser( QString address = QString() );
   void downloadOneImage( Entry *entry );
   void destroyTweet( int id );
+  void forceGet();
 
 private slots:
   void destroyXmlConnection();
@@ -85,6 +88,7 @@ private:
 #ifdef Q_WS_X11
   QString browserPath;
 #endif
+  QTimer *timer;
 };
 
 

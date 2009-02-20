@@ -17,7 +17,6 @@ SOURCES += src/main.cpp \
     src/core.cpp \
     src/settings.cpp \
     src/tweet.cpp \
-    src/loopedsignal.cpp \
     src/xmlparserdirectmsg.cpp \
     src/tweetmodel.cpp
 HEADERS += inc/mainwindow.h \
@@ -31,7 +30,6 @@ HEADERS += inc/mainwindow.h \
     inc/core.h \
     inc/settings.h \
     inc/tweet.h \
-    inc/loopedsignal.h \
     inc/xmlparserdirectmsg.h \
     inc/tweetmodel.h
 FORMS += ui/mainwindow.ui \

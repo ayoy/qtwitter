@@ -28,12 +28,35 @@ Core::Core( MainWindow *parent ) :
     downloadPublicTimeline( false ),
     showingDialog( false ),
     xmlGet( NULL ),
-    xmlPost( NULL )
+    xmlPost( NULL ),
+    timer( NULL )
 {
   connect( this, SIGNAL(xmlConnectionIdle()), SLOT(destroyXmlConnection()) );
 }
 
 Core::~Core() {}
+
+void Core::setTimerInterval( int msecs )
+{
+  bool initialization = !(bool) timer;
+  if ( !timer ) {
+    timer = new QTimer( this );
+    connect( timer, SIGNAL(timeout()), this, SLOT(get()) );
+  }
+  if ( timer->interval() != msecs ) {
+    timer->setInterval( msecs );
+    timer->start();
+  }
+  if ( !initialization ) {
+    get();
+  }
+}
+
+void Core::forceGet()
+{
+  timer->start();
+  get();
+}
 
 void Core::downloadOneImage( Entry *entry ) {
   if ( entry->getType() == Entry::Status ) {
@@ -69,7 +92,10 @@ void Core::setImageInHash( const QString &url, QImage image ) {
 }
 
 void Core::setDownloadPublicTimeline( bool b ) {
-  downloadPublicTimeline = b;
+  if ( downloadPublicTimeline != b ) {
+    downloadPublicTimeline = b;
+    get();
+  }
 }
 
 bool Core::downloadsPublicTimeline() {
@@ -88,7 +114,7 @@ void Core::destroyTweet( int id )
 {
   qDebug() << "Tweet No." << id << "will be destroyed";
   if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-    if ( !authDataDialog() ) {
+    if ( !authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.password().isEmpty() ? QString() : authData.password() ) ) {
       emit errorMessage( tr("Authentication is required to post updates") );
       return;
     }
@@ -105,7 +131,7 @@ void Core::get() {
      xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
    } else {
      if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-       if ( !authDataDialog() ) {
+       if ( !authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.password().isEmpty() ? QString() : authData.password() ) ) {
          emit errorMessage( tr("Authentication is required to get your friends' updates") );
          return;
        }
@@ -124,7 +150,7 @@ void Core::get() {
 
 void Core::post( const QByteArray &status ) {
   if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-    if ( !authDataDialog() ) {
+    if ( !authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.password().isEmpty() ? QString() : authData.password() ) ) {
       emit errorMessage( tr("Authentication is required to post updates") );
       return;
     }
@@ -154,12 +180,14 @@ void Core::storeCookie( const QStringList newCookie ) {
   cookie = newCookie;
 }
 
-bool Core::authDataDialog() {
+bool Core::authDataDialog( const QString &name, const QString &password) {
   if ( showingDialog )
     return true;
   QDialog dlg;
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
+  ui.loginEdit->setText( name );
+  ui.passwordEdit->setText( password );
   dlg.adjustSize();
   showingDialog = true;
   if (dlg.exec() == QDialog::Accepted) {
