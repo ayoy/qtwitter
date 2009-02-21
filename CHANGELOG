@@ -1,0 +1,34 @@
+v0.3.1 (2009/02/21):
+- MacOS X version now built with Qt 4.5.0-rc1, working as an agent enabled - no Dock icon nor menu bar,
+- added shortcut for hiding the application, and the "about" dialog.
+- fixed a bug of not reseting the input field after posting an update,
+- fixed a bug of unnecessary synchronising when saving settings with unchanged update interval,
+- fixed a bug of copying user's (wrong) password to authDialog after failed 
+login,
+- fixed various bugs when altering between friends and public timeline, and rejecting auth dialog,
+- fixed bug of closing application when settings invoked from tray icon and 
+main window hidden,
+v0.3 (2009/02/19):
+- added support for getting direct messages,
+- added support for deleting updates,
+- fixed several bugs related to failed login, 
+- improved stability and user-friendliness,
+- provided intuitive shortcuts for common operations,
+- added color themes,
+- added User's Twitter page link to tweet menu.
+v0.2.1 (2009/02/16):
+- added browser ineraction support on Linux,
+- added installation facilities for Linux to project file,
+- minor translation corrections.
+v0.2 (2009/02/14):
+- made statuses displaying independent on user images' downloading (huge speed-up in getting statuses list),
+- added replying to specific user and getting user's homepage.
+v0.1.1 (2009/02/09):
+- support for readability and accessibility for hyperlinks in statuses,
+- minor improvements to settings dialog behaviour and translation.
+v0.1 (2009/02/08):
+- posting status updates to Twitter and downloading friends or public timeline,
+- in-session password storing,
+- HTTP proxy support,
+- being recognized as a source of updates,
+- translation to 4 languages in the run-time (sorry for my poor Catalan/Spanish, I appreciate any help here :) )

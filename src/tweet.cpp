@@ -184,4 +184,5 @@ void Tweet::retranslateUi()
   if ( deleteAction ) {
     deleteAction->setText( tr( "Delete tweet" ) );
   }
+  aboutAction->setText( tr( "About qTwitter..." ) );
 }

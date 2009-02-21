@@ -30,6 +30,8 @@
 #include <QPalette>
 #include <QShortcut>
 
+const QString MainWindow::APP_VERSION = "0.3.1";
+
 MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
 {
   ui.setupUi( this );
@@ -172,6 +174,7 @@ void MainWindow::about()
   QDialog *dlg = new QDialog( this );
   Ui::AboutDialog aboutUi;
   aboutUi.setupUi( dlg );
+  aboutUi.textBrowser->setHtml( aboutUi.textBrowser->toHtml().arg( APP_VERSION ) );
   dlg->exec();
   dlg->deleteLater();
 }
