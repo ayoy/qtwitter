@@ -29,6 +29,7 @@
 #include <QIcon>
 #include <QPalette>
 #include <QShortcut>
+#include <QDesktopWidget>
 
 const QString MainWindow::APP_VERSION = "0.3.1";
 
@@ -123,10 +124,13 @@ void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
   switch ( reason ) {
     case QSystemTrayIcon::DoubleClick:
     case QSystemTrayIcon::Trigger:
-      if ( !isVisible() )
-        showNormal();
-      else
+      if ( !isVisible() || !QApplication::activeWindow() ) {
+        show();
+        raise();
+        activateWindow();
+      } else {
         hide();
+      }
       break;
     default:
       break;
