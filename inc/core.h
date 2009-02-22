@@ -80,7 +80,7 @@ signals:
   void deleteEntry( int );
   void setImage( const Entry&, QImage );
   void setImageForUrl( const QString&, QImage );
-  void requestListRefresh();
+  void requestListRefresh( bool downloadPublicTimeline );
   void resetUi();
 
 private:

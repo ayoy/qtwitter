@@ -10,6 +10,7 @@ SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
     src/xmlparser.cpp \
+    src/xmlparserdirectmsg.cpp \
     src/entry.cpp \
     src/httpconnection.cpp \
     src/xmldownload.cpp \
@@ -17,12 +18,12 @@ SOURCES += src/main.cpp \
     src/core.cpp \
     src/settings.cpp \
     src/tweet.cpp \
-    src/xmlparserdirectmsg.cpp \
     src/tweetmodel.cpp
 HEADERS += inc/mainwindow.h \
     inc/statusfilter.h \
     inc/statusedit.h \
     inc/xmlparser.h \
+    inc/xmlparserdirectmsg.h \
     inc/entry.h \
     inc/httpconnection.h \
     inc/xmldownload.h \
@@ -30,8 +31,8 @@ HEADERS += inc/mainwindow.h \
     inc/core.h \
     inc/settings.h \
     inc/tweet.h \
-    inc/xmlparserdirectmsg.h \
-    inc/tweetmodel.h
+    inc/tweetmodel.h \
+    inc/tweettextbrowser.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \

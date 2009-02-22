@@ -97,10 +97,10 @@ border-radius: 0px}</string>
      <string notr="true">Username goes here</string>
     </property>
     <property name="textInteractionFlags">
-     <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
+     <set>Qt::LinksAccessibleByMouse</set>
     </property>
    </widget>
-   <widget class="QTextBrowser" name="userStatus">
+   <widget class="TweetTextBrowser" name="userStatus">
     <property name="geometry">
      <rect>
       <x>69</x>
@@ -219,6 +219,9 @@ p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Lucida Grande'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Status will appear here&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
+    <property name="textInteractionFlags">
+     <set>Qt::TextBrowserInteraction</set>
+    </property>
     <property name="openExternalLinks">
      <bool>true</bool>
     </property>
@@ -263,6 +266,13 @@ background-color: rgba(255,255,255,0);
    </widget>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>TweetTextBrowser</class>
+   <extends>QTextBrowser</extends>
+   <header>tweettextbrowser.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

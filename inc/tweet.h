@@ -22,12 +22,13 @@
 #define TWEET_H
 
 #include <QtGui/QWidget>
-#include "entry.h"
-#include "mainwindow.h"
-#include "core.h"
 #include <QMenu>
 #include <QSignalMapper>
 #include <QStandardItem>
+#include "mainwindow.h"
+#include "core.h"
+#include "entry.h"
+#include "tweetmodel.h"
 
 namespace Ui {
     class Tweet;
@@ -38,22 +39,30 @@ class Tweet : public QWidget {
   Q_DISABLE_COPY( Tweet )
 
 public:
-  explicit Tweet( const Entry &entry, const QImage &icon, const ThemeData &theme, MainWindow *parent );
+  explicit Tweet( const Entry &entry, const QImage &icon, MainWindow *parent );
   virtual ~Tweet();
   void resize( const QSize& );
   void resize( int w, int h );
   void setIcon( const QImage& );
   void retranslateUi();
   QString getUrlForIcon() const;
-  void applyTheme( const ThemeData &theme );
+  bool isRead() const;
+
+  static ThemeData getTheme();
+  static void setTheme( const ThemeData &theme );
+  static void setTweetListModel( TweetModel *tweetModel );
+
+  void applyTheme( bool read = false );
 
 public slots:
   void adjustSize();
   void menuRequested();
   void sendReply();
+  void markAsRead();
 
 signals:
   void reply( const QString& );
+  void markAllAsRead();
 
 protected:
   virtual void changeEvent( QEvent *e );
@@ -63,6 +72,7 @@ protected:
 private:
   QMenu *menu;
   QAction *replyAction;
+  QAction *markallasreadAction;
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;
@@ -71,6 +81,9 @@ private:
   MainWindow *parentMainWindow;
   QSignalMapper *signalMapper;
   QFont *menuFont;
+  bool read;
+  static ThemeData currentTheme;
+  static TweetModel* tweetListModel;
   Ui::Tweet *m_ui;
 };
 

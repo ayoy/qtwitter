@@ -24,7 +24,10 @@
 #include <QDebug>
 #include <QProcess>
 
-Tweet::Tweet( const Entry &entry, const QImage &icon, const ThemeData &theme, MainWindow *parent ) :
+ThemeData Tweet::currentTheme = ThemeData();
+TweetModel* Tweet::tweetListModel = 0;
+
+Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
   QWidget(parent),
   replyAction(0),
   gotohomepageAction(0),
@@ -32,6 +35,7 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, const ThemeData &theme, Ma
   deleteAction(0),
   model( entry ),
   parentMainWindow(parent),
+  read( false ),
   m_ui(new Ui::Tweet)
 {
   menu = new QMenu( this );
@@ -72,6 +76,11 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, const ThemeData &theme, Ma
     connect( signalMapper, SIGNAL(mapped(int)), parentMainWindow, SIGNAL(destroy(int)) );
   }
 
+  markallasreadAction = new QAction( tr( "Mark all as read" ), this );
+  menu->addAction( markallasreadAction );
+  markallasreadAction->setFont( *menuFont );
+  connect( markallasreadAction, SIGNAL(triggered()), tweetListModel, SLOT(markAllAsRead()) );
+
   menu->addSeparator();
 
   aboutAction = new QAction( tr( "About qTwitter..." ), this );
@@ -80,7 +89,10 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, const ThemeData &theme, Ma
   connect( aboutAction, SIGNAL(triggered()), parentMainWindow, SLOT(about()) );
 
   m_ui->setupUi( this );
-  applyTheme( theme );
+
+  connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(markAsRead()) );
+
+  applyTheme( );
   m_ui->userName->setText( model.name() );
   m_ui->userStatus->setHtml( model.text() );
   m_ui->userIcon->setPixmap( QPixmap::fromImage( icon ) );
@@ -162,12 +174,43 @@ void Tweet::sendReply()
   emit reply( model.login() );
 }
 
-void Tweet::applyTheme( const ThemeData &theme )
+void Tweet::setTheme( const ThemeData &theme )
 {
-  setStyleSheet( theme.styleSheet );
-  m_ui->userStatus->document()->setDefaultStyleSheet( theme.linkColor );
+  currentTheme = theme;
+}
+
+ThemeData Tweet::getTheme()
+{
+  return currentTheme;
+}
+
+void Tweet::setTweetListModel( TweetModel *tweetModel )
+{
+  tweetListModel = tweetModel;
+}
+
+void Tweet::applyTheme( bool read )
+{
+  if ( read ) {
+    setStyleSheet( currentTheme.read.styleSheet );
+    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.read.linkColor );
+  } else {
+    setStyleSheet( currentTheme.unread.styleSheet );
+    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.unread.linkColor );
+  }
   m_ui->userStatus->setHtml( model.text() );
   this->update();
+}
+
+bool Tweet::isRead() const
+{
+  return read;
+}
+
+void Tweet::markAsRead()
+{
+  read = true;
+  applyTheme( true );
 }
 
 void Tweet::retranslateUi()

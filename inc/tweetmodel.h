@@ -30,10 +30,10 @@ class TweetModel : public QStandardItemModel
 {
   Q_OBJECT
 
+  bool publicTimeline;
   bool modelToBeCleared;
   int scrollBarMargin;
   QListView *view;
-  ThemeData currentTheme;
 
 public:
   TweetModel( int margin, QListView *parentListView, QObject *parent = 0 );
@@ -45,8 +45,10 @@ public slots:
   void deleteTweet( int id );
   void setImageForUrl( const QString& url, QImage image );
   void resizeData( int width, int oldWidth );
-  void setModelToBeCleared();
+  void setModelToBeCleared( bool publicTimelineRequested );
   void retranslateUi();
+  void markAsRead( const QModelIndex &index );
+  void markAllAsRead();
 };
 
 #endif // TWEETMODEL_H

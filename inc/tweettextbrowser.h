@@ -18,60 +18,25 @@
  ***************************************************************************/
 
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef TWEETTEXTBROWSER_H
+#define TWEETTEXTBROWSER_H
 
-#include "ui_mainwindow.h"
-#include "tweetmodel.h"
+#include <QTextBrowser>
 
-#include <QSystemTrayIcon>
-#include <QModelIndex>
-
-class TweetModel;
-
-class MainWindow : public QWidget
+class TweetTextBrowser : public QTextBrowser
 {
   Q_OBJECT
-
-  static const QString APP_VERSION;
-
 public:
-  MainWindow( QWidget *parent = 0 );
-  ~MainWindow();
-  QListView* getListView();
-  int getScrollBarWidth();
-  void setListViewModel( TweetModel *model );
-  
-public slots:
-  void popupError( const QString &message );
-  void retranslateUi();
-  void changeListBackgroundColor( const QColor &newColor );
-  void about();
-
-private slots:
-  void iconActivated( QSystemTrayIcon::ActivationReason reason );
-  void changeLabel();
-  void sendStatus();
-  void resetStatus();
+  TweetTextBrowser( QWidget *parent = 0 ) : QTextBrowser( parent ) {}
+  void mousePressEvent ( QMouseEvent * e )
+  {
+    emit mousePressed();
+    QTextBrowser::mousePressEvent( e );
+  }
 
 signals:
-  void updateTweets();
-  void settingsDialogRequested();
-  void post( const QByteArray& );
-  void openBrowser( QString address = QString() );
-  void addReplyString( const QString& );
-  void destroy( int );
-  void resizeView( int width, int oldWidth );
-  void resetStatusEdit();
+  void mousePressed();
 
-protected:
-  void closeEvent( QCloseEvent *e );
-
-private:
-  void resizeEvent( QResizeEvent* );
-  QMenu *trayMenu;
-  QSystemTrayIcon *trayIcon;
-  Ui::MainWindow ui;
 };
 
-#endif //MAINWINDOW_H
+#endif // TWEETTEXTBROWSER_H

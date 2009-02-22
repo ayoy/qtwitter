@@ -33,19 +33,37 @@ class TweetModel;
 class MainWindow;
 class Core;
 
-struct ThemeData {
+struct ThemeElement {
   QString styleSheet;
   QString linkColor;
   QColor listBackgroundColor;
-  ThemeData() :
+  ThemeElement() :
       styleSheet( QString() ),
       linkColor( QString() ),
       listBackgroundColor( QColor() )
   {}
-  ThemeData( const QString &newStyleSheet, const QString &newLinkColor, const QColor &newListBackgroundColor ) :
+  ThemeElement( const QString &newStyleSheet, const QString &newLinkColor, const QColor &newListBackgroundColor ) :
       styleSheet( newStyleSheet ),
       linkColor( newLinkColor ),
       listBackgroundColor( newListBackgroundColor )
+  {}
+  ThemeElement( const ThemeElement &other ) :
+      styleSheet( other.styleSheet ),
+      linkColor( other.linkColor ),
+      listBackgroundColor( other.listBackgroundColor )
+  {}
+};
+
+struct ThemeData {
+  ThemeElement unread;
+  ThemeElement read;
+  ThemeData() :
+      unread(),
+      read()
+  {}
+  ThemeData( const ThemeElement &_unread, const ThemeElement &_read ) :
+      unread( _unread ),
+      read( _read )
   {}
 };
 

@@ -28,6 +28,8 @@ TweetModel::TweetModel( int margin, QListView *parentListView, QObject *parent )
   scrollBarMargin( margin ),
   view( parentListView )
 {
+  connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(markAsRead(QModelIndex)) );
+  Tweet::setTweetListModel( this );
 }
 
 void TweetModel::insertTweet( Entry *entry )
@@ -36,14 +38,22 @@ void TweetModel::insertTweet( Entry *entry )
     clear();
     modelToBeCleared = false;
   }
+
+  for ( int i = 0; i < rowCount(); ++i ) {
+    qDebug() << "processing entry" << i << entry->id() << item(i)->data().value<Entry>().id();
+    if ( entry->id() == item(i)->data().value<Entry>().id() ) {
+      qDebug() << "found existing entry of the same id";
+      return;
+    }
+  }
   QVariant data = qVariantFromValue( *entry );
   QStandardItem *newItem = new QStandardItem();
   newItem->setData( data );
   Tweet *newTweet;
   if ( entry->getType() == Entry::DirectMessage ) {
-    newTweet = new Tweet( *entry, QImage( ":/icons/mail_48.png" ), currentTheme, dynamic_cast<MainWindow*>( this->parent()) );
+    newTweet = new Tweet( *entry, QImage( ":/icons/mail_48.png" ), dynamic_cast<MainWindow*>( this->parent()) );
   } else {
-    newTweet = new Tweet( *entry, QImage(), currentTheme, dynamic_cast<MainWindow*>( this->parent()) );
+    newTweet = new Tweet( *entry, QImage(), dynamic_cast<MainWindow*>( this->parent()) );
   }
   newTweet->resize( view->width() - scrollBarMargin, newTweet->size().height() );
   newItem->setSizeHint( newTweet->size() );
@@ -62,7 +72,9 @@ void TweetModel::insertTweet( Entry *entry )
   }
   QStandardItemModel::appendRow( newItem );
   view->setIndexWidget( indexFromItem( newItem ), newTweet );
-  return;
+  if ( rowCount() > 20 ) {
+    this->removeRow( rowCount() - 1 );
+  }
 }
 
 
@@ -107,18 +119,40 @@ void TweetModel::resizeData( int width, int oldWidth )
   }
 }
 
-void TweetModel::setModelToBeCleared()
+void TweetModel::setModelToBeCleared( bool publicTimelineRequested )
 {
+  if ( (publicTimeline && publicTimelineRequested) || (!publicTimeline && !publicTimelineRequested) ) {
+    qDebug() << publicTimeline << publicTimelineRequested << "won't clear list";
+    modelToBeCleared = false;
+    return;
+  }
+  qDebug() << publicTimeline << publicTimelineRequested << "will clear list";
   modelToBeCleared = true;
 }
 
 void TweetModel::setTheme( const ThemeData &newTheme )
 {
-  currentTheme = newTheme;
+  Tweet::setTheme( newTheme );
   if ( rowCount() > 0 ) {
     for ( int i = 0; i < rowCount(); i++ ) {
       Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
-      aTweet->applyTheme( newTheme );
+      aTweet->applyTheme( aTweet->isRead() );
+    }
+  }
+}
+
+void TweetModel::markAsRead( const QModelIndex &index )
+{
+  Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( index ) );
+  aTweet->markAsRead();
+}
+
+void TweetModel::markAllAsRead()
+{
+  if ( rowCount() > 0 ) {
+    for ( int i = 0; i < rowCount(); i++ ) {
+      Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
+      aTweet->markAsRead();
     }
   }
 }

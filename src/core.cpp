@@ -125,27 +125,27 @@ void Core::destroyTweet( int id )
 }
 
 void Core::get() {
-  emit requestListRefresh();
   if ( downloadPublicTimeline ) {
-     xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
-     xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
-   } else {
-     if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-       if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
-         emit errorMessage( tr("Authentication is required to get your friends' updates.") );
-         return;
-       }
-     }
-     if ( downloadPublicTimeline ) {
-       xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
-       xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
-     } else {
-       qDebug() << "creating XmlDownload";
-       xmlGet = new XmlDownload ( XmlDownload::RefreshAll, this );
-       xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", XmlDownload::Statuses );
-       xmlGet->getContent( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
+    xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
+    xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
+  } else {
+    if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
+      if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
+        emit errorMessage( tr("Authentication is required to get your friends' updates.") );
+        return;
+      }
+    }
+    if ( downloadPublicTimeline ) {
+      xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
+      xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
+    } else {
+      qDebug() << "creating XmlDownload";
+      xmlGet = new XmlDownload ( XmlDownload::RefreshAll, this );
+      xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", XmlDownload::Statuses );
+      xmlGet->getContent( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
     }
   }
+  emit requestListRefresh( downloadPublicTimeline );
 }
 
 void Core::post( const QByteArray &status ) {
