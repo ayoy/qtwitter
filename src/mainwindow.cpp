@@ -122,10 +122,13 @@ void MainWindow::closeEvent( QCloseEvent *e )
 void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
 {
   switch ( reason ) {
-    case QSystemTrayIcon::DoubleClick:
     case QSystemTrayIcon::Trigger:
-      if ( !isVisible() || !QApplication::activeWindow() ) {
-        show();
+#ifdef Q_WS_WIN
+    if ( !isVisible() ) {
+#else
+    if ( !isVisible() || !QApplication::activeWindow() ) {
+#endif
+      show();
         raise();
         activateWindow();
       } else {

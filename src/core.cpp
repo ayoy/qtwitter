@@ -26,6 +26,7 @@
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
     downloadPublicTimeline( false ),
+    userChanged( false ),
     showingDialog( false ),
     xmlGet( NULL ),
     xmlPost( NULL ),
@@ -36,7 +37,7 @@ Core::Core( MainWindow *parent ) :
 
 Core::~Core() {}
 
-void Core::setTimerInterval( int msecs )
+bool Core::setTimerInterval( int msecs )
 {
   bool initialization = !(bool) timer;
   if ( initialization ) {
@@ -47,9 +48,10 @@ void Core::setTimerInterval( int msecs )
     timer->setInterval( msecs );
     timer->start();
     if ( !initialization ) {
-      get();
+      return true;
     }
   }
+  return false;
 }
 
 void Core::forceGet()
@@ -91,16 +93,27 @@ void Core::setImageInHash( const QString &url, QImage image ) {
   emit setImageForUrl( url, image );
 }
 
-void Core::setDownloadPublicTimeline( bool b ) {
+bool Core::setDownloadPublicTimeline( bool b ) {
   if ( downloadPublicTimeline != b ) {
     downloadPublicTimeline = b;
-    get();
+    return true;
   }
+  return false;
 }
 
 bool Core::downloadsPublicTimeline() {
   return downloadPublicTimeline;
 }
+
+void Core::applySettings( int msecsTimeInterval, const QString &user, const QString &password, bool publicTimelineRequested )
+{
+  bool a = setTimerInterval( msecsTimeInterval );
+  bool b = setAuthData( user, password );
+  bool c = setDownloadPublicTimeline( publicTimelineRequested );
+  if ( a || b || c )
+    get();
+}
+
 
 void Core::newEntry( Entry *entry )
 {
@@ -120,7 +133,6 @@ void Core::destroyTweet( int id )
     }
   }
   xmlPost = new XmlDownload( XmlDownload::Destroy, this );
-
   xmlPost->postContent( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), XmlDownload::Statuses );
 }
 
@@ -132,6 +144,7 @@ void Core::get() {
     if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
       if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
         emit errorMessage( tr("Authentication is required to get your friends' updates.") );
+        userChanged = false;
         return;
       }
     }
@@ -145,7 +158,8 @@ void Core::get() {
       xmlGet->getContent( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
     }
   }
-  emit requestListRefresh( downloadPublicTimeline );
+  emit requestListRefresh( downloadPublicTimeline, userChanged );
+  userChanged = false;
 }
 
 void Core::post( const QByteArray &status ) {
@@ -194,13 +208,13 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
   if (dlg.exec() == QDialog::Accepted) {
     if ( ui.publicBox->isChecked() ) {
       downloadPublicTimeline = true;
+      userChanged = false;
       showingDialog = false;
       emit switchToPublic();
       get();
       return SwitchToPublic;
     }
-    authData.setUser( ui.loginEdit->text() );
-    authData.setPassword( ui.passwordEdit->text() );
+    setAuthData( ui.loginEdit->text(), ui.passwordEdit->text() );
     emit authDataSet( authData );
     showingDialog = false;
     return Accepted;
@@ -210,16 +224,15 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
   return Rejected;
 }
 
-void Core::setAuthData( const QString &user, const QString &password ) {
-  bool refreshTweets = false;
+bool Core::setAuthData( const QString &user, const QString &password ) {
+  userChanged = false;
+  QString uuu( authData.user() );
   if ( authData.user().compare( user ) ) {
     authData.setUser( user );
-    refreshTweets = true;
+    userChanged = true;
   }
   authData.setPassword( password );
-  if ( refreshTweets ) {
-    get();
-  }
+  return userChanged;
 }
 
 const QAuthenticator& Core::getAuthData() const

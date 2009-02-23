@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS><TS version="1.1" language="pl">
+<defaultcodec></defaultcodec>
 <context encoding="UTF-8">
     <name>AboutDialog</name>
     <message>
@@ -73,37 +74,34 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Core</name>
     <message>
-        <location filename="" line="0"/>
         <source>Authentication is required to get your friends&apos; updates</source>
         <translation type="obsolete">Do pobrania statusów znajomych wymagana jest autoryzacja</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>Authentication is required to post updates</source>
         <translation type="obsolete">Do publikowania aktualizacji wymagana jest autoryzacja</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>Browser path is not defined. Specify it in Settings-&gt;Network section. </source>
         <translation type="obsolete">Przeglądarka nie jest zdefiniowana. Ustaw ją w sekcji Ustawienia-&gt;Sieć.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="118"/>
+        <location filename="../src/core.cpp" line="131"/>
         <source>Authentication is required to delete updates.</source>
         <translation>Do kasowania statusów wymagana jest autoryzacja.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="135"/>
+        <location filename="../src/core.cpp" line="146"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>Do pobrania statusów znajomych wymagana jest autoryzacja.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="154"/>
+        <location filename="../src/core.cpp" line="168"/>
         <source>Authentication is required to post updates.</source>
         <translation>Do publikowania aktualizacji wymagana jest autoryzacja.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="247"/>
+        <location filename="../src/core.cpp" line="260"/>
         <source>Browser path is not defined. Specify it in Settings-&gt;Network section.</source>
         <translation>Przeglądarka nie jest zdefiniowana. Ustaw ją w sekcji Ustawienia-&gt;Sieć.</translation>
     </message>
@@ -127,7 +125,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="161"/>
+        <location filename="../src/mainwindow.cpp" line="168"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -137,52 +135,50 @@ p, li { white-space: pre-wrap; }
         <translation>qTwitter</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="194"/>
+        <location filename="../ui/mainwindow.ui" line="218"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="226"/>
+        <location filename="../ui/mainwindow.ui" line="250"/>
         <source>What are you doing?</source>
         <translation>Co teraz robisz?</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>140</source>
         <translation type="obsolete">140</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source> characters left</source>
         <translation type="obsolete"> znaków pozostało</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="145"/>
+        <location filename="../ui/mainwindow.ui" line="169"/>
         <source>Go to twitter.com</source>
         <translation>Idź do twitter.com</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="165"/>
+        <location filename="../ui/mainwindow.ui" line="189"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="188"/>
+        <location filename="../ui/mainwindow.ui" line="212"/>
         <source>Update tweets</source>
         <translation>Aktualizuj statusy</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="72"/>
+        <location filename="../src/mainwindow.cpp" line="73"/>
         <source>Show</source>
         <translation>Pokaż</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="73"/>
+        <location filename="../src/mainwindow.cpp" line="74"/>
         <source>Quit</source>
         <translation>Wyjdź</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="139"/>
+        <location filename="../src/mainwindow.cpp" line="146"/>
         <source>characters left</source>
         <translation>znaków pozostało</translation>
     </message>
@@ -275,32 +271,29 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>General </source>
         <translation type="obsolete">Ogólne</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>Network </source>
         <translation type="obsolete">Sieć</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>Use HTTP proxy</source>
         <translation type="obsolete">Używaj &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="345"/>
+        <location filename="../src/settings.cpp" line="362"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="346"/>
+        <location filename="../src/settings.cpp" line="363"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="347"/>
+        <location filename="../src/settings.cpp" line="364"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -330,22 +323,22 @@ p, li { white-space: pre-wrap; }
         <translation>aktualizacje wszystkich użytkowników</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="342"/>
+        <location filename="../src/settings.cpp" line="359"/>
         <source>Specify web browser:</source>
         <translation>Ścieżka do przeglądarki:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="343"/>
+        <location filename="../src/settings.cpp" line="360"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="313"/>
+        <location filename="../src/settings.cpp" line="330"/>
         <source>Select your browser executable</source>
         <translation>Wybierz przeglądarkę internetową</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="313"/>
+        <location filename="../src/settings.cpp" line="330"/>
         <source>All files (*)</source>
         <translation>Wszystkie pliki (*)</translation>
     </message>
@@ -376,39 +369,42 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>Reply to </source>
         <translation type="obsolete">Odpowiedz do</translation>
     </message>
     <message>
-        <location filename="" line="0"/>
         <source>Go to homepage</source>
         <translation type="obsolete">Idź do strony domowej</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="176"/>
+        <location filename="../src/tweet.cpp" line="219"/>
         <source>Reply to</source>
         <translation>Odpowiedz do</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="182"/>
+        <location filename="../src/tweet.cpp" line="225"/>
         <source>Go to User&apos;s Twitter page</source>
         <translation>Idź do strony na Twitterze</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="179"/>
+        <location filename="../src/tweet.cpp" line="222"/>
         <source>Go to User&apos;s homepage</source>
         <translation>Idź do strony domowej</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="185"/>
+        <location filename="../src/tweet.cpp" line="228"/>
         <source>Delete tweet</source>
         <translation>Usuń status</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="187"/>
+        <location filename="../src/tweet.cpp" line="230"/>
         <source>About qTwitter...</source>
         <translation>O programie...</translation>
+    </message>
+    <message>
+        <location filename="../src/tweet.cpp" line="79"/>
+        <source>Mark all as read</source>
+        <translation>Zaznacz wszystkie jako przeczytane</translation>
     </message>
 </context>
 <context>

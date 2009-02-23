@@ -47,7 +47,14 @@ public:
   Core( MainWindow *parent = 0 );
   virtual ~Core();
   bool downloadsPublicTimeline();
-  void setTimerInterval( int msecs );
+
+// These 3 methods return a bool value indicating whether
+// there is a need for updating Tweets, used later in applySettings()
+  bool setTimerInterval( int msecs );
+  bool setAuthData( const QString &user, const QString &password );
+  bool setDownloadPublicTimeline( bool );
+
+  void applySettings( int msecsTimeInterval, const QString &user, const QString &password, bool publicTimelineRequested );
 #ifdef Q_WS_X11
   void setBrowserPath( const QString& );
 #endif
@@ -57,10 +64,8 @@ public slots:
   void post( const QByteArray &status );
 
   AuthDialogState authDataDialog( const QString &user = QString(), const QString &password = QString() );
-  void setAuthData( const QString &user, const QString &password );
   const QAuthenticator& getAuthData() const;
   void storeCookie( const QStringList );
-  void setDownloadPublicTimeline( bool );
   void openBrowser( QString address = QString() );
   void downloadOneImage( Entry *entry );
   void destroyTweet( int id );
@@ -80,11 +85,12 @@ signals:
   void deleteEntry( int );
   void setImage( const Entry&, QImage );
   void setImageForUrl( const QString&, QImage );
-  void requestListRefresh( bool downloadPublicTimeline );
+  void requestListRefresh( bool, bool );
   void resetUi();
 
 private:
   bool downloadPublicTimeline;
+  bool userChanged;
   bool showingDialog;
   XmlDownload *xmlGet;
   XmlDownload *xmlPost;

@@ -34,13 +34,13 @@ TweetModel::TweetModel( int margin, QListView *parentListView, QObject *parent )
 
 void TweetModel::insertTweet( Entry *entry )
 {
-  if ( modelToBeCleared ) {
+  if ( modelToBeCleared ) {//|| !publicTimeline ) {
     clear();
     modelToBeCleared = false;
   }
 
   for ( int i = 0; i < rowCount(); ++i ) {
-    qDebug() << "processing entry" << i << entry->id() << item(i)->data().value<Entry>().id();
+    //qDebug() << "processing entry" << i << entry->id() << item(i)->data().value<Entry>().id();
     if ( entry->id() == item(i)->data().value<Entry>().id() ) {
       qDebug() << "found existing entry of the same id";
       return;
@@ -76,7 +76,6 @@ void TweetModel::insertTweet( Entry *entry )
     this->removeRow( rowCount() - 1 );
   }
 }
-
 
 void TweetModel::deleteTweet( int id )
 {
@@ -119,15 +118,23 @@ void TweetModel::resizeData( int width, int oldWidth )
   }
 }
 
-void TweetModel::setModelToBeCleared( bool publicTimelineRequested )
+void TweetModel::setModelToBeCleared( bool publicTimelineRequested, bool userChanged )
 {
-  if ( (publicTimeline && publicTimelineRequested) || (!publicTimeline && !publicTimelineRequested) ) {
-    qDebug() << publicTimeline << publicTimelineRequested << "won't clear list";
+  bool timelineChanged = (!publicTimeline && publicTimelineRequested) || (publicTimeline && !publicTimelineRequested);
+  if ( (!publicTimeline && !timelineChanged && !userChanged) || (publicTimeline && !timelineChanged) ) {
+    qDebug() << publicTimeline << publicTimelineRequested << userChanged << "won't clear list";
     modelToBeCleared = false;
+    publicTimeline = publicTimelineRequested;
     return;
   }
-  qDebug() << publicTimeline << publicTimelineRequested << "will clear list";
+  qDebug() << publicTimeline << publicTimelineRequested << userChanged << "will clear list";
   modelToBeCleared = true;
+  publicTimeline = publicTimelineRequested;
+}
+
+void TweetModel::setPublicTimeline( bool b )
+{
+  publicTimeline = b;
 }
 
 void TweetModel::setTheme( const ThemeData &newTheme )
@@ -164,4 +171,3 @@ void TweetModel::retranslateUi()
     aTweet->retranslateUi();
   }
 }
-

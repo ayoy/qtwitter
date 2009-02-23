@@ -45,7 +45,8 @@ public slots:
   void deleteTweet( int id );
   void setImageForUrl( const QString& url, QImage image );
   void resizeData( int width, int oldWidth );
-  void setModelToBeCleared( bool publicTimelineRequested );
+  void setModelToBeCleared( bool publicTimelineRequested, bool userChanged );
+  void setPublicTimeline( bool );
   void retranslateUi();
   void markAsRead( const QModelIndex &index );
   void markAllAsRead();
