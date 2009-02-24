@@ -27,14 +27,13 @@
 ThemeData Tweet::currentTheme = ThemeData();
 TweetModel* Tweet::tweetListModel = 0;
 
-Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
+Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   QWidget(parent),
   replyAction(0),
   gotohomepageAction(0),
   gototwitterpageAction(0),
   deleteAction(0),
   model( entry ),
-  parentMainWindow(parent),
   read( false ),
   m_ui(new Ui::Tweet)
 {
@@ -48,7 +47,7 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
     menu->addAction( replyAction );
     replyAction->setFont( *menuFont );
     connect( replyAction, SIGNAL(triggered()), this, SLOT(sendReply()) );
-    connect( this, SIGNAL(reply(QString)), parent, SIGNAL(addReplyString(QString)) );
+    connect( this, SIGNAL(reply(QString)), tweetListModel, SIGNAL(addReplyString(QString)) );
   }
 
   signalMapper = new QSignalMapper( this );
@@ -57,10 +56,10 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
   gototwitterpageAction->setFont( *menuFont );
   signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + model.login() );
   connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-  connect( signalMapper, SIGNAL(mapped(QString)), parentMainWindow, SIGNAL(openBrowser(QString)) );
+  connect( signalMapper, SIGNAL(mapped(QString)), tweetListModel, SIGNAL(openBrowser(QString)) );
 
   if ( model.homepage().compare("") ) {
-    gotohomepageAction = new QAction( tr("Go to User's homepage"), this);
+    gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
     menu->addAction( gotohomepageAction );
     gotohomepageAction->setFont( *menuFont );
     signalMapper->setMapping( gotohomepageAction, model.homepage() );
@@ -73,7 +72,7 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
     deleteAction->setFont( *menuFont );
     signalMapper->setMapping( deleteAction, model.id() );
     connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-    connect( signalMapper, SIGNAL(mapped(int)), parentMainWindow, SIGNAL(destroy(int)) );
+    connect( signalMapper, SIGNAL(mapped(int)), tweetListModel, SIGNAL(destroy(int)) );
   }
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
@@ -86,11 +85,11 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
   aboutAction = new QAction( tr( "About qTwitter..." ), this );
   menu->addAction( aboutAction );
   aboutAction->setFont( *menuFont );
-  connect( aboutAction, SIGNAL(triggered()), parentMainWindow, SLOT(about()) );
+  connect( aboutAction, SIGNAL(triggered()), tweetListModel, SIGNAL(about()) );
 
   m_ui->setupUi( this );
 
-  connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(selectRequest()) );
+  connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
   connect( this, SIGNAL(selectMe(Tweet*)), tweetListModel, SLOT(select(Tweet*)) );
 
   applyTheme( );
@@ -98,6 +97,7 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
   m_ui->userStatus->setHtml( model.text() );
   m_ui->userIcon->setPixmap( QPixmap::fromImage( icon ) );
   adjustSize();
+  this->setFocusProxy( m_ui->userStatus );
   connect( m_ui->menuButton, SIGNAL(pressed()), this, SLOT(menuRequested()) );
 }
 
@@ -193,15 +193,15 @@ void Tweet::setTweetListModel( TweetModel *tweetModel )
 void Tweet::applyTheme( Settings::ThemeVariant variant )
 {
   switch ( variant ) {
-case Settings::Unread:
+  case Settings::Unread:
     setStyleSheet( currentTheme.unread.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.unread.linkColor );
     break;
-case Settings::Active:
+  case Settings::Active:
     setStyleSheet( currentTheme.active.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.active.linkColor );
     break;
-case Settings::Read:
+  case Settings::Read:
     setStyleSheet( currentTheme.read.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.read.linkColor );
   }
@@ -217,14 +217,12 @@ bool Tweet::isRead() const
 void Tweet::markAsRead()
 {
   read = true;
-//  applyTheme( true );
 }
 
 void Tweet::markAsUnread()
 {
   read = false;
   applyTheme( Settings::Unread );
-//  applyTheme( true );
 }
 
 void Tweet::setRead()
@@ -237,7 +235,7 @@ void Tweet::setActive()
   applyTheme( Settings::Active );
 }
 
-void Tweet::selectRequest()
+void Tweet::focusRequest()
 {
   emit selectMe( this );
 }

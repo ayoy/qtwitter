@@ -40,7 +40,7 @@ class Tweet : public QWidget {
   Q_DISABLE_COPY( Tweet )
 
 public:
-  explicit Tweet( const Entry &entry, const QImage &icon, MainWindow *parent );
+  explicit Tweet( const Entry &entry, const QImage &icon, QWidget *parent );
   virtual ~Tweet();
   void resize( const QSize& );
   void resize( int w, int h );
@@ -65,7 +65,7 @@ public slots:
   void setActive();
 
 private slots:
-  void selectRequest();
+  void focusRequest();
 
 signals:
   void reply( const QString& );
@@ -86,7 +86,6 @@ private:
   QAction *deleteAction;
   QAction *aboutAction;
   Entry model;
-  MainWindow *parentMainWindow;
   QSignalMapper *signalMapper;
   QFont *menuFont;
   bool read;

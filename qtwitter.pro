@@ -32,7 +32,8 @@ HEADERS += inc/mainwindow.h \
     inc/settings.h \
     inc/tweet.h \
     inc/tweetmodel.h \
-    inc/tweettextbrowser.h
+    inc/tweettextbrowser.h \
+    inc/statuslist.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \

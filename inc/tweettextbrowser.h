@@ -22,6 +22,7 @@
 #define TWEETTEXTBROWSER_H
 
 #include <QTextBrowser>
+#include <QKeyEvent>
 
 class TweetTextBrowser : public QTextBrowser
 {
@@ -32,6 +33,11 @@ public:
   {
     emit mousePressed();
     QTextBrowser::mousePressEvent( e );
+  }
+
+  void keyPressEvent( QKeyEvent *e )
+  {
+    e->ignore();
   }
 
 signals:

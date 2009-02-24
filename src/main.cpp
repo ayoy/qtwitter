@@ -42,9 +42,12 @@ int main( int argc, char **argv )
 
   QObject::connect( &qtwitter, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   QObject::connect( &qtwitter, SIGNAL(openBrowser(QString)), core, SLOT(openBrowser(QString)) );
+  QObject::connect( model, SIGNAL(openBrowser(QString)), core, SLOT(openBrowser(QString)) );
+  QObject::connect( model, SIGNAL(addReplyString(QString)), &qtwitter, SIGNAL(addReplyString(QString)) );
+  QObject::connect( model, SIGNAL(about()), &qtwitter, SLOT(about()) );
+  QObject::connect( model, SIGNAL(destroy(int)), core, SLOT(destroyTweet(int)) );
   QObject::connect( &qtwitter, SIGNAL(post(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
-  QObject::connect( &qtwitter, SIGNAL(destroy(int)), core, SLOT(destroyTweet(int)) );
   QObject::connect( &qtwitter, SIGNAL(resizeView(int,int)), model, SLOT(resizeData(int,int)));
   QObject::connect( core, SIGNAL(authDataSet(QAuthenticator)), settings, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;
   QObject::connect( core, SIGNAL(switchToPublic()), settings, SLOT(switchToPublic()) );
@@ -56,7 +59,7 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(resetUi()), &qtwitter, SIGNAL(resetStatusEdit()) );
   QObject::connect( core, SIGNAL(timelineUpdated()), model, SIGNAL(newTimelineInfo()) );
   if ( QSystemTrayIcon::supportsMessages() ) {
-    QObject::connect( model, SIGNAL(newTweets(QStringList,QStringList)), &qtwitter, SLOT(popupMessage(QStringList,QStringList)) );
+    QObject::connect( model, SIGNAL(newTweets(int,QStringList,int,QStringList)), &qtwitter, SLOT(popupMessage(int,QStringList,int,QStringList)) );
   }
   QObject::connect( qApp, SIGNAL(aboutToQuit()), settings, SLOT(saveConfig()) );
 

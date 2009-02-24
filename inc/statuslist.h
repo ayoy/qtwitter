@@ -18,60 +18,35 @@
  ***************************************************************************/
 
 
-#ifndef MAINWINDOW_H
-#define MAINWINDOW_H
+#ifndef STATUSLIST_H
+#define STATUSLIST_H
 
-#include "ui_mainwindow.h"
-#include "tweetmodel.h"
+#include <QListView>
+#include <QKeyEvent>
 
-#include <QSystemTrayIcon>
-#include <QModelIndex>
-
-class TweetModel;
-
-class MainWindow : public QWidget
+class StatusList : public QListView
 {
   Q_OBJECT
 
-  static const QString APP_VERSION;
-
 public:
-  MainWindow( QWidget *parent = 0 );
-  ~MainWindow();
-  StatusList* getListView();
-  int getScrollBarWidth();
-  void setListViewModel( TweetModel *model );
-  
-public slots:
-  void popupError( const QString &message );
-  void retranslateUi();
-  void changeListBackgroundColor( const QColor &newColor );
-  void popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages );
-  void about();
+  StatusList( QWidget *parent = 0 ) : QListView( parent ) {}
 
-private slots:
-  void iconActivated( QSystemTrayIcon::ActivationReason reason );
-  void changeLabel();
-  void sendStatus();
-  void resetStatus();
+  void keyPressEvent( QKeyEvent *e ) {
+    switch ( e->key() ) {
+    case Qt::Key_Up:
+      emit moveFocus( true );
+      break;
+    case Qt::Key_Down:
+      emit moveFocus( false );
+    default:;
+    }
+    QListView::keyPressEvent( e );
+  }
 
 signals:
-  void updateTweets();
-  void settingsDialogRequested();
-  void post( const QByteArray& );
-  void openBrowser( QString address = QString() );
-  void addReplyString( const QString& );
-  void resizeView( int width, int oldWidth );
-  void resetStatusEdit();
+  void moveFocus( bool up );
 
-protected:
-  void closeEvent( QCloseEvent *e );
-
-private:
-  void resizeEvent( QResizeEvent* );
-  QMenu *trayMenu;
-  QSystemTrayIcon *trayIcon;
-  Ui::MainWindow ui;
 };
 
-#endif //MAINWINDOW_H
+
+#endif // STATUSLIST_H

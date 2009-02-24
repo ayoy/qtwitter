@@ -25,6 +25,7 @@
 #include <QListView>
 #include "entry.h"
 #include "settings.h"
+#include "statuslist.h"
 
 class Tweet;
 
@@ -36,17 +37,19 @@ class TweetModel : public QStandardItemModel
   bool modelToBeCleared;
   bool statusesFinished;
   bool messagesFinished;
+  int newStatuses;
+  int newMessages;
   QStringList incomingStatuses;
   QStringList incomingMessages;
   int scrollBarMargin;
   QModelIndex currentIndex;
-  QListView *view;
+  StatusList *view;
   void addUnreadEntry( Entry* );
   Tweet* getTweetFromIndex( int );
   Tweet* getTweetFromIndex( QModelIndex );
 
 public:
-  TweetModel( int margin, QListView *parentListView, QObject *parent = 0 );
+  TweetModel( int margin, StatusList *parentListView, QObject *parent = 0 );
   void setScrollBarMargin( int width );
   void setTheme( const ThemeData &newTheme );
   void deselectCurrent();
@@ -63,10 +66,15 @@ public slots:
   void select( Tweet *tweet );
   void markAllAsRead();
   void sendTimelineInfo();
+  void moveFocus( bool up );
 
 signals:
-  void newTweets( QStringList namesForStatuses, QStringList namesForMessages );
+  void newTweets( int numberOfStatuses, QStringList namesForStatuses, int numberOfMessages, QStringList namesForMessages );
   void newTimelineInfo();
+  void openBrowser( QString address = QString() );
+  void addReplyString( const QString& );
+  void about();
+  void destroy( int );
 };
 
 #endif // TWEETMODEL_H

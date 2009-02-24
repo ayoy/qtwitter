@@ -94,7 +94,7 @@ MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
 
 MainWindow::~MainWindow() {}
 
-QListView* MainWindow::getListView()
+StatusList* MainWindow::getListView()
 {
   return ui.statusListView;
 }
@@ -168,20 +168,48 @@ void MainWindow::popupError( const QString &message )
   QMessageBox::critical( this, tr("Error"), message );
 }
 
-void MainWindow::popupMessage( QStringList namesForStatuses, QStringList namesForMessages )
+void MainWindow::popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages )
 {
   QRegExp rx( ", " );
   QString message;
+#ifdef Q_WS_MAC
+  QString title;
   if ( !namesForStatuses.isEmpty() ) {
-    message = namesForStatuses.join(", ") + ".";
-    message.replace( rx.lastIndexIn( message ), rx.pattern().length(), " and " );
-    trayIcon->showMessage( "New tweets", message.prepend( "from "), QSystemTrayIcon::Information, 5000 );
+    title.append( QString::number( statusesCount ) + " " );
+    statusesCount == 1 ? title.append( tr( "new tweet" ) ) : title.append( tr( "new tweets" ) );
+    message.append( tr( "from" ) + " " + namesForStatuses.join( ", " ) + "." );
+    message.replace( rx.lastIndexIn( message ), rx.pattern().length(), " " + tr( "and" ) + " " );
+    trayIcon->showMessage( title, message, QSystemTrayIcon::Information );
   }
   if ( !namesForMessages.isEmpty() ) {
-    message = namesForMessages.join(", ") + ".";
-    message.replace( rx.lastIndexIn( message ), rx.pattern().length(), " and " );
-    trayIcon->showMessage( "New messages", message.prepend( "from "), QSystemTrayIcon::Information, 5000 );
+    message.clear();
+    title.clear();
+    title.append( QString::number( messagesCount ) + " " );
+    messagesCount == 1 ? title.append( tr( "new message from" ) ) : title.append( tr( "new messages from" ) );
+    message.append( tr( "from" ) + " " + namesForMessages.join(", ") + "." );
+    message.replace( rx.lastIndexIn( message ), rx.pattern().length(), " " + tr( "and" ) + " " );
+    trayIcon->showMessage( title, message, QSystemTrayIcon::Information );
   }
+#else
+  if ( !namesForStatuses.isEmpty() ) {
+    message.append( QString::number( statusesCount ) + " " );
+    statusesCount == 1 ? message.append( tr( "new tweet from" ) ) : message.append( tr( "new tweets from" ) );
+    message.append( " " + namesForStatuses.join( ", " ) + "." );
+    message.replace( rx.lastIndexIn( message ), rx.pattern().length(), " " + tr( "and" ) + " " );
+  }
+  if ( !namesForMessages.isEmpty() ) {
+    if ( !namesForStatuses.isEmpty() ) {
+      message.append( "\n\n" );
+    }
+    message.append( QString::number( messagesCount ) + " " );
+    messagesCount == 1 ? message.append( tr( "New message from" ) ) : message.append( tr( "New messages from" ) );
+    message.append( " " + namesForMessages.join( ", " ) + "." );
+    message.replace( rx.lastIndexIn( message ), rx.pattern().length(), " " + tr( "and" ) + " " );
+  }
+  if ( !namesForMessages.isEmpty() || !namesForStatuses.isEmpty() ) {
+    trayIcon->showMessage( tr( "News from qTwitter" ), message, QSystemTrayIcon::Information );
+  }
+#endif
 }
 
 void MainWindow::changeListBackgroundColor(const QColor &newColor )

@@ -1,3 +1,5 @@
+- enabled arrow keys navigation through the statuses list,
+- added system tray notifications (via knotify on Linux and Growl on MacOS X),
 - added support for marking Tweets as read and highlighting current selection.
 v0.3.1 (2009/02/21):
 - MacOS X version now built with Qt 4.5.0-rc1, working as an agent enabled - no Dock icon nor menu bar,
