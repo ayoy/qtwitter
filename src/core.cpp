@@ -30,7 +30,9 @@ Core::Core( MainWindow *parent ) :
     showingDialog( false ),
     xmlGet( NULL ),
     xmlPost( NULL ),
-    timer( NULL )
+    timer( NULL ),
+    statusesFinished( false ),
+    messagesFinished( false )
 {
   connect( this, SIGNAL(xmlConnectionIdle()), SLOT(destroyXmlConnection()) );
 }
@@ -59,6 +61,7 @@ void Core::forceGet()
   timer->start();
   get();
 }
+
 
 void Core::downloadOneImage( Entry *entry ) {
   if ( entry->getType() == Entry::Status ) {
@@ -114,13 +117,30 @@ void Core::applySettings( int msecsTimeInterval, const QString &user, const QStr
     get();
 }
 
-
 void Core::newEntry( Entry *entry )
 {
   if ( entry->login() == authData.user() ) {
     entry->setOwn( true );
   }
   emit addOneEntry( entry );
+}
+
+void Core::setFlag( XmlDownload::ContentRequested flag )
+{
+  switch ( flag ) {
+    case XmlDownload::DirectMessages:
+      messagesFinished = true;
+      break;
+    case XmlDownload::Statuses:
+    default:
+      statusesFinished = true;
+  }
+  if ( statusesFinished && ( downloadPublicTimeline ? true : messagesFinished ) ) {
+    emit timelineUpdated();
+    emit resetUi();
+    statusesFinished = false;
+    messagesFinished = false;
+  }
 }
 
 void Core::destroyTweet( int id )
@@ -134,6 +154,8 @@ void Core::destroyTweet( int id )
   }
   xmlPost = new XmlDownload( XmlDownload::Destroy, this );
   xmlPost->postContent( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), XmlDownload::Statuses );
+  emit requestListRefresh( downloadPublicTimeline, userChanged );
+  userChanged = false;
 }
 
 void Core::get() {
@@ -175,6 +197,8 @@ void Core::post( const QByteArray &status ) {
   qDebug() << request;
   xmlPost = new XmlDownload( XmlDownload::Submit, this );
   xmlPost->postContent( "http://twitter.com/statuses/update.xml", request, XmlDownload::Statuses );
+  emit requestListRefresh( downloadPublicTimeline, userChanged );
+  userChanged = false;
 }
 
 void Core::destroyXmlConnection() {

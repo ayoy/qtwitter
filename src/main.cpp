@@ -22,6 +22,7 @@
 #include "tweetmodel.h"
 #include "settings.h"
 #include "core.h"
+#include <QSystemTrayIcon>
 
 //Q_IMPORT_PLUGIN(qjpeg)
 //Q_IMPORT_PLUGIN(qgif)
@@ -53,6 +54,10 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
   QObject::connect( core, SIGNAL(requestListRefresh(bool,bool)), model, SLOT(setModelToBeCleared(bool,bool)) );
   QObject::connect( core, SIGNAL(resetUi()), &qtwitter, SIGNAL(resetStatusEdit()) );
+  QObject::connect( core, SIGNAL(timelineUpdated()), model, SIGNAL(newTimelineInfo()) );
+  if ( QSystemTrayIcon::supportsMessages() ) {
+    QObject::connect( model, SIGNAL(newTweets(QStringList,QStringList)), &qtwitter, SLOT(popupMessage(QStringList,QStringList)) );
+  }
   QObject::connect( qApp, SIGNAL(aboutToQuit()), settings, SLOT(saveConfig()) );
 
   qtwitter.show();

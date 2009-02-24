@@ -70,6 +70,7 @@ public slots:
   void downloadOneImage( Entry *entry );
   void destroyTweet( int id );
   void forceGet();
+  void setFlag( XmlDownload::ContentRequested );
 
 private slots:
   void destroyXmlConnection();
@@ -87,6 +88,7 @@ signals:
   void setImageForUrl( const QString&, QImage );
   void requestListRefresh( bool, bool );
   void resetUi();
+  void timelineUpdated();
 
 private:
   bool downloadPublicTimeline;
@@ -99,10 +101,12 @@ private:
   MapStringImage imagesHash;
   QAuthenticator authData;
   QStringList cookie;
+  QTimer *timer;
+  bool statusesFinished;
+  bool messagesFinished;
 #ifdef Q_WS_X11
   QString browserPath;
 #endif
-  QTimer *timer;
 };
 
 

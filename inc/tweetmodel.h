@@ -34,14 +34,22 @@ class TweetModel : public QStandardItemModel
 
   bool publicTimeline;
   bool modelToBeCleared;
+  bool statusesFinished;
+  bool messagesFinished;
+  QStringList incomingStatuses;
+  QStringList incomingMessages;
   int scrollBarMargin;
   QModelIndex currentIndex;
   QListView *view;
+  void addUnreadEntry( Entry* );
+  Tweet* getTweetFromIndex( int );
+  Tweet* getTweetFromIndex( QModelIndex );
 
 public:
   TweetModel( int margin, QListView *parentListView, QObject *parent = 0 );
   void setScrollBarMargin( int width );
   void setTheme( const ThemeData &newTheme );
+  void deselectCurrent();
 
 public slots:
   void insertTweet( Entry *entry );
@@ -54,6 +62,11 @@ public slots:
   void select( const QModelIndex &index );
   void select( Tweet *tweet );
   void markAllAsRead();
+  void sendTimelineInfo();
+
+signals:
+  void newTweets( QStringList namesForStatuses, QStringList namesForMessages );
+  void newTimelineInfo();
 };
 
 #endif // TWEETMODEL_H

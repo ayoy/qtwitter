@@ -78,7 +78,7 @@ XmlDownload::Role XmlDownload::role() const
 void XmlDownload::createConnections( Core *coreParent )
 {
   connect( statusParser, SIGNAL(dataParsed(QString)), this, SIGNAL(dataParsed(QString)));
-  connect( this, SIGNAL(finished()), coreParent, SIGNAL(resetUi()) );
+  connect( this, SIGNAL(finished(XmlDownload::ContentRequested)), coreParent, SLOT(setFlag(XmlDownload::ContentRequested)) );
   connect( this, SIGNAL(errorMessage(QString)), coreParent, SIGNAL(errorMessage(QString)) );
   if ( connectionRole == Destroy ) {
     connect( statusParser, SIGNAL(newEntry(Entry*)), this, SLOT(extractId(Entry*)) );
@@ -202,7 +202,9 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
     }
     xmlReader.parse( source );
     if ( requestId == statusesData.id ) {
-      emit finished();
+      emit finished( Statuses );
+    } else if ( requestId == directMessagesData.id ) {
+      emit finished( DirectMessages );
     }
     qDebug() << "========= XML PARSING FINISHED =========";
   }

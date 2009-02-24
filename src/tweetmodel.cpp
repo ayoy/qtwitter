@@ -25,12 +25,22 @@
 TweetModel::TweetModel( int margin, QListView *parentListView, QObject *parent ) :
   QStandardItemModel( 0, 0, parent ),
   modelToBeCleared( false ),
+  statusesFinished( false ),
+  messagesFinished( false ),
   scrollBarMargin( margin ),
   currentIndex( QModelIndex() ),
   view( parentListView )
 {
   connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(select(QModelIndex)) );
+  connect( this, SIGNAL(newTimelineInfo()), SLOT(sendTimelineInfo()) );
   Tweet::setTweetListModel( this );
+}
+
+void TweetModel::sendTimelineInfo()
+{
+  emit newTweets( incomingStatuses, incomingMessages );
+  incomingStatuses.clear();
+  incomingMessages.clear();
 }
 
 void TweetModel::insertTweet( Entry *entry )
@@ -43,9 +53,13 @@ void TweetModel::insertTweet( Entry *entry )
   for ( int i = 0; i < rowCount(); ++i ) {
     if ( entry->id() == item(i)->data().value<Entry>().id() ) {
       qDebug() << "found existing entry of the same id";
+      if ( !getTweetFromIndex( i )->isRead() ) {
+        addUnreadEntry( entry );
+      }
       return;
     }
   }
+  addUnreadEntry( entry );
   QVariant data = qVariantFromValue( *entry );
   QStandardItem *newItem = new QStandardItem();
   newItem->setData( data );
@@ -72,9 +86,6 @@ void TweetModel::insertTweet( Entry *entry )
   }
   QStandardItemModel::appendRow( newItem );
   view->setIndexWidget( indexFromItem( newItem ), newTweet );
-  if ( rowCount() > 20 ) {
-    this->removeRow( rowCount() - 1 );
-  }
 }
 
 void TweetModel::deleteTweet( int id )
@@ -87,10 +98,27 @@ void TweetModel::deleteTweet( int id )
   }
 }
 
+void TweetModel::addUnreadEntry( Entry *entry )
+{
+  if ( !entry->isOwn() ) {
+    switch ( entry->getType() ) {
+    case Entry::DirectMessage:
+      if ( !incomingMessages.contains( entry->name() ) ) {
+        incomingMessages << entry->name();
+      }
+    case Entry::Status:
+    default:
+      if ( !incomingStatuses.contains( entry->name() ) ) {
+        incomingStatuses << entry->name();
+      }
+    }
+  }
+}
+
 void TweetModel::setImageForUrl( const QString& url, QImage image )
 {
   for ( int i = 0; i < rowCount(); i++ ) {
-    Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
+    Tweet *aTweet = getTweetFromIndex( i );
     if ( url == item(i)->data().value<Entry>().image() ) {
       aTweet->setIcon( image );
     }
@@ -109,7 +137,7 @@ void TweetModel::resizeData( int width, int oldWidth )
 
   QSize itemSize;
   for ( int i = 0; i < rowCount(); i++ ) {
-    Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
+    Tweet *aTweet = getTweetFromIndex( i );
     aTweet->resize( width - scrollBarMargin, aTweet->size().height() );
     itemSize = item(i)->sizeHint();
     itemSize.rwidth() += width - oldWidth;
@@ -120,6 +148,7 @@ void TweetModel::resizeData( int width, int oldWidth )
 
 void TweetModel::setModelToBeCleared( bool publicTimelineRequested, bool userChanged )
 {
+  deselectCurrent();
   bool timelineChanged = (!publicTimeline && publicTimelineRequested) || (publicTimeline && !publicTimelineRequested);
   if ( (!publicTimeline && !timelineChanged && !userChanged) || (publicTimeline && !timelineChanged) ) {
     qDebug() << publicTimeline << publicTimelineRequested << userChanged << "won't clear list";
@@ -142,7 +171,7 @@ void TweetModel::setTheme( const ThemeData &newTheme )
   Tweet::setTheme( newTheme );
   if ( rowCount() > 0 ) {
     for ( int i = 0; i < rowCount(); i++ ) {
-      Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
+      Tweet *aTweet = getTweetFromIndex( i );
       aTweet->applyTheme( aTweet->isRead() ? Settings::Read : Settings::Unread );
     }
   }
@@ -150,31 +179,27 @@ void TweetModel::setTheme( const ThemeData &newTheme )
 
 void TweetModel::select( const QModelIndex &index )
 {
-  qDebug() << "selected";
   Tweet *aTweet;
   qDebug() << QModelIndex().row() << QModelIndex().column() << currentIndex.row() << currentIndex.column();
   if ( currentIndex != QModelIndex() ) {
-    qDebug() << "different";
-    aTweet = dynamic_cast<Tweet*>( view->indexWidget( currentIndex ) );
+    aTweet = getTweetFromIndex( currentIndex );
     aTweet->setRead();
   }
   currentIndex = index;
-  aTweet = dynamic_cast<Tweet*>( view->indexWidget( currentIndex ) );
+  aTweet = getTweetFromIndex( currentIndex );
   aTweet->markAsRead();
   aTweet->setActive();
 }
 
 void TweetModel::select( Tweet *tweet )
 {
-  qDebug() << "selected";
   Tweet *aTweet;
   if ( currentIndex != QModelIndex() ) {
-    qDebug() << "different";
-    aTweet = dynamic_cast<Tweet*>( view->indexWidget( currentIndex ) );
+    aTweet = getTweetFromIndex( currentIndex );
     aTweet->setRead();
   }
   for ( int i = 0; i < rowCount(); i++ ) {
-    Tweet *matchTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
+    Tweet *matchTweet = getTweetFromIndex( i );
     if ( matchTweet == tweet ) {
       currentIndex = indexFromItem( item(i) );
       break;
@@ -184,21 +209,45 @@ void TweetModel::select( Tweet *tweet )
   tweet->setActive();
 }
 
+void TweetModel::deselectCurrent()
+{
+  if ( currentIndex != QModelIndex() ) {
+    Tweet *aTweet = getTweetFromIndex( currentIndex );
+    if ( aTweet->isRead() ) {
+      aTweet->markAsRead();
+      aTweet->setRead();
+    } else {
+      aTweet->markAsUnread();
+    }
+    currentIndex = QModelIndex();
+  }
+}
+
 void TweetModel::markAllAsRead()
 {
   if ( rowCount() > 0 ) {
     for ( int i = 0; i < rowCount(); i++ ) {
-      Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
+      Tweet *aTweet = getTweetFromIndex( i );
       aTweet->markAsRead();
       aTweet->setRead();
     }
   }
 }
 
+Tweet* TweetModel::getTweetFromIndex( int i )
+{
+  return dynamic_cast<Tweet*>( view->indexWidget(indexFromItem(item(i))) );
+}
+
+Tweet* TweetModel::getTweetFromIndex( QModelIndex i )
+{
+  return dynamic_cast<Tweet*>( view->indexWidget(i) );
+}
+
 void TweetModel::retranslateUi()
 {
   for ( int i = 0; i < rowCount(); i++ ) {
-    Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
+    Tweet *aTweet = getTweetFromIndex( i );
     aTweet->retranslateUi();
   }
 }

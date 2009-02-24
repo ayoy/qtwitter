@@ -61,6 +61,7 @@ public slots:
   void menuRequested();
   void sendReply();
   void markAsRead();
+  void markAsUnread();
   void setActive();
 
 private slots:

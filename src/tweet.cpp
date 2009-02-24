@@ -220,6 +220,13 @@ void Tweet::markAsRead()
 //  applyTheme( true );
 }
 
+void Tweet::markAsUnread()
+{
+  read = false;
+  applyTheme( Settings::Unread );
+//  applyTheme( true );
+}
+
 void Tweet::setRead()
 {
   applyTheme( Settings::Read );

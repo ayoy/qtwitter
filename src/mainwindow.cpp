@@ -168,6 +168,22 @@ void MainWindow::popupError( const QString &message )
   QMessageBox::critical( this, tr("Error"), message );
 }
 
+void MainWindow::popupMessage( QStringList namesForStatuses, QStringList namesForMessages )
+{
+  QRegExp rx( ", " );
+  QString message;
+  if ( !namesForStatuses.isEmpty() ) {
+    message = namesForStatuses.join(", ") + ".";
+    message.replace( rx.lastIndexIn( message ), rx.pattern().length(), " and " );
+    trayIcon->showMessage( "New tweets", message.prepend( "from "), QSystemTrayIcon::Information, 5000 );
+  }
+  if ( !namesForMessages.isEmpty() ) {
+    message = namesForMessages.join(", ") + ".";
+    message.replace( rx.lastIndexIn( message ), rx.pattern().length(), " and " );
+    trayIcon->showMessage( "New messages", message.prepend( "from "), QSystemTrayIcon::Information, 5000 );
+  }
+}
+
 void MainWindow::changeListBackgroundColor(const QColor &newColor )
 {
   QPalette palette( ui.statusListView->palette() );

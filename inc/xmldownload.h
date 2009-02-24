@@ -69,7 +69,7 @@ signals:
   void errorMessage( const QString& );
   void cookieReceived( const QStringList );
   void deleteEntry( int id );
-  void finished();
+  void finished( XmlDownload::ContentRequested );
 
 private:
   void createConnections( Core *whereToConnectTo );

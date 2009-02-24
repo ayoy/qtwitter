@@ -46,6 +46,7 @@ public slots:
   void popupError( const QString &message );
   void retranslateUi();
   void changeListBackgroundColor( const QColor &newColor );
+  void popupMessage( QStringList namesForStatuses, QStringList namesForMessages );
   void about();
 
 private slots:
