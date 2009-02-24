@@ -90,7 +90,8 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, MainWindow *parent ) :
 
   m_ui->setupUi( this );
 
-  connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(markAsRead()) );
+  connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(selectRequest()) );
+  connect( this, SIGNAL(selectMe(Tweet*)), tweetListModel, SLOT(select(Tweet*)) );
 
   applyTheme( );
   m_ui->userName->setText( model.name() );
@@ -189,14 +190,20 @@ void Tweet::setTweetListModel( TweetModel *tweetModel )
   tweetListModel = tweetModel;
 }
 
-void Tweet::applyTheme( bool read )
+void Tweet::applyTheme( Settings::ThemeVariant variant )
 {
-  if ( read ) {
-    setStyleSheet( currentTheme.read.styleSheet );
-    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.read.linkColor );
-  } else {
+  switch ( variant ) {
+case Settings::Unread:
     setStyleSheet( currentTheme.unread.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.unread.linkColor );
+    break;
+case Settings::Active:
+    setStyleSheet( currentTheme.active.styleSheet );
+    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.active.linkColor );
+    break;
+case Settings::Read:
+    setStyleSheet( currentTheme.read.styleSheet );
+    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.read.linkColor );
   }
   m_ui->userStatus->setHtml( model.text() );
   this->update();
@@ -210,7 +217,22 @@ bool Tweet::isRead() const
 void Tweet::markAsRead()
 {
   read = true;
-  applyTheme( true );
+//  applyTheme( true );
+}
+
+void Tweet::setRead()
+{
+  applyTheme( Settings::Read );
+}
+
+void Tweet::setActive()
+{
+  applyTheme( Settings::Active );
+}
+
+void Tweet::selectRequest()
+{
+  emit selectMe( this );
 }
 
 void Tweet::retranslateUi()

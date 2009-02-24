@@ -56,13 +56,16 @@ struct ThemeElement {
 
 struct ThemeData {
   ThemeElement unread;
+  ThemeElement active;
   ThemeElement read;
   ThemeData() :
       unread(),
+      active(),
       read()
   {}
-  ThemeData( const ThemeElement &_unread, const ThemeElement &_read ) :
+  ThemeData( const ThemeElement &_unread, const ThemeElement &_active, const ThemeElement &_read ) :
       unread( _unread ),
+      active( _active ),
       read( _read )
   {}
 };
@@ -74,6 +77,13 @@ class Settings : public QDialog
   Q_OBJECT
 
 public:
+
+  enum ThemeVariant {
+    Unread,
+    Active,
+    Read
+  };
+
   static const ThemeInfo STYLESHEET_CARAMEL;
   static const ThemeInfo STYLESHEET_COCOA;
   static const ThemeInfo STYLESHEET_GRAY;

@@ -29,6 +29,7 @@
 #include "core.h"
 #include "entry.h"
 #include "tweetmodel.h"
+#include "settings.h"
 
 namespace Ui {
     class Tweet;
@@ -47,22 +48,28 @@ public:
   void retranslateUi();
   QString getUrlForIcon() const;
   bool isRead() const;
+  void setRead();
 
   static ThemeData getTheme();
   static void setTheme( const ThemeData &theme );
   static void setTweetListModel( TweetModel *tweetModel );
 
-  void applyTheme( bool read = false );
+  void applyTheme( Settings::ThemeVariant variant = Settings::Unread );
 
 public slots:
   void adjustSize();
   void menuRequested();
   void sendReply();
   void markAsRead();
+  void setActive();
+
+private slots:
+  void selectRequest();
 
 signals:
   void reply( const QString& );
   void markAllAsRead();
+  void selectMe( Tweet* );
 
 protected:
   virtual void changeEvent( QEvent *e );

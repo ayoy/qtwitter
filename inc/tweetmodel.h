@@ -26,6 +26,8 @@
 #include "entry.h"
 #include "settings.h"
 
+class Tweet;
+
 class TweetModel : public QStandardItemModel
 {
   Q_OBJECT
@@ -33,6 +35,7 @@ class TweetModel : public QStandardItemModel
   bool publicTimeline;
   bool modelToBeCleared;
   int scrollBarMargin;
+  QModelIndex currentIndex;
   QListView *view;
 
 public:
@@ -48,7 +51,8 @@ public slots:
   void setModelToBeCleared( bool publicTimelineRequested, bool userChanged );
   void setPublicTimeline( bool );
   void retranslateUi();
-  void markAsRead( const QModelIndex &index );
+  void select( const QModelIndex &index );
+  void select( Tweet *tweet );
   void markAllAsRead();
 };
 

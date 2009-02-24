@@ -26,21 +26,21 @@ TweetModel::TweetModel( int margin, QListView *parentListView, QObject *parent )
   QStandardItemModel( 0, 0, parent ),
   modelToBeCleared( false ),
   scrollBarMargin( margin ),
+  currentIndex( QModelIndex() ),
   view( parentListView )
 {
-  connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(markAsRead(QModelIndex)) );
+  connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(select(QModelIndex)) );
   Tweet::setTweetListModel( this );
 }
 
 void TweetModel::insertTweet( Entry *entry )
 {
-  if ( modelToBeCleared ) {//|| !publicTimeline ) {
+  if ( modelToBeCleared ) {
     clear();
     modelToBeCleared = false;
   }
 
   for ( int i = 0; i < rowCount(); ++i ) {
-    //qDebug() << "processing entry" << i << entry->id() << item(i)->data().value<Entry>().id();
     if ( entry->id() == item(i)->data().value<Entry>().id() ) {
       qDebug() << "found existing entry of the same id";
       return;
@@ -143,15 +143,45 @@ void TweetModel::setTheme( const ThemeData &newTheme )
   if ( rowCount() > 0 ) {
     for ( int i = 0; i < rowCount(); i++ ) {
       Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
-      aTweet->applyTheme( aTweet->isRead() );
+      aTweet->applyTheme( aTweet->isRead() ? Settings::Read : Settings::Unread );
     }
   }
 }
 
-void TweetModel::markAsRead( const QModelIndex &index )
+void TweetModel::select( const QModelIndex &index )
 {
-  Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( index ) );
+  qDebug() << "selected";
+  Tweet *aTweet;
+  qDebug() << QModelIndex().row() << QModelIndex().column() << currentIndex.row() << currentIndex.column();
+  if ( currentIndex != QModelIndex() ) {
+    qDebug() << "different";
+    aTweet = dynamic_cast<Tweet*>( view->indexWidget( currentIndex ) );
+    aTweet->setRead();
+  }
+  currentIndex = index;
+  aTweet = dynamic_cast<Tweet*>( view->indexWidget( currentIndex ) );
   aTweet->markAsRead();
+  aTweet->setActive();
+}
+
+void TweetModel::select( Tweet *tweet )
+{
+  qDebug() << "selected";
+  Tweet *aTweet;
+  if ( currentIndex != QModelIndex() ) {
+    qDebug() << "different";
+    aTweet = dynamic_cast<Tweet*>( view->indexWidget( currentIndex ) );
+    aTweet->setRead();
+  }
+  for ( int i = 0; i < rowCount(); i++ ) {
+    Tweet *matchTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
+    if ( matchTweet == tweet ) {
+      currentIndex = indexFromItem( item(i) );
+      break;
+    }
+  }
+  tweet->markAsRead();
+  tweet->setActive();
 }
 
 void TweetModel::markAllAsRead()
@@ -160,6 +190,7 @@ void TweetModel::markAllAsRead()
     for ( int i = 0; i < rowCount(); i++ ) {
       Tweet *aTweet = dynamic_cast<Tweet*>( view->indexWidget( indexFromItem( item(i) ) ) );
       aTweet->markAsRead();
+      aTweet->setRead();
     }
   }
 }
