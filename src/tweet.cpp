@@ -23,6 +23,7 @@
 #include "settings.h"
 #include <QDebug>
 #include <QProcess>
+#include <QClipboard>
 
 ThemeData Tweet::currentTheme = ThemeData();
 TweetModel* Tweet::tweetListModel = 0;
@@ -42,12 +43,27 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   menuFont->setPixelSize( 10 );
   menu->setFont( *menuFont );
 
-  if ( model.getType() == Entry::Status ) {
-    replyAction = new QAction( tr("Reply to") + " " + model.login(), this);
-    menu->addAction( replyAction );
-    replyAction->setFont( *menuFont );
-    connect( replyAction, SIGNAL(triggered()), this, SLOT(sendReply()) );
-    connect( this, SIGNAL(reply(QString)), tweetListModel, SIGNAL(addReplyString(QString)) );
+  replyAction = new QAction( tr("Reply to") + " " + model.login(), this);
+  menu->addAction( replyAction );
+  replyAction->setFont( *menuFont );
+  connect( replyAction, SIGNAL(triggered()), this, SLOT(sendReply()) );
+  connect( this, SIGNAL(reply(QString)), tweetListModel, SIGNAL(addReplyString(QString)) );
+  if ( model.getType() != Entry::Status ) {
+    replyAction->setEnabled( false );
+  }
+
+  retweetAction = new QAction( tr( "Retweet" ), this );
+  menu->addAction( retweetAction );
+  retweetAction->setFont( *menuFont );
+  connect( retweetAction, SIGNAL(triggered()), this, SLOT(retweet()) );
+  connect( this, SIGNAL(postRetweet(QByteArray)), tweetListModel, SIGNAL(postRetweet(QByteArray)) );
+
+  copylinkAction = new QAction( tr( "Copy link to this Tweet" ), this );
+  menu->addAction( copylinkAction );
+  copylinkAction->setFont( *menuFont );
+  connect( copylinkAction, SIGNAL(triggered()), this, SLOT(copyLink()) );
+  if ( model.getType() != Entry::Status ) {
+    copylinkAction->setEnabled( false );
   }
 
   signalMapper = new QSignalMapper( this );
@@ -58,21 +74,23 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   connect( signalMapper, SIGNAL(mapped(QString)), tweetListModel, SIGNAL(openBrowser(QString)) );
 
-  if ( model.homepage().compare("") ) {
-    gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
-    menu->addAction( gotohomepageAction );
-    gotohomepageAction->setFont( *menuFont );
-    signalMapper->setMapping( gotohomepageAction, model.homepage() );
-    connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+  gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
+  menu->addAction( gotohomepageAction );
+  gotohomepageAction->setFont( *menuFont );
+  signalMapper->setMapping( gotohomepageAction, model.homepage() );
+  connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+  if ( !model.homepage().compare("") ) {
+    gotohomepageAction->setEnabled( false );
   }
 
-  if ( model.isOwn() ) {
-    deleteAction = new QAction( tr( "Delete tweet" ), this );
-    menu->addAction( deleteAction );
-    deleteAction->setFont( *menuFont );
-    signalMapper->setMapping( deleteAction, model.id() );
-    connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-    connect( signalMapper, SIGNAL(mapped(int)), tweetListModel, SIGNAL(destroy(int)) );
+  deleteAction = new QAction( tr( "Delete tweet" ), this );
+  menu->addAction( deleteAction );
+  deleteAction->setFont( *menuFont );
+  signalMapper->setMapping( deleteAction, model.id() );
+  connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+  connect( signalMapper, SIGNAL(mapped(int)), tweetListModel, SIGNAL(destroy(int)) );
+  if ( !model.isOwn() ) {
+    deleteAction->setEnabled( false );
   }
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
@@ -92,7 +110,7 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
   connect( this, SIGNAL(selectMe(Tweet*)), tweetListModel, SLOT(select(Tweet*)) );
 
-  applyTheme( );
+  applyTheme();
   m_ui->userName->setText( model.name() );
   m_ui->userStatus->setHtml( model.text() );
   m_ui->userIcon->setPixmap( QPixmap::fromImage( icon ) );
@@ -117,6 +135,11 @@ QString Tweet::getUrlForIcon() const
 void Tweet::menuRequested()
 {
   menu->exec( QCursor::pos() );
+}
+
+void Tweet::copyLink()
+{
+  QApplication::clipboard()->setText( "http://twitter.com/" + model.login() + "/statuses/" + QString::number( model.id() ) );
 }
 
 void Tweet::setIcon( const QImage &image )
@@ -173,6 +196,11 @@ void Tweet::leaveEvent( QEvent *e )
 void Tweet::sendReply()
 {
   emit reply( model.login() );
+}
+
+void Tweet::retweet()
+{
+  emit postRetweet( QString("RT @" + model.login() + ": " + model.originalText() ).toUtf8() );
 }
 
 void Tweet::setTheme( const ThemeData &theme )

@@ -135,9 +135,9 @@ void Core::setFlag( XmlDownload::ContentRequested flag )
     default:
       statusesFinished = true;
   }
+  emit resetUi();
   if ( statusesFinished && ( downloadPublicTimeline ? true : messagesFinished ) ) {
     emit timelineUpdated();
-    emit resetUi();
     statusesFinished = false;
     messagesFinished = false;
   }

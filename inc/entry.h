@@ -51,6 +51,7 @@ public:
   QString homepage() const;
   QString image() const;
   QString text() const;
+  QString originalText() const;
   QDateTime timestamp() const;
 
   void setIndex( int itemIndex );
@@ -61,6 +62,7 @@ public:
   void setHomepage( const QString& newHomepage );
   void setHasHomepage( bool );
   void setImage( const QString& newImage );
+  void setOriginalText( const QString& newText );
   void setText( const QString& newText );
   void setTimestamp( const QDateTime& newTimestamp );
 
@@ -71,6 +73,7 @@ private:
 
   int userId;
   QString userText;
+  QString userOriginalText;
   QString userName;
   QString userLogin;
   QString userImage;

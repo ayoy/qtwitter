@@ -46,6 +46,7 @@ int main( int argc, char **argv )
   QObject::connect( model, SIGNAL(addReplyString(QString)), &qtwitter, SIGNAL(addReplyString(QString)) );
   QObject::connect( model, SIGNAL(about()), &qtwitter, SLOT(about()) );
   QObject::connect( model, SIGNAL(destroy(int)), core, SLOT(destroyTweet(int)) );
+  QObject::connect( model, SIGNAL(postRetweet(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(post(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
   QObject::connect( &qtwitter, SIGNAL(resizeView(int,int)), model, SLOT(resizeData(int,int)));
@@ -56,8 +57,8 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(deleteEntry(int)), model, SLOT(deleteTweet(int)) );
   QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
   QObject::connect( core, SIGNAL(requestListRefresh(bool,bool)), model, SLOT(setModelToBeCleared(bool,bool)) );
-  QObject::connect( core, SIGNAL(resetUi()), &qtwitter, SIGNAL(resetStatusEdit()) );
   QObject::connect( core, SIGNAL(timelineUpdated()), model, SIGNAL(newTimelineInfo()) );
+  QObject::connect( core, SIGNAL(resetUi()), &qtwitter, SIGNAL(resetStatusEdit()) );
   if ( QSystemTrayIcon::supportsMessages() ) {
     QObject::connect( model, SIGNAL(newTweets(int,QStringList,int,QStringList)), &qtwitter, SLOT(popupMessage(int,QStringList,int,QStringList)) );
   }

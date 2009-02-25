@@ -31,7 +31,7 @@
 #include <QShortcut>
 #include <QDesktopWidget>
 
-const QString MainWindow::APP_VERSION = "0.3.1";
+const QString MainWindow::APP_VERSION = "0.4_pre1";
 
 MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
 {
@@ -52,16 +52,18 @@ MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
   connect( this, SIGNAL(resetStatusEdit()), ui.statusEdit, SLOT(cancelEditing()) );
 
   QShortcut *typeShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ), this );
+  connect( typeShortcut, SIGNAL(activated()), ui.statusEdit, SLOT(setFocus()) );
   QShortcut *hideShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_H ), this );
   connect( hideShortcut, SIGNAL(activated()), this, SLOT(hide()) );
-#ifdef Q_WS_MAC
-  ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Comma ) );
   QShortcut *quitShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ), this );
   connect( quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()) );
+#ifdef Q_WS_MAC
+  ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Comma ) );
+#else
+  ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
 #endif
   ui.updateButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_R ) );
   ui.homeButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
-  connect( typeShortcut, SIGNAL(activated()), ui.statusEdit, SLOT(setFocus()) );
 
   trayIcon = new QSystemTrayIcon( this );
   trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );

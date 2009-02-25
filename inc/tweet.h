@@ -63,6 +63,8 @@ public slots:
   void markAsRead();
   void markAsUnread();
   void setActive();
+  void retweet();
+  void copyLink();
 
 private slots:
   void focusRequest();
@@ -71,6 +73,7 @@ signals:
   void reply( const QString& );
   void markAllAsRead();
   void selectMe( Tweet* );
+  void postRetweet( const QByteArray & );
 
 protected:
   virtual void changeEvent( QEvent *e );
@@ -80,6 +83,8 @@ protected:
 private:
   QMenu *menu;
   QAction *replyAction;
+  QAction *retweetAction;
+  QAction *copylinkAction;
   QAction *markallasreadAction;
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;

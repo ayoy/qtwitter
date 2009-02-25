@@ -75,6 +75,7 @@ signals:
   void addReplyString( const QString& );
   void about();
   void destroy( int );
+  void postRetweet( const QByteArray &status );
 };
 
 #endif // TWEETMODEL_H

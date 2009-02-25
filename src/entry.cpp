@@ -31,6 +31,7 @@ Entry::Entry( Type entryType, QObject *parent ) :
   own( false ),
   userId( -1 ),
   userText( QString() ),
+  userOriginalText( QString() ),
   userName( QString() ),
   userLogin( QString() ),
   userImage( QString() ),
@@ -47,6 +48,7 @@ Entry::Entry(const Entry &right) :
   own( right.own ),
   userId( right.userId ),
   userText( right.userText ),
+  userOriginalText( right.userOriginalText ),
   userName( right.userName ),
   userLogin( right.userLogin ),
   userImage( right.userImage ),
@@ -60,7 +62,8 @@ bool Entry::checkContents() {
   if ( !hasHomepage ) {
     userHomepage = QString();
   }
-  if ( !userName.isNull() &&
+  if ( ( userId != -1 ) &&
+       !userName.isNull() &&
        !userLogin.isNull() &&
        ( type == Status ? !userImage.isNull() : true ) &&
        !userText.isNull() &&
@@ -82,6 +85,7 @@ Entry& Entry::operator=( const Entry &right ) {
   hasHomepage = right.hasHomepage;
   userImage = right.userImage;
   userText = right.userText;
+  userOriginalText = right.userOriginalText;
   userTimestamp = right.userTimestamp;
   return *this;
 }
@@ -99,6 +103,7 @@ void Entry::initialize( bool resetIndex )
   hasHomepage = false;
   userImage = QString();
   userText = QString();
+  userOriginalText = QString();
   userTimestamp = QDateTime();
 }
 
@@ -111,6 +116,7 @@ QString Entry::login() const { return userLogin; }
 QString Entry::homepage() const { return userHomepage; }
 QString Entry::image() const { return userImage; }
 QString Entry::text() const { return userText; }
+QString Entry::originalText() const { return userOriginalText; }
 QDateTime Entry::timestamp() const { return userTimestamp; }
 
 void Entry::setIndex( int itemIndex ) { index = itemIndex; }
@@ -124,7 +130,8 @@ void Entry::setImage( const QString& newImage ) { userImage = newImage; }
 void Entry::setTimestamp( const QDateTime& newTimestamp ) { userTimestamp = newTimestamp; }
 
 void Entry::setText( const QString& newText ) {
-  userText = newText;
+  userOriginalText = newText;
+  userText = userOriginalText;
   QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
   userText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
   userText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([^ @.,!:;]+)" ), "\\1<a href=http://twitter.com/\\2>@\\2</a>" );

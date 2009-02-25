@@ -53,7 +53,6 @@ void TweetModel::insertTweet( Entry *entry )
     clear();
     modelToBeCleared = false;
   }
-
   for ( int i = 0; i < rowCount(); ++i ) {
     if ( entry->id() == item(i)->data().value<Entry>().id() ) {
       qDebug() << "found existing entry of the same id";
@@ -104,7 +103,6 @@ void TweetModel::deleteTweet( int id )
 
 void TweetModel::addUnreadEntry( Entry *entry )
 {
-//  if ( !entry->isOwn() ) {
   switch ( entry->getType() ) {
   case Entry::DirectMessage:
     newMessages += 1;
@@ -120,7 +118,6 @@ void TweetModel::addUnreadEntry( Entry *entry )
       incomingStatuses << name;
     }
   }
-  //  }
 }
 
 void TweetModel::setImageForUrl( const QString& url, QImage image )
@@ -156,7 +153,6 @@ void TweetModel::resizeData( int width, int oldWidth )
 
 void TweetModel::setModelToBeCleared( bool publicTimelineRequested, bool userChanged )
 {
-  deselectCurrent();
   bool timelineChanged = (!publicTimeline && publicTimelineRequested) || (publicTimeline && !publicTimelineRequested);
   if ( (!publicTimeline && !timelineChanged && !userChanged) || (publicTimeline && !timelineChanged) ) {
     qDebug() << publicTimeline << publicTimelineRequested << userChanged << "won't clear list";
@@ -165,6 +161,7 @@ void TweetModel::setModelToBeCleared( bool publicTimelineRequested, bool userCha
     return;
   }
   qDebug() << publicTimeline << publicTimelineRequested << userChanged << "will clear list";
+  deselectCurrent();
   modelToBeCleared = true;
   publicTimeline = publicTimelineRequested;
 }
@@ -200,9 +197,8 @@ void TweetModel::select( const QModelIndex &index )
 
 void TweetModel::select( Tweet *tweet )
 {
-  Tweet *aTweet;
   if ( currentIndex != QModelIndex() ) {
-    aTweet = getTweetFromIndex( currentIndex );
+    Tweet *aTweet = getTweetFromIndex( currentIndex );
     aTweet->setRead();
   }
   for ( int i = 0; i < rowCount(); i++ ) {
