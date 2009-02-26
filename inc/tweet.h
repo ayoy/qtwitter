@@ -40,29 +40,32 @@ class Tweet : public QWidget {
   Q_DISABLE_COPY( Tweet )
 
 public:
+  enum State {
+    Unread,
+    Read,
+    Active
+  };
   explicit Tweet( const Entry &entry, const QImage &icon, QWidget *parent );
   virtual ~Tweet();
   void resize( const QSize& );
   void resize( int w, int h );
   void setIcon( const QImage& );
   void retranslateUi();
-  QString getUrlForIcon() const;
   bool isRead() const;
-  void setRead();
+  QString getUrlForIcon() const;
+  State getState() const;
+  void setState( Tweet::State newState );
 
   static ThemeData getTheme();
   static void setTheme( const ThemeData &theme );
   static void setTweetListModel( TweetModel *tweetModel );
 
-  void applyTheme( Settings::ThemeVariant variant = Settings::Unread );
+  void applyTheme( Tweet::State variant = Tweet::Unread );
 
 public slots:
   void adjustSize();
   void menuRequested();
   void sendReply();
-  void markAsRead();
-  void markAsUnread();
-  void setActive();
   void retweet();
   void copyLink();
 
@@ -90,6 +93,7 @@ private:
   QAction *gototwitterpageAction;
   QAction *deleteAction;
   QAction *aboutAction;
+  State tweetState;
   Entry model;
   QSignalMapper *signalMapper;
   QFont *menuFont;

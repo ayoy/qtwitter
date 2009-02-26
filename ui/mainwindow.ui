@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>307</width>
-    <height>245</height>
+    <width>264</width>
+    <height>325</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -317,11 +317,11 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>updateButton</tabstop>
+  <tabstop>statusListView</tabstop>
   <tabstop>statusEdit</tabstop>
+  <tabstop>updateButton</tabstop>
   <tabstop>settingsButton</tabstop>
   <tabstop>homeButton</tabstop>
-  <tabstop>statusListView</tabstop>
  </tabstops>
  <resources>
   <include location="../res/resources.qrc"/>

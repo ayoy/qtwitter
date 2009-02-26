@@ -20,7 +20,6 @@
 
 #include "tweet.h"
 #include "ui_tweet.h"
-#include "settings.h"
 #include <QDebug>
 #include <QProcess>
 #include <QClipboard>
@@ -34,6 +33,7 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   gotohomepageAction(0),
   gototwitterpageAction(0),
   deleteAction(0),
+  tweetState( Tweet::Unread ),
   model( entry ),
   read( false ),
   m_ui(new Ui::Tweet)
@@ -223,18 +223,19 @@ void Tweet::setTweetListModel( TweetModel *tweetModel )
   tweetListModel = tweetModel;
 }
 
-void Tweet::applyTheme( Settings::ThemeVariant variant )
+void Tweet::applyTheme( Tweet::State state )
 {
-  switch ( variant ) {
-  case Settings::Unread:
+  tweetState = state;
+  switch ( tweetState ) {
+  case Tweet::Unread:
     setStyleSheet( currentTheme.unread.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.unread.linkColor );
     break;
-  case Settings::Active:
+  case Tweet::Active:
     setStyleSheet( currentTheme.active.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.active.linkColor );
     break;
-  case Settings::Read:
+  case Tweet::Read:
     setStyleSheet( currentTheme.read.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.read.linkColor );
   }
@@ -242,30 +243,33 @@ void Tweet::applyTheme( Settings::ThemeVariant variant )
   this->update();
 }
 
+void Tweet::setState( Tweet::State newState )
+{
+  tweetState = newState;
+  switch ( tweetState ) {
+  case Unread:
+    applyTheme( Tweet::Unread );
+    read = false;
+    break;
+  case Active:
+    applyTheme( Tweet::Active );
+    read = true;
+    break;
+  case Read:
+    applyTheme( Tweet::Read );
+    read = true;
+  default:;
+  }
+}
+
+Tweet::State Tweet::getState() const
+{
+  return tweetState;
+}
+
 bool Tweet::isRead() const
 {
   return read;
-}
-
-void Tweet::markAsRead()
-{
-  read = true;
-}
-
-void Tweet::markAsUnread()
-{
-  read = false;
-  applyTheme( Settings::Unread );
-}
-
-void Tweet::setRead()
-{
-  applyTheme( Settings::Read );
-}
-
-void Tweet::setActive()
-{
-  applyTheme( Settings::Active );
 }
 
 void Tweet::focusRequest()
@@ -275,17 +279,12 @@ void Tweet::focusRequest()
 
 void Tweet::retranslateUi()
 {
-  if ( replyAction ) {
-    replyAction->setText( tr("Reply to") + " " + model.login() );
-  }
-  if ( gotohomepageAction ) {
-    gotohomepageAction->setText( tr("Go to User's homepage") );
-  }
-  if ( gototwitterpageAction ) {
-    gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
-  }
-  if ( deleteAction ) {
-    deleteAction->setText( tr( "Delete tweet" ) );
-  }
+  replyAction->setText( tr( "Reply to" ) + " " + model.login() );
+  retweetAction->setText( tr( "Retweet" ) );
+  copylinkAction->setText( tr( "Copy link to this Tweet" ) );
+  deleteAction->setText( tr( "Delete tweet" ) );
+  markallasreadAction->setText( tr( "Mark all as read" ) );
+  gotohomepageAction->setText( tr( "Go to User's homepage" ) );
+  gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
   aboutAction->setText( tr( "About qTwitter..." ) );
 }

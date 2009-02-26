@@ -78,12 +78,6 @@ class Settings : public QDialog
 
 public:
 
-  enum ThemeVariant {
-    Unread,
-    Active,
-    Read
-  };
-
   static const ThemeInfo STYLESHEET_CARAMEL;
   static const ThemeInfo STYLESHEET_COCOA;
   static const ThemeInfo STYLESHEET_GRAY;

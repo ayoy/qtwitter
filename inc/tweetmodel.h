@@ -44,7 +44,8 @@ class TweetModel : public QStandardItemModel
   int scrollBarMargin;
   QModelIndex currentIndex;
   StatusList *view;
-  void addUnreadEntry( Entry* );
+  void countUnreadEntries();
+  void addUnreadEntry( Entry );
   Tweet* getTweetFromIndex( int );
   Tweet* getTweetFromIndex( QModelIndex );
 

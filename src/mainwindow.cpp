@@ -31,7 +31,7 @@
 #include <QShortcut>
 #include <QDesktopWidget>
 
-const QString MainWindow::APP_VERSION = "0.4_pre2";
+const QString MainWindow::APP_VERSION = "0.4_pre3";
 
 MainWindow::MainWindow( QWidget *parent ) :
     QWidget( parent ),
@@ -73,18 +73,15 @@ MainWindow::MainWindow( QWidget *parent ) :
 #ifndef Q_WS_MAC
   QMenu *trayMenu = new QMenu( this );
   trayMenu = new QMenu( this );
-  QAction *showaction = new QAction( tr( "Show" ), trayMenu);
   QAction *quitaction = new QAction( tr( "Quit" ), trayMenu);
   QAction *settingsaction = new QAction( tr( "Settings" ), trayMenu);
   settingsaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
   quitaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
 
-  QObject::connect( showaction, SIGNAL(triggered()), this, SLOT(show()) );
   QObject::connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
   QObject::connect( settingsaction, SIGNAL(triggered()), this, SIGNAL(settingsDialogRequested()) );
   QObject::connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
 
-  trayMenu->addAction(showaction);
   trayMenu->addAction(settingsaction);
   trayMenu->addAction(quitaction);
   trayIcon->setContextMenu( trayMenu );
