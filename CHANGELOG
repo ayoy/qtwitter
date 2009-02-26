@@ -1,14 +1,16 @@
+v.0.4 (2009/02/27):
+- added support for marking Tweets as read and highlighting current selection,
+- added system tray notifications (via knotify on Linux and Growl on MacOS X),
+- enabled arrow keys navigation through the statuses list,
+- direct messages downloading made optional,
 - added username saving to settings,
 - added the login window at startup,
-- direct messages downloading made optional,
-- enabled arrow keys navigation through the statuses list,
-- added system tray notifications (via knotify on Linux and Growl on MacOS X),
-- added support for marking Tweets as read and highlighting current selection.
+- fixed bugs related to switching users on failed login and corrected memory issues.
 v0.3.1 (2009/02/21):
 - MacOS X version now built with Qt 4.5.0-rc1, working as an agent enabled - no Dock icon nor menu bar,
 - added shortcut for hiding the application, and the "about" dialog.
 - fixed a bug of not reseting the input field after posting an update,
-- fixed a bug of unnecessary synchronising when saving settings with unchanged update interval,
+- fixed a bug of unnecessary synchronizing when saving settings with unchanged update interval,
 - fixed a bug of copying user's (wrong) password to authDialog after failed 
 login,
 - fixed various bugs when altering between friends and public timeline, and rejecting auth dialog,
@@ -23,7 +25,7 @@ v0.3 (2009/02/19):
 - added color themes,
 - added User's Twitter page link to tweet menu.
 v0.2.1 (2009/02/16):
-- added browser ineraction support on Linux,
+- added browser interaction support on Linux,
 - added installation facilities for Linux to project file,
 - minor translation corrections.
 v0.2 (2009/02/14):

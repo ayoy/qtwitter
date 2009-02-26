@@ -1,8 +1,7 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<ui version="4.0">
+<ui version="4.0" >
  <class>AboutDialog</class>
- <widget class="QDialog" name="AboutDialog">
-  <property name="geometry">
+ <widget class="QDialog" name="AboutDialog" >
+  <property name="geometry" >
    <rect>
     <x>0</x>
     <y>0</y>
@@ -10,45 +9,45 @@
     <height>206</height>
    </rect>
   </property>
-  <property name="sizePolicy">
-   <sizepolicy hsizetype="Ignored" vsizetype="Ignored">
+  <property name="sizePolicy" >
+   <sizepolicy vsizetype="Ignored" hsizetype="Ignored" >
     <horstretch>0</horstretch>
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="minimumSize">
+  <property name="minimumSize" >
    <size>
     <width>255</width>
     <height>206</height>
    </size>
   </property>
-  <property name="maximumSize">
+  <property name="maximumSize" >
    <size>
     <width>255</width>
     <height>206</height>
    </size>
   </property>
-  <property name="windowTitle">
+  <property name="windowTitle" >
    <string>About qTwitter</string>
   </property>
-  <property name="modal">
+  <property name="modal" >
    <bool>true</bool>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
-   <property name="rightMargin">
+  <layout class="QVBoxLayout" name="verticalLayout" >
+   <property name="rightMargin" >
     <number>10</number>
    </property>
-   <property name="bottomMargin">
+   <property name="bottomMargin" >
     <number>10</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_2">
+    <layout class="QHBoxLayout" name="horizontalLayout_2" >
      <item>
-      <spacer name="horizontalSpacer">
-       <property name="orientation">
+      <spacer name="horizontalSpacer" >
+       <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0">
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>40</width>
          <height>20</height>
@@ -57,27 +56,27 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+      <widget class="QLabel" name="label" >
+       <property name="sizePolicy" >
+        <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
        </property>
-       <property name="text">
+       <property name="text" >
         <string/>
        </property>
-       <property name="pixmap">
-        <pixmap resource="../res/resources.qrc">:/icons/twitter_48.png</pixmap>
+       <property name="pixmap" >
+        <pixmap resource="../res/resources.qrc" >:/icons/twitter_48.png</pixmap>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_2">
-       <property name="orientation">
+      <spacer name="horizontalSpacer_2" >
+       <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0">
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>40</width>
          <height>20</height>
@@ -88,13 +87,13 @@
     </layout>
    </item>
    <item>
-    <widget class="QTextBrowser" name="textBrowser">
-     <property name="palette">
+    <widget class="QTextBrowser" name="textBrowser" >
+     <property name="palette" >
       <palette>
        <active>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="0">
+        <colorrole role="Base" >
+         <brush brushstyle="SolidPattern" >
+          <color alpha="0" >
            <red>255</red>
            <green>255</green>
            <blue>255</blue>
@@ -103,9 +102,9 @@
         </colorrole>
        </active>
        <inactive>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="0">
+        <colorrole role="Base" >
+         <brush brushstyle="SolidPattern" >
+          <color alpha="0" >
            <red>255</red>
            <green>255</green>
            <blue>255</blue>
@@ -114,9 +113,9 @@
         </colorrole>
        </inactive>
        <disabled>
-        <colorrole role="Base">
-         <brush brushstyle="SolidPattern">
-          <color alpha="255">
+        <colorrole role="Base" >
+         <brush brushstyle="SolidPattern" >
+          <color alpha="255" >
            <red>212</red>
            <green>208</green>
            <blue>200</blue>
@@ -126,38 +125,38 @@
        </disabled>
       </palette>
      </property>
-     <property name="frameShape">
+     <property name="frameShape" >
       <enum>QFrame::NoFrame</enum>
      </property>
-     <property name="verticalScrollBarPolicy">
+     <property name="verticalScrollBarPolicy" >
       <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
-     <property name="horizontalScrollBarPolicy">
+     <property name="horizontalScrollBarPolicy" >
       <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
-     <property name="html">
-      <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+     <property name="html" >
+      <string>&lt;!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN" "http://www.w3.org/TR/REC-html40/strict.dtd">
+&lt;html>&lt;head>&lt;meta name="qrichtext" content="1" />&lt;style type="text/css">
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'MS Shell Dlg 2'; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:10pt;&quot;&gt;qTwitter - a Qt Twitter client&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:10pt;&quot;&gt;version %1&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:10pt;&quot;&gt;Copyright © 2008-2009 by Dominik Kapusta (&lt;/span&gt;&lt;a href=&quot;mailto:d@ayoy.net&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;d@ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;http://blog.ayoy.net&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://blog.ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:10pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:10pt;&quot;&gt;distributed under the GPL-3 license or later&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style>&lt;/head>&lt;body style=" font-family:'Lucida Grande'; font-size:13pt; font-weight:400; font-style:normal;">
+&lt;p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8pt;">&lt;span style=" font-family:'Lucida Grande'; font-size:10pt;">qTwitter - a Qt Twitter client&lt;/span>&lt;/p>
+&lt;p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8pt;">&lt;span style=" font-family:'Lucida Grande'; font-size:10pt;">version %1&lt;/span>&lt;/p>
+&lt;p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8pt;">&lt;span style=" font-family:'Lucida Grande'; font-size:10pt;">Copyright © 2008-2009 by Dominik Kapusta (&lt;/span>&lt;a href="mailto:d@ayoy.net">&lt;span style=" font-family:'Lucida Grande'; font-size:10pt; text-decoration: underline; color:#0000ff;">d@ayoy.net&lt;/span>&lt;/a>&lt;span style=" font-family:'Lucida Grande'; font-size:10pt;">, &lt;/span>&lt;a href="http://blog.ayoy.net">&lt;span style=" font-family:'Lucida Grande'; font-size:10pt; text-decoration: underline; color:#0000ff;">http://blog.ayoy.net&lt;/span>&lt;/a>&lt;span style=" font-family:'Lucida Grande'; font-size:10pt;">)&lt;/span>&lt;/p>
+&lt;p align="center" style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:'MS Shell Dlg 2'; font-size:8pt;">&lt;span style=" font-family:'Lucida Grande'; font-size:10pt;">distributed under the GPL-3 license or later&lt;/span>&lt;/p>&lt;/body>&lt;/html></string>
      </property>
-     <property name="openExternalLinks">
+     <property name="openExternalLinks" >
       <bool>true</bool>
      </property>
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
+    <layout class="QHBoxLayout" name="horizontalLayout" >
      <item>
-      <spacer name="horizontalSpacer_3">
-       <property name="orientation">
+      <spacer name="horizontalSpacer_3" >
+       <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0">
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>40</width>
          <height>20</height>
@@ -166,18 +165,18 @@ p, li { white-space: pre-wrap; }
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="closeButton">
-       <property name="text">
+      <widget class="QPushButton" name="closeButton" >
+       <property name="text" >
         <string>Close</string>
        </property>
       </widget>
      </item>
      <item>
-      <spacer name="horizontalSpacer_4">
-       <property name="orientation">
+      <spacer name="horizontalSpacer_4" >
+       <property name="orientation" >
         <enum>Qt::Horizontal</enum>
        </property>
-       <property name="sizeHint" stdset="0">
+       <property name="sizeHint" stdset="0" >
         <size>
          <width>40</width>
          <height>20</height>
@@ -190,7 +189,7 @@ p, li { white-space: pre-wrap; }
   </layout>
  </widget>
  <resources>
-  <include location="../res/resources.qrc"/>
+  <include location="../res/resources.qrc" />
  </resources>
  <connections>
   <connection>
@@ -199,11 +198,11 @@ p, li { white-space: pre-wrap; }
    <receiver>AboutDialog</receiver>
    <slot>close()</slot>
    <hints>
-    <hint type="sourcelabel">
+    <hint type="sourcelabel" >
      <x>168</x>
      <y>178</y>
     </hint>
-    <hint type="destinationlabel">
+    <hint type="destinationlabel" >
      <x>244</x>
      <y>169</y>
     </hint>

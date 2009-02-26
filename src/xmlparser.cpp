@@ -66,7 +66,7 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
 
 bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName ) {
   if ( qName == "status" ) {
-    emit newEntry( &entry );
+    emit newEntry( new Entry( entry ) );
   }
   return true;
 }

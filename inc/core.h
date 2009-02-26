@@ -75,7 +75,6 @@ public slots:
   void setFlag( XmlDownload::ContentRequested );
 
 private slots:
-  void destroyXmlConnection();
   void setImageInHash( const QString&, QImage );
   void newEntry( Entry* );
 
@@ -94,6 +93,7 @@ signals:
   void noDirectMessages();
 
 private:
+  void destroyXmlConnection();
   bool downloadPublicTimeline;
   bool includeDirectMessages;
   bool userChanged;
@@ -105,6 +105,7 @@ private:
   MapStringImage imagesHash;
   QAuthenticator authData;
   QStringList cookie;
+  QString currentUser;
   QTimer *timer;
   bool statusesFinished;
   bool messagesFinished;

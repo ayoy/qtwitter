@@ -35,7 +35,6 @@ Core::Core( MainWindow *parent ) :
     statusesFinished( false ),
     messagesFinished( false )
 {
-  connect( this, SIGNAL(xmlConnectionIdle()), SLOT(destroyXmlConnection()) );
 }
 
 Core::~Core() {}
@@ -91,7 +90,7 @@ void Core::downloadOneImage( Entry *entry ) {
 }
 
 void Core::setImageInHash( const QString &url, QImage image ) {
-  qDebug() << "assigning image to url:" << url;
+//  qDebug() << "assigning image to url:" << url;
   imagesHash[ url ] = image;
   emit setImageForUrl( url, image );
 }
@@ -159,9 +158,11 @@ void Core::setFlag( XmlDownload::ContentRequested flag )
   if ( downloadPublicTimeline ) {
     emit switchToPublic();
   }
-  if ( statusesFinished && ( downloadPublicTimeline || !includeDirectMessages ? true : messagesFinished ) ) {
+  if ( statusesFinished && ( downloadPublicTimeline || (!includeDirectMessages ? true : messagesFinished) || (xmlPost && !downloadPublicTimeline)  ) ) {
     emit timelineUpdated();
     emit authDataSet( authData );
+    destroyXmlConnection();
+    currentUser = authData.user();
     statusesFinished = false;
     messagesFinished = false;
   }
@@ -228,15 +229,14 @@ void Core::post( const QByteArray &status ) {
 }
 
 void Core::destroyXmlConnection() {
-  qDebug() << "destroying";
   if ( xmlPost ) {
     qDebug() << "destroying xmlPost";
-    delete xmlPost;
+    xmlPost->deleteLater();
     xmlPost = NULL;
   }
   if ( xmlGet ) {
     qDebug() << "destroying xmlGet";
-    delete xmlGet;
+    xmlGet->deleteLater();
     xmlGet = NULL;
   }
 }
@@ -260,13 +260,16 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
     if ( ui.publicBox->isChecked() ) {
       downloadPublicTimeline = true;
       userChanged = false;
-      showingDialog = false;
       emit switchToPublic();
+      showingDialog = false;
+      emit requestListRefresh( downloadPublicTimeline, userChanged );
       return SwitchToPublic;
     }
+    downloadPublicTimeline = false;
     setAuthData( ui.loginEdit->text(), ui.passwordEdit->text() );
     emit authDataSet( authData );
     showingDialog = false;
+    emit requestListRefresh( downloadPublicTimeline, userChanged );
     return Accepted;
   }
   qDebug() << "returning false";
@@ -276,8 +279,7 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
 
 bool Core::setAuthData( const QString &user, const QString &password ) {
   userChanged = false;
-  QString uuu( authData.user() );
-  if ( authData.user().compare( user ) ) {
+  if ( currentUser.compare( user ) ) {
     authData.setUser( user );
     userChanged = true;
   }

@@ -44,6 +44,7 @@ void TweetModel::sendTimelineInfo()
   countUnreadEntries();
   emit newTweets( newStatuses, incomingStatuses, newMessages, incomingMessages );
   newStatuses = newMessages = 0;
+  publicTimeline = publicTimelineRequested;
   incomingStatuses.clear();
   incomingMessages.clear();
 }
@@ -157,19 +158,19 @@ void TweetModel::resizeData( int width, int oldWidth )
   }
 }
 
-void TweetModel::setModelToBeCleared( bool publicTimelineRequested, bool userChanged )
+void TweetModel::setModelToBeCleared( bool wantsPublic, bool userChanged )
 {
-  bool timelineChanged = (!publicTimeline && publicTimelineRequested) || (publicTimeline && !publicTimelineRequested);
+  bool timelineChanged = (!publicTimeline && wantsPublic) || (publicTimeline && !wantsPublic);
   if ( (!publicTimeline && !timelineChanged && !userChanged) || (publicTimeline && !timelineChanged) ) {
     qDebug() << publicTimeline << timelineChanged << userChanged << "won't clear list";
     modelToBeCleared = false;
-    publicTimeline = publicTimelineRequested;
+    publicTimelineRequested = wantsPublic;
     return;
   }
-  qDebug() << publicTimeline << publicTimelineRequested << userChanged << "will clear list";
+  qDebug() << publicTimeline << wantsPublic << userChanged << "will clear list";
   deselectCurrent();
   modelToBeCleared = true;
-  publicTimeline = publicTimelineRequested;
+  publicTimelineRequested = wantsPublic;
 }
 
 void TweetModel::removeDirectMessages()
@@ -182,9 +183,9 @@ void TweetModel::removeDirectMessages()
   }
 }
 
-void TweetModel::setPublicTimeline( bool b )
+void TweetModel::setPublicTimelineRequested( bool b )
 {
-  publicTimeline = b;
+  publicTimelineRequested = b;
 }
 
 void TweetModel::setTheme( const ThemeData &newTheme )

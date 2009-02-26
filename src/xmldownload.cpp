@@ -92,7 +92,6 @@ void XmlDownload::createConnections( Core *coreParent )
     connect( directMsgParser, SIGNAL(dataParsed(QString)), this, SIGNAL(dataParsed(QString)));
     connect( directMsgParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
   }
-
   connect( this, SIGNAL(authenticationRequired(QString,quint16,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QString,quint16,QAuthenticator*)));
   connect( this, SIGNAL(cookieReceived(QStringList)), coreParent, SLOT(storeCookie(QStringList)) );
 }
@@ -131,6 +130,8 @@ void XmlDownload::getContent( const QString &path, ContentRequested content )
   }
   httpGetId = get( encodedPath, buffer );
   processedRequest( content )->assign( httpGetId, buffer, bytearray );
+  bytearray = 0;
+  buffer = 0;
   qDebug() << "Request of type GET and id" << httpGetId << "started";
 }
 
@@ -143,6 +144,8 @@ void XmlDownload::postContent( const QString &path, const QByteArray &status, Co
   }
   httpGetId = post( encodedPath, status, buffer );
   processedRequest( content )->assign( httpGetId, buffer, bytearray );
+  bytearray = 0;
+  buffer = 0;
   qDebug() << "Request of type POST and id" << httpGetId << "started";
 }
 
@@ -165,6 +168,7 @@ void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
       emit deleteEntry( rx.cap(1).toInt() );
     }
   default:
+    qDebug() << "Download failed: " << responseHeader.reasonPhrase();
     //emit errorMessage( "Download failed: " + responseHeader.reasonPhrase() );
     httpRequestAborted = true;
     abort();
@@ -184,7 +188,7 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   if (requestId != statusesData.id && requestId != directMessagesData.id )
     return;
   
-  buffer->close();
+  processedRequest( requestId )->buffer->close();
 
   if (error) {
     emit errorMessage( "Download failed: " + errorString() );
@@ -201,15 +205,17 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
       xmlReader.setContentHandler( directMsgParser );
     }
     xmlReader.parse( source );
-    if ( requestId == statusesData.id ) {
-      emit finished( Statuses );
-    } else if ( requestId == directMessagesData.id ) {
-      emit finished( DirectMessages );
-    }
     qDebug() << "========= XML PARSING FINISHED =========";
   }
   processedRequest( requestId )->clear();
   authenticated = false;
+  if ( requestId == statusesData.id ) {
+    statusParser->deleteLater();
+    emit finished( Statuses );
+  } else if ( requestId == directMessagesData.id ) {
+    directMsgParser->deleteLater();
+    emit finished( DirectMessages );
+  }
 }
 
 void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, quint16, QAuthenticator *authenticator)

@@ -33,22 +33,6 @@ class TweetModel : public QStandardItemModel
 {
   Q_OBJECT
 
-  bool publicTimeline;
-  bool modelToBeCleared;
-  bool statusesFinished;
-  bool messagesFinished;
-  int newStatuses;
-  int newMessages;
-  QStringList incomingStatuses;
-  QStringList incomingMessages;
-  int scrollBarMargin;
-  QModelIndex currentIndex;
-  StatusList *view;
-  void countUnreadEntries();
-  void addUnreadEntry( Entry );
-  Tweet* getTweetFromIndex( int );
-  Tweet* getTweetFromIndex( QModelIndex );
-
 public:
   TweetModel( int margin, StatusList *parentListView, QObject *parent = 0 );
   void setScrollBarMargin( int width );
@@ -61,7 +45,7 @@ public slots:
   void setImageForUrl( const QString& url, QImage image );
   void resizeData( int width, int oldWidth );
   void setModelToBeCleared( bool publicTimelineRequested, bool userChanged );
-  void setPublicTimeline( bool );
+  void setPublicTimelineRequested( bool );
   void retranslateUi();
   void select( const QModelIndex &index );
   void select( Tweet *tweet );
@@ -78,6 +62,24 @@ signals:
   void about();
   void destroy( int );
   void postRetweet( const QByteArray &status );
+
+private:
+  bool publicTimeline;
+  bool publicTimelineRequested;
+  bool modelToBeCleared;
+  bool statusesFinished;
+  bool messagesFinished;
+  int newStatuses;
+  int newMessages;
+  QStringList incomingStatuses;
+  QStringList incomingMessages;
+  int scrollBarMargin;
+  QModelIndex currentIndex;
+  StatusList *view;
+  void countUnreadEntries();
+  void addUnreadEntry( Entry );
+  Tweet* getTweetFromIndex( int );
+  Tweet* getTweetFromIndex( QModelIndex );
 };
 
 #endif // TWEETMODEL_H

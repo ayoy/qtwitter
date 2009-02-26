@@ -31,7 +31,7 @@ void ImageDownload::imgGet( Entry *entry )      //requestByEntry[entry.getId()] 
 {
   QString imgPath = entry->image();
   QByteArray encodedPath = prepareRequest( imgPath );
-  qDebug() << "getting" << encodedPath << "\nentry:" << imgPath;
+//  qDebug() << "getting" << encodedPath << "\nentry:" << imgPath;
   httpGetId = get( encodedPath, buffer );
   qDebug() << httpGetId;
   requestByEntry.insert( imgPath, httpGetId );
@@ -44,8 +44,8 @@ void ImageDownload::imgGet( Entry *entry )      //requestByEntry[entry.getId()] 
 
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
-  qDebug() << "Response for" << requestByEntry.key( currentId() );//url.path();
-  qDebug() << "Code is:" << responseHeader.statusCode() << ", status is:" << responseHeader.reasonPhrase() << "\n";
+//  qDebug() << "Response for" << requestByEntry.key( currentId() );//url.path();
+//  qDebug() << "Code is:" << responseHeader.statusCode() << ", status is:" << responseHeader.reasonPhrase() << "\n";
   switch ( responseHeader.statusCode() ) {
   case 200:                   // Ok
   case 301:                   // Moved Permanently

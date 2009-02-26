@@ -129,7 +129,7 @@ Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, Core *c
   QIntValidator *portValidator = new QIntValidator( 1, 65535, this );
   ui.portEdit->setValidator( portValidator );
   loadConfig();
-  model->setPublicTimeline( ui.radioPublic->isChecked() );
+  model->setPublicTimelineRequested( ui.radioPublic->isChecked() );
 }
 
 Settings::~Settings() {}
@@ -271,6 +271,7 @@ void Settings::setAuthDataInDialog( const QAuthenticator &authData)
 void Settings::switchToPublic() {
   if ( !ui.radioPublic->isChecked() ) {
     ui.radioPublic->setChecked( true );
+    model->setPublicTimelineRequested( true );
 
 #if defined Q_WS_X11 || defined Q_WS_MAC
     QSettings settings( "ayoy", "qTwitter" );
