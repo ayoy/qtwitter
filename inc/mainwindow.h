@@ -48,6 +48,7 @@ public slots:
   void changeListBackgroundColor( const QColor &newColor );
   void popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages );
   void about();
+  void resetStatusEdit();
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
@@ -62,12 +63,12 @@ signals:
   void openBrowser( QString address = QString() );
   void addReplyString( const QString& );
   void resizeView( int width, int oldWidth );
-  void resetStatusEdit();
 
 protected:
   void closeEvent( QCloseEvent *e );
 
 private:
+  bool resetUiWhenFinished;
   void resizeEvent( QResizeEvent* );
   QMenu *trayMenu;
   QSystemTrayIcon *trayIcon;

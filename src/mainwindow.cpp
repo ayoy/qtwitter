@@ -31,9 +31,11 @@
 #include <QShortcut>
 #include <QDesktopWidget>
 
-const QString MainWindow::APP_VERSION = "0.4_pre1";
+const QString MainWindow::APP_VERSION = "0.4_pre2";
 
-MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
+MainWindow::MainWindow( QWidget *parent ) :
+    QWidget( parent ),
+    resetUiWhenFinished( false )
 {
   ui.setupUi( this );
 
@@ -49,7 +51,6 @@ MainWindow::MainWindow( QWidget *parent ) : QWidget( parent )
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( this, SIGNAL(addReplyString(QString)), ui.statusEdit, SLOT(addReplyString(QString)) );
-  connect( this, SIGNAL(resetStatusEdit()), ui.statusEdit, SLOT(cancelEditing()) );
 
   QShortcut *typeShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ), this );
   connect( typeShortcut, SIGNAL(activated()), ui.statusEdit, SLOT(setFocus()) );
@@ -150,7 +151,16 @@ void MainWindow::changeLabel()
 
 void MainWindow::sendStatus()
 {
+  resetUiWhenFinished = true;
   emit post( ui.statusEdit->text().toUtf8() );
+}
+
+void MainWindow::resetStatusEdit()
+{
+  if ( resetUiWhenFinished ) {
+    resetUiWhenFinished = false;
+    ui.statusEdit->cancelEditing();
+  }
 }
 
 void MainWindow::resetStatus()
@@ -187,7 +197,7 @@ void MainWindow::popupMessage( int statusesCount, QStringList namesForStatuses, 
     message.clear();
     title.clear();
     title.append( QString::number( messagesCount ) + " " );
-    messagesCount == 1 ? title.append( tr( "new message from" ) ) : title.append( tr( "new messages from" ) );
+    messagesCount == 1 ? title.append( tr( "new message" ) ) : title.append( tr( "new messages" ) );
     message.append( tr( "from" ) + " " + namesForMessages.join(", ") + "." );
     message.replace( rx.lastIndexIn( message ), rx.pattern().length(), " " + tr( "and" ) + " " );
     trayIcon->showMessage( title, message, QSystemTrayIcon::Information );

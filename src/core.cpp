@@ -26,6 +26,7 @@
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
     downloadPublicTimeline( false ),
+    includeDirectMessages( false ),
     userChanged( false ),
     showingDialog( false ),
     xmlGet( NULL ),
@@ -62,7 +63,6 @@ void Core::forceGet()
   get();
 }
 
-
 void Core::downloadOneImage( Entry *entry ) {
   if ( entry->getType() == Entry::Status ) {
     if ( imagesHash.contains( entry->image() ) ) {
@@ -96,7 +96,8 @@ void Core::setImageInHash( const QString &url, QImage image ) {
   emit setImageForUrl( url, image );
 }
 
-bool Core::setDownloadPublicTimeline( bool b ) {
+bool Core::setDownloadPublicTimeline( bool b )
+{
   if ( downloadPublicTimeline != b ) {
     downloadPublicTimeline = b;
     return true;
@@ -104,16 +105,35 @@ bool Core::setDownloadPublicTimeline( bool b ) {
   return false;
 }
 
-bool Core::downloadsPublicTimeline() {
+bool Core::downloadsPublicTimeline()
+{
   return downloadPublicTimeline;
 }
 
-void Core::applySettings( int msecsTimeInterval, const QString &user, const QString &password, bool publicTimelineRequested )
+bool Core::setWantsDirectMessages( bool b )
+{
+  if ( includeDirectMessages != b ) {
+    includeDirectMessages = b;
+    if ( includeDirectMessages == false ) {
+      emit noDirectMessages();
+    }
+    return true;
+  }
+  return false;
+}
+
+bool Core::wantsDirectMessages()
+{
+  return includeDirectMessages;
+}
+
+void Core::applySettings( int msecsTimeInterval, const QString &user, const QString &password, bool publicTimelineRequested, bool directMessagesRequested )
 {
   bool a = setTimerInterval( msecsTimeInterval );
   bool b = setAuthData( user, password );
   bool c = setDownloadPublicTimeline( publicTimelineRequested );
-  if ( a || b || c )
+  bool d = setWantsDirectMessages( directMessagesRequested );
+  if ( a || b || c || (!c && d) )
     get();
 }
 
@@ -136,8 +156,12 @@ void Core::setFlag( XmlDownload::ContentRequested flag )
       statusesFinished = true;
   }
   emit resetUi();
-  if ( statusesFinished && ( downloadPublicTimeline ? true : messagesFinished ) ) {
+  if ( downloadPublicTimeline ) {
+    emit switchToPublic();
+  }
+  if ( statusesFinished && ( downloadPublicTimeline || !includeDirectMessages ? true : messagesFinished ) ) {
     emit timelineUpdated();
+    emit authDataSet( authData );
     statusesFinished = false;
     messagesFinished = false;
   }
@@ -177,7 +201,9 @@ void Core::get() {
       qDebug() << "creating XmlDownload";
       xmlGet = new XmlDownload ( XmlDownload::RefreshAll, this );
       xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", XmlDownload::Statuses );
-      xmlGet->getContent( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
+      if ( includeDirectMessages ) {
+        xmlGet->getContent( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
+      }
     }
   }
   emit requestListRefresh( downloadPublicTimeline, userChanged );
@@ -202,6 +228,7 @@ void Core::post( const QByteArray &status ) {
 }
 
 void Core::destroyXmlConnection() {
+  qDebug() << "destroying";
   if ( xmlPost ) {
     qDebug() << "destroying xmlPost";
     delete xmlPost;
@@ -235,7 +262,6 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
       userChanged = false;
       showingDialog = false;
       emit switchToPublic();
-      get();
       return SwitchToPublic;
     }
     setAuthData( ui.loginEdit->text(), ui.passwordEdit->text() );
@@ -274,7 +300,7 @@ void Core::setBrowserPath( const QString &path )
 void Core::openBrowser( QString address )
 {
   if ( address.isNull() ) {
-    address = "http://twitter.com/home" ;
+    address = "http://twitter.com/home";
   }
   QProcess *browser = new QProcess;
 #ifdef Q_WS_MAC

@@ -95,7 +95,6 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   if (error) {
     emit errorMessage( tr("Download failed: ") + errorString() );
   }
-  qDebug() << url.toString().right(3);
   qDebug() << "Request of id" << requestId << "finished";
   imageData->img = new QImage;
   imageData->img->loadFromData( *imageData->bytearray );

@@ -224,16 +224,11 @@ void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, qui
         httpRequestAborted = true;
         authenticated = false;
         abort();
+        core->get();
         return;
       default:
         break;
     }
-//    if ( core->authDataDialog() == Rejected ) {
-//      emit errorMessage( tr("Authentication is required to post updates.") );
-//      httpRequestAborted = true;
-//      abort();
-//      return;
-//    }
   }
   *authenticator = core->getAuthData();
   authenticated = true;

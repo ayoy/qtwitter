@@ -23,6 +23,7 @@
 #include "settings.h"
 #include "core.h"
 #include <QSystemTrayIcon>
+#include <QSignalMapper>
 
 //Q_IMPORT_PLUGIN(qjpeg)
 //Q_IMPORT_PLUGIN(qgif)
@@ -58,11 +59,15 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
   QObject::connect( core, SIGNAL(requestListRefresh(bool,bool)), model, SLOT(setModelToBeCleared(bool,bool)) );
   QObject::connect( core, SIGNAL(timelineUpdated()), model, SIGNAL(newTimelineInfo()) );
-  QObject::connect( core, SIGNAL(resetUi()), &qtwitter, SIGNAL(resetStatusEdit()) );
+  QObject::connect( core, SIGNAL(noDirectMessages()), model, SLOT(removeDirectMessages()) );
+  QObject::connect( core, SIGNAL(resetUi()), &qtwitter, SLOT(resetStatusEdit()) );
   if ( QSystemTrayIcon::supportsMessages() ) {
     QObject::connect( model, SIGNAL(newTweets(int,QStringList,int,QStringList)), &qtwitter, SLOT(popupMessage(int,QStringList,int,QStringList)) );
   }
-  QObject::connect( qApp, SIGNAL(aboutToQuit()), settings, SLOT(saveConfig()) );
+  QSignalMapper mapper;
+  mapper.setMapping( qApp, 1 );
+  QObject::connect( qApp, SIGNAL(aboutToQuit()), &mapper, SLOT(map()) );
+  QObject::connect( &mapper, SIGNAL(mapped(int)), settings, SLOT(saveConfig(int)) );
 
   qtwitter.show();
 

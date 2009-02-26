@@ -1,3 +1,6 @@
+- added username saving to settings,
+- added the login window at startup,
+- direct messages downloading made optional,
 - enabled arrow keys navigation through the statuses list,
 - added system tray notifications (via knotify on Linux and Growl on MacOS X),
 - added support for marking Tweets as read and highlighting current selection.

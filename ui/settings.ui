@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>309</width>
-    <height>308</height>
+    <height>333</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -157,6 +157,30 @@
              <string>friends timeline</string>
             </property>
            </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <spacer name="horizontalSpacer_2">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="directCheckBox">
+              <property name="text">
+               <string>include direct messages</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
           <item>
            <widget class="QRadioButton" name="radioPublic">
@@ -311,8 +335,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>171</y>
+     <x>263</x>
+     <y>328</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -327,8 +351,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>300</x>
-     <y>171</y>
+     <x>302</x>
+     <y>328</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -343,12 +367,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>80</x>
-     <y>51</y>
+     <x>35</x>
+     <y>44</y>
     </hint>
     <hint type="destinationlabel">
-     <x>267</x>
-     <y>76</y>
+     <x>85</x>
+     <y>71</y>
     </hint>
    </hints>
   </connection>
@@ -359,12 +383,44 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>41</x>
-     <y>54</y>
+     <x>35</x>
+     <y>44</y>
     </hint>
     <hint type="destinationlabel">
-     <x>189</x>
-     <y>117</y>
+     <x>121</x>
+     <y>103</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioFriends</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>directCheckBox</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>67</x>
+     <y>204</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>237</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>radioPublic</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>directCheckBox</receiver>
+   <slot>setDisabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>151</x>
+     <y>241</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>227</x>
+     <y>221</y>
     </hint>
    </hints>
   </connection>

@@ -137,7 +137,7 @@ Settings::~Settings() {}
 void Settings::applySettings()
 {
   setProxy();
-  core->applySettings( ui.refreshCombo->currentText().toInt() * 60000, ui.userNameEdit->text(), ui.passwordEdit->text(), ui.radioPublic->isChecked() );
+  core->applySettings( ui.refreshCombo->currentText().toInt() * 60000, ui.userNameEdit->text(), ui.passwordEdit->text(), ui.radioPublic->isChecked(), ui.directCheckBox->isChecked() );
   changeTheme( ui.colorBox->currentText() );
 #ifdef Q_WS_X11
   core->setBrowserPath( this->selectBrowserEdit->text() );
@@ -172,9 +172,11 @@ void Settings::loadConfig( bool dialogRejected )
   QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
 #endif
   settings.beginGroup( "General" );
+    ui.userNameEdit->setText( settings.value( "username", "" ).toString() );
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh" ).toInt() );
     ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
     ui.radioFriends->setChecked( settings.value( "timeline", true ).toBool() );
+    ui.directCheckBox->setChecked( settings.value( "directMessages", true ).toBool() );
     ui.radioPublic->setChecked( !ui.radioFriends->isChecked() );
   settings.endGroup();
   settings.beginGroup( "Network" );
@@ -219,7 +221,7 @@ void Settings::loadConfig( bool dialogRejected )
   qDebug() << "settings loaded and applied";
 }
 
-void Settings::saveConfig()
+void Settings::saveConfig( int quitting )
 {
 
 #if defined Q_WS_X11 || defined Q_WS_MAC
@@ -234,9 +236,11 @@ void Settings::saveConfig()
   settings.endGroup();
     settings.setValue( "SettingsWindow/pos", pos() );
   settings.beginGroup( "General" );
+    settings.setValue( "username", ui.userNameEdit->text() );
     settings.setValue( "refresh", ui.refreshCombo->currentIndex() );
     settings.setValue( "language", ui.languageCombo->currentIndex() );
     settings.setValue( "timeline", ui.radioFriends->isChecked() );
+    settings.setValue( "directMessages", ui.directCheckBox->isChecked() );
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
@@ -252,8 +256,10 @@ void Settings::saveConfig()
     settings.setValue( "color scheme", ui.colorBox->currentIndex() );
   settings.endGroup();
 
-  applySettings();
-  qDebug() << "settings applied and saved";
+  if ( !quitting ) {
+    applySettings();
+    qDebug() << "settings applied and saved";
+  }
 }
 
 void Settings::setAuthDataInDialog( const QAuthenticator &authData)
@@ -366,6 +372,7 @@ void Settings::retranslateUi()
   ui.passwordLabel->setText( tr( "Password" ) );
   ui.downloadBox->setTitle( tr( "Download" ) );
   ui.radioFriends->setText( tr( "friends timeline" ) );
+  ui.directCheckBox->setText( tr( "include direct messages" ) );
   ui.radioPublic->setText( tr( "public timeline" ) );
   ui.tabs->setTabText( 1, tr( "Network" ) );
   ui.proxyBox->setText( tr( "Use HTTP &proxy" ) );

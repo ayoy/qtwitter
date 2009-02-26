@@ -47,14 +47,16 @@ public:
   Core( MainWindow *parent = 0 );
   virtual ~Core();
   bool downloadsPublicTimeline();
+  bool wantsDirectMessages();
 
-// These 3 methods return a bool value indicating whether
+// These 4 methods return a bool value indicating whether
 // there is a need for updating Tweets, used later in applySettings()
   bool setTimerInterval( int msecs );
   bool setAuthData( const QString &user, const QString &password );
   bool setDownloadPublicTimeline( bool );
+  bool setWantsDirectMessages( bool );
 
-  void applySettings( int msecsTimeInterval, const QString &user, const QString &password, bool publicTimelineRequested );
+  void applySettings( int msecsTimeInterval, const QString &user, const QString &password, bool publicTimelineRequested, bool directMessagesRequested );
 #ifdef Q_WS_X11
   void setBrowserPath( const QString& );
 #endif
@@ -89,9 +91,11 @@ signals:
   void requestListRefresh( bool, bool );
   void resetUi();
   void timelineUpdated();
+  void noDirectMessages();
 
 private:
   bool downloadPublicTimeline;
+  bool includeDirectMessages;
   bool userChanged;
   bool showingDialog;
   XmlDownload *xmlGet;

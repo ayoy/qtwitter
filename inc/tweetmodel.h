@@ -67,6 +67,7 @@ public slots:
   void markAllAsRead();
   void sendTimelineInfo();
   void moveFocus( bool up );
+  void removeDirectMessages();
 
 signals:
   void newTweets( int numberOfStatuses, QStringList namesForStatuses, int numberOfMessages, QStringList namesForMessages );

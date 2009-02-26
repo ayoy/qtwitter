@@ -74,22 +74,22 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">El navegador web no és definit. Configura-ho a Configuració-&gt;Xarxa.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="131"/>
+        <location filename="../src/core.cpp" line="175"/>
         <source>Authentication is required to delete updates.</source>
         <translation>Autenticació és requerida per a suprimir els teus actualitzacions.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="146"/>
+        <location filename="../src/core.cpp" line="192"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>Autenticació és requerida per a obtenir actualitzacions dels teus amics.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="168"/>
+        <location filename="../src/core.cpp" line="216"/>
         <source>Authentication is required to post updates.</source>
         <translation>Autenticació és requerida per a publicar els teus actualitzacions.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="260"/>
+        <location filename="../src/core.cpp" line="310"/>
         <source>Browser path is not defined. Specify it in Settings-&gt;Network section.</source>
         <translation>El navegador web no és definit. Configura-ho a Configuració-&gt;Xarxa.</translation>
     </message>
@@ -113,7 +113,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="168"/>
+        <location filename="../src/mainwindow.cpp" line="180"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -152,19 +152,84 @@ p, li { white-space: pre-wrap; }
         <translation>Actualitzar estats</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="73"/>
+        <location filename="../src/mainwindow.cpp" line="76"/>
         <source>Show</source>
         <translation>Mostra</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="74"/>
+        <location filename="../src/mainwindow.cpp" line="77"/>
         <source>Quit</source>
         <translation>Surt</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="146"/>
+        <location filename="../src/mainwindow.cpp" line="149"/>
         <source>characters left</source>
         <translation>caràcters queden</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="191"/>
+        <source>new tweet</source>
+        <translation>estat nou</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="191"/>
+        <source>new tweets</source>
+        <translation>estats nous</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="201"/>
+        <source>from</source>
+        <translation>de</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="219"/>
+        <source>and</source>
+        <translation>i</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="200"/>
+        <source>new message from</source>
+        <translation type="obsolete">nou missatge de</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="200"/>
+        <source>new messages from</source>
+        <translation type="obsolete">nous missatges de</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="208"/>
+        <source>new tweet from</source>
+        <translation>nou estat de</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="208"/>
+        <source>new tweets from</source>
+        <translation>nous estats de</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="217"/>
+        <source>New message from</source>
+        <translation>Nou missatge de</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="217"/>
+        <source>New messages from</source>
+        <translation>Nous missatges de</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="222"/>
+        <source>News from qTwitter</source>
+        <translation>Noticies de qTwitter</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="200"/>
+        <source>new message</source>
+        <translation>missatge nou</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="200"/>
+        <source>new messages</source>
+        <translation>missatges nous</translation>
     </message>
 </context>
 <context>
@@ -235,22 +300,22 @@ p, li { white-space: pre-wrap; }
         <translation>Català</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="175"/>
+        <location filename="../ui/settings.ui" line="199"/>
         <source>Network</source>
         <translation>Xarxa</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="183"/>
+        <location filename="../ui/settings.ui" line="207"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Utilitza el &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="190"/>
+        <location filename="../ui/settings.ui" line="214"/>
         <source>Host:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="223"/>
+        <location filename="../ui/settings.ui" line="247"/>
         <source>Port:</source>
         <translation></translation>
     </message>
@@ -275,17 +340,17 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Port</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="362"/>
+        <location filename="../src/settings.cpp" line="387"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="363"/>
+        <location filename="../src/settings.cpp" line="388"/>
         <source>Cancel</source>
         <translation>Anul·la</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="364"/>
+        <location filename="../src/settings.cpp" line="389"/>
         <source>OK</source>
         <translation>Bé</translation>
     </message>
@@ -310,39 +375,44 @@ p, li { white-space: pre-wrap; }
         <translation>actualitzacions dels amics</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="164"/>
+        <location filename="../ui/settings.ui" line="188"/>
         <source>public timeline</source>
         <translation>actualitzacions de tots els usuaris</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="359"/>
+        <location filename="../src/settings.cpp" line="384"/>
         <source>Specify web browser:</source>
         <translation>Selecciona el navegador web:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="360"/>
+        <location filename="../src/settings.cpp" line="385"/>
         <source>Browse</source>
         <translation>Navega</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="330"/>
+        <location filename="../src/settings.cpp" line="354"/>
         <source>Select your browser executable</source>
         <translation>Escull el arxiu del teu navegador</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="330"/>
+        <location filename="../src/settings.cpp" line="354"/>
         <source>All files (*)</source>
         <translation>Tots arxius (*)</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="265"/>
+        <location filename="../ui/settings.ui" line="289"/>
         <source>Appearance</source>
         <translation>Aparença</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="273"/>
+        <location filename="../ui/settings.ui" line="297"/>
         <source>Color scheme:</source>
         <translation>Esquema de color:</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="179"/>
+        <source>include direct messages</source>
+        <translation>icloent els missatges privades</translation>
     </message>
 </context>
 <context>
@@ -369,40 +439,58 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Vés a la pàgina principal</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="219"/>
+        <location filename="../src/tweet.cpp" line="279"/>
         <source>Reply to</source>
         <translation>Respon a</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="225"/>
+        <location filename="../src/tweet.cpp" line="285"/>
         <source>Go to User&apos;s Twitter page</source>
         <translation>Vés-hi a la pàgina Twitter d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="222"/>
+        <location filename="../src/tweet.cpp" line="282"/>
         <source>Go to User&apos;s homepage</source>
         <translation>Vés-hi a la pàgina principal d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="228"/>
+        <location filename="../src/tweet.cpp" line="288"/>
         <source>Delete tweet</source>
         <translation>Suprimeix l&apos;estat</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="230"/>
+        <location filename="../src/tweet.cpp" line="290"/>
         <source>About qTwitter...</source>
         <translation>Sobre qTwitter...</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="79"/>
+        <location filename="../src/tweet.cpp" line="83"/>
         <source>Mark all as read</source>
         <translation>Marca&apos;ls tots com a llegits</translation>
+    </message>
+    <message>
+        <location filename="../src/tweet.cpp" line="57"/>
+        <source>Retweet</source>
+        <translation>Reenvia</translation>
+    </message>
+    <message>
+        <location filename="../src/tweet.cpp" line="65"/>
+        <source>Copy link to this Tweet</source>
+        <translation>Copia el link a aquest estat</translation>
+    </message>
+</context>
+<context>
+    <name>TweetModel</name>
+    <message>
+        <location filename="../src/tweetmodel.cpp" line="116"/>
+        <source>you</source>
+        <translation>tu</translation>
     </message>
 </context>
 <context>
     <name>XmlDownload</name>
     <message>
-        <location filename="../src/xmldownload.cpp" line="220"/>
+        <location filename="../src/xmldownload.cpp" line="222"/>
         <source>Authentication is required to post updates.</source>
         <translation>Autenticació és requerida per a publicar els teus actualitzacions.</translation>
     </message>

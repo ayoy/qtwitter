@@ -155,7 +155,7 @@ void TweetModel::setModelToBeCleared( bool publicTimelineRequested, bool userCha
 {
   bool timelineChanged = (!publicTimeline && publicTimelineRequested) || (publicTimeline && !publicTimelineRequested);
   if ( (!publicTimeline && !timelineChanged && !userChanged) || (publicTimeline && !timelineChanged) ) {
-    qDebug() << publicTimeline << publicTimelineRequested << userChanged << "won't clear list";
+    qDebug() << publicTimeline << timelineChanged << userChanged << "won't clear list";
     modelToBeCleared = false;
     publicTimeline = publicTimelineRequested;
     return;
@@ -164,6 +164,17 @@ void TweetModel::setModelToBeCleared( bool publicTimelineRequested, bool userCha
   deselectCurrent();
   modelToBeCleared = true;
   publicTimeline = publicTimelineRequested;
+}
+
+void TweetModel::removeDirectMessages()
+{
+  Tweet *aTweet;
+  for ( int i = 0; i < rowCount(); i++ ) {
+    if ( item(i)->data().value<Entry>().getType() == Entry::DirectMessage ) {
+      removeRow( i );
+      i--;
+    }
+  }
 }
 
 void TweetModel::setPublicTimeline( bool b )

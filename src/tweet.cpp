@@ -43,6 +43,8 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   menuFont->setPixelSize( 10 );
   menu->setFont( *menuFont );
 
+  signalMapper = new QSignalMapper( this );
+
   replyAction = new QAction( tr("Reply to") + " " + model.login(), this);
   menu->addAction( replyAction );
   replyAction->setFont( *menuFont );
@@ -58,29 +60,14 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   connect( retweetAction, SIGNAL(triggered()), this, SLOT(retweet()) );
   connect( this, SIGNAL(postRetweet(QByteArray)), tweetListModel, SIGNAL(postRetweet(QByteArray)) );
 
+  menu->addSeparator();
+
   copylinkAction = new QAction( tr( "Copy link to this Tweet" ), this );
   menu->addAction( copylinkAction );
   copylinkAction->setFont( *menuFont );
   connect( copylinkAction, SIGNAL(triggered()), this, SLOT(copyLink()) );
   if ( model.getType() != Entry::Status ) {
     copylinkAction->setEnabled( false );
-  }
-
-  signalMapper = new QSignalMapper( this );
-  gototwitterpageAction = new QAction( tr( "Go to User's Twitter page" ), this );
-  menu->addAction( gototwitterpageAction );
-  gototwitterpageAction->setFont( *menuFont );
-  signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + model.login() );
-  connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-  connect( signalMapper, SIGNAL(mapped(QString)), tweetListModel, SIGNAL(openBrowser(QString)) );
-
-  gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
-  menu->addAction( gotohomepageAction );
-  gotohomepageAction->setFont( *menuFont );
-  signalMapper->setMapping( gotohomepageAction, model.homepage() );
-  connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-  if ( !model.homepage().compare("") ) {
-    gotohomepageAction->setEnabled( false );
   }
 
   deleteAction = new QAction( tr( "Delete tweet" ), this );
@@ -97,6 +84,24 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   menu->addAction( markallasreadAction );
   markallasreadAction->setFont( *menuFont );
   connect( markallasreadAction, SIGNAL(triggered()), tweetListModel, SLOT(markAllAsRead()) );
+
+  menu->addSeparator();
+
+  gototwitterpageAction = new QAction( tr( "Go to User's Twitter page" ), this );
+  menu->addAction( gototwitterpageAction );
+  gototwitterpageAction->setFont( *menuFont );
+  signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + model.login() );
+  connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+  connect( signalMapper, SIGNAL(mapped(QString)), tweetListModel, SIGNAL(openBrowser(QString)) );
+
+  gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
+  menu->addAction( gotohomepageAction );
+  gotohomepageAction->setFont( *menuFont );
+  signalMapper->setMapping( gotohomepageAction, model.homepage() );
+  connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+  if ( !model.homepage().compare("") ) {
+    gotohomepageAction->setEnabled( false );
+  }
 
   menu->addSeparator();
 

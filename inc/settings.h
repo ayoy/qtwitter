@@ -104,9 +104,8 @@ public slots:
   void switchLanguage( int );
   void setAuthDataInDialog( const QAuthenticator& );
   void switchToPublic();
-  void saveConfig();
+  void saveConfig( int quitting = 0 );
   void show();
-
 
 private slots:
   void retranslateUi();
