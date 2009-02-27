@@ -44,10 +44,10 @@ int main( int argc, char **argv )
   QObject::connect( &qtwitter, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   QObject::connect( &qtwitter, SIGNAL(openBrowser(QString)), core, SLOT(openBrowser(QString)) );
   QObject::connect( model, SIGNAL(openBrowser(QString)), core, SLOT(openBrowser(QString)) );
-  QObject::connect( model, SIGNAL(addReplyString(QString)), &qtwitter, SIGNAL(addReplyString(QString)) );
+  QObject::connect( model, SIGNAL(reply(QString)), &qtwitter, SIGNAL(addReplyString(QString)) );
   QObject::connect( model, SIGNAL(about()), &qtwitter, SLOT(about()) );
   QObject::connect( model, SIGNAL(destroy(int)), core, SLOT(destroyTweet(int)) );
-  QObject::connect( model, SIGNAL(postRetweet(QByteArray)), core, SLOT(post(QByteArray)) );
+  QObject::connect( model, SIGNAL(retweet(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(post(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
   QObject::connect( &qtwitter, SIGNAL(resizeView(int,int)), model, SLOT(resizeData(int,int)));

@@ -27,7 +27,8 @@ StatusEdit::StatusEdit( QWidget * parent = 0 ) :
   statusClean( true )
   {}
 
-void StatusEdit::focusInEvent( QFocusEvent *event ) {
+void StatusEdit::focusInEvent( QFocusEvent *event )
+{
   if ( statusClean ) {
     setText( "" );
     statusClean = false;
@@ -35,19 +36,22 @@ void StatusEdit::focusInEvent( QFocusEvent *event ) {
   QLineEdit::focusInEvent( event );
 }
 
-void StatusEdit::focusOutEvent( QFocusEvent *event ) {
+void StatusEdit::focusOutEvent( QFocusEvent *event )
+{
   if ( !text().compare( "" ) ) {
     initialize();
   }
   QLineEdit::focusOutEvent( event );
 }
 
-void StatusEdit::initialize() {
+void StatusEdit::initialize()
+{
   setText( tr( "What are you doing?" ) );
   statusClean = true;
 }
 
-void StatusEdit::cancelEditing() {
+void StatusEdit::cancelEditing()
+{
   initialize();
   clearFocus();
 }

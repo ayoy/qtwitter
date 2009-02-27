@@ -29,33 +29,34 @@ const QByteArray XmlParser::USER_HOMEPAGE = "url";
 const QByteArray XmlParser::USER_TIMESTAMP = "created_at";
 
 XmlParser::XmlParser( QObject *parent) :
-  QObject( parent ),
-  QXmlDefaultHandler(),
-  currentField( None ),
-  entry(),
-  important( false )
-  {
-  }
+    QObject( parent ),
+    QXmlDefaultHandler(),
+    currentField( None ),
+    entry(),
+    important( false )
+{}
 
 XmlParser::XmlParser( Entry::Type entryType, QObject *parent) :
-  QObject( parent ),
-  QXmlDefaultHandler(),
-  currentField( None ),
-  entry( entryType ),
-  important( false )
-  {
-  }
+    QObject( parent ),
+    QXmlDefaultHandler(),
+    currentField( None ),
+    entry( entryType ),
+    important( false )
+{}
 
-bool XmlParser::startDocument() {
+bool XmlParser::startDocument()
+{
   return true;
 }
 
-bool XmlParser::endDocument() {
+bool XmlParser::endDocument()
+{
   emit xmlParsed();
   return true;
 }
 
-bool XmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ ) {
+bool XmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ )
+{
   if ( qName == "status" ) {
     entry.initialize();
     entry.setIndex( entry.getIndex() + 1 );
@@ -64,42 +65,64 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
   return true;
 }
 
-bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName ) {
+bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
+{
   if ( qName == "status" ) {
     emit newEntry( new Entry( entry ) );
   }
   return true;
 }
 
-bool XmlParser::characters( const QString &ch ) {
+bool XmlParser::characters( const QString &ch )
+{
   if ( important ) {
     if ( currentField == Id && entry.id() == -1 ) {
       entry.setId( ch.toInt() );
-//      qDebug() << "Setting id  with: " << ch;
     } else if ( currentField == Name && entry.name().isNull() ) {
       entry.setName( ch );
-//      qDebug() << "Setting name  with: " << ch;
     } else if ( currentField == Login && entry.login().isNull() ) {
       entry.setLogin( ch );
-//      qDebug() << "Setting login  with: " << ch;
     } else if ( currentField == Text && entry.text().isNull() ) {
       entry.setText( ch );
-//      qDebug() << "Setting text  with: " << ch;
     } else if ( currentField == Image && entry.image().isNull() ) {
       entry.setImage( ch );
-//      qDebug() << "Setting image with: " << ch;
     } else if ( currentField == Timestamp && entry.timestamp().isNull() ) {
       entry.setTimestamp( toDateTime( ch ) );
-//      qDebug() << "Setting timestamp with: " << ch;
     } else if ( currentField == Homepage ) {
       if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
         entry.setHasHomepage( true );
         entry.setHomepage( ch );
-//        qDebug() << "Setting homepage with: " << ch;
       }
     }
   }
   return true;
+}
+
+XmlParser::FieldType XmlParser::checkFieldType(const QString &element )
+{
+  if ( !element.compare(USER_ID) )
+    return Id;
+  if ( !element.compare(USER_TEXT) )
+    return Text;
+  if ( !element.compare(USER_NAME) )
+    return Name;
+  if ( !element.compare(USER_LOGIN) )
+    return Login;
+  if ( !element.compare(USER_HOMEPAGE) )
+    return Homepage;
+  if ( !element.compare(USER_PHOTO) )
+    return Image;
+  if ( !element.compare(USER_TIMESTAMP) )
+    return Timestamp;
+  return None;
+}
+
+QDateTime XmlParser::toDateTime( const QString &timestamp )
+{
+  QRegExp rx( "(\\w+) (\\w+) (\\d\\d) (\\d\\d):(\\d\\d):(\\d\\d) .+ (\\d\\d\\d\\d)" );
+  rx.indexIn( timestamp );
+  return QDateTime( QDate( rx.cap(7).toInt(), getMonth( rx.cap(2) ), rx.cap(3).toInt() ),
+                    QTime( rx.cap(4).toInt(), rx.cap(5).toInt(), rx.cap(6).toInt() ) );
 }
 
 int XmlParser::getMonth( const QString &month )
@@ -130,28 +153,4 @@ int XmlParser::getMonth( const QString &month )
     return 12;
   else
     return -1;
-}
-
-QDateTime XmlParser::toDateTime( const QString &timestamp ) {
-  QRegExp rx( "(\\w+) (\\w+) (\\d\\d) (\\d\\d):(\\d\\d):(\\d\\d) .+ (\\d\\d\\d\\d)" );
-  rx.indexIn( timestamp );
-  return QDateTime( QDate( rx.cap(7).toInt(), getMonth( rx.cap(2) ), rx.cap(3).toInt() ), QTime( rx.cap(4).toInt(), rx.cap(5).toInt(), rx.cap(6).toInt() ) );
-}
-
-XmlParser::FieldType XmlParser::checkFieldType(const QString &element ) {
-  if ( !element.compare(USER_ID) )
-    return Id;
-  if ( !element.compare(USER_TEXT) )
-    return Text;
-  if ( !element.compare(USER_NAME) )
-    return Name;
-  if ( !element.compare(USER_LOGIN) )
-    return Login;
-  if ( !element.compare(USER_HOMEPAGE) )
-    return Homepage;
-  if ( !element.compare(USER_PHOTO) )
-    return Image;
-  if ( !element.compare(USER_TIMESTAMP) )
-    return Timestamp;
-  return None;
 }

@@ -23,49 +23,36 @@
 
 #include "httpconnection.h"
 
-struct ImageData {
-  QImage *img;
+struct ImageData
+{
+  QImage *image;
   QByteArray *bytearray;
   QBuffer *buffer;
-  ImageData() :
-    img(0),
-    bytearray(0),
-    buffer(0)
-    {}
-  ~ImageData() {
-    if ( img ) {
-      delete img;
-      img = 0;
-    }
-    if ( bytearray ) {
-      delete bytearray;
-      bytearray = 0;
-    }
-    if ( buffer ) {
-      delete buffer;
-      buffer = 0;
-    }
-  }
+  ImageData();
+  ~ImageData();
 };
 
-class ImageDownload : public HttpConnection {
+class ImageDownload : public HttpConnection
+{
   Q_OBJECT
+
 public:
   ImageDownload();
   ~ImageDownload();
-  void imgGet( Entry *entry );
 
-private:
-  QMap<QString,int> requestByEntry;
-  QMap<QString,ImageData> imageByEntry;
+  void imageGet( Entry *entry );
+
+signals:
+  void imageDownloaded( const QString&, QImage );
+  void imageReadyForUrl( const QString&, QImage );
 
 private slots:
   void httpRequestFinished( int requestId, bool error );
   void readResponseHeader( const QHttpResponseHeader &responseHeader );
 
-signals:  
-  void imageDownloaded( const QString&, QImage );
-  void imageReadyForUrl( const QString&, QImage );
+private:
+  QMap<QString,int> requestByEntry;
+  QMap<QString,ImageData> imageByEntry;
 };
 
 #endif //IMAGEDOWNLOAD_H

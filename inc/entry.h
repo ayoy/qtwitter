@@ -26,8 +26,9 @@
 #include <QDateTime>
 #include <QMetaType>
 
-class Entry : public QObject {
-
+class Entry : public QObject
+{
+  Q_OBJECT
 public:
   enum Type {
     Status,
@@ -39,8 +40,8 @@ public:
 
   Entry& operator=( const Entry &right );
 
-  bool checkContents();
   void initialize( bool resetIndex = false );
+  bool checkContents();
 
   Type getType() const;
   int getIndex() const;
@@ -55,14 +56,13 @@ public:
   QDateTime timestamp() const;
 
   void setIndex( int itemIndex );
-  void setId( int newId );
   void setOwn( bool isOwn );
+  void setId( int newId );
   void setName( const QString& newName );
   void setLogin( const QString& newLogin );
   void setHomepage( const QString& newHomepage );
   void setHasHomepage( bool );
   void setImage( const QString& newImage );
-  void setOriginalText( const QString& newText );
   void setText( const QString& newText );
   void setTimestamp( const QDateTime& newTimestamp );
 

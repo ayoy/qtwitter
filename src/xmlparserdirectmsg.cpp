@@ -21,12 +21,12 @@
 #include "xmlparserdirectmsg.h"
 
 XmlParserDirectMsg::XmlParserDirectMsg( QObject *parent ) :
-  XmlParser( Entry::DirectMessage, parent ),
-  parsingSender( false )
-{
-}
+    XmlParser( Entry::DirectMessage, parent ),
+    parsingSender( false )
+{}
 
-bool XmlParserDirectMsg::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ ) {
+bool XmlParserDirectMsg::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ )
+{
   if ( qName == "direct_message" ) {
     entry.initialize();
     entry.setIndex( entry.getIndex() + 1 );
@@ -38,7 +38,8 @@ bool XmlParserDirectMsg::startElement( const QString & /* namespaceURI */, const
   return true;
 }
 
-bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName ) {
+bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
+{
   if ( qName == "direct_message" ) {
     emit newEntry( &entry );
   }
@@ -48,30 +49,25 @@ bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const Q
   return true;
 }
 
-bool XmlParserDirectMsg::characters( const QString &ch ) {
+bool XmlParserDirectMsg::characters( const QString &ch )
+{
   if ( important ) {
     if ( currentField == Id && entry.id() == -1 ) {
       entry.setId( ch.toInt() );
-//      qDebug() << "Setting id  with: " << ch;
     } else if ( currentField == Text && entry.text().isNull() ) {
       entry.setText( ch );
-//      qDebug() << "Setting text  with: " << ch;
     } else if ( currentField == Timestamp && entry.timestamp().isNull() ) {
       entry.setTimestamp( toDateTime( ch ) );
-//      qDebug() << "Setting timestamp with: " << entry.timestamp().toString( "dd/MM/yyyy hh:mm:ss" );
     }
     if ( parsingSender ) {
       if ( currentField == Name && entry.name().isNull() ) {
         entry.setName( ch );
-//        qDebug() << "Setting name  with: " << ch;
       } else if ( currentField == Login && entry.login().isNull() ) {
         entry.setLogin( ch );
-//        qDebug() << "Setting login  with: " << ch;
       } else if ( currentField == Homepage ) {
         if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
           entry.setHasHomepage( true );
           entry.setHomepage( ch );
-//          qDebug() << "Setting homepage with: " << ch;
         }
       }
     }

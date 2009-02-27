@@ -35,7 +35,8 @@ namespace Ui {
     class Tweet;
 }
 
-class Tweet : public QWidget {
+class Tweet : public QWidget
+{
   Q_OBJECT
   Q_DISABLE_COPY( Tweet )
 
@@ -47,10 +48,13 @@ public:
   };
   explicit Tweet( const Entry &entry, const QImage &icon, QWidget *parent );
   virtual ~Tweet();
+
   void resize( const QSize& );
   void resize( int w, int h );
-  void setIcon( const QImage& );
+  void setIcon( const QImage &image );
+  void applyTheme( Tweet::State style = Tweet::Unread );
   void retranslateUi();
+
   bool isRead() const;
   QString getUrlForIcon() const;
   State getState() const;
@@ -60,28 +64,26 @@ public:
   static void setTheme( const ThemeData &theme );
   static void setTweetListModel( TweetModel *tweetModel );
 
-  void applyTheme( Tweet::State variant = Tweet::Unread );
-
 public slots:
   void adjustSize();
   void menuRequested();
   void sendReply();
-  void retweet();
+  void sendRetweet();
   void copyLink();
-
-private slots:
-  void focusRequest();
 
 signals:
   void reply( const QString& );
+  void retweet( const QByteArray & );
   void markAllAsRead();
   void selectMe( Tweet* );
-  void postRetweet( const QByteArray & );
 
 protected:
-  virtual void changeEvent( QEvent *e );
+  void changeEvent( QEvent *e );
   void enterEvent( QEvent *e );
   void leaveEvent( QEvent *e );
+
+private slots:
+  void focusRequest();
 
 private:
   QMenu *menu;
@@ -94,7 +96,7 @@ private:
   QAction *deleteAction;
   QAction *aboutAction;
   State tweetState;
-  Entry model;
+  Entry tweetData;
   QSignalMapper *signalMapper;
   QFont *menuFont;
   bool read;

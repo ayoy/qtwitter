@@ -38,17 +38,29 @@ class MainWindow : public QWidget
 public:
   MainWindow( QWidget *parent = 0 );
   ~MainWindow();
+
   StatusList* getListView();
   int getScrollBarWidth();
   void setListViewModel( TweetModel *model );
   
 public slots:
-  void popupError( const QString &message );
-  void retranslateUi();
   void changeListBackgroundColor( const QColor &newColor );
   void popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages );
-  void about();
+  void popupError( const QString &message );
+  void retranslateUi();
   void resetStatusEdit();
+  void about();
+
+signals:
+  void updateTweets();
+  void post( const QByteArray& );
+  void openBrowser( QString address = QString() );
+  void settingsDialogRequested();
+  void addReplyString( const QString& );
+  void resizeView( int width, int oldWidth );
+
+protected:
+  void closeEvent( QCloseEvent *e );
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
@@ -56,20 +68,9 @@ private slots:
   void sendStatus();
   void resetStatus();
 
-signals:
-  void updateTweets();
-  void settingsDialogRequested();
-  void post( const QByteArray& );
-  void openBrowser( QString address = QString() );
-  void addReplyString( const QString& );
-  void resizeView( int width, int oldWidth );
-
-protected:
-  void closeEvent( QCloseEvent *e );
-
 private:
-  bool resetUiWhenFinished;
   void resizeEvent( QResizeEvent* );
+  bool resetUiWhenFinished;
   QMenu *trayMenu;
   QSystemTrayIcon *trayIcon;
   Ui::MainWindow ui;

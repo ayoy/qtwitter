@@ -35,51 +35,49 @@ class TweetModel : public QStandardItemModel
 
 public:
   TweetModel( int margin, StatusList *parentListView, QObject *parent = 0 );
+  void deselectCurrentIndex();
   void setScrollBarMargin( int width );
   void setTheme( const ThemeData &newTheme );
-  void deselectCurrent();
 
 public slots:
   void insertTweet( Entry *entry );
   void deleteTweet( int id );
-  void setImageForUrl( const QString& url, QImage image );
+  void removeDirectMessages();
+  void selectTweet( const QModelIndex &index );
+  void selectTweet( Tweet *tweet );
+  void markAllAsRead();
+  void sendNewsInfo();
+  void retranslateUi();
   void resizeData( int width, int oldWidth );
+  void moveFocus( bool up );
+  void setImageForUrl( const QString& url, QImage image );
   void setModelToBeCleared( bool publicTimelineRequested, bool userChanged );
   void setPublicTimelineRequested( bool );
-  void retranslateUi();
-  void select( const QModelIndex &index );
-  void select( Tweet *tweet );
-  void markAllAsRead();
-  void sendTimelineInfo();
-  void moveFocus( bool up );
-  void removeDirectMessages();
 
 signals:
-  void newTweets( int numberOfStatuses, QStringList namesForStatuses, int numberOfMessages, QStringList namesForMessages );
+  void retweet( const QByteArray &status );
+  void destroy( int );
+  void newTweets( int statusesCount, QStringList statusesNames, int messagesCount, QStringList messagesNames );
   void newTimelineInfo();
   void openBrowser( QString address = QString() );
-  void addReplyString( const QString& );
+  void reply( const QString& );
   void about();
-  void destroy( int );
-  void postRetweet( const QByteArray &status );
 
 private:
-  bool publicTimeline;
-  bool publicTimelineRequested;
-  bool modelToBeCleared;
-  bool statusesFinished;
-  bool messagesFinished;
-  int newStatuses;
-  int newMessages;
-  QStringList incomingStatuses;
-  QStringList incomingMessages;
-  int scrollBarMargin;
-  QModelIndex currentIndex;
-  StatusList *view;
   void countUnreadEntries();
   void addUnreadEntry( Entry );
   Tweet* getTweetFromIndex( int );
   Tweet* getTweetFromIndex( QModelIndex );
+  bool publicTimeline;
+  bool publicTimelineRequested;
+  bool modelToBeCleared;
+  int newStatusesCount;
+  int newMessagesCount;
+  QStringList newStatusesNames;
+  QStringList newMessagesNames;
+  int scrollBarMargin;
+  QModelIndex currentIndex;
+  StatusList *view;
 };
 
 #endif // TWEETMODEL_H

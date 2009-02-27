@@ -134,37 +134,8 @@ Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, Core *c
 
 Settings::~Settings() {}
 
-void Settings::applySettings()
-{
-  setProxy();
-  core->applySettings( ui.refreshCombo->currentText().toInt() * 60000, ui.userNameEdit->text(), ui.passwordEdit->text(), ui.radioPublic->isChecked(), ui.directCheckBox->isChecked() );
-  changeTheme( ui.colorBox->currentText() );
-#ifdef Q_WS_X11
-  core->setBrowserPath( this->selectBrowserEdit->text() );
-#endif
-}
-
-void Settings::accept()
-{
-  saveConfig();
-  QDialog::accept();
-}
-
-void Settings::show()
-{
-  ui.tabs->setCurrentIndex( 0 );
-  QDialog::show();
-}
-
-void Settings::reject()
-{
-  loadConfig( true );
-  QDialog::reject();
-}
-
 void Settings::loadConfig( bool dialogRejected )
 {
-
 #if defined Q_WS_X11 || defined Q_WS_MAC
   QSettings settings( "ayoy", "qTwitter" );
 #endif
@@ -221,9 +192,20 @@ void Settings::loadConfig( bool dialogRejected )
   qDebug() << "settings loaded and applied";
 }
 
+void Settings::setProxy()
+{
+  if ( ui.proxyBox->isChecked() ) {
+    proxy.setType( QNetworkProxy::HttpProxy );
+    proxy.setHostName( ui.hostEdit->text() );
+    proxy.setPort( ui.portEdit->text().toInt() );
+  } else {
+    proxy.setType( QNetworkProxy::NoProxy );
+  }
+  QNetworkProxy::setApplicationProxy( proxy );
+}
+
 void Settings::saveConfig( int quitting )
 {
-
 #if defined Q_WS_X11 || defined Q_WS_MAC
   QSettings settings( "ayoy", "qTwitter" );
 #endif
@@ -262,55 +244,22 @@ void Settings::saveConfig( int quitting )
   }
 }
 
-void Settings::setAuthDataInDialog( const QAuthenticator &authData)
+void Settings::show()
 {
-  ui.userNameEdit->setText( authData.user() );
-  ui.passwordEdit->setText( authData.password() );
+  ui.tabs->setCurrentIndex( 0 );
+  QDialog::show();
 }
 
-void Settings::switchToPublic() {
-  if ( !ui.radioPublic->isChecked() ) {
-    ui.radioPublic->setChecked( true );
-    model->setPublicTimelineRequested( true );
-
-#if defined Q_WS_X11 || defined Q_WS_MAC
-    QSettings settings( "ayoy", "qTwitter" );
-#endif
-#if defined Q_WS_WIN
-    QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
-#endif
-    settings.setValue( "General/timeline", ui.radioFriends->isChecked() );
-  }
+void Settings::accept()
+{
+  saveConfig();
+  QDialog::accept();
 }
 
-void Settings::setProxy()
+void Settings::reject()
 {
-  if ( ui.proxyBox->isChecked() ) {
-    proxy.setType( QNetworkProxy::HttpProxy );
-    proxy.setHostName( ui.hostEdit->text() );
-    proxy.setPort( ui.portEdit->text().toInt() );
-  } else {
-    proxy.setType( QNetworkProxy::NoProxy );
-  }
-  QNetworkProxy::setApplicationProxy( proxy );
-}
-
-QDir Settings::directoryOf(const QString &subdir)
-{
-  QDir dir(QApplication::applicationDirPath());
-
-#if defined Q_WS_WIN
-  if (dir.dirName().toLower() == "debug" || dir.dirName().toLower() == "release")
-    dir.cdUp();
-#elif defined Q_WS_MAC
-  if (dir.dirName() == "MacOS") {
-    dir.cdUp();
-    dir.cdUp();
-    dir.cdUp();
-  }
-#endif
-  dir.cd(subdir);
-  return dir;
+  loadConfig( true );
+  QDialog::reject();
 }
 
 void Settings::switchLanguage( int index )
@@ -325,36 +274,26 @@ void Settings::switchLanguage( int index )
   adjustSize();
 }
 
-void Settings::createLanguageMenu()
+void Settings::switchToPublic()
 {
-  QDir qmDir( ":/translations" );
-  QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
-  for (int i = 0; i < fileNames.size(); ++i) {
-    QString locale = fileNames[i];
-    locale.remove(0, locale.indexOf('_') + 1);
-    locale.chop(3);
+  if ( !ui.radioPublic->isChecked() ) {
+    ui.radioPublic->setChecked( true );
+    model->setPublicTimelineRequested( true );
 
-    QTranslator translator;
-    translator.load(fileNames[i], qmDir.absolutePath());
-    QString language = translator.translate("Settings", "English");
-    qDebug() << "adding language" << language << ", locale" << locale;
-    ui.languageCombo->addItem( language, locale );
-  }
-  QString systemLocale = QLocale::system().name();
-  systemLocale.chop(3);
-  qDebug() << systemLocale << ui.languageCombo->findData( systemLocale );
-  ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
-}
-
-#ifdef Q_WS_X11
-void Settings::setBrowser()
-{
-  QRegExp rx( ";HOME=(.+);", Qt::CaseSensitive );
-  rx.setMinimal( true );
-  rx.indexIn( QProcess::systemEnvironment().join( ";" ) );
-  selectBrowserEdit->setText( QFileDialog::getOpenFileName( this, tr( "Select your browser executable" ), rx.cap( 1 ), tr( "All files (*)") ) );
-}
+#if defined Q_WS_X11 || defined Q_WS_MAC
+    QSettings settings( "ayoy", "qTwitter" );
+#elif Q_WS_WIN
+    QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
 #endif
+    settings.setValue( "General/timeline", ui.radioFriends->isChecked() );
+  }
+}
+
+void Settings::setAuthDataInDialog( const QAuthenticator &authData)
+{
+  ui.userNameEdit->setText( authData.user() );
+  ui.passwordEdit->setText( authData.password() );
+}
 
 void Settings::changeTheme( const QString &theme )
 {
@@ -389,4 +328,45 @@ void Settings::retranslateUi()
   ui.buttonBox->button( QDialogButtonBox::Cancel )->setText( tr( "Cancel" ) );
   ui.buttonBox->button( QDialogButtonBox::Ok )->setText( tr( "OK" ) );
   adjustSize();
+}
+
+#ifdef Q_WS_X11
+void Settings::setBrowser()
+{
+  QRegExp rx( ";HOME=(.+);", Qt::CaseSensitive );
+  rx.setMinimal( true );
+  rx.indexIn( QProcess::systemEnvironment().join( ";" ) );
+  selectBrowserEdit->setText( QFileDialog::getOpenFileName( this, tr( "Select your browser executable" ), rx.cap( 1 ), tr( "All files (*)") ) );
+}
+#endif
+
+void Settings::applySettings()
+{
+  setProxy();
+  core->applySettings( ui.refreshCombo->currentText().toInt() * 60000, ui.userNameEdit->text(), ui.passwordEdit->text(), ui.radioPublic->isChecked(), ui.directCheckBox->isChecked() );
+  changeTheme( ui.colorBox->currentText() );
+#ifdef Q_WS_X11
+  core->setBrowserPath( this->selectBrowserEdit->text() );
+#endif
+}
+
+void Settings::createLanguageMenu()
+{
+  QDir qmDir( ":/translations" );
+  QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
+  for (int i = 0; i < fileNames.size(); ++i) {
+    QString locale = fileNames[i];
+    locale.remove(0, locale.indexOf('_') + 1);
+    locale.chop(3);
+
+    QTranslator translator;
+    translator.load(fileNames[i], qmDir.absolutePath());
+    QString language = translator.translate("Settings", "English");
+    qDebug() << "adding language" << language << ", locale" << locale;
+    ui.languageCombo->addItem( language, locale );
+  }
+  QString systemLocale = QLocale::system().name();
+  systemLocale.chop(3);
+  qDebug() << systemLocale << ui.languageCombo->findData( systemLocale );
+  ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
 }

@@ -20,26 +20,78 @@
 
 #include "imagedownload.h"
 
+ImageData::ImageData() :
+    image(0),
+    bytearray(0),
+    buffer(0)
+{}
+
+ImageData::~ImageData()
+{
+  if ( image ) {
+    delete image;
+    image = 0;
+  }
+  if ( bytearray ) {
+    delete bytearray;
+    bytearray = 0;
+  }
+  if ( buffer ) {
+    delete buffer;
+    buffer = 0;
+  }
+}
+
 ImageDownload::ImageDownload() : HttpConnection() {}
 
 ImageDownload::~ImageDownload()
+{}
+
+void ImageDownload::imageGet( Entry *entry )      //requestByEntry[entry.getId()] = httpGetId;
 {
-//  imageByEntry.clear();
+  QString imagePath = entry->image();
+  QByteArray encodedPath = prepareRequest( imagePath );
+  httpGetId = get( encodedPath, buffer );
+  requestByEntry.insert( imagePath, httpGetId );
+  ImageData *imageData = new ImageData;
+  imageData->buffer = buffer;
+  imageData->bytearray = bytearray;
+  imageByEntry.insert( imagePath, *imageData );
+  qDebug() << "Request of type GET and id" << httpGetId << "started";
 }
 
-void ImageDownload::imgGet( Entry *entry )      //requestByEntry[entry.getId()] = httpGetId;
+void ImageDownload::httpRequestFinished( int requestId, bool error )
 {
-  QString imgPath = entry->image();
-  QByteArray encodedPath = prepareRequest( imgPath );
-//  qDebug() << "getting" << encodedPath << "\nentry:" << imgPath;
-  httpGetId = get( encodedPath, buffer );
-  qDebug() << httpGetId;
-  requestByEntry.insert( imgPath, httpGetId );
-  ImageData *imgData = new ImageData;
-  imgData->buffer = buffer;
-  imgData->bytearray = bytearray;
-  imageByEntry.insert( imgPath, *imgData );
-  qDebug() << "Request of type GET and id" << httpGetId << "started";
+  qDebug() << "finished";
+  ImageData *imageData = &imageByEntry[ requestByEntry.key( requestId ) ];
+  if (httpRequestAborted) {
+    if (imageData->buffer) {
+      imageData->buffer->close();
+      delete imageData->buffer;
+      imageData->buffer = 0;
+    }
+    if(imageData->bytearray) {
+      delete imageData->bytearray;
+      imageData->bytearray = 0;
+    }
+    return;
+  }
+  if ( !requestByEntry.values().contains( requestId ) )
+    return;
+
+  imageData->buffer->close();
+  if (error) {
+    emit errorMessage( tr("Download failed: ") + errorString() );
+  }
+  qDebug() << "Request of id" << requestId << "finished";
+  imageData->image = new QImage;
+  imageData->image->loadFromData( *imageData->bytearray );
+  emit imageReadyForUrl( requestByEntry.key( requestId ), *imageData->image );
+//  delete imageData;
+//  delete imageData->buffer;
+//  imageData->buffer = 0;
+//  delete imageData->bytearray;
+//  imageData->bytearray = 0;
 }
 
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -70,38 +122,4 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
       imageData->bytearray = 0;
     }
   }
-}
-
-void ImageDownload::httpRequestFinished( int requestId, bool error )
-{
-  qDebug() << "finished";
-  ImageData *imageData = &imageByEntry[ requestByEntry.key( requestId ) ];
-  if (httpRequestAborted) {
-    if (imageData->buffer) {
-      imageData->buffer->close();
-      delete imageData->buffer;
-      imageData->buffer = 0;
-    }
-    if(imageData->bytearray) {
-      delete imageData->bytearray;
-      imageData->bytearray = 0;
-    }
-    return;
-  }
-  if ( !requestByEntry.values().contains( requestId ) )
-    return;
-
-  imageData->buffer->close();
-  if (error) {
-    emit errorMessage( tr("Download failed: ") + errorString() );
-  }
-  qDebug() << "Request of id" << requestId << "finished";
-  imageData->img = new QImage;
-  imageData->img->loadFromData( *imageData->bytearray );
-  emit imageReadyForUrl( requestByEntry.key( requestId ), *imageData->img );
-//  delete imageData;
-//  delete imageData->buffer;
-//  imageData->buffer = 0;
-//  delete imageData->bytearray;
-//  imageData->bytearray = 0;
 }

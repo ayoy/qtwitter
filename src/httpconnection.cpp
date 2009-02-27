@@ -42,11 +42,6 @@ HttpConnection::~HttpConnection()
   }
 }
 
-void HttpConnection::httpRequestStarted( int /*requestId*/ )
-{
-  //qDebug() << currentRequest().toString();
-}
-
 void HttpConnection::setUrl( const QString &path )
 {
   url.setUrl( path );
@@ -76,4 +71,9 @@ QByteArray HttpConnection::prepareRequest( const QString &path )
     encodedPath = "/";
   qDebug() << "About to download: " + encodedPath + " from: " + url.host();
   return encodedPath;
+}
+
+void HttpConnection::httpRequestStarted( int /*requestId*/ )
+{
+  //qDebug() << currentRequest().toString();
 }

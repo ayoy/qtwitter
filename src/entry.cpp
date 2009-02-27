@@ -58,23 +58,8 @@ Entry::Entry(const Entry &right) :
 {
 }
 
-bool Entry::checkContents() {
-  if ( !hasHomepage ) {
-    userHomepage = QString();
-  }
-  if ( ( userId != -1 ) &&
-       !userName.isNull() &&
-       !userLogin.isNull() &&
-       ( type == Status ? !userImage.isNull() : true ) &&
-       !userText.isNull() &&
-       ( hasHomepage ? !userHomepage.isNull() : true ) &&
-       !userTimestamp.isNull() ) {
-    return true;
-  }
-  return false;
-}
-
-Entry& Entry::operator=( const Entry &right ) {
+Entry& Entry::operator=( const Entry &right )
+{
   type = right.type;
   index = right.index;
   own = right.own;
@@ -107,6 +92,23 @@ void Entry::initialize( bool resetIndex )
   userTimestamp = QDateTime();
 }
 
+bool Entry::checkContents()
+{
+  if ( !hasHomepage ) {
+    userHomepage = QString();
+  }
+  if ( ( userId != -1 ) &&
+       !userName.isNull() &&
+       !userLogin.isNull() &&
+       ( type == Status ? !userImage.isNull() : true ) &&
+       !userText.isNull() &&
+       ( hasHomepage ? !userHomepage.isNull() : true ) &&
+       !userTimestamp.isNull() ) {
+    return true;
+  }
+  return false;
+}
+
 Entry::Type Entry::getType() const { return type; }
 int Entry::getIndex() const { return index; }
 bool Entry::isOwn() const { return own; }
@@ -129,7 +131,8 @@ void Entry::setHasHomepage( bool b ) { hasHomepage = b; }
 void Entry::setImage( const QString& newImage ) { userImage = newImage; }
 void Entry::setTimestamp( const QDateTime& newTimestamp ) { userTimestamp = newTimestamp; }
 
-void Entry::setText( const QString& newText ) {
+void Entry::setText( const QString& newText )
+{
   userOriginalText = newText;
   userText = userOriginalText;
   QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );

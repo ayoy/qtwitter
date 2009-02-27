@@ -26,34 +26,33 @@
 
 #include <QtNetwork>
 
-class HttpConnection : public QHttp {
-
+class HttpConnection : public QHttp
+{
   Q_OBJECT
 
 public:
   HttpConnection( QObject *parent = 0 );
   virtual ~HttpConnection();
   inline void setUrl( const QString &path );
-  
-private slots:
-  virtual void httpRequestFinished( int requestId, bool error ) = 0;
-  virtual void readResponseHeader( const QHttpResponseHeader &responseHeader ) = 0;
-  virtual void httpRequestStarted( int requestId );
 
 signals:
-  void dataParsed( const QString& );
   void errorMessage( const QString& );
 
 protected:
   QByteArray prepareRequest( const QString &path );
-  QByteArray *bytearray;
-  QBuffer *buffer;
-  QUrl url;
   bool httpRequestAborted;
   int httpGetId;
   int httpHostId;
   int httpUserId;
   int closeId;
+  QUrl url;
+  QByteArray *bytearray;
+  QBuffer *buffer;
+
+private slots:
+  virtual void httpRequestFinished( int requestId, bool error ) = 0;
+  virtual void readResponseHeader( const QHttpResponseHeader &responseHeader ) = 0;
+  virtual void httpRequestStarted( int requestId );
 };
 
 #endif //HTTPCONNECTION_H

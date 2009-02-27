@@ -25,19 +25,39 @@
 
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
-    downloadPublicTimeline( false ),
-    includeDirectMessages( false ),
-    userChanged( false ),
-    showingDialog( false ),
+    publicTimelineSync( false ),
+    directMessagesSync( false ),
+    switchUser( false ),
+    authDialogOpen( false ),
     xmlGet( NULL ),
     xmlPost( NULL ),
     timer( NULL ),
-    statusesFinished( false ),
-    messagesFinished( false )
+    statusesDone( false ),
+    messagesDone( false )
 {
 }
 
 Core::~Core() {}
+
+void Core::applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages )
+{
+  bool a = setTimerInterval( msecs );
+  bool b = setAuthData( user, password );
+  bool c = setPublicTimelineSync( publicTimeline );
+  bool d = setDirectMessagesSync( directMessages );
+  if ( a || b || c || (!c && d) )
+    get();
+}
+
+bool Core::isPublicTimelineSync()
+{
+  return publicTimelineSync;
+}
+
+bool Core::isDirectMessagesSync()
+{
+  return directMessagesSync;
+}
 
 bool Core::setTimerInterval( int msecs )
 {
@@ -56,64 +76,31 @@ bool Core::setTimerInterval( int msecs )
   return false;
 }
 
-void Core::forceGet()
+bool Core::setAuthData( const QString &user, const QString &password )
 {
-  timer->start();
-  get();
-}
-
-void Core::downloadOneImage( Entry *entry ) {
-  if ( entry->getType() == Entry::Status ) {
-    if ( imagesHash.contains( entry->image() ) ) {
-      if ( imagesHash[ entry->image() ].isNull() ) {
-        qDebug() << "not downloading";
-      } else {
-        emit setImageForUrl( entry->image(), imagesHash[ entry->image() ] );
-      }
-      return;
-    }
-    QString host = QUrl( entry->image() ).host();
-    if ( imagesGetter.contains( host ) ) {
-      imagesGetter[host]->imgGet( entry );
-      imagesHash[ entry->image() ] = QImage();
-      qDebug() << "setting null image";
-      return;
-    }
-    ImageDownload *getter = new ImageDownload();
-    imagesGetter[host] = getter;
-    connect( getter, SIGNAL( errorMessage(QString) ), this, SIGNAL( errorMessage(QString) ) );
-    connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
-    getter->imgGet( entry );
-    imagesHash[ entry->image() ] = QImage();
-    qDebug() << "setting null image" << imagesHash[ entry->image() ].isNull();
+  switchUser = false;
+  if ( currentUser.compare( user ) ) {
+    authData.setUser( user );
+    switchUser = true;
   }
+  authData.setPassword( password );
+  return switchUser;
 }
 
-void Core::setImageInHash( const QString &url, QImage image ) {
-//  qDebug() << "assigning image to url:" << url;
-  imagesHash[ url ] = image;
-  emit setImageForUrl( url, image );
-}
-
-bool Core::setDownloadPublicTimeline( bool b )
+bool Core::setPublicTimelineSync( bool b )
 {
-  if ( downloadPublicTimeline != b ) {
-    downloadPublicTimeline = b;
+  if ( publicTimelineSync != b ) {
+    publicTimelineSync = b;
     return true;
   }
   return false;
 }
 
-bool Core::downloadsPublicTimeline()
+bool Core::setDirectMessagesSync( bool b )
 {
-  return downloadPublicTimeline;
-}
-
-bool Core::setWantsDirectMessages( bool b )
-{
-  if ( includeDirectMessages != b ) {
-    includeDirectMessages = b;
-    if ( includeDirectMessages == false ) {
+  if ( directMessagesSync != b ) {
+    directMessagesSync = b;
+    if ( directMessagesSync == false ) {
       emit noDirectMessages();
     }
     return true;
@@ -121,51 +108,64 @@ bool Core::setWantsDirectMessages( bool b )
   return false;
 }
 
-bool Core::wantsDirectMessages()
+#ifdef Q_WS_X11
+void Core::setBrowserPath( const QString &path )
 {
-  return includeDirectMessages;
+  browserPath = path;
+}
+#endif
+
+void Core::forceGet()
+{
+  timer->start();
+  get();
 }
 
-void Core::applySettings( int msecsTimeInterval, const QString &user, const QString &password, bool publicTimelineRequested, bool directMessagesRequested )
+void Core::get()
 {
-  bool a = setTimerInterval( msecsTimeInterval );
-  bool b = setAuthData( user, password );
-  bool c = setDownloadPublicTimeline( publicTimelineRequested );
-  bool d = setWantsDirectMessages( directMessagesRequested );
-  if ( a || b || c || (!c && d) )
-    get();
+  if ( publicTimelineSync ) {
+    xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
+    xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
+  } else {
+    if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
+      if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
+        emit errorMessage( tr("Authentication is required to get your friends' updates.") );
+        switchUser = false;
+        return;
+      }
+    }
+    if ( publicTimelineSync ) {
+      xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
+      xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
+    } else {
+      qDebug() << "creating XmlDownload";
+      xmlGet = new XmlDownload ( XmlDownload::RefreshAll, this );
+      xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", XmlDownload::Statuses );
+      if ( directMessagesSync ) {
+        xmlGet->getContent( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
+      }
+    }
+  }
+  emit requestListRefresh( publicTimelineSync, switchUser );
+  switchUser = false;
 }
 
-void Core::newEntry( Entry *entry )
+void Core::post( const QByteArray &status )
 {
-  if ( entry->login() == authData.user() ) {
-    entry->setOwn( true );
+  if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
+    if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
+      emit errorMessage( tr("Authentication is required to post updates.") );
+      return;
+    }
   }
-  emit addOneEntry( entry );
-}
-
-void Core::setFlag( XmlDownload::ContentRequested flag )
-{
-  switch ( flag ) {
-    case XmlDownload::DirectMessages:
-      messagesFinished = true;
-      break;
-    case XmlDownload::Statuses:
-    default:
-      statusesFinished = true;
-  }
-  emit resetUi();
-  if ( downloadPublicTimeline ) {
-    emit switchToPublic();
-  }
-  if ( statusesFinished && ( downloadPublicTimeline || (!includeDirectMessages ? true : messagesFinished) || (xmlPost && !downloadPublicTimeline)  ) ) {
-    emit timelineUpdated();
-    emit authDataSet( authData );
-    destroyXmlConnection();
-    currentUser = authData.user();
-    statusesFinished = false;
-    messagesFinished = false;
-  }
+  QByteArray request( "status=" );
+  request.append( status );
+  request.append( "&source=qtwitter" );
+  qDebug() << request;
+  xmlPost = new XmlDownload( XmlDownload::Submit, this );
+  xmlPost->postContent( "http://twitter.com/statuses/update.xml", request, XmlDownload::Statuses );
+  emit requestListRefresh( publicTimelineSync, switchUser );
+  switchUser = false;
 }
 
 void Core::destroyTweet( int id )
@@ -179,125 +179,37 @@ void Core::destroyTweet( int id )
   }
   xmlPost = new XmlDownload( XmlDownload::Destroy, this );
   xmlPost->postContent( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), XmlDownload::Statuses );
-  emit requestListRefresh( downloadPublicTimeline, userChanged );
-  userChanged = false;
+  emit requestListRefresh( publicTimelineSync, switchUser );
+  switchUser = false;
 }
 
-void Core::get() {
-  if ( downloadPublicTimeline ) {
-    xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
-    xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
-  } else {
-    if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-      if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
-        emit errorMessage( tr("Authentication is required to get your friends' updates.") );
-        userChanged = false;
-        return;
+void Core::downloadImage( Entry *entry )
+{
+  if ( entry->getType() == Entry::Status ) {
+    if ( imageHash.contains( entry->image() ) ) {
+      if ( imageHash[ entry->image() ].isNull() ) {
+        qDebug() << "not downloading";
+      } else {
+        emit setImageForUrl( entry->image(), imageHash[ entry->image() ] );
       }
-    }
-    if ( downloadPublicTimeline ) {
-      xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
-      xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
-    } else {
-      qDebug() << "creating XmlDownload";
-      xmlGet = new XmlDownload ( XmlDownload::RefreshAll, this );
-      xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", XmlDownload::Statuses );
-      if ( includeDirectMessages ) {
-        xmlGet->getContent( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
-      }
-    }
-  }
-  emit requestListRefresh( downloadPublicTimeline, userChanged );
-  userChanged = false;
-}
-
-void Core::post( const QByteArray &status ) {
-  if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-    if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
-      emit errorMessage( tr("Authentication is required to post updates.") );
       return;
     }
-  }
-  QByteArray request( "status=" );
-  request.append( status );
-  request.append( "&source=qtwitter" );
-  qDebug() << request;
-  xmlPost = new XmlDownload( XmlDownload::Submit, this );
-  xmlPost->postContent( "http://twitter.com/statuses/update.xml", request, XmlDownload::Statuses );
-  emit requestListRefresh( downloadPublicTimeline, userChanged );
-  userChanged = false;
-}
-
-void Core::destroyXmlConnection() {
-  if ( xmlPost ) {
-    qDebug() << "destroying xmlPost";
-    xmlPost->deleteLater();
-    xmlPost = NULL;
-  }
-  if ( xmlGet ) {
-    qDebug() << "destroying xmlGet";
-    xmlGet->deleteLater();
-    xmlGet = NULL;
-  }
-}
-
-void Core::storeCookie( const QStringList newCookie ) {
-  cookie = newCookie;
-}
-
-Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &password) {
-  if ( showingDialog )
-    return Accepted;
-  QDialog dlg;
-  Ui::AuthDialog ui;
-  ui.setupUi(&dlg);
-  ui.loginEdit->setText( ( user == QString() ) ? authData.user() : user );
-  ui.loginEdit->selectAll();
-  ui.passwordEdit->setText( password );
-  dlg.adjustSize();
-  showingDialog = true;
-  if (dlg.exec() == QDialog::Accepted) {
-    if ( ui.publicBox->isChecked() ) {
-      downloadPublicTimeline = true;
-      userChanged = false;
-      emit switchToPublic();
-      showingDialog = false;
-      emit requestListRefresh( downloadPublicTimeline, userChanged );
-      return SwitchToPublic;
+    QString host = QUrl( entry->image() ).host();
+    if ( imageCache.contains( host ) ) {
+      imageCache[host]->imageGet( entry );
+      imageHash[ entry->image() ] = QImage();
+      qDebug() << "setting null image";
+      return;
     }
-    downloadPublicTimeline = false;
-    setAuthData( ui.loginEdit->text(), ui.passwordEdit->text() );
-    emit authDataSet( authData );
-    showingDialog = false;
-    emit requestListRefresh( downloadPublicTimeline, userChanged );
-    return Accepted;
+    ImageDownload *getter = new ImageDownload();
+    imageCache[host] = getter;
+    connect( getter, SIGNAL( errorMessage(QString) ), this, SIGNAL( errorMessage(QString) ) );
+    connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
+    getter->imageGet( entry );
+    imageHash[ entry->image() ] = QImage();
+    qDebug() << "setting null image" << imageHash[ entry->image() ].isNull();
   }
-  qDebug() << "returning false";
-  showingDialog = false;
-  return Rejected;
 }
-
-bool Core::setAuthData( const QString &user, const QString &password ) {
-  userChanged = false;
-  if ( currentUser.compare( user ) ) {
-    authData.setUser( user );
-    userChanged = true;
-  }
-  authData.setPassword( password );
-  return userChanged;
-}
-
-const QAuthenticator& Core::getAuthData() const
-{
-  return authData;
-}
-
-#ifdef Q_WS_X11
-void Core::setBrowserPath( const QString &path )
-{
-  browserPath = path;
-}
-#endif
 
 void Core::openBrowser( QString address )
 {
@@ -317,4 +229,99 @@ void Core::openBrowser( QString address )
   QSettings settings( "HKEY_CLASSES_ROOT\\http\\shell\\open\\command", QSettings::NativeFormat );
   browser->start( settings.value( "Default" ).toString() + " " + address );
 #endif
+}
+
+Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &password)
+{
+  if ( authDialogOpen )
+    return Accepted;
+  QDialog dlg;
+  Ui::AuthDialog ui;
+  ui.setupUi(&dlg);
+  ui.loginEdit->setText( ( user == QString() ) ? authData.user() : user );
+  ui.loginEdit->selectAll();
+  ui.passwordEdit->setText( password );
+  dlg.adjustSize();
+  authDialogOpen = true;
+  if (dlg.exec() == QDialog::Accepted) {
+    if ( ui.publicBox->isChecked() ) {
+      publicTimelineSync = true;
+      switchUser = false;
+      emit switchToPublic();
+      authDialogOpen = false;
+      emit requestListRefresh( publicTimelineSync, switchUser );
+      return SwitchToPublic;
+    }
+    publicTimelineSync = false;
+    setAuthData( ui.loginEdit->text(), ui.passwordEdit->text() );
+    emit authDataSet( authData );
+    authDialogOpen = false;
+    emit requestListRefresh( publicTimelineSync, switchUser );
+    return Accepted;
+  }
+  qDebug() << "returning false";
+  authDialogOpen = false;
+  return Rejected;
+}
+
+const QAuthenticator& Core::getAuthData() const
+{
+  return authData;
+}
+
+void Core::setCookie( const QStringList newCookie )
+{
+  cookie = newCookie;
+}
+
+void Core::setFlag( XmlDownload::ContentRequested flag )
+{
+  switch ( flag ) {
+    case XmlDownload::DirectMessages:
+      messagesDone = true;
+      break;
+    case XmlDownload::Statuses:
+    default:
+      statusesDone = true;
+  }
+  emit resetUi();
+  if ( publicTimelineSync ) {
+    emit switchToPublic();
+  }
+  if ( statusesDone && ( publicTimelineSync || (!directMessagesSync ? true : messagesDone) || (xmlPost && !publicTimelineSync)  ) ) {
+    emit timelineUpdated();
+    emit authDataSet( authData );
+    destroyXmlConnection();
+    currentUser = authData.user();
+    statusesDone = false;
+    messagesDone = false;
+  }
+}
+
+void Core::setImageInHash( const QString &url, QImage image )
+{
+  imageHash[ url ] = image;
+  emit setImageForUrl( url, image );
+}
+
+void Core::newEntry( Entry *entry )
+{
+  if ( entry->login() == authData.user() ) {
+    entry->setOwn( true );
+  }
+  emit addOneEntry( entry );
+}
+
+void Core::destroyXmlConnection()
+{
+  if ( xmlPost ) {
+    qDebug() << "destroying xmlPost";
+    xmlPost->deleteLater();
+    xmlPost = NULL;
+  }
+  if ( xmlGet ) {
+    qDebug() << "destroying xmlGet";
+    xmlGet->deleteLater();
+    xmlGet = NULL;
+  }
 }

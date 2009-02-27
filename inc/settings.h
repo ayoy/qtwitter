@@ -33,7 +33,8 @@ class TweetModel;
 class MainWindow;
 class Core;
 
-struct ThemeElement {
+struct ThemeElement
+{
   QString styleSheet;
   QString linkColor;
   QColor listBackgroundColor;
@@ -54,7 +55,8 @@ struct ThemeElement {
   {}
 };
 
-struct ThemeData {
+struct ThemeData
+{
   ThemeElement unread;
   ThemeElement active;
   ThemeElement read;
@@ -87,30 +89,28 @@ public:
 
   Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent = 0 );
   ~Settings();
-  bool createConfigFile();
   void loadConfig( bool dialogRejected = false );
-  QDir directoryOf( const QString& );
   void setProxy();
 
 public slots:
+  void saveConfig( int quitting = 0 );
+  void show();
   void accept();
   void reject();
   void switchLanguage( int );
-  void setAuthDataInDialog( const QAuthenticator& );
   void switchToPublic();
-  void saveConfig( int quitting = 0 );
-  void show();
-
-private slots:
-  void retranslateUi();
-  void changeTheme( const QString& );
-#ifdef Q_WS_X11
-  void setBrowser();
-#endif
+  void setAuthDataInDialog( const QAuthenticator& );
 
 signals:
   void settingsOK();
   void languageChanged();
+
+private slots:
+  void changeTheme( const QString& );
+  void retranslateUi();
+#ifdef Q_WS_X11
+  void setBrowser();
+#endif
 
 private:
   void applySettings();
@@ -118,16 +118,16 @@ private:
   QTranslator translator;
   QFile configFile;
   QNetworkProxy proxy;
+  TweetModel *model;
+  MainWindow *mainWindow;
+  Core *core;
+  QMap<QString,ThemeData> themes;
   Ui::Settings ui;
 #ifdef Q_WS_X11
   QLineEdit *selectBrowserEdit;
   QLabel *selectBrowserLabel;
   QPushButton *selectBrowserButton;
 #endif
-  TweetModel *model;
-  MainWindow *mainWindow;
-  Core *core;
-  QMap<QString,ThemeData> themes;
 };
 
 #endif //SETTINGS_H

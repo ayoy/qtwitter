@@ -25,35 +25,43 @@
 TweetModel::TweetModel( int margin, StatusList *parentListView, QObject *parent ) :
   QStandardItemModel( 0, 0, parent ),
   modelToBeCleared( false ),
-  statusesFinished( false ),
-  messagesFinished( false ),
-  newStatuses( 0 ),
-  newMessages( 0 ),
+  newStatusesCount( 0 ),
+  newMessagesCount( 0 ),
   scrollBarMargin( margin ),
   currentIndex( QModelIndex() ),
   view( parentListView )
 {
-  connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(select(QModelIndex)) );
+  connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(selectTweet(QModelIndex)) );
   connect( view, SIGNAL(moveFocus(bool)), this, SLOT(moveFocus(bool)) );
-  connect( this, SIGNAL(newTimelineInfo()), SLOT(sendTimelineInfo()) );
+  connect( this, SIGNAL(newTimelineInfo()), SLOT(sendNewsInfo()) );
   Tweet::setTweetListModel( this );
 }
 
-void TweetModel::sendTimelineInfo()
+void TweetModel::deselectCurrentIndex()
 {
-  countUnreadEntries();
-  emit newTweets( newStatuses, incomingStatuses, newMessages, incomingMessages );
-  newStatuses = newMessages = 0;
-  publicTimeline = publicTimelineRequested;
-  incomingStatuses.clear();
-  incomingMessages.clear();
+  if ( currentIndex != QModelIndex() ) {
+    Tweet *aTweet = getTweetFromIndex( currentIndex );
+    if ( aTweet->isRead() ) {
+      aTweet->setState( Tweet::Read );
+    } else {
+      aTweet->setState( Tweet::Unread );
+    }
+    currentIndex = QModelIndex();
+  }
 }
 
-void TweetModel::countUnreadEntries()
+void TweetModel::setScrollBarMargin( int width )
 {
-  for ( int i = 0; i < rowCount(); ++i ) {
-    if ( !getTweetFromIndex( i )->isRead() ) {
-      addUnreadEntry( item(i)->data().value<Entry>() );
+  scrollBarMargin = width;
+}
+
+void TweetModel::setTheme( const ThemeData &newTheme )
+{
+  Tweet::setTheme( newTheme );
+  if ( rowCount() > 0 ) {
+    for ( int i = 0; i < rowCount(); i++ ) {
+      Tweet *aTweet = getTweetFromIndex( i );
+      aTweet->applyTheme( aTweet->getState() );
     }
   }
 }
@@ -108,38 +116,70 @@ void TweetModel::deleteTweet( int id )
   }
 }
 
-void TweetModel::addUnreadEntry( Entry entry )
+void TweetModel::removeDirectMessages()
 {
-  switch ( entry.getType() ) {
-  case Entry::DirectMessage:
-    newMessages += 1;
-    if ( !incomingMessages.contains( entry.name() ) ) {
-      incomingMessages << entry.name();
-    }
-    break;
-  case Entry::Status:
-  default:
-    newStatuses += 1;
-    QString name = entry.isOwn() ? tr( "you" ) : entry.name();
-    if ( !incomingStatuses.contains( name ) ) {
-      incomingStatuses << name;
+  for ( int i = 0; i < rowCount(); i++ ) {
+    if ( item(i)->data().value<Entry>().getType() == Entry::DirectMessage ) {
+      removeRow( i );
+      i--;
     }
   }
 }
 
-void TweetModel::setImageForUrl( const QString& url, QImage image )
+void TweetModel::selectTweet( const QModelIndex &index )
+{
+  Tweet *aTweet;
+  if ( currentIndex != QModelIndex() ) {
+    aTweet = getTweetFromIndex( currentIndex );
+    aTweet->setState( Tweet::Read );
+  }
+  currentIndex = index;
+  aTweet = getTweetFromIndex( currentIndex );
+  aTweet->setState( Tweet::Active );
+}
+
+void TweetModel::selectTweet( Tweet *tweet )
+{
+  if ( currentIndex != QModelIndex() ) {
+    Tweet *aTweet = getTweetFromIndex( currentIndex );
+    aTweet->setState( Tweet::Read );
+  }
+  for ( int i = 0; i < rowCount(); i++ ) {
+    Tweet *matchTweet = getTweetFromIndex( i );
+    if ( matchTweet == tweet ) {
+      currentIndex = indexFromItem( item(i) );
+      break;
+    }
+  }
+  tweet->setState( Tweet::Active );
+}
+
+void TweetModel::markAllAsRead()
+{
+  if ( rowCount() > 0 ) {
+    for ( int i = 0; i < rowCount(); i++ ) {
+      Tweet *aTweet = getTweetFromIndex( i );
+      aTweet->setState( Tweet::Read );
+    }
+  }
+}
+
+void TweetModel::sendNewsInfo()
+{
+  countUnreadEntries();
+  emit newTweets( newStatusesCount, newStatusesNames, newMessagesCount, newMessagesNames );
+  newStatusesCount = newMessagesCount = 0;
+  publicTimeline = publicTimelineRequested;
+  newStatusesNames.clear();
+  newMessagesNames.clear();
+}
+
+void TweetModel::retranslateUi()
 {
   for ( int i = 0; i < rowCount(); i++ ) {
     Tweet *aTweet = getTweetFromIndex( i );
-    if ( url == item(i)->data().value<Entry>().image() ) {
-      aTweet->setIcon( image );
-    }
+    aTweet->retranslateUi();
   }
-}
-
-void TweetModel::setScrollBarMargin( int width )
-{
-  scrollBarMargin = width;
 }
 
 void TweetModel::resizeData( int width, int oldWidth )
@@ -158,6 +198,36 @@ void TweetModel::resizeData( int width, int oldWidth )
   }
 }
 
+void TweetModel::moveFocus( bool up )
+{
+  if ( !rowCount() )
+    return;
+  if ( currentIndex == QModelIndex() ) {
+    currentIndex = this->index( 0, 0 );
+    selectTweet( currentIndex );
+    return;
+  }
+  if ( up ) {
+    if ( currentIndex.row() > 0 ) {
+      selectTweet( currentIndex.sibling( currentIndex.row() - 1, 0 ) );
+    }
+  } else {
+    if ( currentIndex.row() < rowCount() - 1 ) {
+      selectTweet( currentIndex.sibling( currentIndex.row() + 1, 0 ) );
+    }
+  }
+}
+
+void TweetModel::setImageForUrl( const QString& url, QImage image )
+{
+  for ( int i = 0; i < rowCount(); i++ ) {
+    Tweet *aTweet = getTweetFromIndex( i );
+    if ( url == item(i)->data().value<Entry>().image() ) {
+      aTweet->setIcon( image );
+    }
+  }
+}
+
 void TweetModel::setModelToBeCleared( bool wantsPublic, bool userChanged )
 {
   bool timelineChanged = (!publicTimeline && wantsPublic) || (publicTimeline && !wantsPublic);
@@ -168,19 +238,9 @@ void TweetModel::setModelToBeCleared( bool wantsPublic, bool userChanged )
     return;
   }
   qDebug() << publicTimeline << wantsPublic << userChanged << "will clear list";
-  deselectCurrent();
+  deselectCurrentIndex();
   modelToBeCleared = true;
   publicTimelineRequested = wantsPublic;
-}
-
-void TweetModel::removeDirectMessages()
-{
-  for ( int i = 0; i < rowCount(); i++ ) {
-    if ( item(i)->data().value<Entry>().getType() == Entry::DirectMessage ) {
-      removeRow( i );
-      i--;
-    }
-  }
 }
 
 void TweetModel::setPublicTimelineRequested( bool b )
@@ -188,84 +248,30 @@ void TweetModel::setPublicTimelineRequested( bool b )
   publicTimelineRequested = b;
 }
 
-void TweetModel::setTheme( const ThemeData &newTheme )
+void TweetModel::countUnreadEntries()
 {
-  Tweet::setTheme( newTheme );
-  if ( rowCount() > 0 ) {
-    for ( int i = 0; i < rowCount(); i++ ) {
-      Tweet *aTweet = getTweetFromIndex( i );
-      aTweet->applyTheme( aTweet->getState() );
+  for ( int i = 0; i < rowCount(); ++i ) {
+    if ( !getTweetFromIndex( i )->isRead() ) {
+      addUnreadEntry( item(i)->data().value<Entry>() );
     }
   }
 }
 
-void TweetModel::select( const QModelIndex &index )
+void TweetModel::addUnreadEntry( Entry entry )
 {
-  Tweet *aTweet;
-  if ( currentIndex != QModelIndex() ) {
-    aTweet = getTweetFromIndex( currentIndex );
-    aTweet->setState( Tweet::Read );
-  }
-  currentIndex = index;
-  aTweet = getTweetFromIndex( currentIndex );
-  aTweet->setState( Tweet::Active );
-}
-
-void TweetModel::select( Tweet *tweet )
-{
-  if ( currentIndex != QModelIndex() ) {
-    Tweet *aTweet = getTweetFromIndex( currentIndex );
-    aTweet->setState( Tweet::Read );
-  }
-  for ( int i = 0; i < rowCount(); i++ ) {
-    Tweet *matchTweet = getTweetFromIndex( i );
-    if ( matchTweet == tweet ) {
-      currentIndex = indexFromItem( item(i) );
-      break;
+  switch ( entry.getType() ) {
+  case Entry::DirectMessage:
+    newMessagesCount += 1;
+    if ( !newMessagesNames.contains( entry.name() ) ) {
+      newMessagesNames << entry.name();
     }
-  }
-  tweet->setState( Tweet::Active );
-}
-
-void TweetModel::deselectCurrent()
-{
-  if ( currentIndex != QModelIndex() ) {
-    Tweet *aTweet = getTweetFromIndex( currentIndex );
-    if ( aTweet->isRead() ) {
-      aTweet->setState( Tweet::Read );
-    } else {
-      aTweet->setState( Tweet::Unread );
-    }
-    currentIndex = QModelIndex();
-  }
-}
-
-void TweetModel::markAllAsRead()
-{
-  if ( rowCount() > 0 ) {
-    for ( int i = 0; i < rowCount(); i++ ) {
-      Tweet *aTweet = getTweetFromIndex( i );
-      aTweet->setState( Tweet::Read );
-    }
-  }
-}
-
-void TweetModel::moveFocus( bool up )
-{
-  if ( !rowCount() )
-    return;
-  if ( currentIndex == QModelIndex() ) {
-    currentIndex = this->index( 0, 0 );
-    select( currentIndex );
-    return;
-  }
-  if ( up ) {
-    if ( currentIndex.row() > 0 ) {
-      select( currentIndex.sibling( currentIndex.row() - 1, 0 ) );
-    }
-  } else {
-    if ( currentIndex.row() < rowCount() - 1 ) {
-      select( currentIndex.sibling( currentIndex.row() + 1, 0 ) );
+    break;
+  case Entry::Status:
+  default:
+    newStatusesCount += 1;
+    QString name = entry.isOwn() ? tr( "you" ) : entry.name();
+    if ( !newStatusesNames.contains( name ) ) {
+      newStatusesNames << name;
     }
   }
 }
@@ -278,12 +284,4 @@ Tweet* TweetModel::getTweetFromIndex( int i )
 Tweet* TweetModel::getTweetFromIndex( QModelIndex i )
 {
   return dynamic_cast<Tweet*>( view->indexWidget(i) );
-}
-
-void TweetModel::retranslateUi()
-{
-  for ( int i = 0; i < rowCount(); i++ ) {
-    Tweet *aTweet = getTweetFromIndex( i );
-    aTweet->retranslateUi();
-  }
 }

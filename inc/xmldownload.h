@@ -26,7 +26,8 @@
 #include "xmlparser.h"
 #include "xmlparserdirectmsg.h"
 
-struct XmlData {
+struct XmlData
+{
   int id;
   QBuffer *buffer;
   QByteArray *bytearray;
@@ -38,7 +39,8 @@ struct XmlData {
 
 class Core;
 
-class XmlDownload : public HttpConnection {
+class XmlDownload : public HttpConnection
+{
   Q_OBJECT
 
 public:
@@ -54,32 +56,32 @@ public:
   };
 
   XmlDownload( Role role, Core *coreParent, QObject *parent = 0 );
-  Role role() const;
   void getContent( const QString &path, ContentRequested content );
   void postContent( const QString &path, const QByteArray &status, ContentRequested content );
-
-private slots:
-  void httpRequestFinished( int requestId, bool error );
-  void readResponseHeader( const QHttpResponseHeader &responseHeader );
-  void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
-  void extractId( Entry* );
+  Role getRole() const;
 
 signals:
+  void finished( XmlDownload::ContentRequested );
   void xmlParsed();
-  void errorMessage( const QString& );
   void cookieReceived( const QStringList );
   void deleteEntry( int id );
-  void finished( XmlDownload::ContentRequested );
+  void errorMessage( const QString& );
+
+private slots:
+  void extractId( Entry* );
+  void slotAuthenticationRequired( const QString &, quint16, QAuthenticator * );
+  void readResponseHeader( const QHttpResponseHeader &responseHeader );
+  void httpRequestFinished( int requestId, bool error );
 
 private:
   void createConnections( Core *whereToConnectTo );
   XmlData* processedRequest( ContentRequested content );
   XmlData* processedRequest( int requestId );
-  Role connectionRole;
-  XmlParser *statusParser;
-  XmlParserDirectMsg *directMsgParser;
+  Role role;
   XmlData statusesData;
   XmlData directMessagesData;
+  XmlParser *statusParser;
+  XmlParserDirectMsg *directMsgParser;
   Core *core;
   bool authenticating;
   bool authenticated;

@@ -33,7 +33,8 @@
 
 typedef QMap<QString, QImage> MapStringImage;
 
-class Core : public QObject {
+class Core : public QObject
+{
   Q_OBJECT
 
 public:
@@ -46,37 +47,30 @@ public:
 
   Core( MainWindow *parent = 0 );
   virtual ~Core();
-  bool downloadsPublicTimeline();
-  bool wantsDirectMessages();
 
-// These 4 methods return a bool value indicating whether
-// there is a need for updating Tweets, used later in applySettings()
+  void applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages );
+
+  bool isPublicTimelineSync();
+  bool isDirectMessagesSync();
   bool setTimerInterval( int msecs );
   bool setAuthData( const QString &user, const QString &password );
-  bool setDownloadPublicTimeline( bool );
-  bool setWantsDirectMessages( bool );
-
-  void applySettings( int msecsTimeInterval, const QString &user, const QString &password, bool publicTimelineRequested, bool directMessagesRequested );
+  bool setPublicTimelineSync( bool );
+  bool setDirectMessagesSync( bool );
 #ifdef Q_WS_X11
   void setBrowserPath( const QString& );
 #endif
 
 public slots:
+  void forceGet();
   void get();
   void post( const QByteArray &status );
-
+  void destroyTweet( int id );
+  void downloadImage( Entry *entry );
+  void openBrowser( QString address = QString() );
   AuthDialogState authDataDialog( const QString &user = QString(), const QString &password = QString() );
   const QAuthenticator& getAuthData() const;
-  void storeCookie( const QStringList );
-  void openBrowser( QString address = QString() );
-  void downloadOneImage( Entry *entry );
-  void destroyTweet( int id );
-  void forceGet();
+  void setCookie( const QStringList );
   void setFlag( XmlDownload::ContentRequested );
-
-private slots:
-  void setImageInHash( const QString&, QImage );
-  void newEntry( Entry* );
 
 signals:
   void errorMessage( const QString &message );
@@ -92,23 +86,27 @@ signals:
   void timelineUpdated();
   void noDirectMessages();
 
+private slots:
+  void setImageInHash( const QString&, QImage );
+  void newEntry( Entry* );
+
 private:
   void destroyXmlConnection();
-  bool downloadPublicTimeline;
-  bool includeDirectMessages;
-  bool userChanged;
-  bool showingDialog;
+  bool publicTimelineSync;
+  bool directMessagesSync;
+  bool switchUser;
+  bool authDialogOpen;
   XmlDownload *xmlGet;
   XmlDownload *xmlPost;
   ImageDownload *imageDownload;
-  QMap<QString,ImageDownload*> imagesGetter;
-  MapStringImage imagesHash;
+  QMap<QString,ImageDownload*> imageCache;
+  MapStringImage imageHash;
   QAuthenticator authData;
   QStringList cookie;
   QString currentUser;
   QTimer *timer;
-  bool statusesFinished;
-  bool messagesFinished;
+  bool statusesDone;
+  bool messagesDone;
 #ifdef Q_WS_X11
   QString browserPath;
 #endif

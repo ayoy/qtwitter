@@ -57,71 +57,20 @@ void XmlData::clear()
 
 XmlDownload::XmlDownload( Role role, Core *coreParent, QObject *parent ) :
     HttpConnection( parent ),
-    connectionRole( role ),
+    role( role ),
     statusParser(0),
     directMsgParser(0),
     core( coreParent ),
     authenticated( false )
 {
   statusParser = new XmlParser( this );
-  if ( connectionRole == XmlDownload::RefreshAll ) {
+  if ( role == XmlDownload::RefreshAll ) {
     directMsgParser = new XmlParserDirectMsg( this );
   }
   createConnections( core );
 }
 
-XmlDownload::Role XmlDownload::role() const
-{
-  return connectionRole;
-}
-
-void XmlDownload::createConnections( Core *coreParent )
-{
-  connect( statusParser, SIGNAL(dataParsed(QString)), this, SIGNAL(dataParsed(QString)));
-  connect( this, SIGNAL(finished(XmlDownload::ContentRequested)), coreParent, SLOT(setFlag(XmlDownload::ContentRequested)) );
-  connect( this, SIGNAL(errorMessage(QString)), coreParent, SIGNAL(errorMessage(QString)) );
-  if ( connectionRole == Destroy ) {
-    connect( statusParser, SIGNAL(newEntry(Entry*)), this, SLOT(extractId(Entry*)) );
-    connect( this, SIGNAL(deleteEntry(int)), coreParent, SIGNAL(deleteEntry(int)) );
-  } else {
-    connect( statusParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
-    connect( statusParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(downloadOneImage(Entry*)) );
-  }
-
-  if ( directMsgParser ) {
-    connect( directMsgParser, SIGNAL(dataParsed(QString)), this, SIGNAL(dataParsed(QString)));
-    connect( directMsgParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
-  }
-  connect( this, SIGNAL(authenticationRequired(QString,quint16,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QString,quint16,QAuthenticator*)));
-  connect( this, SIGNAL(cookieReceived(QStringList)), coreParent, SLOT(storeCookie(QStringList)) );
-}
-
-void XmlDownload::extractId( Entry *entry )
-{
-  emit deleteEntry( entry->id() );
-}
-
-XmlData* XmlDownload::processedRequest( ContentRequested content )
-{
-  switch ( content ) {
-    case DirectMessages:
-      return &directMessagesData;
-      break;
-    case Statuses:
-    default:
-      return &statusesData;
-  }
-}
-
-XmlData* XmlDownload::processedRequest( int requestId )
-{
-  if ( requestId == directMessagesData.id ) {
-    return &directMessagesData;
-  }
-  return &statusesData;
-}
-
-void XmlDownload::getContent( const QString &path, ContentRequested content )
+void XmlDownload::getContent( const QString &path, XmlDownload::ContentRequested content )
 {
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
@@ -135,7 +84,7 @@ void XmlDownload::getContent( const QString &path, ContentRequested content )
   qDebug() << "Request of type GET and id" << httpGetId << "started";
 }
 
-void XmlDownload::postContent( const QString &path, const QByteArray &status, ContentRequested content )
+void XmlDownload::postContent( const QString &path, const QByteArray &status, XmlDownload::ContentRequested content )
 {
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
@@ -147,6 +96,38 @@ void XmlDownload::postContent( const QString &path, const QByteArray &status, Co
   bytearray = 0;
   buffer = 0;
   qDebug() << "Request of type POST and id" << httpGetId << "started";
+}
+
+XmlDownload::Role XmlDownload::getRole() const
+{
+  return role;
+}
+
+void XmlDownload::extractId( Entry *entry )
+{
+  emit deleteEntry( entry->id() );
+}
+
+void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, quint16, QAuthenticator *authenticator)
+{
+  qDebug() << "auth required";
+  if ( authenticated ) {
+    qDebug() << "auth dialog";
+    switch ( core->authDataDialog() ) {
+      case Core::Rejected:
+        emit errorMessage( tr("Authentication is required to post updates.") );
+      case Core::SwitchToPublic:
+        httpRequestAborted = true;
+        authenticated = false;
+        abort();
+        core->get();
+        return;
+      default:
+        break;
+    }
+  }
+  *authenticator = core->getAuthData();
+  authenticated = true;
 }
 
 void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -162,7 +143,7 @@ void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
     // these are not error conditions
     break;
   case 404:                   // Not Found
-    if ( connectionRole == Destroy ) {
+    if ( role == Destroy ) {
       QRegExp rx( "/statuses/destroy/(\\d+)\\.xml", Qt::CaseInsensitive );
       rx.indexIn( url.path() );
       emit deleteEntry( rx.cap(1).toInt() );
@@ -187,7 +168,7 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   }
   if (requestId != statusesData.id && requestId != directMessagesData.id )
     return;
-  
+
   processedRequest( requestId )->buffer->close();
 
   if (error) {
@@ -218,24 +199,41 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   }
 }
 
-void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, quint16, QAuthenticator *authenticator)
+void XmlDownload::createConnections( Core *coreParent )
 {
-  qDebug() << "auth required";
-  if ( authenticated ) {
-    qDebug() << "auth dialog";
-    switch ( core->authDataDialog() ) {
-      case Core::Rejected:
-        emit errorMessage( tr("Authentication is required to post updates.") );
-      case Core::SwitchToPublic:
-        httpRequestAborted = true;
-        authenticated = false;
-        abort();
-        core->get();
-        return;
-      default:
-        break;
-    }
+  connect( this, SIGNAL(finished(XmlDownload::ContentRequested)), coreParent, SLOT(setFlag(XmlDownload::ContentRequested)) );
+  connect( this, SIGNAL(errorMessage(QString)), coreParent, SIGNAL(errorMessage(QString)) );
+  if ( role == Destroy ) {
+    connect( statusParser, SIGNAL(newEntry(Entry*)), this, SLOT(extractId(Entry*)) );
+    connect( this, SIGNAL(deleteEntry(int)), coreParent, SIGNAL(deleteEntry(int)) );
+  } else {
+    connect( statusParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
+    connect( statusParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(downloadImage(Entry*)) );
   }
-  *authenticator = core->getAuthData();
-  authenticated = true;
+
+  if ( directMsgParser ) {
+    connect( directMsgParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
+  }
+  connect( this, SIGNAL(authenticationRequired(QString,quint16,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QString,quint16,QAuthenticator*)));
+  connect( this, SIGNAL(cookieReceived(QStringList)), coreParent, SLOT(setCookie(QStringList)) );
+}
+
+XmlData* XmlDownload::processedRequest( XmlDownload::ContentRequested content )
+{
+  switch ( content ) {
+    case DirectMessages:
+      return &directMessagesData;
+      break;
+    case Statuses:
+    default:
+      return &statusesData;
+  }
+}
+
+XmlData* XmlDownload::processedRequest( int requestId )
+{
+  if ( requestId == directMessagesData.id ) {
+    return &directMessagesData;
+  }
+  return &statusesData;
 }

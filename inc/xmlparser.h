@@ -56,17 +56,16 @@ public:
   virtual bool characters( const QString &ch );
 
 signals:
-  void dataParsed( const QString &text );
   void newEntry( Entry *entry );
   void xmlParsed();
 
 protected:
-  int currentField;
-  Entry entry;
-  bool important;
   FieldType checkFieldType( const QString &element );
   QDateTime toDateTime( const QString &timestamp );
   int getMonth( const QString &month );
+  int currentField;
+  Entry entry;
+  bool important;
 
   static const QByteArray USER_ID;
   static const QByteArray USER_TEXT;
