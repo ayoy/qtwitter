@@ -57,7 +57,7 @@ Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent ) :
   menu->addAction( retweetAction );
   retweetAction->setFont( *menuFont );
   connect( retweetAction, SIGNAL(triggered()), this, SLOT(sendRetweet()) );
-  connect( this, SIGNAL(retweet(QByteArray)), tweetListModel, SIGNAL(retweet(QByteArray)) );
+  connect( this, SIGNAL(retweet(QString)), tweetListModel, SIGNAL(retweet(QString)) );
 
   menu->addSeparator();
 
@@ -235,7 +235,7 @@ void Tweet::sendReply()
 
 void Tweet::sendRetweet()
 {
-  emit retweet( QString("RT @" + tweetData.login() + ": " + tweetData.originalText() ).toUtf8() );
+  emit retweet( QString("RT @" + tweetData.login() + ": " + tweetData.originalText() ) );
 }
 
 void Tweet::copyLink()

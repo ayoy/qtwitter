@@ -31,7 +31,7 @@
 #include <QShortcut>
 #include <QDesktopWidget>
 
-const QString MainWindow::APP_VERSION = "0.4.0";
+const QString MainWindow::APP_VERSION = "0.4.1";
 
 MainWindow::MainWindow( QWidget *parent ) :
     QWidget( parent ),
@@ -48,9 +48,11 @@ MainWindow::MainWindow( QWidget *parent ) :
   connect( ui.homeButton, SIGNAL(clicked()), this, SIGNAL(openBrowser()) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
+  connect( ui.statusEdit, SIGNAL(errorMessage(QString)), this, SLOT(popupError(QString)) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( this, SIGNAL(addReplyString(QString)), ui.statusEdit, SLOT(addReplyString(QString)) );
+  connect( this, SIGNAL(addRetweetString(QString)), ui.statusEdit, SLOT(addRetweetString(QString)) );
 
   QShortcut *typeShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ), this );
   connect( typeShortcut, SIGNAL(activated()), ui.statusEdit, SLOT(setFocus()) );
@@ -174,7 +176,7 @@ void MainWindow::resizeEvent( QResizeEvent *event )
 
 void MainWindow::popupError( const QString &message )
 {
-  QMessageBox::critical( this, tr("Error"), message );
+  QMessageBox::information( this, tr("Error"), message );
 }
 
 void MainWindow::popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages )

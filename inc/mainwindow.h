@@ -146,6 +146,13 @@ signals:
   void addReplyString( const QString& user );
 
   /*!
+    Works as a proxy between Tweet class instance and status edit field. Passes the request
+    to initiate editing a retweet.
+    \param message A retweet message
+  */
+  void addRetweetString( QString message );
+
+  /*!
     Emitted when resizing a window, to inform all the Tweets about the size change.
     \param width The width after resizing.
     \param oldWidth The width before resizing.

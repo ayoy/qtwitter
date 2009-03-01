@@ -188,10 +188,10 @@ signals:
   /*!
     Emitted to notify the Core class instance about the User's request
     to retweet a status.
-    \param content A retweet status message prepared by \ref sendRetweet().
+    \param message A retweet status message prepared by \ref sendRetweet().
     \sa sendRetweet()
   */
-  void retweet( const QByteArray &content );
+  void retweet( QString message );
 
   /*!
     Emitted to notify the TweetModel class instance about User's request

@@ -79,6 +79,19 @@ public slots:
   */
   void addReplyString( const QString &name );
 
+  /*!
+    Adds a retweet message to status field.
+    \param message Message to be added to status edit field.
+  */
+  void addRetweetString( QString message );
+
+signals:
+  /*!
+    Emitted to inform user about encountered problems.
+    \param message Error message.
+  */
+  void errorMessage( const QString &message );
+
 private:
   bool statusClean; 
 };

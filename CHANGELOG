@@ -1,3 +1,8 @@
+v.0.4.1 (2009/03/02):
+- fixed bug with currently selected Tweet's highlighting lag when new updates come,
+- fixed bug with not updating the amount of characters left when initiating a reply,
+- changed retweet action to allow editing before sending,
+- code thoroughly revised and documented, redundant methods, slots and signals removed.
 v.0.4 (2009/02/27):
 - added support for marking Tweets as read and highlighting current selection,
 - added system tray notifications (via knotify on Linux and Growl on MacOS X),
@@ -15,7 +20,7 @@ v0.3.1 (2009/02/21):
 login,
 - fixed various bugs when altering between friends and public timeline, and rejecting auth dialog,
 - fixed bug of closing application when settings invoked from tray icon and 
-main window hidden,
+main window hidden.
 v0.3 (2009/02/19):
 - added support for getting direct messages,
 - added support for deleting updates,

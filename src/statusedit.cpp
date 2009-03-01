@@ -70,4 +70,17 @@ void StatusEdit::addReplyString( const QString &name )
     insert( "@" + name + " ");
   }
   setFocus();
+  emit textChanged( text() );
+}
+
+void StatusEdit::addRetweetString( QString message )
+{
+  if ( message.length() > StatusEdit::STATUS_MAX_LENGTH ) {
+    emit errorMessage( tr( "The message is too long and it will be truncated." ) );
+    message.truncate( StatusEdit::STATUS_MAX_LENGTH );
+  }
+  setText( message );
+  statusClean = false;
+  setFocus();
+  emit textChanged( text() );
 }

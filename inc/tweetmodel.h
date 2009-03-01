@@ -162,10 +162,10 @@ public slots:
 signals:
   /*!
     Passes the retweet message from a particular Tweet to the MainWindow.
-    \param status Retweet status message.
+    \param message Retweet status message.
     \sa reply()
   */
-  void retweet( const QByteArray &status );
+  void retweet( QString message );
 
   /*!
     A request to destroy a Tweet, passed from a specific Tweet to the Core class instance.

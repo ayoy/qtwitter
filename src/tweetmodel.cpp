@@ -93,6 +93,9 @@ void TweetModel::insertTweet( Entry *entry )
     if ( entry->timestamp() > item(i)->data().value<Entry>().timestamp() ) {
       QStandardItemModel::insertRow( i, newItem );
       view->setIndexWidget( indexFromItem( newItem ), newTweet );
+      if ( currentIndex.row() >= i ) {
+        selectTweet( currentIndex.sibling( currentIndex.row() + 1, 0 ) );
+      }
       return;
     }
   }

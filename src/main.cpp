@@ -47,7 +47,7 @@ int main( int argc, char **argv )
   QObject::connect( model, SIGNAL(reply(QString)), &qtwitter, SIGNAL(addReplyString(QString)) );
   QObject::connect( model, SIGNAL(about()), &qtwitter, SLOT(about()) );
   QObject::connect( model, SIGNAL(destroy(int)), core, SLOT(destroyTweet(int)) );
-  QObject::connect( model, SIGNAL(retweet(QByteArray)), core, SLOT(post(QByteArray)) );
+  QObject::connect( model, SIGNAL(retweet(QString)), &qtwitter, SIGNAL(addRetweetString(QString)) );
   QObject::connect( &qtwitter, SIGNAL(post(QByteArray)), core, SLOT(post(QByteArray)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
   QObject::connect( &qtwitter, SIGNAL(resizeView(int,int)), model, SLOT(resizeData(int,int)));
