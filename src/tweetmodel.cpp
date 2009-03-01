@@ -33,7 +33,6 @@ TweetModel::TweetModel( int margin, StatusList *parentListView, QObject *parent 
 {
   connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(selectTweet(QModelIndex)) );
   connect( view, SIGNAL(moveFocus(bool)), this, SLOT(moveFocus(bool)) );
-  connect( this, SIGNAL(newTimelineInfo()), SLOT(sendNewsInfo()) );
   Tweet::setTweetListModel( this );
 }
 
@@ -50,18 +49,13 @@ void TweetModel::deselectCurrentIndex()
   }
 }
 
-void TweetModel::setScrollBarMargin( int width )
+void TweetModel::setTheme( const ThemeData &theme )
 {
-  scrollBarMargin = width;
-}
-
-void TweetModel::setTheme( const ThemeData &newTheme )
-{
-  Tweet::setTheme( newTheme );
+  Tweet::setTheme( theme );
   if ( rowCount() > 0 ) {
     for ( int i = 0; i < rowCount(); i++ ) {
       Tweet *aTweet = getTweetFromIndex( i );
-      aTweet->applyTheme( aTweet->getState() );
+      aTweet->applyTheme();
     }
   }
 }

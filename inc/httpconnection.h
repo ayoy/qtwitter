@@ -26,28 +26,60 @@
 
 #include <QtNetwork>
 
+/*!
+  \brief A base class for creating HTTP connection.
+
+  This class provides an interface for creating and managing a connection
+  over HTTP protocol. It inherits QHttp and includes handles for data
+  retrieved by requests. By reimplementing its private slots a custom
+  handling of the request's data can be provided.
+*/
 class HttpConnection : public QHttp
 {
   Q_OBJECT
 
 public:
+  /*!
+    The default constructor. Constructs an uninitialized HttpConnection instance
+    with the given \a parent.
+  */
   HttpConnection( QObject *parent = 0 );
+
+  /*!
+    A virtual destructor.
+  */
   virtual ~HttpConnection();
+
+  /*!
+    Sets the full URL for the object to be retrieved.
+    \param path The given URL.
+  */
   inline void setUrl( const QString &path );
 
 signals:
-  void errorMessage( const QString& );
+  /*!
+    Emitted to inform user about encountered problems.
+    \param message Error message.
+  */
+  void errorMessage( const QString &message );
 
 protected:
+  /*!
+    Sets the connection up by defining host, allocating memory for storing
+    retrieved data, and converting \a path to percent-encoded URL.
+    \param path URL for the request.
+    \sa bytearray, buffer
+    \returns Percent-encoded URL prepared for passing to QHttp::get() or QHttp::post() method.
+  */
   QByteArray prepareRequest( const QString &path );
-  bool httpRequestAborted;
-  int httpGetId;
-  int httpHostId;
-  int httpUserId;
-  int closeId;
-  QUrl url;
-  QByteArray *bytearray;
-  QBuffer *buffer;
+  bool httpRequestAborted; /*!< Is set to true when request is aborted. */
+  int httpGetId; /*!< Stores the GET request id. */
+  int httpHostId; /*!< Stores the request id returned by QHttp::setHost(). */
+  int httpUserId; /*!< Stores the request id returned by QHttp::setUser(). */
+  int closeId; /*!< Stores the request id returned by QHttp::close(). */
+  QUrl url; /*!< Stores the URL for the request */
+  QByteArray *bytearray; /*!< Provides the handle to where the downloaded data is stored. \sa buffer */
+  QBuffer *buffer; /*!< Provides a convenient interface for access to \ref bytearray. \sa bytearray */
 
 private slots:
   virtual void httpRequestFinished( int requestId, bool error ) = 0;

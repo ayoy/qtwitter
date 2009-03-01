@@ -27,7 +27,7 @@
 ThemeData Tweet::currentTheme = ThemeData();
 TweetModel* Tweet::tweetListModel = 0;
 
-Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
+Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent ) :
   QWidget(parent),
   replyAction(0),
   gotohomepageAction(0),
@@ -35,7 +35,6 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   deleteAction(0),
   tweetState( Tweet::Unread ),
   tweetData( entry ),
-  read( false ),
   m_ui(new Ui::Tweet)
 {
   menu = new QMenu( this );
@@ -58,7 +57,7 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   menu->addAction( retweetAction );
   retweetAction->setFont( *menuFont );
   connect( retweetAction, SIGNAL(triggered()), this, SLOT(sendRetweet()) );
-  connect( this, SIGNAL(sendRetweet(QByteArray)), tweetListModel, SIGNAL(retweet(QByteArray)) );
+  connect( this, SIGNAL(retweet(QByteArray)), tweetListModel, SIGNAL(retweet(QByteArray)) );
 
   menu->addSeparator();
 
@@ -118,7 +117,7 @@ Tweet::Tweet( const Entry &entry, const QImage &icon, QWidget *parent ) :
   applyTheme();
   m_ui->userName->setText( tweetData.name() );
   m_ui->userStatus->setHtml( tweetData.text() );
-  m_ui->userIcon->setPixmap( QPixmap::fromImage( icon ) );
+  m_ui->userImage->setPixmap( QPixmap::fromImage( image ) );
   adjustSize();
   this->setFocusProxy( m_ui->userStatus );
   connect( m_ui->menuButton, SIGNAL(pressed()), this, SLOT(menuRequested()) );
@@ -148,12 +147,11 @@ void Tweet::resize( int w, int h )
 
 void Tweet::setIcon( const QImage &image )
 {
-  m_ui->userIcon->setPixmap( QPixmap::fromImage( image ) );
+  m_ui->userImage->setPixmap( QPixmap::fromImage( image ) );
 }
 
-void Tweet::applyTheme( Tweet::State state )
+void Tweet::applyTheme()
 {
-  tweetState = state;
   switch ( tweetState ) {
   case Tweet::Unread:
     setStyleSheet( currentTheme.unread.styleSheet );
@@ -185,12 +183,9 @@ void Tweet::retranslateUi()
 
 bool Tweet::isRead() const
 {
-  return read;
-}
-
-QString Tweet::getUrlForIcon() const
-{
-  return tweetData.image();
+  if ( tweetState == Tweet::Unread )
+    return false;
+  return true;
 }
 
 Tweet::State Tweet::getState() const
@@ -198,23 +193,10 @@ Tweet::State Tweet::getState() const
   return tweetState;
 }
 
-void Tweet::setState( Tweet::State newState )
+void Tweet::setState( Tweet::State state )
 {
-  tweetState = newState;
-  switch ( tweetState ) {
-  case Unread:
-    applyTheme( Tweet::Unread );
-    read = false;
-    break;
-  case Active:
-    applyTheme( Tweet::Active );
-    read = true;
-    break;
-  case Read:
-    applyTheme( Tweet::Read );
-    read = true;
-  default:;
-  }
+  tweetState = state;
+  applyTheme();
 }
 
 ThemeData Tweet::getTheme()

@@ -57,7 +57,7 @@ border-style: normal;
    <property name="frameShadow">
     <enum>QFrame::Raised</enum>
    </property>
-   <widget class="QLabel" name="userIcon">
+   <widget class="QLabel" name="userImage">
     <property name="geometry">
      <rect>
       <x>10</x>

@@ -24,23 +24,49 @@
 #include <QTextBrowser>
 #include <QKeyEvent>
 
+/*!
+  \brief A customized QTextBrowser class.
+
+  This class inherits QTextBrowser and provides signalling for mouse press events
+  and ignoring key press events.
+*/
 class TweetTextBrowser : public QTextBrowser
 {
   Q_OBJECT
 public:
+
+  /*!
+    Creates a new text browser widget with a given \a parent.
+    \param parent The widget's parent.
+  */
   TweetTextBrowser( QWidget *parent = 0 ) : QTextBrowser( parent ) {}
+
+  /*!
+    Customized to emit \ref mousePressed() on every mouse press event.
+    \param e A QMouseEvent event's representation.
+    \sa mousePressed()
+  */
   void mousePressEvent ( QMouseEvent * e )
   {
     emit mousePressed();
     QTextBrowser::mousePressEvent( e );
   }
 
+  /*!
+    Customized to ignore all the key press events, so that they could be
+    passed on to the parent widget.
+    \param e A QKeyEvent event's representation.
+  */
   void keyPressEvent( QKeyEvent *e )
   {
     e->ignore();
   }
 
 signals:
+  /*!
+    Emitted when a widget receives a mouse press event.
+    \sa mousePressEvent()
+  */
   void mousePressed();
 
 };

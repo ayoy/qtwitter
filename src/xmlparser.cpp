@@ -51,7 +51,6 @@ bool XmlParser::startDocument()
 
 bool XmlParser::endDocument()
 {
-  emit xmlParsed();
   return true;
 }
 

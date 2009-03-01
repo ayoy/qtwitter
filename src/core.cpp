@@ -309,7 +309,7 @@ void Core::newEntry( Entry *entry )
   if ( entry->login() == authData.user() ) {
     entry->setOwn( true );
   }
-  emit addOneEntry( entry );
+  emit addEntry( entry );
 }
 
 void Core::destroyXmlConnection()

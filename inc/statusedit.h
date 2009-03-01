@@ -23,22 +23,61 @@
 
 #include <QLineEdit>
 
+/*!
+  \brief A customized QLineEdit class.
+
+  This class inherits from QLineEdit and reimplements focus events so as to fit
+  to the application requirements.
+*/
 class StatusEdit : public QLineEdit
 {
   Q_OBJECT
 public:
 
-  static const int STATUS_MAX_LENGTH;
+  static const int STATUS_MAX_LENGTH; /*!< This value stores maximum length of the posted update. */
 
-  StatusEdit( QWidget * parent );
+  /*!
+    Creates a new status edit field object, with a given \a parent.
+  */
+  StatusEdit( QWidget * parent = 0 );
+
+  /*!
+    Clears the status edit field if it contained "What are you doing?" when entering.
+    \param event A QFocusEvent event's representation.
+    \sa focusOutEvent(), initialize()
+  */
   void focusInEvent( QFocusEvent * event );
+
+  /*!
+    Makes the status edit field initialized if it contains an empty
+    string when losing focus.
+    \param event A QFocusEvent event's representation.
+    \sa focusInEvent(), initialize()
+  */
   void focusOutEvent( QFocusEvent * event );
+
+  /*!
+    Clears status and sets the status edit field to initial "What are you doing?".
+  */
   void initialize();
-  inline bool isStatusClean() { return statusClean; }
+
+  /*!
+    Checks wether the status edit field is initialized.
+    \returns true when the status edit field is initialized, otherwise returns false.
+  */
+  bool isStatusClean();
 
 public slots:
+  /*!
+    Initializes status edit field and clears focus.
+  */
   void cancelEditing();
-  void addReplyString( const QString& );
+
+  /*!
+    Adds user login in Twitter replying convention (\a \@user).
+    \param name User login to be added to status edit field.
+  */
+  void addReplyString( const QString &name );
 
 private:
   bool statusClean; 

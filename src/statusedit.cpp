@@ -22,7 +22,7 @@
 
 const int StatusEdit::STATUS_MAX_LENGTH = 140;
 
-StatusEdit::StatusEdit( QWidget * parent = 0 ) :
+StatusEdit::StatusEdit( QWidget * parent ) :
   QLineEdit( parent ),
   statusClean( true )
   {}
@@ -48,6 +48,11 @@ void StatusEdit::initialize()
 {
   setText( tr( "What are you doing?" ) );
   statusClean = true;
+}
+
+bool StatusEdit::isStatusClean()
+{
+  return statusClean;
 }
 
 void StatusEdit::cancelEditing()

@@ -23,28 +23,54 @@
 
 #include "httpconnection.h"
 
+/*!
+  \brief A struct containing data handles for retrieved images.
+
+  Before creating a connection for image downlaod, an ImageData structure
+  instance is created, and its \ref buffer and \ref bytearray members are
+  assigned to corresponding ImageDownload class's members, that can be
+  freed then. When download finishes, a downloaded image is assigned to
+  \ref image field. All the memory management for ImageData struct is
+  covered inside the ImageDownload class.
+*/
 struct ImageData
 {
-  QImage *image;
-  QByteArray *bytearray;
-  QBuffer *buffer;
+  QImage *image; /*!< A pointer to the image. */
+  QByteArray *bytearray; /*!< A pointer to the bytearray. */
+  QBuffer *buffer; /*!< A pointer to the buffer. */
   ImageData();
   ~ImageData();
 };
 
+/*!
+  \brief A class for downlading images for Tweets.
+
+  This is a class that provides interface for downloading user profile images
+  for Tweets.
+*/
 class ImageDownload : public HttpConnection
 {
   Q_OBJECT
 
 public:
-  ImageDownload();
-  ~ImageDownload();
+  ImageDownload(); /*!< A default constructor. */
+  ~ImageDownload(); /*!< A destructor. */
 
+  /*!
+    This method invokes HttpConnection::prepareRequest() for a path
+    given in \a entry, assigns allocated data to newly created
+    ImageData instance and then issues QHttp::get().
+    \param entry Entry for which the image will be downloaded.
+  */
   void imageGet( Entry *entry );
 
 signals:
-  void imageDownloaded( const QString&, QImage );
-  void imageReadyForUrl( const QString&, QImage );
+  /*!
+    Emitted when the request is finished and the image is ready to be displayed.
+    \param path The image's URL.
+    \param image The downloaded image.
+  */
+  void imageReadyForUrl( const QString& path, QImage image );
 
 private slots:
   void httpRequestFinished( int requestId, bool error );
