@@ -1,4 +1,5 @@
-v.0.4.1 (2009/03/02):
+v.0.4.1 (2009/03/03):
+- fixed bug with image downloading failure when 404 encountered,
 - fixed bug with currently selected Tweet's highlighting lag when new updates come,
 - fixed bug with not updating the amount of characters left when initiating a reply,
 - changed retweet action to allow editing before sending,

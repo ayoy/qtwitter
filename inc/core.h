@@ -272,8 +272,8 @@ private:
   XmlDownload *xmlGet;
   XmlDownload *xmlPost;
   ImageDownload *imageDownload;
-  QMap<QString,ImageDownload*> imageCache;
-  MapStringImage imageHash;
+  QMap<QString,ImageDownload*> imageDownloader;
+  MapStringImage imageCache;
   QAuthenticator authData;
   QStringList cookie;
   QString currentUser;

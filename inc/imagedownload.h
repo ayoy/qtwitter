@@ -64,6 +64,11 @@ public:
   */
   void imageGet( Entry *entry );
 
+  /*!
+    Forces clearing of temporary images store, gathered while updating timeline.
+  */
+  void clearData();
+
 signals:
   /*!
     Emitted when the request is finished and the image is ready to be displayed.

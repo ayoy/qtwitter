@@ -98,6 +98,11 @@ public:
   XmlDownload( Role role, Core *coreParent, QObject *parent = 0 );
 
   /*!
+    A destructor.
+  */
+  ~XmlDownload();
+
+  /*!
     This method invokes HttpConnection::prepareRequest() for the \a path, assigns
     allocated data to an appropriate XmlData object and issues QHttp::get().
     \param path A path the request has to be sent to.

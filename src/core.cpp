@@ -123,6 +123,9 @@ void Core::forceGet()
 
 void Core::get()
 {
+  foreach ( ImageDownload *imageDownload, imageDownloader ) {
+    imageDownload->clearData();
+  }
   if ( publicTimelineSync ) {
     xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
     xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
@@ -134,12 +137,10 @@ void Core::get()
         return;
       }
     }
+    xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
     if ( publicTimelineSync ) {
-      xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
       xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
     } else {
-      qDebug() << "creating XmlDownload";
-      xmlGet = new XmlDownload ( XmlDownload::RefreshAll, this );
       xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", XmlDownload::Statuses );
       if ( directMessagesSync ) {
         xmlGet->getContent( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
@@ -186,28 +187,28 @@ void Core::destroyTweet( int id )
 void Core::downloadImage( Entry *entry )
 {
   if ( entry->getType() == Entry::Status ) {
-    if ( imageHash.contains( entry->image() ) ) {
-      if ( imageHash[ entry->image() ].isNull() ) {
+    if ( imageCache.contains( entry->image() ) ) {
+      if ( imageCache[ entry->image() ].isNull() ) {
         qDebug() << "not downloading";
       } else {
-        emit setImageForUrl( entry->image(), imageHash[ entry->image() ] );
+        emit setImageForUrl( entry->image(), imageCache[ entry->image() ] );
       }
       return;
     }
     QString host = QUrl( entry->image() ).host();
-    if ( imageCache.contains( host ) ) {
-      imageCache[host]->imageGet( entry );
-      imageHash[ entry->image() ] = QImage();
+    if ( imageDownloader.contains( host ) ) {
+      imageDownloader[host]->imageGet( entry );
+      imageCache[ entry->image() ] = QImage();
       qDebug() << "setting null image";
       return;
     }
     ImageDownload *getter = new ImageDownload();
-    imageCache[host] = getter;
+    imageDownloader[host] = getter;
     connect( getter, SIGNAL( errorMessage(QString) ), this, SIGNAL( errorMessage(QString) ) );
     connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
     getter->imageGet( entry );
-    imageHash[ entry->image() ] = QImage();
-    qDebug() << "setting null image" << imageHash[ entry->image() ].isNull();
+    imageCache[ entry->image() ] = QImage();
+    qDebug() << "setting null image" << imageCache[ entry->image() ].isNull();
   }
 }
 
@@ -300,7 +301,7 @@ void Core::setFlag( XmlDownload::ContentRequested flag )
 
 void Core::setImageInHash( const QString &url, QImage image )
 {
-  imageHash[ url ] = image;
+  imageCache[ url ] = image;
   emit setImageForUrl( url, image );
 }
 

@@ -56,48 +56,42 @@ void ImageDownload::imageGet( Entry *entry )      //requestByEntry[entry.getId()
   ImageData *imageData = new ImageData;
   imageData->buffer = buffer;
   imageData->bytearray = bytearray;
+  buffer = 0;
+  bytearray = 0;
   imageByEntry.insert( imagePath, *imageData );
   qDebug() << "Request of type GET and id" << httpGetId << "started";
 }
 
+void ImageDownload::clearData()
+{
+  imageByEntry.clear();
+  requestByEntry.clear();
+}
+
 void ImageDownload::httpRequestFinished( int requestId, bool error )
 {
-  qDebug() << "finished";
-  ImageData *imageData = &imageByEntry[ requestByEntry.key( requestId ) ];
-  if (httpRequestAborted) {
-    if (imageData->buffer) {
-      imageData->buffer->close();
-      delete imageData->buffer;
-      imageData->buffer = 0;
-    }
-    if(imageData->bytearray) {
-      delete imageData->bytearray;
-      imageData->bytearray = 0;
-    }
+//  qDebug() << "finished" << state();
+  if ( !requestByEntry.values().contains( requestId ) || httpRequestAborted ) {
+    httpRequestAborted = false;
     return;
   }
-  if ( !requestByEntry.values().contains( requestId ) )
-    return;
+
+  ImageData *imageData = &imageByEntry[ requestByEntry.key( requestId ) ];
 
   imageData->buffer->close();
   if (error) {
     emit errorMessage( tr("Download failed: ") + errorString() );
   }
-  qDebug() << "Request of id" << requestId << "finished";
+  qDebug() << "Image request of id" << requestId << "finished" << requestByEntry.key( requestId );
   imageData->image = new QImage;
   imageData->image->loadFromData( *imageData->bytearray );
   emit imageReadyForUrl( requestByEntry.key( requestId ), *imageData->image );
-//  delete imageData;
-//  delete imageData->buffer;
-//  imageData->buffer = 0;
-//  delete imageData->bytearray;
-//  imageData->bytearray = 0;
 }
 
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
 //  qDebug() << "Response for" << requestByEntry.key( currentId() );//url.path();
-//  qDebug() << "Code is:" << responseHeader.statusCode() << ", status is:" << responseHeader.reasonPhrase() << "\n";
+  qDebug() << "Code:" << responseHeader.statusCode() << ", status:" << responseHeader.reasonPhrase();
   switch ( responseHeader.statusCode() ) {
   case 200:                   // Ok
   case 301:                   // Moved Permanently
@@ -109,17 +103,21 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
   default:
     //emit errorMessage( tr( "Download failed: " ) + responseHeader.reasonPhrase() );
     httpRequestAborted = true;
-    abort();
 
-    ImageData *imageData = &imageByEntry[ requestByEntry.key( currentId() ) ];
-    if ( imageData->buffer ) {
-      imageData->buffer->close();
-      delete imageData->buffer;
-      imageData->buffer = 0;
-    }
-    if ( imageData->bytearray ) {
-      delete imageData->bytearray;
-      imageData->bytearray = 0;
-    }
+//    imageByEntry.remove( requestByEntry.key( currentId() ) );
+//    qDebug() << "BLABLABLA:" << requestByEntry.key( currentId() );
+
+//    ImageData *imageData = &imageByEntry[ requestByEntry.key( currentId() ) ];
+//    if ( imageData ) {
+//      if ( imageData->buffer ) {
+//        imageData->buffer->close();
+//        delete imageData->buffer;
+//        imageData->buffer = 0;
+//      }
+//      if ( imageData->bytearray ) {
+//        delete imageData->bytearray;
+//        imageData->bytearray = 0;
+//      }
+//    }
   }
 }

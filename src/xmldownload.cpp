@@ -70,6 +70,14 @@ XmlDownload::XmlDownload( Role role, Core *coreParent, QObject *parent ) :
   createConnections( core );
 }
 
+XmlDownload::~XmlDownload()
+{
+  if ( statusParser )
+    statusParser->deleteLater();
+  if ( directMsgParser )
+    directMsgParser->deleteLater();
+}
+
 void XmlDownload::getContent( const QString &path, XmlDownload::ContentRequested content )
 {
   QByteArray encodedPath = prepareRequest( path );
@@ -81,7 +89,7 @@ void XmlDownload::getContent( const QString &path, XmlDownload::ContentRequested
   processedRequest( content )->assign( httpGetId, buffer, bytearray );
   bytearray = 0;
   buffer = 0;
-  qDebug() << "Request of type GET and id" << httpGetId << "started";
+  qDebug() << "Request of type GET and id" << httpGetId << "started" << state();
 }
 
 void XmlDownload::postContent( const QString &path, const QByteArray &status, XmlDownload::ContentRequested content )
@@ -186,15 +194,13 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
       xmlReader.setContentHandler( directMsgParser );
     }
     xmlReader.parse( source );
-    qDebug() << "========= XML PARSING FINISHED =========";
+    qDebug() << "========= XML PARSING FINISHED =========" << state();
   }
   processedRequest( requestId )->clear();
   authenticated = false;
   if ( requestId == statusesData.id ) {
-    statusParser->deleteLater();
     emit finished( Statuses );
   } else if ( requestId == directMessagesData.id ) {
-    directMsgParser->deleteLater();
     emit finished( DirectMessages );
   }
 }
