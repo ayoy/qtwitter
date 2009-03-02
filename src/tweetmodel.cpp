@@ -133,6 +133,7 @@ void TweetModel::selectTweet( const QModelIndex &index )
   currentIndex = index;
   aTweet = getTweetFromIndex( currentIndex );
   aTweet->setState( Tweet::Active );
+  view->setCurrentIndex( currentIndex );
 }
 
 void TweetModel::selectTweet( Tweet *tweet )
@@ -149,6 +150,7 @@ void TweetModel::selectTweet( Tweet *tweet )
     }
   }
   tweet->setState( Tweet::Active );
+  view->setCurrentIndex( currentIndex );
 }
 
 void TweetModel::markAllAsRead()

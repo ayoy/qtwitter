@@ -1,7 +1,8 @@
 v.0.4.1 (2009/03/03):
-- fixed bug with image downloading failure when 404 encountered,
-- fixed bug with currently selected Tweet's highlighting lag when new updates come,
-- fixed bug with not updating the amount of characters left when initiating a reply,
+- fixed a bug of image downloading failure when 404 encountered,
+- fixed a bug of currently selected Tweet's highlighting lag when new updates come,
+- fixed a bug of not updating the amount of characters left when initiating a reply,
+- fixed a bug of the actual list selection not following the currently highlighted Tweet,
 - changed retweet action to allow editing before sending,
 - code thoroughly revised and documented, redundant methods, slots and signals removed.
 v.0.4 (2009/02/27):
