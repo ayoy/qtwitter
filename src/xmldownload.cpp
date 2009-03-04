@@ -64,9 +64,7 @@ XmlDownload::XmlDownload( Role role, Core *coreParent, QObject *parent ) :
     authenticated( false )
 {
   statusParser = new XmlParser( this );
-  if ( role == XmlDownload::RefreshAll ) {
-    directMsgParser = new XmlParserDirectMsg( this );
-  }
+  directMsgParser = new XmlParserDirectMsg( this );
   createConnections( core );
 }
 
@@ -216,7 +214,6 @@ void XmlDownload::createConnections( Core *coreParent )
     connect( statusParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
     connect( statusParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(downloadImage(Entry*)) );
   }
-
   if ( directMsgParser ) {
     connect( directMsgParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
   }

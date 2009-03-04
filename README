@@ -1,6 +1,6 @@
 qTwitter is a simple application allowing to use twitter.com social networking website. It is intended to imitate Twitterrific, known very well to Mac OS X users. It's being developed in C++ with Qt libraries (v. 4.4.3).
 
-Features' summary as for v0.4:
+Features' summary as for v0.4.1:
   - posting updates to Twitter and downloading friends or public timeline,
   - support for deleting messages, replying, retweeting and copying Tweets' permalinks to clipboard,
   - support for downloading direct messages,

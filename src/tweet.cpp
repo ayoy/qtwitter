@@ -225,6 +225,7 @@ void Tweet::adjustSize()
 
 void Tweet::menuRequested()
 {
+  emit focusRequest();
   menu->exec( QCursor::pos() );
 }
 

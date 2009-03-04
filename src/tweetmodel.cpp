@@ -128,7 +128,10 @@ void TweetModel::selectTweet( const QModelIndex &index )
   Tweet *aTweet;
   if ( currentIndex != QModelIndex() ) {
     aTweet = getTweetFromIndex( currentIndex );
-    aTweet->setState( Tweet::Read );
+    if ( aTweet->isRead() )
+      aTweet->setState( Tweet::Read );
+    else
+      aTweet->setState( Tweet::Unread );
   }
   currentIndex = index;
   aTweet = getTweetFromIndex( currentIndex );
@@ -140,7 +143,10 @@ void TweetModel::selectTweet( Tweet *tweet )
 {
   if ( currentIndex != QModelIndex() ) {
     Tweet *aTweet = getTweetFromIndex( currentIndex );
-    aTweet->setState( Tweet::Read );
+    if ( aTweet->isRead() )
+      aTweet->setState( Tweet::Read );
+    else
+      aTweet->setState( Tweet::Unread );
   }
   for ( int i = 0; i < rowCount(); i++ ) {
     Tweet *matchTweet = getTweetFromIndex( i );
@@ -158,7 +164,10 @@ void TweetModel::markAllAsRead()
   if ( rowCount() > 0 ) {
     for ( int i = 0; i < rowCount(); i++ ) {
       Tweet *aTweet = getTweetFromIndex( i );
-      aTweet->setState( Tweet::Read );
+      if ( i == currentIndex.row() )
+        aTweet->setState( Tweet::Active );
+      else
+        aTweet->setState( Tweet::Read );
     }
   }
 }

@@ -79,11 +79,15 @@ bool Core::setTimerInterval( int msecs )
 bool Core::setAuthData( const QString &user, const QString &password )
 {
   switchUser = false;
-  if ( currentUser.compare( user ) ) {
-    authData.setUser( user );
+  authData.setUser( user );
+  authData.setPassword( password );
+  if ( currentUser.isNull() ) {
+    currentUser = user;
+  } else if ( currentUser.compare( authData.user() ) ) {
     switchUser = true;
   }
-  authData.setPassword( password );
+  emit requestListRefresh( publicTimelineSync, switchUser );
+  qDebug() << "emitting:" << publicTimelineSync << switchUser;
   return switchUser;
 }
 

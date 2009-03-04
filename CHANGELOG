@@ -1,3 +1,6 @@
+- fixed incorrect Tweets' selection updating when new Tweets arrive, 
+- fixed a bug of not downloading direct messages,
+- fixed a bug of unwanted deleting of the Tweet list when posting an update after specific combination of failed logins.
 v.0.4.1 (2009/03/03):
 - fixed a bug of image downloading failure when 404 encountered,
 - fixed a bug of currently selected Tweet's highlighting lag when new updates come,
