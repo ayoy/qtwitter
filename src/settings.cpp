@@ -161,6 +161,7 @@ void Settings::loadConfig( bool dialogRejected )
 #endif
   settings.endGroup();
   settings.beginGroup( "Appearance" );
+    ui.tweetCountBox->setValue( settings.value( "tweet count", 25 ).toInt() );
     ui.colorBox->setCurrentIndex( settings.value( "color scheme", 2 ).toInt() );
   settings.endGroup();
 
@@ -235,6 +236,7 @@ void Settings::saveConfig( int quitting )
 #endif
   settings.endGroup();
   settings.beginGroup( "Appearance" );
+    settings.setValue( "tweet count", ui.tweetCountBox->value() );
     settings.setValue( "color scheme", ui.colorBox->currentIndex() );
   settings.endGroup();
 
@@ -319,6 +321,7 @@ void Settings::retranslateUi()
   ui.hostLabel->setText( tr( "Host:" ) );
   ui.portLabel->setText( tr( "Port:" ) );
   ui.tabs->setTabText( 2, tr( "Appearance" ) );
+  ui.tweetCountLabel->setText( tr( "Tweet count:" ) );
   ui.colorLabel->setText( tr( "Color scheme:" ) );
 #ifdef Q_WS_X11
   selectBrowserLabel->setText( tr( "Specify web browser:" ) );
@@ -344,6 +347,7 @@ void Settings::applySettings()
 {
   setProxy();
   core->applySettings( ui.refreshCombo->currentText().toInt() * 60000, ui.userNameEdit->text(), ui.passwordEdit->text(), ui.radioPublic->isChecked(), ui.directCheckBox->isChecked() );
+  model->setMaxTweetCount( ui.tweetCountBox->value() );
   changeTheme( ui.colorBox->currentText() );
 #ifdef Q_WS_X11
   core->setBrowserPath( this->selectBrowserEdit->text() );

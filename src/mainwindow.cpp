@@ -31,7 +31,7 @@
 #include <QShortcut>
 #include <QDesktopWidget>
 
-const QString MainWindow::APP_VERSION = "0.4.2_pre1";
+const QString MainWindow::APP_VERSION = "0.4.2";
 
 MainWindow::MainWindow( QWidget *parent ) :
     QWidget( parent ),

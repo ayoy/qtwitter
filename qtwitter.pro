@@ -6,6 +6,10 @@ unix {
     target.path = $${INSTALL_PREFIX}/bin
     INSTALLS += target
 }
+macx {
+ ICON = macx/twitter_48.icns
+ QMAKE_INFO_PLIST = macx/Info.plist
+}
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \

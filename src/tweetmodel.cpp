@@ -28,6 +28,7 @@ TweetModel::TweetModel( int margin, StatusList *parentListView, QObject *parent 
   newStatusesCount( 0 ),
   newMessagesCount( 0 ),
   scrollBarMargin( margin ),
+  maxTweetCount( 20 ),
   currentIndex( QModelIndex() ),
   view( parentListView )
 {
@@ -60,6 +61,12 @@ void TweetModel::setTheme( const ThemeData &theme )
   }
 }
 
+void TweetModel::setMaxTweetCount( int count )
+{
+  maxTweetCount = count;
+  stripRedundantTweets();
+}
+
 void TweetModel::insertTweet( Entry *entry )
 {
   if ( modelToBeCleared ) {
@@ -76,11 +83,10 @@ void TweetModel::insertTweet( Entry *entry )
   QStandardItem *newItem = new QStandardItem();
   newItem->setData( data );
   Tweet *newTweet;
-  if ( entry->getType() == Entry::DirectMessage ) {
+  if ( entry->getType() == Entry::DirectMessage )
     newTweet = new Tweet( *entry, QImage( ":/icons/mail_48.png" ), dynamic_cast<MainWindow*>( parent()) );
-  } else {
+  else
     newTweet = new Tweet( *entry, QImage(), dynamic_cast<MainWindow*>( parent()) );
-  }
   newTweet->resize( view->width() - scrollBarMargin, newTweet->size().height() );
   newItem->setSizeHint( newTweet->size() );
 
@@ -93,12 +99,14 @@ void TweetModel::insertTweet( Entry *entry )
     if ( entry->timestamp() > item(i)->data().value<Entry>().timestamp() ) {
       QStandardItemModel::insertRow( i, newItem );
       view->setIndexWidget( indexFromItem( newItem ), newTweet );
-      if ( currentIndex.row() >= i ) {
+      if ( currentIndex.row() >= i && currentIndex.row() < (maxTweetCount - 1) )
         selectTweet( currentIndex.sibling( currentIndex.row() + 1, 0 ) );
-      }
+      stripRedundantTweets();
       return;
     }
   }
+  if ( stripRedundantTweets() )
+    return;
   QStandardItemModel::appendRow( newItem );
   view->setIndexWidget( indexFromItem( newItem ), newTweet );
 }
@@ -282,6 +290,18 @@ void TweetModel::addUnreadEntry( Entry entry )
       newStatusesNames << name;
     }
   }
+}
+
+bool TweetModel::stripRedundantTweets()
+{
+  if ( rowCount() >= maxTweetCount ) {
+    if ( currentIndex.row() > maxTweetCount - 1 ) {
+      selectTweet( currentIndex.sibling( maxTweetCount - 1, 0 ) );
+    }
+    QStandardItemModel::removeRows( maxTweetCount, rowCount() - maxTweetCount );
+    return true;
+  }
+  return false;
 }
 
 Tweet* TweetModel::getTweetFromIndex( int i )

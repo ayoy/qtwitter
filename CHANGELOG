@@ -1,14 +1,17 @@
+v0.4.2 (2009/03/05):
+- added a setting for customization of the amount of displayed Tweets,
+- MacOS X specific files added to repository,
 - fixed incorrect Tweets' selection updating when new Tweets arrive, 
 - fixed a bug of not downloading direct messages,
 - fixed a bug of unwanted deleting of the Tweet list when posting an update after specific combination of failed logins.
-v.0.4.1 (2009/03/03):
+v0.4.1 (2009/03/03):
 - fixed a bug of image downloading failure when 404 encountered,
 - fixed a bug of currently selected Tweet's highlighting lag when new updates come,
 - fixed a bug of not updating the amount of characters left when initiating a reply,
 - fixed a bug of the actual list selection not following the currently highlighted Tweet,
 - changed retweet action to allow editing before sending,
 - code thoroughly revised and documented, redundant methods, slots and signals removed.
-v.0.4 (2009/02/27):
+v0.4 (2009/02/27):
 - added support for marking Tweets as read and highlighting current selection,
 - added system tray notifications (via knotify on Linux and Growl on MacOS X),
 - enabled arrow keys navigation through the statuses list,

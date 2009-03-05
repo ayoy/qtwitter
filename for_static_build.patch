@@ -1,8 +1,8 @@
 diff --git a/qtwitter.pro b/qtwitter.pro
-index c696fe0..ebab227 100644
+index 00e2d7e..d7aa55a 100644
 --- a/qtwitter.pro
 +++ b/qtwitter.pro
-@@ -42,8 +42,8 @@ FORMS += ui/mainwindow.ui \
+@@ -46,8 +46,8 @@ FORMS += ui/mainwindow.ui \
  RESOURCES += res/resources.qrc
  QT += network \
      xml
@@ -14,7 +14,7 @@ index c696fe0..ebab227 100644
      loc/qtwitter_ca.ts \
      loc/qtwitter_es.ts
 diff --git a/src/main.cpp b/src/main.cpp
-index f4d35b5..2d9b3b3 100644
+index 3d130f3..28a7047 100644
 --- a/src/main.cpp
 +++ b/src/main.cpp
 @@ -25,8 +25,8 @@

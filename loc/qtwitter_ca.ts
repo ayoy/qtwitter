@@ -1,19 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE TS><TS version="1.1" language="ca">
+<!DOCTYPE TS>
+<TS version="2.0" language="ca">
 <defaultcodec></defaultcodec>
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../ui/about.ui" line="31"/>
+        <location filename="../ui/about.ui" line="32"/>
         <source>About qTwitter</source>
         <translation>Sobre qTwitter</translation>
     </message>
     <message>
-        <location filename="../ui/about.ui" line="170"/>
+        <location filename="../ui/about.ui" line="139"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;qTwitter - a Qt Twitter client&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;version %1&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Copyright © 2008-2009 by Dominik Kapusta (&lt;/span&gt;&lt;a href=&quot;mailto:d@ayoy.net&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;d@ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;http://blog.ayoy.net&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://blog.ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;distributed under the GPL-3 license or later&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;qTwitter - el client Qt del Twitter&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;versió %1&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Copyright © 2008-2009 Dominik Kapusta (&lt;/span&gt;&lt;a href=&quot;mailto:d@ayoy.net&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;d@ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;http://blog.ayoy.net&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://blog.ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;distribuint sota licència GPL-3 o posteriors&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../ui/about.ui" line="171"/>
         <source>Close</source>
         <translation>Tanca</translation>
     </message>
-    <message encoding="UTF-8">
+    <message utf8="true">
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -25,16 +38,15 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;qTwitter - el client Qt del Twitter&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;versió %1&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Copyright © 2008-2009 Dominik Kapusta (&lt;/span&gt;&lt;a href=&quot;mailto:d@ayoy.net&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;d@ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;http://blog.ayoy.net&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://blog.ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;distribuint sota licència GPL-3 o posteriors&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/about.ui" line="138"/>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt;&quot;&gt;qTwitter - a Qt Twitter client&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt;&quot;&gt;version %1&lt;/span&gt;&lt;/p&gt;
-&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt;&quot;&gt;Copyright &#xa9; 2008-2009 by Dominik&#xa0;Kapusta (&lt;/span&gt;&lt;a href=&quot;mailto:d@ayoy.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;d@ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;http://blog.ayoy.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://blog.ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt;&quot;&gt;Copyright © 2008-2009 by Dominik Kapusta (&lt;/span&gt;&lt;a href=&quot;mailto:d@ayoy.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;d@ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;http://blog.ayoy.net&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://blog.ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8pt;&quot;&gt;&lt;span style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt;&quot;&gt;distributed under the GPL-3 license or later&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;qTwitter - el client Qt del Twitter&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;versió %1&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Copyright © 2008-2009 Dominik Kapusta (&lt;/span&gt;&lt;a href=&quot;mailto:d@ayoy.net&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;d@ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;http://blog.ayoy.net&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://blog.ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;distribuint sota licència GPL-3 o posteriors&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;qTwitter - el client Qt del Twitter&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;versió %1&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;Copyright © 2008-2009 Dominik Kapusta (&lt;/span&gt;&lt;a href=&quot;mailto:d@ayoy.net&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;d@ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;, &lt;/span&gt;&lt;a href=&quot;http://blog.ayoy.net&quot;&gt;&lt;span style=&quot; font-size:10pt; text-decoration: underline; color:#0000ff;&quot;&gt;http://blog.ayoy.net&lt;/span&gt;&lt;/a&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;)&lt;/span&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:10pt;&quot;&gt;distribuint sota licència GPL-3 o posteriors&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -85,22 +97,22 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">El navegador web no és definit. Configura-ho a Configuració-&gt;Xarxa.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="177"/>
+        <location filename="../src/core.cpp" line="181"/>
         <source>Authentication is required to delete updates.</source>
         <translation>Autenticació és requerida per a suprimir els teus actualitzacions.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="135"/>
+        <location filename="../src/core.cpp" line="139"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>Autenticació és requerida per a obtenir actualitzacions dels teus amics.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="158"/>
+        <location filename="../src/core.cpp" line="162"/>
         <source>Authentication is required to post updates.</source>
         <translation>Autenticació és requerida per a publicar els teus actualitzacions.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="225"/>
+        <location filename="../src/core.cpp" line="229"/>
         <source>Browser path is not defined. Specify it in Settings-&gt;Network section.</source>
         <translation>El navegador web no és definit. Configura-ho a Configuració-&gt;Xarxa.</translation>
     </message>
@@ -134,11 +146,14 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
+        <location filename="../ui/mainwindow.ui" line="172"/>
+        <location filename="../ui/mainwindow.ui" line="195"/>
         <location filename="../ui/mainwindow.ui" line="218"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.cpp" line="252"/>
         <location filename="../ui/mainwindow.ui" line="250"/>
         <source>What are you doing?</source>
         <translation>Què estàs fent ara?</translation>
@@ -148,16 +163,20 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">caràcters queden</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.cpp" line="246"/>
         <location filename="../ui/mainwindow.ui" line="169"/>
         <source>Go to twitter.com</source>
         <translation>Vés-hi al twitter.com</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.cpp" line="79"/>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <location filename="../ui/mainwindow.ui" line="189"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.cpp" line="248"/>
         <location filename="../ui/mainwindow.ui" line="212"/>
         <source>Update tweets</source>
         <translation>Actualitzar estats</translation>
@@ -172,6 +191,7 @@ p, li { white-space: pre-wrap; }
         <translation>Surt</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.cpp" line="42"/>
         <location filename="../src/mainwindow.cpp" line="148"/>
         <source>characters left</source>
         <translation>caràcters queden</translation>
@@ -187,11 +207,15 @@ p, li { white-space: pre-wrap; }
         <translation>estats nous</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.cpp" line="191"/>
         <location filename="../src/mainwindow.cpp" line="200"/>
         <source>from</source>
         <translation>de</translation>
     </message>
     <message>
+        <location filename="../src/mainwindow.cpp" line="192"/>
+        <location filename="../src/mainwindow.cpp" line="201"/>
+        <location filename="../src/mainwindow.cpp" line="209"/>
         <location filename="../src/mainwindow.cpp" line="218"/>
         <source>and</source>
         <translation>i</translation>
@@ -243,16 +267,19 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Settings</name>
     <message>
+        <location filename="../src/settings.cpp" line="308"/>
         <location filename="../ui/settings.ui" line="20"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="309"/>
         <location filename="../ui/settings.ui" line="46"/>
         <source>General</source>
         <translation>General</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="310"/>
         <location filename="../ui/settings.ui" line="52"/>
         <source>Refresh every</source>
         <translation>Actualitza cada</translation>
@@ -293,36 +320,43 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="311"/>
         <location filename="../ui/settings.ui" line="98"/>
         <source>minutes</source>
         <translation>minuts</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="312"/>
         <location filename="../ui/settings.ui" line="105"/>
         <source>Language</source>
         <translation>Llengua</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="368"/>
         <location filename="../ui/settings.ui" line="119"/>
         <source>English</source>
         <translation>Català</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="319"/>
         <location filename="../ui/settings.ui" line="182"/>
         <source>Network</source>
         <translation>Xarxa</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="320"/>
         <location filename="../ui/settings.ui" line="190"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Utilitza el &amp;proxy HTTP</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="321"/>
         <location filename="../ui/settings.ui" line="197"/>
         <source>Host:</source>
         <translation></translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="322"/>
         <location filename="../ui/settings.ui" line="230"/>
         <source>Port:</source>
         <translation></translation>
@@ -348,76 +382,92 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Port</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="327"/>
+        <location filename="../src/settings.cpp" line="330"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="328"/>
+        <location filename="../src/settings.cpp" line="331"/>
         <source>Cancel</source>
         <translation>Anul·la</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="329"/>
+        <location filename="../src/settings.cpp" line="332"/>
         <source>OK</source>
         <translation>Bé</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="313"/>
         <location filename="../ui/settings.ui" line="127"/>
         <source>Username</source>
         <translation>Nom d&apos;usuari</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="314"/>
         <location filename="../ui/settings.ui" line="137"/>
         <source>Password</source>
         <translation>Contrasenya</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="315"/>
         <location filename="../ui/settings.ui" line="151"/>
         <source>Download</source>
         <translation>Descarregar</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="316"/>
         <location filename="../ui/settings.ui" line="164"/>
         <source>friends timeline</source>
         <translation>actualitzacions dels amics</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="318"/>
         <location filename="../ui/settings.ui" line="157"/>
         <source>public timeline</source>
         <translation>actualitzacions de tots els usuaris</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="324"/>
+        <location filename="../src/settings.cpp" line="113"/>
+        <location filename="../src/settings.cpp" line="327"/>
         <source>Specify web browser:</source>
         <translation>Selecciona el navegador web:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="325"/>
+        <location filename="../src/settings.cpp" line="118"/>
+        <location filename="../src/settings.cpp" line="328"/>
         <source>Browse</source>
         <translation>Navega</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="339"/>
+        <location filename="../src/settings.cpp" line="324"/>
+        <location filename="../ui/settings.ui" line="280"/>
+        <source>Tweet count:</source>
+        <translation>Quantitat de Tweets:</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="342"/>
         <source>Select your browser executable</source>
         <translation>Escull el arxiu del teu navegador</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="339"/>
+        <location filename="../src/settings.cpp" line="342"/>
         <source>All files (*)</source>
         <translation>Tots arxius (*)</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="323"/>
         <location filename="../ui/settings.ui" line="272"/>
         <source>Appearance</source>
         <translation>Aparença</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="280"/>
+        <location filename="../src/settings.cpp" line="325"/>
+        <location filename="../ui/settings.ui" line="310"/>
         <source>Color scheme:</source>
         <translation>Esquema de color:</translation>
     </message>
     <message>
+        <location filename="../src/settings.cpp" line="317"/>
         <location filename="../ui/settings.ui" line="171"/>
         <source>include direct messages</source>
         <translation>icloent els missatges privades</translation>
@@ -452,41 +502,49 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Vés a la pàgina principal</translation>
     </message>
     <message>
+        <location filename="../src/tweet.cpp" line="47"/>
         <location filename="../src/tweet.cpp" line="174"/>
         <source>Reply to</source>
         <translation>Respon a</translation>
     </message>
     <message>
+        <location filename="../src/tweet.cpp" line="89"/>
         <location filename="../src/tweet.cpp" line="180"/>
         <source>Go to User&apos;s Twitter page</source>
         <translation>Vés-hi a la pàgina Twitter d&apos;usuari</translation>
     </message>
     <message>
+        <location filename="../src/tweet.cpp" line="96"/>
         <location filename="../src/tweet.cpp" line="179"/>
         <source>Go to User&apos;s homepage</source>
         <translation>Vés-hi a la pàgina principal d&apos;usuari</translation>
     </message>
     <message>
+        <location filename="../src/tweet.cpp" line="72"/>
         <location filename="../src/tweet.cpp" line="177"/>
         <source>Delete tweet</source>
         <translation>Suprimeix l&apos;estat</translation>
     </message>
     <message>
+        <location filename="../src/tweet.cpp" line="107"/>
         <location filename="../src/tweet.cpp" line="181"/>
         <source>About qTwitter...</source>
         <translation>Sobre qTwitter...</translation>
     </message>
     <message>
+        <location filename="../src/tweet.cpp" line="82"/>
         <location filename="../src/tweet.cpp" line="178"/>
         <source>Mark all as read</source>
         <translation>Marca&apos;ls tots com a llegits</translation>
     </message>
     <message>
+        <location filename="../src/tweet.cpp" line="56"/>
         <location filename="../src/tweet.cpp" line="175"/>
         <source>Retweet</source>
         <translation>Reenvia</translation>
     </message>
     <message>
+        <location filename="../src/tweet.cpp" line="64"/>
         <location filename="../src/tweet.cpp" line="176"/>
         <source>Copy link to this Tweet</source>
         <translation>Copia el link a aquest estat</translation>
@@ -495,7 +553,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>TweetModel</name>
     <message>
-        <location filename="../src/tweetmodel.cpp" line="271"/>
+        <location filename="../src/tweetmodel.cpp" line="288"/>
         <source>you</source>
         <translation>tu</translation>
     </message>
@@ -503,7 +561,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>XmlDownload</name>
     <message>
-        <location filename="../src/xmldownload.cpp" line="126"/>
+        <location filename="../src/xmldownload.cpp" line="124"/>
         <source>Authentication is required to post updates.</source>
         <translation>Autenticació és requerida per a publicar els teus actualitzacions.</translation>
     </message>

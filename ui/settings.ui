@@ -5,9 +5,9 @@
   <property name="geometry">
    <rect>
     <x>0</x>
-    <y>16</y>
-    <width>261</width>
-    <height>300</height>
+    <y>0</y>
+    <width>310</width>
+    <height>338</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -272,6 +272,36 @@
        <string>Appearance</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
+          <widget class="QLabel" name="tweetCountLabel">
+           <property name="text">
+            <string>Tweet count:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="tweetCountBox">
+           <property name="maximumSize">
+            <size>
+             <width>63</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="accelerated">
+            <bool>true</bool>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>100</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>

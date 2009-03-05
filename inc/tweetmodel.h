@@ -64,6 +64,12 @@ public:
   */
   void setTheme( const ThemeData &theme );
 
+  /*!
+    Sets maximum amount of Tweets on a list.
+    \param count The given maximum Tweets amount.
+  */
+  void setMaxTweetCount( int count );
+
 public slots:
   /*!
     Creates a Tweet class instance as a representation of \a entry and adds it
@@ -203,6 +209,7 @@ signals:
 private:
   void countUnreadEntries();
   void addUnreadEntry( Entry );
+  bool stripRedundantTweets();
   Tweet* getTweetFromIndex( int );
   Tweet* getTweetFromIndex( QModelIndex );
   bool publicTimeline;
@@ -212,6 +219,7 @@ private:
   int newMessagesCount;
   QStringList newStatusesNames;
   QStringList newMessagesNames;
+  int maxTweetCount;
   int scrollBarMargin;
   QModelIndex currentIndex;
   StatusList *view;
