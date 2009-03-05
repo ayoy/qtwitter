@@ -155,7 +155,7 @@ void Core::get()
   switchUser = false;
 }
 
-void Core::post( const QByteArray &status )
+void Core::post( const QByteArray &status, int inReplyTo )
 {
   if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
     if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
@@ -165,6 +165,9 @@ void Core::post( const QByteArray &status )
   }
   QByteArray request( "status=" );
   request.append( status );
+  if ( inReplyTo != -1 ) {
+    request.append( "&in_reply_to_status_id=" + QByteArray::number( inReplyTo ) );
+  }
   request.append( "&source=qtwitter" );
   qDebug() << request;
   xmlPost = new XmlDownload( XmlDownload::Submit, this );

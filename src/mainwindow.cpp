@@ -31,7 +31,7 @@
 #include <QShortcut>
 #include <QDesktopWidget>
 
-const QString MainWindow::APP_VERSION = "0.4.2";
+const QString MainWindow::APP_VERSION = "0.4.3_pre1";
 
 MainWindow::MainWindow( QWidget *parent ) :
     QWidget( parent ),
@@ -51,7 +51,7 @@ MainWindow::MainWindow( QWidget *parent ) :
   connect( ui.statusEdit, SIGNAL(errorMessage(QString)), this, SLOT(popupError(QString)) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
-  connect( this, SIGNAL(addReplyString(QString)), ui.statusEdit, SLOT(addReplyString(QString)) );
+  connect( this, SIGNAL(addReplyString(QString,int)), ui.statusEdit, SLOT(addReplyString(QString,int)) );
   connect( this, SIGNAL(addRetweetString(QString)), ui.statusEdit, SLOT(addRetweetString(QString)) );
 
   QShortcut *typeShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ), this );
@@ -71,7 +71,8 @@ MainWindow::MainWindow( QWidget *parent ) :
   trayIcon = new QSystemTrayIcon( this );
   trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
 
-  QObject::connect( trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)) );
+  connect( trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)) );
+  connect( trayIcon, SIGNAL(messageClicked()), this, SLOT(show()) );
 #ifndef Q_WS_MAC
   QMenu *trayMenu = new QMenu( this );
   trayMenu = new QMenu( this );
@@ -151,7 +152,7 @@ void MainWindow::changeLabel()
 void MainWindow::sendStatus()
 {
   resetUiWhenFinished = true;
-  emit post( ui.statusEdit->text().toUtf8() );
+  emit post( ui.statusEdit->text().toUtf8(), ui.statusEdit->getInReplyTo() );
 }
 
 void MainWindow::resetStatusEdit()

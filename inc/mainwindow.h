@@ -123,8 +123,9 @@ signals:
   /*!
     Emitted to post a status update. Assigned to pressing Enter inside the status edit field.
     \param status A status to be posted.
+    \param inReplyTo In case the status is a reply - optional id of the existing status to which the reply is posted.
   */
-  void post( const QByteArray& status );
+  void post( const QByteArray& status, int inReplyTo = -1 );
 
   /*!
     Emitted when home button pressed, asks to open a default browser.
@@ -142,8 +143,9 @@ signals:
     Works as a proxy between Tweet class instance and status edit field. Passes the request
     to initiate editing a reply.
     \param user Login of a User to whom the current User replies.
+    \param inReplyTo Id of the existing status to which the reply is posted.
   */
-  void addReplyString( const QString& user );
+  void addReplyString( const QString& user, int inReplyTo );
 
   /*!
     Works as a proxy between Tweet class instance and status edit field. Passes the request

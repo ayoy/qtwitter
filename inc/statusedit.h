@@ -65,7 +65,13 @@ public:
     Checks wether the status edit field is initialized.
     \returns true when the status edit field is initialized, otherwise returns false.
   */
-  bool isStatusClean();
+  bool isStatusClean() const;
+
+  /*!
+    Gets the reply status Id if exists.
+    \returns Id of the status to which a reply is posted. If the status is not a reply, returns -1.
+  */
+  int getInReplyTo() const;
 
 public slots:
   /*!
@@ -76,8 +82,9 @@ public slots:
   /*!
     Adds user login in Twitter replying convention (\a \@user).
     \param name User login to be added to status edit field.
+    \param inReplyTo Id of the existing status to which the reply is posted.
   */
-  void addReplyString( const QString &name );
+  void addReplyString( const QString &name, int inReplyTo );
 
   /*!
     Adds a retweet message to status field.
@@ -93,7 +100,8 @@ signals:
   void errorMessage( const QString &message );
 
 private:
-  bool statusClean; 
+  bool statusClean;
+  int inReplyToId;
 };
 
 #endif //STATUSEDIT_H

@@ -181,9 +181,10 @@ signals:
     Emitted to notify the MainWindow class instance about the User's request
     to send a reply.
     \param name Login of the User to whom a reply is addressed.
+    \param inReplyTo Id of the existing status to which the reply is posted.
     \sa sendReply()
   */
-  void reply( const QString &name );
+  void reply( const QString &name, int inReplyTo );
 
   /*!
     Emitted to notify the Core class instance about the User's request

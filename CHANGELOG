@@ -1,3 +1,5 @@
+- posted replies now recognizable by API,
+- fixed a bug of stacking excessive Tweets on the top of the Tweet list when main window is hidden.
 v0.4.2 (2009/03/05):
 - added a setting for customization of the amount of displayed Tweets,
 - MacOS X specific files added to repository,

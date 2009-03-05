@@ -97,7 +97,7 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">El navegador web no és definit. Configura-ho a Configuració-&gt;Xarxa.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="181"/>
+        <location filename="../src/core.cpp" line="184"/>
         <source>Authentication is required to delete updates.</source>
         <translation>Autenticació és requerida per a suprimir els teus actualitzacions.</translation>
     </message>
@@ -112,7 +112,7 @@ p, li { white-space: pre-wrap; }
         <translation>Autenticació és requerida per a publicar els teus actualitzacions.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="229"/>
+        <location filename="../src/core.cpp" line="232"/>
         <source>Browser path is not defined. Specify it in Settings-&gt;Network section.</source>
         <translation>El navegador web no és definit. Configura-ho a Configuració-&gt;Xarxa.</translation>
     </message>
@@ -136,7 +136,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="179"/>
+        <location filename="../src/mainwindow.cpp" line="180"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -153,7 +153,7 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="252"/>
+        <location filename="../src/mainwindow.cpp" line="253"/>
         <location filename="../ui/mainwindow.ui" line="250"/>
         <source>What are you doing?</source>
         <translation>Què estàs fent ara?</translation>
@@ -163,20 +163,20 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">caràcters queden</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="246"/>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <location filename="../ui/mainwindow.ui" line="169"/>
         <source>Go to twitter.com</source>
         <translation>Vés-hi al twitter.com</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="79"/>
-        <location filename="../src/mainwindow.cpp" line="247"/>
+        <location filename="../src/mainwindow.cpp" line="80"/>
+        <location filename="../src/mainwindow.cpp" line="248"/>
         <location filename="../ui/mainwindow.ui" line="189"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="248"/>
+        <location filename="../src/mainwindow.cpp" line="249"/>
         <location filename="../ui/mainwindow.ui" line="212"/>
         <source>Update tweets</source>
         <translation>Actualitzar estats</translation>
@@ -186,37 +186,37 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Mostra</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="78"/>
+        <location filename="../src/mainwindow.cpp" line="79"/>
         <source>Quit</source>
         <translation>Surt</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="42"/>
-        <location filename="../src/mainwindow.cpp" line="148"/>
+        <location filename="../src/mainwindow.cpp" line="149"/>
         <source>characters left</source>
         <translation>caràcters queden</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="190"/>
+        <location filename="../src/mainwindow.cpp" line="191"/>
         <source>new tweet</source>
         <translation>estat nou</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="190"/>
+        <location filename="../src/mainwindow.cpp" line="191"/>
         <source>new tweets</source>
         <translation>estats nous</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="191"/>
-        <location filename="../src/mainwindow.cpp" line="200"/>
+        <location filename="../src/mainwindow.cpp" line="192"/>
+        <location filename="../src/mainwindow.cpp" line="201"/>
         <source>from</source>
         <translation>de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="192"/>
-        <location filename="../src/mainwindow.cpp" line="201"/>
-        <location filename="../src/mainwindow.cpp" line="209"/>
-        <location filename="../src/mainwindow.cpp" line="218"/>
+        <location filename="../src/mainwindow.cpp" line="193"/>
+        <location filename="../src/mainwindow.cpp" line="202"/>
+        <location filename="../src/mainwindow.cpp" line="210"/>
+        <location filename="../src/mainwindow.cpp" line="219"/>
         <source>and</source>
         <translation>i</translation>
     </message>
@@ -229,37 +229,37 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">nous missatges de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="207"/>
+        <location filename="../src/mainwindow.cpp" line="208"/>
         <source>new tweet from</source>
         <translation>nou estat de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="207"/>
+        <location filename="../src/mainwindow.cpp" line="208"/>
         <source>new tweets from</source>
         <translation>nous estats de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="216"/>
+        <location filename="../src/mainwindow.cpp" line="217"/>
         <source>New message from</source>
         <translation>Nou missatge de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="216"/>
+        <location filename="../src/mainwindow.cpp" line="217"/>
         <source>New messages from</source>
         <translation>Nous missatges de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="221"/>
+        <location filename="../src/mainwindow.cpp" line="222"/>
         <source>News from qTwitter</source>
         <translation>Noticies de qTwitter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="199"/>
+        <location filename="../src/mainwindow.cpp" line="200"/>
         <source>new message</source>
         <translation>missatge nou</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="199"/>
+        <location filename="../src/mainwindow.cpp" line="200"/>
         <source>new messages</source>
         <translation>missatges nous</translation>
     </message>
@@ -476,12 +476,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>StatusEdit</name>
     <message>
-        <location filename="../src/statusedit.cpp" line="49"/>
+        <location filename="../src/statusedit.cpp" line="50"/>
         <source>What are you doing?</source>
         <translation>Què estàs fent ara?</translation>
     </message>
     <message>
-        <location filename="../src/statusedit.cpp" line="79"/>
+        <location filename="../src/statusedit.cpp" line="86"/>
         <source>The message is too long and it will be truncated.</source>
         <translation>El missatge és massa llarg i cal que truncar-lo.</translation>
     </message>
@@ -553,7 +553,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>TweetModel</name>
     <message>
-        <location filename="../src/tweetmodel.cpp" line="288"/>
+        <location filename="../src/tweetmodel.cpp" line="290"/>
         <source>you</source>
         <translation>tu</translation>
     </message>

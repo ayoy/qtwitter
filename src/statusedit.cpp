@@ -24,7 +24,8 @@ const int StatusEdit::STATUS_MAX_LENGTH = 140;
 
 StatusEdit::StatusEdit( QWidget * parent ) :
   QLineEdit( parent ),
-  statusClean( true )
+  statusClean( true ),
+  inReplyToId( -1 )
   {}
 
 void StatusEdit::focusInEvent( QFocusEvent *event )
@@ -50,9 +51,14 @@ void StatusEdit::initialize()
   statusClean = true;
 }
 
-bool StatusEdit::isStatusClean()
+bool StatusEdit::isStatusClean() const
 {
   return statusClean;
+}
+
+int StatusEdit::getInReplyTo() const
+{
+  return inReplyToId;
 }
 
 void StatusEdit::cancelEditing()
@@ -61,7 +67,7 @@ void StatusEdit::cancelEditing()
   clearFocus();
 }
 
-void StatusEdit::addReplyString( const QString &name )
+void StatusEdit::addReplyString( const QString &name, int inReplyTo )
 {
   if ( statusClean ) {
     setText( "@" + name + " ");
@@ -69,6 +75,7 @@ void StatusEdit::addReplyString( const QString &name )
   } else {
     insert( "@" + name + " ");
   }
+  inReplyToId = inReplyTo;
   setFocus();
   emit textChanged( text() );
 }

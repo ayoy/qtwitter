@@ -44,11 +44,11 @@ int main( int argc, char **argv )
   QObject::connect( &qtwitter, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   QObject::connect( &qtwitter, SIGNAL(openBrowser(QString)), core, SLOT(openBrowser(QString)) );
   QObject::connect( model, SIGNAL(openBrowser(QString)), core, SLOT(openBrowser(QString)) );
-  QObject::connect( model, SIGNAL(reply(QString)), &qtwitter, SIGNAL(addReplyString(QString)) );
+  QObject::connect( model, SIGNAL(reply(QString,int)), &qtwitter, SIGNAL(addReplyString(QString,int)) );
   QObject::connect( model, SIGNAL(about()), &qtwitter, SLOT(about()) );
   QObject::connect( model, SIGNAL(destroy(int)), core, SLOT(destroyTweet(int)) );
   QObject::connect( model, SIGNAL(retweet(QString)), &qtwitter, SIGNAL(addRetweetString(QString)) );
-  QObject::connect( &qtwitter, SIGNAL(post(QByteArray)), core, SLOT(post(QByteArray)) );
+  QObject::connect( &qtwitter, SIGNAL(post(QByteArray,int)), core, SLOT(post(QByteArray,int)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
   QObject::connect( &qtwitter, SIGNAL(resizeView(int,int)), model, SLOT(resizeData(int,int)));
   QObject::connect( core, SIGNAL(authDataSet(QAuthenticator)), settings, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;

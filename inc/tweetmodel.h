@@ -197,9 +197,10 @@ signals:
   /*!
     Passes the reply request from a particular Tweet to the MainWindow.
     \param name Login of the original message author.
+    \param inReplyTo Id of the existing status to which the reply is posted.
     \sa retweet()
   */
-  void reply( const QString &name );
+  void reply( const QString &name, int inReplyTo );
 
   /*!
      Passes the request to popup an about dialog to the MainWindow.

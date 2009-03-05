@@ -1,4 +1,4 @@
-qTwitter is a simple application allowing to use twitter.com social networking website. It is intended to imitate Twitterrific, known very well to Mac OS X users. It's being developed in C++ with Qt libraries (v. 4.4.3).
+qTwitter is a simple application allowing to use twitter.com social networking website. It is intended to imitate Twitterrific, known very well to Mac OS X users. It's being developed in Qt framework for C++.
 
 Features' summary as for v0.4.2:
   - posting updates to Twitter and downloading friends or public timeline,

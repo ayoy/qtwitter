@@ -105,8 +105,10 @@ void TweetModel::insertTweet( Entry *entry )
       return;
     }
   }
-  if ( stripRedundantTweets() )
+  if ( stripRedundantTweets() ) {
+    newTweet->deleteLater();
     return;
+  }
   QStandardItemModel::appendRow( newItem );
   view->setIndexWidget( indexFromItem( newItem ), newTweet );
 }

@@ -131,9 +131,10 @@ public slots:
     Sends a new Tweet with a content given by \a status. If user's authenticaton
     data is missing, pops up an authentication dialog.
     \param status New Tweet's text.
+    \param inReplyTo In case the status is a reply - optional id of the existing status to which the reply is posted.
     \sa get(), destroyTweet(), authDataDialog()
   */
-  void post( const QByteArray &status );
+  void post( const QByteArray &status, int inReplyTo = -1 );
 
   /*!
     Sends a request to delete Tweet of id given by \a id. If user's authenticaton

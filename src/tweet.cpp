@@ -48,7 +48,7 @@ Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent ) :
   menu->addAction( replyAction );
   replyAction->setFont( *menuFont );
   connect( replyAction, SIGNAL(triggered()), this, SLOT(sendReply()) );
-  connect( this, SIGNAL(reply(QString)), tweetListModel, SIGNAL(reply(QString)) );
+  connect( this, SIGNAL(reply(QString,int)), tweetListModel, SIGNAL(reply(QString,int)) );
   if ( tweetData.getType() != Entry::Status ) {
     replyAction->setEnabled( false );
   }
@@ -231,7 +231,7 @@ void Tweet::menuRequested()
 
 void Tweet::sendReply()
 {
-  emit reply( tweetData.login() );
+  emit reply( tweetData.login(), tweetData.id() );
 }
 
 void Tweet::sendRetweet()

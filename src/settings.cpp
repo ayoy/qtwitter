@@ -284,7 +284,7 @@ void Settings::switchToPublic()
 
 #if defined Q_WS_X11 || defined Q_WS_MAC
     QSettings settings( "ayoy", "qTwitter" );
-#elif Q_WS_WIN
+#elif defined Q_WS_WIN
     QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
 #endif
     settings.setValue( "General/timeline", ui.radioFriends->isChecked() );
