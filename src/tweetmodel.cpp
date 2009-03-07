@@ -27,8 +27,8 @@ TweetModel::TweetModel( int margin, StatusList *parentListView, QObject *parent 
   modelToBeCleared( false ),
   newStatusesCount( 0 ),
   newMessagesCount( 0 ),
-  scrollBarMargin( margin ),
   maxTweetCount( 20 ),
+  scrollBarMargin( margin ),
   currentIndex( QModelIndex() ),
   view( parentListView )
 {

@@ -470,7 +470,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/settings.cpp" line="317"/>
         <location filename="../ui/settings.ui" line="171"/>
         <source>include direct messages</source>
-        <translation>icloent els missatges privades</translation>
+        <translation>incloent els missatges privades</translation>
     </message>
 </context>
 <context>

@@ -1,0 +1,7 @@
+.DS_Store
+*.pro.user
+qtc-gdbmacros
+Makefile*
+qtwitter.app
+*~
+tmp

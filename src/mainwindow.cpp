@@ -31,7 +31,7 @@
 #include <QShortcut>
 #include <QDesktopWidget>
 
-const QString MainWindow::APP_VERSION = "0.4.3_pre1";
+const QString MainWindow::APP_VERSION = "0.4.3_pre2";
 
 MainWindow::MainWindow( QWidget *parent ) :
     QWidget( parent ),
@@ -86,6 +86,7 @@ MainWindow::MainWindow( QWidget *parent ) :
   QObject::connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
 
   trayMenu->addAction(settingsaction);
+  trayMenu->addSeparator();
   trayMenu->addAction(quitaction);
   trayIcon->setContextMenu( trayMenu );
 

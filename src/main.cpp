@@ -69,6 +69,8 @@ int main( int argc, char **argv )
   QObject::connect( qApp, SIGNAL(aboutToQuit()), &mapper, SLOT(map()) );
   QObject::connect( &mapper, SIGNAL(mapped(int)), settings, SLOT(saveConfig(int)) );
 
+  QApplication::setQuitOnLastWindowClosed( false );
+
   qtwitter.show();
 
   return app.exec();
