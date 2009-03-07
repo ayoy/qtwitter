@@ -48,6 +48,7 @@ void StatusEdit::focusOutEvent( QFocusEvent *event )
 void StatusEdit::initialize()
 {
   setText( tr( "What are you doing?" ) );
+  inReplyToId = -1;
   statusClean = true;
 }
 
@@ -78,6 +79,7 @@ void StatusEdit::addReplyString( const QString &name, int inReplyTo )
   inReplyToId = inReplyTo;
   setFocus();
   emit textChanged( text() );
+  update();
 }
 
 void StatusEdit::addRetweetString( QString message )
