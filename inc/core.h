@@ -148,6 +148,12 @@ public slots:
   void uploadPhoto( QString photoPath, QString status );
 
   /*!
+    Interrupts uploading a photo to TwitPic.com.
+    \sa uploadPhoto(), twitPicResponse()
+  */
+  void abortUploadPhoto();
+
+  /*!
     Reads a response from TwitPic API.
     \param responseStatus true if photo was successfully uploaded, false otherwise.
     \param message Error message or URL to the uploaded photo, depending on a \a responseStatus.
@@ -173,11 +179,10 @@ public slots:
   void downloadImage( Entry *entry );
 
   /*!
-    Opens a web browser with a given \a address. If \a address is not specified,
-    points to http://twitter.com/home. The browser opened is a system default browser
+    Opens a web browser with a given \a address. The browser opened is a system default browser
     on Mac and Windows. On Unix it's defined in Settings.
   */
-  void openBrowser( QString address = QString() );
+  void openBrowser( QString address );
 
   /*!
     Opens a dialog asking user for login and password to Twitter. Prevents opening a dialog when
@@ -246,6 +251,18 @@ signals:
     \sa destroyTweet()
   */
   void deleteEntry( int id );
+
+  /*!
+    Emitted when a response from TwitPic is received.
+    \sa uploadPhoto(), abortUploadPhoto()
+  */
+  void twitPicResponseReceived();
+
+  /*!
+    Emitted when a response from TwitPic is received.
+    \sa uploadPhoto(), abortUploadPhoto()
+  */
+  void twitPicDataSendProgress(int,int);
 
   /*!
     Emitted when an \a image is downloaded and is ready to be shown in model.

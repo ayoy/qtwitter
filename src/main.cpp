@@ -53,6 +53,9 @@ int main( int argc, char **argv )
   QObject::connect( model, SIGNAL(retweet(QString)), &qtwitter, SIGNAL(addRetweetString(QString)) );
   QObject::connect( &qtwitter, SIGNAL(post(QByteArray,int)), core, SLOT(post(QByteArray,int)) );
   QObject::connect( twitpic, SIGNAL(uploadPhoto(QString,QString)), core, SLOT(uploadPhoto(QString,QString)) );
+  QObject::connect( twitpic, SIGNAL(abortUpload()), core, SLOT(abortUploadPhoto()) );
+  QObject::connect( core, SIGNAL(twitPicResponseReceived()), twitpic, SLOT(resetForm()) );
+  QObject::connect( core, SIGNAL(twitPicDataSendProgress(int,int)), twitpic, SLOT(showUploadProgress(int,int)) );
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
   QObject::connect( &qtwitter, SIGNAL(resizeView(int,int)), model, SLOT(resizeData(int,int)));
   QObject::connect( core, SIGNAL(authDataSet(QAuthenticator)), settings, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;

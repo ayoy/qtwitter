@@ -20,9 +20,10 @@
 
 #include "core.h"
 
-#include "ui_authdialog.h"
-#include "twitpicengine.h"
 #include <QSettings>
+#include "ui_authdialog.h"
+#include "ui_twitpicnewphoto.h"
+#include "twitpicengine.h"
 
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
@@ -32,6 +33,7 @@ Core::Core( MainWindow *parent ) :
     authDialogOpen( false ),
     xmlGet( NULL ),
     xmlPost( NULL ),
+    twitpicUpload( NULL ),
     timer( NULL ),
     statusesDone( false ),
     messagesDone( false )
@@ -88,7 +90,6 @@ bool Core::setAuthData( const QString &user, const QString &password )
     switchUser = true;
   }
   emit requestListRefresh( publicTimelineSync, switchUser );
-  qDebug() << "emitting:" << publicTimelineSync << switchUser;
   return switchUser;
 }
 
@@ -128,9 +129,9 @@ void Core::forceGet()
 
 void Core::get()
 {
-  foreach ( ImageDownload *imageDownload, imageDownloader ) {
-    imageDownload->clearData();
-  }
+//  foreach ( ImageDownload *imageDownload, imageDownloader ) {
+//    imageDownload->clearData();
+//  }
   if ( publicTimelineSync ) {
     xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
     xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
@@ -190,16 +191,32 @@ void Core::uploadPhoto( QString photoPath, QString status )
   twitpicUpload->postContent( authData, photoPath, status );
 }
 
+void Core::abortUploadPhoto()
+{
+  if ( twitpicUpload ) {
+    twitpicUpload->abort();
+    twitpicUpload->deleteLater();
+    twitpicUpload = NULL;
+  }
+}
+
 void Core::twitPicResponse( bool responseStatus, QString message, bool newStatus )
 {
+  emit twitPicResponseReceived();
   if ( !responseStatus ) {
-    emit errorMessage( tr( "There was a problem uploading your photo: %1" ).arg( message ) );
+    emit errorMessage( tr( "There was a problem uploading your photo:" ).append( " %1" ).arg( message ) );
     return;
   }
-  emit errorMessage( tr( "Upload completed. Photo available at %1" ).arg( message ) );
   if ( newStatus ) {
     forceGet();
   }
+  twitpicUpload->deleteLater();
+  twitpicUpload = NULL;
+  QDialog dlg;
+  Ui::TwitPicNewPhoto ui;
+  ui.setupUi( &dlg );
+  ui.textBrowser->setText( tr( "Photo available at:" ).append( " <a href=\"%1\">%1</a>" ).arg( message ) );
+  dlg.exec();
 }
 
 void Core::destroyTweet( int id )
@@ -247,9 +264,8 @@ void Core::downloadImage( Entry *entry )
 
 void Core::openBrowser( QString address )
 {
-  if ( address.isNull() ) {
-    address = "http://twitter.com/home";
-  }
+  if ( address.isNull() )
+    return;
   QProcess *browser = new QProcess;
 #ifdef Q_WS_MAC
   browser->start( "/usr/bin/open " + address );

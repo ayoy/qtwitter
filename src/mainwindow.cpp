@@ -30,8 +30,9 @@
 #include <QPalette>
 #include <QShortcut>
 #include <QDesktopWidget>
+#include <QSignalMapper>
 
-const QString MainWindow::APP_VERSION = "0.4.3_pre2";
+const QString MainWindow::APP_VERSION = "0.5.0_pre1";
 
 MainWindow::MainWindow( QWidget *parent ) :
     QWidget( parent ),
@@ -68,18 +69,27 @@ MainWindow::MainWindow( QWidget *parent ) :
   newtweetAction = new QAction( tr( "New tweet" ), buttonMenu );
   newtwitpicAction = new QAction( tr( "Upload a photo to TwitPic" ), buttonMenu );
   gototwitterAction = new QAction( tr( "Go to Twitter" ), buttonMenu );
+  gototwitpicAction = new QAction( tr( "Go to TwitPic" ), buttonMenu );
   newtweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ) );
   newtwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_N ) );
   gototwitterAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
+  gototwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_G ) );
+
+  QSignalMapper *mapper = new QSignalMapper( this );
+  mapper->setMapping( gototwitterAction, "http://twitter.com/home" );
+  mapper->setMapping( gototwitpicAction, "http://twitpic.com" );
 
   connect( newtweetAction, SIGNAL(triggered()), ui.statusEdit, SLOT(setFocus()) );
   connect( newtwitpicAction, SIGNAL(triggered()), this, SIGNAL(openTwitPicDialog()) );
-  connect( gototwitterAction, SIGNAL(triggered()), this, SIGNAL(openBrowser()) );
+  connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
+  connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
+  connect( mapper, SIGNAL(mapped(QString)), this, SIGNAL(openBrowser(QString)) );
 
   buttonMenu->addAction( newtweetAction );
   buttonMenu->addAction( newtwitpicAction );
   buttonMenu->addSeparator();
   buttonMenu->addAction( gototwitterAction );
+  buttonMenu->addAction( gototwitpicAction );
   ui.homeButton->setMenu( buttonMenu );
 
   trayIcon = new QSystemTrayIcon( this );
@@ -260,7 +270,6 @@ void MainWindow::about()
 
 void MainWindow::retranslateUi()
 {
-  ui.homeButton->setToolTip( tr("Go to twitter.com") );
   ui.settingsButton->setToolTip( tr("Settings") );
   ui.updateButton->setToolTip( tr("Update tweets") );
   if ( ui.statusEdit->isStatusClean() ) {

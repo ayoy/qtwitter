@@ -53,12 +53,14 @@ private:
   bool urlIncoming;
 
   static const QString TAG_RESPONSE; /*!< XML document tag for a response element. */
-  static const QString TAG_RESPONSE_STATUS; /*!< XML document tag for a response status. */
+  static const QString TAG_RESPONSE_STATUS; /*!< XML document tag for a response status for a photo upload. */
+  static const QString TAG_RESPONSE_STATUS2; /*!< XML document tag for a response status for a photo upload with posting an update. */
   static const QString TAG_RESPONSE_OK; /*!< XML document tag for a request completed successfully. */
   static const QString TAG_RESPONSE_NOK; /*!< XML document tag for a failed request. */
   static const QString TAG_STATUS_ID; /*!< XML document tag for a new status id. */
   static const QString TAG_MEDIA_URL; /*!< XML document tag for a photo url. */
   static const QString TAG_ERROR; /*!< XML document tag for an error. */
+  static const QString TAG_ERROR_CODE; /*!< XML document tag for an error code. */
   static const QString TAG_ERROR_MESSAGE; /*!< XML document tag for an error message. */
 };
 

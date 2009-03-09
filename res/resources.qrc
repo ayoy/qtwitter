@@ -10,6 +10,7 @@
         <file>star_48.png</file>
         <file>mail_48.png</file>
         <file>add_48.png</file>
+        <file>accepted_48.png</file>
     </qresource>
     <qresource prefix="/translations" >
         <file>qtwitter_ca.qm</file>

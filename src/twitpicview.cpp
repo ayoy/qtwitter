@@ -30,13 +30,44 @@ TwitPicView::TwitPicView(QWidget *parent) :
 {
   m_ui->setupUi(this);
   m_ui->uploadProgressBar->setVisible(false);
+  m_ui->uploadLabel->setVisible( false );
   connect( m_ui->uploadButton, SIGNAL(clicked()), this, SLOT(sendUploadRequest()) );
+  connect( m_ui->imagePathEdit, SIGNAL(textChanged(QString)), this, SLOT(setImagePreview(QString)) );
   connect( m_ui->browseButton, SIGNAL(pressed()), this, SLOT(setImagePath()) );
 }
 
 TwitPicView::~TwitPicView()
 {
   delete m_ui;
+  if ( pixmap ) {
+    delete pixmap;
+    pixmap = 0;
+  }
+}
+
+void TwitPicView::showUploadProgress( int done, int total )
+{
+  m_ui->uploadProgressBar->setMaximum( total );
+  m_ui->uploadProgressBar->setValue( done );
+  m_ui->uploadLabel->setText( QString::number( qRound( 100 * done / total ) ).append( "%" ) );
+}
+
+void TwitPicView::resetForm()
+{
+  m_ui->uploadButton->setText( tr( "Upload" ) );
+  m_ui->uploadProgressBar->setValue( 0 );
+  m_ui->uploadLabel->setText( "0%" );
+  m_ui->uploadProgressBar->setVisible( false );
+  m_ui->uploadLabel->setVisible( false );
+  m_ui->imagePathEdit->clear();
+  m_ui->statusEdit->clear();
+}
+
+void TwitPicView::reject()
+{
+  emit abortUpload();
+  resetForm();
+  QDialog::reject();
 }
 
 void TwitPicView::changeEvent(QEvent *e)
@@ -53,34 +84,70 @@ void TwitPicView::changeEvent(QEvent *e)
 void TwitPicView::resizeEvent( QResizeEvent *e )
 {
   if ( m_ui && m_ui->imagePreview->pixmap() ) {
-    m_ui->imagePreview->setPixmap( pixmap->scaled( m_ui->imagePreview->size(), Qt::KeepAspectRatio ) );
+    if ( pixmap->width() > m_ui->imagePreview->width() || pixmap->height() > m_ui->imagePreview->height() ) {
+      m_ui->imagePreview->setPixmap( pixmap->scaled( m_ui->imagePreview->size(), Qt::KeepAspectRatio ) );
+    } else {
+      m_ui->imagePreview->setPixmap( *pixmap );
+    }
   }
   QDialog::resizeEvent( e );
 }
 
 void TwitPicView::sendUploadRequest()
 {
-  if ( m_ui->postStatusCheckBox->isChecked() ) {
-    emit uploadPhoto( m_ui->imagePathEdit->text(), m_ui->statusEdit->toPlainText() );
-  } else {
-    emit uploadPhoto( m_ui->imagePathEdit->text(), QString() );
+  if ( m_ui->uploadButton->text() == tr( "Upload" ) ) {
+    if ( m_ui->postStatusCheckBox->isChecked() ) {
+      emit uploadPhoto( m_ui->imagePathEdit->text(), m_ui->statusEdit->toPlainText() );
+    } else {
+      emit uploadPhoto( m_ui->imagePathEdit->text(), QString() );
+    }
+    m_ui->uploadButton->setText( tr( "Abort" ) );
+    m_ui->uploadProgressBar->setVisible( true );
+    m_ui->uploadLabel->setVisible( true );
+  } else if ( m_ui->uploadButton->text() == tr( "Abort" ) ) {
+    emit abortUpload();
+    m_ui->uploadButton->setText( tr( "Upload" ) );
+    m_ui->uploadProgressBar->setValue( 0 );
+    m_ui->uploadLabel->setText( "0%" );
+    m_ui->uploadProgressBar->setVisible( false );
+    m_ui->uploadLabel->setVisible( false );
   }
-  m_ui->uploadButton->setText( tr( "Abort" ) );
 }
 
 void TwitPicView::setImagePath()
 {
   m_ui->imagePathEdit->setText( QFileDialog::getOpenFileName( this, tr( "Select photo to upload" ), getHomeDir(), tr( "Image files (*.jpg *.jpeg *.png *.bmp *.gif)" ) ) );
-  if ( m_ui->imagePathEdit->text().isEmpty() ) {
+}
+
+void TwitPicView::setImagePreview( const QString &path )
+{
+  if ( path.isEmpty() ) {
+    m_ui->imagePreview->setText( tr( "Select a photo to upload" ) );
+    m_ui->uploadButton->setEnabled( false );
+    return;
+  }
+  if ( !QFileInfo( path ).isFile() ) {
     m_ui->imagePreview->setText( tr( "Select a photo to upload" ) );
     m_ui->uploadButton->setEnabled( false );
     return;
   }
   if ( pixmap ) {
     delete pixmap;
+    pixmap = NULL;
   }
-  pixmap = new QPixmap( QPixmap::fromImage( QImage( m_ui->imagePathEdit->text() ) ) );
-  m_ui->imagePreview->setPixmap( pixmap->scaled( m_ui->imagePreview->size(), Qt::KeepAspectRatio ) );
+  pixmap = new QPixmap( QPixmap::fromImage( QImage( path ) ) );
+  if ( pixmap->isNull() ) {
+    delete pixmap;
+    pixmap = NULL;
+    m_ui->imagePreview->setText( tr( "Select a photo to upload" ) );
+    m_ui->uploadButton->setEnabled( false );
+    return;
+  }
+  if ( pixmap->width() > m_ui->imagePreview->width() || pixmap->height() > m_ui->imagePreview->height() ) {
+    m_ui->imagePreview->setPixmap( pixmap->scaled( m_ui->imagePreview->size(), Qt::KeepAspectRatio ) );
+  } else {
+    m_ui->imagePreview->setPixmap( *pixmap );
+  }
   m_ui->uploadButton->setEnabled( true );
 }
 

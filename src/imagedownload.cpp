@@ -19,6 +19,7 @@
 
 
 #include "imagedownload.h"
+#include <QMap>
 
 ImageData::ImageData() :
     image(0),
@@ -86,6 +87,8 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   imageData->image = new QImage;
   imageData->image->loadFromData( *imageData->bytearray );
   emit imageReadyForUrl( requestByEntry.key( requestId ), *imageData->image );
+  imageByEntry.remove( requestByEntry.key( requestId ) );
+  requestByEntry.remove( requestByEntry.key( requestId ) );
 }
 
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -103,21 +106,5 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
   default:
     //emit errorMessage( tr( "Download failed: " ) + responseHeader.reasonPhrase() );
     httpRequestAborted = true;
-
-//    imageByEntry.remove( requestByEntry.key( currentId() ) );
-//    qDebug() << "BLABLABLA:" << requestByEntry.key( currentId() );
-
-//    ImageData *imageData = &imageByEntry[ requestByEntry.key( currentId() ) ];
-//    if ( imageData ) {
-//      if ( imageData->buffer ) {
-//        imageData->buffer->close();
-//        delete imageData->buffer;
-//        imageData->buffer = 0;
-//      }
-//      if ( imageData->bytearray ) {
-//        delete imageData->bytearray;
-//        imageData->bytearray = 0;
-//      }
-//    }
   }
 }

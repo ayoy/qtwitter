@@ -31,6 +31,9 @@
        <property name="text">
         <string>Browse</string>
        </property>
+       <property name="autoDefault">
+        <bool>false</bool>
+       </property>
       </widget>
      </item>
     </layout>
@@ -112,7 +115,7 @@
         </widget>
        </item>
        <item>
-        <widget class="QPlainTextEdit" name="statusEdit">
+        <widget class="StatusTextEdit" name="statusEdit">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -126,6 +129,9 @@
          <property name="text">
           <string>Upload</string>
          </property>
+         <property name="default">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
       </layout>
@@ -133,7 +139,7 @@
     </layout>
    </item>
    <item row="2" column="0">
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
+    <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="5,1,1">
      <item>
       <widget class="QProgressBar" name="uploadProgressBar">
        <property name="enabled">
@@ -145,12 +151,22 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="uploadLabel">
+       <property name="text">
+        <string>0%</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QDialogButtonBox" name="buttonBox">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
        </property>
        <property name="standardButtons">
-        <set>QDialogButtonBox::Cancel</set>
+        <set>QDialogButtonBox::Close</set>
        </property>
       </widget>
      </item>
@@ -158,6 +174,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>StatusTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>statustextedit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections>
   <connection>

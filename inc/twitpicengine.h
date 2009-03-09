@@ -44,6 +44,9 @@ public:
   */
   void postContent( const QAuthenticator &authData, QString photoPath, QString status );
 
+public slots:
+  void abort();
+
 signals:
   /*!
     Emitted for a finished request, with the content type specified as a parameter.

@@ -38,42 +38,66 @@ TwitPicEngine::~TwitPicEngine()
 
 void TwitPicEngine::postContent( const QAuthenticator &authData, QString photoPath, QString status )
 {
-  QFile photo( photoPath );
-  photo.open( QIODevice::ReadOnly );
-//  QByteArray bytes;
-//  QBuffer imageBuffer( &bytes );
-//  imageBuffer.open( QIODevice::WriteOnly );
-//  pixmap.save( &imageBuffer, "jpeg" );
-  //imageBuffer.close();
-
   QString path;
-  QByteArray requestString;
-  requestString.append( "media=" );
-  requestString.append( photo.readAll() );
-  requestString.append( "&username=" + authData.user() + "&password=" + authData.password() );
-  photo.close();
-
-  qDebug() << requestString;
-
   if ( status.isEmpty() ) {
     path = "http://twitpic.com/api/upload";
   } else {
     path = "http://twitpic.com/api/uploadAndPost";
-    requestString.append( "&message=" + status.toAscii() );
   }
+
   QByteArray encodedPath = prepareRequest( path );
   if ( encodedPath == "invalid" ) {
     httpRequestAborted = true;
     return;
   }
 
+  QFile photo( photoPath );
+  photo.open( QIODevice::ReadOnly );
+
+  QByteArray requestString;
+  requestString.append( "--AaB03x\r\n" );
+  requestString.append( "content-disposition: form-data; name=\"media\"; filename=\"" + photo.fileName().toAscii() + "\"\r\n" );
+  requestString.append( "\r\n" );
+
+  requestString.append( photo.readAll() );
+  photo.close();
+
+  requestString.append( "\r\n" );
+  requestString.append( "--AaB03x\r\n" );
+  if ( !status.isEmpty() ) {
+    requestString.append( "content-disposition: form-data; name=\"message\"\r\n" );
+    requestString.append( "\r\n" );
+    requestString.append( status.toAscii() + "\r\n" );
+    requestString.append( "--AaB03x\r\n" );
+  }
+  requestString.append( "content-disposition: form-data; name=\"username\"\r\n" );
+  requestString.append( "\r\n" );
+  requestString.append( authData.user().toAscii() + "\r\n" );
+  requestString.append( "--AaB03x\r\n" );
+  requestString.append( "content-disposition: form-data; name=\"password\"\r\n" );
+  requestString.append( "\r\n" );
+  requestString.append( authData.password().toAscii() + "\r\n" );
+  requestString.append( "--AaB03x--\r\n" );
+
+
   QHttpRequestHeader header( "POST", encodedPath );
-  header.setContentType( "multipart/form-data" );
+  header.setValue( "Host", "twitpic.com" );
+  header.setValue( "Content-type", "multipart/form-data, boundary=AaB03x" );
+  header.setValue( "Cache-Control", "no-cache" );
+  header.setValue( "Accept","*/*" );
+  header.setContentLength( requestString.length() );
+
   qDebug() << header.toString() << header.isValid();
   httpGetId = request( header, requestString, buffer );
-//  httpGetId = post( encodedPath, requestString, buffer );
   qDebug() << "Request of type POST and id" << httpGetId << "started";
-  qDebug() << this->currentRequest().toString();// .contentType();
+  qDebug() << this->currentRequest().toString();
+}
+
+void TwitPicEngine::abort()
+{
+  qDebug() << "aborting...";
+  httpRequestAborted = true;
+  QHttp::abort();
 }
 
 void TwitPicEngine::readResponseHeader(const QHttpResponseHeader &responseHeader)
@@ -90,8 +114,6 @@ void TwitPicEngine::readResponseHeader(const QHttpResponseHeader &responseHeader
     break;
   default:
     qDebug() << "Download failed: " << responseHeader.reasonPhrase();
-    //emit errorMessage( "Download failed: " + responseHeader.reasonPhrase() );
-    httpRequestAborted = true;
     abort();
     clearDataStorage();
   }
@@ -121,12 +143,11 @@ void TwitPicEngine::httpRequestFinished(int requestId, bool error)
     qDebug() << "========= XML PARSING FINISHED =========" << state();
   }
   clearDataStorage();
-//  emit finished();
 }
 
 void TwitPicEngine::createConnections( Core *coreParent )
 {
-//  connect( this, SIGNAL(finished(TwitPicEngine::ContentRequested)), coreParent, SLOT(setFlag(TwitPicEngine::ContentRequested)) );
   connect( this, SIGNAL(errorMessage(QString)), coreParent, SIGNAL(errorMessage(QString)) );
   connect( replyParser, SIGNAL(completed(bool,QString,bool)), coreParent, SLOT(twitPicResponse(bool,QString,bool)) );
+  connect( this, SIGNAL(dataSendProgress(int,int)), coreParent, SIGNAL(twitPicDataSendProgress(int,int)) );
 }

@@ -165,9 +165,6 @@
      </property>
      <item>
       <widget class="QToolButton" name="homeButton">
-       <property name="toolTip">
-        <string>Go to twitter.com</string>
-       </property>
        <property name="text">
         <string>...</string>
        </property>

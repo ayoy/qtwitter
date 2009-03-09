@@ -19,16 +19,19 @@
 
 
 #include <QXmlAttributes>
+#include <QDebug>
 #include "twitpicxmlparser.h"
 
-const QString TwitPicXmlParser::TAG_RESPONSE        = "rsp";
-const QString TwitPicXmlParser::TAG_RESPONSE_STATUS = "status";
-const QString TwitPicXmlParser::TAG_RESPONSE_OK     = "ok";
-const QString TwitPicXmlParser::TAG_RESPONSE_NOK    = "fail";
-const QString TwitPicXmlParser::TAG_STATUS_ID       = "statusid";
-const QString TwitPicXmlParser::TAG_MEDIA_URL       = "mediaurl";
-const QString TwitPicXmlParser::TAG_ERROR           = "err";
-const QString TwitPicXmlParser::TAG_ERROR_MESSAGE   = "msg";
+const QString TwitPicXmlParser::TAG_RESPONSE         = "rsp";
+const QString TwitPicXmlParser::TAG_RESPONSE_STATUS  = "stat";
+const QString TwitPicXmlParser::TAG_RESPONSE_STATUS2 = "status";
+const QString TwitPicXmlParser::TAG_RESPONSE_OK      = "ok";
+const QString TwitPicXmlParser::TAG_RESPONSE_NOK     = "fail";
+const QString TwitPicXmlParser::TAG_STATUS_ID        = "statusid";
+const QString TwitPicXmlParser::TAG_MEDIA_URL        = "mediaurl";
+const QString TwitPicXmlParser::TAG_ERROR            = "err";
+const QString TwitPicXmlParser::TAG_ERROR_CODE       = "code";
+const QString TwitPicXmlParser::TAG_ERROR_MESSAGE    = "msg";
 
 TwitPicXmlParser::TwitPicXmlParser( QObject *parent ) :
     QObject( parent ),
@@ -39,8 +42,10 @@ TwitPicXmlParser::TwitPicXmlParser( QObject *parent ) :
 
 bool TwitPicXmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes &atts )
 {
+  qDebug() << "qName:" << qName << success;
   if ( qName == TAG_RESPONSE ) {
-    if ( atts.value( TAG_RESPONSE_STATUS ) == TAG_RESPONSE_OK )
+    qDebug() << atts.qName( 0 ) << atts.value( atts.qName( 0 ) );
+    if ( atts.value( TAG_RESPONSE_STATUS ) == TAG_RESPONSE_OK || atts.value( TAG_RESPONSE_STATUS2 ) == TAG_RESPONSE_OK )
       success = true;
     else
       success = false;
@@ -48,14 +53,17 @@ bool TwitPicXmlParser::startElement( const QString & /* namespaceURI */, const Q
   }
   if ( !success ) {
     if ( qName == TAG_ERROR ) {
+      qDebug() << "ERROR:" << atts.value( TAG_ERROR_CODE ) << atts.value( TAG_ERROR_MESSAGE );
       emit completed( false, atts.value( TAG_ERROR_MESSAGE ), false );
       return true;
     }
   }
   if ( qName == TAG_MEDIA_URL ) {
+    qDebug() << "urlIncoming = true";
     urlIncoming = true;
   }
   if ( qName == TAG_STATUS_ID ) {
+    qDebug() << "newStatus = true";
     newStatus = true;
   }
   return true;
@@ -63,7 +71,10 @@ bool TwitPicXmlParser::startElement( const QString & /* namespaceURI */, const Q
 
 bool TwitPicXmlParser::characters( const QString &ch )
 {
+  if ( QRegExp( "\\s*" ).exactMatch( ch ) )
+    return true;
   if ( success && urlIncoming ) {
+    qDebug() << "ch:" << ch << "newStatus:" << newStatus;
     emit completed( true, ch.toAscii(), newStatus );
   }
   return true;

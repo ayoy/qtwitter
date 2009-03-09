@@ -43,13 +43,15 @@ HEADERS += inc/mainwindow.h \
     inc/statuslist.h \
     inc/twitpicview.h \
     inc/twitpicengine.h \
-    inc/twitpicxmlparser.h
+    inc/twitpicxmlparser.h \
+    inc/statustextedit.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
     ui/tweet.ui \
     ui/about.ui \
-    ui/twitpicview.ui
+    ui/twitpicview.ui \
+    ui/twitpicnewphoto.ui
 RESOURCES += res/resources.qrc
 QT += network \
     xml

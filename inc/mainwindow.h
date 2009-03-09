@@ -130,11 +130,11 @@ signals:
   void post( const QByteArray& status, int inReplyTo = -1 );
 
   /*!
-    Emitted when home button pressed, asks to open a default browser.
-    \param address Requested URL, defaults to a null string.
+    Emitted when "Go to..." action requested, asks to open a default browser.
+    \param address Requested URL.
     \sa Core::openBrowser()
   */
-  void openBrowser( QString address = QString() );
+  void openBrowser( QString address );
 
   /*!
     Emitted when settings button pressed, requests opening the settings dialog.
@@ -185,6 +185,7 @@ private:
   QAction *newtweetAction;
   QAction *newtwitpicAction;
   QAction *gototwitterAction;
+  QAction *gototwitpicAction;
   QSystemTrayIcon *trayIcon;
   Ui::MainWindow ui;
 };

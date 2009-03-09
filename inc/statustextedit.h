@@ -18,44 +18,26 @@
  ***************************************************************************/
 
 
-#ifndef TWITPICVIEW_H
-#define TWITPICVIEW_H
+#ifndef STATUSTEXTEDIT_H
+#define STATUSTEXTEDIT_H
 
-#include <QtGui/QDialog>
+#include <QPlainTextEdit>
 
-namespace Ui {
-  class TwitPicView;
-}
-
-class TwitPicView : public QDialog {
-  Q_OBJECT
-  Q_DISABLE_COPY(TwitPicView)
+class StatusTextEdit : public QPlainTextEdit
+{
 public:
-  explicit TwitPicView(QWidget *parent = 0);
-  virtual ~TwitPicView();
-
-public slots:
-  void showUploadProgress( int done, int total );
-  void resetForm();
-  void reject();
-
-signals:
-  void uploadPhoto( QString photoPath, QString status );
-  void abortUpload();
+  StatusTextEdit( QWidget *parent = 0 ) : QPlainTextEdit( parent ) {}
 
 protected:
-  virtual void changeEvent( QEvent *e );
-  void resizeEvent( QResizeEvent *e );
+  void keyPressEvent( QKeyEvent *e )
+  {
+    if ( e->key() == Qt::Key_Tab || e->key() == Qt::Key_Backtab ) {
+      clearFocus();
+      return;
+    }
+    QPlainTextEdit::keyPressEvent( e );
+  }
 
-private slots:
-  void sendUploadRequest();
-  void setImagePath();
-  void setImagePreview( const QString &path );
-
-private:
-  QString getHomeDir();
-  QPixmap *pixmap;
-  Ui::TwitPicView *m_ui;
 };
 
-#endif // TWITPICVIEW_H
+#endif // STATUSTEXTEDIT_H

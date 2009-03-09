@@ -1,3 +1,4 @@
+- support for uploading photos to TwitPic,
 - posted replies now recognizable by API,
 - fixed a bug of stacking excessive Tweets on the top of the Tweet list when main window is hidden,
 - switched to LGPL license.
