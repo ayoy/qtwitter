@@ -6,9 +6,9 @@ unix {
     target.path = $${INSTALL_PREFIX}/bin
     INSTALLS += target
 }
-macx {
- ICON = macx/twitter_48.icns
- QMAKE_INFO_PLIST = macx/Info.plist
+macx { 
+    ICON = macx/twitter_48.icns
+    QMAKE_INFO_PLIST = macx/Info.plist
 }
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
@@ -22,7 +22,10 @@ SOURCES += src/main.cpp \
     src/core.cpp \
     src/settings.cpp \
     src/tweet.cpp \
-    src/tweetmodel.cpp
+    src/tweetmodel.cpp \
+    src/twitpicview.cpp \
+    src/twitpicengine.cpp \
+    src/twitpicxmlparser.cpp
 HEADERS += inc/mainwindow.h \
     inc/statusfilter.h \
     inc/statusedit.h \
@@ -37,17 +40,22 @@ HEADERS += inc/mainwindow.h \
     inc/tweet.h \
     inc/tweetmodel.h \
     inc/tweettextbrowser.h \
-    inc/statuslist.h
+    inc/statuslist.h \
+    inc/twitpicview.h \
+    inc/twitpicengine.h \
+    inc/twitpicxmlparser.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
     ui/tweet.ui \
-    ui/about.ui
+    ui/about.ui \
+    ui/twitpicview.ui
 RESOURCES += res/resources.qrc
 QT += network \
     xml
-#QTPLUGIN += qjpeg \
-#    qgif
+
+# QTPLUGIN += qjpeg \
+# qgif
 TRANSLATIONS += loc/qtwitter_pl.ts \
     loc/qtwitter_ca.ts \
     loc/qtwitter_es.ts

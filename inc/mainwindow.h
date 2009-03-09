@@ -120,6 +120,8 @@ signals:
   */
   void updateTweets();
 
+  void openTwitPicDialog();
+
   /*!
     Emitted to post a status update. Assigned to pressing Enter inside the status edit field.
     \param status A status to be posted.
@@ -179,6 +181,10 @@ private:
   void resizeEvent( QResizeEvent* );
   bool resetUiWhenFinished;
   QMenu *trayMenu;
+  QMenu *buttonMenu;
+  QAction *newtweetAction;
+  QAction *newtwitpicAction;
+  QAction *gototwitterAction;
   QSystemTrayIcon *trayIcon;
   Ui::MainWindow ui;
 };

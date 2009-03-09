@@ -77,3 +77,18 @@ void HttpConnection::httpRequestStarted( int /*requestId*/ )
 {
   //qDebug() << currentRequest().toString();
 }
+
+void HttpConnection::clearDataStorage()
+{
+  if (buffer) {
+    if ( buffer->isOpen() ) {
+      buffer->close();
+    }
+    delete buffer;
+    buffer = 0;
+  }
+  if(bytearray) {
+    delete bytearray;
+    bytearray = 0;
+  }
+}

@@ -21,6 +21,7 @@
 #include "core.h"
 
 #include "ui_authdialog.h"
+#include "twitpicengine.h"
 #include <QSettings>
 
 Core::Core( MainWindow *parent ) :
@@ -174,6 +175,31 @@ void Core::post( const QByteArray &status, int inReplyTo )
   xmlPost->postContent( "http://twitter.com/statuses/update.xml", request, XmlDownload::Statuses );
   emit requestListRefresh( publicTimelineSync, switchUser );
   switchUser = false;
+}
+
+void Core::uploadPhoto( QString photoPath, QString status )
+{
+  if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
+    if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
+      emit errorMessage( tr("Authentication is required to upload photos to TwitPic.") );
+      return;
+    }
+  }
+  twitpicUpload = new TwitPicEngine( this );
+  qDebug() << "uploading photo";
+  twitpicUpload->postContent( authData, photoPath, status );
+}
+
+void Core::twitPicResponse( bool responseStatus, QString message, bool newStatus )
+{
+  if ( !responseStatus ) {
+    emit errorMessage( tr( "There was a problem uploading your photo: %1" ).arg( message ) );
+    return;
+  }
+  emit errorMessage( tr( "Upload completed. Photo available at %1" ).arg( message ) );
+  if ( newStatus ) {
+    forceGet();
+  }
 }
 
 void Core::destroyTweet( int id )

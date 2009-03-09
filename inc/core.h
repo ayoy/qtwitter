@@ -31,6 +31,8 @@
 #include "imagedownload.h"
 #include "mainwindow.h"
 
+class TwitPicEngine;
+
 typedef QMap<QString, QImage> MapStringImage;
 
 /*!
@@ -135,6 +137,24 @@ public slots:
     \sa get(), destroyTweet(), authDataDialog()
   */
   void post( const QByteArray &status, int inReplyTo = -1 );
+
+  /*!
+    Uploads a photo to TwitPic.com and, if \a status is not empty, posts a status update (this is done internally
+    by TwitPic API).
+    \param photoPath A path to photo to be uploaded.
+    \param status New Tweet's text.
+    \sa twitPicResponse(), get(), post()
+  */
+  void uploadPhoto( QString photoPath, QString status );
+
+  /*!
+    Reads a response from TwitPic API.
+    \param responseStatus true if photo was successfully uploaded, false otherwise.
+    \param message Error message or URL to the uploaded photo, depending on a \a responseStatus.
+    \param newStatus true if a new status was posted, false otherwise.
+    \sa uploadPhoto()
+  */
+  void twitPicResponse( bool responseStatus, QString message, bool newStatus );
 
   /*!
     Sends a request to delete Tweet of id given by \a id. If user's authenticaton
@@ -272,7 +292,7 @@ private:
   bool authDialogOpen;
   XmlDownload *xmlGet;
   XmlDownload *xmlPost;
-  ImageDownload *imageDownload;
+  TwitPicEngine *twitpicUpload;
   QMap<QString,ImageDownload*> imageDownloader;
   MapStringImage imageCache;
   QAuthenticator authData;

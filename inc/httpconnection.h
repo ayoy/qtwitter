@@ -72,6 +72,11 @@ protected:
     \returns Percent-encoded URL prepared for passing to QHttp::get() or QHttp::post() method.
   */
   QByteArray prepareRequest( const QString &path );
+
+  /*!
+    Frees the memory allocated for the reply data.
+  */
+  void clearDataStorage();
   bool httpRequestAborted; /*!< Is set to true when request is aborted. */
   int httpGetId; /*!< Stores the GET request id. */
   int httpHostId; /*!< Stores the request id returned by QHttp::setHost(). */

@@ -45,7 +45,6 @@ MainWindow::MainWindow( QWidget *parent ) :
 
   connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateTweets() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
-  connect( ui.homeButton, SIGNAL(clicked()), this, SIGNAL(openBrowser()) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
   connect( ui.statusEdit, SIGNAL(errorMessage(QString)), this, SLOT(popupError(QString)) );
@@ -54,8 +53,6 @@ MainWindow::MainWindow( QWidget *parent ) :
   connect( this, SIGNAL(addReplyString(QString,int)), ui.statusEdit, SLOT(addReplyString(QString,int)) );
   connect( this, SIGNAL(addRetweetString(QString)), ui.statusEdit, SLOT(addRetweetString(QString)) );
 
-  QShortcut *typeShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ), this );
-  connect( typeShortcut, SIGNAL(activated()), ui.statusEdit, SLOT(setFocus()) );
   QShortcut *hideShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_H ), this );
   connect( hideShortcut, SIGNAL(activated()), this, SLOT(hide()) );
   QShortcut *quitShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ), this );
@@ -66,7 +63,24 @@ MainWindow::MainWindow( QWidget *parent ) :
   ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
 #endif
   ui.updateButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_R ) );
-  ui.homeButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
+
+  buttonMenu = new QMenu( this );
+  newtweetAction = new QAction( tr( "New tweet" ), buttonMenu );
+  newtwitpicAction = new QAction( tr( "Upload a photo to TwitPic" ), buttonMenu );
+  gototwitterAction = new QAction( tr( "Go to Twitter" ), buttonMenu );
+  newtweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ) );
+  newtwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_N ) );
+  gototwitterAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
+
+  connect( newtweetAction, SIGNAL(triggered()), ui.statusEdit, SLOT(setFocus()) );
+  connect( newtwitpicAction, SIGNAL(triggered()), this, SIGNAL(openTwitPicDialog()) );
+  connect( gototwitterAction, SIGNAL(triggered()), this, SIGNAL(openBrowser()) );
+
+  buttonMenu->addAction( newtweetAction );
+  buttonMenu->addAction( newtwitpicAction );
+  buttonMenu->addSeparator();
+  buttonMenu->addAction( gototwitterAction );
+  ui.homeButton->setMenu( buttonMenu );
 
   trayIcon = new QSystemTrayIcon( this );
   trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
@@ -81,9 +95,9 @@ MainWindow::MainWindow( QWidget *parent ) :
   settingsaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
   quitaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
 
-  QObject::connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
-  QObject::connect( settingsaction, SIGNAL(triggered()), this, SIGNAL(settingsDialogRequested()) );
-  QObject::connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
+  connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
+  connect( settingsaction, SIGNAL(triggered()), this, SIGNAL(settingsDialogRequested()) );
+  connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
 
   trayMenu->addAction(settingsaction);
   trayMenu->addSeparator();
