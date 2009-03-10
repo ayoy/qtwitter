@@ -632,34 +632,34 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>TwitPicView</name>
     <message>
-        <location filename="../src/twitpicview.cpp" line="58"/>
-        <location filename="../src/twitpicview.cpp" line="99"/>
-        <location filename="../src/twitpicview.cpp" line="110"/>
-        <location filename="../ui/twitpicview.ui" line="136"/>
+        <location filename="../src/twitpicview.cpp" line="63"/>
+        <location filename="../src/twitpicview.cpp" line="104"/>
+        <location filename="../src/twitpicview.cpp" line="115"/>
+        <location filename="../ui/twitpicview.ui" line="148"/>
         <source>Upload</source>
         <translation>Załaduj</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="105"/>
-        <location filename="../src/twitpicview.cpp" line="108"/>
+        <location filename="../src/twitpicview.cpp" line="110"/>
+        <location filename="../src/twitpicview.cpp" line="113"/>
         <source>Abort</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="120"/>
+        <location filename="../src/twitpicview.cpp" line="125"/>
         <source>Select photo to upload</source>
         <translation>Wybierz zdjęcie</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="120"/>
+        <location filename="../src/twitpicview.cpp" line="125"/>
         <source>Image files</source>
         <translation>Pliki obrazów</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="126"/>
         <location filename="../src/twitpicview.cpp" line="131"/>
-        <location filename="../src/twitpicview.cpp" line="143"/>
-        <location filename="../ui/twitpicview.ui" line="104"/>
+        <location filename="../src/twitpicview.cpp" line="136"/>
+        <location filename="../src/twitpicview.cpp" line="148"/>
+        <location filename="../ui/twitpicview.ui" line="110"/>
         <source>Select a photo to upload</source>
         <translation>Wybierz zdjęcie do załadowania</translation>
     </message>
@@ -679,7 +679,7 @@ p, li { white-space: pre-wrap; }
         <translation>Przeglądaj</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="119"/>
+        <location filename="../ui/twitpicview.ui" line="125"/>
         <source>post a status</source>
         <translation>dodaj status</translation>
     </message>

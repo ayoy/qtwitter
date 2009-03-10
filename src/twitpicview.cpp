@@ -31,10 +31,14 @@ TwitPicView::TwitPicView(QWidget *parent) :
 {
   m_ui->setupUi(this);
   m_ui->uploadProgressBar->setVisible(false);
-  m_ui->uploadLabel->setVisible( false );
   connect( m_ui->uploadButton, SIGNAL(clicked()), this, SLOT(sendUploadRequest()) );
   connect( m_ui->imagePathEdit, SIGNAL(textChanged(QString)), this, SLOT(setImagePreview(QString)) );
   connect( m_ui->browseButton, SIGNAL(pressed()), this, SLOT(setImagePath()) );
+
+#if QT_VERSION < 0x040500
+  m_ui->statusEdit->setMaximumWidth( 150 );
+#endif
+
 }
 
 TwitPicView::~TwitPicView()
@@ -50,16 +54,13 @@ void TwitPicView::showUploadProgress( int done, int total )
 {
   m_ui->uploadProgressBar->setMaximum( total );
   m_ui->uploadProgressBar->setValue( done );
-  m_ui->uploadLabel->setText( QString::number( qRound( 100 * done / total ) ).append( "%" ) );
 }
 
 void TwitPicView::resetForm()
 {
   m_ui->uploadButton->setText( tr( "Upload" ) );
   m_ui->uploadProgressBar->setValue( 0 );
-  m_ui->uploadLabel->setText( "0%" );
   m_ui->uploadProgressBar->setVisible( false );
-  m_ui->uploadLabel->setVisible( false );
   m_ui->imagePathEdit->clear();
   m_ui->statusEdit->clear();
 }
@@ -104,14 +105,11 @@ void TwitPicView::sendUploadRequest()
     }
     m_ui->uploadButton->setText( tr( "Abort" ) );
     m_ui->uploadProgressBar->setVisible( true );
-    m_ui->uploadLabel->setVisible( true );
   } else if ( m_ui->uploadButton->text() == tr( "Abort" ) ) {
     emit abortUpload();
     m_ui->uploadButton->setText( tr( "Upload" ) );
     m_ui->uploadProgressBar->setValue( 0 );
-    m_ui->uploadLabel->setText( "0%" );
     m_ui->uploadProgressBar->setVisible( false );
-    m_ui->uploadLabel->setVisible( false );
   }
 }
 

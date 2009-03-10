@@ -1,23 +1,23 @@
 diff --git a/qtwitter.pro b/qtwitter.pro
-index 00e2d7e..d7aa55a 100644
+index e9d0102..f454fa4 100644
 --- a/qtwitter.pro
 +++ b/qtwitter.pro
-@@ -46,8 +46,8 @@ FORMS += ui/mainwindow.ui \
- RESOURCES += res/resources.qrc
+@@ -56,8 +56,8 @@ RESOURCES += res/resources.qrc
  QT += network \
      xml
--#QTPLUGIN += qjpeg \
--#    qgif
+ 
+-# QTPLUGIN += qjpeg \
+-# qgif
 +QTPLUGIN += qjpeg \
 +    qgif
  TRANSLATIONS += loc/qtwitter_pl.ts \
      loc/qtwitter_ca.ts \
      loc/qtwitter_es.ts
 diff --git a/src/main.cpp b/src/main.cpp
-index 3d130f3..28a7047 100644
+index ef2e383..06ece5a 100644
 --- a/src/main.cpp
 +++ b/src/main.cpp
-@@ -25,8 +25,8 @@
+@@ -26,8 +26,8 @@
  #include <QSystemTrayIcon>
  #include <QSignalMapper>
  

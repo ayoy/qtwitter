@@ -1,7 +1,9 @@
-- support for uploading photos to TwitPic,
+v0.5.0 (2009/03/11):
+- added support for TwitPic - one-click uploading photos and posting them to Twitter,
 - posted replies now recognizable by API,
+- improved memory management,
 - fixed a bug of stacking excessive Tweets on the top of the Tweet list when main window is hidden,
-- switched to LGPL license.
+- fixed a bug of closing application when main window hidden and settings dialog closed (patch by Bryce Verdier - bryceverdier AT gmail).
 v0.4.2 (2009/03/05):
 - added a setting for customization of the amount of displayed Tweets,
 - MacOS X specific files added to repository,

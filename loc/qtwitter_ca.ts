@@ -240,7 +240,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/mainwindow.cpp" line="70"/>
         <location filename="../src/mainwindow.cpp" line="281"/>
         <source>Upload a photo to TwitPic</source>
-        <translation>Carga el foto a TwitPic</translation>
+        <translation>Carrega el foto a TwitPic</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="71"/>
@@ -636,41 +636,41 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>TwitPicView</name>
     <message>
-        <location filename="../src/twitpicview.cpp" line="58"/>
-        <location filename="../src/twitpicview.cpp" line="99"/>
-        <location filename="../src/twitpicview.cpp" line="110"/>
-        <location filename="../ui/twitpicview.ui" line="136"/>
+        <location filename="../src/twitpicview.cpp" line="63"/>
+        <location filename="../src/twitpicview.cpp" line="104"/>
+        <location filename="../src/twitpicview.cpp" line="115"/>
+        <location filename="../ui/twitpicview.ui" line="148"/>
         <source>Upload</source>
         <translation>Carregar</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="105"/>
-        <location filename="../src/twitpicview.cpp" line="108"/>
+        <location filename="../src/twitpicview.cpp" line="110"/>
+        <location filename="../src/twitpicview.cpp" line="113"/>
         <source>Abort</source>
         <translation>Anul·lar</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="120"/>
+        <location filename="../src/twitpicview.cpp" line="125"/>
         <source>Select photo to upload</source>
         <translation>Selecciona el foto</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="120"/>
+        <location filename="../src/twitpicview.cpp" line="125"/>
         <source>Image files</source>
         <translation>Imatges</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="126"/>
         <location filename="../src/twitpicview.cpp" line="131"/>
-        <location filename="../src/twitpicview.cpp" line="143"/>
-        <location filename="../ui/twitpicview.ui" line="104"/>
+        <location filename="../src/twitpicview.cpp" line="136"/>
+        <location filename="../src/twitpicview.cpp" line="148"/>
+        <location filename="../ui/twitpicview.ui" line="110"/>
         <source>Select a photo to upload</source>
         <translation>Selecciona el foto per a carregar</translation>
     </message>
     <message>
         <location filename="../ui/twitpicview.ui" line="20"/>
         <source>Upload a photo to Twitpic</source>
-        <translation>Carga el foto a TwitPic</translation>
+        <translation>Carrega el foto a TwitPic</translation>
     </message>
     <message>
         <location filename="../ui/twitpicview.ui" line="28"/>
@@ -683,7 +683,7 @@ p, li { white-space: pre-wrap; }
         <translation>Navega</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="119"/>
+        <location filename="../ui/twitpicview.ui" line="125"/>
         <source>post a status</source>
         <translation>afegir l&apos;estat</translation>
     </message>
