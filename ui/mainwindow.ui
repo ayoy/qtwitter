@@ -164,7 +164,10 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QToolButton" name="homeButton">
+      <widget class="QToolButton" name="moreButton">
+       <property name="toolTip">
+        <string>More...</string>
+       </property>
        <property name="text">
         <string>...</string>
        </property>
@@ -321,7 +324,7 @@
   <tabstop>statusEdit</tabstop>
   <tabstop>updateButton</tabstop>
   <tabstop>settingsButton</tabstop>
-  <tabstop>homeButton</tabstop>
+  <tabstop>moreButton</tabstop>
  </tabstops>
  <resources>
   <include location="../res/resources.qrc"/>

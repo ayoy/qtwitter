@@ -10,7 +10,31 @@
         <translation>O qTwitterze</translation>
     </message>
     <message>
-        <location filename="../ui/about.ui" line="144"/>
+        <location filename="../ui/about.ui" line="150"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;qTwitter - a Qt Twitter client&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;version %1&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Copyright © 2008-2009&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Distributed under the GPL license&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;version 3 or later&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Icons by &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;qTwitter - klient Twittera w Qt&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;wersja %1&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Copyright © 2008-2009&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;objęty licencją GPL&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;w wersji 3 lub późniejszej&lt;/p&gt;
+&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ikony z &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
         <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
@@ -22,7 +46,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;distributed under the LGPL license&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;version 2.1 or later&lt;/p&gt;
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Icons by &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation type="obsolete">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;
@@ -35,7 +59,7 @@ p, li { white-space: pre-wrap; }
 &lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ikony z &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/about.ui" line="179"/>
+        <location filename="../ui/about.ui" line="185"/>
         <source>Close</source>
         <translation>Zamknij</translation>
     </message>
@@ -152,15 +176,15 @@ p, li { white-space: pre-wrap; }
         <translation>qTwitter</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="169"/>
-        <location filename="../ui/mainwindow.ui" line="195"/>
-        <location filename="../ui/mainwindow.ui" line="218"/>
+        <location filename="../ui/mainwindow.ui" line="172"/>
+        <location filename="../ui/mainwindow.ui" line="198"/>
+        <location filename="../ui/mainwindow.ui" line="221"/>
         <source>...</source>
         <translation>...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="278"/>
-        <location filename="../ui/mainwindow.ui" line="250"/>
+        <location filename="../src/mainwindow.cpp" line="279"/>
+        <location filename="../ui/mainwindow.ui" line="253"/>
         <source>What are you doing?</source>
         <translation>Co teraz robisz?</translation>
     </message>
@@ -178,14 +202,20 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="104"/>
-        <location filename="../src/mainwindow.cpp" line="273"/>
-        <location filename="../ui/mainwindow.ui" line="189"/>
+        <location filename="../src/mainwindow.cpp" line="274"/>
+        <location filename="../ui/mainwindow.ui" line="192"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="274"/>
-        <location filename="../ui/mainwindow.ui" line="212"/>
+        <location filename="../src/mainwindow.cpp" line="273"/>
+        <location filename="../ui/mainwindow.ui" line="169"/>
+        <source>More...</source>
+        <translation>Więcej...</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="275"/>
+        <location filename="../ui/mainwindow.ui" line="215"/>
         <source>Update tweets</source>
         <translation>Aktualizuj statusy</translation>
     </message>
@@ -206,21 +236,25 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="69"/>
+        <location filename="../src/mainwindow.cpp" line="280"/>
         <source>New tweet</source>
         <translation>Nowy status</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="70"/>
+        <location filename="../src/mainwindow.cpp" line="281"/>
         <source>Upload a photo to TwitPic</source>
         <translation>Załaduj zdjęcie na TwitPic</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="71"/>
+        <location filename="../src/mainwindow.cpp" line="282"/>
         <source>Go to Twitter</source>
         <translation>Idź do Twittera</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="72"/>
+        <location filename="../src/mainwindow.cpp" line="283"/>
         <source>Go to TwitPic</source>
         <translation>Idź do TwitPica</translation>
     </message>
@@ -232,7 +266,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/mainwindow.cpp" line="216"/>
         <source>new tweets</source>
-        <translation>nowych statusow</translation>
+        <translation>nowych statusów</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="217"/>
@@ -269,27 +303,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/mainwindow.cpp" line="242"/>
         <source>New message from</source>
-        <translation>Nowa wiadomosc od</translation>
+        <translation>Nowa wiadomość od</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="242"/>
         <source>New messages from</source>
-        <translation>Nowe wiadomosci od</translation>
+        <translation>Nowe wiadomości od</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="247"/>
         <source>News from qTwitter</source>
-        <translation>Wiadomosci od qTwittera</translation>
+        <translation>Wiadomości od qTwittera</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="225"/>
         <source>new message</source>
-        <translation>nowa wiadomosc</translation>
+        <translation>nowa wiadomość</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="225"/>
         <source>new messages</source>
-        <translation>nowe wiadomosci</translation>
+        <translation>nowe wiadomości</translation>
     </message>
 </context>
 <context>
@@ -598,54 +632,54 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>TwitPicView</name>
     <message>
-        <location filename="../src/twitpicview.cpp" line="57"/>
-        <location filename="../src/twitpicview.cpp" line="98"/>
-        <location filename="../src/twitpicview.cpp" line="109"/>
-        <location filename="../ui/twitpicview.ui" line="130"/>
+        <location filename="../src/twitpicview.cpp" line="58"/>
+        <location filename="../src/twitpicview.cpp" line="99"/>
+        <location filename="../src/twitpicview.cpp" line="110"/>
+        <location filename="../ui/twitpicview.ui" line="136"/>
         <source>Upload</source>
         <translation>Załaduj</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="104"/>
-        <location filename="../src/twitpicview.cpp" line="107"/>
+        <location filename="../src/twitpicview.cpp" line="105"/>
+        <location filename="../src/twitpicview.cpp" line="108"/>
         <source>Abort</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="119"/>
+        <location filename="../src/twitpicview.cpp" line="120"/>
         <source>Select photo to upload</source>
         <translation>Wybierz zdjęcie</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="119"/>
+        <location filename="../src/twitpicview.cpp" line="120"/>
         <source>Image files</source>
         <translation>Pliki obrazów</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="125"/>
-        <location filename="../src/twitpicview.cpp" line="130"/>
-        <location filename="../src/twitpicview.cpp" line="142"/>
-        <location filename="../ui/twitpicview.ui" line="98"/>
+        <location filename="../src/twitpicview.cpp" line="126"/>
+        <location filename="../src/twitpicview.cpp" line="131"/>
+        <location filename="../src/twitpicview.cpp" line="143"/>
+        <location filename="../ui/twitpicview.ui" line="104"/>
         <source>Select a photo to upload</source>
         <translation>Wybierz zdjęcie do załadowania</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="14"/>
+        <location filename="../ui/twitpicview.ui" line="20"/>
         <source>Upload a photo to Twitpic</source>
         <translation>Załaduj zdjęcie na TwitPic</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="22"/>
+        <location filename="../ui/twitpicview.ui" line="28"/>
         <source>Choose a photo:</source>
         <translation>Wybierz zdjęcie:</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="32"/>
+        <location filename="../ui/twitpicview.ui" line="38"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="113"/>
+        <location filename="../ui/twitpicview.ui" line="119"/>
         <source>post a status</source>
         <translation>dodaj status</translation>
     </message>
