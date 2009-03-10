@@ -116,7 +116,7 @@ void TwitPicView::sendUploadRequest()
 
 void TwitPicView::setImagePath()
 {
-  m_ui->imagePathEdit->setText( QFileDialog::getOpenFileName( this, tr( "Select photo to upload" ), getHomeDir(), tr( "Image files (*.jpg *.jpeg *.png *.bmp *.gif)" ) ) );
+  m_ui->imagePathEdit->setText( QFileDialog::getOpenFileName( this, tr( "Select photo to upload" ), getHomeDir(), tr( "Image files" ).append( " (*.jpg *.jpeg *.png *.bmp *.gif)" ) ) );
 }
 
 void TwitPicView::setImagePreview( const QString &path )

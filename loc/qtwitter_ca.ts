@@ -88,22 +88,37 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">El navegador web no és definit. Configura-ho a Configuració-&gt;Xarxa.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="184"/>
+        <location filename="../src/core.cpp" line="227"/>
         <source>Authentication is required to delete updates.</source>
         <translation>Autenticació és requerida per a suprimir els teus actualitzacions.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="139"/>
+        <location filename="../src/core.cpp" line="141"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>Autenticació és requerida per a obtenir actualitzacions dels teus amics.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="162"/>
+        <location filename="../src/core.cpp" line="164"/>
         <source>Authentication is required to post updates.</source>
         <translation>Autenticació és requerida per a publicar els teus actualitzacions.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="232"/>
+        <location filename="../src/core.cpp" line="185"/>
+        <source>Authentication is required to upload photos to TwitPic.</source>
+        <translation>Autenticació és requerida per a carregar fotos a TwitPic.</translation>
+    </message>
+    <message>
+        <location filename="../src/core.cpp" line="207"/>
+        <source>There was a problem uploading your photo:</source>
+        <translation>Ha estat un problema de carregament el teu foto:</translation>
+    </message>
+    <message>
+        <location filename="../src/core.cpp" line="218"/>
+        <source>Photo available at:</source>
+        <translation>Foto disponible a:</translation>
+    </message>
+    <message>
+        <location filename="../src/core.cpp" line="274"/>
         <source>Browser path is not defined. Specify it in Settings-&gt;Network section.</source>
         <translation>El navegador web no és definit. Configura-ho a Configuració-&gt;Xarxa.</translation>
     </message>
@@ -119,7 +134,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ImageDownload</name>
     <message>
-        <location filename="../src/imagedownload.cpp" line="83"/>
+        <location filename="../src/imagedownload.cpp" line="84"/>
         <source>Download failed: </source>
         <translation>Fallada de descarregament:</translation>
     </message>
@@ -127,7 +142,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="181"/>
+        <location filename="../src/mainwindow.cpp" line="205"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -137,14 +152,14 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="172"/>
+        <location filename="../ui/mainwindow.ui" line="169"/>
         <location filename="../ui/mainwindow.ui" line="195"/>
         <location filename="../ui/mainwindow.ui" line="218"/>
         <source>...</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="254"/>
+        <location filename="../src/mainwindow.cpp" line="278"/>
         <location filename="../ui/mainwindow.ui" line="250"/>
         <source>What are you doing?</source>
         <translation>Què estàs fent ara?</translation>
@@ -154,20 +169,18 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">caràcters queden</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="248"/>
-        <location filename="../ui/mainwindow.ui" line="169"/>
         <source>Go to twitter.com</source>
-        <translation>Vés-hi al twitter.com</translation>
+        <translation type="obsolete">Vés-hi al twitter.com</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="80"/>
-        <location filename="../src/mainwindow.cpp" line="249"/>
+        <location filename="../src/mainwindow.cpp" line="104"/>
+        <location filename="../src/mainwindow.cpp" line="273"/>
         <location filename="../ui/mainwindow.ui" line="189"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="250"/>
+        <location filename="../src/mainwindow.cpp" line="274"/>
         <location filename="../ui/mainwindow.ui" line="212"/>
         <source>Update tweets</source>
         <translation>Actualitzar estats</translation>
@@ -177,37 +190,57 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">Mostra</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="79"/>
+        <location filename="../src/mainwindow.cpp" line="103"/>
         <source>Quit</source>
         <translation>Surt</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="42"/>
-        <location filename="../src/mainwindow.cpp" line="150"/>
+        <location filename="../src/mainwindow.cpp" line="43"/>
+        <location filename="../src/mainwindow.cpp" line="174"/>
         <source>characters left</source>
         <translation>caràcters queden</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="192"/>
+        <location filename="../src/mainwindow.cpp" line="69"/>
+        <source>New tweet</source>
+        <translation>Nou estat</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="70"/>
+        <source>Upload a photo to TwitPic</source>
+        <translation>Carga el foto a TwitPic</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="71"/>
+        <source>Go to Twitter</source>
+        <translation>Vés-hi a Twitter</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="72"/>
+        <source>Go to TwitPic</source>
+        <translation>Vés-hi a TwitPic</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="216"/>
         <source>new tweet</source>
         <translation>estat nou</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="192"/>
+        <location filename="../src/mainwindow.cpp" line="216"/>
         <source>new tweets</source>
         <translation>estats nous</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="193"/>
-        <location filename="../src/mainwindow.cpp" line="202"/>
+        <location filename="../src/mainwindow.cpp" line="217"/>
+        <location filename="../src/mainwindow.cpp" line="226"/>
         <source>from</source>
         <translation>de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="194"/>
-        <location filename="../src/mainwindow.cpp" line="203"/>
-        <location filename="../src/mainwindow.cpp" line="211"/>
-        <location filename="../src/mainwindow.cpp" line="220"/>
+        <location filename="../src/mainwindow.cpp" line="218"/>
+        <location filename="../src/mainwindow.cpp" line="227"/>
+        <location filename="../src/mainwindow.cpp" line="235"/>
+        <location filename="../src/mainwindow.cpp" line="244"/>
         <source>and</source>
         <translation>i</translation>
     </message>
@@ -220,37 +253,37 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">nous missatges de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="209"/>
+        <location filename="../src/mainwindow.cpp" line="233"/>
         <source>new tweet from</source>
         <translation>nou estat de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="209"/>
+        <location filename="../src/mainwindow.cpp" line="233"/>
         <source>new tweets from</source>
         <translation>nous estats de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="218"/>
+        <location filename="../src/mainwindow.cpp" line="242"/>
         <source>New message from</source>
         <translation>Nou missatge de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="218"/>
+        <location filename="../src/mainwindow.cpp" line="242"/>
         <source>New messages from</source>
         <translation>Nous missatges de</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="223"/>
+        <location filename="../src/mainwindow.cpp" line="247"/>
         <source>News from qTwitter</source>
         <translation>Noticies de qTwitter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="201"/>
+        <location filename="../src/mainwindow.cpp" line="225"/>
         <source>new message</source>
         <translation>missatge nou</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="201"/>
+        <location filename="../src/mainwindow.cpp" line="225"/>
         <source>new messages</source>
         <translation>missatges nous</translation>
     </message>
@@ -547,6 +580,78 @@ p, li { white-space: pre-wrap; }
         <location filename="../src/tweetmodel.cpp" line="290"/>
         <source>you</source>
         <translation>tu</translation>
+    </message>
+</context>
+<context>
+    <name>TwitPicNewPhoto</name>
+    <message>
+        <location filename="../ui/twitpicnewphoto.ui" line="26"/>
+        <source>Upload completed</source>
+        <translation>El carregament s&apos;ha acabat</translation>
+    </message>
+    <message>
+        <location filename="../ui/twitpicnewphoto.ui" line="127"/>
+        <source>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
+    <name>TwitPicView</name>
+    <message>
+        <location filename="../src/twitpicview.cpp" line="57"/>
+        <location filename="../src/twitpicview.cpp" line="98"/>
+        <location filename="../src/twitpicview.cpp" line="109"/>
+        <location filename="../ui/twitpicview.ui" line="130"/>
+        <source>Upload</source>
+        <translation>Carregar</translation>
+    </message>
+    <message>
+        <location filename="../src/twitpicview.cpp" line="104"/>
+        <location filename="../src/twitpicview.cpp" line="107"/>
+        <source>Abort</source>
+        <translation>Anul·lar</translation>
+    </message>
+    <message>
+        <location filename="../src/twitpicview.cpp" line="119"/>
+        <source>Select photo to upload</source>
+        <translation>Selecciona el foto</translation>
+    </message>
+    <message>
+        <location filename="../src/twitpicview.cpp" line="119"/>
+        <source>Image files</source>
+        <translation>Imatges</translation>
+    </message>
+    <message>
+        <location filename="../src/twitpicview.cpp" line="125"/>
+        <location filename="../src/twitpicview.cpp" line="130"/>
+        <location filename="../src/twitpicview.cpp" line="142"/>
+        <location filename="../ui/twitpicview.ui" line="98"/>
+        <source>Select a photo to upload</source>
+        <translation>Selecciona el foto per a carregar</translation>
+    </message>
+    <message>
+        <location filename="../ui/twitpicview.ui" line="14"/>
+        <source>Upload a photo to Twitpic</source>
+        <translation>Carga el foto a TwitPic</translation>
+    </message>
+    <message>
+        <location filename="../ui/twitpicview.ui" line="22"/>
+        <source>Choose a photo:</source>
+        <translation>Selecciona el foto:</translation>
+    </message>
+    <message>
+        <location filename="../ui/twitpicview.ui" line="32"/>
+        <source>Browse</source>
+        <translation>Navega</translation>
+    </message>
+    <message>
+        <location filename="../ui/twitpicview.ui" line="113"/>
+        <source>post a status</source>
+        <translation>afegir l&apos;estat</translation>
     </message>
 </context>
 <context>

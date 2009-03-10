@@ -95,7 +95,7 @@
         <enum>QFrame::StyledPanel</enum>
        </property>
        <property name="text">
-        <string notr="true">Select a photo to upload</string>
+        <string>Select a photo to upload</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
@@ -153,7 +153,7 @@
      <item>
       <widget class="QLabel" name="uploadLabel">
        <property name="text">
-        <string>0%</string>
+        <string notr="true">0%</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
