@@ -279,6 +279,12 @@ signals:
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
 
   /*!
+    Emitted when any of the post/get requests starts. Used to make MainWindow instance
+    display the progress icon.
+  */
+  void requestStarted();
+
+  /*!
     Emitted when XmlDownload requests are finished, to notify MainWindow instance to
     reset StatusEdit field.
   */

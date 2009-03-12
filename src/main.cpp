@@ -68,6 +68,7 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(timelineUpdated()), model, SLOT(sendNewsInfo()) );
   QObject::connect( core, SIGNAL(noDirectMessages()), model, SLOT(removeDirectMessages()) );
   QObject::connect( core, SIGNAL(resetUi()), &qtwitter, SLOT(resetStatusEdit()) );
+  QObject::connect( core, SIGNAL(requestStarted()), &qtwitter, SLOT(showProgressIcon()) );
   if ( QSystemTrayIcon::supportsMessages() ) {
     QObject::connect( model, SIGNAL(newTweets(int,QStringList,int,QStringList)), &qtwitter, SLOT(popupMessage(int,QStringList,int,QStringList)) );
   }

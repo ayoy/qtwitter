@@ -21,13 +21,12 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QSystemTrayIcon>
 #include "ui_mainwindow.h"
 #include "tweetmodel.h"
 
-#include <QSystemTrayIcon>
-#include <QModelIndex>
-
 class TweetModel;
+class QMovie;
 
 /*!
   \brief A class defining the main window of the application.
@@ -110,6 +109,11 @@ public slots:
   void resetStatusEdit();
 
   /*!
+    Displays progress icon when processing a request.
+  */
+  void showProgressIcon();
+
+  /*!
     Pops up a small dialog with credits and short info on the application and its author.
   */
   void about();
@@ -186,6 +190,7 @@ private:
   QAction *newtwitpicAction;
   QAction *gototwitterAction;
   QAction *gototwitpicAction;
+  QMovie *progressIcon;
   QSystemTrayIcon *trayIcon;
   Ui::MainWindow ui;
 };

@@ -27,6 +27,7 @@
 #include <QScrollBar>
 #include <QMessageBox>
 #include <QIcon>
+#include <QMovie>
 #include <QPalette>
 #include <QShortcut>
 #include <QDesktopWidget>
@@ -39,6 +40,8 @@ MainWindow::MainWindow( QWidget *parent ) :
     resetUiWhenFinished( false )
 {
   ui.setupUi( this );
+  progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
+  ui.countdownLabel->setMovie( progressIcon );
 
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
   StatusFilter *filter = new StatusFilter( this );
@@ -117,7 +120,6 @@ MainWindow::MainWindow( QWidget *parent ) :
   trayIcon->setToolTip( "qTwitter" );
 #endif
   trayIcon->show();
-  emit updateTweets();
 }
 
 MainWindow::~MainWindow() {}
@@ -178,6 +180,7 @@ void MainWindow::sendStatus()
 {
   resetUiWhenFinished = true;
   emit post( ui.statusEdit->text().toUtf8(), ui.statusEdit->getInReplyTo() );
+  showProgressIcon();
 }
 
 void MainWindow::resetStatusEdit()
@@ -186,6 +189,15 @@ void MainWindow::resetStatusEdit()
     resetUiWhenFinished = false;
     ui.statusEdit->cancelEditing();
   }
+  progressIcon->stop();
+  changeLabel();
+}
+
+void MainWindow::showProgressIcon()
+{
+  ui.countdownLabel->clear();
+  ui.countdownLabel->setMovie( progressIcon );
+  progressIcon->start();
 }
 
 void MainWindow::resetStatus()

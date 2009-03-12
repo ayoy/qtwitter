@@ -5,3 +5,6 @@ Makefile*
 qtwitter.app
 *~
 tmp
+GPL-header.txt
+LGPL-header.txt
+doc

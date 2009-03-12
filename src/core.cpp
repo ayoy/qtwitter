@@ -129,9 +129,6 @@ void Core::forceGet()
 
 void Core::get()
 {
-//  foreach ( ImageDownload *imageDownload, imageDownloader ) {
-//    imageDownload->clearData();
-//  }
   if ( publicTimelineSync ) {
     xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
     xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
@@ -154,6 +151,7 @@ void Core::get()
     }
   }
   emit requestListRefresh( publicTimelineSync, switchUser );
+  emit requestStarted();
   switchUser = false;
 }
 
@@ -175,6 +173,7 @@ void Core::post( const QByteArray &status, int inReplyTo )
   xmlPost = new XmlDownload( XmlDownload::Submit, this );
   xmlPost->postContent( "http://twitter.com/statuses/update.xml", request, XmlDownload::Statuses );
   emit requestListRefresh( publicTimelineSync, switchUser );
+  emit requestStarted();
   switchUser = false;
 }
 
@@ -231,6 +230,7 @@ void Core::destroyTweet( int id )
   xmlPost = new XmlDownload( XmlDownload::Destroy, this );
   xmlPost->postContent( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), XmlDownload::Statuses );
   emit requestListRefresh( publicTimelineSync, switchUser );
+  emit requestStarted();
   switchUser = false;
 }
 
@@ -285,6 +285,7 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
 {
   if ( authDialogOpen )
     return Accepted;
+  emit resetUi();
   QDialog dlg;
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
@@ -300,6 +301,7 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
       emit switchToPublic();
       authDialogOpen = false;
       emit requestListRefresh( publicTimelineSync, switchUser );
+      emit requestStarted();
       return SwitchToPublic;
     }
     publicTimelineSync = false;
@@ -307,6 +309,7 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
     emit authDataSet( authData );
     authDialogOpen = false;
     emit requestListRefresh( publicTimelineSync, switchUser );
+    emit requestStarted();
     return Accepted;
   }
   qDebug() << "returning false";
