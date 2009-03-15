@@ -1,3 +1,5 @@
+- web browser customization on Linux now made global (includes links in statuses and all dialogs) - ticket #2,
+- added an icon indicating that status list update is in progress.
 v0.5.0 (2009/03/11):
 - added support for TwitPic - one-click uploading photos and posting them to Twitter,
 - posted replies now recognizable by API,

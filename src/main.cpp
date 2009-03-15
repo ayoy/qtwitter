@@ -44,9 +44,9 @@ int main( int argc, char **argv )
   Settings *settings = new Settings( model, &qtwitter, core, &qtwitter );
 
   QObject::connect( &qtwitter, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
-  QObject::connect( &qtwitter, SIGNAL(openBrowser(QString)), core, SLOT(openBrowser(QString)) );
+  QObject::connect( &qtwitter, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
   QObject::connect( &qtwitter, SIGNAL(openTwitPicDialog()), twitpic, SLOT(show()) );
-  QObject::connect( model, SIGNAL(openBrowser(QString)), core, SLOT(openBrowser(QString)) );
+  QObject::connect( model, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
   QObject::connect( model, SIGNAL(reply(QString,int)), &qtwitter, SIGNAL(addReplyString(QString,int)) );
   QObject::connect( model, SIGNAL(about()), &qtwitter, SLOT(about()) );
   QObject::connect( model, SIGNAL(destroy(int)), core, SLOT(destroyTweet(int)) );

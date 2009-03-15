@@ -23,6 +23,7 @@
 
 #include <QStandardItemModel>
 #include <QListView>
+#include <QUrl>
 #include "entry.h"
 #include "settings.h"
 #include "statuslist.h"
@@ -192,7 +193,7 @@ signals:
     Emitted to pass the request to open web browser to the Core class instance.
     \param address Web address to be accessed.
   */
-  void openBrowser( QString address );
+  void openBrowser( QUrl address );
 
   /*!
     Passes the reply request from a particular Tweet to the MainWindow.
@@ -206,6 +207,9 @@ signals:
      Passes the request to popup an about dialog to the MainWindow.
   */
   void about();
+
+private slots:
+  void emitOpenBrowser( QString address );
 
 private:
   void countUnreadEntries();

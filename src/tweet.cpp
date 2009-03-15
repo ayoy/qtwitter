@@ -91,7 +91,7 @@ Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent ) :
   gototwitterpageAction->setFont( *menuFont );
   signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + tweetData.login() );
   connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-  connect( signalMapper, SIGNAL(mapped(QString)), tweetListModel, SIGNAL(openBrowser(QString)) );
+  connect( signalMapper, SIGNAL(mapped(QString)), tweetListModel, SLOT(emitOpenBrowser(QString)) );
 
   gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
   menu->addAction( gotohomepageAction );

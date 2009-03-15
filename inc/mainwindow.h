@@ -22,11 +22,12 @@
 #define MAINWINDOW_H
 
 #include <QSystemTrayIcon>
+#include <QUrl>
 #include "ui_mainwindow.h"
 #include "tweetmodel.h"
 
-class TweetModel;
 class QMovie;
+class TweetModel;
 
 /*!
   \brief A class defining the main window of the application.
@@ -138,7 +139,7 @@ signals:
     \param address Requested URL.
     \sa Core::openBrowser()
   */
-  void openBrowser( QString address );
+  void openBrowser( QUrl address );
 
   /*!
     Emitted when settings button pressed, requests opening the settings dialog.
@@ -177,6 +178,7 @@ protected:
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
+  void emitOpenBrowser( QString address );
   void changeLabel();
   void sendStatus();
   void resetStatus();

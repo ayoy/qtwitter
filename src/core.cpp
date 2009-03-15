@@ -21,6 +21,7 @@
 #include "core.h"
 
 #include <QSettings>
+#include <QDesktopServices>
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
 #include "twitpicengine.h"
@@ -262,22 +263,19 @@ void Core::downloadImage( Entry *entry )
   }
 }
 
-void Core::openBrowser( QString address )
+void Core::openBrowser( QUrl address )
 {
-  if ( address.isNull() )
+  if ( address.isEmpty() )
     return;
-  QProcess *browser = new QProcess;
-#ifdef Q_WS_MAC
-  browser->start( "/usr/bin/open " + address );
+#if defined Q_WS_MAC || defined Q_WS_WIN
+  QDesktopServices::openUrl( address );
 #elif defined Q_WS_X11
-  if ( browserPath.isEmpty() ) {
-    emit errorMessage( tr( "Browser path is not defined. Specify it in Settings->Network section." ) );
+  QProcess *browser = new QProcess;
+  if ( browserPath.isNull() ) {
+    QDesktopServices::openUrl( address );
     return;
   }
-  browser->start( browserPath + " " + address );
-#elif defined Q_WS_WIN
-  QSettings settings( "HKEY_CLASSES_ROOT\\http\\shell\\open\\command", QSettings::NativeFormat );
-  browser->start( settings.value( "Default" ).toString() + " " + address );
+  browser->start( browserPath + " " + address.toString() );
 #endif
 }
 

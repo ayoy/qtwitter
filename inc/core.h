@@ -182,7 +182,7 @@ public slots:
     Opens a web browser with a given \a address. The browser opened is a system default browser
     on Mac and Windows. On Unix it's defined in Settings.
   */
-  void openBrowser( QString address );
+  void openBrowser( QUrl address );
 
   /*!
     Opens a dialog asking user for login and password to Twitter. Prevents opening a dialog when

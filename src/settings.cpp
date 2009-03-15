@@ -19,9 +19,11 @@
 
 
 #include <QPushButton>
+#include <QCheckBox>
 #include <QPoint>
 #include <QDesktopWidget>
 #include <QFileDialog>
+#include <QDesktopServices>
 #include "settings.h"
 #include "mainwindow.h"
 #include "core.h"
@@ -110,15 +112,20 @@ Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, Core *c
 #ifdef Q_WS_X11
   QHBoxLayout *hlayout = new QHBoxLayout;
 
-  selectBrowserLabel = new QLabel( tr( "Specify web browser:" ), ui.network );
-  ui.verticalLayout_2->addWidget(selectBrowserLabel);
-
+  useCustomBrowserCheckBox = new QCheckBox( tr( "Use custom web browser" ), ui.network );
   selectBrowserEdit = new QLineEdit( ui.network );
-  hlayout->addWidget(selectBrowserEdit);
   selectBrowserButton = new QPushButton( tr( "Browse" ), ui.network );
+
+  hlayout->addWidget(selectBrowserEdit);
   hlayout->addWidget(selectBrowserButton);
+  ui.verticalLayout_2->addWidget(useCustomBrowserCheckBox);
   ui.verticalLayout_2->addLayout(hlayout);
 
+  selectBrowserEdit->setEnabled( false );
+  selectBrowserButton->setEnabled( false );
+
+  connect( useCustomBrowserCheckBox, SIGNAL(toggled(bool)), selectBrowserEdit, SLOT(setEnabled(bool)) );
+  connect( useCustomBrowserCheckBox, SIGNAL(toggled(bool)), selectBrowserButton, SLOT(setEnabled(bool)) );
   connect( selectBrowserButton, SIGNAL(clicked()), this, SLOT(setBrowser()) );
 #endif
 
@@ -136,10 +143,11 @@ Settings::~Settings() {}
 
 void Settings::loadConfig( bool dialogRejected )
 {
-#if defined Q_WS_X11 || defined Q_WS_MAC
+#if defined Q_WS_X11
   QSettings settings( "ayoy", "qTwitter" );
-#endif
-#if defined Q_WS_WIN
+#elif defined Q_WS_MAC
+  QSettings settings( "ayoy.net", "qTwitter" );
+#elif defined Q_WS_WIN
   QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
 #endif
   settings.beginGroup( "General" );
@@ -157,6 +165,7 @@ void Settings::loadConfig( bool dialogRejected )
       ui.portEdit->setText( settings.value( "port" ).toString() );
     settings.endGroup();
 #ifdef Q_WS_X11
+    useCustomBrowserCheckBox->setChecked( settings.value( "customBrowser", Qt::Unchecked ).toBool() );
     selectBrowserEdit->setText( settings.value( "browser" ).toString() );
 #endif
   settings.endGroup();
@@ -207,10 +216,11 @@ void Settings::setProxy()
 
 void Settings::saveConfig( int quitting )
 {
-#if defined Q_WS_X11 || defined Q_WS_MAC
+#if defined Q_WS_X11
   QSettings settings( "ayoy", "qTwitter" );
-#endif
-#if defined Q_WS_WIN
+#elif defined Q_WS_MAC
+  QSettings settings( "ayoy.net", "qTwitter" );
+#elif defined Q_WS_WIN
   QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
 #endif
   settings.beginGroup( "MainWindow" );
@@ -232,6 +242,10 @@ void Settings::saveConfig( int quitting )
       settings.setValue( "port", ui.portEdit->text() );
     settings.endGroup();
 #ifdef Q_WS_X11
+    if ( useCustomBrowserCheckBox->isChecked() && selectBrowserEdit->text().isEmpty() ) {
+      useCustomBrowserCheckBox->setChecked( false );
+    }
+    settings.setValue( "customBrowser", useCustomBrowserCheckBox->isChecked() );
     settings.setValue( "browser", selectBrowserEdit->text() );
 #endif
   settings.endGroup();
@@ -282,10 +296,12 @@ void Settings::switchToPublic()
     ui.radioPublic->setChecked( true );
     model->setPublicTimelineRequested( true );
 
-#if defined Q_WS_X11 || defined Q_WS_MAC
-    QSettings settings( "ayoy", "qTwitter" );
+#if defined Q_WS_X11
+  QSettings settings( "ayoy", "qTwitter" );
+#elif defined Q_WS_MAC
+  QSettings settings( "ayoy.net", "qTwitter" );
 #elif defined Q_WS_WIN
-    QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
+  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
 #endif
     settings.setValue( "General/timeline", ui.radioFriends->isChecked() );
   }
@@ -324,7 +340,7 @@ void Settings::retranslateUi()
   ui.tweetCountLabel->setText( tr( "Tweet count:" ) );
   ui.colorLabel->setText( tr( "Color scheme:" ) );
 #ifdef Q_WS_X11
-  selectBrowserLabel->setText( tr( "Specify web browser:" ) );
+  useCustomBrowserCheckBox->setText( tr( "Use custom browser" ) );
   selectBrowserButton->setText( tr( "Browse" ) );
 #endif
   ui.buttonBox->button( QDialogButtonBox::Apply )->setText( tr( "Apply" ) );
@@ -350,7 +366,13 @@ void Settings::applySettings()
   model->setMaxTweetCount( ui.tweetCountBox->value() );
   changeTheme( ui.colorBox->currentText() );
 #ifdef Q_WS_X11
-  core->setBrowserPath( this->selectBrowserEdit->text() );
+  if ( useCustomBrowserCheckBox->isChecked() ) {
+    QDesktopServices::setUrlHandler( "http", core, "openBrowser");
+    core->setBrowserPath( this->selectBrowserEdit->text() );
+  } else {
+    QDesktopServices::unsetUrlHandler( "http" );
+    core->setBrowserPath( QString() );
+  }
 #endif
 }
 

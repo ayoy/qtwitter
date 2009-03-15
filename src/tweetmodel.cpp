@@ -315,3 +315,8 @@ Tweet* TweetModel::getTweetFromIndex( QModelIndex i )
 {
   return dynamic_cast<Tweet*>( view->indexWidget(i) );
 }
+
+void TweetModel::emitOpenBrowser( QString address )
+{
+  emit openBrowser( QUrl( address ) );
+}

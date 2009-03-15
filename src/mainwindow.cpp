@@ -33,7 +33,7 @@
 #include <QDesktopWidget>
 #include <QSignalMapper>
 
-const QString MainWindow::APP_VERSION = "0.5.0";
+const QString MainWindow::APP_VERSION = "0.5.1_pre1";
 
 MainWindow::MainWindow( QWidget *parent ) :
     QWidget( parent ),
@@ -86,7 +86,7 @@ MainWindow::MainWindow( QWidget *parent ) :
   connect( newtwitpicAction, SIGNAL(triggered()), this, SIGNAL(openTwitPicDialog()) );
   connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
-  connect( mapper, SIGNAL(mapped(QString)), this, SIGNAL(openBrowser(QString)) );
+  connect( mapper, SIGNAL(mapped(QString)), this, SLOT(emitOpenBrowser(QString)) );
 
   buttonMenu->addAction( newtweetAction );
   buttonMenu->addAction( newtwitpicAction );
@@ -212,11 +212,6 @@ void MainWindow::resizeEvent( QResizeEvent *event )
   emit resizeView( event->size().width(), event->oldSize().width() );
 }
 
-void MainWindow::popupError( const QString &message )
-{
-  QMessageBox::information( this, tr("Error"), message );
-}
-
 void MainWindow::popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages )
 {
   QRegExp rx( ", " );
@@ -259,6 +254,16 @@ void MainWindow::popupMessage( int statusesCount, QStringList namesForStatuses, 
     trayIcon->showMessage( tr( "News from qTwitter" ), message, QSystemTrayIcon::Information );
   }
 #endif
+}
+
+void MainWindow::popupError( const QString &message )
+{
+  QMessageBox::information( this, tr("Error"), message );
+}
+
+void MainWindow::emitOpenBrowser( QString address )
+{
+  emit openBrowser( QUrl( address ) );
 }
 
 void MainWindow::changeListBackgroundColor(const QColor &newColor )

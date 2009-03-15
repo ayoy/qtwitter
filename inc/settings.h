@@ -29,6 +29,9 @@
 #include <QSettings>
 #include "ui_settings.h"
 
+class QCheckBox;
+class QLineEdit;
+class QPushButton;
 class TweetModel;
 class MainWindow;
 class Core;
@@ -215,8 +218,8 @@ private:
   QMap<QString,ThemeData> themes;
   Ui::Settings ui;
 #ifdef Q_WS_X11
+  QCheckBox *useCustomBrowserCheckBox;
   QLineEdit *selectBrowserEdit;
-  QLabel *selectBrowserLabel;
   QPushButton *selectBrowserButton;
 #endif
 };
