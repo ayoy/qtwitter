@@ -50,7 +50,7 @@ MainWindow::MainWindow( QWidget *parent ) :
   connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateTweets() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
-  connect( ui.statusEdit, SIGNAL( lostFocus() ), this, SLOT( resetStatus() ) );
+  connect( ui.statusEdit, SIGNAL( editingFinished() ), this, SLOT( resetStatus() ) );
   connect( ui.statusEdit, SIGNAL(errorMessage(QString)), this, SLOT(popupError(QString)) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
