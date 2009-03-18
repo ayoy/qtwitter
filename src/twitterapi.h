@@ -18,68 +18,26 @@
  ***************************************************************************/
 
 
-#ifndef CORE_H
-#define CORE_H
+#ifndef TWITTERAPI_H
+#define TWITTERAPI_H
 
-#include <QStandardItemModel>
 #include <QAuthenticator>
-#include <QTimer>
 
 #include "entry.h"
 #include "xmldownload.h"
 #include "xmlparser.h"
-#include "imagedownload.h"
-#include "mainwindow.h"
 
-class TwitPicEngine;
-
-typedef QMap<QString, QImage> MapStringImage;
-
-/*!
-  \brief A class responsible for managing connections to Twitter.
-
-  This class includes a high-level interface for connecting with Twitter API
-  and submitting changes to the user's updates list. When the update
-  is requested, an XmlDownload class instance is created to perform the
-  action. Once the received XML document is parsed, the ImageDownload
-  class instance is engaged if necessary, to download profile images for
-  new statuses. All the new Entries are passed to a TweetModel for displaying.
-*/
-class Core : public QObject
+class TwitterAPI : public QObject
 {
   Q_OBJECT
 
 public:
 
-  /*!
-    \brief The return state of the authentication dialog.
-  */
-  enum AuthDialogState {
-    Accepted, /*!< Dialog was accepted */
-    Rejected, /*!< Dialog was rejected */
-    SwitchToPublic /*!< User switched to public timeline syncing */
-  };
-
-  /*!
-    Creates a Core class instance with a given \a parent.
-  */
-  Core( MainWindow *parent = 0 );
-  virtual ~Core(); /*!< Virtual destructor. */
-
-  /*!
-    Sets the configuration given in Settings dialog and requests timeline update if necessary.
-    \param msecs Timeline update interval
-    \param user Authenticating user login
-    \param password Authenticating user password
-    \param publicTimeline Indicating whether to sync with public timeline or not
-    \param directMessages Indicating whether to include direct messages when syncing
-                          with friends timeline
-  */
-  void applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages );
+  TwitterAPI( QObject *parent = 0 );
+  virtual ~TwitterAPI(); /*!< Virtual destructor. */
 
   bool isPublicTimelineSync(); /*!< Returns true if sync with public timeline is requested. \sa setPublicTimelineSync() */
   bool isDirectMessagesSync(); /*!< Returns true if direct messages downloading is requested. \sa setDirectMessagesSync() */
-  bool setTimerInterval( int msecs ); /*!< Sets timer interval to \a msecs miliseconds. */
 
   /*!
     Sets user login and password for authentication at twitter.com.
@@ -102,23 +60,7 @@ public:
   */
   bool setDirectMessagesSync( bool b );
 
-
-#ifdef Q_WS_X11
-  /*!
-    Sets a path for the browser to be used to handle URL links opening.
-    \param path Browser path.
-  */
-  void setBrowserPath( const QString& path );
-#endif
-
 public slots:
-  /*!
-    Resets timer and enforces immediate timeline sync. This is to handle asynchronous sync requests, such as
-    update button press, or changed settings. Normally the get method is used to update timeline always
-    when timer emits timeout signal.
-    \sa get()
-  */
-  void forceGet();
 
   /*!
     Issues a timeline sync request, either public or friends one (with or without direct messages), according to
@@ -127,7 +69,7 @@ public slots:
     user authentication data.
     \sa post(), destroyTweet(), authDataDialog()
   */
-  void get();
+  bool get();
 
   /*!
     Sends a new Tweet with a content given by \a status. If user's authenticaton
@@ -136,31 +78,7 @@ public slots:
     \param inReplyTo In case the status is a reply - optional id of the existing status to which the reply is posted.
     \sa get(), destroyTweet(), authDataDialog()
   */
-  void post( const QByteArray &status, int inReplyTo = -1 );
-
-  /*!
-    Uploads a photo to TwitPic.com and, if \a status is not empty, posts a status update (this is done internally
-    by TwitPic API).
-    \param photoPath A path to photo to be uploaded.
-    \param status New Tweet's text.
-    \sa twitPicResponse(), get(), post()
-  */
-  void uploadPhoto( QString photoPath, QString status );
-
-  /*!
-    Interrupts uploading a photo to TwitPic.com.
-    \sa uploadPhoto(), twitPicResponse()
-  */
-  void abortUploadPhoto();
-
-  /*!
-    Reads a response from TwitPic API.
-    \param responseStatus true if photo was successfully uploaded, false otherwise.
-    \param message Error message or URL to the uploaded photo, depending on a \a responseStatus.
-    \param newStatus true if a new status was posted, false otherwise.
-    \sa uploadPhoto()
-  */
-  void twitPicResponse( bool responseStatus, QString message, bool newStatus );
+  bool post( const QByteArray &status, int inReplyTo = -1 );
 
   /*!
     Sends a request to delete Tweet of id given by \a id. If user's authenticaton
@@ -168,43 +86,13 @@ public slots:
     \param id Id of the Tweet to be deleted.
     \sa get(), post(), authDataDialog(), deleteEntry()
   */
-  void destroyTweet( int id );
-
-  /*!
-    Downloads a profile image for the given \a entry. Creates an ImageDownload class instance
-    and requests image from URL specfied inside \a entry.
-    \param entry Entry containing a URL to requested image.
-    \sa setImageForUrl()
-  */
-  void downloadImage( Entry *entry );
-
-  /*!
-    Opens a web browser with a given \a address. The browser opened is a system default browser
-    on Mac and Windows. On Unix it's defined in Settings.
-  */
-  void openBrowser( QUrl address );
-
-  /*!
-    Opens a dialog asking user for login and password to Twitter. Prevents opening a dialog when
-    another instance is currently shown. Updates download-related flags and user's authentication
-    data according to user's input.
-    \param user User's login to show in dialog upon creation (default: empty string).
-    \param password User's password to show in dialog upon creation (default: empty string).
-    \returns Dialog's state.
-    \sa AuthDialogState, getAuthData(), setAuthData()
-  */
-  AuthDialogState authDataDialog( const QString &user = QString(), const QString &password = QString() );
+  bool destroyTweet( int id );
 
   /*!
     Outputs user's login and password.
     \returns QAuthenticator object containing user's authentication data.
   */
   const QAuthenticator& getAuthData() const;
-
-  /*!
-    Sets cookie received from Twitter. Not used currently as it sometimes doesn't work properly.
-  */
-  void setCookie( const QStringList );
 
   /*!
     Used to figure out when XmlDownload instance finishes its job. XmlDownload class emits
@@ -237,32 +125,9 @@ signals:
   */
   void switchToPublic();
 
-  /*!
-    Emitted when a single Tweet \a entry is parsed and ready to be inserted into model.
-    \param entry Entry to insert into a model.
-    \sa newEntry()
-  */
-  void addEntry( Entry* entry );
+  void addEntry( Entry *entry );
 
-  /*!
-    Emitted when a positive response from Twitter API concerning destroying a Tweet is recieved
-    and Tweet can be deleted form model.
-    \param id Id of the Tweet.
-    \sa destroyTweet()
-  */
   void deleteEntry( int id );
-
-  /*!
-    Emitted when a response from TwitPic is received.
-    \sa uploadPhoto(), abortUploadPhoto()
-  */
-  void twitPicResponseReceived();
-
-  /*!
-    Emitted when a response from TwitPic is received.
-    \sa uploadPhoto(), abortUploadPhoto()
-  */
-  void twitPicDataSendProgress(int,int);
 
   /*!
     Emitted when an \a image is downloaded and is ready to be shown in model.
@@ -279,16 +144,9 @@ signals:
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
 
   /*!
-    Emitted when any of the post/get requests starts. Used to make MainWindow instance
-    display the progress icon.
+    Emitted when XmlDownload request is finished.
   */
-  void requestStarted();
-
-  /*!
-    Emitted when XmlDownload requests are finished, to notify MainWindow instance to
-    reset StatusEdit field.
-  */
-  void resetUi();
+  void done();
 
   /*!
     Emitted to notify model that XmlDownload requests are finished and notification popup
@@ -304,10 +162,10 @@ signals:
   void noDirectMessages();
 
 private slots:
-  void setImageInHash( const QString&, QImage );
   void newEntry( Entry* );
 
 private:
+  void createConnections( XmlDownload *xmlDownload );
   void destroyXmlConnection();
   bool publicTimelineSync;
   bool directMessagesSync;
@@ -315,19 +173,13 @@ private:
   bool authDialogOpen;
   XmlDownload *xmlGet;
   XmlDownload *xmlPost;
-  TwitPicEngine *twitpicUpload;
-  QMap<QString,ImageDownload*> imageDownloader;
-  MapStringImage imageCache;
   QAuthenticator authData;
   QStringList cookie;
   QString currentUser;
   QTimer *timer;
   bool statusesDone;
   bool messagesDone;
-#ifdef Q_WS_X11
-  QString browserPath;
-#endif
 };
 
 
-#endif //CORE_H
+#endif //TWITTERAPI_H

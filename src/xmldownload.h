@@ -91,11 +91,12 @@ public:
     Creates a new object with the given \a parent. Connection \a role has to be
     specified, as well as the Core class needed to connect signals to its slots.
     \param role A connection role.
-    \param coreParent A Core class instance.
+    \param username An username for authentication.
+    \param password A password for authentication.
     \param parent A parent for the new object.
     \sa Role
   */
-  XmlDownload( Role role, Core *coreParent, QObject *parent = 0 );
+  XmlDownload( Role role, const QString &username, const QString &password, QObject *parent = 0 );
 
   /*!
     A destructor.
@@ -162,8 +163,11 @@ private slots:
   void readResponseHeader( const QHttpResponseHeader &responseHeader );
   void httpRequestFinished( int requestId, bool error );
 
+signals:
+  void newEntry( Entry *entry );
+
 private:
-  void createConnections( Core *whereToConnectTo );
+  void createConnections();
   XmlData* processedRequest( ContentRequested content );
   XmlData* processedRequest( int requestId );
   Role role;
@@ -171,7 +175,7 @@ private:
   XmlData directMessagesData;
   XmlParser *statusParser;
   XmlParserDirectMsg *directMsgParser;
-  Core *core;
+  QAuthenticator authData;
   bool authenticating;
   bool authenticated;
 };

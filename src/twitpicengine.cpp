@@ -70,6 +70,10 @@ void TwitPicEngine::postContent( const QAuthenticator &authData, QString photoPa
     requestString.append( status.toAscii() + "\r\n" );
     requestString.append( "--AaB03x\r\n" );
   }
+  requestString.append( "content-disposition: form-data; name=\"source\"\r\n" );
+  requestString.append( "\r\n" );
+  requestString.append( "qTwitter\r\n" );
+  requestString.append( "--AaB03x\r\n" );
   requestString.append( "content-disposition: form-data; name=\"username\"\r\n" );
   requestString.append( "\r\n" );
   requestString.append( authData.user().toAscii() + "\r\n" );

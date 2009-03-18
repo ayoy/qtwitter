@@ -24,21 +24,24 @@
 #include <QDesktopServices>
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
+#include "twitterapi.h"
 #include "twitpicengine.h"
 
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
-    publicTimelineSync( false ),
-    directMessagesSync( false ),
     switchUser( false ),
     authDialogOpen( false ),
-    xmlGet( NULL ),
-    xmlPost( NULL ),
     twitpicUpload( NULL ),
-    timer( NULL ),
-    statusesDone( false ),
-    messagesDone( false )
+    timer( NULL )
 {
+  twitterapi = new TwitterAPI( this );
+  connect( twitterapi, SIGNAL(addEntry(Entry*)), this, SIGNAL(addEntry(Entry*)) );
+  connect( twitterapi, SIGNAL(addEntry(Entry*)), this, SLOT(downloadImage(Entry*)) );
+  connect( twitterapi, SIGNAL(deleteEntry(int)), this, SIGNAL(deleteEntry(int)) );
+  connect( twitterapi, SIGNAL(timelineUpdated()), this, SIGNAL(timelineUpdated()) );
+  connect( twitterapi, SIGNAL(authDataSet(QAuthenticator)), this, SIGNAL(authDataSet(QAuthenticator)) );
+  connect( twitterapi, SIGNAL(requestListRefresh(bool,bool)), this, SIGNAL(requestListRefresh(bool,bool)) );
+  connect( twitterapi, SIGNAL(done()), this, SIGNAL(resetUi()) );
 }
 
 Core::~Core() {}
@@ -46,21 +49,11 @@ Core::~Core() {}
 void Core::applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages )
 {
   bool a = setTimerInterval( msecs );
-  bool b = setAuthData( user, password );
-  bool c = setPublicTimelineSync( publicTimeline );
-  bool d = setDirectMessagesSync( directMessages );
+  bool b = twitterapi->setAuthData( user, password );
+  bool c = twitterapi->setPublicTimelineSync( publicTimeline );
+  bool d = twitterapi->setDirectMessagesSync( directMessages );
   if ( a || b || c || (!c && d) )
     get();
-}
-
-bool Core::isPublicTimelineSync()
-{
-  return publicTimelineSync;
-}
-
-bool Core::isDirectMessagesSync()
-{
-  return directMessagesSync;
 }
 
 bool Core::setTimerInterval( int msecs )
@@ -90,29 +83,8 @@ bool Core::setAuthData( const QString &user, const QString &password )
   } else if ( currentUser.compare( authData.user() ) ) {
     switchUser = true;
   }
-  emit requestListRefresh( publicTimelineSync, switchUser );
+//  emit requestListRefresh( publicTimelineSync, switchUser );
   return switchUser;
-}
-
-bool Core::setPublicTimelineSync( bool b )
-{
-  if ( publicTimelineSync != b ) {
-    publicTimelineSync = b;
-    return true;
-  }
-  return false;
-}
-
-bool Core::setDirectMessagesSync( bool b )
-{
-  if ( directMessagesSync != b ) {
-    directMessagesSync = b;
-    if ( directMessagesSync == false ) {
-      emit noDirectMessages();
-    }
-    return true;
-  }
-  return false;
 }
 
 #ifdef Q_WS_X11
@@ -130,58 +102,25 @@ void Core::forceGet()
 
 void Core::get()
 {
-  if ( publicTimelineSync ) {
-    xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
-    xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
-  } else {
-    if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-      if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
-        emit errorMessage( tr("Authentication is required to get your friends' updates.") );
-        switchUser = false;
-        return;
-      }
-    }
-    xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, this );
-    if ( publicTimelineSync ) {
-      xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
-    } else {
-      xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", XmlDownload::Statuses );
-      if ( directMessagesSync ) {
-        xmlGet->getContent( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
-      }
+  while ( !twitterapi->get() ) {
+    if ( authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() ) == Rejected ) {
+      emit errorMessage( tr("Authentication is required to upload photos to TwitPic.") );
+      return;
     }
   }
-  emit requestListRefresh( publicTimelineSync, switchUser );
   emit requestStarted();
-  switchUser = false;
 }
 
 void Core::post( const QByteArray &status, int inReplyTo )
 {
-  if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-    if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
-      emit errorMessage( tr("Authentication is required to post updates.") );
-      return;
-    }
-  }
-  QByteArray request( "status=" );
-  request.append( status );
-  if ( inReplyTo != -1 ) {
-    request.append( "&in_reply_to_status_id=" + QByteArray::number( inReplyTo ) );
-  }
-  request.append( "&source=qtwitter" );
-  qDebug() << request;
-  xmlPost = new XmlDownload( XmlDownload::Submit, this );
-  xmlPost->postContent( "http://twitter.com/statuses/update.xml", request, XmlDownload::Statuses );
-  emit requestListRefresh( publicTimelineSync, switchUser );
+  twitterapi->post( status, inReplyTo );
   emit requestStarted();
-  switchUser = false;
 }
 
 void Core::uploadPhoto( QString photoPath, QString status )
 {
   if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-    if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
+    if ( authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() ) == Rejected ) {
       emit errorMessage( tr("Authentication is required to upload photos to TwitPic.") );
       return;
     }
@@ -221,46 +160,37 @@ void Core::twitPicResponse( bool responseStatus, QString message, bool newStatus
 
 void Core::destroyTweet( int id )
 {
-  qDebug() << "Tweet No." << id << "will be destroyed";
-  if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
-    if ( authDataDialog( authData.user().isEmpty() ? QString() : authData.user(), authData.user().isEmpty() ? QString() : authData.password() ) == Rejected ) {
-      emit errorMessage( tr("Authentication is required to delete updates.") );
-      return;
-    }
-  }
-  xmlPost = new XmlDownload( XmlDownload::Destroy, this );
-  xmlPost->postContent( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), XmlDownload::Statuses );
-  emit requestListRefresh( publicTimelineSync, switchUser );
+  twitterapi->destroyTweet( id );
   emit requestStarted();
-  switchUser = false;
 }
 
 void Core::downloadImage( Entry *entry )
 {
-  if ( entry->getType() == Entry::Status ) {
-    if ( imageCache.contains( entry->image() ) ) {
-      if ( imageCache[ entry->image() ].isNull() ) {
-        qDebug() << "not downloading";
-      } else {
-        emit setImageForUrl( entry->image(), imageCache[ entry->image() ] );
-      }
-      return;
+  if ( entry->getType() == Entry::DirectMessage )
+    return;
+
+  if ( imageCache.contains( entry->image() ) ) {
+    if ( imageCache[ entry->image() ].isNull() ) {
+      qDebug() << "not downloading";
+    } else {
+      emit setImageForUrl( entry->image(), imageCache[ entry->image() ] );
     }
-    QString host = QUrl( entry->image() ).host();
-    if ( imageDownloader.contains( host ) ) {
-      imageDownloader[host]->imageGet( entry );
-      imageCache[ entry->image() ] = QImage();
-      qDebug() << "setting null image";
-      return;
-    }
-    ImageDownload *getter = new ImageDownload();
-    imageDownloader[host] = getter;
-    connect( getter, SIGNAL( errorMessage(QString) ), this, SIGNAL( errorMessage(QString) ) );
-    connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
-    getter->imageGet( entry );
-    imageCache[ entry->image() ] = QImage();
-    qDebug() << "setting null image" << imageCache[ entry->image() ].isNull();
+    return;
   }
+  QString host = QUrl( entry->image() ).host();
+  if ( imageDownloader.contains( host ) ) {
+    imageDownloader[host]->imageGet( entry );
+    imageCache[ entry->image() ] = QImage();
+    qDebug() << "setting null image";
+    return;
+  }
+  ImageDownload *getter = new ImageDownload();
+  imageDownloader[host] = getter;
+  connect( getter, SIGNAL( errorMessage(QString) ), this, SIGNAL( errorMessage(QString) ) );
+  connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
+  getter->imageGet( entry );
+  imageCache[ entry->image() ] = QImage();
+  qDebug() << "setting null image" << imageCache[ entry->image() ].isNull();
 }
 
 void Core::openBrowser( QUrl address )
@@ -279,7 +209,7 @@ void Core::openBrowser( QUrl address )
 #endif
 }
 
-Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &password)
+Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &password )
 {
   if ( authDialogOpen )
     return Accepted;
@@ -287,26 +217,23 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
   QDialog dlg;
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
-  ui.loginEdit->setText( ( user == QString() ) ? authData.user() : user );
+  ui.loginEdit->setText( ( user == QString() ) ? twitterapi->getAuthData().user() : user );
   ui.loginEdit->selectAll();
   ui.passwordEdit->setText( password );
   dlg.adjustSize();
   authDialogOpen = true;
   if (dlg.exec() == QDialog::Accepted) {
     if ( ui.publicBox->isChecked() ) {
-      publicTimelineSync = true;
-      switchUser = false;
       emit switchToPublic();
       authDialogOpen = false;
-      emit requestListRefresh( publicTimelineSync, switchUser );
+      emit requestListRefresh( true, false );
       emit requestStarted();
       return SwitchToPublic;
     }
-    publicTimelineSync = false;
-    setAuthData( ui.loginEdit->text(), ui.passwordEdit->text() );
-    emit authDataSet( authData );
+    twitterapi->setAuthData( ui.loginEdit->text(), ui.passwordEdit->text() );
+    emit authDataSet( twitterapi->getAuthData() );
     authDialogOpen = false;
-    emit requestListRefresh( publicTimelineSync, switchUser );
+    emit requestListRefresh( false, true );
     emit requestStarted();
     return Accepted;
   }
@@ -320,59 +247,8 @@ const QAuthenticator& Core::getAuthData() const
   return authData;
 }
 
-void Core::setCookie( const QStringList newCookie )
-{
-  cookie = newCookie;
-}
-
-void Core::setFlag( XmlDownload::ContentRequested flag )
-{
-  switch ( flag ) {
-    case XmlDownload::DirectMessages:
-      messagesDone = true;
-      break;
-    case XmlDownload::Statuses:
-    default:
-      statusesDone = true;
-  }
-  emit resetUi();
-  if ( publicTimelineSync ) {
-    emit switchToPublic();
-  }
-  if ( statusesDone && ( publicTimelineSync || (!directMessagesSync ? true : messagesDone) || (xmlPost && !publicTimelineSync)  ) ) {
-    emit timelineUpdated();
-    emit authDataSet( authData );
-    destroyXmlConnection();
-    currentUser = authData.user();
-    statusesDone = false;
-    messagesDone = false;
-  }
-}
-
 void Core::setImageInHash( const QString &url, QImage image )
 {
   imageCache[ url ] = image;
   emit setImageForUrl( url, image );
-}
-
-void Core::newEntry( Entry *entry )
-{
-  if ( entry->login() == authData.user() ) {
-    entry->setOwn( true );
-  }
-  emit addEntry( entry );
-}
-
-void Core::destroyXmlConnection()
-{
-  if ( xmlPost ) {
-    qDebug() << "destroying xmlPost";
-    xmlPost->deleteLater();
-    xmlPost = NULL;
-  }
-  if ( xmlGet ) {
-    qDebug() << "destroying xmlGet";
-    xmlGet->deleteLater();
-    xmlGet = NULL;
-  }
 }

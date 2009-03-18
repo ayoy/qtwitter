@@ -55,17 +55,18 @@ void XmlData::clear()
   }
 }
 
-XmlDownload::XmlDownload( Role role, Core *coreParent, QObject *parent ) :
+XmlDownload::XmlDownload( Role role, const QString &username, const QString &password, QObject *parent ) :
     HttpConnection( parent ),
     role( role ),
     statusParser(0),
     directMsgParser(0),
-    core( coreParent ),
     authenticated( false )
 {
+  authData.setUser( username );
+  authData.setPassword( password );
   statusParser = new XmlParser( this );
   directMsgParser = new XmlParserDirectMsg( this );
-  createConnections( core );
+  createConnections();
 }
 
 XmlDownload::~XmlDownload()
@@ -118,7 +119,12 @@ void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, qui
 {
   qDebug() << "auth required";
   if ( authenticated ) {
-    qDebug() << "auth dialog";
+    httpRequestAborted = true;
+    authenticated = false;
+    abort();
+    return;
+
+/*    qDebug() << "auth dialog";
     switch ( core->authDataDialog() ) {
       case Core::Rejected:
         emit errorMessage( tr("Authentication is required to post updates.") );
@@ -130,9 +136,9 @@ void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, qui
         return;
       default:
         break;
-    }
+    }*/
   }
-  *authenticator = core->getAuthData();
+  *authenticator = authData;
   authenticated = true;
 }
 
@@ -203,22 +209,15 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   }
 }
 
-void XmlDownload::createConnections( Core *coreParent )
+void XmlDownload::createConnections()
 {
-  connect( this, SIGNAL(finished(XmlDownload::ContentRequested)), coreParent, SLOT(setFlag(XmlDownload::ContentRequested)) );
-  connect( this, SIGNAL(errorMessage(QString)), coreParent, SIGNAL(errorMessage(QString)) );
   if ( role == Destroy ) {
     connect( statusParser, SIGNAL(newEntry(Entry*)), this, SLOT(extractId(Entry*)) );
-    connect( this, SIGNAL(deleteEntry(int)), coreParent, SIGNAL(deleteEntry(int)) );
   } else {
-    connect( statusParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
-    connect( statusParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(downloadImage(Entry*)) );
+    connect( statusParser, SIGNAL(newEntry(Entry*)), this, SIGNAL(newEntry(Entry*)) );
   }
-  if ( directMsgParser ) {
-    connect( directMsgParser, SIGNAL(newEntry(Entry*)), coreParent, SLOT(newEntry(Entry*)) );
-  }
+  connect( directMsgParser, SIGNAL(newEntry(Entry*)), this, SIGNAL(newEntry(Entry*)) );
   connect( this, SIGNAL(authenticationRequired(QString,quint16,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QString,quint16,QAuthenticator*)));
-  connect( this, SIGNAL(cookieReceived(QStringList)), coreParent, SLOT(setCookie(QStringList)) );
 }
 
 XmlData* XmlDownload::processedRequest( XmlDownload::ContentRequested content )

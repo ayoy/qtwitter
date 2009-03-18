@@ -17,5 +17,6 @@
         <file>qtwitter_ca.qm</file>
         <file>qtwitter_es.qm</file>
         <file>qtwitter_pl.qm</file>
+        <file>qtwitter_jp.qm</file>
     </qresource>
 </RCC>
