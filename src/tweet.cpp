@@ -44,7 +44,7 @@ Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent ) :
 
   signalMapper = new QSignalMapper( this );
 
-  replyAction = new QAction( tr("Reply to") + " " + tweetData.login(), this);
+  replyAction = new QAction( tr("Reply to %1" ).arg( tweetData.login() ), this);
   menu->addAction( replyAction );
   replyAction->setFont( *menuFont );
   connect( replyAction, SIGNAL(triggered()), this, SLOT(sendReply()) );

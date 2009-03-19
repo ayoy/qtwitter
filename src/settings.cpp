@@ -340,7 +340,7 @@ void Settings::retranslateUi()
   ui.tweetCountLabel->setText( tr( "Tweet count:" ) );
   ui.colorLabel->setText( tr( "Color scheme:" ) );
 #ifdef Q_WS_X11
-  useCustomBrowserCheckBox->setText( tr( "Use custom browser" ) );
+  useCustomBrowserCheckBox->setText( tr( "Use custom web browser" ) );
   selectBrowserButton->setText( tr( "Browse" ) );
 #endif
   ui.buttonBox->button( QDialogButtonBox::Apply )->setText( tr( "Apply" ) );

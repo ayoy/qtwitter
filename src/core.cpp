@@ -42,6 +42,7 @@ Core::Core( MainWindow *parent ) :
   connect( twitterapi, SIGNAL(authDataSet(QAuthenticator)), this, SIGNAL(authDataSet(QAuthenticator)) );
   connect( twitterapi, SIGNAL(requestListRefresh(bool,bool)), this, SIGNAL(requestListRefresh(bool,bool)) );
   connect( twitterapi, SIGNAL(done()), this, SIGNAL(resetUi()) );
+  connect( twitterapi, SIGNAL(unauthorized(int)), this, SLOT(slotUnauthorized(int)) );
 }
 
 Core::~Core() {}
@@ -251,4 +252,26 @@ void Core::setImageInHash( const QString &url, QImage image )
 {
   imageCache[ url ] = image;
   emit setImageForUrl( url, image );
+}
+
+void Core::slotUnauthorized( int role )
+{
+  Core::AuthDialogState state = authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() );
+  switch ( state ) {
+  case Core::Rejected:
+    emit errorMessage( tr("Authentication is required to upload photos to TwitPic.") );
+    twitterapi->abort();
+    return;
+  case Core::SwitchToPublic:
+    twitterapi->abort();
+    twitterapi->setPublicTimelineSync( true );
+    break;
+  default:;
+  }
+  switch ( role ) {
+  case XmlDownload::Refresh:
+    twitterapi->get();
+  default:
+    break;
+  }
 }

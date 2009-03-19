@@ -289,6 +289,7 @@ signals:
 
 private slots:
   void setImageInHash( const QString&, QImage );
+  void slotUnauthorized( int role );
 
 private:
   bool switchUser;

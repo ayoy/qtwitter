@@ -73,8 +73,7 @@ public:
     Describes the function that the current connection has.
   */
   enum Role {
-    RefreshAll, /*!< Both statuses and direct messages are requested. */
-    RefreshStatuses, /*!< Statuses update is requested. */
+    Refresh, /*!< Statuses update is requested. */
     Submit, /*!< Posting a new status is requested. */
     Destroy /*!< Destroying a Tweet is requested. */
   };
@@ -143,6 +142,8 @@ signals:
     \param cookie The received cookie.
   */
   void cookieReceived( const QStringList cookie );
+
+  void unauthorized( int role );
 
   /*!
     Emitted when the confirmation of the entry deletion is received.

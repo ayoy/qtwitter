@@ -39,11 +39,11 @@ void TwitterAPI::createConnections( XmlDownload *xmlDownload )
 {
   connect( xmlDownload, SIGNAL(finished(XmlDownload::ContentRequested)), this, SLOT(setFlag(XmlDownload::ContentRequested)) );
   connect( xmlDownload, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
+  connect( xmlDownload, SIGNAL(unauthorized(int)), this, SIGNAL(unauthorized(int)) );
   if ( xmlDownload->getRole() == XmlDownload::Destroy ) {
     connect( xmlDownload, SIGNAL(deleteEntry(int)), this, SIGNAL(deleteEntry(int)) );
   } else {
     connect( xmlDownload, SIGNAL(newEntry(Entry*)), this, SLOT(newEntry(Entry*)) );
-    connect( xmlDownload, SIGNAL(newEntry(Entry*)), this, SLOT(downloadImage(Entry*)) );
   }
 }
 
@@ -95,14 +95,14 @@ bool TwitterAPI::setDirectMessagesSync( bool b )
 bool TwitterAPI::get()
 {
   if ( publicTimelineSync ) {
-    xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, authData.user(), authData.password(), this );
+    xmlGet = new XmlDownload ( XmlDownload::Refresh, authData.user(), authData.password(), this );
     createConnections( xmlGet );
     xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
   } else {
     if ( authData.user().isEmpty() || authData.password().isEmpty() )
       return false;
 
-    xmlGet = new XmlDownload ( XmlDownload::RefreshStatuses, authData.user(), authData.password(), this );
+    xmlGet = new XmlDownload ( XmlDownload::Refresh, authData.user(), authData.password(), this );
     createConnections( xmlGet );
     xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", XmlDownload::Statuses );
     if ( directMessagesSync ) {
@@ -146,6 +146,17 @@ bool TwitterAPI::destroyTweet( int id )
   emit requestListRefresh( publicTimelineSync, switchUser );
   switchUser = false;
   return true;
+}
+
+void TwitterAPI::abort()
+{
+  if ( xmlPost ) {
+    xmlPost->abort();
+  }
+  if ( xmlGet ) {
+    xmlGet->abort();
+  }
+  destroyXmlConnection();
 }
 
 const QAuthenticator& TwitterAPI::getAuthData() const

@@ -77,6 +77,17 @@ XmlDownload::~XmlDownload()
     directMsgParser->deleteLater();
 }
 
+void XmlDownload::createConnections()
+{
+  if ( role == Destroy ) {
+    connect( statusParser, SIGNAL(newEntry(Entry*)), this, SLOT(extractId(Entry*)) );
+  } else {
+    connect( statusParser, SIGNAL(newEntry(Entry*)), this, SIGNAL(newEntry(Entry*)) );
+  }
+  connect( directMsgParser, SIGNAL(newEntry(Entry*)), this, SIGNAL(newEntry(Entry*)) );
+  connect( this, SIGNAL(authenticationRequired(QString,quint16,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QString,quint16,QAuthenticator*)));
+}
+
 void XmlDownload::getContent( const QString &path, XmlDownload::ContentRequested content )
 {
   QByteArray encodedPath = prepareRequest( path );
@@ -122,6 +133,7 @@ void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, qui
     httpRequestAborted = true;
     authenticated = false;
     abort();
+    emit unauthorized( role );
     return;
 
 /*    qDebug() << "auth dialog";
@@ -207,17 +219,6 @@ void XmlDownload::httpRequestFinished(int requestId, bool error)
   } else if ( requestId == directMessagesData.id ) {
     emit finished( DirectMessages );
   }
-}
-
-void XmlDownload::createConnections()
-{
-  if ( role == Destroy ) {
-    connect( statusParser, SIGNAL(newEntry(Entry*)), this, SLOT(extractId(Entry*)) );
-  } else {
-    connect( statusParser, SIGNAL(newEntry(Entry*)), this, SIGNAL(newEntry(Entry*)) );
-  }
-  connect( directMsgParser, SIGNAL(newEntry(Entry*)), this, SIGNAL(newEntry(Entry*)) );
-  connect( this, SIGNAL(authenticationRequired(QString,quint16,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QString,quint16,QAuthenticator*)));
 }
 
 XmlData* XmlDownload::processedRequest( XmlDownload::ContentRequested content )

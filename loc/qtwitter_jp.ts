@@ -49,7 +49,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../ui/authdialog.ui" line="65"/>
         <source>You must authenticate to connect to Twitter</source>
-        <translation>トゥウィータに接続するにはユーザー認証が必要となります</translation>
+        <translation>トゥウィータに接続するにはユーザー認証が必要です</translation>
     </message>
     <message>
         <location filename="../ui/authdialog.ui" line="78"/>
@@ -75,39 +75,37 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="141"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
-        <translation>ご友人の更新情報をお読みになるには、ユーザー認証が必要です。</translation>
+        <translation type="obsolete">ご友人の更新情報をお読みになるには、ユーザー認証が必要です。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="164"/>
         <source>Authentication is required to post updates.</source>
-        <translation>最新情報を掲示するには、ユーザー認証が必要となります。</translation>
+        <translation type="obsolete">最新情報を掲示するには、ユーザー認証が必要となります。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="185"/>
+        <location filename="../src/core.cpp" line="108"/>
+        <location filename="../src/core.cpp" line="125"/>
+        <location filename="../src/core.cpp" line="262"/>
         <source>Authentication is required to upload photos to TwitPic.</source>
         <translation>トゥウィートピックに写真をアップロードするには、ユーザー認証が必要となります。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="207"/>
+        <location filename="../src/core.cpp" line="147"/>
         <source>There was a problem uploading your photo:</source>
         <translation>写真をアップロードするときに、問題が発生しました:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="218"/>
+        <location filename="../src/core.cpp" line="158"/>
         <source>Photo available at:</source>
         <translation>写真が次のところから入手できます:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="227"/>
         <source>Authentication is required to delete updates.</source>
-        <translation>更新情報を削除するには、ユーザー認証が必要です。</translation>
+        <translation type="obsolete">更新情報を削除するには、ユーザー認証が必要です。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="274"/>
         <source>Browser path is not defined. Specify it in Settings-&gt;Network section.</source>
-        <translation>ブラウザーのパスは定義されていません。設定-&gt;ネットワークのセクションでパスをご指摘ください。</translation>
+        <translation type="obsolete">ブラウザーのパスは定義されていません。設定-&gt;ネットワークのセクションでパスをご指摘ください。</translation>
     </message>
 </context>
 <context>
@@ -129,129 +127,125 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="48"/>
+        <location filename="../src/mainwindow.cpp" line="46"/>
+        <location filename="../src/mainwindow.cpp" line="176"/>
         <source>characters left</source>
         <translation>残りの文字数</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="75"/>
-        <location filename="../src/mainwindow.cpp" line="286"/>
+        <location filename="../src/mainwindow.cpp" line="72"/>
+        <location filename="../src/mainwindow.cpp" line="297"/>
         <source>New tweet</source>
-        <translation type="unfinished">トゥウィート</translation>
+        <translation>新着トゥウィート</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="76"/>
-        <location filename="../src/mainwindow.cpp" line="287"/>
+        <location filename="../src/mainwindow.cpp" line="73"/>
+        <location filename="../src/mainwindow.cpp" line="298"/>
         <source>Upload a photo to TwitPic</source>
         <translation>トゥウィートピックに写真をアップロードする</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="77"/>
-        <location filename="../src/mainwindow.cpp" line="288"/>
+        <location filename="../src/mainwindow.cpp" line="74"/>
+        <location filename="../src/mainwindow.cpp" line="299"/>
         <source>Go to Twitter</source>
         <translation>トゥウィータにアクセスする</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="78"/>
-        <location filename="../src/mainwindow.cpp" line="289"/>
+        <location filename="../src/mainwindow.cpp" line="75"/>
+        <location filename="../src/mainwindow.cpp" line="300"/>
         <source>Go to TwitPic</source>
         <translation>トゥウィートピックにアクセスする</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="109"/>
+        <location filename="../src/mainwindow.cpp" line="106"/>
         <source>Quit</source>
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="110"/>
-        <location filename="../src/mainwindow.cpp" line="280"/>
+        <location filename="../src/mainwindow.cpp" line="107"/>
+        <location filename="../src/mainwindow.cpp" line="291"/>
         <location filename="../ui/mainwindow.ui" line="192"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="211"/>
+        <location filename="../src/mainwindow.cpp" line="261"/>
         <source>Error</source>
         <translation>エラー</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="222"/>
+        <location filename="../src/mainwindow.cpp" line="223"/>
         <source>new tweet</source>
         <translation>新着トゥウィート</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="222"/>
+        <location filename="../src/mainwindow.cpp" line="223"/>
         <source>new tweets</source>
         <translation>新着トゥウィート</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="223"/>
-        <location filename="../src/mainwindow.cpp" line="232"/>
+        <location filename="../src/mainwindow.cpp" line="224"/>
+        <location filename="../src/mainwindow.cpp" line="233"/>
         <source>from</source>
         <translation>から</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="224"/>
-        <location filename="../src/mainwindow.cpp" line="233"/>
-        <location filename="../src/mainwindow.cpp" line="241"/>
-        <location filename="../src/mainwindow.cpp" line="250"/>
+        <location filename="../src/mainwindow.cpp" line="225"/>
+        <location filename="../src/mainwindow.cpp" line="234"/>
+        <location filename="../src/mainwindow.cpp" line="242"/>
+        <location filename="../src/mainwindow.cpp" line="251"/>
         <source>and</source>
         <translation>および</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="231"/>
+        <location filename="../src/mainwindow.cpp" line="232"/>
         <source>new message</source>
-        <translatorcomment>新しいメッセージ？</translatorcomment>
-        <translation type="unfinished">新着メッセージ</translation>
+        <translation>新着メッセージ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="231"/>
+        <location filename="../src/mainwindow.cpp" line="232"/>
         <source>new messages</source>
         <translation>新着メッセージ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="239"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>new tweet from</source>
-        <translatorcomment>xから新着トゥウィート</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>次のお方から新着トゥウィートがあります：</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="239"/>
+        <location filename="../src/mainwindow.cpp" line="240"/>
         <source>new tweets from</source>
-        <translatorcomment>xから新着トゥウィート</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>次のお方から新着トゥウィートがあります：</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="248"/>
+        <location filename="../src/mainwindow.cpp" line="249"/>
         <source>New message from</source>
-        <translatorcomment>xから新着メッセージ</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>次のお方から新着メッセージがあります：</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="248"/>
+        <location filename="../src/mainwindow.cpp" line="249"/>
         <source>New messages from</source>
-        <translatorcomment>xから新着メッセージ</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>次のお方から新着メッセージがあります：</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="253"/>
+        <location filename="../src/mainwindow.cpp" line="254"/>
         <source>News from qTwitter</source>
         <translation>ｷｭｰトゥウィータからのニュース</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="279"/>
+        <location filename="../src/mainwindow.cpp" line="290"/>
         <location filename="../ui/mainwindow.ui" line="169"/>
         <source>More...</source>
         <translation>詳細...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="281"/>
+        <location filename="../src/mainwindow.cpp" line="292"/>
         <location filename="../ui/mainwindow.ui" line="215"/>
         <source>Update tweets</source>
         <translation>トゥウィートの更新</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="285"/>
+        <location filename="../src/mainwindow.cpp" line="296"/>
         <location filename="../ui/mainwindow.ui" line="253"/>
         <source>What are you doing?</source>
         <translation>何をしているのですか?</translation>
@@ -272,156 +266,159 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="113"/>
-        <location filename="../src/settings.cpp" line="327"/>
         <source>Specify web browser:</source>
-        <translation>ウエブブラウザーを指摘してください:</translation>
+        <translation type="obsolete">ウエブブラウザーを指摘してください:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="118"/>
-        <location filename="../src/settings.cpp" line="328"/>
+        <location filename="../src/settings.cpp" line="115"/>
+        <location filename="../src/settings.cpp" line="343"/>
+        <source>Use custom web browser</source>
+        <translation>カスタムのブラウザーを使用する</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="117"/>
+        <location filename="../src/settings.cpp" line="344"/>
         <source>Browse</source>
         <translation>閲覧</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="308"/>
+        <location filename="../src/settings.cpp" line="324"/>
         <location filename="../ui/settings.ui" line="20"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="309"/>
+        <location filename="../src/settings.cpp" line="325"/>
         <location filename="../ui/settings.ui" line="46"/>
         <source>General</source>
         <translation>一般</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="310"/>
+        <location filename="../src/settings.cpp" line="326"/>
         <location filename="../ui/settings.ui" line="52"/>
         <source>Refresh every</source>
-        <translatorcomment>更新率？x分ごとに更新する？</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>情報の更新率</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="311"/>
+        <location filename="../src/settings.cpp" line="327"/>
         <location filename="../ui/settings.ui" line="98"/>
         <source>minutes</source>
-        <translation>分</translation>
+        <translation>分ごとに</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="312"/>
+        <location filename="../src/settings.cpp" line="328"/>
         <location filename="../ui/settings.ui" line="105"/>
         <source>Language</source>
         <translation>言語</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="313"/>
+        <location filename="../src/settings.cpp" line="329"/>
         <location filename="../ui/settings.ui" line="127"/>
         <source>Username</source>
         <translation>ユーザー名</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="314"/>
+        <location filename="../src/settings.cpp" line="330"/>
         <location filename="../ui/settings.ui" line="137"/>
         <source>Password</source>
         <translation>パスワード</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="315"/>
+        <location filename="../src/settings.cpp" line="331"/>
         <location filename="../ui/settings.ui" line="151"/>
         <source>Download</source>
         <translation>ダウンロード</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="316"/>
+        <location filename="../src/settings.cpp" line="332"/>
         <location filename="../ui/settings.ui" line="164"/>
         <source>friends timeline</source>
         <translation>友人の年表</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="317"/>
+        <location filename="../src/settings.cpp" line="333"/>
         <location filename="../ui/settings.ui" line="171"/>
         <source>include direct messages</source>
         <translation>直接なメッセージを含める</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="318"/>
+        <location filename="../src/settings.cpp" line="334"/>
         <location filename="../ui/settings.ui" line="157"/>
         <source>public timeline</source>
         <translation>公共の年表</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="319"/>
+        <location filename="../src/settings.cpp" line="335"/>
         <location filename="../ui/settings.ui" line="182"/>
         <source>Network</source>
         <translation>ネットワーク</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="320"/>
+        <location filename="../src/settings.cpp" line="336"/>
         <location filename="../ui/settings.ui" line="190"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>ＨＴＴＰプロクシを使用する</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="321"/>
+        <location filename="../src/settings.cpp" line="337"/>
         <location filename="../ui/settings.ui" line="197"/>
         <source>Host:</source>
         <translation>ホスト:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="322"/>
+        <location filename="../src/settings.cpp" line="338"/>
         <location filename="../ui/settings.ui" line="230"/>
         <source>Port:</source>
         <translation>ポート:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="323"/>
+        <location filename="../src/settings.cpp" line="339"/>
         <location filename="../ui/settings.ui" line="272"/>
         <source>Appearance</source>
         <translation>外見</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="324"/>
+        <location filename="../src/settings.cpp" line="340"/>
         <location filename="../ui/settings.ui" line="280"/>
         <source>Tweet count:</source>
         <translation>トゥウィート数:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="325"/>
+        <location filename="../src/settings.cpp" line="341"/>
         <location filename="../ui/settings.ui" line="310"/>
         <source>Color scheme:</source>
         <translation>カラー図式:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="330"/>
+        <location filename="../src/settings.cpp" line="346"/>
         <source>Apply</source>
         <translation>適用</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="331"/>
+        <location filename="../src/settings.cpp" line="347"/>
         <source>Cancel</source>
         <translation>取り消し</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="332"/>
+        <location filename="../src/settings.cpp" line="348"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="342"/>
+        <location filename="../src/settings.cpp" line="358"/>
         <source>Select your browser executable</source>
         <translation>ご使用のブラウザーの実行ファイルをご指摘ください</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="342"/>
+        <location filename="../src/settings.cpp" line="358"/>
         <source>All files (*)</source>
         <translation>すべてのファイル (*)</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="368"/>
+        <location filename="../src/settings.cpp" line="390"/>
         <location filename="../ui/settings.ui" line="119"/>
         <source>English</source>
-        <translation>英語</translation>
+        <translation>日本語</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="60"/>
@@ -475,17 +472,20 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Tweet</name>
     <message>
-        <location filename="../src/tweet.cpp" line="47"/>
         <location filename="../src/tweet.cpp" line="174"/>
         <source>Reply to</source>
-        <translatorcomment>xに返信する</translatorcomment>
-        <translation type="unfinished"></translation>
+        <translation>次のお方に返信する：</translation>
     </message>
     <message>
         <location filename="../src/tweet.cpp" line="56"/>
         <location filename="../src/tweet.cpp" line="175"/>
         <source>Retweet</source>
         <translation>再トゥウィートする</translation>
+    </message>
+    <message>
+        <location filename="../src/tweet.cpp" line="47"/>
+        <source>Reply to %1</source>
+        <translation>%1に返信する</translation>
     </message>
     <message>
         <location filename="../src/tweet.cpp" line="64"/>
@@ -582,7 +582,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../src/twitpicview.cpp" line="118"/>
         <source>Image files</source>
-        <translation type="unfinished">画像ファイル</translation>
+        <translation>画像ファイル</translation>
     </message>
     <message>
         <location filename="../src/twitpicview.cpp" line="124"/>
@@ -616,9 +616,8 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>XmlDownload</name>
     <message>
-        <location filename="../src/xmldownload.cpp" line="124"/>
         <source>Authentication is required to post updates.</source>
-        <translation>最新情報を掲示するには、ユーザー認証が必要です。</translation>
+        <translation type="obsolete">最新情報を掲示するには、ユーザー認証が必要です。</translation>
     </message>
 </context>
 </TS>

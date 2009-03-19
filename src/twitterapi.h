@@ -88,6 +88,8 @@ public slots:
   */
   bool destroyTweet( int id );
 
+  void abort();
+
   /*!
     Outputs user's login and password.
     \returns QAuthenticator object containing user's authentication data.
@@ -118,6 +120,8 @@ signals:
     \sa setAuthData(), authDataDialog()
   */
   void authDataSet( const QAuthenticator &authenticator );
+
+  void unauthorized( int role );
 
   /*!
     Emitted when user switches to public timeline sync in authentication dialog.
