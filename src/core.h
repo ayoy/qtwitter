@@ -27,7 +27,6 @@
 
 #include "entry.h"
 #include "xmldownload.h"
-#include "xmlparser.h"
 #include "imagedownload.h"
 #include "mainwindow.h"
 
@@ -79,13 +78,6 @@ public:
   void applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages );
 
   bool setTimerInterval( int msecs ); /*!< Sets timer interval to \a msecs miliseconds. */
-
-  /*!
-    Sets user login and password for authentication at twitter.com.
-    \param user User's login.
-    \param password User's password.
-  */
-  bool setAuthData( const QString &user, const QString &password );
 
   /*!
     Sets whether the public timeline is requested.
@@ -194,12 +186,6 @@ public slots:
   */
   AuthDialogState authDataDialog( const QString &user = QString(), const QString &password = QString() );
 
-  /*!
-    Outputs user's login and password.
-    \returns QAuthenticator object containing user's authentication data.
-  */
-  const QAuthenticator& getAuthData() const;
-
 signals:
   /*!
     Sends a \a message to MainWindow class instance, to notify user about encountered
@@ -214,12 +200,6 @@ signals:
     \sa setAuthData(), authDataDialog()
   */
   void authDataSet( const QAuthenticator &authenticator );
-
-  /*!
-    Emitted when user switches to public timeline sync in authentication dialog.
-    \sa isPublicTimelineSync(), setPublicTimelineSync()
-  */
-  void switchToPublic();
 
   /*!
     Emitted when a single Tweet \a entry is parsed and ready to be inserted into model.
@@ -286,12 +266,17 @@ signals:
     \sa setDirectMessagesSync(), isDirectMessagesSync()
   */
   void noDirectMessages();
+  void directMessagesSyncChanged( bool isEnabled );
+  void publicTimelineSyncChanged( bool isEnabled );
 
 private slots:
   void setImageInHash( const QString&, QImage );
-  void slotUnauthorized( int role );
+  void slotUnauthorized();
+  void slotUnauthorized( const QByteArray &status, int inReplyToId );
+  void slotUnauthorized( int destroyId );
 
 private:
+  bool retryAuthorizing( int role );
   bool switchUser;
   bool authDialogOpen;
   TwitterAPI *twitterapi;

@@ -32,8 +32,6 @@ TwitPicEngine::TwitPicEngine( Core *coreParent, QObject *parent ) :
 
 TwitPicEngine::~TwitPicEngine()
 {
-  if ( replyParser )
-    replyParser->deleteLater();
 }
 
 void TwitPicEngine::postContent( const QAuthenticator &authData, QString photoPath, QString status )

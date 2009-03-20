@@ -290,8 +290,10 @@ void Settings::switchLanguage( int index )
   adjustSize();
 }
 
-void Settings::switchToPublic()
+void Settings::slotPublicTimelineSyncChanged( bool isEnabled )
 {
+  if ( !isEnabled )
+    return;
   if ( !ui.radioPublic->isChecked() ) {
     ui.radioPublic->setChecked( true );
     model->setPublicTimelineRequested( true );

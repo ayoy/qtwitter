@@ -22,9 +22,11 @@
 #define XMLDOWNLOAD_H
 
 #include <QAuthenticator>
+#include "twitterapi.h"
 #include "httpconnection.h"
-#include "xmlparser.h"
-#include "xmlparserdirectmsg.h"
+
+class XmlParser;
+class XmlParserDirectMsg;
 
 /*!
   \brief A struct containing data handles for retrieved XML documents.
@@ -55,8 +57,6 @@ struct XmlData
   void clear();
 };
 
-class Core;
-
 /*!
   \brief A class for downloading XML documents form Twitter REST API.
 
@@ -69,22 +69,22 @@ class XmlDownload : public HttpConnection
 
 public:
 
-  /*!
-    Describes the function that the current connection has.
-  */
-  enum Role {
-    Refresh, /*!< Statuses update is requested. */
-    Submit, /*!< Posting a new status is requested. */
-    Destroy /*!< Destroying a Tweet is requested. */
-  };
-
-  /*!
-    Used to specify the content that is currently requested and has to be parsed.
-  */
-  enum ContentRequested {
-    Statuses, /*!< Statuses are requested. */
-    DirectMessages /*!< Direct messages are requested. */
-  };
+//  /*!
+//    Describes the function that the current connection has.
+//  */
+//  enum Role {
+//    Refresh, /*!< Statuses update is requested. */
+//    Submit, /*!< Posting a new status is requested. */
+//    Destroy /*!< Destroying a Tweet is requested. */
+//  };
+//
+//  /*!
+//    Used to specify the content that is currently requested and has to be parsed.
+//  */
+//  enum ContentRequested {
+//    Statuses, /*!< Statuses are requested. */
+//    DirectMessages /*!< Direct messages are requested. */
+//  };
 
   /*!
     Creates a new object with the given \a parent. Connection \a role has to be
@@ -95,7 +95,7 @@ public:
     \param parent A parent for the new object.
     \sa Role
   */
-  XmlDownload( Role role, const QString &username, const QString &password, QObject *parent = 0 );
+  XmlDownload( TwitterAPI::Role role, const QString &username, const QString &password, QObject *parent = 0 );
 
   /*!
     A destructor.
@@ -109,7 +109,7 @@ public:
     \param content The content requested for this request.
     \sa postContent(), ContentRequested
   */
-  void getContent( const QString &path, ContentRequested content );
+  void getContent( const QString &path, TwitterAPI::ContentRequested content );
 
   /*!
     This method invokes HttpConnection::prepareRequest() for the \a path, assigns
@@ -120,21 +120,29 @@ public:
                    for both types, but currently only statuses are supported).
     \sa getContent(), ContentRequested
   */
-  void postContent( const QString &path, const QByteArray &status, ContentRequested content );
+  void postContent( const QString &path, const QByteArray &status, TwitterAPI::ContentRequested content );
 
   /*!
     Gives information about the current connection role.
     \returns The connection role.
     \sa Role
   */
-  Role getRole() const;
+  TwitterAPI::Role getRole() const;
+
+  QByteArray getPostStatus();
+  int getPostInReplyToId();
+  int getDestroyId();
+
+  void setPostStatus( const QByteArray &newPostStatus );
+  void setPostInReplyToId( int newId );
+  void setDestroyId( int newId );
 
 signals:
   /*!
     Emitted for a finished request, with the content type specified as a parameter.
     \param content Tells for which content the request has finished.
   */
-  void finished( XmlDownload::ContentRequested content );
+  void finished( TwitterAPI::ContentRequested content );
 
   /*!
     Emits when cookie is recieved from the server. Not used currently, as it
@@ -143,7 +151,9 @@ signals:
   */
   void cookieReceived( const QStringList cookie );
 
-  void unauthorized( int role );
+  void unauthorized();
+  void unauthorized( const QByteArray &status, int inReplyToId );
+  void unauthorized( int destroyId );
 
   /*!
     Emitted when the confirmation of the entry deletion is received.
@@ -169,9 +179,12 @@ signals:
 
 private:
   void createConnections();
-  XmlData* processedRequest( ContentRequested content );
+  XmlData* processedRequest( TwitterAPI::ContentRequested content );
   XmlData* processedRequest( int requestId );
-  Role role;
+  TwitterAPI::Role role;
+  QByteArray postStatus;
+  int postInReplyToId;
+  int destroyId;
   XmlData statusesData;
   XmlData directMessagesData;
   XmlParser *statusParser;

@@ -191,7 +191,7 @@ public slots:
   /*!
     Applies timeline setting change made from a login window to a settings file.
   */
-  void switchToPublic();
+  void slotPublicTimelineSyncChanged( bool isEnabled );
 
   /*!
     Applies authentication data change made from a login window to a settings dialog.

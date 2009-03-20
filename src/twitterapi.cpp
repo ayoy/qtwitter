@@ -19,6 +19,8 @@
 
 
 #include "twitterapi.h"
+#include "xmldownload.h"
+#include "entry.h"
 
 TwitterAPI::TwitterAPI( QObject *parent ) :
     QObject( parent ),
@@ -37,10 +39,12 @@ TwitterAPI::~TwitterAPI() {}
 
 void TwitterAPI::createConnections( XmlDownload *xmlDownload )
 {
-  connect( xmlDownload, SIGNAL(finished(XmlDownload::ContentRequested)), this, SLOT(setFlag(XmlDownload::ContentRequested)) );
+  connect( xmlDownload, SIGNAL(finished(TwitterAPI::ContentRequested)), this, SLOT(setFlag(TwitterAPI::ContentRequested)) );
   connect( xmlDownload, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
+  connect( xmlDownload, SIGNAL(unauthorized()), this, SIGNAL(unauthorized()) );
+  connect( xmlDownload, SIGNAL(unauthorized(QByteArray,int)), this, SIGNAL(unauthorized(QByteArray,int)) );
   connect( xmlDownload, SIGNAL(unauthorized(int)), this, SIGNAL(unauthorized(int)) );
-  if ( xmlDownload->getRole() == XmlDownload::Destroy ) {
+  if ( xmlDownload->getRole() == TwitterAPI::Destroy ) {
     connect( xmlDownload, SIGNAL(deleteEntry(int)), this, SIGNAL(deleteEntry(int)) );
   } else {
     connect( xmlDownload, SIGNAL(newEntry(Entry*)), this, SLOT(newEntry(Entry*)) );
@@ -66,6 +70,7 @@ bool TwitterAPI::setAuthData( const QString &user, const QString &password )
     currentUser = user;
   } else if ( currentUser.compare( authData.user() ) ) {
     switchUser = true;
+    emit userChanged();
   }
   emit requestListRefresh( publicTimelineSync, switchUser );
   return switchUser;
@@ -75,6 +80,7 @@ bool TwitterAPI::setPublicTimelineSync( bool b )
 {
   if ( publicTimelineSync != b ) {
     publicTimelineSync = b;
+    emit publicTimelineSyncChanged( b );
     return true;
   }
   return false;
@@ -84,9 +90,7 @@ bool TwitterAPI::setDirectMessagesSync( bool b )
 {
   if ( directMessagesSync != b ) {
     directMessagesSync = b;
-    if ( directMessagesSync == false ) {
-      emit noDirectMessages();
-    }
+    emit directMessagesSyncChanged( b );
     return true;
   }
   return false;
@@ -95,18 +99,18 @@ bool TwitterAPI::setDirectMessagesSync( bool b )
 bool TwitterAPI::get()
 {
   if ( publicTimelineSync ) {
-    xmlGet = new XmlDownload ( XmlDownload::Refresh, authData.user(), authData.password(), this );
+    xmlGet = new XmlDownload ( TwitterAPI::Refresh, authData.user(), authData.password(), this );
     createConnections( xmlGet );
-    xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", XmlDownload::Statuses );
+    xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", TwitterAPI::Statuses );
   } else {
     if ( authData.user().isEmpty() || authData.password().isEmpty() )
       return false;
 
-    xmlGet = new XmlDownload ( XmlDownload::Refresh, authData.user(), authData.password(), this );
+    xmlGet = new XmlDownload ( TwitterAPI::Refresh, authData.user(), authData.password(), this );
     createConnections( xmlGet );
-    xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", XmlDownload::Statuses );
+    xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", TwitterAPI::Statuses );
     if ( directMessagesSync ) {
-      xmlGet->getContent( "http://twitter.com/direct_messages.xml", XmlDownload::DirectMessages );
+      xmlGet->getContent( "http://twitter.com/direct_messages.xml", TwitterAPI::DirectMessages );
     }
   }
   emit requestListRefresh( publicTimelineSync, switchUser );
@@ -126,9 +130,11 @@ bool TwitterAPI::post( const QByteArray &status, int inReplyTo )
   }
   request.append( "&source=qtwitter" );
   qDebug() << request;
-  xmlPost = new XmlDownload( XmlDownload::Submit, authData.user(), authData.password(), this );
+  xmlPost = new XmlDownload( TwitterAPI::Submit, authData.user(), authData.password(), this );
   createConnections( xmlPost );
-  xmlPost->postContent( "http://twitter.com/statuses/update.xml", request, XmlDownload::Statuses );
+  xmlPost->setPostStatus( status );
+  xmlPost->setPostInReplyToId( inReplyTo );
+  xmlPost->postContent( "http://twitter.com/statuses/update.xml", request, TwitterAPI::Statuses );
   emit requestListRefresh( publicTimelineSync, switchUser );
   switchUser = false;
   return true;
@@ -140,9 +146,10 @@ bool TwitterAPI::destroyTweet( int id )
     return false;
 
   qDebug() << "Tweet No." << id << "will be destroyed";
-  xmlPost = new XmlDownload( XmlDownload::Destroy, authData.user(), authData.password(), this );
+  xmlPost = new XmlDownload( TwitterAPI::Destroy, authData.user(), authData.password(), this );
   createConnections( xmlPost );
-  xmlPost->postContent( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), XmlDownload::Statuses );
+  xmlPost->setDestroyId( id );
+  xmlPost->postContent( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), TwitterAPI::Statuses );
   emit requestListRefresh( publicTimelineSync, switchUser );
   switchUser = false;
   return true;
@@ -164,20 +171,18 @@ const QAuthenticator& TwitterAPI::getAuthData() const
   return authData;
 }
 
-void TwitterAPI::setFlag( XmlDownload::ContentRequested flag )
+void TwitterAPI::setFlag( TwitterAPI::ContentRequested flag )
 {
   switch ( flag ) {
-    case XmlDownload::DirectMessages:
+    case TwitterAPI::DirectMessages:
       messagesDone = true;
       break;
-    case XmlDownload::Statuses:
+    case TwitterAPI::Statuses:
     default:
       statusesDone = true;
   }
   emit done();
-  if ( publicTimelineSync ) {
-    emit switchToPublic();
-  }
+  emit publicTimelineSyncChanged( publicTimelineSync );
   if ( statusesDone && ( publicTimelineSync || (!directMessagesSync ? true : messagesDone) || (xmlPost && !publicTimelineSync)  ) ) {
     emit timelineUpdated();
     emit authDataSet( authData );

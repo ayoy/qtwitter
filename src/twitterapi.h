@@ -22,16 +22,36 @@
 #define TWITTERAPI_H
 
 #include <QAuthenticator>
+#include <QObject>
+#include <QImage>
 
-#include "entry.h"
-#include "xmldownload.h"
-#include "xmlparser.h"
+class QTimer;
+
+class XmlDownload;
+class Entry;
 
 class TwitterAPI : public QObject
 {
   Q_OBJECT
 
 public:
+
+  /*!
+    Describes the function that the current connection has.
+  */
+  enum Role {
+    Refresh, /*!< Statuses update is requested. */
+    Submit, /*!< Posting a new status is requested. */
+    Destroy /*!< Destroying a Tweet is requested. */
+  };
+
+  /*!
+    Used to specify the content that is currently requested and has to be parsed.
+  */
+  enum ContentRequested {
+    Statuses, /*!< Statuses are requested. */
+    DirectMessages /*!< Direct messages are requested. */
+  };
 
   TwitterAPI( QObject *parent = 0 );
   virtual ~TwitterAPI(); /*!< Virtual destructor. */
@@ -104,7 +124,7 @@ public slots:
     slot resets connections and notifies User of new Tweets.
     \sa timelineUpdated()
   */
-  void setFlag( XmlDownload::ContentRequested flag );
+  void setFlag( TwitterAPI::ContentRequested flag );
 
 signals:
   /*!
@@ -121,13 +141,9 @@ signals:
   */
   void authDataSet( const QAuthenticator &authenticator );
 
-  void unauthorized( int role );
-
-  /*!
-    Emitted when user switches to public timeline sync in authentication dialog.
-    \sa isPublicTimelineSync(), setPublicTimelineSync()
-  */
-  void switchToPublic();
+  void unauthorized();
+  void unauthorized( const QByteArray &status, int inReplyToId );
+  void unauthorized( int destroyId );
 
   void addEntry( Entry *entry );
 
@@ -159,11 +175,20 @@ signals:
   void timelineUpdated();
 
   /*!
-    Emitted to notify model that direct messages have been disabled and are needed
-    to be deleted from current view.
+    Emitted to notify model that direct messages have been disabled or enabled,
+    according to \a isEnabled.
+    \param isEnabled Indicates if direct messages were enabled or disabled.
     \sa setDirectMessagesSync(), isDirectMessagesSync()
   */
-  void noDirectMessages();
+  void directMessagesSyncChanged( bool isEnabled );
+
+  /*!
+    Emitted when user switches to public timeline sync in authentication dialog.
+    \sa isPublicTimelineSync(), setPublicTimelineSync()
+  */
+  void publicTimelineSyncChanged( bool isEnabled );
+
+  void userChanged();
 
 private slots:
   void newEntry( Entry* );
@@ -178,7 +203,6 @@ private:
   XmlDownload *xmlGet;
   XmlDownload *xmlPost;
   QAuthenticator authData;
-  QStringList cookie;
   QString currentUser;
   QTimer *timer;
   bool statusesDone;

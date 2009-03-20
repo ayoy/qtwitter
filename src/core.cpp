@@ -42,7 +42,11 @@ Core::Core( MainWindow *parent ) :
   connect( twitterapi, SIGNAL(authDataSet(QAuthenticator)), this, SIGNAL(authDataSet(QAuthenticator)) );
   connect( twitterapi, SIGNAL(requestListRefresh(bool,bool)), this, SIGNAL(requestListRefresh(bool,bool)) );
   connect( twitterapi, SIGNAL(done()), this, SIGNAL(resetUi()) );
+  connect( twitterapi, SIGNAL(unauthorized()), this, SLOT(slotUnauthorized()) );
+  connect( twitterapi, SIGNAL(unauthorized(QByteArray,int)), this, SLOT(slotUnauthorized(QByteArray,int)) );
   connect( twitterapi, SIGNAL(unauthorized(int)), this, SLOT(slotUnauthorized(int)) );
+  connect( twitterapi, SIGNAL(directMessagesSyncChanged(bool)), this, SIGNAL(directMessagesSyncChanged(bool)) );
+  connect( twitterapi, SIGNAL(publicTimelineSyncChanged(bool)), this, SIGNAL(publicTimelineSyncChanged(bool)) );
 }
 
 Core::~Core() {}
@@ -74,20 +78,6 @@ bool Core::setTimerInterval( int msecs )
   return false;
 }
 
-bool Core::setAuthData( const QString &user, const QString &password )
-{
-  switchUser = false;
-  authData.setUser( user );
-  authData.setPassword( password );
-  if ( currentUser.isNull() ) {
-    currentUser = user;
-  } else if ( currentUser.compare( authData.user() ) ) {
-    switchUser = true;
-  }
-//  emit requestListRefresh( publicTimelineSync, switchUser );
-  return switchUser;
-}
-
 #ifdef Q_WS_X11
 void Core::setBrowserPath( const QString &path )
 {
@@ -103,10 +93,18 @@ void Core::forceGet()
 
 void Core::get()
 {
+  Core::AuthDialogState state;
   while ( !twitterapi->get() ) {
-    if ( authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() ) == Rejected ) {
-      emit errorMessage( tr("Authentication is required to upload photos to TwitPic.") );
+    state = authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() );
+    switch ( state ) {
+    case Core::Rejected:
+      emit errorMessage( tr( "Authentication is required to get your friends' updates." ) );
       return;
+    case Core::SwitchToPublic:
+      twitterapi->setPublicTimelineSync( true );
+      emit requestListRefresh( twitterapi->isPublicTimelineSync(), false );
+      break;
+    default:;
     }
   }
   emit requestStarted();
@@ -120,7 +118,7 @@ void Core::post( const QByteArray &status, int inReplyTo )
 
 void Core::uploadPhoto( QString photoPath, QString status )
 {
-  if ( authData.user().isEmpty() || authData.password().isEmpty() ) {
+  if ( twitterapi->getAuthData().user().isEmpty() || twitterapi->getAuthData().password().isEmpty() ) {
     if ( authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() ) == Rejected ) {
       emit errorMessage( tr("Authentication is required to upload photos to TwitPic.") );
       return;
@@ -128,7 +126,7 @@ void Core::uploadPhoto( QString photoPath, QString status )
   }
   twitpicUpload = new TwitPicEngine( this );
   qDebug() << "uploading photo";
-  twitpicUpload->postContent( authData, photoPath, status );
+  twitpicUpload->postContent( twitterapi->getAuthData(), photoPath, status );
 }
 
 void Core::abortUploadPhoto()
@@ -187,7 +185,7 @@ void Core::downloadImage( Entry *entry )
   }
   ImageDownload *getter = new ImageDownload();
   imageDownloader[host] = getter;
-  connect( getter, SIGNAL( errorMessage(QString) ), this, SIGNAL( errorMessage(QString) ) );
+  connect( getter, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
   getter->imageGet( entry );
   imageCache[ entry->image() ] = QImage();
@@ -225,16 +223,17 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
   authDialogOpen = true;
   if (dlg.exec() == QDialog::Accepted) {
     if ( ui.publicBox->isChecked() ) {
-      emit switchToPublic();
       authDialogOpen = false;
-      emit requestListRefresh( true, false );
+      twitterapi->setPublicTimelineSync( true );
+      emit requestListRefresh( twitterapi->isPublicTimelineSync(), false );
       emit requestStarted();
       return SwitchToPublic;
     }
     twitterapi->setAuthData( ui.loginEdit->text(), ui.passwordEdit->text() );
     emit authDataSet( twitterapi->getAuthData() );
     authDialogOpen = false;
-    emit requestListRefresh( false, true );
+    twitterapi->setPublicTimelineSync( false );
+    emit requestListRefresh( twitterapi->isPublicTimelineSync(), true );
     emit requestStarted();
     return Accepted;
   }
@@ -243,35 +242,52 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
   return Rejected;
 }
 
-const QAuthenticator& Core::getAuthData() const
-{
-  return authData;
-}
-
 void Core::setImageInHash( const QString &url, QImage image )
 {
   imageCache[ url ] = image;
   emit setImageForUrl( url, image );
 }
 
-void Core::slotUnauthorized( int role )
+bool Core::retryAuthorizing( int role )
 {
   Core::AuthDialogState state = authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() );
   switch ( state ) {
   case Core::Rejected:
-    emit errorMessage( tr("Authentication is required to upload photos to TwitPic.") );
+    switch ( role ) {
+    case TwitterAPI::Submit:
+      emit errorMessage( tr( "Authentication is required to post updates." ) );
+    case TwitterAPI::Destroy:
+      emit errorMessage( tr( "Authentication is required to delete updates." ) );
+    case TwitterAPI::Refresh:
+      emit errorMessage( tr( "Authentication is required to get your friends' updates." ) );
+    }
     twitterapi->abort();
-    return;
+    return false;
   case Core::SwitchToPublic:
     twitterapi->abort();
     twitterapi->setPublicTimelineSync( true );
-    break;
   default:;
   }
-  switch ( role ) {
-  case XmlDownload::Refresh:
-    twitterapi->get();
-  default:
-    break;
-  }
+  return true;
+}
+
+void Core::slotUnauthorized()
+{
+  if ( !retryAuthorizing( TwitterAPI::Refresh ) )
+    return;
+  twitterapi->get();
+}
+
+void Core::slotUnauthorized( const QByteArray &status, int inReplyToId )
+{
+  if ( !retryAuthorizing( TwitterAPI::Submit ) )
+    return;
+  twitterapi->post( status, inReplyToId );
+}
+
+void Core::slotUnauthorized( int destroyId )
+{
+  if ( !retryAuthorizing( TwitterAPI::Destroy ) )
+    return;
+  twitterapi->destroyTweet( destroyId );
 }

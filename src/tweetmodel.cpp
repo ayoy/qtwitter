@@ -123,8 +123,10 @@ void TweetModel::deleteTweet( int id )
   }
 }
 
-void TweetModel::removeDirectMessages()
+void TweetModel::slotDirectMessagesChanged( bool isEnabled )
 {
+  if ( !isEnabled )
+    return;
   for ( int i = 0; i < rowCount(); i++ ) {
     if ( item(i)->data().value<Entry>().getType() == Entry::DirectMessage ) {
       removeRow( i );

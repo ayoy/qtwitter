@@ -91,7 +91,7 @@ public slots:
     Removes all direct messages from the model and deletes them. Used when
     User disables direct messages download.
   */
-  void removeDirectMessages();
+  void slotDirectMessagesChanged( bool isEnabled );
 
   /*!
     Highlights a Tweet of a given \a index. Used by a mouse press event on the

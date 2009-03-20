@@ -171,7 +171,7 @@ void Tweet::applyTheme()
 
 void Tweet::retranslateUi()
 {
-  replyAction->setText( tr( "Reply to" ) + " " + tweetData.login() );
+  replyAction->setText( tr( "Reply to %1" ).arg( tweetData.login() ) );
   retweetAction->setText( tr( "Retweet" ) );
   copylinkAction->setText( tr( "Copy link to this Tweet" ) );
   deleteAction->setText( tr( "Delete tweet" ) );

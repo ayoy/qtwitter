@@ -59,16 +59,19 @@ int main( int argc, char **argv )
   QObject::connect( &qtwitter, SIGNAL(settingsDialogRequested()), settings, SLOT( show() ) );
   QObject::connect( &qtwitter, SIGNAL(resizeView(int,int)), model, SLOT(resizeData(int,int)));
   QObject::connect( core, SIGNAL(authDataSet(QAuthenticator)), settings, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;
-  QObject::connect( core, SIGNAL(switchToPublic()), settings, SLOT(switchToPublic()) );
   QObject::connect( core, SIGNAL(errorMessage(QString)), &qtwitter, SLOT(popupError(QString)) );
   QObject::connect( core, SIGNAL(addEntry(Entry*)), model, SLOT(insertTweet(Entry*)) );
   QObject::connect( core, SIGNAL(deleteEntry(int)), model, SLOT(deleteTweet(int)) );
   QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
   QObject::connect( core, SIGNAL(requestListRefresh(bool,bool)), model, SLOT(setModelToBeCleared(bool,bool)) );
   QObject::connect( core, SIGNAL(timelineUpdated()), model, SLOT(sendNewsInfo()) );
-  QObject::connect( core, SIGNAL(noDirectMessages()), model, SLOT(removeDirectMessages()) );
+//  QObject::connect( core, SIGNAL(noDirectMessages()), model, SLOT(removeDirectMessages()) );
   QObject::connect( core, SIGNAL(resetUi()), &qtwitter, SLOT(resetStatusEdit()) );
   QObject::connect( core, SIGNAL(requestStarted()), &qtwitter, SLOT(showProgressIcon()) );
+
+  QObject::connect( core, SIGNAL(publicTimelineSyncChanged(bool)), settings, SLOT(slotPublicTimelineSyncChanged(bool)) );
+  QObject::connect( core, SIGNAL(directMessagesSyncChanged(bool)), model, SLOT(slotDirectMessagesChanged(bool)) );
+
   if ( QSystemTrayIcon::supportsMessages() ) {
     QObject::connect( model, SIGNAL(newTweets(int,QStringList,int,QStringList)), &qtwitter, SLOT(popupMessage(int,QStringList,int,QStringList)) );
   }
