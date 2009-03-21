@@ -23,14 +23,14 @@
 
 #include <QAuthenticator>
 #include <QObject>
-#include <QImage>
+#include "twitterapi_global.h"
 
 class QTimer;
 
 class XmlDownload;
 class Entry;
 
-class TwitterAPI : public QObject
+class TWITTERAPISHARED_EXPORT TwitterAPI : public QObject
 {
   Q_OBJECT
 
@@ -150,13 +150,6 @@ signals:
   void deleteEntry( int id );
 
   /*!
-    Emitted when an \a image is downloaded and is ready to be shown in model.
-    \param url A URL pointing to \a image.
-    \param image An image to show for Tweets with the given \a url
-  */
-  void setImageForUrl( const QString& url, QImage image );
-
-  /*!
     Emitted when user's request may possibly require deleting currently displayed list.
     \param isPublicTimeline Value returned by isPublicTimelineSync.
     \param isSwitchUser Indicates wether the user has changed since previous valid request.
@@ -210,4 +203,4 @@ private:
 };
 
 
-#endif //TWITTERAPI_H
+#endif // TWITTERAPI_H

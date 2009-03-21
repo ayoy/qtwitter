@@ -25,8 +25,6 @@
 #include <QAuthenticator>
 #include <QTimer>
 
-#include "entry.h"
-#include "xmldownload.h"
 #include "imagedownload.h"
 #include "mainwindow.h"
 

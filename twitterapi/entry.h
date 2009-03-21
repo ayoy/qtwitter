@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QDateTime>
 #include <QMetaType>
+#include "twitterapi.h"
 
 /*!
   \brief A class containing Tweet data.
@@ -32,7 +33,7 @@
   This class contains all the parameters for each status or direct message
   extracted by an XML parser.
 */
-class Entry : public QObject
+class TWITTERAPISHARED_EXPORT Entry : public QObject
 {
   Q_OBJECT
 public:

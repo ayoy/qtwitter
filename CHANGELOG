@@ -1,3 +1,4 @@
+- the whole Twitter API interface separated from the GUI-related code by putting it into a standalone shared library,
 - web browser customization on Linux now made global (includes links in statuses and all dialogs) - ticket #2,
 - added an icon indicating that status list update is in progress.
 v0.5.0 (2009/03/11):
