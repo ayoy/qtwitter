@@ -16,6 +16,9 @@ macx {
     QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks/
     LIBS += -framework twitterapi
 }
+win32 {
+    LIBS += -L$${TOP}/lib $$TWITTERAPI_LIB -Wl,-rpath,$${PWD}/$${TOP}/lib
+}
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
