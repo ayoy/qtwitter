@@ -4,6 +4,7 @@ TOP = ..
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
 unix {
+    LIBS += -L$${TOP}/lib $$TWITTERAPI_LIB -Wl,-rpath,$${PWD}/$${TOP}/lib
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
@@ -14,10 +15,7 @@ macx {
     QMAKE_INFO_PLIST = macx/Info.plist
     QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks/
     LIBS += -framework twitterapi
-} else {
-    LIBS += -Lsrc/twitterapi $$TWITTERAPI_LIB
 }
-
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \

@@ -4,17 +4,24 @@ QT -= gui
 TARGET = twitterapi
 TEMPLATE = lib
 include(twitterapi.pri)
+VER_MAJ = 0
+VER_MIN = 5
+VER_PAT = 1
+VERSION = $${VER_MAJ}.$${VER_MIN}.$${VER_PAT}
 macx {
     CONFIG += lib_bundle
-    VER_MAJ = 0
-    VER_MIN = 5
-    VER_PAT = 1
-    VERSION = $${VER_MAJ}.$${VER_MIN}.$${VER_PAT}
     LIBS += -install_name @executable_path/../Frameworks/$${TARGET}.framework/Versions/$${VER_MAJ}/$${TARGET}
     DESTDIR = ../qtwitter.app/Contents/Frameworks
     FRAMEWORK_HEADERS.files = twitterapi.h entry.h
     FRAMEWORK_HEADERS.path = Headers
     QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
+}
+unix {
+    DESTDIR = ../lib
+    isEmpty( PREFIX ):INSTALL_PREFIX = /usr
+    else:INSTALL_PREFIX = $${PREFIX}
+    target.path = $${INSTALL_PREFIX}/lib
+    INSTALLS += target
 }
 DEFINES += TWITTERAPI_LIBRARY
 SOURCES += twitterapi.cpp \
