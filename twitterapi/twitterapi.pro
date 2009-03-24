@@ -5,10 +5,6 @@ TARGET = twitterapi
 TEMPLATE = lib
 CONFIG += dll
 include(twitterapi.pri)
-VER_MAJ = 0
-VER_MIN = 5
-VER_PAT = 1
-VERSION = $${VER_MAJ}.$${VER_MIN}.$${VER_PAT}
 macx {
     CONFIG += lib_bundle
     LIBS += -install_name @executable_path/../Frameworks/$${TARGET}.framework/Versions/$${VER_MAJ}/$${TARGET}

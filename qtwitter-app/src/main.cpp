@@ -26,10 +26,6 @@
 #include <QSystemTrayIcon>
 #include <QSignalMapper>
 
-//Q_IMPORT_PLUGIN(qjpeg)
-//Q_IMPORT_PLUGIN(qgif)
-
-
 int main( int argc, char **argv )
 {
   QApplication app( argc, argv );
@@ -65,7 +61,6 @@ int main( int argc, char **argv )
   QObject::connect( core, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
   QObject::connect( core, SIGNAL(requestListRefresh(bool,bool)), model, SLOT(setModelToBeCleared(bool,bool)) );
   QObject::connect( core, SIGNAL(timelineUpdated()), model, SLOT(sendNewsInfo()) );
-//  QObject::connect( core, SIGNAL(noDirectMessages()), model, SLOT(removeDirectMessages()) );
   QObject::connect( core, SIGNAL(resetUi()), &qtwitter, SLOT(resetStatusEdit()) );
   QObject::connect( core, SIGNAL(requestStarted()), &qtwitter, SLOT(showProgressIcon()) );
 
