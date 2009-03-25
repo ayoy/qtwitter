@@ -74,7 +74,7 @@ void TweetModel::insertTweet( Entry *entry )
     modelToBeCleared = false;
   }
   for ( int i = 0; i < rowCount(); ++i ) {
-    if ( entry->id() == item(i)->data().value<Entry>().id() ) {
+    if ( entry->id == item(i)->data().value<Entry>().id ) {
       qDebug() << "found existing entry of the same id";
       return;
     }
@@ -83,7 +83,7 @@ void TweetModel::insertTweet( Entry *entry )
   QStandardItem *newItem = new QStandardItem();
   newItem->setData( data );
   Tweet *newTweet;
-  if ( entry->getType() == Entry::DirectMessage )
+  if ( entry->type == Entry::DirectMessage )
     newTweet = new Tweet( *entry, QImage( ":/icons/mail_48.png" ), dynamic_cast<MainWindow*>( parent()) );
   else
     newTweet = new Tweet( *entry, QImage(), dynamic_cast<MainWindow*>( parent()) );
@@ -96,7 +96,7 @@ void TweetModel::insertTweet( Entry *entry )
     return;
   }
   for ( int i = 0; i < rowCount(); i++ ) {
-    if ( entry->timestamp() > item(i)->data().value<Entry>().timestamp() ) {
+    if ( entry->timestamp > item(i)->data().value<Entry>().timestamp ) {
       QStandardItemModel::insertRow( i, newItem );
       view->setIndexWidget( indexFromItem( newItem ), newTweet );
       if ( currentIndex.row() >= i && currentIndex.row() < (maxTweetCount - 1) )
@@ -116,7 +116,7 @@ void TweetModel::insertTweet( Entry *entry )
 void TweetModel::deleteTweet( int id )
 {
   for ( int i = 0; i < rowCount(); i++ ) {
-    if ( id == item(i)->data().value<Entry>().id()  ) {
+    if ( id == item(i)->data().value<Entry>().id  ) {
       removeRow( i );
       return;
     }
@@ -128,7 +128,7 @@ void TweetModel::slotDirectMessagesChanged( bool isEnabled )
   if ( !isEnabled )
     return;
   for ( int i = 0; i < rowCount(); i++ ) {
-    if ( item(i)->data().value<Entry>().getType() == Entry::DirectMessage ) {
+    if ( item(i)->data().value<Entry>().type == Entry::DirectMessage ) {
       removeRow( i );
       i--;
     }
@@ -242,7 +242,7 @@ void TweetModel::setImageForUrl( const QString& url, QImage image )
 {
   for ( int i = 0; i < rowCount(); i++ ) {
     Tweet *aTweet = getTweetFromIndex( i );
-    if ( url == item(i)->data().value<Entry>().image() ) {
+    if ( url == item(i)->data().value<Entry>().image ) {
       aTweet->setIcon( image );
     }
   }
@@ -279,17 +279,17 @@ void TweetModel::countUnreadEntries()
 
 void TweetModel::addUnreadEntry( Entry entry )
 {
-  switch ( entry.getType() ) {
+  switch ( entry.type ) {
   case Entry::DirectMessage:
     newMessagesCount += 1;
-    if ( !newMessagesNames.contains( entry.name() ) ) {
-      newMessagesNames << entry.name();
+    if ( !newMessagesNames.contains( entry.name ) ) {
+      newMessagesNames << entry.name;
     }
     break;
   case Entry::Status:
   default:
     newStatusesCount += 1;
-    QString name = entry.isOwn() ? tr( "you" ) : entry.name();
+    QString name = entry.isOwn ? tr( "you" ) : entry.name;
     if ( !newStatusesNames.contains( name ) ) {
       newStatusesNames << name;
     }

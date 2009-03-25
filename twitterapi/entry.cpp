@@ -18,127 +18,132 @@
  ***************************************************************************/
 
 
+#include <QString>
+#include <QDateTime>
 #include "entry.h"
 
-#include <QRegExp>
-#include <QDebug>
-#include <QList>
-
-Entry::Entry( Type entryType, QObject *parent ) :
-  QObject( parent ),
+Entry::Entry( Entry::Type entryType ) :
   type( entryType ),
-  index( -1 ),
-  own( false ),
-  userId( -1 ),
-  userText( QString() ),
-  userOriginalText( QString() ),
-  userName( QString() ),
-  userLogin( QString() ),
-  userImage( QString() ),
-  userHomepage( QString() ),
+  isOwn( false ),
+  id( -1 ),
+  text( QString() ),
+  originalText( QString() ),
+  name( QString() ),
+  login( QString() ),
+  image( QString() ),
+  homepage( QString() ),
   hasHomepage( false ),
-  userTimestamp( QDateTime() )
-{
-}
+  timestamp( QDateTime() )
+{}
 
-Entry::Entry(const Entry &right) :
-  QObject( right.parent() ),
-  type( right.type ),
-  index( right.index ),
-  own( right.own ),
-  userId( right.userId ),
-  userText( right.userText ),
-  userOriginalText( right.userOriginalText ),
-  userName( right.userName ),
-  userLogin( right.userLogin ),
-  userImage( right.userImage ),
-  userHomepage( right.userHomepage ),
-  hasHomepage( right.hasHomepage ),
-  userTimestamp( right.userTimestamp )
+void Entry::initialize()
 {
-}
-
-Entry& Entry::operator=( const Entry &right )
-{
-  type = right.type;
-  index = right.index;
-  own = right.own;
-  userId = right.userId;
-  userName = right.userName;
-  userLogin = right.userLogin;
-  userHomepage = right.userHomepage;
-  hasHomepage = right.hasHomepage;
-  userImage = right.userImage;
-  userText = right.userText;
-  userOriginalText = right.userOriginalText;
-  userTimestamp = right.userTimestamp;
-  return *this;
-}
-
-void Entry::initialize( bool resetIndex )
-{
-  if ( resetIndex ) {
-    index = -1;
-  }
-  own = false;
-  userId = -1;
-  userName = QString();
-  userLogin = QString();
-  userHomepage = QString();
+  isOwn = false;
+  id = -1;
+  name = QString();
+  login = QString();
+  homepage = QString();
   hasHomepage = false;
-  userImage = QString();
-  userText = QString();
-  userOriginalText = QString();
-  userTimestamp = QDateTime();
+  image = QString();
+  text = QString();
+  originalText = QString();
+  timestamp = QDateTime();
 }
 
 bool Entry::checkContents()
 {
   if ( !hasHomepage ) {
-    userHomepage = QString();
+    homepage = QString();
   }
-  if ( ( userId != -1 ) &&
-       !userName.isNull() &&
-       !userLogin.isNull() &&
-       ( type == Status ? !userImage.isNull() : true ) &&
-       !userText.isNull() &&
-       ( hasHomepage ? !userHomepage.isNull() : true ) &&
-       !userTimestamp.isNull() ) {
+  if ( ( id != -1 ) &&
+       !name.isNull() &&
+       !login.isNull() &&
+       ( type == Status ? !image.isNull() : true ) &&
+       !text.isNull() &&
+       ( hasHomepage ? !homepage.isNull() : true ) &&
+       !timestamp.isNull() ) {
     return true;
   }
   return false;
 }
 
-Entry::Type Entry::getType() const { return type; }
-int Entry::getIndex() const { return index; }
-bool Entry::isOwn() const { return own; }
-int Entry::id() const { return userId; }
-QString Entry::name() const { return userName; }
-QString Entry::login() const { return userLogin; }
-QString Entry::homepage() const { return userHomepage; }
-QString Entry::image() const { return userImage; }
-QString Entry::text() const { return userText; }
-QString Entry::originalText() const { return userOriginalText; }
-QDateTime Entry::timestamp() const { return userTimestamp; }
+/*! \struct Entry
+    \brief A struct containing Tweet data.
 
-void Entry::setIndex( int itemIndex ) { index = itemIndex; }
-void Entry::setOwn( bool isOwn ) { own = isOwn; }
-void Entry::setId( int newId ) { userId = newId; }
-void Entry::setName( const QString& newName ) { userName = newName; }
-void Entry::setLogin( const QString& newLogin ) { userLogin = newLogin; }
-void Entry::setHomepage( const QString& newHomepage ) { userHomepage = newHomepage; }
-void Entry::setHasHomepage( bool b ) { hasHomepage = b; }
-void Entry::setImage( const QString& newImage ) { userImage = newImage; }
-void Entry::setTimestamp( const QDateTime& newTimestamp ) { userTimestamp = newTimestamp; }
+    This struct contains all the parameters for each status or direct message
+    extracted by an XML parser.
+*/
 
-void Entry::setText( const QString& newText )
-{
-  userOriginalText = newText;
-  userText = userOriginalText;
-  QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
-  userText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
-  userText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([^ @.,!:;]+)" ), "\\1<a href=http://twitter.com/\\2>@\\2</a>" );
-  ahref.setPattern( "(<a href=[^ ]+)/>" );
-  ahref.setMinimal( true );
-  userText.replace( ahref, "\\1>" );
-}
+/*! \enum Entry::Type
+    \brief Type of the entry.
+
+    Needed to specify whether an entry is a status or a direct message.
+*/
+
+/*! \var Entry::Type Entry::Status
+    An entry is a status.
+*/
+
+/*! \var Entry::Type Entry::DirectMessage
+    An entry is a direct message.
+*/
+
+/*! \fn Entry::Entry( Entry::Type entryType = Status )
+    Constructs an empty entry with a given \a entryType.
+*/
+
+/*! \fn void Entry::initialize()
+    Resets fields of the entry.
+*/
+
+/*! \fn bool Entry::checkContents();
+    \brief Checks if the entry is complete.
+
+    Checks an entry for the existence of required fields and returns true
+    if it contains all of the required data.
+*/
+
+/*! \var Entry::Type Entry::type
+    Stores the entry type.
+    \sa Type
+*/
+
+/*! \var bool Entry::isOwn
+    Used to indicate whether an entry belongs to the user authenticated currently.
+*/
+
+/*! \var int Entry::id
+    Stores the entry id.
+*/
+
+/*! \var QString Entry::text
+    Stores the entry status equipped with HTML tags for recognizing URL links.
+*/
+
+/*! \var QString Entry::originalText
+    Stores the plain entry status.
+*/
+
+/*! \var QString Entry::name
+    Stores the status owner's screen name.
+*/
+
+/*! \var QString Entry::login
+    Stores the status owner's login.
+*/
+
+/*! \var QString Entry::image
+    Stores the status owner's image URL.
+*/
+
+/*! \var QString Entry::homepage
+    Stores the status owner's homepage URL.
+*/
+
+/*! \var bool Entry::hasHomepage
+    Indicates if status owner has a homepage defined.
+*/
+
+/*! \var QDateTime Entry::timestamp
+    Stores the entry timestamp.
+*/

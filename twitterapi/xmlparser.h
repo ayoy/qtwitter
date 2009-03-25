@@ -61,6 +61,7 @@ protected:
   FieldType checkFieldType( const QString &element );
   QDateTime toDateTime( const QString &timestamp );
   int getMonth( const QString &month );
+  QString textToHtml( QString newText );
   int currentField;
   Entry entry;
   bool important;

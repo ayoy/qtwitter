@@ -195,8 +195,8 @@ void TwitterAPI::setFlag( TwitterAPI::ContentRequested flag )
 
 void TwitterAPI::newEntry( Entry *entry )
 {
-  if ( entry->login() == authData.user() ) {
-    entry->setOwn( true );
+  if ( entry->login == authData.user() ) {
+    entry->isOwn = true;
   }
   emit addEntry( entry );
 }

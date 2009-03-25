@@ -151,7 +151,7 @@ void XmlDownload::setDestroyId( int newId )
 
 void XmlDownload::extractId( Entry *entry )
 {
-  emit deleteEntry( entry->id() );
+  emit deleteEntry( entry->id );
 }
 
 void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, quint16, QAuthenticator *authenticator)

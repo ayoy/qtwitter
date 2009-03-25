@@ -165,21 +165,21 @@ void Core::destroyTweet( int id )
 
 void Core::downloadImage( Entry *entry )
 {
-  if ( entry->getType() == Entry::DirectMessage )
+  if ( entry->type == Entry::DirectMessage )
     return;
 
-  if ( imageCache.contains( entry->image() ) ) {
-    if ( imageCache[ entry->image() ].isNull() ) {
+  if ( imageCache.contains( entry->image ) ) {
+    if ( imageCache[ entry->image ].isNull() ) {
       qDebug() << "not downloading";
     } else {
-      emit setImageForUrl( entry->image(), imageCache[ entry->image() ] );
+      emit setImageForUrl( entry->image, imageCache[ entry->image ] );
     }
     return;
   }
-  QString host = QUrl( entry->image() ).host();
+  QString host = QUrl( entry->image ).host();
   if ( imageDownloader.contains( host ) ) {
     imageDownloader[host]->imageGet( entry );
-    imageCache[ entry->image() ] = QImage();
+    imageCache[ entry->image ] = QImage();
     qDebug() << "setting null image";
     return;
   }
@@ -188,8 +188,8 @@ void Core::downloadImage( Entry *entry )
   connect( getter, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
   getter->imageGet( entry );
-  imageCache[ entry->image() ] = QImage();
-  qDebug() << "setting null image" << imageCache[ entry->image() ].isNull();
+  imageCache[ entry->image ] = QImage();
+  qDebug() << "setting null image" << imageCache[ entry->image ].isNull();
 }
 
 void Core::openBrowser( QUrl address )

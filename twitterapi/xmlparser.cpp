@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 
+#include <QRegExp>
 #include "xmlparser.h"
 
 const QByteArray XmlParser::USER_ID = "id";
@@ -58,7 +59,6 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
 {
   if ( qName == "status" ) {
     entry.initialize();
-    entry.setIndex( entry.getIndex() + 1 );
   }
   ( (currentField = checkFieldType( qName )) != None ) ? important = true : important = false;
   return true;
@@ -67,7 +67,7 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
 bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
   if ( qName == "status" ) {
-    emit newEntry( new Entry( entry ) );
+    emit newEntry( &entry );
   }
   return true;
 }
@@ -75,22 +75,31 @@ bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & 
 bool XmlParser::characters( const QString &ch )
 {
   if ( important ) {
-    if ( currentField == Id && entry.id() == -1 ) {
-      entry.setId( ch.toInt() );
-    } else if ( currentField == Name && entry.name().isNull() ) {
-      entry.setName( ch );
-    } else if ( currentField == Login && entry.login().isNull() ) {
-      entry.setLogin( ch );
-    } else if ( currentField == Text && entry.text().isNull() ) {
-      entry.setText( ch );
-    } else if ( currentField == Image && entry.image().isNull() ) {
-      entry.setImage( ch );
-    } else if ( currentField == Timestamp && entry.timestamp().isNull() ) {
-      entry.setTimestamp( toDateTime( ch ) );
+    if ( currentField == Id && entry.id == -1 ) {
+      entry.id = ch.toInt();
+//      entry.setId( ch.toInt() );
+    } else if ( currentField == Name && entry.name.isNull() ) {
+      entry.name = ch;
+//      entry.setName( ch );
+    } else if ( currentField == Login && entry.login.isNull() ) {
+      entry.login = ch;
+//      entry.setLogin( ch );
+    } else if ( currentField == Text && entry.text.isNull() ) {
+      entry.originalText = ch;
+      entry.text = textToHtml( ch );
+//      entry.setText( ch );
+    } else if ( currentField == Image && entry.image.isNull() ) {
+      entry.image = ch;
+//      entry.setImage( ch );
+    } else if ( currentField == Timestamp && entry.timestamp.isNull() ) {
+      entry.timestamp = toDateTime( ch );
+//      entry.setTimestamp( toDateTime( ch ) );
     } else if ( currentField == Homepage ) {
       if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
-        entry.setHasHomepage( true );
-        entry.setHomepage( ch );
+        entry.hasHomepage = true;
+        entry.homepage = ch;
+//        entry.setHasHomepage( true );
+//        entry.setHomepage( ch );
       }
     }
   }
@@ -152,6 +161,17 @@ int XmlParser::getMonth( const QString &month )
     return 12;
   else
     return -1;
+}
+
+QString XmlParser::textToHtml( QString newText )
+{
+  QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
+  newText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
+  newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([^ @.,!:;]+)" ), "\\1<a href=http://twitter.com/\\2>@\\2</a>" );
+  ahref.setPattern( "(<a href=[^ ]+)/>" );
+  ahref.setMinimal( true );
+  newText.replace( ahref, "\\1>" );
+  return newText;
 }
 
 /*! \class XmlParser

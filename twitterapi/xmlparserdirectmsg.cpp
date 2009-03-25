@@ -29,7 +29,6 @@ bool XmlParserDirectMsg::startElement( const QString & /* namespaceURI */, const
 {
   if ( qName == "direct_message" ) {
     entry.initialize();
-    entry.setIndex( entry.getIndex() + 1 );
   }
   if ( qName == "sender" ) {
     parsingSender = true;
@@ -52,22 +51,30 @@ bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const Q
 bool XmlParserDirectMsg::characters( const QString &ch )
 {
   if ( important ) {
-    if ( currentField == Id && entry.id() == -1 ) {
-      entry.setId( ch.toInt() );
-    } else if ( currentField == Text && entry.text().isNull() ) {
-      entry.setText( ch );
-    } else if ( currentField == Timestamp && entry.timestamp().isNull() ) {
-      entry.setTimestamp( toDateTime( ch ) );
+    if ( currentField == Id && entry.id == -1 ) {
+      entry.id = ch.toInt();
+//      entry.setId( ch.toInt() );
+    } else if ( currentField == Text && entry.text.isNull() ) {
+      entry.originalText = ch;
+      entry.text = textToHtml( ch );
+//      entry.setText( ch );
+    } else if ( currentField == Timestamp && entry.timestamp.isNull() ) {
+      entry.timestamp = toDateTime( ch );
+//      entry.setTimestamp( toDateTime( ch ) );
     }
     if ( parsingSender ) {
-      if ( currentField == Name && entry.name().isNull() ) {
-        entry.setName( ch );
-      } else if ( currentField == Login && entry.login().isNull() ) {
-        entry.setLogin( ch );
+      if ( currentField == Name && entry.name.isNull() ) {
+        entry.name = ch;
+//        entry.setName( ch );
+      } else if ( currentField == Login && entry.login.isNull() ) {
+        entry.login = ch;
+//        entry.setLogin( ch );
       } else if ( currentField == Homepage ) {
         if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
-          entry.setHasHomepage( true );
-          entry.setHomepage( ch );
+          entry.hasHomepage = true;
+          entry.homepage = ch;
+//          entry.setHasHomepage( true );
+//          entry.setHomepage( ch );
         }
       }
     }

@@ -21,126 +21,38 @@
 #ifndef ENTRY_H
 #define ENTRY_H
 
-#include <QString>
-#include <QObject>
-#include <QDateTime>
 #include <QMetaType>
+#include <QDateTime>
 #include "twitterapi.h"
 #include "twitterapi_global.h"
 
-class TWITTERAPISHARED_EXPORT Entry : public QObject
-{
-  Q_OBJECT
-public:
+class QString;
 
+struct TWITTERAPISHARED_EXPORT Entry
+{
   enum Type {
     Status,
     DirectMessage
   };
 
-  Entry( Type entryType = Status, QObject *parent = 0 );
-  Entry( const Entry &right );
+  Entry( Entry::Type entryType = Entry::Status );
 
-  Entry& operator=( const Entry &right );
-  void initialize( bool resetIndex = false );
+  void initialize();
   bool checkContents();
 
-  Type getType() const; /*!< Returns the type of this entry. */
-  int getIndex() const; /*!< Returns the index of this entry. \sa setIndex() */
-  bool isOwn() const; /*!< Returns true if entry belongs to user which requests data. \sa setOwn() */
-  int id() const; /*!< Returns the id of the entry. \sa setId() */
-  QString name() const; /*!< Returns the entry owner's screen name. \sa setName() */
-  QString login() const; /*!< Returns the entry owner's login. \sa setLogin() */
-  QString homepage() const; /*!< Returns a string with the entry owner's homepage URL. \sa setHomepage() */
-  QString image() const; /*!< Returns a string with the entry owner's profile image URL. \sa setImage() */
-
-  /*!
-    Returns the text of the entry, processed in order to display URLs and
-    references to other users (e.g. \a \@username) as links.
-    \sa setText(), originalText()
-  */
-  QString text() const;
-  QString originalText() const; /*!< Returns the raw entry text. */
-  QDateTime timestamp() const; /*!< Returns the timestamp of the entry. */
-
-  void setIndex( int itemIndex ); /*!< Sets entry index to \a itemIndex. \sa getIndex() */
-  void setOwn( bool isOwn ); /*!< Sets if the entry belongs to a user which requests data. \sa isOwn() */
-  void setId( int newId ); /*!< Sets the id of the entry to \a newId. \sa getId() */
-  void setName( const QString& newName ); /*!< Sets the entry owner's screen name to \a newName. \sa name() */
-  void setLogin( const QString& newLogin ); /*!< Sets the entry owner's login to \a newLogin. \sa login() */
-  void setHomepage( const QString& newHomepage ); /*!< Sets the entry owner's homepage URL to \a newHomepage. \sa homepage() */
-  void setHasHomepage( bool ); /*!< Sets if the entry owner provides a homepage URL. */
-  void setImage( const QString& newImage ); /*!< Sets the entry owner's profile image URL. \sa image() */
-
-  /*!
-    Sets the \a originalText to \a newText, and process it in order to display URLs
-    and references to other users (e.g. \a \@username) as links.
-    \sa text(), originalText()
-  */
-  void setText( const QString& newText );
-  void setTimestamp( const QDateTime& newTimestamp ); /*!< Sets the entry timestamp to \a newTimestamp. \sa timestamp() */
-
-private:
   Type type;
-  int index;
-  bool own;
-
-  int userId;
-  QString userText;
-  QString userOriginalText;
-  QString userName;
-  QString userLogin;
-  QString userImage;
-  QString userHomepage;
+  bool isOwn;
+  int id;
+  QString text;
+  QString originalText;
+  QString name;
+  QString login;
+  QString image;
+  QString homepage;
   bool hasHomepage;
-  QDateTime userTimestamp;
+  QDateTime timestamp;
 };
 
 Q_DECLARE_METATYPE(Entry)
 
 #endif //ENTRY_H
-
-/*! \class Entry
-    \brief A class containing Tweet data.
-
-    This class contains all the parameters for each status or direct message
-    extracted by an XML parser.
-*/
-
-/*! \enum Entry::Type
-    \brief Type of the entry.
-
-    Needed to specify whether an entry is a status or a direct message.
-*/
-
-/*! \var Entry::Type Entry::Status
-    An entry is a status.
-*/
-
-/*! \var Entry::Type Entry::DirectMessage
-    An entry is a direct message.
-*/
-
-/*! \fn Entry::Entry( Type entryType = Status, QObject *parent = 0 )
-    Constructs an empty entry with a given \a entryType and \a parent.
-*/
-
-/*! \fn Entry::Entry( const Entry &right )
-    Constructs an entry as a copy of \a right.
-*/
-
-/*! \fn Entry& Entry::operator=( const Entry &right )
-    Assigns \a right to this entry and returns a reference to it.
-*/
-
-/*! \fn void Entry::initialize( bool resetIndex = false )
-    Resets fields of the entry.
-    \param resetIndex Indicates if index should be reset.
-*/
-
-/*! \fn bool Entry::checkContents();
-    \brief Checks if entry is complete.
-
-    Checks an entry for the existence of required fields and returns true
-    if it contains all of the required data.
-*/

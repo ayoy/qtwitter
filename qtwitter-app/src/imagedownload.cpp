@@ -51,7 +51,7 @@ ImageDownload::~ImageDownload()
 
 void ImageDownload::imageGet( Entry *entry )      //requestByEntry[entry.getId()] = httpGetId;
 {
-  QString imagePath = entry->image();
+  QString imagePath = entry->image;
   QByteArray encodedPath = prepareRequest( imagePath );
   httpGetId = get( encodedPath, buffer );
   requestByEntry.insert( imagePath, httpGetId );
