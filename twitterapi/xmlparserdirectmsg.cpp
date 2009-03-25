@@ -74,3 +74,27 @@ bool XmlParserDirectMsg::characters( const QString &ch )
   }
   return true;
 }
+
+/*! \class XmlParserDirectMsg
+    \brief A class for parsing XML data of direct messages.
+
+    This class inherits XmlParser and reimplements its methods to comply with
+    the structure of XML document for direct messages list provided by Twitter REST API.
+*/
+
+/*! \fn XmlParserDirectMsg::XmlParserDirectMsg( QObject *parent = 0 )
+    Creates an XML parser for direct messages processing with a given \a parent.
+    \param parent An object's parent.
+*/
+
+/*! \fn bool XmlParserDirectMsg::startElement( const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &atts )
+    Parser activities at start of the XML element.
+*/
+
+/*! \fn bool XmlParserDirectMsg::endElement( const QString &namespaceURI, const QString &localName, const QString &qName )
+    Parser activities at end of the XML element.
+*/
+
+/*! \fn bool XmlParserDirectMsg::characters( const QString &ch )
+    Parser activities when reading XML element's text. The actual values are being read here.
+*/

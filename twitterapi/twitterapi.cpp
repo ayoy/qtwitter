@@ -214,3 +214,185 @@ void TwitterAPI::destroyXmlConnection()
     xmlGet = NULL;
   }
 }
+
+/*! \class TwitterAPI
+    \brief A class for interacting with Twitter API.
+
+    This class is a frontend for communicating with Twitter REST API. Allows for
+    getting either public or friends timeline, posting new status updates, deleting
+    statuses, receiving direct messages, etc.
+*/
+
+/*! \enum TwitterAPI::Role
+    Describes the function that the current connection has.
+*/
+
+/*! \var TwitterAPI::Role TwitterAPI::Refresh
+    Statuses update is requested.
+*/
+
+/*! \var TwitterAPI::Role TwitterAPI::Submit
+    Posting a new status is requested.
+*/
+
+/*! \var TwitterAPI::Role TwitterAPI::Destroy
+    Destroying a Tweet is requested.
+*/
+
+/*! \enum TwitterAPI::ContentRequested
+  Used to specify the content that is currently requested and has to be parsed.
+*/
+
+/*! \var TwitterAPI::ContentRequested TwitterAPI::Statuses
+    Statuses are requested.
+*/
+
+/*! \var TwitterAPI::ContentRequested TwitterAPI::DirectMessages
+    Direct messages are requested.
+*/
+
+/*! \fn TwitterAPI::TwitterAPI( QObject *parent = 0 )
+    Creates a new TwitterAPI instance with a given \a parent.
+*/
+
+/*! \fn virtual TwitterAPI::~TwitterAPI()
+    A virtual destructor.
+*/
+
+/*! \fn bool TwitterAPI::isPublicTimelineSync()
+    Returns true if sync with public timeline is requested.
+    \sa setPublicTimelineSync()
+*/
+
+/*! \fn bool TwitterAPI::isDirectMessagesSync()
+    Returns true if direct messages downloading is requested.
+    \sa setDirectMessagesSync()
+*/
+
+/*! \fn bool TwitterAPI::setAuthData( const QString &user, const QString &password )
+    Sets user login and password for authentication at twitter.com.
+    \param user User's login.
+    \param password User's password.
+*/
+
+/*! \fn bool TwitterAPI::setPublicTimelineSync( bool b )
+    Sets whether the public timeline is requested.
+    \param b If true, a sync with public timeline is requested. If false, a sync with friends timeline is performed.
+    \sa isPublicTimelineSync()
+*/
+
+/*! \fn bool TwitterAPI::setDirectMessagesSync( bool b )
+    Sets whether drect messages are requested, when syncing with friends timeline. This setting has no effect if isPublicTimelineSync() returns true.
+    \param b If true, direct messages are downloaded and added to friends timeline. If false, only friends' status updates are downloaded.
+    \sa isDirectMessagesSync(), isPublicTimelineSync()
+*/
+
+/*! \fn bool TwitterAPI::get()
+    Issues a timeline sync request, either public or friends one (with or without direct messages), according to
+    values returned by isPublicTimelineSync and isDirectMessagesSync.
+    \returns False when user's login and password are required and not provided, otherwise returns true.
+    \sa post(), destroyTweet()
+*/
+
+/*! \fn bool TwitterAPI::post( const QByteArray &status, int inReplyTo = -1 )
+    Sends a new Tweet with a content given by \a status.
+    \param status New Tweet's text.
+    \param inReplyTo In case the status is a reply - optional id of the existing status to which the reply is posted.
+    \returns False if user's authenticaton data is missing, otherwise returns true.
+    \sa get(), destroyTweet()
+*/
+
+/*! \fn bool TwitterAPI::destroyTweet( int id )
+    Sends a request to delete Tweet of id given by \a id.
+    \param id Id of the Tweet to be deleted.
+    \returns False if user's authenticaton data is missing, otherwise returns true.
+    \sa get(), post(), deleteEntry()
+*/
+
+/*! \fn void TwitterAPI::abort()
+    Aborts the requests and closes open connections to Twitter.
+*/
+
+/*! \fn const QAuthenticator& TwitterAPI::getAuthData() const
+    Outputs user's login and password.
+    \returns QAuthenticator object containing user's authentication data.
+*/
+
+/*! \fn void TwitterAPI::setFlag( TwitterAPI::ContentRequested flag );
+    Used to figure out when XmlDownload instance finishes its job. XmlDownload class emits
+    signals connected to this slot when it finishes its requests. When all the requests are
+    finished (i.e. one request when public timeline is requested or direct messages downloading
+    is disabled or two requests when friends timeline with direct messages is requested), this
+    slot resets connections and notifies User of new Tweets.
+    \sa timelineUpdated()
+*/
+
+/*! \fn void TwitterAPI::errorMessage( const QString &message )
+    Sends a \a message to notify user about encountered problems.
+    \param message Error message.
+*/
+
+/*! \fn void TwitterAPI::authDataSet( const QAuthenticator &authenticator )
+    Emitted when user authentication data changes.
+    \param authenticator A QAuthenticator object containing new authentication data.
+    \sa setAuthData()
+*/
+
+/*! \fn void TwitterAPI::unauthorized()
+    Emitted when user is unauthorized to get timeline update.
+    \sa unauthorized( const QByteArray &status, int inReplyToId ), unauthorized( int destroyId )
+*/
+
+/*! \fn void TwitterAPI::unauthorized( const QByteArray &status, int inReplyToId )
+    Emitted when user is unauthorized to post a new status.
+    \param status A status that was requested to be posted.
+    \param inReplyToId Id of the status to which a reply was requested to be posted.
+    \sa unauthorized(), unauthorized( int destroyId )
+*/
+
+/*! \fn void TwitterAPI::unauthorized( int destroyId )
+    Emitted when user is unauthorized to delete a status.
+    \param destroyId Id of the status to be destroyed.
+    \sa unauthorized(), unauthorized( const QByteArray &status, int inReplyToId )
+*/
+
+/*! \fn void TwitterAPI::addEntry( Entry *entry )
+    Emitted when a new status was parsed.
+    \param entry A new status.
+*/
+
+/*! \fn void TwitterAPI::deleteEntry( int id )
+    Emitted when a status was deleted.
+    \param id Id of the deleted status.
+*/
+
+/*! \fn void TwitterAPI::requestListRefresh( bool isPublicTimeline, bool isSwitchUser)
+    Emitted when user's request may possibly require deleting currently displayed list.
+    \param isPublicTimeline Value returned by isPublicTimelineSync.
+    \param isSwitchUser Indicates wether the user has changed since previous valid request.
+    \sa isPublicTimelineSync()
+*/
+
+/*! \fn void TwitterAPI::done()
+    Emitted when a single request has finished.
+*/
+
+/*! \fn void TwitterAPI::timelineUpdated()
+    Emitted when all requests have finished.
+*/
+
+/*! \fn void TwitterAPI::directMessagesSyncChanged( bool isEnabled )
+    Emitted to notify model that direct messages have been disabled or enabled,
+    according to \a isEnabled.
+    \param isEnabled Indicates if direct messages were enabled or disabled.
+    \sa setDirectMessagesSync(), isDirectMessagesSync()
+*/
+
+/*! \fn void TwitterAPI::publicTimelineSyncChanged( bool isEnabled )
+    Emitted when user switches to public timeline sync in authentication dialog.
+    \sa isPublicTimelineSync(), setPublicTimelineSync()
+*/
+
+/*! \fn void TwitterAPI::userChanged()
+    Emitted when authenticating user has changed.
+*/

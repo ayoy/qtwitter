@@ -27,47 +27,21 @@
 #include <QMetaType>
 #include "twitterapi.h"
 
-/*!
-  \brief A class containing Tweet data.
-
-  This class contains all the parameters for each status or direct message
-  extracted by an XML parser.
-*/
 class TWITTERAPISHARED_EXPORT Entry : public QObject
 {
   Q_OBJECT
 public:
-  /*!
-    \brief Type of the entry.
 
-    Needed to specify whether an entry is a status or a direct message.
-  */
   enum Type {
-    Status, /*!< An entry is a status. */
-    DirectMessage /*!< An entry is a direct message. */
+    Status,
+    DirectMessage
   };
 
-  /*! Constructs an empty entry with a given \a entryType and \a parent. */
   Entry( Type entryType = Status, QObject *parent = 0 );
-
-  /*! Constructs an entry as a copy of \a right. */
   Entry( const Entry &right );
 
-  /*! Assigns \a right to this entry and returns a reference to it. */
   Entry& operator=( const Entry &right );
-
-  /*!
-    Resets fields of the entry.
-    \param resetIndex Indicates if index should be reset.
-  */
   void initialize( bool resetIndex = false );
-
-  /*!
-    \brief Checks if entry is complete.
-
-    Checks an entry for the existence of required fields and returns true
-    if it contains all of the required data.
-  */
   bool checkContents();
 
   Type getType() const; /*!< Returns the type of this entry. */
@@ -124,3 +98,48 @@ private:
 Q_DECLARE_METATYPE(Entry)
 
 #endif //ENTRY_H
+
+/*! \class Entry
+    \brief A class containing Tweet data.
+
+    This class contains all the parameters for each status or direct message
+    extracted by an XML parser.
+*/
+
+/*! \enum Entry::Type
+    \brief Type of the entry.
+
+    Needed to specify whether an entry is a status or a direct message.
+*/
+
+/*! \var Entry::Type Entry::Status
+    An entry is a status.
+*/
+
+/*! \var Entry::Type Entry::DirectMessage
+    An entry is a direct message.
+*/
+
+/*! \fn Entry::Entry( Type entryType = Status, QObject *parent = 0 )
+    Constructs an empty entry with a given \a entryType and \a parent.
+*/
+
+/*! \fn Entry::Entry( const Entry &right )
+    Constructs an entry as a copy of \a right.
+*/
+
+/*! \fn Entry& Entry::operator=( const Entry &right )
+    Assigns \a right to this entry and returns a reference to it.
+*/
+
+/*! \fn void Entry::initialize( bool resetIndex = false )
+    Resets fields of the entry.
+    \param resetIndex Indicates if index should be reset.
+*/
+
+/*! \fn bool Entry::checkContents();
+    \brief Checks if entry is complete.
+
+    Checks an entry for the existence of required fields and returns true
+    if it contains all of the required data.
+*/

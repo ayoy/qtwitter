@@ -181,7 +181,6 @@ void XmlDownload::slotAuthenticationRequired(const QString & /* hostName */, qui
 void XmlDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
   //qDebug() << responseHeader.values() ;// allValues( "Set-Cookie" );
-  //emit cookieReceived( responseHeader.allValues( "Set-Cookie" ) );
   switch (responseHeader.statusCode()) {
   case 200:                   // Ok
   case 301:                   // Moved Permanently
@@ -264,3 +263,155 @@ XmlData* XmlDownload::processedRequest( int requestId )
   }
   return &statusesData;
 }
+
+/*! \struct XmlData
+    \brief A struct containing data handles for retrieved XML documents.
+
+    Before creating a connection for XML data downlaod, an XmlData structure instance
+    is created, and its buffer and bytearray members are assigned to corresponding
+    XmlDownload class's members, that can be freed then.
+*/
+
+/*! \var int XmlData::id
+    Holds the id of the request for the XML document assigned to this XmlData instance.
+*/
+
+/*! \var QBuffer* XmlData::buffer
+    A pointer to the buffer.
+*/
+
+/*! \var QByteArray* XmlData::bytearray
+    A pointer to the bytearray.
+*/
+
+/*! \fn XmlData::XmlData()
+    A constructor that initializes members with default values.
+*/
+
+/*! \fn XmlData::~XmlData()
+    A destructor that frees the allocated memory.
+*/
+
+/*! \fn void XmlData::assign( int newId, QBuffer *newBuffer, QByteArray *newByteArray )
+    Assigns the id and data handles from XmlDownload class instance to the XmlData object.
+    \param newId The request id.
+    \param newBuffer A pointer to buffer.
+    \param newByteArray A pointer to bytearray.
+*/
+
+/*! \fn void XmlData::clear()
+    Frees the memory allocated by the \ref buffer and \ref bytearray.
+*/
+
+/*! \class XmlDownload
+    \brief A class for downloading XML documents form Twitter REST API.
+
+    This is a class that provides interface for downloading XML documents from Twitter.
+    Includes member parsers for interpreting the downloaded data.
+*/
+
+/*! \fn XmlDownload::XmlDownload( TwitterAPI::Role role, const QString &username, const QString &password, QObject *parent = 0 )
+    Creates a new object with the given \a parent. Connection \a role has to be
+    specified, as well as the Core class needed to connect signals to its slots.
+    \param role A connection role.
+    \param username An username for authentication.
+    \param password A password for authentication.
+    \param parent A parent for the new object.
+    \sa TwitterAPI::Role
+*/
+
+/*! \fn XmlDownload::~XmlDownload()
+    A destructor.
+*/
+
+/*! \fn void XmlDownload::getContent( const QString &path, TwitterAPI::ContentRequested content )
+    This method invokes HttpConnection::prepareRequest() for the \a path, assigns
+    allocated data to an appropriate XmlData object and issues QHttp::get().
+    \param path A path the request has to be sent to.
+    \param content The content requested for this request.
+    \sa postContent(), TwitterAPI::ContentRequested
+*/
+
+/*! \fn void XmlDownload::postContent( const QString &path, const QByteArray &status, TwitterAPI::ContentRequested content )
+    This method invokes HttpConnection::prepareRequest() for the \a path, assigns
+    allocated data to an appropriate XmlData object and issues QHttp::post()
+    with parameters given as \a status. Used to post new statuses or delete
+    existing ones.
+    \param path A path the request has to be sent to.
+    \param status A status to be posted.
+    \param content The content requested for this request (should work properly
+                   for both types, but currently only statuses are supported).
+    \sa getContent(), TwitterAPI::ContentRequested
+*/
+
+/*! \fn TwitterAPI::Role XmlDownload::getRole() const
+    Gives information about the current connection role.
+    \returns The connection role.
+    \sa TwitterAPI::Role
+*/
+
+/*! \fn QByteArray XmlDownload::getPostStatus()
+    Returns a status to be posted to Twitter.
+    \sa postContent()
+*/
+
+/*! \fn int XmlDownload::getPostInReplyToId()
+    Returns an id of the status to be posted to Twitter.
+    \sa postContent()
+*/
+
+/*! \fn int XmlDownload::getDestroyId()
+    Returns an id of the status to be deleted.
+    \sa postContent()
+*/
+
+/*! \fn void XmlDownload::setPostStatus( const QByteArray &newPostStatus )
+    Sets a post request status to be \a newPostStatus.
+*/
+
+/*! \fn void XmlDownload::setPostInReplyToId( int newId )
+    Sets inReplyToId to be equal to \a newId.
+*/
+
+/*! \fn void XmlDownload::setDestroyId( int newId )
+    Sets an id of the status to be destroyed to be equal to \a newId.
+*/
+
+/*! \fn void XmlDownload::finished( TwitterAPI::ContentRequested content )
+    Emitted for a finished request, with the content type specified as a parameter.
+    \param content Tells for which content the request has finished.
+*/
+
+/*! \fn void XmlDownload::unauthorized()
+    Emitted when user is unauthorized to get timeline update.
+    \sa unauthorized( const QByteArray &status, int inReplyToId ), unauthorized( int destroyId )
+*/
+
+/*! \fn void XmlDownload::unauthorized( const QByteArray &status, int inReplyToId )
+    Emitted when user is unauthorized to post a new status.
+    \param status A status that was requested to be posted.
+    \param inReplyToId Id of the status to which a reply was requested to be posted.
+    \sa unauthorized(), unauthorized( int destroyId )
+*/
+
+/*! \fn void XmlDownload::unauthorized( int destroyId )
+    Emitted when user is unauthorized to delete a status.
+    \param destroyId Id of the status to be destroyed.
+    \sa unauthorized(), unauthorized( const QByteArray &status, int inReplyToId )
+*/
+
+/*! \fn void XmlDownload::newEntry( Entry *entry )
+    Emitted when a new status is parsed.
+    \param entry An Entry class instance that contains status data.
+*/
+
+/*! \fn void XmlDownload::deleteEntry( int id )
+    Emitted when the confirmation of the entry deletion is received.
+    \param id Id of the deleted entry.
+*/
+
+/*! \fn void XmlDownload::errorMessage( const QString &message )
+    Emitted to forward a problem with the connection or downloaded content
+    to the MainWindow class instance to notify User.
+    \param message An error message to be displayed.
+*/

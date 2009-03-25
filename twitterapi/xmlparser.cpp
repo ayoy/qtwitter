@@ -153,3 +153,142 @@ int XmlParser::getMonth( const QString &month )
   else
     return -1;
 }
+
+/*! \class XmlParser
+    \brief A class for parsing XML data from Twitter REST API.
+
+    This class inherits QXmlDefaultHandler and reimplements its methods to comply
+    with the structure of XML documents provided by Twitter REST API.
+*/
+
+/*! \enum XmlParser::FieldType
+    Determines the currently parsed field type.
+*/
+
+/*! \var XmlParser::FieldType XmlParser::None
+    Either unsupported or unknown type or parser error.
+*/
+
+/*! \var XmlParser::FieldType XmlParser::Id
+    The status id.
+*/
+
+/*! \var XmlParser::FieldType XmlParser::Text
+    The text (status message).
+*/
+
+/*! \var XmlParser::FieldType XmlParser::Name
+    The owner's screen name.
+*/
+
+/*! \var XmlParser::FieldType XmlParser::Login
+    The owner's login.
+*/
+
+/*! \var XmlParser::FieldType XmlParser::Image
+    The owner's profile image URL.
+*/
+
+/*! \var XmlParser::FieldType XmlParser::Homepage
+    The owner's homepage.
+*/
+
+/*! \var XmlParser::FieldType XmlParser::Timestamp
+    The status timestamp.
+*/
+
+/*! \fn XmlParser::XmlParser( QObject *parent = 0 )
+    Creates a new XML data parser with a given \a parent.
+    \param parent The object's parent.
+*/
+
+/*! \fn XmlParser::XmlParser( Entry::Type entryType = Entry::Status, QObject *parent = 0 )
+    Creates a new XML data parser with a given \a parent and the entry type
+    to be parsed.
+    \param entryType Entry type to be parsed by the parser.
+    \param parent The object's parent.
+*/
+
+/*! \fn virtual bool XmlParser::startDocument()
+    Parser activities at the beginning of XML document.
+*/
+
+/*! \fn virtual bool XmlParser::endDocument()
+    Parser activities at the end of XML document.
+*/
+
+/*! \fn virtual bool XmlParser::startElement( const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &atts )
+    Parser activities at start of the XML element.
+*/
+
+/*! \fn virtual bool XmlParser::endElement( const QString &namespaceURI, const QString &localName, const QString &qName )
+    Parser activities at end of the XML element.
+*/
+
+/*! \fn virtual bool XmlParser::characters( const QString &ch )
+    Parser activities when reading XML element's text. The actual values are
+    being read here.
+*/
+
+/*! \fn void XmlParser::newEntry( Entry *entry )
+    Emitted when a complete entry is read.
+    \param entry A parsed entry.
+*/
+
+/*! \fn XmlParser::FieldType XmlParser::checkFieldType( const QString &element )
+    Figures out what type of element is currently being parsed.
+    \param element The element's text.
+    \returns Currently parsed element type.
+*/
+
+/*! \fn QDateTime XmlParser::toDateTime( const QString &timestamp )
+    Converts a \a timestamp string to a QDateTime object.
+    \param timestamp Parsed timestamp string.
+    \returns QDateTime-compatible entry timestamp.
+*/
+
+/*! \fn int XmlParser::getMonth( const QString &month )
+    Converts a short month name to a corresponding number.
+    \param month A string containing parsed month.
+    \returns A month number.
+*/
+
+/*! \var int XmlParser::currentField
+    Holds the currently processed field type.
+*/
+
+/*! \var Entry XmlParser::entry
+    Holds the parsed entry data.
+*/
+
+/*! \fn bool XmlParser::important
+    Returns true if the currently parsed element is significant for the application.
+*/
+
+/*! \var static const QByteArray XmlParser::USER_ID
+    XML document tag for a status id.
+*/
+
+/*! \var static const QByteArray XmlParser::USER_TEXT
+    XML document tag for a status text.
+*/
+
+/*! \var static const QByteArray XmlParser::USER_NAME
+    XML document tag for user's screen name.
+*/
+
+/*! \var static const QByteArray XmlParser::USER_LOGIN
+    XML document tag for user login.
+*/
+
+/*! \var static const QByteArray XmlParser::USER_PHOTO
+    XML document tag for user's profile image URL.
+*/
+
+/*! \var static const QByteArray XmlParser::USER_HOMEPAGE
+    XML document tag for user's homepage.
+*/
+
+/*! \var static const QByteArray XmlParser::USER_TIMESTAMP
+    XML document tag for status timestamp.
+*/

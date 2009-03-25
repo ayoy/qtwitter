@@ -92,3 +92,77 @@ void HttpConnection::clearDataStorage()
     bytearray = 0;
   }
 }
+
+/*! \class HttpConnection
+    \brief A base class for creating HTTP connection.
+
+    This class provides an interface for creating and managing a connection
+    over HTTP protocol. It inherits QHttp and includes handles for data
+    retrieved by requests. By reimplementing its private slots a custom
+    handling of the request's data can be provided.
+*/
+
+/*! \fn HttpConnection::HttpConnection( QObject *parent = 0 )
+    The default constructor. Constructs an uninitialized HttpConnection instance
+    with the given \a parent.
+*/
+
+/*! \fn virtual HttpConnection::~HttpConnection()
+    A virtual destructor.
+*/
+
+/*! \fn inline void HttpConnection::setUrl( const QString &path )
+    Sets the full URL for the object to be retrieved.
+    \param path The given URL.
+*/
+
+/*! \fn void HttpConnection::errorMessage( const QString &message )
+    Emitted to inform user about encountered problems.
+    \param message Error message.
+*/
+
+/*! \fn QByteArray HttpConnection::prepareRequest( const QString &path )
+    Sets the connection up by defining host, allocating memory for storing
+    retrieved data, and converting \a path to a percent-encoded URL.
+    \param path URL for the request.
+    \sa bytearray, buffer
+    \returns Percent-encoded URL prepared for passing to QHttp::get() or QHttp::post() method.
+*/
+
+/*! \fn void HttpConnection::clearDataStorage()
+    Frees the memory allocated for the reply data.
+*/
+
+/*! \var bool HttpConnection::httpRequestAborted
+    Is set to true when request is aborted.
+*/
+
+/*! \var int HttpConnection::httpGetId
+    Stores the GET request id.
+*/
+
+/*! \var int HttpConnection::httpHostId
+    Stores the request id returned by QHttp::setHost().
+*/
+
+/*! \var int HttpConnection::httpUserId
+    Stores the request id returned by QHttp::setUser().
+*/
+
+/*! \var int HttpConnection:closeId
+    Stores the request id returned by QHttp::close().
+*/
+
+/*! \var QUrl HttpConnection::url
+    Stores the URL for the request.
+*/
+
+/*! QByteArray* HttpConnection::bytearray
+    Provides the handle to where the downloaded data is stored.
+    \sa buffer
+*/
+
+/*! QBuffer* HttpConnection::buffer
+    Provides a convenient interface for access to \ref bytearray.
+    \sa bytearray
+*/
