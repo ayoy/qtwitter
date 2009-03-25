@@ -26,6 +26,7 @@
 #include <QDateTime>
 #include <QMetaType>
 #include "twitterapi.h"
+#include "twitterapi_global.h"
 
 class TWITTERAPISHARED_EXPORT Entry : public QObject
 {

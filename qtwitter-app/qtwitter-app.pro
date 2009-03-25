@@ -6,7 +6,8 @@ include($${TOP}/twitterapi/twitterapi.pri)
 macx {
     ICON = macx/twitter_48.icns
     QMAKE_INFO_PLIST = macx/Info.plist
-    QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks/
+    QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
+#    INCLUDEPATH += $${TOP}/$${TARGET}.app/Contents/Frameworks/twitterapi.framework/Versions/$${VER_MAJ}/Headers
     LIBS += -framework twitterapi
 } else:unix {
     LIBS += -L$${TOP}/lib $$TWITTERAPI_LIB -Wl,-rpath,$${PWD}/$${TOP}/lib
@@ -20,7 +21,6 @@ macx {
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
-    src/httpconnection.cpp \
     src/imagedownload.cpp \
     src/core.cpp \
     src/settings.cpp \
@@ -32,7 +32,6 @@ SOURCES += src/main.cpp \
 HEADERS += src/mainwindow.h \
     src/statusfilter.h \
     src/statusedit.h \
-    src/httpconnection.h \
     src/imagedownload.h \
     src/core.h \
     src/settings.h \

@@ -18,8 +18,9 @@
  ***************************************************************************/
 
 
-#include "imagedownload.h"
 #include <QMap>
+#include <QImage>
+#include "imagedownload.h"
 
 ImageData::ImageData() :
     image(0),

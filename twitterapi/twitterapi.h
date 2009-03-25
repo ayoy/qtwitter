@@ -21,8 +21,8 @@
 #ifndef TWITTERAPI_H
 #define TWITTERAPI_H
 
-#include <QAuthenticator>
 #include <QObject>
+#include <QAuthenticator>
 #include "twitterapi_global.h"
 
 class QTimer;

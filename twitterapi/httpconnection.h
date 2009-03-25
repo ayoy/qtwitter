@@ -22,8 +22,9 @@
 #define HTTPCONNECTION_H
 
 #include <QtNetwork>
+#include "twitterapi_global.h"
 
-class HttpConnection : public QHttp
+class TWITTERAPISHARED_EXPORT HttpConnection : public QHttp
 {
   Q_OBJECT
 

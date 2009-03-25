@@ -21,7 +21,9 @@
 #ifndef IMAGEDOWNLOAD_H
 #define IMAGEDOWNLOAD_H
 
+#include <QImage>
 #include "httpconnection.h"
+#include "entry.h"
 
 /*!
   \brief A struct containing data handles for retrieved images.
