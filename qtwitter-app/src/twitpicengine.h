@@ -33,33 +33,13 @@ public:
   TwitPicEngine( Core *coreParent, QObject *parent = 0 );
   ~TwitPicEngine();
 
-  /*!
-    This method invokes HttpConnection::prepareRequest() for the \a path, assigns
-    allocated data to an appropriate XmlData object and issues QHttp::post()
-    with parameters given as \a status.
-    \param path A path the request has to be sent to.
-    \param content The content requested for this request (should work properly
-                   for both types, but currently only statuses are supported).
-    \sa getContent(), ContentRequested
-  */
   void postContent( const QAuthenticator &authData, QString photoPath, QString status );
 
 public slots:
   void abort();
 
 signals:
-  /*!
-    Emitted for a finished request, with the content type specified as a parameter.
-    \param content Tells for which content the request has finished.
-  */
   void finished();
-
-  /*!
-    Emitted to forward a problem with the connection or downloaded content
-    to the MainWindow class instance to notify User.
-    \param message An error message to be displayed.
-  */
-  void errorMessage( const QString &message );
 
 private slots:
   void readResponseHeader( const QHttpResponseHeader &responseHeader );

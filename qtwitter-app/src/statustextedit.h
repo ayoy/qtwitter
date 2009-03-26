@@ -41,3 +41,21 @@ protected:
 };
 
 #endif // STATUSTEXTEDIT_H
+
+
+/*! \class StatusTextEdit
+    \brief A customized QPlainTextEdit class.
+
+    This class is used by TwitPicView to handle input of the user's message
+    added to the uploaded photo. Derives from QPlainTextEdit and reimplements
+    keyPressEvent in order to provide focus switching with Tab and Backtab.
+*/
+
+/*! \fn StatusTextEdit::StatusTextEdit( QWidget *parent = 0 )
+    Creates a text edit with a given \a parent.
+*/
+
+/*! \fn void StatusTextEdit::keyPressEvent( QKeyEvent *e )
+    Reimplemented from QPlainTextEdit to enable switching focus using Tab
+    and Backtab keys.
+*/

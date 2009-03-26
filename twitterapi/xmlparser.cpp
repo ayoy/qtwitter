@@ -273,6 +273,11 @@ QString XmlParser::textToHtml( QString newText )
     \returns A month number.
 */
 
+/*! \fn QString XmlParser::textToHtml( QString newText )
+    Reads \a newText and wraps up encountered URL links in \<a href="..."\> HTML tags.
+    \param newText Text to be parsed.
+*/
+
 /*! \var int XmlParser::currentField
     Holds the currently processed field type.
 */

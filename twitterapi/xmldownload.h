@@ -67,7 +67,6 @@ signals:
   void unauthorized( int destroyId );
   void newEntry( Entry *entry );
   void deleteEntry( int id );
-  void errorMessage( const QString &message );
 
 private slots:
   void extractId( Entry* );

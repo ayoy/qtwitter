@@ -25,41 +25,18 @@
 #include <QEvent>
 #include <qevent.h>
 
-/*!
-  \brief A class for filtering the StatusEdit input.
-
-  This class provides a filter for the StatusEdit class. It performs key press
-  filtering and emits appropriate signals when receives Enter or Esc key presses.
-*/
 class StatusFilter : public QObject
 {
   Q_OBJECT
 
 public:
-  /*!
-    Creates an new status filter object with a given \a parent.
-  */
   StatusFilter( QObject *parent = 0 ) : QObject( parent ) {}
 
 signals:
-  /*!
-    Emitted upon receiving an Enter key press event.
-  */
   void enterPressed();
-
-  /*!
-    Emitted upon receiving an Esc key press event.
-  */
   void escPressed();
 
 protected:
-  /*!
-    Event filter method that filters Esc and Enter key presses from all the
-    events received by the filtered object.
-    \param dist A filtered object.
-    \param event A event to be processed.
-    \returns True if the event was processed.
-  */
   bool eventFilter( QObject *dist, QEvent *event )
   {
     if ( event->type() == QEvent::KeyPress )
@@ -81,3 +58,30 @@ protected:
 };
 
 #endif //STATUSFILTER_H
+
+/*! \class StatusFilter
+    \brief A class for filtering the StatusEdit input.
+
+    This class provides a filter for the StatusEdit class. It performs key press
+    filtering and emits appropriate signals when receives Enter or Esc key presses.
+*/
+
+/*! \fn StatusFilter::StatusFilter( QObject *parent = 0 )
+    Creates an new status filter object with a given \a parent.
+*/
+
+/*! \fn void StatusFilter::enterPressed()
+    Emitted upon receiving an Enter key press event.
+*/
+
+/*! \fn void StatusFilter::escPressed()
+    Emitted upon receiving an Esc key press event.
+*/
+
+/*! \fn bool StatusFilter::eventFilter( QObject *dist, QEvent *event )
+    Event filter method that filters Esc and Enter key presses from all the
+    events received by the filtered object.
+    \param dist A filtered object.
+    \param event A event to be processed.
+    \returns True if the event was processed.
+*/

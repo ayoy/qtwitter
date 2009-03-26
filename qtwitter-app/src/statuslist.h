@@ -24,28 +24,13 @@
 #include <QListView>
 #include <QKeyEvent>
 
-/*!
-  \brief A customized QListView class.
-
-  This widget class provides a signal notification when scrolling items using
-  keboard's arrow keys. It allows a TweetModel class instance to catch the list's
-  key press event and change appropriate Tweets' state accordingly.
-*/
 class StatusList : public QListView
 {
   Q_OBJECT
 
 public:
-  /*!
-    Creates a new list view with a given \a parent.
-  */
   StatusList( QWidget *parent = 0 ) : QListView( parent ) {}
 
-  /*!
-    This event handler emits moveFocus() when an up or down arrow key was pressed.
-    \param e A QKeyEvent event's representation.
-    \sa moveFocus()
-  */
   void keyPressEvent( QKeyEvent *e ) {
     switch ( e->key() ) {
     case Qt::Key_Up:
@@ -59,13 +44,32 @@ public:
   }
 
 signals:
-  /*!
-    Emitted when an up or down arrow key was pressed.
-    \param up True when up arrow key was pressed, false when it was down arrow key.
-    \sa keyPressEvent()
-  */
   void moveFocus( bool up );
 
 };
 
 #endif // STATUSLIST_H
+
+/*! \class StatusList
+    \brief A customized QListView class.
+
+    This widget class provides a signal notification when scrolling items using
+    keboard's arrow keys. It allows a TweetModel class instance to catch the list's
+    key press event and change appropriate Tweets' state accordingly.
+*/
+
+/*! \fn StatusList::StatusList( QWidget *parent = 0 )
+    Creates a new list view with a given \a parent.
+*/
+
+/*! \fn void StatusList::keyPressEvent( QKeyEvent *e )
+    This event handler emits moveFocus() when an up or down arrow key was pressed.
+    \param e A QKeyEvent event's representation.
+    \sa moveFocus()
+*/
+
+/*! \fn void StatusList::moveFocus( bool up )
+    Emitted when an up or down arrow key was pressed.
+    \param up True when up arrow key was pressed, false when it was down arrow key.
+    \sa keyPressEvent()
+*/

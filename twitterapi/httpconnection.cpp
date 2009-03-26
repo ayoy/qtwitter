@@ -149,7 +149,7 @@ void HttpConnection::clearDataStorage()
     Stores the request id returned by QHttp::setUser().
 */
 
-/*! \var int HttpConnection:closeId
+/*! \var int HttpConnection::closeId
     Stores the request id returned by QHttp::close().
 */
 
@@ -157,12 +157,12 @@ void HttpConnection::clearDataStorage()
     Stores the URL for the request.
 */
 
-/*! QByteArray* HttpConnection::bytearray
+/*! \var QByteArray* HttpConnection::bytearray
     Provides the handle to where the downloaded data is stored.
     \sa buffer
 */
 
-/*! QBuffer* HttpConnection::buffer
+/*! \var QBuffer* HttpConnection::buffer
     Provides a convenient interface for access to \ref bytearray.
     \sa bytearray
 */

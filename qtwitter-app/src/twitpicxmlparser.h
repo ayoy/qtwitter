@@ -29,18 +29,11 @@ class TwitPicXmlParser : public QObject, public QXmlDefaultHandler
 public:
   TwitPicXmlParser( QObject *parent = 0 );
 
-  /*!
-    Parser activities at start of the XML element.
-  */
+
   virtual bool startElement( const QString &namespaceURI,
                              const QString &localName,
                              const QString &qName,
                              const QXmlAttributes &atts );
-
-  /*!
-    Parser activities when reading XML element's text. The actual values are
-    being read here.
-  */
   virtual bool characters( const QString &ch );
 
 signals:

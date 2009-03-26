@@ -409,9 +409,3 @@ XmlData* XmlDownload::processedRequest( int requestId )
     Emitted when the confirmation of the entry deletion is received.
     \param id Id of the deleted entry.
 */
-
-/*! \fn void XmlDownload::errorMessage( const QString &message )
-    Emitted to forward a problem with the connection or downloaded content
-    to the MainWindow class instance to notify User.
-    \param message An error message to be displayed.
-*/

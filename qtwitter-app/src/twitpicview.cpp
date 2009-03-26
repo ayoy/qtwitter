@@ -157,3 +157,55 @@ QString TwitPicView::getHomeDir()
   rx.indexIn( QProcess::systemEnvironment().join( ";" ) );
   return rx.cap(1);
 }
+
+
+/*! \class TwitPicView
+    \brief A GUI frontend to TwitPicEngine class.
+
+    This class provides a dialog for uploading photos to TwitPic. It is responsible
+    for communicating with User: enabling selection of a photo to upload, adding
+    a status to be posted and showing the progress of an operation. Behind the scenes
+    it talks to TwitPicEngine class that interacts with TwitPic REST API.
+*/
+
+/*! \fn explicit TwitPicView::TwitPicView(QWidget *parent = 0)
+    Creates a new dialog with a given \a parent.
+*/
+
+/*! \fn virtual TwitPicView::~TwitPicView()
+    Destroys a dialog.
+*/
+
+/*! \fn void TwitPicView::showUploadProgress( int done, int total )
+    Updates the progress bar to show photo uploading progress.
+    \param done Amount of data uploaded so far.
+    \param total Total amount of data to be uploaded.
+*/
+
+/*! \fn void TwitPicView::resetForm()
+    Resets input fields and applies widgets' initial states. Used after
+    completing or aborting upload.
+    \sa abortUpload()
+*/
+
+/*! \fn void TwitPicView::reject()
+    Reimplemented from QDialog to handle aborting the request when closing the window (rejecting the dialog).
+*/
+
+/*! \fn void TwitPicView::uploadPhoto( QString photoPath, QString status )
+    Emitted when User presses the "Upload" button. Notifies TwitPicEngine class of the upload request.
+    \param photoPath A path to the image on disk to be uploaded.
+    \param status An optional status to be posted to Twitter together with a link to image.
+*/
+
+/*! \fn void TwitPicView::abortUpload()
+    Emitted when User presses the "Abort" button. Notifies TwitPicEngine about cancelling upload.
+*/
+
+/*! \fn virtual void TwitPicView::changeEvent( QEvent *e )
+    Reimplemented from QDialog, enables on-the fly widget's translation.
+*/
+
+/*! \fn void TwitPicView::resizeEvent( QResizeEvent *e )
+    Reimplemented from QDialog, adjusts the photo preview when resizing its viewport.
+*/

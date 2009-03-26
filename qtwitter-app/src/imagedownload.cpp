@@ -111,3 +111,66 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
     httpRequestAborted = true;
   }
 }
+
+/*! \struct ImageData
+    \brief A struct containing data handles for retrieved images.
+
+    Before creating a connection for image downlaod, an ImageData structure
+    instance is created, and its \ref buffer and \ref bytearray members are
+    assigned to corresponding ImageDownload class's members, that can be
+    freed then. When download finishes, a downloaded image is assigned to
+    \ref image field. All the memory management for ImageData struct is
+    covered inside the ImageDownload class.
+*/
+
+/*! \var QImage* ImageData::image
+    A pointer to the image.
+*/
+
+/*! \var QByteArray* ImageData::bytearray
+    A pointer to the bytearray.
+*/
+
+/*! \var QBuffer* ImageData::buffer
+    A pointer to the buffer.
+*/
+
+/*! \fn ImageData::ImageData()
+    Creates a new ImageData object with null pointers.
+*/
+
+/*! \fn ImageData::~ImageData()
+    Destroys an instance of ImageData, freeing the memory allocated by its members.
+*/
+
+/*! \class ImageDownload
+    \brief A class for downlading images for Tweets.
+
+    This is a class that provides interface for downloading user profile images
+    for Tweets.
+*/
+
+/*! \fn ImageDownload::ImageDownload()
+    A default constructor.
+*/
+
+/*! \fn ImageDownload::~ImageDownload()
+    A destructor.
+*/
+
+/*! \fn void ImageDownload::imageGet( Entry *entry )
+    This method invokes HttpConnection::prepareRequest() for a path
+    given in \a entry, assigns allocated data to newly created
+    ImageData instance and then issues QHttp::get().
+    \param entry Entry for which the image will be downloaded.
+*/
+
+/*! \fn void ImageDownload::clearData()
+    Forces clearing of temporary images store, gathered while updating timeline.
+*/
+
+/*! \fn void ImageDownload::imageReadyForUrl( const QString& path, QImage image )
+    Emitted when the request is finished and the image is ready to be displayed.
+    \param path The image's URL.
+    \param image The downloaded image.
+*/

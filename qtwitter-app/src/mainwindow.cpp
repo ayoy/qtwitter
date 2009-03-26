@@ -299,3 +299,124 @@ void MainWindow::retranslateUi()
   gototwitterAction->setText( tr( "Go to Twitter" ) );
   gototwitpicAction->setText( tr( "Go to TwitPic" ) );
 }
+
+/*! \class MainWindow
+    \brief A class defining the main window of the application.
+
+    This class contains all the GUI elements of the main application window.
+    It receives signals from Core and TweetModel classes and provides means
+    of visualization for them.
+*/
+
+/*! \fn MainWindow::MainWindow( QWidget *parent = 0 )
+    A default constructor. Creates a MainWindow instance with the given \a parent.
+*/
+
+/*! \fn MainWindow::~MainWindow()
+    A default destructor.
+*/
+
+/*! \fn StatusList* MainWindow::getListView()
+    A method for external access to the list view used for displaying Tweets.
+    Used for initialization of TweetModel class's instance.
+    \returns A pointer to the list view instance of MainWindow.
+*/
+
+/*! \fn int MainWindow::getScrollBarWidth()
+    A method for accessing the list view scrollbar's width, needed for computing width
+    of Tweet class instances.
+    \returns List view scrollbar's width.
+*/
+
+/*! \fn void MainWindow::setListViewModel( TweetModel *model )
+    Assigns the \a model to be a list view model.
+    \param model The model for the list view.
+*/
+
+/*! \fn void MainWindow::changeListBackgroundColor( const QColor &newColor )
+    Sets the background color of a list view. Used when changing color theme.
+    \param newColor List view new background color.
+*/
+
+/*! \fn void MainWindow::popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages )
+    Pops up a tray icon notification message containing information about
+    new Tweets and direct messages (if any). Displays total messages count and
+    their authors' names for status updates and direct messages separately.
+    \param statusesCount The amount of new status updates.
+    \param namesForStatuses List of statuses senders' names.
+    \param messagesCount The amount of new direct messages.
+    \param namesForMessages List of direct messages senders' names.
+*/
+
+/*! \fn void MainWindow::popupError( const QString &message )
+    Pops up a dialog with an error or information for User. This is an interface
+    for all the classes that notify User about any problems (e.g. Core, XmlDownload
+    and ImageDownload).
+    \param message An information to be shown to User.
+*/
+
+/*! \fn void MainWindow::retranslateUi()
+    Retranslates all the translatable GUI elements of the class. Used when changing
+    UI language on the fly.
+*/
+
+/*! \fn void MainWindow::resetStatusEdit()
+    Resets status edit field if necessary. Invoked mainly when updating timeline finishes.
+*/
+
+/*! \fn void MainWindow::showProgressIcon()
+    Displays progress icon when processing a request.
+*/
+
+/*! \fn void MainWindow::about()
+    Pops up a small dialog with credits and short info on the application and its author.
+*/
+
+/*! \fn void MainWindow::updateTweets()
+    Emitted to force timeline update, assigned to pressing the update button.
+*/
+
+/*! \fn void MainWindow::openTwitPicDialog()
+    Emitted to open a dialog for uploading a photo to TwitPic.
+*/
+
+/*! \fn void MainWindow::post( const QByteArray& status, int inReplyTo = -1 )
+    Emitted to post a status update. Assigned to pressing Enter inside the status edit field.
+    \param status A status to be posted.
+    \param inReplyTo In case the status is a reply - optional id of the existing status to which the reply is posted.
+*/
+
+/*! \fn void MainWindow::openBrowser( QUrl address )
+    Emitted when "Go to..." action requested, asks to open a default browser.
+    \param address Requested URL.
+    \sa Core::openBrowser()
+*/
+
+/*! \fn void MainWindow::settingsDialogRequested()
+    Emitted when settings button pressed, requests opening the settings dialog.
+*/
+
+/*! \fn void MainWindow::addReplyString( const QString& user, int inReplyTo )
+    Works as a proxy between Tweet class instance and status edit field. Passes the request
+    to initiate editing a reply.
+    \param user Login of a User to whom the current User replies.
+    \param inReplyTo Id of the existing status to which the reply is posted.
+*/
+
+/*! \fn void MainWindow::addRetweetString( QString message )
+    Works as a proxy between Tweet class instance and status edit field. Passes the request
+    to initiate editing a retweet.
+    \param message A retweet message
+*/
+
+/*! \fn void MainWindow::resizeView( int width, int oldWidth )
+    Emitted when resizing a window, to inform all the Tweets about the size change.
+    \param width The width after resizing.
+    \param oldWidth The width before resizing.
+*/
+
+/*! \fn void MainWindow::closeEvent( QCloseEvent *e )
+    An event reimplemented in order to provide hiding instead of closing the application.
+    Closing is provided only via a shortcut or tray icon menu option.
+    \param e A QCloseEvent event's representation.
+*/

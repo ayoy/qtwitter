@@ -18,11 +18,13 @@
  ***************************************************************************/
 
 
-#include "tweet.h"
-#include "ui_tweet.h"
 #include <QDebug>
 #include <QProcess>
 #include <QClipboard>
+#include "tweet.h"
+#include "ui_tweet.h"
+#include "tweetmodel.h"
+#include "settings.h"
 
 ThemeData Tweet::currentTheme = ThemeData();
 TweetModel* Tweet::tweetListModel = 0;
@@ -270,3 +272,169 @@ void Tweet::focusRequest()
 {
   emit selectMe( this );
 }
+
+
+/*! \class Tweet
+    \brief A widget representation of an Entry class.
+
+    This widget class contains the status data displayed in a custom widget that is put
+    on the status list view.
+*/
+
+/*! \enum Tweet::State
+    \brief A Tweet's state.
+
+    Used to specify the Tweet's current state, based on the User's selection.
+*/
+
+/*! \var Tweet::State Tweet::Unread
+    The Tweet is unread.
+*/
+
+/*! \var Tweet::State Tweet::Read
+    The Tweet is read.
+*/
+
+/*! \var Tweet::State Tweet::Active
+    The Tweet is active, i.e. currently highlighted.
+*/
+
+/*! \fn explicit Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent = 0 )
+    Creates a new Tweet with a given \a parent, fills its data with the given
+    \a entry and sets its user image to \a image.
+*/
+
+/*! \fn virtual Tweet::~Tweet()
+    A virtual destructor.
+*/
+
+/*! \fn void Tweet::resize( const QSize& size )
+    Resizes a Tweet to the given \a size.
+    \param size New size of the Tweet.
+    \sa adjustSize()
+*/
+
+/*! \fn void Tweet::resize( int w, int h )
+    Resizes a Tweet to the width given by \a w and height given by \a h.
+    Invokes adjustSize() to additionally correct the height of the Tweet.
+    \param w New width of the Tweet.
+    \param h New height of the Tweet.
+    \sa adjustSize()
+*/
+
+/*! \fn void Tweet::setIcon( const QImage &image )
+    Sets the Tweet's User profile image to \a image.
+    \param image An image to be set.
+*/
+
+/*! \fn void Tweet::applyTheme()
+    Applies a theme to the Tweet, according to its current state.
+    \sa setState(), getState()
+*/
+
+/*! \fn void Tweet::retranslateUi()
+    Retranslates all the translatable GUI elements of the Tweet.
+    Used when changing UI language on the fly.
+*/
+
+/*! \fn bool Tweet::isRead() const
+    Used to figure out if the Tweet is already read.
+    \returns True when Tweet's state is \ref Read or \ref Active, false when Tweet's
+             state is \ref Unread.
+    \sa getState()
+*/
+
+/*! \fn Tweet::State Tweet::getState() const
+    Used to figure out the actual state of the Tweet.
+    \returns The current state of the Tweet.
+    \sa setState(), isRead()
+*/
+
+/*! \fn void Tweet::setState( Tweet::State state );
+    Sets Tweet's current state to \a state.
+    \param state A \ref State to set for the Tweet.
+*/
+
+/*! \fn static ThemeData Tweet::getTheme();
+    Provides information about the theme that is currently set to all the Tweets.
+    \returns Current Tweets' theme.
+    \sa setTheme()
+*/
+
+/*! \fn static void Tweet::setTheme( const ThemeData &theme )
+    Sets the current theme for all the Tweets.
+    \param theme A theme to be set.
+    \sa getTheme()
+*/
+
+/*! \fn static void Tweet::setTweetListModel( TweetModel *tweetModel )
+    Sets a Tweet list model. The model is used by a Tweet to receive signals
+    from a Tweet menu.
+    \param tweetModel The model to be set.
+*/
+
+/*! \fn void Tweet:adjustSize()
+    Adjusts height of the Tweet widget to fit the whole status.
+    \sa resize()
+*/
+
+/*! \fn void Tweet::menuRequested()
+    Opens a Tweet menu.
+*/
+
+/*! \fn void Tweet::sendReply()
+    Prepares and emits a \ref reply() signal.
+    \sa reply()
+*/
+
+/*! \fn void Tweet::sendRetweet()
+    Prepares a retweet (citation of other user's status) and emits a
+    \ref retweet() signal to post it.
+    \sa retweet()
+*/
+
+/*! \fn void Tweet::copyLink()
+    Copies a link to the Tweet to system clipboard.
+*/
+
+/*! \fn void Tweet::reply( const QString &name, int inReplyTo )
+    Emitted to notify the MainWindow class instance about the User's request
+    to send a reply.
+    \param name Login of the User to whom a reply is addressed.
+    \param inReplyTo Id of the existing status to which the reply is posted.
+    \sa sendReply()
+*/
+
+/*! \fn void Tweet::retweet( QString message )
+    Emitted to notify the Core class instance about the User's request
+    to retweet a status.
+    \param message A retweet status message prepared by \ref sendRetweet().
+    \sa sendRetweet()
+*/
+
+/*! \fn void Tweet::markAllAsRead()
+    Emitted to notify the TweetModel class instance about User's request
+    to mark all the Tweets in a list as read.
+*/
+
+/*! \fn void Tweet::selectMe( Tweet *tweet )
+    Emitted to notify the TweetModel class instance about User's request
+    to select (highlight) the current Tweet.
+    \param tweet A Tweet to be highlighted. Usually \a this.
+*/
+
+/*! \fn void Tweet::changeEvent( QEvent *e )
+    Reimplemented to force \ref retranslateUi() upon a language change.
+    \param e A QEvent event's representation.
+    \sa retranslateUi()
+*/
+
+/*! \fn void Tweet::enterEvent( QEvent *e )
+    Reimplemented to show the menu icon when hovered by mouse.
+    \param e A QEvent event's representation.
+*/
+
+/*! \fn void Tweet::leaveEvent( QEvent *e )
+    Reimplemented to hide the menu icon when mouse leaves the Tweet.
+    \param e A QEvent event's representation.
+*/

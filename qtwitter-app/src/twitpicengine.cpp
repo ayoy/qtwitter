@@ -153,3 +153,37 @@ void TwitPicEngine::createConnections( Core *coreParent )
   connect( replyParser, SIGNAL(completed(bool,QString,bool)), coreParent, SLOT(twitPicResponse(bool,QString,bool)) );
   connect( this, SIGNAL(dataSendProgress(int,int)), coreParent, SIGNAL(twitPicDataSendProgress(int,int)) );
 }
+
+
+/*! \class TwitPicEngine
+    \brief A class responsible for interacting with TwitPic.
+
+    This class provides an interface for communicating with TwitPic, for uploading
+    and sharing photos.
+*/
+
+/*! \fn TwitPicEngine::TwitPicEngine( Core *coreParent, QObject *parent = 0 )
+    Creates a new instance of TwitPicEngine class with the given \a coreParent and \a parent.
+*/
+
+/*! \fn TwitPicEngine::~TwitPicEngine();
+    Destroys a TwitPicEngine instance.
+*/
+
+/*! \fn void TwitPicEngine::postContent( const QAuthenticator &authData, QString photoPath, QString status )
+    This method constructs a post request based on an \a authData and \a status and
+    appends the data of the image from the path given by \a photoPath. Issues a request
+    when created.
+    \param authData The authenticating user's login and password.
+    \param photoPath A path to the image file on disk.
+    \param status An optional status to be posted to Twitter with a link to the uploaded photo.
+    \sa abort(), finished()
+*/
+
+/*! \fn void TwitPicEngine::abort()
+    Aborts the current request.
+*/
+
+/*! \fn void TwitPicEngine::finished()
+    Emitted for a finished request, with the content type specified as a parameter.
+*/

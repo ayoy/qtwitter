@@ -79,3 +79,31 @@ bool TwitPicXmlParser::characters( const QString &ch )
   }
   return true;
 }
+
+
+/*! \class TwitPicXmlParser
+    \brief A class for parsing XML data from TwitPic API.
+
+    This class inherits QXmlDefaultHandler and reimplements its methods to comply
+    with the structure of XML documents provided by TwitPic REST API.
+*/
+
+/*! \fn TwitPicXmlParser::TwitPicXmlParser( QObject *parent = 0 )
+    Creates a new parser with a given \a parent.
+*/
+
+/*! \fn virtual bool TwitPicXmlParser::startElement( const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &atts )
+  Parser activities at start of the XML element.
+*/
+
+/*! \fn virtual bool TwitPicXmlParser::characters( const QString &ch )
+  Parser activities when reading XML element's text. The actual values are
+  being read here.
+*/
+
+/*! \fn void TwitPicXmlParser::completed( bool responseStatus, QString message, bool newStatus )
+    Emitted when full response is parsed and ready to be processed.
+    \param responseStatus Indicates whether request completed successfully or failed.
+    \param message Depending on the value of \a responseStatus, contains an error message when false or a URL link to photo when true.
+    \param newStatus Indicates whether a new status has been posted to Twitter.
+*/
