@@ -26,6 +26,7 @@
 #include "ui_twitpicnewphoto.h"
 #include "twitterapi.h"
 #include "twitpicengine.h"
+#include "tweetmodel.h"
 
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
@@ -46,12 +47,30 @@ Core::Core( MainWindow *parent ) :
   connect( twitterapi, SIGNAL(unauthorized(int)), this, SLOT(slotUnauthorized(int)) );
   connect( twitterapi, SIGNAL(directMessagesSyncChanged(bool)), this, SIGNAL(directMessagesSyncChanged(bool)) );
   connect( twitterapi, SIGNAL(publicTimelineSyncChanged(bool)), this, SIGNAL(publicTimelineSyncChanged(bool)) );
+
+  model = new TweetModel( parent->getScrollBarWidth(), parent->getListView(), this );
+  connect( model, SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
+  connect( model, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
+  connect( model, SIGNAL(about()), this, SIGNAL(about()) );
+  connect( model, SIGNAL(destroy(int)), this, SLOT(destroyTweet(int)) );
+  connect( model, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
+  connect( model, SIGNAL(newTweets(int,QStringList,int,QStringList)), this, SIGNAL(newTweets(int,QStringList,int,QStringList)) );
+  connect( this, SIGNAL(addEntry(Entry*)), model, SLOT(insertTweet(Entry*)) );
+  connect( this, SIGNAL(deleteEntry(int)), model, SLOT(deleteTweet(int)) );
+  connect( this, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
+  connect( this, SIGNAL(requestListRefresh(bool,bool)), model, SLOT(setModelToBeCleared(bool,bool)) );
+  connect( this, SIGNAL(timelineUpdated()), model, SLOT(sendNewsInfo()) );
+  connect( this, SIGNAL(directMessagesSyncChanged(bool)), model, SLOT(slotDirectMessagesChanged(bool)) );
+  connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
+
+//  emit modelChanged( model );
 }
 
 Core::~Core() {}
 
-void Core::applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages )
+void Core::applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages, int maxTweetCount )
 {
+  model->setMaxTweetCount( maxTweetCount );
   bool a = setTimerInterval( msecs );
   bool b = twitterapi->setAuthData( user, password );
   bool c = twitterapi->setPublicTimelineSync( publicTimeline );
@@ -83,6 +102,16 @@ void Core::setBrowserPath( const QString &path )
   browserPath = path;
 }
 #endif
+
+void Core::setPublicTimelineRequested( bool b )
+{
+  model->setPublicTimelineRequested( b );
+}
+
+void Core::setModelTheme( const ThemeData &theme )
+{
+  model->setTheme( theme );
+}
 
 void Core::forceGet()
 {
@@ -239,6 +268,11 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
   qDebug() << "returning false";
   authDialogOpen = false;
   return Rejected;
+}
+
+void Core::retranslateUi()
+{
+  model->retranslateUi();
 }
 
 void Core::setImageInHash( const QString &url, QImage image )

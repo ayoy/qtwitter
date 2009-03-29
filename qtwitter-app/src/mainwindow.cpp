@@ -134,7 +134,7 @@ int MainWindow::getScrollBarWidth()
   return ui.statusListView->verticalScrollBar()->size().width();
 }
 
-void MainWindow::setListViewModel( TweetModel *model )
+void MainWindow::setListViewModel( QStandardItemModel *model )
 {
   ui.statusListView->setModel( model );
 }

@@ -22,6 +22,7 @@
 #include "entry.h"
 #include "tweet.h"
 #include "mainwindow.h"
+#include "settings.h"
 
 TweetModel::TweetModel( int margin, StatusList *parentListView, QObject *parent ) :
   QStandardItemModel( 0, 0, parent ),

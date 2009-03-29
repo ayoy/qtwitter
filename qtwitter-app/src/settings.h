@@ -36,6 +36,14 @@ class TweetModel;
 class MainWindow;
 class Core;
 
+//#if defined Q_WS_X11
+//  QSettings settings( "ayoy", "qTwitter" );
+//#elif defined Q_WS_MAC
+//  QSettings settings( "ayoy.net", "qTwitter" );
+//#elif defined Q_WS_WIN
+//  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
+//#endif
+
 struct ThemeElement
 {
   QString styleSheet;
@@ -93,7 +101,7 @@ public:
   static const ThemeInfo STYLESHEET_PURPLE;
   static const ThemeInfo STYLESHEET_SKY;
 
-  Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent = 0 );
+  Settings( MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent = 0 );
   ~Settings();
 
   void loadConfig( bool dialogRejected = false );
@@ -109,6 +117,14 @@ public slots:
   void setAuthDataInDialog( const QAuthenticator &authData );
 
 private slots:
+  void fillAccountEditor();
+  void addTwitterAccount();
+  void deleteTwitterAccount();
+  void setTwitterAccountEnabled( bool state );
+  void setTwitterAccountLogin( const QString &login );
+  void setTwitterAccountPassword( const QString &password );
+  void setTwitterAccountDM( bool state );
+  void setPublicTimelineEnabled( bool state );
   void changeTheme( const QString& );
   void retranslateUi();
 #ifdef Q_WS_X11
@@ -118,10 +134,10 @@ private slots:
 private:
   void applySettings();
   void createLanguageMenu();
+  QString pwHash( const QString &text );
+  QSettings settings;
   QTranslator translator;
-  QFile configFile;
   QNetworkProxy proxy;
-  TweetModel *model;
   MainWindow *mainWindow;
   Core *core;
   QMap<QString,ThemeData> themes;

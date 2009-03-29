@@ -25,10 +25,10 @@
 #include <QListView>
 #include <QUrl>
 #include "entry.h"
-#include "settings.h"
 #include "statuslist.h"
 
 class Tweet;
+class ThemeData;
 
 class TweetModel : public QStandardItemModel
 {

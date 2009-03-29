@@ -3,21 +3,27 @@ TARGET = qtwitter
 TOP = ..
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
-macx {
+macx { 
     ICON = macx/twitter_48.icns
     QMAKE_INFO_PLIST = macx/Info.plist
     QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
-#    INCLUDEPATH += $${TOP}/$${TARGET}.app/Contents/Frameworks/twitterapi.framework/Versions/$${VER_MAJ}/Headers
-    LIBS += -framework twitterapi
-} else:unix {
-    LIBS += -L$${TOP}/lib $$TWITTERAPI_LIB -Wl,-rpath,$${PWD}/$${TOP}/lib
+    
+    # INCLUDEPATH += $${TOP}/$${TARGET}.app/Contents/Frameworks/twitterapi.framework/Versions/$${VER_MAJ}/Headers
+    LIBS += -framework \
+        twitterapi
+}
+else:unix { 
+    LIBS += -L$${TOP}/lib \
+        $$TWITTERAPI_LIB \
+        -Wl,-rpath,$${PWD}/$${TOP}/lib
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
     INSTALLS += target
-} else:win32 {
-    LIBS += -L$${TOP}/lib $$TWITTERAPI_LIB -Wl,-rpath,$${PWD}/$${TOP}/lib
 }
+else:win32:LIBS += -L$${TOP}/lib \
+    $$TWITTERAPI_LIB \
+    -Wl,-rpath,$${PWD}/$${TOP}/lib
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
@@ -28,7 +34,8 @@ SOURCES += src/main.cpp \
     src/tweetmodel.cpp \
     src/twitpicview.cpp \
     src/twitpicengine.cpp \
-    src/twitpicxmlparser.cpp
+    src/twitpicxmlparser.cpp \
+    src/twitteraccountsdelegate.cpp
 HEADERS += src/mainwindow.h \
     src/statusfilter.h \
     src/statusedit.h \
@@ -42,7 +49,8 @@ HEADERS += src/mainwindow.h \
     src/twitpicview.h \
     src/twitpicengine.h \
     src/twitpicxmlparser.h \
-    src/statustextedit.h
+    src/statustextedit.h \
+    src/twitteraccountsdelegate.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \

@@ -27,7 +27,6 @@
 #include "tweetmodel.h"
 
 class QMovie;
-class TweetModel;
 
 class MainWindow : public QWidget
 {
@@ -41,7 +40,6 @@ public:
 
   StatusList* getListView();
   int getScrollBarWidth();
-  void setListViewModel( TweetModel *model );
   
 public slots:
   void changeListBackgroundColor( const QColor &newColor );
@@ -51,6 +49,7 @@ public slots:
   void resetStatusEdit();
   void showProgressIcon();
   void about();
+  void setListViewModel( QStandardItemModel *model );
 
 signals:
   void updateTweets();

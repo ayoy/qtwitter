@@ -27,6 +27,7 @@
 #include "settings.h"
 #include "mainwindow.h"
 #include "core.h"
+#include "twitteraccountsdelegate.h"
 
 const ThemeInfo Settings::STYLESHEET_CARAMEL =  ThemeInfo( QString( "Caramel" ),
                                                            ThemeData( ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(23, 14, 40, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(219, 204, 56); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" ),
@@ -89,14 +90,30 @@ const ThemeInfo Settings::STYLESHEET_SKY     = ThemeInfo( QString( "Sky" ),
                                                                                    QString( "a { color: rgb(0, 0, 153); }" ),
                                                                                    QColor( 184, 202, 215 ) ) ) );
 
-Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent ) :
+Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent ) :
     QDialog( parent ),
-    model( tweetModel ),
     mainWindow( mainwinSettings ),
     core( coreSettings )
 {
   qApp->installTranslator( &translator );
+
   ui.setupUi( this );
+
+  ui.usersView->setItemDelegate( new TwitterAccountsDelegate( QList<int>() << 0 << 3, this ) );
+  ui.usersView->hideColumn( 2 );
+  ui.usersView->setHeaderLabels( QStringList() << tr( "Enabled" ) << tr( "Login" ) << "Password" << tr( "Direct msgs" ) );
+  ui.usersView->setColumnWidth( 0, ui.usersView->width() * 0.2 );
+  ui.usersView->setColumnWidth( 1, ui.usersView->width() * 0.5 );
+  ui.usersView->setColumnWidth( 3, ui.usersView->width() * 0.2 );
+
+  connect( ui.usersView, SIGNAL(itemSelectionChanged()), this, SLOT(fillAccountEditor()) );
+  connect( ui.addAccountButton, SIGNAL(clicked()), this, SLOT(addTwitterAccount()));
+  connect( ui.deleteAccountButton, SIGNAL(clicked()), this, SLOT(deleteTwitterAccount()));
+  connect( ui.accountEnabledCheckBox, SIGNAL(clicked(bool)), this, SLOT(setTwitterAccountEnabled(bool)) );
+  connect( ui.accountLoginEdit, SIGNAL(textEdited(QString)), this, SLOT(setTwitterAccountLogin(QString)) );
+  connect( ui.accountPasswordEdit, SIGNAL(textEdited(QString)), this, SLOT(setTwitterAccountPassword(QString)) );
+  connect( ui.accountDMCheckBox, SIGNAL(clicked(bool)), this, SLOT(setTwitterAccountDM(bool)) );
+  connect( ui.publicTimelineCheckBox, SIGNAL(clicked(bool)), this, SLOT(setPublicTimelineEnabled(bool)) );
 
   themes.insert( STYLESHEET_CARAMEL.first, STYLESHEET_CARAMEL.second);
   themes.insert( STYLESHEET_COCOA.first,   STYLESHEET_COCOA.second);
@@ -136,27 +153,42 @@ Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, Core *c
   QIntValidator *portValidator = new QIntValidator( 1, 65535, this );
   ui.portEdit->setValidator( portValidator );
   loadConfig();
-  model->setPublicTimelineRequested( ui.radioPublic->isChecked() );
+  core->setPublicTimelineRequested( ui.radioPublic->isChecked() );
 }
 
 Settings::~Settings() {}
 
 void Settings::loadConfig( bool dialogRejected )
 {
-#if defined Q_WS_X11
-  QSettings settings( "ayoy", "qTwitter" );
-#elif defined Q_WS_MAC
-  QSettings settings( "ayoy.net", "qTwitter" );
-#elif defined Q_WS_WIN
-  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
-#endif
   settings.beginGroup( "General" );
     ui.userNameEdit->setText( settings.value( "username", "" ).toString() );
+    ui.passwordEdit->setText( pwHash( settings.value( "password", "" ).toString() ) );
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh" ).toInt() );
     ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
     ui.radioFriends->setChecked( settings.value( "timeline", true ).toBool() );
     ui.directCheckBox->setChecked( settings.value( "directMessages", true ).toBool() );
     ui.radioPublic->setChecked( !ui.radioFriends->isChecked() );
+  settings.endGroup();
+  ui.usersView->clear();
+  settings.beginGroup( "TwitterAccounts" );
+    QStringList account;
+    for ( int i = 0; i < settings.childGroups().count(); i++ ) {
+      account << "";//QString::number( settings.value( QString( "%1/enabled" ).arg(i), Qt::Unchecked ).toInt() );
+      account << settings.value( QString( "%1/login" ).arg(i), "" ).toString();
+      account << pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
+      account << "";//QString::number( settings.value( QString( "%1/directmsgs" ).arg(i), Qt::Unchecked ).toInt() );
+      QTreeWidgetItem *item = new QTreeWidgetItem( account );
+      item->setData( 0, Qt::DisplayRole, settings.value( QString( "%1/enabled" ).arg(i), false ).toBool() );
+      item->setData( 3, Qt::DisplayRole, settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool() );
+      ui.usersView->addTopLevelItem( item );
+      account.clear();
+    }
+    if ( ui.usersView->topLevelItemCount() <= 1 ) {
+      ui.deleteAccountButton->setEnabled( false );
+    } else {
+      ui.deleteAccountButton->setEnabled( true );
+    }
+    ui.publicTimelineCheckBox->setChecked( settings.value( "publicTimeline", Qt::Unchecked ).toBool() );
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
@@ -216,13 +248,6 @@ void Settings::setProxy()
 
 void Settings::saveConfig( int quitting )
 {
-#if defined Q_WS_X11
-  QSettings settings( "ayoy", "qTwitter" );
-#elif defined Q_WS_MAC
-  QSettings settings( "ayoy.net", "qTwitter" );
-#elif defined Q_WS_WIN
-  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
-#endif
   settings.beginGroup( "MainWindow" );
     settings.setValue( "size", mainWindow->size() );
     settings.setValue( "pos", mainWindow->pos() );
@@ -230,6 +255,7 @@ void Settings::saveConfig( int quitting )
     settings.setValue( "SettingsWindow/pos", pos() );
   settings.beginGroup( "General" );
     settings.setValue( "username", ui.userNameEdit->text() );
+    settings.setValue( "password", pwHash( ui.passwordEdit->text() ) );
     settings.setValue( "refresh", ui.refreshCombo->currentIndex() );
     settings.setValue( "language", ui.languageCombo->currentIndex() );
     settings.setValue( "timeline", ui.radioFriends->isChecked() );
@@ -286,7 +312,7 @@ void Settings::switchLanguage( int index )
   translator.load( "qtwitter_" + locale, qmPath);
   retranslateUi();
   mainWindow->retranslateUi();
-  model->retranslateUi();
+  core->retranslateUi();
   adjustSize();
 }
 
@@ -296,15 +322,7 @@ void Settings::slotPublicTimelineSyncChanged( bool isEnabled )
     return;
   if ( !ui.radioPublic->isChecked() ) {
     ui.radioPublic->setChecked( true );
-    model->setPublicTimelineRequested( true );
-
-#if defined Q_WS_X11
-  QSettings settings( "ayoy", "qTwitter" );
-#elif defined Q_WS_MAC
-  QSettings settings( "ayoy.net", "qTwitter" );
-#elif defined Q_WS_WIN
-  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
-#endif
+    core->setPublicTimelineRequested( true );
     settings.setValue( "General/timeline", ui.radioFriends->isChecked() );
   }
 }
@@ -315,10 +333,114 @@ void Settings::setAuthDataInDialog( const QAuthenticator &authData)
   ui.passwordEdit->setText( authData.password() );
 }
 
+void Settings::fillAccountEditor()
+{
+  bool isEnabled = !ui.usersView->selectedItems().isEmpty();
+  ui.accountEnabledCheckBox->setEnabled( isEnabled );
+  ui.accountLoginLabel->setEnabled( isEnabled );
+  ui.accountLoginEdit->setEnabled( isEnabled );
+  ui.accountPasswordLabel->setEnabled( isEnabled );
+  ui.accountPasswordEdit->setEnabled( isEnabled );
+  ui.accountDMCheckBox->setEnabled( isEnabled );
+  if ( !isEnabled )
+    return;
+
+  QModelIndex currentIndex = ui.usersView->currentIndex();
+  QModelIndex rootIndex;
+  int row = currentIndex.row();
+  rootIndex = currentIndex.sibling( row, 0 );
+  ui.accountEnabledCheckBox->setChecked( rootIndex.data().toBool() );
+  ui.accountLoginEdit->setText( rootIndex.sibling( row, 1 ).data().toString() );
+  ui.accountPasswordEdit->setText( rootIndex.sibling( row, 2 ).data().toString() );
+  ui.accountDMCheckBox->setChecked( rootIndex.sibling( row, 3 ).data().toBool() );
+}
+
+void Settings::addTwitterAccount()
+{
+  QTreeWidgetItem *item = new QTreeWidgetItem( QStringList() << "" << tr( "<empty>" ) << "" << "" );
+  ui.usersView->addTopLevelItem( item );
+  ui.usersView->setCurrentItem( item );
+  ui.deleteAccountButton->setEnabled( true );
+  ui.accountLoginEdit->setFocus();
+  ui.accountLoginEdit->selectAll();
+  settings.beginGroup( QString( "TwitterAccounts/%1" ).arg( ui.usersView->currentIndex().row() ) );
+    settings.setValue( "enabled", false );
+    settings.setValue( "login", tr( "<empty>" ) );
+    settings.setValue( "password", "" );
+    settings.setValue( "directmsgs", false );
+  settings.endGroup();
+}
+
+void Settings::deleteTwitterAccount()
+{
+  if ( !ui.usersView->currentItem() )
+    return;
+  int row = ui.usersView->currentIndex().row();
+  ui.usersView->takeTopLevelItem( row );
+  if ( ui.usersView->topLevelItemCount() == 1 ) {
+    ui.deleteAccountButton->setEnabled( false );
+  } else {
+    ui.deleteAccountButton->setEnabled( true );
+  }
+
+  settings.beginGroup( "TwitterAccounts" );
+  if ( row < ui.usersView->topLevelItemCount() ) {
+    for (int i = row; i < ui.usersView->topLevelItemCount(); i++ ) {
+      settings.setValue( QString( "%1/enabled" ).arg(i), settings.value( QString( "%1/enabled" ).arg(i+1) ) );
+      settings.setValue( QString( "%1/login" ).arg(i), settings.value( QString( "%1/login" ).arg(i+1) ) );
+      settings.setValue( QString( "%1/password" ).arg(i), settings.value( QString( "%1/password" ).arg(i+1) ) );
+      settings.setValue( QString( "%1/directmsgs" ).arg(i), settings.value( QString( "%1/directmsgs" ).arg(i+1) ) );
+    }
+  }
+  settings.remove( QString::number( ui.usersView->topLevelItemCount() ) );
+  settings.endGroup();
+}
+
+void Settings::setTwitterAccountEnabled( bool state )
+{
+  QTreeWidgetItem *item = ui.usersView->currentItem();
+  if ( !item )
+    return;
+  item->setData( 0, Qt::DisplayRole, state );
+  settings.setValue( QString("TwitterAccounts/%1/enabled").arg( ui.usersView->currentIndex().row() ), state );
+}
+
+void Settings::setTwitterAccountLogin( const QString &login )
+{
+  QTreeWidgetItem *item = ui.usersView->currentItem();
+  if ( !item )
+    return;
+  item->setText( 1, login );
+  settings.setValue( QString("TwitterAccounts/%1/login").arg( ui.usersView->currentIndex().row() ), login );
+}
+
+void Settings::setTwitterAccountPassword( const QString &password )
+{
+  QTreeWidgetItem *item = ui.usersView->currentItem();
+  if ( !item )
+    return;
+  item->setText( 2, password );
+  settings.setValue( QString("TwitterAccounts/%1/password").arg( ui.usersView->currentIndex().row() ), pwHash( password ) );
+}
+
+void Settings::setTwitterAccountDM( bool state )
+{
+  QTreeWidgetItem *item = ui.usersView->currentItem();
+  if ( !item )
+    return;
+  item->setData( 3, Qt::DisplayRole, state );
+  settings.setValue( QString("TwitterAccounts/%1/directmsgs").arg( ui.usersView->currentIndex().row() ), state );
+}
+
+void Settings::setPublicTimelineEnabled( bool state )
+{
+  settings.setValue( "TwitterAccounts/publicTimeline", state );
+}
+
 void Settings::changeTheme( const QString &theme )
 {
   mainWindow->changeListBackgroundColor( themes.value( theme ).unread.listBackgroundColor );
-  model->setTheme( themes.value( theme ) );
+  core->setModelTheme( themes.value( theme ) );
 }
 
 void Settings::retranslateUi()
@@ -334,11 +456,11 @@ void Settings::retranslateUi()
   ui.radioFriends->setText( tr( "friends timeline" ) );
   ui.directCheckBox->setText( tr( "include direct messages" ) );
   ui.radioPublic->setText( tr( "public timeline" ) );
-  ui.tabs->setTabText( 1, tr( "Network" ) );
+  ui.tabs->setTabText( 2, tr( "Network" ) );
   ui.proxyBox->setText( tr( "Use HTTP &proxy" ) );
   ui.hostLabel->setText( tr( "Host:" ) );
   ui.portLabel->setText( tr( "Port:" ) );
-  ui.tabs->setTabText( 2, tr( "Appearance" ) );
+  ui.tabs->setTabText( 3, tr( "Appearance" ) );
   ui.tweetCountLabel->setText( tr( "Tweet count:" ) );
   ui.colorLabel->setText( tr( "Color scheme:" ) );
 #ifdef Q_WS_X11
@@ -364,8 +486,7 @@ void Settings::setBrowser()
 void Settings::applySettings()
 {
   setProxy();
-  core->applySettings( ui.refreshCombo->currentText().toInt() * 60000, ui.userNameEdit->text(), ui.passwordEdit->text(), ui.radioPublic->isChecked(), ui.directCheckBox->isChecked() );
-  model->setMaxTweetCount( ui.tweetCountBox->value() );
+  core->applySettings( ui.refreshCombo->currentText().toInt() * 60000, ui.userNameEdit->text(), ui.passwordEdit->text(), ui.radioPublic->isChecked(), ui.directCheckBox->isChecked(), ui.tweetCountBox->value() );
   changeTheme( ui.colorBox->currentText() );
 #ifdef Q_WS_X11
   if ( useCustomBrowserCheckBox->isChecked() ) {
@@ -397,6 +518,14 @@ void Settings::createLanguageMenu()
   systemLocale.chop(3);
   qDebug() << systemLocale << ui.languageCombo->findData( systemLocale );
   ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
+}
+
+QString Settings::pwHash( const QString &text )
+{
+  QString newText = text;
+  for (unsigned int i = 0, textLength = text.length(); i < textLength; ++i)
+    newText[i] = QChar(text[i].unicode() ^ i ^ 1);
+  return newText;
 }
 
 /*! \struct ThemeElement

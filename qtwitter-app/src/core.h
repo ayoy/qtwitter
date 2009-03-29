@@ -29,6 +29,7 @@
 
 class TwitPicEngine;
 class TwitterAPI;
+class TweetModel;
 
 typedef QMap<QString, QImage> MapStringImage;
 
@@ -46,11 +47,14 @@ public:
   Core( MainWindow *parent = 0 );
   virtual ~Core();
 
-  void applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages );
+  void applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages, int maxTweetCount );
   bool setTimerInterval( int msecs );
 #ifdef Q_WS_X11
   void setBrowserPath( const QString& path );
 #endif
+
+  void setPublicTimelineRequested( bool b );
+  void setModelTheme( const ThemeData &theme );
 
 public slots:
   void forceGet();
@@ -66,6 +70,9 @@ public slots:
   void openBrowser( QUrl address );
   AuthDialogState authDataDialog( const QString &user = QString(), const QString &password = QString() );
 
+  void retranslateUi();
+  QStandardItemModel* getModel() { return model; }
+
 signals:
   void errorMessage( const QString &message );
   void authDataSet( const QAuthenticator &authenticator );
@@ -80,6 +87,12 @@ signals:
   void timelineUpdated();
   void directMessagesSyncChanged( bool isEnabled );
   void publicTimelineSyncChanged( bool isEnabled );
+  void modelChanged( QStandardItemModel *model );
+  void addReplyString( const QString &user, int id );
+  void addRetweetString( QString message );
+  void about();
+  void newTweets( int statusesCount, QStringList statusesNames, int messagesCount, QStringList messagesNames );
+  void resizeData( int width, int oldWidth );
 
 private slots:
   void setImageInHash( const QString&, QImage );
@@ -93,6 +106,8 @@ private:
   TwitterAPI *twitterapi;
   TwitPicEngine *twitpicUpload;
   QMap<QString,ImageDownload*> imageDownloader;
+  TweetModel *model;
+  QMap<QString,TweetModel> models;
   MapStringImage imageCache;
   QAuthenticator authData;
   QString currentUser;
