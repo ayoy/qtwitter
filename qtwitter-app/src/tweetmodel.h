@@ -26,9 +26,18 @@
 #include <QUrl>
 #include "entry.h"
 #include "statuslist.h"
+#include <QImage>
 
 class Tweet;
 class ThemeData;
+
+struct Status {
+  Entry entry;
+  Tweet *tweet;
+  QImage image;
+};
+
+Q_DECLARE_METATYPE(Status)
 
 class TweetModel : public QStandardItemModel
 {
@@ -70,8 +79,9 @@ private:
   void countUnreadEntries();
   void addUnreadEntry( Entry );
   bool stripRedundantTweets();
-  Tweet* getTweetFromIndex( int );
-  Tweet* getTweetFromIndex( QModelIndex );
+  Status getTweetFromIndex( int );
+  Status getTweetFromIndex( QModelIndex );
+  bool isVisible;
   bool publicTimeline;
   bool publicTimelineRequested;
   bool modelToBeCleared;
