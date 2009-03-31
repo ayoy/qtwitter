@@ -35,6 +35,7 @@ public:
 signals:
   void enterPressed();
   void escPressed();
+  void shortenUrlPressed();
 
 protected:
   bool eventFilter( QObject *dist, QEvent *event )
@@ -52,6 +53,12 @@ protected:
         emit escPressed();
         return true;
       }
+
+      if ( keyEvent->key() == Qt::Key_J && keyEvent->modifiers() == Qt::ControlModifier )
+      {
+        emit shortenUrlPressed();
+        return true;
+      }
     }
     return QObject::eventFilter(dist, event);
   }
@@ -63,7 +70,7 @@ protected:
     \brief A class for filtering the StatusEdit input.
 
     This class provides a filter for the StatusEdit class. It performs key press
-    filtering and emits appropriate signals when receives Enter or Esc key presses.
+    filtering and emits appropriate signals when receives various key presses.
 */
 
 /*! \fn StatusFilter::StatusFilter( QObject *parent = 0 )
@@ -78,9 +85,13 @@ protected:
     Emitted upon receiving an Esc key press event.
 */
 
+/*! \fn void StatusFilter::shortenUrlPressed()
+    Emitted upon receiving an CTRL + J key combination press event.
+*/
+
 /*! \fn bool StatusFilter::eventFilter( QObject *dist, QEvent *event )
-    Event filter method that filters Esc and Enter key presses from all the
-    events received by the filtered object.
+    Event filter method that filters following key presses Esc, Enter and CTRL + J
+    from all the events received by the filtered object.
     \param dist A filtered object.
     \param event A event to be processed.
     \returns True if the event was processed.

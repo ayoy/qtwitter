@@ -51,6 +51,7 @@ public slots:
   void resetStatusEdit();
   void showProgressIcon();
   void about();
+  void replaceUrl( const QString &url );
 
 signals:
   void updateTweets();
@@ -61,6 +62,7 @@ signals:
   void addReplyString( const QString& user, int inReplyTo );
   void addRetweetString( QString message );
   void resizeView( int width, int oldWidth );
+  void shortenUrl( const QString &url );
 
 protected:
   void closeEvent( QCloseEvent *e );

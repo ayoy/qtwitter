@@ -26,6 +26,7 @@
 #include "ui_twitpicnewphoto.h"
 #include "twitterapi.h"
 #include "twitpicengine.h"
+#include "urlshorten.h"
 
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
@@ -34,6 +35,8 @@ Core::Core( MainWindow *parent ) :
     timer( NULL )
 {
   twitterapi = new TwitterAPI( this );
+  urlShorten = new UrlShorten( this );
+
   connect( twitterapi, SIGNAL(addEntry(Entry*)), this, SIGNAL(addEntry(Entry*)) );
   connect( twitterapi, SIGNAL(addEntry(Entry*)), this, SLOT(downloadImage(Entry*)) );
   connect( twitterapi, SIGNAL(deleteEntry(int)), this, SIGNAL(deleteEntry(int)) );
@@ -46,6 +49,8 @@ Core::Core( MainWindow *parent ) :
   connect( twitterapi, SIGNAL(unauthorized(int)), this, SLOT(slotUnauthorized(int)) );
   connect( twitterapi, SIGNAL(directMessagesSyncChanged(bool)), this, SIGNAL(directMessagesSyncChanged(bool)) );
   connect( twitterapi, SIGNAL(publicTimelineSyncChanged(bool)), this, SIGNAL(publicTimelineSyncChanged(bool)) );
+  connect( parent, SIGNAL(shortenUrl(QString)), this, SLOT(shortenUrl(QString)));
+  connect( urlShorten, SIGNAL(shortened(QString)), parent, SLOT(replaceUrl(QString)));
 }
 
 Core::~Core() {}
@@ -289,6 +294,11 @@ void Core::slotUnauthorized( int destroyId )
   if ( !retryAuthorizing( TwitterAPI::Destroy ) )
     return;
   twitterapi->destroyTweet( destroyId );
+}
+
+void Core::shortenUrl( const QString &url )
+{
+  urlShorten->shorten(url);
 }
 
 /*! \class Core

@@ -62,6 +62,11 @@ int StatusEdit::getInReplyTo() const
   return inReplyToId;
 }
 
+QString StatusEdit::getSelectedUrl() const
+{
+  return selectedUrl;
+}
+
 void StatusEdit::cancelEditing()
 {
   initialize();
@@ -92,6 +97,14 @@ void StatusEdit::addRetweetString( QString message )
   statusClean = false;
   setFocus();
   emit textChanged( text() );
+}
+
+void StatusEdit::shortenUrl()
+{ 
+  if( hasSelectedText() ) {
+    selectedUrl = selectedText();
+    emit shortenUrl( selectedUrl );
+  }
 }
 
 /*! \class StatusEdit

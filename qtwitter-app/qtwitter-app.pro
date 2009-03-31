@@ -28,7 +28,8 @@ SOURCES += src/main.cpp \
     src/tweetmodel.cpp \
     src/twitpicview.cpp \
     src/twitpicengine.cpp \
-    src/twitpicxmlparser.cpp
+    src/twitpicxmlparser.cpp \
+    src/urlshorten.cpp
 HEADERS += src/mainwindow.h \
     src/statusfilter.h \
     src/statusedit.h \
@@ -42,7 +43,8 @@ HEADERS += src/mainwindow.h \
     src/twitpicview.h \
     src/twitpicengine.h \
     src/twitpicxmlparser.h \
-    src/statustextedit.h
+    src/statustextedit.h \
+    src/urlshorten.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \

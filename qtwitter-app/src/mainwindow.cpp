@@ -54,8 +54,10 @@ MainWindow::MainWindow( QWidget *parent ) :
   connect( ui.statusEdit, SIGNAL(errorMessage(QString)), this, SLOT(popupError(QString)) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
+  connect( filter, SIGNAL( shortenUrlPressed() ), ui.statusEdit, SLOT( shortenUrl() ));
   connect( this, SIGNAL(addReplyString(QString,int)), ui.statusEdit, SLOT(addReplyString(QString,int)) );
   connect( this, SIGNAL(addRetweetString(QString)), ui.statusEdit, SLOT(addRetweetString(QString)) );
+  connect( ui.statusEdit, SIGNAL( shortenUrl( QString ) ), this, SIGNAL( shortenUrl( QString ) ) );
 
   QShortcut *hideShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_H ), this );
   connect( hideShortcut, SIGNAL(activated()), this, SLOT(hide()) );
@@ -298,6 +300,13 @@ void MainWindow::retranslateUi()
   newtwitpicAction->setText( tr( "Upload a photo to TwitPic" ) );
   gototwitterAction->setText( tr( "Go to Twitter" ) );
   gototwitpicAction->setText( tr( "Go to TwitPic" ) );
+}
+
+void MainWindow::replaceUrl( const QString &url )
+{
+    QString text = ui.statusEdit->text();
+    text.replace( ui.statusEdit->getSelectedUrl(), url );
+    ui.statusEdit->setText( text );
 }
 
 /*! \class MainWindow

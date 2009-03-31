@@ -29,6 +29,7 @@
 
 class TwitPicEngine;
 class TwitterAPI;
+class UrlShorten;
 
 typedef QMap<QString, QImage> MapStringImage;
 
@@ -65,6 +66,7 @@ public slots:
   void downloadImage( Entry *entry );
   void openBrowser( QUrl address );
   AuthDialogState authDataDialog( const QString &user = QString(), const QString &password = QString() );
+  void shortenUrl( const QString &url );
 
 signals:
   void errorMessage( const QString &message );
@@ -80,6 +82,7 @@ signals:
   void timelineUpdated();
   void directMessagesSyncChanged( bool isEnabled );
   void publicTimelineSyncChanged( bool isEnabled );
+  void shortenedUrl( const QString &url);
 
 private slots:
   void setImageInHash( const QString&, QImage );
@@ -92,6 +95,8 @@ private:
   bool authDialogOpen;
   TwitterAPI *twitterapi;
   TwitPicEngine *twitpicUpload;
+  UrlShorten *urlShorten;
+
   QMap<QString,ImageDownload*> imageDownloader;
   MapStringImage imageCache;
   QAuthenticator authData;
