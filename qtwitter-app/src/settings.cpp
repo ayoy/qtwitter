@@ -24,6 +24,7 @@
 #include <QDesktopWidget>
 #include <QFileDialog>
 #include <QDesktopServices>
+#include <QProcess>
 #include "settings.h"
 #include "mainwindow.h"
 #include "core.h"
@@ -173,10 +174,10 @@ void Settings::loadConfig( bool dialogRejected )
   settings.beginGroup( "TwitterAccounts" );
     QStringList account;
     for ( int i = 0; i < settings.childGroups().count(); i++ ) {
-      account << "";//QString::number( settings.value( QString( "%1/enabled" ).arg(i), Qt::Unchecked ).toInt() );
+      account << "";
       account << settings.value( QString( "%1/login" ).arg(i), "" ).toString();
       account << pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
-      account << "";//QString::number( settings.value( QString( "%1/directmsgs" ).arg(i), Qt::Unchecked ).toInt() );
+      account << "";
       QTreeWidgetItem *item = new QTreeWidgetItem( account );
       item->setData( 0, Qt::DisplayRole, settings.value( QString( "%1/enabled" ).arg(i), false ).toBool() );
       item->setData( 3, Qt::DisplayRole, settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool() );

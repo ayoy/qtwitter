@@ -5,6 +5,7 @@ TARGET = twitterapi
 TEMPLATE = lib
 CONFIG += dll
 include(twitterapi.pri)
+DEFINES += TWITTERAPI_LIBRARY
 macx {
     CONFIG += lib_bundle
     LIBS += -install_name @executable_path/../Frameworks/$${TARGET}.framework/Versions/$${VER_MAJ}/$${TARGET}

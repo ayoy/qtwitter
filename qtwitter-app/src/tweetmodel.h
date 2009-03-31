@@ -24,30 +24,37 @@
 #include <QStandardItemModel>
 #include <QListView>
 #include <QUrl>
+#include <QImage>
+#include <QPointer>
 #include "entry.h"
 #include "statuslist.h"
-#include <QImage>
 
 class Tweet;
 class ThemeData;
+class TweetModel;
+struct Status;
 
-struct Status {
-  Entry entry;
-  Tweet *tweet;
-  QImage image;
-};
 
-Q_DECLARE_METATYPE(Status)
 
 class TweetModel : public QStandardItemModel
 {
   Q_OBJECT
 
 public:
+
+  enum TweetState {
+    STATE_UNREAD,
+    STATE_READ,
+    STATE_ACTIVE
+  };
+
   TweetModel( int margin, StatusList *parentListView, QObject *parent = 0 );
   void deselectCurrentIndex();
   void setTheme( const ThemeData &theme );
   void setMaxTweetCount( int count );
+  void setVisible( bool isVisible );
+  void display();
+  void clear();
 
 public slots:
   void insertTweet( Entry *entry );
@@ -81,6 +88,7 @@ private:
   bool stripRedundantTweets();
   Status getTweetFromIndex( int );
   Status getTweetFromIndex( QModelIndex );
+  QList<Status> statuses;
   bool isVisible;
   bool publicTimeline;
   bool publicTimelineRequested;
@@ -94,5 +102,14 @@ private:
   QModelIndex currentIndex;
   StatusList *view;
 };
+
+struct Status {
+  Entry entry;
+  TweetModel::TweetState state;
+  QPointer<Tweet> tweet;
+  QImage image;
+};
+
+Q_DECLARE_METATYPE(Status)
 
 #endif // TWEETMODEL_H

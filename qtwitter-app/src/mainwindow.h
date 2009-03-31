@@ -42,6 +42,7 @@ public:
   int getScrollBarWidth();
   
 public slots:
+  void switchModels();
   void changeListBackgroundColor( const QColor &newColor );
   void popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages );
   void popupError( const QString &message );
@@ -49,7 +50,7 @@ public slots:
   void resetStatusEdit();
   void showProgressIcon();
   void about();
-  void setListViewModel( QStandardItemModel *model );
+  void setListViewModel( TweetModel *model );
 
 signals:
   void updateTweets();
@@ -83,6 +84,8 @@ private:
   QMovie *progressIcon;
   QSystemTrayIcon *trayIcon;
   Ui::MainWindow ui;
+  TweetModel *anotherModel;
+  TweetModel *tempModel;
 };
 
 #endif //MAINWINDOW_H

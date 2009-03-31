@@ -43,6 +43,9 @@ MainWindow::MainWindow( QWidget *parent ) :
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
   ui.countdownLabel->setMovie( progressIcon );
 
+  anotherModel = new TweetModel( this->getScrollBarWidth(), this->getListView(), this );
+  connect( ui.toolButton, SIGNAL(clicked()), this, SLOT(switchModels()) );
+
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
@@ -124,6 +127,19 @@ MainWindow::MainWindow( QWidget *parent ) :
 
 MainWindow::~MainWindow() {}
 
+void MainWindow::switchModels()
+{
+  TweetModel *model = dynamic_cast<TweetModel*>( ui.statusListView->model() );
+  if ( model != anotherModel ) {
+    model->setVisible( false );
+    tempModel = model;
+    ui.statusListView->setModel( anotherModel );
+  } else {
+    ui.statusListView->setModel( tempModel );
+    tempModel->display();
+  }
+}
+
 StatusList* MainWindow::getListView()
 {
   return ui.statusListView;
@@ -134,9 +150,10 @@ int MainWindow::getScrollBarWidth()
   return ui.statusListView->verticalScrollBar()->size().width();
 }
 
-void MainWindow::setListViewModel( QStandardItemModel *model )
+void MainWindow::setListViewModel( TweetModel *model )
 {
   ui.statusListView->setModel( model );
+  model->display();
 }
 
 void MainWindow::closeEvent( QCloseEvent *e )

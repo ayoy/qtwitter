@@ -19,23 +19,22 @@
 
 
 #include <QDebug>
-#include <QProcess>
 #include <QClipboard>
+#include <QProcess>
 #include "tweet.h"
 #include "ui_tweet.h"
-#include "tweetmodel.h"
 #include "settings.h"
 
 ThemeData Tweet::currentTheme = ThemeData();
 TweetModel* Tweet::tweetListModel = 0;
 
-Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent ) :
+Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, QWidget *parent ) :
   QWidget(parent),
   replyAction(0),
   gotohomepageAction(0),
   gototwitterpageAction(0),
   deleteAction(0),
-  tweetState( Tweet::Unread ),
+  tweetState( state ),
   tweetData( entry ),
   m_ui(new Ui::Tweet)
 {
@@ -46,12 +45,12 @@ Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent ) :
 
   signalMapper = new QSignalMapper( this );
 
-  replyAction = new QAction( tr("Reply to %1" ).arg( tweetData.login ), this);
+  replyAction = new QAction( tr("Reply to %1" ).arg( tweetData->login ), this);
   menu->addAction( replyAction );
   replyAction->setFont( *menuFont );
   connect( replyAction, SIGNAL(triggered()), this, SLOT(sendReply()) );
   connect( this, SIGNAL(reply(QString,int)), tweetListModel, SIGNAL(reply(QString,int)) );
-  if ( tweetData.type != Entry::Status ) {
+  if ( tweetData->type != Entry::Status ) {
     replyAction->setEnabled( false );
   }
 
@@ -67,17 +66,17 @@ Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent ) :
   menu->addAction( copylinkAction );
   copylinkAction->setFont( *menuFont );
   connect( copylinkAction, SIGNAL(triggered()), this, SLOT(copyLink()) );
-  if ( tweetData.type != Entry::Status ) {
+  if ( tweetData->type != Entry::Status ) {
     copylinkAction->setEnabled( false );
   }
 
   deleteAction = new QAction( tr( "Delete tweet" ), this );
   menu->addAction( deleteAction );
   deleteAction->setFont( *menuFont );
-  signalMapper->setMapping( deleteAction, tweetData.id );
+  signalMapper->setMapping( deleteAction, tweetData->id );
   connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   connect( signalMapper, SIGNAL(mapped(int)), tweetListModel, SIGNAL(destroy(int)) );
-  if ( !tweetData.isOwn ) {
+  if ( !tweetData->isOwn ) {
     deleteAction->setEnabled( false );
   }
 
@@ -91,16 +90,16 @@ Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent ) :
   gototwitterpageAction = new QAction( tr( "Go to User's Twitter page" ), this );
   menu->addAction( gototwitterpageAction );
   gototwitterpageAction->setFont( *menuFont );
-  signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + tweetData.login );
+  signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + tweetData->login );
   connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   connect( signalMapper, SIGNAL(mapped(QString)), tweetListModel, SLOT(emitOpenBrowser(QString)) );
 
   gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
   menu->addAction( gotohomepageAction );
   gotohomepageAction->setFont( *menuFont );
-  signalMapper->setMapping( gotohomepageAction, tweetData.homepage );
+  signalMapper->setMapping( gotohomepageAction, tweetData->homepage );
   connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-  if ( !tweetData.homepage.compare("") ) {
+  if ( !tweetData->homepage.compare("") ) {
     gotohomepageAction->setEnabled( false );
   }
 
@@ -117,8 +116,8 @@ Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent ) :
   connect( this, SIGNAL(selectMe(Tweet*)), tweetListModel, SLOT(selectTweet(Tweet*)) );
 
   applyTheme();
-  m_ui->userName->setText( tweetData.name );
-  m_ui->userStatus->setHtml( tweetData.text );
+  m_ui->userName->setText( tweetData->name );
+  m_ui->userStatus->setHtml( tweetData->text );
   m_ui->userImage->setPixmap( QPixmap::fromImage( image ) );
   adjustSize();
   this->setFocusProxy( m_ui->userStatus );
@@ -147,6 +146,12 @@ void Tweet::resize( int w, int h )
   adjustSize();
 }
 
+void Tweet::setTweetData( Entry *entry, TweetModel::TweetState *state )
+{
+  tweetData = entry;
+  tweetState = state;
+}
+
 void Tweet::setIcon( const QImage &image )
 {
   m_ui->userImage->setPixmap( QPixmap::fromImage( image ) );
@@ -154,26 +159,26 @@ void Tweet::setIcon( const QImage &image )
 
 void Tweet::applyTheme()
 {
-  switch ( tweetState ) {
-  case Tweet::Unread:
+  switch ( *tweetState ) {
+  case TweetModel::STATE_UNREAD:
     setStyleSheet( currentTheme.unread.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.unread.linkColor );
     break;
-  case Tweet::Active:
+  case TweetModel::STATE_ACTIVE:
     setStyleSheet( currentTheme.active.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.active.linkColor );
     break;
-  case Tweet::Read:
+  case TweetModel::STATE_READ:
     setStyleSheet( currentTheme.read.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.read.linkColor );
   }
-  m_ui->userStatus->setHtml( tweetData.text );
+  m_ui->userStatus->setHtml( tweetData->text );
   this->update();
 }
 
 void Tweet::retranslateUi()
 {
-  replyAction->setText( tr( "Reply to %1" ).arg( tweetData.login ) );
+  replyAction->setText( tr( "Reply to %1" ).arg( tweetData->login ) );
   retweetAction->setText( tr( "Retweet" ) );
   copylinkAction->setText( tr( "Copy link to this Tweet" ) );
   deleteAction->setText( tr( "Delete tweet" ) );
@@ -185,19 +190,19 @@ void Tweet::retranslateUi()
 
 bool Tweet::isRead() const
 {
-  if ( tweetState == Tweet::Unread )
+  if ( *tweetState == TweetModel::STATE_UNREAD )
     return false;
   return true;
 }
 
-Tweet::State Tweet::getState() const
+TweetModel::TweetState Tweet::getState() const
 {
-  return tweetState;
+  return *tweetState;
 }
 
-void Tweet::setState( Tweet::State state )
+void Tweet::setState( TweetModel::TweetState state )
 {
-  tweetState = state;
+  *tweetState = state;
   applyTheme();
 }
 
@@ -233,17 +238,17 @@ void Tweet::menuRequested()
 
 void Tweet::sendReply()
 {
-  emit reply( tweetData.login, tweetData.id );
+  emit reply( tweetData->login, tweetData->id );
 }
 
 void Tweet::sendRetweet()
 {
-  emit retweet( QString("RT @" + tweetData.login + ": " + tweetData.originalText ) );
+  emit retweet( QString("RT @" + tweetData->login + ": " + tweetData->originalText ) );
 }
 
 void Tweet::copyLink()
 {
-  QApplication::clipboard()->setText( "http://twitter.com/" + tweetData.login + "/statuses/" + QString::number( tweetData.id ) );
+  QApplication::clipboard()->setText( "http://twitter.com/" + tweetData->login + "/statuses/" + QString::number( tweetData->id ) );
 }
 
 void Tweet::changeEvent( QEvent *e )

@@ -45,7 +45,7 @@ int main( int argc, char **argv )
 
   Settings *settingsDialog = new Settings( &qtwitter, core, &qtwitter );
 
-  QObject::connect( core, SIGNAL(modelChanged(QStandardItemModel*)), &qtwitter, SLOT(setListViewModel(QStandardItemModel*)) );
+  QObject::connect( core, SIGNAL(modelChanged(TweetModel*)), &qtwitter, SLOT(setListViewModel(TweetModel*)) );
 
   QObject::connect( &qtwitter, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   QObject::connect( &qtwitter, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );

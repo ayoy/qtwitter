@@ -18,10 +18,10 @@
  ***************************************************************************/
 
 
-#include "core.h"
-
 #include <QSettings>
 #include <QDesktopServices>
+#include <QProcess>
+#include "core.h"
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
 #include "twitterapi.h"

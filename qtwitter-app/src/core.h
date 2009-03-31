@@ -71,7 +71,7 @@ public slots:
   AuthDialogState authDataDialog( const QString &user = QString(), const QString &password = QString() );
 
   void retranslateUi();
-  QStandardItemModel* getModel() { return model; }
+  inline TweetModel* getModel() { return model; }
 
 signals:
   void errorMessage( const QString &message );
@@ -87,7 +87,7 @@ signals:
   void timelineUpdated();
   void directMessagesSyncChanged( bool isEnabled );
   void publicTimelineSyncChanged( bool isEnabled );
-  void modelChanged( QStandardItemModel *model );
+  void modelChanged( TweetModel *model );
   void addReplyString( const QString &user, int id );
   void addRetweetString( QString message );
   void about();

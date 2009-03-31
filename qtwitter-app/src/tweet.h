@@ -25,10 +25,10 @@
 #include <QMenu>
 #include <QSignalMapper>
 #include <QStandardItem>
+#include "tweetmodel.h"
 #include "entry.h"
 
 class ThemeData;
-class TweetModel;
 
 namespace Ui {
     class Tweet;
@@ -41,25 +41,20 @@ class Tweet : public QWidget
 
 public:
 
-  enum State {
-    Unread,
-    Read,
-    Active
-  };
-
-  explicit Tweet( const Entry &entry, const QImage &image, QWidget *parent = 0 );
+  explicit Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, QWidget *parent = 0 );
   virtual ~Tweet();
 
   void resize( const QSize& size );
   void resize( int w, int h );
 
+  void setTweetData( Entry *entry, TweetModel::TweetState *state );
   void setIcon( const QImage &image );
   void applyTheme();
   void retranslateUi();
 
   bool isRead() const;
-  State getState() const;
-  void setState( Tweet::State state );
+  TweetModel::TweetState getState() const;
+  void setState( TweetModel::TweetState state );
   static ThemeData getTheme();
   static void setTheme( const ThemeData &theme );
   static void setTweetListModel( TweetModel *tweetModel );
@@ -95,8 +90,8 @@ private:
   QAction *gototwitterpageAction;
   QAction *deleteAction;
   QAction *aboutAction;
-  State tweetState;
-  Entry tweetData;
+  TweetModel::TweetState *tweetState;
+  Entry *tweetData;
   QSignalMapper *signalMapper;
   QFont *menuFont;
   static ThemeData currentTheme;
