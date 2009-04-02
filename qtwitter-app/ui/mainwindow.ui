@@ -253,7 +253,7 @@
         <string>What are you doing?</string>
        </property>
        <property name="maxLength">
-        <number>140</number>
+        <number>2000</number>
        </property>
       </widget>
      </item>

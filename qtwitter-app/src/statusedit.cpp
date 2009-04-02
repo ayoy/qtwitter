@@ -107,6 +107,11 @@ void StatusEdit::shortenUrl()
   }
 }
 
+int StatusEdit::charsLeft() const
+{
+  return isStatusClean() ? STATUS_MAX_LENGTH : STATUS_MAX_LENGTH - text().length();
+}
+
 /*! \class StatusEdit
     \brief A customized QLineEdit class.
 
@@ -167,4 +172,9 @@ void StatusEdit::shortenUrl()
 /*! \fn void StatusEdit::errorMessage( const QString &message )
     Emitted to inform user about encountered problems.
     \param message Error message.
+*/
+
+/*! \fn int StatusEdit::charsLeft()
+    Counts number of characters left
+    \returns number of characters left
 */

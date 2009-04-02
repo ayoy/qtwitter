@@ -174,12 +174,28 @@ void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
 
 void MainWindow::changeLabel()
 {
-  ui.countdownLabel->setText( ui.statusEdit->isStatusClean() ? QString::number( StatusEdit::STATUS_MAX_LENGTH ) : QString::number( StatusEdit::STATUS_MAX_LENGTH - ui.statusEdit->text().length() ) );
-  ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
+  QString toolTip = QString::number( ui.statusEdit->charsLeft() ) + " " + tr( "characters left" );
+  QPalette palette( ui.countdownLabel->palette() );
+
+  if( !ui.statusEdit->isStatusClean() )
+    if ( ui.statusEdit->charsLeft() < 0 ) {
+      palette.setColor( QPalette::Foreground, Qt::red );
+      toolTip = QString::number( ui.statusEdit->charsLeft() * -1 )  + " " + tr( "characters over the limit" );
+    } else {
+      palette.setColor( QPalette::Foreground, Qt::black );
+    }
+
+  ui.countdownLabel->setText( QString::number( ui.statusEdit->charsLeft() ) );
+  ui.countdownLabel->setPalette( palette );
+  ui.countdownLabel->setToolTip( toolTip );
 }
 
 void MainWindow::sendStatus()
 {
+  if( ui.statusEdit->charsLeft() < 0 ) {
+    popupError( tr( "Sorry your message is too long") );
+    return;
+  }
   resetUiWhenFinished = true;
   emit post( ui.statusEdit->text().toUtf8(), ui.statusEdit->getInReplyTo() );
   showProgressIcon();

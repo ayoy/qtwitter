@@ -37,6 +37,7 @@ public:
   bool isStatusClean() const;
   int getInReplyTo() const;
   QString getSelectedUrl() const;
+  int charsLeft() const;
 
 public slots:
   void cancelEditing();
