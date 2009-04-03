@@ -35,6 +35,7 @@ class QPushButton;
 class TweetModel;
 class MainWindow;
 class Core;
+class TwitterAccountsModel;
 
 //#if defined Q_WS_X11
 //  QSettings settings( "ayoy", "qTwitter" );
@@ -106,6 +107,7 @@ public:
 
   void loadConfig( bool dialogRejected = false );
   void setProxy();
+  TwitterAccountsModel* getTwitterAccountsModel();
 
 public slots:
   void saveConfig( int quitting = 0 );
@@ -117,7 +119,7 @@ public slots:
   void setAuthDataInDialog( const QAuthenticator &authData );
 
 private slots:
-  void fillAccountEditor();
+  void fillAccountEditor( const QModelIndex &current, const QModelIndex &previous );
   void addTwitterAccount();
   void deleteTwitterAccount();
   void setTwitterAccountEnabled( bool state );
@@ -140,6 +142,7 @@ private:
   QNetworkProxy proxy;
   MainWindow *mainWindow;
   Core *core;
+  TwitterAccountsModel *accountsModel;
   QMap<QString,ThemeData> themes;
   Ui::Settings ui;
 #ifdef Q_WS_X11

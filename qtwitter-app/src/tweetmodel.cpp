@@ -122,6 +122,11 @@ void TweetModel::clear()
   statuses.clear();
 }
 
+bool TweetModel::isPublicTimelineRequested() const
+{
+  return publicTimeline;
+}
+
 void TweetModel::insertTweet( Entry *entry )
 {
   if ( modelToBeCleared ) {

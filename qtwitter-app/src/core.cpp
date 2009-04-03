@@ -27,6 +27,7 @@
 #include "twitterapi.h"
 #include "twitpicengine.h"
 #include "tweetmodel.h"
+#include "twitteraccountsmodel.h"
 
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
@@ -63,6 +64,7 @@ Core::Core( MainWindow *parent ) :
   connect( this, SIGNAL(directMessagesSyncChanged(bool)), model, SLOT(slotDirectMessagesChanged(bool)) );
   connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
 
+  accountsModel = new TwitterAccountsModel( this );
 //  emit modelChanged( model );
 }
 
@@ -103,6 +105,12 @@ void Core::setBrowserPath( const QString &path )
 }
 #endif
 
+bool Core::isPublicTimelineRequested() const
+{
+  return model->isPublicTimelineRequested();
+}
+
+
 void Core::setPublicTimelineRequested( bool b )
 {
   model->setPublicTimelineRequested( b );
@@ -111,6 +119,11 @@ void Core::setPublicTimelineRequested( bool b )
 void Core::setModelTheme( const ThemeData &theme )
 {
   model->setTheme( theme );
+}
+
+QAbstractItemModel* Core::getTwitterAccountsModel()
+{
+  return accountsModel;
 }
 
 void Core::forceGet()

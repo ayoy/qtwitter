@@ -81,6 +81,7 @@ private slots:
   void focusRequest();
 
 private:
+  void createMenu();
   QMenu *menu;
   QAction *replyAction;
   QAction *retweetAction;
@@ -93,7 +94,6 @@ private:
   TweetModel::TweetState *tweetState;
   Entry *tweetData;
   QSignalMapper *signalMapper;
-  QFont *menuFont;
   static ThemeData currentTheme;
   static TweetModel* tweetListModel;
   Ui::Tweet *m_ui;

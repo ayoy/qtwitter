@@ -35,7 +35,9 @@ SOURCES += src/main.cpp \
     src/twitpicview.cpp \
     src/twitpicengine.cpp \
     src/twitpicxmlparser.cpp \
-    src/twitteraccountsdelegate.cpp
+    src/twitteraccountsdelegate.cpp \
+    src/qtwitter.cpp \
+    src/twitteraccountsmodel.cpp
 HEADERS += src/mainwindow.h \
     src/statusfilter.h \
     src/statusedit.h \
@@ -50,7 +52,9 @@ HEADERS += src/mainwindow.h \
     src/twitpicengine.h \
     src/twitpicxmlparser.h \
     src/statustextedit.h \
-    src/twitteraccountsdelegate.h
+    src/twitteraccountsdelegate.h \
+    src/qtwitter.h \
+    src/twitteraccountsmodel.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \

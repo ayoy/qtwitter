@@ -30,6 +30,8 @@
 class TwitPicEngine;
 class TwitterAPI;
 class TweetModel;
+class QAbstractItemModel;
+class TwitterAccountsModel;
 
 typedef QMap<QString, QImage> MapStringImage;
 
@@ -53,8 +55,10 @@ public:
   void setBrowserPath( const QString& path );
 #endif
 
+  bool isPublicTimelineRequested() const;
   void setPublicTimelineRequested( bool b );
   void setModelTheme( const ThemeData &theme );
+  QAbstractItemModel* getTwitterAccountsModel();
 
 public slots:
   void forceGet();
@@ -106,6 +110,7 @@ private:
   TwitterAPI *twitterapi;
   TwitPicEngine *twitpicUpload;
   QMap<QString,ImageDownload*> imageDownloader;
+  TwitterAccountsModel *accountsModel;
   TweetModel *model;
   QMap<QString,TweetModel> models;
   MapStringImage imageCache;

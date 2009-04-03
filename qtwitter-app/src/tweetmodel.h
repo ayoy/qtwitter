@@ -55,6 +55,7 @@ public:
   void setVisible( bool isVisible );
   void display();
   void clear();
+  bool isPublicTimelineRequested() const;
 
 public slots:
   void insertTweet( Entry *entry );

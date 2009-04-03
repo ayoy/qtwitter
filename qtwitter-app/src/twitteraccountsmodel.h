@@ -18,39 +18,47 @@
  ***************************************************************************/
 
 
-#include <QObject>
-#include <QCheckBox>
-#include <QApplication>
-#include "twitteraccountsdelegate.h"
+#ifndef TWITTERACCOUNTSMODEL_H
+#define TWITTERACCOUNTSMODEL_H
 
-TwitterAccountsDelegate::TwitterAccountsDelegate( QList<int> checkBoxColumns, QObject *parent ) : QItemDelegate( parent )
+#include <QAbstractItemModel>
+#include <QList>
+
+struct TwitterAccount
 {
-  this->checkBoxColumns = checkBoxColumns;
-}
+  bool isEnabled;
+  QString login;
+  QString password;
+  bool directMessages;
+};
 
-void TwitterAccountsDelegate::paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const
+Q_DECLARE_METATYPE(TwitterAccount)
+
+class TwitterAccountsModel : public QAbstractItemModel
 {
-  if ( checkBoxColumns.contains( index.column() ) ) {
-    Qt::CheckState state;
-    if ( index.model()->data( index, Qt::DisplayRole ).toBool() )
-      state = Qt::Checked;
-    else
-      state = Qt::Unchecked;
-    QStyleOptionViewItem myOption = option;
-    myOption.displayAlignment = Qt::AlignCenter | Qt::AlignVCenter;
+  Q_OBJECT
 
-    drawDisplay( painter, myOption, myOption.rect, " " );
-    drawFocus( painter, myOption, myOption.rect );
-    drawCheck( painter, myOption, myOption.rect, state );
-  } else {
-    QItemDelegate::paint(painter, option, index);
-  }
-}
+public:
+  TwitterAccountsModel( QObject *parent = 0 );
 
-QSize TwitterAccountsDelegate::sizeHint( const QStyleOptionViewItem &option, const QModelIndex &/*index*/ ) const
-{
-  QSize size = option.rect.size();
-  size.rwidth() = 100;
-  size.rheight() = 20;
-  return size;
-}
+  int rowCount( const QModelIndex &parent = QModelIndex() ) const;
+  int columnCount( const QModelIndex &parent = QModelIndex() ) const;
+
+  QModelIndex index( int row, int column, const QModelIndex &parent = QModelIndex() ) const;
+  QModelIndex parent( const QModelIndex &index ) const;
+
+  QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
+  QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
+
+  bool insertRows( int row, int count, const QModelIndex &parent = QModelIndex() );
+  bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
+  void clear();
+
+  QList<TwitterAccount>& getAccounts();
+  TwitterAccount& account( int index );
+
+private:
+  QList<TwitterAccount> accounts;
+};
+
+#endif // TWITTERACCOUNTSMODEL_H

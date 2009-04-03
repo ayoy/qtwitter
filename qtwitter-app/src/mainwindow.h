@@ -23,10 +23,12 @@
 
 #include <QSystemTrayIcon>
 #include <QUrl>
+#include <QList>
 #include "ui_mainwindow.h"
 #include "tweetmodel.h"
 
 class QMovie;
+class TwitterAccount;
 
 class MainWindow : public QWidget
 {
@@ -36,13 +38,13 @@ class MainWindow : public QWidget
 
 public:
   MainWindow( QWidget *parent = 0 );
-  ~MainWindow();
+  virtual ~MainWindow();
 
   StatusList* getListView();
   int getScrollBarWidth();
+  void setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool isPublicTimelineRequested );
   
 public slots:
-  void switchModels();
   void changeListBackgroundColor( const QColor &newColor );
   void popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages );
   void popupError( const QString &message );
@@ -64,6 +66,7 @@ signals:
 
 protected:
   void closeEvent( QCloseEvent *e );
+  void resizeEvent( QResizeEvent* );
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
@@ -73,7 +76,9 @@ private slots:
   void resetStatus();
 
 private:
-  void resizeEvent( QResizeEvent* );
+  void createConnections();
+  void createMenu();
+  void createTrayIcon();
   bool resetUiWhenFinished;
   QMenu *trayMenu;
   QMenu *buttonMenu;

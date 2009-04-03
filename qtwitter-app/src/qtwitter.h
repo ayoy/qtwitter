@@ -18,39 +18,27 @@
  ***************************************************************************/
 
 
-#include <QObject>
-#include <QCheckBox>
-#include <QApplication>
-#include "twitteraccountsdelegate.h"
+#ifndef QTWITTER_H
+#define QTWITTER_H
 
-TwitterAccountsDelegate::TwitterAccountsDelegate( QList<int> checkBoxColumns, QObject *parent ) : QItemDelegate( parent )
+#include "mainwindow.h"
+
+class Core;
+class TwitPicView;
+class Settings;
+
+class Qtwitter : public MainWindow
 {
-  this->checkBoxColumns = checkBoxColumns;
-}
+  Q_OBJECT
+public:
+  Qtwitter( QWidget *parent = 0 );
+  Settings* getSettingsDialog() const;
 
-void TwitterAccountsDelegate::paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const
-{
-  if ( checkBoxColumns.contains( index.column() ) ) {
-    Qt::CheckState state;
-    if ( index.model()->data( index, Qt::DisplayRole ).toBool() )
-      state = Qt::Checked;
-    else
-      state = Qt::Unchecked;
-    QStyleOptionViewItem myOption = option;
-    myOption.displayAlignment = Qt::AlignCenter | Qt::AlignVCenter;
+private:
+  Core *core;
+  TwitPicView *twitpic;
+  Settings *settingsDialog;
 
-    drawDisplay( painter, myOption, myOption.rect, " " );
-    drawFocus( painter, myOption, myOption.rect );
-    drawCheck( painter, myOption, myOption.rect, state );
-  } else {
-    QItemDelegate::paint(painter, option, index);
-  }
-}
+};
 
-QSize TwitterAccountsDelegate::sizeHint( const QStyleOptionViewItem &option, const QModelIndex &/*index*/ ) const
-{
-  QSize size = option.rect.size();
-  size.rwidth() = 100;
-  size.rheight() = 20;
-  return size;
-}
+#endif // QTWITTER_H

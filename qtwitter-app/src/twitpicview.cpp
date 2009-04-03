@@ -154,8 +154,9 @@ QString TwitPicView::getHomeDir()
 {
   QRegExp rx( ";HOME=(.+);", Qt::CaseSensitive );
   rx.setMinimal( true );
-  rx.indexIn( QProcess::systemEnvironment().join( ";" ) );
-  return rx.cap(1);
+  if ( rx.indexIn( QProcess::systemEnvironment().join( ";" ) ) != -1 )
+    return rx.cap(1);
+  else return QString("");
 }
 
 

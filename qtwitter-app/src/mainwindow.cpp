@@ -22,6 +22,7 @@
 #include "statusfilter.h"
 #include "tweet.h"
 #include "ui_about.h"
+#include "twitteraccountsmodel.h"
 
 #include <QMenu>
 #include <QScrollBar>
@@ -32,21 +33,33 @@
 #include <QShortcut>
 #include <QDesktopWidget>
 #include <QSignalMapper>
+#include <QTreeView>
 
-const QString MainWindow::APP_VERSION = "0.5.1_pre1";
+const QString MainWindow::APP_VERSION = "0.6.0_pre1";
 
 MainWindow::MainWindow( QWidget *parent ) :
     QWidget( parent ),
     resetUiWhenFinished( false )
 {
   ui.setupUi( this );
+  ui.accountsComboBox->setVisible( false );
+
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
   ui.countdownLabel->setMovie( progressIcon );
 
   anotherModel = new TweetModel( this->getScrollBarWidth(), this->getListView(), this );
-  connect( ui.toolButton, SIGNAL(clicked()), this, SLOT(switchModels()) );
 
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
+
+  createConnections();
+  createMenu();
+  createTrayIcon();
+}
+
+MainWindow::~MainWindow() {}
+
+void MainWindow::createConnections()
+{
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
 
@@ -70,7 +83,10 @@ MainWindow::MainWindow( QWidget *parent ) :
   ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
 #endif
   ui.updateButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_R ) );
+}
 
+void MainWindow::createMenu()
+{
   buttonMenu = new QMenu( this );
   newtweetAction = new QAction( tr( "New tweet" ), buttonMenu );
   newtwitpicAction = new QAction( tr( "Upload a photo to TwitPic" ), buttonMenu );
@@ -97,7 +113,10 @@ MainWindow::MainWindow( QWidget *parent ) :
   buttonMenu->addAction( gototwitterAction );
   buttonMenu->addAction( gototwitpicAction );
   ui.moreButton->setMenu( buttonMenu );
+}
 
+void MainWindow::createTrayIcon()
+{
   trayIcon = new QSystemTrayIcon( this );
   trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
 
@@ -123,21 +142,7 @@ MainWindow::MainWindow( QWidget *parent ) :
   trayIcon->setToolTip( "qTwitter" );
 #endif
   trayIcon->show();
-}
 
-MainWindow::~MainWindow() {}
-
-void MainWindow::switchModels()
-{
-  TweetModel *model = dynamic_cast<TweetModel*>( ui.statusListView->model() );
-  if ( model != anotherModel ) {
-    model->setVisible( false );
-    tempModel = model;
-    ui.statusListView->setModel( anotherModel );
-  } else {
-    ui.statusListView->setModel( tempModel );
-    tempModel->display();
-  }
 }
 
 StatusList* MainWindow::getListView()
@@ -148,6 +153,32 @@ StatusList* MainWindow::getListView()
 int MainWindow::getScrollBarWidth()
 {
   return ui.statusListView->verticalScrollBar()->size().width();
+}
+
+void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool publicTimeline )
+{
+  if ( publicTimeline ) {
+    if ( accounts.isEmpty() ) {
+      ui.accountsComboBox->setVisible( false );
+      return;
+    }
+  } else if ( accounts.size() < 2 ) {
+      ui.accountsComboBox->setVisible( false );
+      return;
+  }
+
+  ui.accountsComboBox->setVisible( true );
+  QAbstractItemModel *model = ui.accountsComboBox->model();
+  model->removeRows( 0, model->rowCount() );
+  TwitterAccount account;
+  foreach ( account, accounts ) {
+    if ( account.isEnabled )
+      ui.accountsComboBox->addItem( account.login );
+  }
+  if ( publicTimeline )
+    ui.accountsComboBox->addItem( tr( "public timeline" ) );
+  if ( ui.accountsComboBox->count() <= 1 )
+    ui.accountsComboBox->setVisible( false );
 }
 
 void MainWindow::setListViewModel( TweetModel *model )

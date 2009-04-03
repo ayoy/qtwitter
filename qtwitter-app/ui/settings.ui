@@ -29,12 +29,12 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabs">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <property name="usesScrollButtons">
       <bool>true</bool>
      </property>
-     <widget class="QWidget" name="general">
+     <widget class="QWidget" name="generalTab">
       <attribute name="title">
        <string>General</string>
       </attribute>
@@ -170,15 +170,18 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="twitter">
+     <widget class="QWidget" name="twitterTab">
       <attribute name="title">
        <string>Twitter</string>
       </attribute>
       <layout class="QFormLayout" name="formLayout">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+       </property>
        <item row="0" column="0">
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QTreeWidget" name="usersView">
+          <widget class="QTreeView" name="usersView">
            <property name="horizontalScrollBarPolicy">
             <enum>Qt::ScrollBarAsNeeded</enum>
            </property>
@@ -200,29 +203,6 @@
            <property name="expandsOnDoubleClick">
             <bool>false</bool>
            </property>
-           <property name="columnCount">
-            <number>4</number>
-           </property>
-           <column>
-            <property name="text">
-             <string notr="true">1</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string notr="true">2</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string notr="true">3</string>
-            </property>
-           </column>
-           <column>
-            <property name="text">
-             <string notr="true">4</string>
-            </property>
-           </column>
           </widget>
          </item>
          <item>
@@ -233,7 +213,7 @@
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../res/resources.qrc">
+              <iconset>
                <normaloff>:/icons/add_48.png</normaloff>:/icons/add_48.png</iconset>
              </property>
             </widget>
@@ -244,7 +224,7 @@
               <string>...</string>
              </property>
              <property name="icon">
-              <iconset resource="../res/resources.qrc">
+              <iconset>
                <normaloff>:/icons/cancel_48.png</normaloff>:/icons/cancel_48.png</iconset>
              </property>
             </widget>
@@ -344,7 +324,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="network">
+     <widget class="QWidget" name="networkTab">
       <attribute name="title">
        <string>Network</string>
       </attribute>
@@ -434,7 +414,7 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="appearance">
+     <widget class="QWidget" name="appearanceTab">
       <attribute name="title">
        <string>Appearance</string>
       </attribute>
@@ -519,9 +499,7 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="../res/resources.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
