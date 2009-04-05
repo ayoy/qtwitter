@@ -65,7 +65,7 @@ void TwitPicEngine::postContent( const QAuthenticator &authData, QString photoPa
   if ( !status.isEmpty() ) {
     requestString.append( "content-disposition: form-data; name=\"message\"\r\n" );
     requestString.append( "\r\n" );
-    requestString.append( status.toAscii() + "\r\n" );
+    requestString.append( status.toUtf8() + "\r\n" );
     requestString.append( "--AaB03x\r\n" );
   }
   requestString.append( "content-disposition: form-data; name=\"source\"\r\n" );
@@ -74,11 +74,11 @@ void TwitPicEngine::postContent( const QAuthenticator &authData, QString photoPa
   requestString.append( "--AaB03x\r\n" );
   requestString.append( "content-disposition: form-data; name=\"username\"\r\n" );
   requestString.append( "\r\n" );
-  requestString.append( authData.user().toAscii() + "\r\n" );
+  requestString.append( authData.user().toUtf8() + "\r\n" );
   requestString.append( "--AaB03x\r\n" );
   requestString.append( "content-disposition: form-data; name=\"password\"\r\n" );
   requestString.append( "\r\n" );
-  requestString.append( authData.password().toAscii() + "\r\n" );
+  requestString.append( authData.password().toUtf8() + "\r\n" );
   requestString.append( "--AaB03x--\r\n" );
 
 
