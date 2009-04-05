@@ -35,6 +35,7 @@ class QPushButton;
 class TweetModel;
 class MainWindow;
 class Core;
+class TwitterAccount;
 class TwitterAccountsModel;
 
 //#if defined Q_WS_X11
@@ -89,6 +90,13 @@ struct ThemeData
 
 typedef QPair<QString,ThemeData> ThemeInfo;
 
+class ConfigFile : public QSettings
+{
+public:
+  ConfigFile();
+  QString pwHash( const QString &text );
+};
+
 class Settings : public QDialog
 {
   Q_OBJECT
@@ -107,7 +115,6 @@ public:
 
   void loadConfig( bool dialogRejected = false );
   void setProxy();
-  TwitterAccountsModel* getTwitterAccountsModel();
 
 public slots:
   void saveConfig( int quitting = 0 );
@@ -117,6 +124,9 @@ public slots:
   void switchLanguage( int index );
   void slotPublicTimelineSyncChanged( bool isEnabled );
   void setAuthDataInDialog( const QAuthenticator &authData );
+
+signals:
+  void accountsChanged( const QList<TwitterAccount> &accounts, bool publicTimeline );
 
 private slots:
   void fillAccountEditor( const QModelIndex &current, const QModelIndex &previous );
@@ -136,8 +146,7 @@ private slots:
 private:
   void applySettings();
   void createLanguageMenu();
-  QString pwHash( const QString &text );
-  QSettings settings;
+//  QSettings settings;
   QTranslator translator;
   QNetworkProxy proxy;
   MainWindow *mainWindow;

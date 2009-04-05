@@ -18,16 +18,19 @@
  ***************************************************************************/
 
 
-#include <QSettings>
 #include <QDesktopServices>
 #include <QProcess>
 #include "core.h"
-#include "ui_authdialog.h"
-#include "ui_twitpicnewphoto.h"
+#include "settings.h"
 #include "twitterapi.h"
 #include "twitpicengine.h"
 #include "tweetmodel.h"
+#include "tweet.h"
 #include "twitteraccountsmodel.h"
+#include "ui_authdialog.h"
+#include "ui_twitpicnewphoto.h"
+
+extern ConfigFile settings;
 
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
@@ -35,6 +38,9 @@ Core::Core( MainWindow *parent ) :
     twitpicUpload( NULL ),
     timer( NULL )
 {
+  listViewForModels = parent->getListView();
+  margin = parent->getScrollBarWidth();
+
   twitterapi = new TwitterAPI( this );
   connect( twitterapi, SIGNAL(addEntry(Entry*)), this, SIGNAL(addEntry(Entry*)) );
   connect( twitterapi, SIGNAL(addEntry(Entry*)), this, SLOT(downloadImage(Entry*)) );
@@ -44,12 +50,14 @@ Core::Core( MainWindow *parent ) :
   connect( twitterapi, SIGNAL(requestListRefresh(bool,bool)), this, SIGNAL(requestListRefresh(bool,bool)) );
   connect( twitterapi, SIGNAL(done()), this, SIGNAL(resetUi()) );
   connect( twitterapi, SIGNAL(unauthorized()), this, SLOT(slotUnauthorized()) );
-  connect( twitterapi, SIGNAL(unauthorized(QByteArray,int)), this, SLOT(slotUnauthorized(QByteArray,int)) );
+  connect( twitterapi, SIGNAL(unauthorized(QString,int)), this, SLOT(slotUnauthorized(QString,int)) );
   connect( twitterapi, SIGNAL(unauthorized(int)), this, SLOT(slotUnauthorized(int)) );
   connect( twitterapi, SIGNAL(directMessagesSyncChanged(bool)), this, SIGNAL(directMessagesSyncChanged(bool)) );
   connect( twitterapi, SIGNAL(publicTimelineSyncChanged(bool)), this, SIGNAL(publicTimelineSyncChanged(bool)) );
 
-  model = new TweetModel( parent->getScrollBarWidth(), parent->getListView(), this );
+  model = new TweetModel( margin, listViewForModels, this );
+  Tweet::setTweetListModel( model );
+
   connect( model, SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
   connect( model, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
   connect( model, SIGNAL(about()), this, SIGNAL(about()) );
@@ -64,19 +72,30 @@ Core::Core( MainWindow *parent ) :
   connect( this, SIGNAL(directMessagesSyncChanged(bool)), model, SLOT(slotDirectMessagesChanged(bool)) );
   connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
 
+  parent->getListView()->setModel( model );
+  model->display();
+
   accountsModel = new TwitterAccountsModel( this );
 //  emit modelChanged( model );
 }
 
-Core::~Core() {}
+Core::~Core()
+{
+  QMap<QString,TweetModel*>::iterator i = tweetModels.begin();
+  while ( i != tweetModels.end() ) {
+    (*i)->deleteLater();
+    i++;
+  }
+}
 
 void Core::applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages, int maxTweetCount )
 {
-  model->setMaxTweetCount( maxTweetCount );
-  bool a = setTimerInterval( msecs );
-  bool b = twitterapi->setAuthData( user, password );
-  bool c = twitterapi->setPublicTimelineSync( publicTimeline );
-  bool d = twitterapi->setDirectMessagesSync( directMessages );
+  setupTweetModels();
+  model->setMaxTweetCount( settings.value( "Appearance/tweet count", 25 ).toInt() );
+  bool a = setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
+  bool b = twitterapi->setAuthData( settings.value( "General/username", "" ).toString(), settings.pwHash( settings.value( "General/password", "" ).toString() ) );
+  bool c = twitterapi->setPublicTimelineSync( settings.value( "General/timeline", true ).toBool() );
+  bool d = twitterapi->setDirectMessagesSync( settings.value( "General/directMessages", true ).toBool() );
   if ( a || b || c || (!c && d) )
     get();
 }
@@ -151,7 +170,7 @@ void Core::get()
   emit requestStarted();
 }
 
-void Core::post( const QByteArray &status, int inReplyTo )
+void Core::post( QString status, int inReplyTo )
 {
   twitterapi->post( status, inReplyTo );
   emit requestStarted();
@@ -294,6 +313,38 @@ void Core::setImageInHash( const QString &url, QImage image )
   emit setImageForUrl( url, image );
 }
 
+void Core::slotUnauthorized()
+{
+  if ( !retryAuthorizing( TwitterAPI::Refresh ) )
+    return;
+  twitterapi->get();
+}
+
+void Core::slotUnauthorized( const QString &status, int inReplyToId )
+{
+  if ( !retryAuthorizing( TwitterAPI::Submit ) )
+    return;
+  twitterapi->post( status, inReplyToId );
+}
+
+void Core::slotUnauthorized( int destroyId )
+{
+  if ( !retryAuthorizing( TwitterAPI::Destroy ) )
+    return;
+  twitterapi->destroyTweet( destroyId );
+}
+
+void Core::setupTweetModels()
+{
+  TwitterAccount account;
+  foreach ( account, accountsModel->getAccounts() ) {
+    if ( account.isEnabled && !tweetModels.contains( account.login ) )
+      tweetModels.insert( account.login, new TweetModel( margin, listViewForModels, this ) );
+  }
+  if ( this->isPublicTimelineRequested() && !tweetModels.contains( "public timeline" ) )
+      tweetModels.insert( "public timeline", new TweetModel( margin, listViewForModels, this ) );
+}
+
 bool Core::retryAuthorizing( int role )
 {
   Core::AuthDialogState state = authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() );
@@ -315,27 +366,6 @@ bool Core::retryAuthorizing( int role )
   default:;
   }
   return true;
-}
-
-void Core::slotUnauthorized()
-{
-  if ( !retryAuthorizing( TwitterAPI::Refresh ) )
-    return;
-  twitterapi->get();
-}
-
-void Core::slotUnauthorized( const QByteArray &status, int inReplyToId )
-{
-  if ( !retryAuthorizing( TwitterAPI::Submit ) )
-    return;
-  twitterapi->post( status, inReplyToId );
-}
-
-void Core::slotUnauthorized( int destroyId )
-{
-  if ( !retryAuthorizing( TwitterAPI::Destroy ) )
-    return;
-  twitterapi->destroyTweet( destroyId );
 }
 
 /*! \class Core

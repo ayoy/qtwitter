@@ -58,7 +58,7 @@ public:
 
 public slots:
   bool get();
-  bool post( const QByteArray &status, int inReplyTo = -1 );
+  bool post( QString status, int inReplyTo = -1 );
   bool destroyTweet( int id );
 
   void abort();
@@ -70,7 +70,7 @@ signals:
   void authDataSet( const QAuthenticator &authenticator );
 
   void unauthorized();
-  void unauthorized( const QByteArray &status, int inReplyToId );
+  void unauthorized( const QString &status, int inReplyToId );
   void unauthorized( int destroyId );
 
   void addEntry( Entry *entry );

@@ -52,18 +52,18 @@ public:
   void postContent( const QString &path, const QByteArray &status, TwitterAPI::ContentRequested content );
 
   TwitterAPI::Role getRole() const;
-  QByteArray getPostStatus();
+  QString getPostStatus();
   int getPostInReplyToId();
   int getDestroyId();
 
-  void setPostStatus( const QByteArray &newPostStatus );
+  void setPostStatus( const QString &newPostStatus );
   void setPostInReplyToId( int newId );
   void setDestroyId( int newId );
 
 signals:
   void finished( TwitterAPI::ContentRequested content );
   void unauthorized();
-  void unauthorized( const QByteArray &status, int inReplyToId );
+  void unauthorized( const QString &status, int inReplyToId );
   void unauthorized( int destroyId );
   void newEntry( Entry *entry );
   void deleteEntry( int id );
@@ -80,7 +80,7 @@ private:
   XmlData* processedRequest( TwitterAPI::ContentRequested content );
   XmlData* processedRequest( int requestId );
   TwitterAPI::Role role;
-  QByteArray postStatus;
+  QString postStatus;
   int postInReplyToId;
   int destroyId;
   XmlData statusesData;

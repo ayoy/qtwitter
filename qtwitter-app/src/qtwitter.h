@@ -22,17 +22,16 @@
 #define QTWITTER_H
 
 #include "mainwindow.h"
+#include "settings.h"
 
 class Core;
 class TwitPicView;
-class Settings;
 
 class Qtwitter : public MainWindow
 {
   Q_OBJECT
 public:
   Qtwitter( QWidget *parent = 0 );
-  Settings* getSettingsDialog() const;
 
 private:
   Core *core;

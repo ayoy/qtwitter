@@ -119,7 +119,7 @@ TwitterAPI::Role XmlDownload::getRole() const
   return role;
 }
 
-QByteArray XmlDownload::getPostStatus()
+QString XmlDownload::getPostStatus()
 {
   return postStatus;
 }
@@ -134,7 +134,7 @@ int XmlDownload::getDestroyId()
   return destroyId;
 }
 
-void XmlDownload::setPostStatus( const QByteArray &newPostStatus )
+void XmlDownload::setPostStatus( const QString &newPostStatus )
 {
   postStatus = newPostStatus;
 }

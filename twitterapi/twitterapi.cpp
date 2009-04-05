@@ -42,7 +42,7 @@ void TwitterAPI::createConnections( XmlDownload *xmlDownload )
   connect( xmlDownload, SIGNAL(finished(TwitterAPI::ContentRequested)), this, SLOT(setFlag(TwitterAPI::ContentRequested)) );
   connect( xmlDownload, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( xmlDownload, SIGNAL(unauthorized()), this, SIGNAL(unauthorized()) );
-  connect( xmlDownload, SIGNAL(unauthorized(QByteArray,int)), this, SIGNAL(unauthorized(QByteArray,int)) );
+  connect( xmlDownload, SIGNAL(unauthorized(QString,int)), this, SIGNAL(unauthorized(QString,int)) );
   connect( xmlDownload, SIGNAL(unauthorized(int)), this, SIGNAL(unauthorized(int)) );
   if ( xmlDownload->getRole() == TwitterAPI::Destroy ) {
     connect( xmlDownload, SIGNAL(deleteEntry(int)), this, SIGNAL(deleteEntry(int)) );
@@ -118,13 +118,17 @@ bool TwitterAPI::get()
   return true;
 }
 
-bool TwitterAPI::post( const QByteArray &status, int inReplyTo )
+bool TwitterAPI::post( QString status, int inReplyTo )
 {
   if ( authData.user().isEmpty() || authData.password().isEmpty() )
     return false;
 
   QByteArray request( "status=" );
-  request.append( status );
+
+  status.replace( QRegExp( "&" ), "%26" );
+  status.replace( QRegExp( "\\+" ), "%2B" );
+
+  request.append( status.toUtf8() );
   if ( inReplyTo != -1 ) {
     request.append( "&in_reply_to_status_id=" + QByteArray::number( inReplyTo ) );
   }

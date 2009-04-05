@@ -42,9 +42,9 @@ public:
 
   StatusList* getListView();
   int getScrollBarWidth();
-  void setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool isPublicTimelineRequested );
   
 public slots:
+  void setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool isPublicTimelineRequested );
   void changeListBackgroundColor( const QColor &newColor );
   void popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages );
   void popupError( const QString &message );
@@ -57,7 +57,7 @@ public slots:
 signals:
   void updateTweets();
   void openTwitPicDialog();
-  void post( const QByteArray& status, int inReplyTo = -1 );
+  void post( QString status, int inReplyTo = -1 );
   void openBrowser( QUrl address );
   void settingsDialogRequested();
   void addReplyString( const QString& user, int inReplyTo );
@@ -74,6 +74,7 @@ private slots:
   void changeLabel();
   void sendStatus();
   void resetStatus();
+  void configWriteCurrentModel( int index );
 
 private:
   void createConnections();
@@ -89,8 +90,6 @@ private:
   QMovie *progressIcon;
   QSystemTrayIcon *trayIcon;
   Ui::MainWindow ui;
-  TweetModel *anotherModel;
-  TweetModel *tempModel;
 };
 
 #endif //MAINWINDOW_H

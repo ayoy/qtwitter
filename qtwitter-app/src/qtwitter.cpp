@@ -19,6 +19,7 @@
 
 #include <QSystemTrayIcon>
 #include <QSignalMapper>
+#include <QSettings>
 #include "qtwitter.h"
 #include "core.h"
 #include "twitpicview.h"
@@ -28,7 +29,7 @@
 Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
 {
   core = new Core( this );
-  setListViewModel( core->getModel() );
+//  setListViewModel( core->getModel() );
   twitpic = new TwitPicView( this );
   settingsDialog = new Settings( this, core, this );
 
@@ -36,37 +37,34 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
 
   connect( this, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
-  connect( this, SIGNAL(openTwitPicDialog()), twitpic, SLOT(show()) );
+  connect( this, SIGNAL(post(QString,int)), core, SLOT(post(QString,int)) );
+  connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
   connect( core, SIGNAL(about()), this, SLOT(about()) );
   connect( core, SIGNAL(addReplyString(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
   connect( core, SIGNAL(addRetweetString(QString)), this, SIGNAL(addRetweetString(QString)) );
-
-  connect( this, SIGNAL(post(QByteArray,int)), core, SLOT(post(QByteArray,int)) );
-  connect( twitpic, SIGNAL(uploadPhoto(QString,QString)), core, SLOT(uploadPhoto(QString,QString)) );
-  connect( twitpic, SIGNAL(abortUpload()), core, SLOT(abortUploadPhoto()) );
-  connect( core, SIGNAL(twitPicResponseReceived()), twitpic, SLOT(resetForm()) );
-  connect( core, SIGNAL(twitPicDataSendProgress(int,int)), twitpic, SLOT(showUploadProgress(int,int)) );
-  connect( this, SIGNAL(settingsDialogRequested()), settingsDialog, SLOT( show() ) );
-  connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
-  connect( core, SIGNAL(authDataSet(QAuthenticator)), settingsDialog, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;
   connect( core, SIGNAL(errorMessage(QString)), this, SLOT(popupError(QString)) );
   connect( core, SIGNAL(resetUi()), this, SLOT(resetStatusEdit()) );
   connect( core, SIGNAL(requestStarted()), this, SLOT(showProgressIcon()) );
-
-  connect( core, SIGNAL(publicTimelineSyncChanged(bool)), settingsDialog, SLOT(slotPublicTimelineSyncChanged(bool)) );
-
   if ( QSystemTrayIcon::supportsMessages() ) {
     connect( core, SIGNAL(newTweets(int,QStringList,int,QStringList)), this, SLOT(popupMessage(int,QStringList,int,QStringList)) );
   }
 
+
+  connect( this, SIGNAL(settingsDialogRequested()), settingsDialog, SLOT( show() ) );
+  connect( settingsDialog, SIGNAL(accountsChanged(QList<TwitterAccount>,bool)), this, SLOT(setupTwitterAccounts(QList<TwitterAccount>,bool)) );
+
+  connect( this, SIGNAL(openTwitPicDialog()), twitpic, SLOT(show()) );
+
+  connect( twitpic, SIGNAL(uploadPhoto(QString,QString)), core, SLOT(uploadPhoto(QString,QString)) );
+  connect( twitpic, SIGNAL(abortUpload()), core, SLOT(abortUploadPhoto()) );
+  connect( core, SIGNAL(twitPicResponseReceived()), twitpic, SLOT(resetForm()) );
+  connect( core, SIGNAL(twitPicDataSendProgress(int,int)), twitpic, SLOT(showUploadProgress(int,int)) );
+
+  connect( core, SIGNAL(authDataSet(QAuthenticator)), settingsDialog, SLOT(setAuthDataInDialog(QAuthenticator)) ) ;
+  connect( core, SIGNAL(publicTimelineSyncChanged(bool)), settingsDialog, SLOT(slotPublicTimelineSyncChanged(bool)) );
+
   QSignalMapper *mapper = new QSignalMapper( this );
   mapper->setMapping( qApp, 1 );
-  QObject::connect( qApp, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
-  QObject::connect( mapper, SIGNAL(mapped(int)), settingsDialog, SLOT(saveConfig(int)) );
-
-}
-
-Settings* Qtwitter::getSettingsDialog() const
-{
-  return settingsDialog;
+  connect( qApp, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
+  connect( mapper, SIGNAL(mapped(int)), settingsDialog, SLOT(saveConfig(int)) );
 }

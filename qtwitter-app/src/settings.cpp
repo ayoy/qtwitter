@@ -25,11 +25,33 @@
 #include <QFileDialog>
 #include <QDesktopServices>
 #include <QProcess>
+#include <QSettings>
 #include "settings.h"
 #include "mainwindow.h"
 #include "core.h"
 #include "twitteraccountsmodel.h"
 #include "twitteraccountsdelegate.h"
+
+ConfigFile settings;
+
+ConfigFile::ConfigFile():
+#if defined Q_WS_MAC
+QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy.net", "qTwitter" )
+#elif defined Q_WS_WIN
+QSettings( QSettings::IniFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
+#elif
+QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
+#endif
+{}
+
+QString ConfigFile::pwHash( const QString &text )
+{
+  QString newText = text;
+  for (unsigned int i = 0, textLength = text.length(); i < textLength; ++i)
+    newText[i] = QChar(text[i].unicode() ^ i ^ 1);
+  return newText;
+}
+
 
 const ThemeInfo Settings::STYLESHEET_CARAMEL =  ThemeInfo( QString( "Caramel" ),
                                                            ThemeData( ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(23, 14, 40, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(219, 204, 56); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" ),
@@ -166,12 +188,12 @@ void Settings::loadConfig( bool dialogRejected )
 {
   settings.beginGroup( "General" );
     ui.userNameEdit->setText( settings.value( "username", "" ).toString() );
-    ui.passwordEdit->setText( pwHash( settings.value( "password", "" ).toString() ) );
-    ui.refreshCombo->setCurrentIndex( settings.value( "refresh" ).toInt() );
+    ui.passwordEdit->setText( settings.pwHash( settings.value( "password", "" ).toString() ) );
+    ui.refreshCombo->setCurrentIndex( settings.value( "refresh-index", 3 ).toInt() );
     ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
-    ui.radioFriends->setChecked( settings.value( "timeline", true ).toBool() );
+    ui.radioPublic->setChecked( settings.value( "timeline", true ).toBool() );
     ui.directCheckBox->setChecked( settings.value( "directMessages", true ).toBool() );
-    ui.radioPublic->setChecked( !ui.radioFriends->isChecked() );
+    ui.radioFriends->setChecked( !ui.radioPublic->isChecked() );
   settings.endGroup();
   settings.beginGroup( "TwitterAccounts" );
   if ( !dialogRejected ) {
@@ -180,7 +202,7 @@ void Settings::loadConfig( bool dialogRejected )
         accountsModel->insertRow(i);
         accountsModel->account(i).isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
         accountsModel->account(i).login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
-        accountsModel->account(i).password = pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
+        accountsModel->account(i).password = settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
         accountsModel->account(i).directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
       }
       if ( ui.usersView->model()->rowCount() <= 1 ) {
@@ -247,11 +269,6 @@ void Settings::setProxy()
   QNetworkProxy::setApplicationProxy( proxy );
 }
 
-TwitterAccountsModel* Settings::getTwitterAccountsModel()
-{
-  return accountsModel;
-}
-
 void Settings::saveConfig( int quitting )
 {
   settings.beginGroup( "MainWindow" );
@@ -261,10 +278,11 @@ void Settings::saveConfig( int quitting )
   settings.setValue( "SettingsWindow/pos", pos() );
   settings.beginGroup( "General" );
     settings.setValue( "username", ui.userNameEdit->text() );
-    settings.setValue( "password", pwHash( ui.passwordEdit->text() ) );
-    settings.setValue( "refresh", ui.refreshCombo->currentIndex() );
+    settings.setValue( "password", settings.pwHash( ui.passwordEdit->text() ) );
+    settings.setValue( "refresh-index", ui.refreshCombo->currentIndex() );
+    settings.setValue( "refresh-value", ui.refreshCombo->currentText() );
     settings.setValue( "language", ui.languageCombo->currentIndex() );
-    settings.setValue( "timeline", ui.radioFriends->isChecked() );
+    settings.setValue( "timeline", ui.radioPublic->isChecked() );
     settings.setValue( "directMessages", ui.directCheckBox->isChecked() );
   settings.endGroup();
   settings.beginGroup( "Network" );
@@ -329,7 +347,7 @@ void Settings::slotPublicTimelineSyncChanged( bool isEnabled )
   if ( !ui.radioPublic->isChecked() ) {
     ui.radioPublic->setChecked( true );
     core->setPublicTimelineRequested( true );
-    settings.setValue( "General/timeline", ui.radioFriends->isChecked() );
+    settings.setValue( "General/timeline", ui.radioPublic->isChecked() );
   }
 }
 
@@ -423,7 +441,7 @@ void Settings::setTwitterAccountPassword( const QString &password )
     return;
   TwitterAccount &account = accountsModel->account( ui.usersView->currentIndex().row() );
   account.password = password;
-  settings.setValue( QString("TwitterAccounts/%1/password").arg( ui.usersView->currentIndex().row() ), pwHash( password ) );
+  settings.setValue( QString("TwitterAccounts/%1/password").arg( ui.usersView->currentIndex().row() ), settings.pwHash( password ) );
 }
 
 void Settings::setTwitterAccountDM( bool state )
@@ -498,7 +516,8 @@ void Settings::applySettings()
 {
   setProxy();
   core->applySettings( ui.refreshCombo->currentText().toInt() * 60000, ui.userNameEdit->text(), ui.passwordEdit->text(), ui.radioPublic->isChecked(), ui.directCheckBox->isChecked(), ui.tweetCountBox->value() );
-  mainWindow->setupTwitterAccounts( this->accountsModel->getAccounts(), core->isPublicTimelineRequested() );
+//  emit accountsChanged( accountsModel->getAccounts(), core->isPublicTimelineRequested() );
+  mainWindow->setupTwitterAccounts( accountsModel->getAccounts(), core->isPublicTimelineRequested() );
   changeTheme( ui.colorBox->currentText() );
 #ifdef Q_WS_X11
   if ( useCustomBrowserCheckBox->isChecked() ) {
@@ -532,13 +551,6 @@ void Settings::createLanguageMenu()
   ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
 }
 
-QString Settings::pwHash( const QString &text )
-{
-  QString newText = text;
-  for (unsigned int i = 0, textLength = text.length(); i < textLength; ++i)
-    newText[i] = QChar(text[i].unicode() ^ i ^ 1);
-  return newText;
-}
 
 /*! \struct ThemeElement
     \brief A struct containing customization data for themed UI elements.

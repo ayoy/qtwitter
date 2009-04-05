@@ -23,6 +23,8 @@
 #include "tweet.h"
 #include "ui_about.h"
 #include "twitteraccountsmodel.h"
+#include "twitteraccountsdelegate.h"
+#include "settings.h"
 
 #include <QMenu>
 #include <QScrollBar>
@@ -35,6 +37,8 @@
 #include <QSignalMapper>
 #include <QTreeView>
 
+extern ConfigFile settings;
+
 const QString MainWindow::APP_VERSION = "0.6.0_pre1";
 
 MainWindow::MainWindow( QWidget *parent ) :
@@ -46,9 +50,6 @@ MainWindow::MainWindow( QWidget *parent ) :
 
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
   ui.countdownLabel->setMovie( progressIcon );
-
-  anotherModel = new TweetModel( this->getScrollBarWidth(), this->getListView(), this );
-
   ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
 
   createConnections();
@@ -68,6 +69,7 @@ void MainWindow::createConnections()
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( editingFinished() ), this, SLOT( resetStatus() ) );
   connect( ui.statusEdit, SIGNAL(errorMessage(QString)), this, SLOT(popupError(QString)) );
+  connect( ui.accountsComboBox, SIGNAL(activated(int)), this, SLOT(configWriteCurrentModel(int)) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( this, SIGNAL(addReplyString(QString,int)), ui.statusEdit, SLOT(addReplyString(QString,int)) );
@@ -142,7 +144,6 @@ void MainWindow::createTrayIcon()
   trayIcon->setToolTip( "qTwitter" );
 #endif
   trayIcon->show();
-
 }
 
 StatusList* MainWindow::getListView()
@@ -157,19 +158,13 @@ int MainWindow::getScrollBarWidth()
 
 void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool publicTimeline )
 {
-  if ( publicTimeline ) {
-    if ( accounts.isEmpty() ) {
-      ui.accountsComboBox->setVisible( false );
-      return;
-    }
-  } else if ( accounts.size() < 2 ) {
-      ui.accountsComboBox->setVisible( false );
-      return;
+  if ( !publicTimeline && accounts.size() < 2 || accounts.isEmpty() ) {
+    ui.accountsComboBox->setVisible( false );
+    return;
   }
 
   ui.accountsComboBox->setVisible( true );
-  QAbstractItemModel *model = ui.accountsComboBox->model();
-  model->removeRows( 0, model->rowCount() );
+  ui.accountsComboBox->clear();
   TwitterAccount account;
   foreach ( account, accounts ) {
     if ( account.isEnabled )
@@ -177,8 +172,16 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bo
   }
   if ( publicTimeline )
     ui.accountsComboBox->addItem( tr( "public timeline" ) );
-  if ( ui.accountsComboBox->count() <= 1 )
+  if ( ui.accountsComboBox->count() <= 1 ) {
     ui.accountsComboBox->setVisible( false );
+    return;
+  }
+  int index = settings.value( "TwitterAccounts/currentModel", "" ).toInt();
+  if ( index >= ui.accountsComboBox->count() )
+    ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->count() - 1 );
+  else
+    ui.accountsComboBox->setCurrentIndex( index );
+
 }
 
 void MainWindow::setListViewModel( TweetModel *model )
@@ -227,7 +230,7 @@ void MainWindow::changeLabel()
 void MainWindow::sendStatus()
 {
   resetUiWhenFinished = true;
-  emit post( ui.statusEdit->text().toUtf8(), ui.statusEdit->getInReplyTo() );
+  emit post( ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
   showProgressIcon();
 }
 
@@ -246,6 +249,11 @@ void MainWindow::showProgressIcon()
   ui.countdownLabel->clear();
   ui.countdownLabel->setMovie( progressIcon );
   progressIcon->start();
+}
+
+void MainWindow::configWriteCurrentModel( int index )
+{
+  settings.setValue( "TwitterAccounts/currentModel", index );
 }
 
 void MainWindow::resetStatus()

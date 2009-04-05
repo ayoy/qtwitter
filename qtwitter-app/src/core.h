@@ -32,6 +32,7 @@ class TwitterAPI;
 class TweetModel;
 class QAbstractItemModel;
 class TwitterAccountsModel;
+class StatusList;
 
 typedef QMap<QString, QImage> MapStringImage;
 
@@ -63,7 +64,7 @@ public:
 public slots:
   void forceGet();
   void get();
-  void post( const QByteArray &status, int inReplyTo = -1 );
+  void post( QString status, int inReplyTo = -1 );
 
   void uploadPhoto( QString photoPath, QString status );
   void abortUploadPhoto();
@@ -101,10 +102,11 @@ signals:
 private slots:
   void setImageInHash( const QString&, QImage );
   void slotUnauthorized();
-  void slotUnauthorized( const QByteArray &status, int inReplyToId );
+  void slotUnauthorized( const QString &status, int inReplyToId );
   void slotUnauthorized( int destroyId );
 
 private:
+  void setupTweetModels();
   bool retryAuthorizing( int role );
   bool authDialogOpen;
   TwitterAPI *twitterapi;
@@ -112,11 +114,15 @@ private:
   QMap<QString,ImageDownload*> imageDownloader;
   TwitterAccountsModel *accountsModel;
   TweetModel *model;
-  QMap<QString,TweetModel> models;
+  QMap<QString,TweetModel*> tweetModels;
   MapStringImage imageCache;
   QAuthenticator authData;
   QString currentUser;
   QTimer *timer;
+
+  StatusList *listViewForModels;
+  int margin;
+
 #ifdef Q_WS_X11
   QString browserPath;
 #endif

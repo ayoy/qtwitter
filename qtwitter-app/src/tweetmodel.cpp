@@ -34,9 +34,7 @@ TweetModel::TweetModel( int margin, StatusList *parentListView, QObject *parent 
   scrollBarMargin( margin ),
   currentIndex( QModelIndex() ),
   view( parentListView )
-{
-  Tweet::setTweetListModel( this );
-}
+{}
 
 void TweetModel::deselectCurrentIndex()
 {

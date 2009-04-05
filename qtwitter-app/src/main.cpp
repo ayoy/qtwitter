@@ -18,23 +18,18 @@
  ***************************************************************************/
 
 
-#include "twitterapi.h"
-#include "mainwindow.h"
-#include "tweetmodel.h"
-#include "twitpicview.h"
-#include "settings.h"
-#include "core.h"
-
+#include <QApplication>
 #include "qtwitter.h"
+#include "settings.h"
 
 int main( int argc, char **argv )
 {
-  QCoreApplication::setOrganizationName( "ayoy" );
-  QCoreApplication::setOrganizationDomain( "ayoy.net" );
-  QCoreApplication::setApplicationName( "qTwitter" );
-#if defined Q_WS_WIN
-  QSettings::setDefaultFormat( QSettings::IniFormat );
-#endif
+//  QCoreApplication::setOrganizationName( "ayoy" );
+//  QCoreApplication::setOrganizationDomain( "ayoy.net" );
+//  QCoreApplication::setApplicationName( "qTwitter" );
+//#if defined Q_WS_WIN
+//  QSettings::setDefaultFormat( QSettings::IniFormat );
+//#endif
   QApplication app( argc, argv );
   qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
 
