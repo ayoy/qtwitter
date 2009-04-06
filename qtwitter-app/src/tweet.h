@@ -41,7 +41,7 @@ class Tweet : public QWidget
 
 public:
 
-  explicit Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, QWidget *parent = 0 );
+  explicit Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, TweetModel *parentModel, QWidget *parent = 0 );
   virtual ~Tweet();
 
   void resize( const QSize& size );
@@ -57,7 +57,6 @@ public:
   void setState( TweetModel::TweetState state );
   static ThemeData getTheme();
   static void setTheme( const ThemeData &theme );
-  static void setTweetListModel( TweetModel *tweetModel );
 
 public slots:
   void adjustSize();
@@ -95,7 +94,7 @@ private:
   Entry *tweetData;
   QSignalMapper *signalMapper;
   static ThemeData currentTheme;
-  static TweetModel* tweetListModel;
+  TweetModel *tweetListModel;
   Ui::Tweet *m_ui;
 };
 

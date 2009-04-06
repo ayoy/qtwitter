@@ -58,8 +58,11 @@ public:
 
   bool isPublicTimelineRequested() const;
   void setPublicTimelineRequested( bool b );
+  const QString& getCurrentUser() const;
+  void setCurrentUser( const QString &login );
   void setModelTheme( const ThemeData &theme );
   QAbstractItemModel* getTwitterAccountsModel();
+  TweetModel* getModel( const QString &login );
 
 public slots:
   void forceGet();
@@ -76,9 +79,9 @@ public slots:
   AuthDialogState authDataDialog( const QString &user = QString(), const QString &password = QString() );
 
   void retranslateUi();
-  inline TweetModel* getModel() { return model; }
 
 signals:
+  void setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool isPublicTimelineRequested );
   void errorMessage( const QString &message );
   void authDataSet( const QAuthenticator &authenticator );
   void addEntry( Entry* entry );
@@ -107,6 +110,7 @@ private slots:
 
 private:
   void setupTweetModels();
+  void createConnectionsWithModel( TweetModel *model );
   bool retryAuthorizing( int role );
   bool authDialogOpen;
   TwitterAPI *twitterapi;

@@ -4,7 +4,7 @@ TOP = ..
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
 macx { 
-    ICON = macx/twitter_48.icns
+    ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
     QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
     

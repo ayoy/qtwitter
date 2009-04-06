@@ -57,7 +57,9 @@ MainWindow::MainWindow( QWidget *parent ) :
   createTrayIcon();
 }
 
-MainWindow::~MainWindow() {}
+MainWindow::~MainWindow() {
+  settings.setValue( "TwitterAccounts/currentModel", ui.accountsComboBox->currentIndex() );
+}
 
 void MainWindow::createConnections()
 {
@@ -69,7 +71,7 @@ void MainWindow::createConnections()
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( editingFinished() ), this, SLOT( resetStatus() ) );
   connect( ui.statusEdit, SIGNAL(errorMessage(QString)), this, SLOT(popupError(QString)) );
-  connect( ui.accountsComboBox, SIGNAL(activated(int)), this, SLOT(configWriteCurrentModel(int)) );
+  connect( ui.accountsComboBox, SIGNAL(activated(int)), this, SLOT(configSaveCurrentModel(int)) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( this, SIGNAL(addReplyString(QString,int)), ui.statusEdit, SLOT(addReplyString(QString,int)) );
@@ -165,8 +167,7 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bo
 
   ui.accountsComboBox->setVisible( true );
   ui.accountsComboBox->clear();
-  TwitterAccount account;
-  foreach ( account, accounts ) {
+  foreach ( TwitterAccount account, accounts ) {
     if ( account.isEnabled )
       ui.accountsComboBox->addItem( account.login );
   }
@@ -176,16 +177,22 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bo
     ui.accountsComboBox->setVisible( false );
     return;
   }
-  int index = settings.value( "TwitterAccounts/currentModel", "" ).toInt();
+  int index = settings.value( "TwitterAccounts/currentModel", 0 ).toInt();
   if ( index >= ui.accountsComboBox->count() )
     ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->count() - 1 );
   else
     ui.accountsComboBox->setCurrentIndex( index );
+  emit switchModel( ui.accountsComboBox->currentText() );
 
 }
 
 void MainWindow::setListViewModel( TweetModel *model )
 {
+  if ( !model )
+    return;
+  TweetModel *currentModel = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  if ( currentModel )
+    currentModel->setVisible( false );
   ui.statusListView->setModel( model );
   model->display();
 }
@@ -251,9 +258,12 @@ void MainWindow::showProgressIcon()
   progressIcon->start();
 }
 
-void MainWindow::configWriteCurrentModel( int index )
+void MainWindow::configSaveCurrentModel( int index )
 {
-  settings.setValue( "TwitterAccounts/currentModel", index );
+  if ( settings.value( "TwitterAccounts/currentModel", 0 ).toInt() != index ) {
+    settings.setValue( "TwitterAccounts/currentModel", index );
+    emit switchModel( ui.accountsComboBox->currentText() );
+  }
 }
 
 void MainWindow::resetStatus()

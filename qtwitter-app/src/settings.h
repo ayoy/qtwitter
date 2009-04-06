@@ -146,7 +146,6 @@ private slots:
 private:
   void applySettings();
   void createLanguageMenu();
-//  QSettings settings;
   QTranslator translator;
   QNetworkProxy proxy;
   MainWindow *mainWindow;

@@ -33,6 +33,9 @@ class Qtwitter : public MainWindow
 public:
   Qtwitter( QWidget *parent = 0 );
 
+public slots:
+  void setCurrentModel( const QString &login );
+
 private:
   Core *core;
   TwitPicView *twitpic;

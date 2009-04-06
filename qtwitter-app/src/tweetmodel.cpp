@@ -87,9 +87,9 @@ void TweetModel::display()
   for (int i = 0; i < rowCount(); i++ ) {
     status = &statuses[i];
     if ( status->entry.type == Entry::DirectMessage )
-      status->tweet = new Tweet( &status->entry, &status->state, QImage( ":/icons/mail_48.png" ) );
+      status->tweet = new Tweet( &status->entry, &status->state, QImage( ":/icons/mail_48.png" ), this );
     else
-      status->tweet = new Tweet( &status->entry, &status->state, status->image );
+      status->tweet = new Tweet( &status->entry, &status->state, status->image, this );
     status->tweet->setTweetData( &status->entry, &status->state );
     status->tweet->applyTheme();
     status->tweet->resize( view->width() - scrollBarMargin, status->tweet->height() );
@@ -142,9 +142,9 @@ void TweetModel::insertTweet( Entry *entry )
   status.state = TweetModel::STATE_UNREAD;
   status.entry = *entry;
   if ( status.entry.type == Entry::DirectMessage )
-    status.tweet = new Tweet( &status.entry, &status.state, QImage( ":/icons/mail_48.png" ) );
+    status.tweet = new Tweet( &status.entry, &status.state, QImage( ":/icons/mail_48.png" ), this );
   else
-    status.tweet = new Tweet( &status.entry, &status.state, QImage() );
+    status.tweet = new Tweet( &status.entry, &status.state, QImage(), this );
   status.tweet->setTweetData( &status.entry, &status.state );
 
   QStandardItem *newItem = new QStandardItem();

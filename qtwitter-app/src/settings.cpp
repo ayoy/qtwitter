@@ -119,6 +119,7 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, QWidget *pa
     mainWindow( mainwinSettings ),
     core( coreSettings )
 {
+  
   qApp->installTranslator( &translator );
 
   ui.setupUi( this );

@@ -56,24 +56,24 @@ Core::Core( MainWindow *parent ) :
   connect( twitterapi, SIGNAL(publicTimelineSyncChanged(bool)), this, SIGNAL(publicTimelineSyncChanged(bool)) );
 
   model = new TweetModel( margin, listViewForModels, this );
-  Tweet::setTweetListModel( model );
-
-  connect( model, SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
-  connect( model, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
-  connect( model, SIGNAL(about()), this, SIGNAL(about()) );
-  connect( model, SIGNAL(destroy(int)), this, SLOT(destroyTweet(int)) );
-  connect( model, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
-  connect( model, SIGNAL(newTweets(int,QStringList,int,QStringList)), this, SIGNAL(newTweets(int,QStringList,int,QStringList)) );
-  connect( this, SIGNAL(addEntry(Entry*)), model, SLOT(insertTweet(Entry*)) );
-  connect( this, SIGNAL(deleteEntry(int)), model, SLOT(deleteTweet(int)) );
-  connect( this, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
-  connect( this, SIGNAL(requestListRefresh(bool,bool)), model, SLOT(setModelToBeCleared(bool,bool)) );
-  connect( this, SIGNAL(timelineUpdated()), model, SLOT(sendNewsInfo()) );
-  connect( this, SIGNAL(directMessagesSyncChanged(bool)), model, SLOT(slotDirectMessagesChanged(bool)) );
-  connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
-
-  parent->getListView()->setModel( model );
-  model->display();
+//  Tweet::setTweetListModel( model );
+//
+//  connect( model, SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
+//  connect( model, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
+//  connect( model, SIGNAL(about()), this, SIGNAL(about()) );
+//  connect( model, SIGNAL(destroy(int)), this, SLOT(destroyTweet(int)) );
+//  connect( model, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
+//  connect( model, SIGNAL(newTweets(int,QStringList,int,QStringList)), this, SIGNAL(newTweets(int,QStringList,int,QStringList)) );
+//  connect( this, SIGNAL(addEntry(Entry*)), model, SLOT(insertTweet(Entry*)) );
+//  connect( this, SIGNAL(deleteEntry(int)), model, SLOT(deleteTweet(int)) );
+//  connect( this, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
+//  connect( this, SIGNAL(requestListRefresh(bool,bool)), model, SLOT(setModelToBeCleared(bool,bool)) );
+//  connect( this, SIGNAL(timelineUpdated()), model, SLOT(sendNewsInfo()) );
+//  connect( this, SIGNAL(directMessagesSyncChanged(bool)), model, SLOT(slotDirectMessagesChanged(bool)) );
+//  connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
+//
+//  parent->getListView()->setModel( model );
+//  model->display();
 
   accountsModel = new TwitterAccountsModel( this );
 //  emit modelChanged( model );
@@ -91,7 +91,10 @@ Core::~Core()
 void Core::applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages, int maxTweetCount )
 {
   setupTweetModels();
-  model->setMaxTweetCount( settings.value( "Appearance/tweet count", 25 ).toInt() );
+  int mtc = settings.value( "Appearance/tweet count", 25 ).toInt();
+  foreach ( TweetModel *model, tweetModels.values() )
+    model->setMaxTweetCount( mtc );
+
   bool a = setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
   bool b = twitterapi->setAuthData( settings.value( "General/username", "" ).toString(), settings.pwHash( settings.value( "General/password", "" ).toString() ) );
   bool c = twitterapi->setPublicTimelineSync( settings.value( "General/timeline", true ).toBool() );
@@ -135,6 +138,16 @@ void Core::setPublicTimelineRequested( bool b )
   model->setPublicTimelineRequested( b );
 }
 
+const QString& Core::getCurrentUser() const
+{
+  return currentUser;
+}
+
+void Core::setCurrentUser( const QString &login )
+{
+  currentUser = login;
+}
+
 void Core::setModelTheme( const ThemeData &theme )
 {
   model->setTheme( theme );
@@ -143,6 +156,13 @@ void Core::setModelTheme( const ThemeData &theme )
 QAbstractItemModel* Core::getTwitterAccountsModel()
 {
   return accountsModel;
+}
+
+TweetModel* Core::getModel( const QString &login )
+{
+  if ( !tweetModels.contains( login ) )
+    return 0;
+  return tweetModels.value( login );
 }
 
 void Core::forceGet()
@@ -304,7 +324,9 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
 
 void Core::retranslateUi()
 {
-  model->retranslateUi();
+  foreach ( TweetModel *model, tweetModels.values() ) {
+    model->retranslateUi();
+  }
 }
 
 void Core::setImageInHash( const QString &url, QImage image )
@@ -336,13 +358,35 @@ void Core::slotUnauthorized( int destroyId )
 
 void Core::setupTweetModels()
 {
-  TwitterAccount account;
-  foreach ( account, accountsModel->getAccounts() ) {
-    if ( account.isEnabled && !tweetModels.contains( account.login ) )
-      tweetModels.insert( account.login, new TweetModel( margin, listViewForModels, this ) );
+  foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
+    if ( account.isEnabled && !tweetModels.contains( account.login ) ) {
+      TweetModel *model = new TweetModel( margin, listViewForModels, this );
+      createConnectionsWithModel( model );
+      tweetModels.insert( account.login, model );
+    }
   }
-  if ( this->isPublicTimelineRequested() && !tweetModels.contains( "public timeline" ) )
-      tweetModels.insert( "public timeline", new TweetModel( margin, listViewForModels, this ) );
+  if ( this->isPublicTimelineRequested() && !tweetModels.contains( "public timeline" ) ) {
+    TweetModel *model = new TweetModel( margin, listViewForModels, this );
+    createConnectionsWithModel( model );
+    tweetModels.insert( "public timeline", model );
+  }
+}
+
+void Core::createConnectionsWithModel( TweetModel *model )
+{
+  connect( model, SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
+  connect( model, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
+  connect( model, SIGNAL(about()), this, SIGNAL(about()) );
+  connect( model, SIGNAL(destroy(int)), this, SLOT(destroyTweet(int)) );
+  connect( model, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
+  connect( model, SIGNAL(newTweets(int,QStringList,int,QStringList)), this, SIGNAL(newTweets(int,QStringList,int,QStringList)) );
+  connect( this, SIGNAL(addEntry(Entry*)), model, SLOT(insertTweet(Entry*)) );
+  connect( this, SIGNAL(deleteEntry(int)), model, SLOT(deleteTweet(int)) );
+  connect( this, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
+  connect( this, SIGNAL(requestListRefresh(bool,bool)), model, SLOT(setModelToBeCleared(bool,bool)) );
+  connect( this, SIGNAL(timelineUpdated()), model, SLOT(sendNewsInfo()) );
+  connect( this, SIGNAL(directMessagesSyncChanged(bool)), model, SLOT(slotDirectMessagesChanged(bool)) );
+  connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
 }
 
 bool Core::retryAuthorizing( int role )

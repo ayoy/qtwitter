@@ -55,6 +55,7 @@ public slots:
   void setListViewModel( TweetModel *model );
 
 signals:
+  void setCurrentModel( const QString &login );
   void updateTweets();
   void openTwitPicDialog();
   void post( QString status, int inReplyTo = -1 );
@@ -63,10 +64,12 @@ signals:
   void addReplyString( const QString& user, int inReplyTo );
   void addRetweetString( QString message );
   void resizeView( int width, int oldWidth );
+  void switchModel( const QString &login );
 
 protected:
   void closeEvent( QCloseEvent *e );
   void resizeEvent( QResizeEvent* );
+  Ui::MainWindow ui;
 
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
@@ -74,7 +77,7 @@ private slots:
   void changeLabel();
   void sendStatus();
   void resetStatus();
-  void configWriteCurrentModel( int index );
+  void configSaveCurrentModel( int index );
 
 private:
   void createConnections();
@@ -89,7 +92,6 @@ private:
   QAction *gototwitpicAction;
   QMovie *progressIcon;
   QSystemTrayIcon *trayIcon;
-  Ui::MainWindow ui;
 };
 
 #endif //MAINWINDOW_H

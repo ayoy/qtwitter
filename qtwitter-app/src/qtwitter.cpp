@@ -23,6 +23,7 @@
 #include "qtwitter.h"
 #include "core.h"
 #include "twitpicview.h"
+#include "tweet.h"
 #include "settings.h"
 #include "twitteraccountsmodel.h"
 
@@ -33,12 +34,13 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
   twitpic = new TwitPicView( this );
   settingsDialog = new Settings( this, core, this );
 
-  connect( core, SIGNAL(modelChanged(TweetModel*)), this, SLOT(setListViewModel(TweetModel*)) );
+  connect( this, SIGNAL(switchModel(QString)), SLOT(setCurrentModel(QString)) );
 
   connect( this, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
   connect( this, SIGNAL(post(QString,int)), core, SLOT(post(QString,int)) );
   connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
+//  connect( core, SIGNAL(setupTwitterAccounts(QList<TwitterAccount>,bool)), this, SLOT(setupTwitterAccounts(QList<TwitterAccount>,bool)) );
   connect( core, SIGNAL(about()), this, SLOT(about()) );
   connect( core, SIGNAL(addReplyString(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
   connect( core, SIGNAL(addRetweetString(QString)), this, SIGNAL(addRetweetString(QString)) );
@@ -67,4 +69,11 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
   mapper->setMapping( qApp, 1 );
   connect( qApp, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(int)), settingsDialog, SLOT(saveConfig(int)) );
+  setCurrentModel( ui.accountsComboBox->currentText() );
+}
+
+void Qtwitter::setCurrentModel( const QString &login )
+{
+  core->setCurrentUser( login );
+  setListViewModel( core->getModel( login ) );
 }

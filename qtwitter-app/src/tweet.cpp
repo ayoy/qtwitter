@@ -26,9 +26,8 @@
 #include "settings.h"
 
 ThemeData Tweet::currentTheme = ThemeData();
-TweetModel* Tweet::tweetListModel = 0;
 
-Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, QWidget *parent ) :
+Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, TweetModel *parentModel, QWidget *parent ) :
   QWidget(parent),
   replyAction(0),
   gotohomepageAction(0),
@@ -36,6 +35,7 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, 
   deleteAction(0),
   tweetState( state ),
   tweetData( entry ),
+  tweetListModel( parentModel ),
   m_ui(new Ui::Tweet)
 {
   m_ui->setupUi( this );
@@ -215,11 +215,6 @@ ThemeData Tweet::getTheme()
 void Tweet::setTheme( const ThemeData &theme )
 {
   currentTheme = theme;
-}
-
-void Tweet::setTweetListModel( TweetModel *tweetModel )
-{
-  tweetListModel = tweetModel;
 }
 
 void Tweet::adjustSize()
