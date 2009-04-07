@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 
+#include <QDebug>
 #include "twitterapi.h"
 #include "xmldownload.h"
 #include "entry.h"
@@ -28,14 +29,19 @@ TwitterAPI::TwitterAPI( QObject *parent ) :
     directMessagesSync( false ),
     switchUser( false ),
     authDialogOpen( false ),
-    xmlGet( NULL ),
-    xmlPost( NULL ),
+    xmlDownload( new XmlDownload( this ) ),
+//    xmlGet( NULL ),
+//    xmlPost( NULL ),
     statusesDone( false ),
     messagesDone( false )
 {
+  createConnections( xmlDownload );
 }
 
-TwitterAPI::~TwitterAPI() {}
+TwitterAPI::~TwitterAPI()
+{
+  xmlDownload->deleteLater();
+}
 
 void TwitterAPI::createConnections( XmlDownload *xmlDownload )
 {
@@ -44,18 +50,18 @@ void TwitterAPI::createConnections( XmlDownload *xmlDownload )
   connect( xmlDownload, SIGNAL(unauthorized()), this, SIGNAL(unauthorized()) );
   connect( xmlDownload, SIGNAL(unauthorized(QString,int)), this, SIGNAL(unauthorized(QString,int)) );
   connect( xmlDownload, SIGNAL(unauthorized(int)), this, SIGNAL(unauthorized(int)) );
-  if ( xmlDownload->getRole() == TwitterAPI::Destroy ) {
-    connect( xmlDownload, SIGNAL(deleteEntry(int)), this, SIGNAL(deleteEntry(int)) );
-  } else {
+//  if ( xmlDownload->getRole() == TwitterAPI::Destroy ) {
+//    connect( xmlDownload, SIGNAL(deleteEntry(int)), this, SIGNAL(deleteEntry(int)) );
+//  } else {
     connect( xmlDownload, SIGNAL(newEntry(Entry*)), this, SLOT(newEntry(Entry*)) );
-  }
+//  }
 }
 
-bool TwitterAPI::isPublicTimelineSync()
-{
-  return publicTimelineSync;
-}
-
+//bool TwitterAPI::isPublicTimelineSync()
+//{
+//  return publicTimelineSync;
+//}
+//
 bool TwitterAPI::isDirectMessagesSync()
 {
   return directMessagesSync;
@@ -76,16 +82,16 @@ bool TwitterAPI::setAuthData( const QString &user, const QString &password )
   return switchUser;
 }
 
-bool TwitterAPI::setPublicTimelineSync( bool b )
-{
-  if ( publicTimelineSync != b ) {
-    publicTimelineSync = b;
-    emit publicTimelineSyncChanged( b );
-    return true;
-  }
-  return false;
-}
-
+//bool TwitterAPI::setPublicTimelineSync( bool b )
+//{
+//  if ( publicTimelineSync != b ) {
+//    publicTimelineSync = b;
+//    emit publicTimelineSyncChanged( b );
+//    return true;
+//  }
+//  return false;
+//}
+//
 bool TwitterAPI::setDirectMessagesSync( bool b )
 {
   if ( directMessagesSync != b ) {
@@ -99,23 +105,34 @@ bool TwitterAPI::setDirectMessagesSync( bool b )
 bool TwitterAPI::get()
 {
   if ( publicTimelineSync ) {
-    xmlGet = new XmlDownload ( TwitterAPI::Refresh, authData.user(), authData.password(), this );
-    createConnections( xmlGet );
-    xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", TwitterAPI::Statuses );
+    xmlDownload->publicTimeline();
   } else {
     if ( authData.user().isEmpty() || authData.password().isEmpty() )
       return false;
-
-    xmlGet = new XmlDownload ( TwitterAPI::Refresh, authData.user(), authData.password(), this );
-    createConnections( xmlGet );
-    xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", TwitterAPI::Statuses );
-    if ( directMessagesSync ) {
-      xmlGet->getContent( "http://twitter.com/direct_messages.xml", TwitterAPI::DirectMessages );
-    }
+    xmlDownload->friendsTimeline( authData.user(), authData.password(), directMessagesSync );
   }
   emit requestListRefresh( publicTimelineSync, switchUser );
   switchUser = false;
   return true;
+
+//  if ( publicTimelineSync ) {
+//    xmlGet = new XmlDownload ( TwitterAPI::Refresh, authData.user(), authData.password(), this );
+//    createConnections( xmlGet );
+//    xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", TwitterAPI::Statuses );
+//  } else {
+//    if ( authData.user().isEmpty() || authData.password().isEmpty() )
+//      return false;
+//
+//    xmlGet = new XmlDownload ( TwitterAPI::Refresh, authData.user(), authData.password(), this );
+//    createConnections( xmlGet );
+//    xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", TwitterAPI::Statuses );
+//    if ( directMessagesSync ) {
+//      xmlGet->getContent( "http://twitter.com/direct_messages.xml", TwitterAPI::DirectMessages );
+//    }
+//  }
+//  emit requestListRefresh( publicTimelineSync, switchUser );
+//  switchUser = false;
+//  return true;
 }
 
 bool TwitterAPI::post( QString status, int inReplyTo )
@@ -123,22 +140,7 @@ bool TwitterAPI::post( QString status, int inReplyTo )
   if ( authData.user().isEmpty() || authData.password().isEmpty() )
     return false;
 
-  QByteArray request( "status=" );
-
-  status.replace( QRegExp( "&" ), "%26" );
-  status.replace( QRegExp( "\\+" ), "%2B" );
-
-  request.append( status.toUtf8() );
-  if ( inReplyTo != -1 ) {
-    request.append( "&in_reply_to_status_id=" + QByteArray::number( inReplyTo ) );
-  }
-  request.append( "&source=qtwitter" );
-  qDebug() << request;
-  xmlPost = new XmlDownload( TwitterAPI::Submit, authData.user(), authData.password(), this );
-  createConnections( xmlPost );
-  xmlPost->setPostStatus( status );
-  xmlPost->setPostInReplyToId( inReplyTo );
-  xmlPost->postContent( "http://twitter.com/statuses/update.xml", request, TwitterAPI::Statuses );
+  xmlDownload->postUpdate( authData.user(), authData.password(), status, inReplyTo );
   emit requestListRefresh( publicTimelineSync, switchUser );
   switchUser = false;
   return true;
@@ -150,10 +152,7 @@ bool TwitterAPI::destroyTweet( int id )
     return false;
 
   qDebug() << "Tweet No." << id << "will be destroyed";
-  xmlPost = new XmlDownload( TwitterAPI::Destroy, authData.user(), authData.password(), this );
-  createConnections( xmlPost );
-  xmlPost->setDestroyId( id );
-  xmlPost->postContent( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ), QByteArray(), TwitterAPI::Statuses );
+  xmlDownload->deleteUpdate( authData.user(), authData.password(), id );
   emit requestListRefresh( publicTimelineSync, switchUser );
   switchUser = false;
   return true;
@@ -161,13 +160,13 @@ bool TwitterAPI::destroyTweet( int id )
 
 void TwitterAPI::abort()
 {
-  if ( xmlPost ) {
-    xmlPost->abort();
-  }
-  if ( xmlGet ) {
-    xmlGet->abort();
-  }
-  destroyXmlConnection();
+//  if ( xmlPost ) {
+//    xmlPost->abort();
+//  }
+//  if ( xmlGet ) {
+//    xmlGet->abort();
+//  }
+//  destroyXmlConnection();
 }
 
 const QAuthenticator& TwitterAPI::getAuthData() const
@@ -186,15 +185,16 @@ void TwitterAPI::setFlag( TwitterAPI::ContentRequested flag )
       statusesDone = true;
   }
   emit done();
-  emit publicTimelineSyncChanged( publicTimelineSync );
-  if ( statusesDone && ( publicTimelineSync || (!directMessagesSync ? true : messagesDone) || (xmlPost && !publicTimelineSync)  ) ) {
-    emit timelineUpdated();
-    emit authDataSet( authData );
-    destroyXmlConnection();
-    currentUser = authData.user();
-    statusesDone = false;
-    messagesDone = false;
-  }
+//  emit publicTimelineSyncChanged( publicTimelineSync );
+
+//  if ( statusesDone && ( publicTimelineSync || (!directMessagesSync ? true : messagesDone) || (xmlPost && !publicTimelineSync)  ) ) {
+//    emit timelineUpdated();
+//    emit authDataSet( authData );
+//    destroyXmlConnection();
+//    currentUser = authData.user();
+//    statusesDone = false;
+//    messagesDone = false;
+//  }
 }
 
 void TwitterAPI::newEntry( Entry *entry )
@@ -207,16 +207,16 @@ void TwitterAPI::newEntry( Entry *entry )
 
 void TwitterAPI::destroyXmlConnection()
 {
-  if ( xmlPost ) {
-    qDebug() << "destroying xmlPost";
-    xmlPost->deleteLater();
-    xmlPost = NULL;
-  }
-  if ( xmlGet ) {
-    qDebug() << "destroying xmlGet";
-    xmlGet->deleteLater();
-    xmlGet = NULL;
-  }
+//  if ( xmlPost ) {
+//    qDebug() << "destroying xmlPost";
+//    xmlPost->deleteLater();
+//    xmlPost = NULL;
+//  }
+//  if ( xmlGet ) {
+//    qDebug() << "destroying xmlGet";
+//    xmlGet->deleteLater();
+//    xmlGet = NULL;
+//  }
 }
 
 /*! \class TwitterAPI

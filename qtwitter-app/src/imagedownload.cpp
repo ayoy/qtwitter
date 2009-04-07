@@ -28,7 +28,7 @@ ImageData::ImageData() :
     buffer(0)
 {}
 
-ImageData::~ImageData()
+void ImageData::free()
 {
   if ( image ) {
     delete image;
@@ -39,7 +39,7 @@ ImageData::~ImageData()
     bytearray = 0;
   }
   if ( buffer ) {
-    delete buffer;
+    buffer->deleteLater();
     buffer = 0;
   }
 }
@@ -47,7 +47,13 @@ ImageData::~ImageData()
 ImageDownload::ImageDownload() : HttpConnection() {}
 
 ImageDownload::~ImageDownload()
-{}
+{
+  QMap<QString,ImageData>::iterator i = imageByEntry.begin();
+  while ( i != imageByEntry.end() ) {
+    (*i).free();
+    i++;
+  }
+}
 
 void ImageDownload::imageGet( Entry *entry )      //requestByEntry[entry.getId()] = httpGetId;
 {

@@ -97,7 +97,8 @@ void Core::applySettings( int msecs, const QString &user, const QString &passwor
 
   bool a = setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
   bool b = twitterapi->setAuthData( settings.value( "General/username", "" ).toString(), settings.pwHash( settings.value( "General/password", "" ).toString() ) );
-  bool c = twitterapi->setPublicTimelineSync( settings.value( "General/timeline", true ).toBool() );
+  bool c = false;
+//  bool c = twitterapi->setPublicTimelineSync( settings.value( "General/timeline", true ).toBool() );
   bool d = twitterapi->setDirectMessagesSync( settings.value( "General/directMessages", true ).toBool() );
   if ( a || b || c || (!c && d) )
     get();
@@ -181,8 +182,8 @@ void Core::get()
       emit errorMessage( tr( "Authentication is required to get your friends' updates." ) );
       return;
     case Core::SwitchToPublic:
-      twitterapi->setPublicTimelineSync( true );
-      emit requestListRefresh( twitterapi->isPublicTimelineSync(), false );
+//      twitterapi->setPublicTimelineSync( true );
+//      emit requestListRefresh( twitterapi->isPublicTimelineSync(), false );
       break;
     default:;
     }
@@ -304,16 +305,16 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
   if (dlg.exec() == QDialog::Accepted) {
     if ( ui.publicBox->isChecked() ) {
       authDialogOpen = false;
-      twitterapi->setPublicTimelineSync( true );
-      emit requestListRefresh( twitterapi->isPublicTimelineSync(), false );
+//      twitterapi->setPublicTimelineSync( true );
+//      emit requestListRefresh( twitterapi->isPublicTimelineSync(), false );
       emit requestStarted();
       return SwitchToPublic;
     }
     twitterapi->setAuthData( ui.loginEdit->text(), ui.passwordEdit->text() );
     emit authDataSet( twitterapi->getAuthData() );
     authDialogOpen = false;
-    twitterapi->setPublicTimelineSync( false );
-    emit requestListRefresh( twitterapi->isPublicTimelineSync(), true );
+//    twitterapi->setPublicTimelineSync( false );
+//    emit requestListRefresh( twitterapi->isPublicTimelineSync(), true );
     emit requestStarted();
     return Accepted;
   }
@@ -406,7 +407,7 @@ bool Core::retryAuthorizing( int role )
     return false;
   case Core::SwitchToPublic:
     twitterapi->abort();
-    twitterapi->setPublicTimelineSync( true );
+//    twitterapi->setPublicTimelineSync( true );
   default:;
   }
   return true;

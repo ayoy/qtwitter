@@ -23,6 +23,7 @@
 
 #include <QAbstractItemModel>
 #include <QList>
+#include <QMetaType>
 
 struct TwitterAccount
 {

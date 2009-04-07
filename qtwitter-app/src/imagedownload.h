@@ -31,7 +31,7 @@ struct ImageData
   QByteArray *bytearray;
   QBuffer *buffer;
   ImageData();
-  ~ImageData();
+  void free();
 };
 
 class ImageDownload : public HttpConnection
