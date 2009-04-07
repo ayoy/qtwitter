@@ -34,6 +34,8 @@ class TWITTERAPISHARED_EXPORT TwitterAPI : public QObject
   Q_OBJECT
 
 public:
+  static const QString PUBLIC_TIMELINE;
+
   enum Role {
     Refresh,
     Submit,

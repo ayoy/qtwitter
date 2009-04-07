@@ -42,9 +42,10 @@ class Core : public QObject
 
 public:
   enum AuthDialogState {
-    Accepted,
-    Rejected,
-    SwitchToPublic
+    STATE_ACCEPTED,
+    STATE_REJECTED,
+    STATE_DIALOG_OPEN,
+    STATE_SWITCH_TO_PUBLIC
   };
 
   Core( MainWindow *parent = 0 );

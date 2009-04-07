@@ -23,6 +23,8 @@
 #include "xmldownload.h"
 #include "entry.h"
 
+const QString TwitterAPI::PUBLIC_TIMELINE = "public timeline";
+
 TwitterAPI::TwitterAPI( QObject *parent ) :
     QObject( parent ),
     publicTimelineSync( false ),
@@ -109,7 +111,9 @@ bool TwitterAPI::get()
   } else {
     if ( authData.user().isEmpty() || authData.password().isEmpty() )
       return false;
-    xmlDownload->friendsTimeline( authData.user(), authData.password(), directMessagesSync );
+    xmlDownload->friendsTimeline( authData.user(), authData.password() );
+    if ( directMessagesSync )
+      xmlDownload->directMessages( authData.user(), authData.password() );
   }
   emit requestListRefresh( publicTimelineSync, switchUser );
   switchUser = false;

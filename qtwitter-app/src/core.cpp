@@ -178,10 +178,10 @@ void Core::get()
   while ( !twitterapi->get() ) {
     state = authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() );
     switch ( state ) {
-    case Core::Rejected:
+    case Core::STATE_REJECTED:
       emit errorMessage( tr( "Authentication is required to get your friends' updates." ) );
       return;
-    case Core::SwitchToPublic:
+    case Core::STATE_SWITCH_TO_PUBLIC:
 //      twitterapi->setPublicTimelineSync( true );
 //      emit requestListRefresh( twitterapi->isPublicTimelineSync(), false );
       break;
@@ -200,7 +200,7 @@ void Core::post( QString status, int inReplyTo )
 void Core::uploadPhoto( QString photoPath, QString status )
 {
   if ( twitterapi->getAuthData().user().isEmpty() || twitterapi->getAuthData().password().isEmpty() ) {
-    if ( authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() ) == Rejected ) {
+    if ( authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() ) == Core::STATE_REJECTED ) {
       emit errorMessage( tr("Authentication is required to upload photos to TwitPic.") );
       return;
     }
@@ -292,7 +292,7 @@ void Core::openBrowser( QUrl address )
 Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &password )
 {
   if ( authDialogOpen )
-    return Accepted;
+    return Core::STATE_DIALOG_OPEN;
   emit resetUi();
   QDialog dlg;
   Ui::AuthDialog ui;
@@ -308,7 +308,7 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
 //      twitterapi->setPublicTimelineSync( true );
 //      emit requestListRefresh( twitterapi->isPublicTimelineSync(), false );
       emit requestStarted();
-      return SwitchToPublic;
+      return Core::STATE_SWITCH_TO_PUBLIC;
     }
     twitterapi->setAuthData( ui.loginEdit->text(), ui.passwordEdit->text() );
     emit authDataSet( twitterapi->getAuthData() );
@@ -316,11 +316,11 @@ Core::AuthDialogState Core::authDataDialog( const QString &user, const QString &
 //    twitterapi->setPublicTimelineSync( false );
 //    emit requestListRefresh( twitterapi->isPublicTimelineSync(), true );
     emit requestStarted();
-    return Accepted;
+    return Core::STATE_ACCEPTED;
   }
   qDebug() << "returning false";
   authDialogOpen = false;
-  return Rejected;
+  return Core::STATE_REJECTED;
 }
 
 void Core::retranslateUi()
@@ -394,7 +394,7 @@ bool Core::retryAuthorizing( int role )
 {
   Core::AuthDialogState state = authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() );
   switch ( state ) {
-  case Core::Rejected:
+  case Core::STATE_REJECTED:
     switch ( role ) {
     case TwitterAPI::Submit:
       emit errorMessage( tr( "Authentication is required to post updates." ) );
@@ -404,8 +404,9 @@ bool Core::retryAuthorizing( int role )
       emit errorMessage( tr( "Authentication is required to get your friends' updates." ) );
     }
     twitterapi->abort();
+  case Core::STATE_DIALOG_OPEN:
     return false;
-  case Core::SwitchToPublic:
+  case Core::STATE_SWITCH_TO_PUBLIC:
     twitterapi->abort();
 //    twitterapi->setPublicTimelineSync( true );
   default:;
@@ -428,15 +429,15 @@ bool Core::retryAuthorizing( int role )
     \brief The return state of the authentication dialog.
 */
 
-/*! \var Core::AuthDialogState Core::Accepted
+/*! \var Core::AuthDialogState Core::STATE_ACCEPTED
     Dialog was accepted.
 */
 
-/*! \var Core::AuthDialogState Core::Rejected
+/*! \var Core::AuthDialogState Core::STATE_REJECTED
     Dialog was rejected.
 */
 
-/*! \var Core::AuthDialogState Core::SwitchToPublic
+/*! \var Core::AuthDialogState Core::STATE_SWITCH_TO_PUBLIC
     User switched to public timeline syncing
 */
 
