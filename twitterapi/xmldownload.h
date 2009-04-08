@@ -23,15 +23,30 @@
 
 #include <QObject>
 #include <QMap>
+#include <QNetworkAccessManager>;
 #include <QNetworkRequest>
 #include <QXmlSimpleReader>
 #include <QXmlInputSource>
+#include <QPointer>
 #include "twitterapi.h"
+#include "xmlparser.h"
 
-class QNetworkAccessManager;
 class QNetworkReply;
-class XmlParser;
-class XmlParserDirectMsg;
+
+struct Interface
+{
+  QPointer<QNetworkAccessManager> connection;
+  QPointer<XmlParser> statusParser;
+  QPointer<XmlParserDirectMsg> directMsgParser;
+  ~Interface() {
+    if ( connection )
+      connection.data()->deleteLater();
+    if ( statusParser )
+      statusParser.data()->deleteLater();
+    if ( directMsgParser )
+      directMsgParser.data()->deleteLater();
+  }
+};
 
 class XmlDownload : public QObject
 {
@@ -47,14 +62,17 @@ public:
   void directMessages( const QString &login, const QString &password );
   void publicTimeline();
 
+public slots:
+  void resetConnections();
+
 signals:
   void finished( TwitterAPI::ContentRequested content );
   void errorMessage( const QString &message );
   void unauthorized();
   void unauthorized( const QString &status, int inReplyToId );
   void unauthorized( int destroyId );
-  void newEntry( Entry *entry );
-  void deleteEntry( int id );
+  void newEntry( const QString &login, Entry *entry );
+  void deleteEntry( const QString &login, int id );
 
 private slots:
   void requestFinished( QNetworkReply *reply );
@@ -62,15 +80,14 @@ private slots:
 
 private:
   void parseXml( const QByteArray &data, XmlParser *parser );
-  QNetworkAccessManager* createNetworkAccessManager( const QString &login );
+  Interface* createInterface( const QString &login );
   QByteArray prepareRequest( const QString &data, int inReplyTo );
   QByteArray setAuthorizationData( const QString &login, const QString &password );
-//  QMap<QString,QByteArray> statuses;
-//  QMap<QString,QByteArray> dms;
-  QMap<QString,QNetworkAccessManager*> connections;
+//  QMap<QString,QNetworkAccessManager*> connections;
+  QMap<QString,Interface*> connections;
   QMap<QString,bool> authStatuses;
-  XmlParser *statusParser;
-  XmlParserDirectMsg *directMsgParser;
+//  XmlParser *statusParser;
+//  XmlParserDirectMsg *directMsgParser;
   QXmlSimpleReader xmlReader;
   QXmlInputSource source;
 

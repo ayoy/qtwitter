@@ -29,21 +29,25 @@ const QByteArray XmlParser::USER_PHOTO = "profile_image_url";
 const QByteArray XmlParser::USER_HOMEPAGE = "url";
 const QByteArray XmlParser::USER_TIMESTAMP = "created_at";
 
-XmlParser::XmlParser( QObject *parent) :
+XmlParser::XmlParser( const QString &login, QObject *parent) :
     QObject( parent ),
     QXmlDefaultHandler(),
     currentField( None ),
     entry(),
     important( false )
-{}
+{
+  this->login = login;
+}
 
-XmlParser::XmlParser( Entry::Type entryType, QObject *parent) :
+XmlParser::XmlParser( const QString &login, Entry::Type entryType, QObject *parent) :
     QObject( parent ),
     QXmlDefaultHandler(),
     currentField( None ),
     entry( entryType ),
     important( false )
-{}
+{
+  this->login = login;
+}
 
 bool XmlParser::startDocument()
 {
@@ -67,9 +71,10 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
 bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
   if ( qName == "status" ) {
-    emit newEntry( &entry );
+    emit newEntry( login, &entry );
   }
   return true;
+
 }
 
 bool XmlParser::characters( const QString &ch )
@@ -77,29 +82,21 @@ bool XmlParser::characters( const QString &ch )
   if ( important ) {
     if ( currentField == Id && entry.id == -1 ) {
       entry.id = ch.toInt();
-//      entry.setId( ch.toInt() );
     } else if ( currentField == Name && entry.name.isNull() ) {
       entry.name = ch;
-//      entry.setName( ch );
     } else if ( currentField == Login && entry.login.isNull() ) {
       entry.login = ch;
-//      entry.setLogin( ch );
     } else if ( currentField == Text && entry.text.isNull() ) {
       entry.originalText = ch;
       entry.text = textToHtml( ch );
-//      entry.setText( ch );
     } else if ( currentField == Image && entry.image.isNull() ) {
       entry.image = ch;
-//      entry.setImage( ch );
     } else if ( currentField == Timestamp && entry.timestamp.isNull() ) {
       entry.timestamp = toDateTime( ch );
-//      entry.setTimestamp( toDateTime( ch ) );
     } else if ( currentField == Homepage ) {
       if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
         entry.hasHomepage = true;
         entry.homepage = ch;
-//        entry.setHasHomepage( true );
-//        entry.setHomepage( ch );
       }
     }
   }
@@ -172,6 +169,61 @@ QString XmlParser::textToHtml( QString newText )
   ahref.setMinimal( true );
   newText.replace( ahref, "\\1>" );
   return newText;
+}
+
+XmlParserDirectMsg::XmlParserDirectMsg( const QString &login, QObject *parent ) :
+    XmlParser( login, Entry::DirectMessage, parent ),
+    parsingSender( false )
+{}
+
+bool XmlParserDirectMsg::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ )
+{
+  if ( qName == "direct_message" ) {
+    entry.initialize();
+  }
+  if ( qName == "sender" ) {
+    parsingSender = true;
+  }
+  ( (currentField = checkFieldType( qName )) != None ) ? important = true : important = false;
+  return true;
+}
+
+bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
+{
+  if ( qName == "direct_message" ) {
+    emit newEntry( login, &entry );
+  }
+  if ( qName == "sender" ) {
+    parsingSender = false;
+  }
+  return true;
+}
+
+bool XmlParserDirectMsg::characters( const QString &ch )
+{
+  if ( important ) {
+    if ( currentField == Id && entry.id == -1 ) {
+      entry.id = ch.toInt();
+    } else if ( currentField == Text && entry.text.isNull() ) {
+      entry.originalText = ch;
+      entry.text = textToHtml( ch );
+    } else if ( currentField == Timestamp && entry.timestamp.isNull() ) {
+      entry.timestamp = toDateTime( ch );
+    }
+    if ( parsingSender ) {
+      if ( currentField == Name && entry.name.isNull() ) {
+        entry.name = ch;
+      } else if ( currentField == Login && entry.login.isNull() ) {
+        entry.login = ch;
+      } else if ( currentField == Homepage ) {
+        if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
+          entry.hasHomepage = true;
+          entry.homepage = ch;
+        }
+      }
+    }
+  }
+  return true;
 }
 
 /*! \class XmlParser
@@ -316,4 +368,28 @@ QString XmlParser::textToHtml( QString newText )
 
 /*! \var static const QByteArray XmlParser::USER_TIMESTAMP
     XML document tag for status timestamp.
+*/
+
+/*! \class XmlParserDirectMsg
+    \brief A class for parsing XML data of direct messages.
+
+    This class inherits XmlParser and reimplements its methods to comply with
+    the structure of XML document for direct messages list provided by Twitter REST API.
+*/
+
+/*! \fn XmlParserDirectMsg::XmlParserDirectMsg( QObject *parent = 0 )
+    Creates an XML parser for direct messages processing with a given \a parent.
+    \param parent An object's parent.
+*/
+
+/*! \fn bool XmlParserDirectMsg::startElement( const QString &namespaceURI, const QString &localName, const QString &qName, const QXmlAttributes &atts )
+    Parser activities at start of the XML element.
+*/
+
+/*! \fn bool XmlParserDirectMsg::endElement( const QString &namespaceURI, const QString &localName, const QString &qName )
+    Parser activities at end of the XML element.
+*/
+
+/*! \fn bool XmlParserDirectMsg::characters( const QString &ch )
+    Parser activities when reading XML element's text. The actual values are being read here.
 */

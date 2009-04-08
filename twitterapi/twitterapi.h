@@ -74,8 +74,8 @@ signals:
   void unauthorized( const QString &status, int inReplyToId );
   void unauthorized( int destroyId );
 
-  void addEntry( Entry *entry );
-  void deleteEntry( int id );
+  void addEntry( const QString &login, Entry *entry );
+  void deleteEntry( const QString &login, int id );
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void done();
   void timelineUpdated();
@@ -85,7 +85,7 @@ signals:
   void userChanged();
 
 private slots:
-  void newEntry( Entry* );
+  void newEntry( const QString &login, Entry* entry );
 
 private:
   void createConnections( XmlDownload *xmlDownload );

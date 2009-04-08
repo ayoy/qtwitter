@@ -32,8 +32,6 @@ TwitterAPI::TwitterAPI( QObject *parent ) :
     switchUser( false ),
     authDialogOpen( false ),
     xmlDownload( new XmlDownload( this ) ),
-//    xmlGet( NULL ),
-//    xmlPost( NULL ),
     statusesDone( false ),
     messagesDone( false )
 {
@@ -53,9 +51,9 @@ void TwitterAPI::createConnections( XmlDownload *xmlDownload )
   connect( xmlDownload, SIGNAL(unauthorized(QString,int)), this, SIGNAL(unauthorized(QString,int)) );
   connect( xmlDownload, SIGNAL(unauthorized(int)), this, SIGNAL(unauthorized(int)) );
 //  if ( xmlDownload->getRole() == TwitterAPI::Destroy ) {
-//    connect( xmlDownload, SIGNAL(deleteEntry(int)), this, SIGNAL(deleteEntry(int)) );
+    connect( xmlDownload, SIGNAL(deleteEntry(QString,int)), this, SIGNAL(deleteEntry(QString,int)) );
 //  } else {
-    connect( xmlDownload, SIGNAL(newEntry(Entry*)), this, SLOT(newEntry(Entry*)) );
+    connect( xmlDownload, SIGNAL(newEntry(QString,Entry*)), this, SLOT(newEntry(QString,Entry*)) );
 //  }
 }
 
@@ -201,12 +199,12 @@ void TwitterAPI::setFlag( TwitterAPI::ContentRequested flag )
 //  }
 }
 
-void TwitterAPI::newEntry( Entry *entry )
+void TwitterAPI::newEntry( const QString &login, Entry *entry )
 {
   if ( entry->login == authData.user() ) {
     entry->isOwn = true;
   }
-  emit addEntry( entry );
+  emit addEntry( login, entry );
 }
 
 void TwitterAPI::destroyXmlConnection()

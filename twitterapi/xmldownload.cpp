@@ -23,7 +23,6 @@
 #include <QNetworkReply>
 #include "xmldownload.h"
 #include "xmlparser.h"
-#include "xmlparserdirectmsg.h"
 
 const QNetworkRequest::Attribute XmlDownload::ATTR_LOGIN              = (QNetworkRequest::Attribute) QNetworkRequest::User;
 const QNetworkRequest::Attribute XmlDownload::ATTR_PASSWORD           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 1);
@@ -34,41 +33,32 @@ const QNetworkRequest::Attribute XmlDownload::ATTR_DELETION_REQUESTED = (QNetwor
 const QNetworkRequest::Attribute XmlDownload::ATTR_DELETE_ID          = (QNetworkRequest::Attribute) (QNetworkRequest::User + 6);
 
 XmlDownload::XmlDownload( QObject *parent ) :
-    QObject( parent ),
-    statusParser( new XmlParser( this ) ),
-    directMsgParser( new XmlParserDirectMsg( this ) )
-{
-  connections.insert( TwitterAPI::PUBLIC_TIMELINE, new QNetworkAccessManager( this ) );
-  connect( connections[ TwitterAPI::PUBLIC_TIMELINE ], SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
-  connect( statusParser, SIGNAL(newEntry(Entry*)), this, SIGNAL(newEntry(Entry*)) );
-  connect( directMsgParser, SIGNAL(newEntry(Entry*)), this, SIGNAL(newEntry(Entry*)) );
-}
+    QObject( parent )
+{}
 
 XmlDownload::~XmlDownload()
 {
-  QMap<QString,QNetworkAccessManager*>::iterator i = connections.begin();
+  QMap<QString,Interface*>::iterator i = connections.begin();
   while ( i != connections.end() ) {
-    (*i)->deleteLater();
+    delete (*i);
     i++;
   }
-  statusParser->deleteLater();
-  directMsgParser->deleteLater();
 }
 
-void XmlDownload::createConnections()
+Interface* XmlDownload::createInterface( const QString &login )
 {
-//  connect( directMsgParser, SIGNAL(newEntry(Entry*)), this, SIGNAL(newEntry(Entry*)) );
-//  connect( this, SIGNAL(authenticationRequired(QString,quint16,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QString,quint16,QAuthenticator*)));
-}
-
-QNetworkAccessManager* XmlDownload::createNetworkAccessManager( const QString &login )
-{
-  QNetworkAccessManager *connection = new QNetworkAccessManager( this );
-  connect( connection, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
-  connect( connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
-  connections.insert( login, connection );
-  authStatuses.insert( login, false );
-  return connection;
+  Interface *interface = new Interface;
+  interface->connection = new QNetworkAccessManager( this );
+  interface->statusParser = new XmlParser( login, this );
+  if ( login != TwitterAPI::PUBLIC_TIMELINE ) {
+    interface->directMsgParser = new XmlParserDirectMsg( login, this );
+    connect( interface->directMsgParser, SIGNAL(newEntry(QString,Entry*)), this, SIGNAL(newEntry(QString,Entry*)) );
+    connect( interface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
+  }
+  connect( interface->connection, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
+  connect( interface->statusParser, SIGNAL(newEntry(QString,Entry*)), this, SIGNAL(newEntry(QString,Entry*)) );
+  connections.insert( login, interface );
+  return interface;
 }
 
 void XmlDownload::postUpdate( const QString &login, const QString &password, const QString &data, int inReplyTo )
@@ -80,8 +70,8 @@ void XmlDownload::postUpdate( const QString &login, const QString &password, con
   request.setAttribute( XmlDownload::ATTR_STATUS, data );
   request.setAttribute( XmlDownload::ATTR_INREPLYTO_ID, inReplyTo );
   if ( !connections.contains( login ) )
-    createNetworkAccessManager( login );
-  connections[ login ]->post( request, content );
+    createInterface( login );
+  connections[ login ]->connection.data()->post( request, content );
 }
 
 void XmlDownload::deleteUpdate( const QString &login, const QString &password, int id )
@@ -92,8 +82,8 @@ void XmlDownload::deleteUpdate( const QString &login, const QString &password, i
   request.setAttribute( XmlDownload::ATTR_DELETION_REQUESTED, true );
   request.setAttribute( XmlDownload::ATTR_DELETE_ID, id );
   if ( !connections.contains( login ) )
-    createNetworkAccessManager( login );
-  connections[ login ]->post( request, QByteArray() );
+    createInterface( login );
+  connections[ login ]->connection.data()->post( request, QByteArray() );
 }
 
 void XmlDownload::friendsTimeline( const QString &login, const QString &password )
@@ -104,8 +94,8 @@ void XmlDownload::friendsTimeline( const QString &login, const QString &password
   qDebug() << "XmlDownload::friendsTimeline(" + login + "," + password + ")";
   qDebug() << setAuthorizationData( login, password );
   if ( !connections.contains( login ) )
-    createNetworkAccessManager( login );
-  connections[ login ]->get( request );
+    createInterface( login );
+  connections[ login ]->connection.data()->get( request );
 }
 
 void XmlDownload::directMessages( const QString &login, const QString &password )
@@ -117,13 +107,27 @@ void XmlDownload::directMessages( const QString &login, const QString &password 
   qDebug() << "XmlDownload::directMessages(" + login + "," + password + ")";
   qDebug() << setAuthorizationData( login, password );
   if ( !connections.contains( login ) )
-    createNetworkAccessManager( login );
-  connections[ login ]->get( request );
+    createInterface( login );
+  connections[ login ]->connection.data()->get( request );
 }
 
 void XmlDownload::publicTimeline()
 {
-  connections[ TwitterAPI::PUBLIC_TIMELINE ]->get( QNetworkRequest( QUrl( "http://twitter.com/statuses/public_timeline.xml" ) ) );
+  if ( !connections.contains( TwitterAPI::PUBLIC_TIMELINE ) )
+    createInterface( TwitterAPI::PUBLIC_TIMELINE );
+  connections[ TwitterAPI::PUBLIC_TIMELINE ]->connection.data()->get( QNetworkRequest( QUrl( "http://twitter.com/statuses/public_timeline.xml" ) ) );
+}
+
+void XmlDownload::resetConnections() {
+  QMap<QString,Interface*>::iterator i = connections.begin();
+  while ( i != connections.end() ) {
+    (*i)->connection->deleteLater();
+    (*i)->connection = new QNetworkAccessManager( this );
+    connect( (*i)->connection, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
+    if ( i.key() != TwitterAPI::PUBLIC_TIMELINE )
+      connect( (*i)->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
+    i++;
+  }
 }
 
 void XmlDownload::parseXml( const QByteArray &data, XmlParser *parser )
@@ -155,19 +159,19 @@ void XmlDownload::requestFinished( QNetworkReply *reply )
     if ( reply->operation() == QNetworkAccessManager::GetOperation ) {
       if ( login.isValid() ) {
         if ( dm.isValid() && dm.toBool() ) {
-          parseXml( reply->readAll(), directMsgParser );
+          parseXml( reply->readAll(), connections[ login.toString() ]->directMsgParser );
         } else {
-          parseXml( reply->readAll(), statusParser );
+          parseXml( reply->readAll(), connections[ login.toString() ]->statusParser );
         }
       } else {
-          parseXml( reply->readAll(), statusParser );
+          parseXml( reply->readAll(), connections[ TwitterAPI::PUBLIC_TIMELINE ]->statusParser );
       }
     } else if ( reply->operation() == QNetworkAccessManager::PostOperation ) {
       if ( login.isValid() ) {
         if ( del.isValid() && del.toBool() ) {
-          emit deleteEntry( delId.toInt() );
+          emit deleteEntry( login.toString(), delId.toInt() );
         } else {
-          parseXml( reply->readAll(), statusParser );
+          parseXml( reply->readAll(), connections[ login.toString() ]->statusParser );
         }
       }
     }

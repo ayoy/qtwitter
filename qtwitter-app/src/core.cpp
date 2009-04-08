@@ -42,9 +42,9 @@ Core::Core( MainWindow *parent ) :
   margin = parent->getScrollBarWidth();
 
   twitterapi = new TwitterAPI( this );
-  connect( twitterapi, SIGNAL(addEntry(Entry*)), this, SIGNAL(addEntry(Entry*)) );
-  connect( twitterapi, SIGNAL(addEntry(Entry*)), this, SLOT(downloadImage(Entry*)) );
-  connect( twitterapi, SIGNAL(deleteEntry(int)), this, SIGNAL(deleteEntry(int)) );
+  connect( twitterapi, SIGNAL(addEntry(QString,Entry*)), this, SLOT(downloadImage(QString,Entry*)) );
+  connect( twitterapi, SIGNAL(addEntry(QString,Entry*)), this, SLOT(addEntry(QString,Entry*)) );
+  connect( twitterapi, SIGNAL(deleteEntry(QString,int)), this, SLOT(deleteEntry(QString,int)) );
   connect( twitterapi, SIGNAL(timelineUpdated()), this, SIGNAL(timelineUpdated()) );
   connect( twitterapi, SIGNAL(authDataSet(QAuthenticator)), this, SIGNAL(authDataSet(QAuthenticator)) );
   connect( twitterapi, SIGNAL(requestListRefresh(bool,bool)), this, SIGNAL(requestListRefresh(bool,bool)) );
@@ -244,8 +244,9 @@ void Core::destroyTweet( int id )
   emit requestStarted();
 }
 
-void Core::downloadImage( Entry *entry )
+void Core::downloadImage( const QString &login, Entry *entry )
 {
+  Q_UNUSED(login)
   if ( entry->type == Entry::DirectMessage )
     return;
 
@@ -336,6 +337,18 @@ void Core::setImageInHash( const QString &url, QImage image )
   emit setImageForUrl( url, image );
 }
 
+void Core::addEntry( const QString &login, Entry *entry )
+{
+  if ( tweetModels.contains( login ) )
+    tweetModels[ login ]->insertTweet( entry );
+}
+
+void Core::deleteEntry( const QString &login, int id )
+{
+  if ( tweetModels.contains( login ) )
+    tweetModels[ login ]->deleteTweet( id );
+}
+
 void Core::slotUnauthorized()
 {
   if ( !retryAuthorizing( TwitterAPI::Refresh ) )
@@ -381,8 +394,6 @@ void Core::createConnectionsWithModel( TweetModel *model )
   connect( model, SIGNAL(destroy(int)), this, SLOT(destroyTweet(int)) );
   connect( model, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( model, SIGNAL(newTweets(int,QStringList,int,QStringList)), this, SIGNAL(newTweets(int,QStringList,int,QStringList)) );
-  connect( this, SIGNAL(addEntry(Entry*)), model, SLOT(insertTweet(Entry*)) );
-  connect( this, SIGNAL(deleteEntry(int)), model, SLOT(deleteTweet(int)) );
   connect( this, SIGNAL(setImageForUrl(QString,QImage)), model, SLOT(setImageForUrl(QString,QImage)) );
   connect( this, SIGNAL(requestListRefresh(bool,bool)), model, SLOT(setModelToBeCleared(bool,bool)) );
   connect( this, SIGNAL(timelineUpdated()), model, SLOT(sendNewsInfo()) );
