@@ -90,16 +90,9 @@ bool TwitterAccountsModel::insertRows( int row, int count, const QModelIndex &pa
   if ( row > accounts.size() )
     row = accounts.size();
 
-  TwitterAccount account;
-  account.isEnabled = false;
-  account.login = tr( "<empty>" );
-  account.password = "";
-  account.directMessages = false;
-
   beginInsertRows( QModelIndex(), row, row + count - 1 );
   for ( int i = row; i <= row + count - 1; i++ ) {
-    accounts.insert( i, account );
-    this->setData( createIndex( i, 1 ), "HEHE" );
+    accounts.insert( i, emptyAccount() );
   }
   endInsertRows();
   return true;
@@ -140,4 +133,28 @@ QList<TwitterAccount>& TwitterAccountsModel::getAccounts()
 TwitterAccount& TwitterAccountsModel::account( int index )
 {
   return accounts[ index ];
+}
+
+TwitterAccount* TwitterAccountsModel::account( const QString &login )
+{
+  for ( int i = 0; i < accounts.size(); i++ ) {
+    if ( login == accounts[i].login )
+      return &accounts[i];
+  }
+//  return emptyAccount();
+}
+
+int TwitterAccountsModel::indexOf( const TwitterAccount &account )
+{
+  return accounts.indexOf( account );
+}
+
+TwitterAccount TwitterAccountsModel::emptyAccount()
+{
+  TwitterAccount empty;
+  empty.isEnabled = false;
+  empty.login = tr( "<empty>" );
+  empty.password = "";
+  empty.directMessages = false;
+  return empty;
 }

@@ -31,6 +31,12 @@ struct TwitterAccount
   QString login;
   QString password;
   bool directMessages;
+  bool operator==( const TwitterAccount &other ) const {
+    return ( isEnabled == other.isEnabled &&
+             login == other.login &&
+             password == other.password &&
+             directMessages == other.directMessages );
+  }
 };
 
 Q_DECLARE_METATYPE(TwitterAccount)
@@ -57,8 +63,11 @@ public:
 
   QList<TwitterAccount>& getAccounts();
   TwitterAccount& account( int index );
+  TwitterAccount* account( const QString &login );
+  int indexOf( const TwitterAccount &account );
 
 private:
+  TwitterAccount emptyAccount();
   QList<TwitterAccount> accounts;
 };
 

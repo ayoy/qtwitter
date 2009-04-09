@@ -24,8 +24,11 @@
 #include <QStandardItemModel>
 #include <QAuthenticator>
 #include <QTimer>
+#include <QMap>
+#include <QCache>
 #include "imagedownload.h"
 #include "mainwindow.h"
+
 
 class TwitPicEngine;
 class TwitterAPI;
@@ -33,8 +36,7 @@ class TweetModel;
 class QAbstractItemModel;
 class TwitterAccountsModel;
 class StatusList;
-
-typedef QMap<QString, QImage> MapStringImage;
+class XmlDownload;
 
 class Core : public QObject
 {
@@ -51,14 +53,12 @@ public:
   Core( MainWindow *parent = 0 );
   virtual ~Core();
 
-  void applySettings( int msecs, const QString &user, const QString &password, bool publicTimeline, bool directMessages, int maxTweetCount );
+  void applySettings();
   bool setTimerInterval( int msecs );
 #ifdef Q_WS_X11
   void setBrowserPath( const QString& path );
 #endif
 
-  bool isPublicTimelineRequested() const;
-  void setPublicTimelineRequested( bool b );
   const QString& getCurrentUser() const;
   void setCurrentUser( const QString &login );
   void setModelTheme( const ThemeData &theme );
@@ -68,6 +68,7 @@ public:
 public slots:
   void forceGet();
   void get();
+  void get( const QString &login, const QString &password );
   void post( QString status, int inReplyTo = -1 );
 
   void uploadPhoto( QString photoPath, QString status );
@@ -77,7 +78,7 @@ public slots:
 
   void downloadImage( const QString &login, Entry *entry );
   void openBrowser( QUrl address );
-  AuthDialogState authDataDialog( const QString &user = QString(), const QString &password = QString() );
+  AuthDialogState authDataDialog( TwitterAccount *account );
 
   void retranslateUi();
 
@@ -87,7 +88,7 @@ signals:
   void authDataSet( const QAuthenticator &authenticator );
   void twitPicResponseReceived();
   void twitPicDataSendProgress(int,int);
-  void setImageForUrl( const QString& url, QImage image );
+  void setImageForUrl( const QString& url, QImage *image );
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void requestStarted();
   void resetUi();
@@ -102,25 +103,27 @@ signals:
   void resizeData( int width, int oldWidth );
 
 private slots:
-  void setImageInHash( const QString&, QImage );
+  void setImageInHash( const QString&, QImage* );
   void addEntry( const QString &login, Entry* entry );
   void deleteEntry( const QString &login, int id );
-  void slotUnauthorized();
-  void slotUnauthorized( const QString &status, int inReplyToId );
-  void slotUnauthorized( int destroyId );
+  void slotUnauthorized( const QString &login, const QString &password );
+  void slotUnauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId );
+  void slotUnauthorized( const QString &login, const QString &password, int destroyId );
 
 private:
   void setupTweetModels();
   void createConnectionsWithModel( TweetModel *model );
-  bool retryAuthorizing( int role );
+  bool retryAuthorizing( TwitterAccount *account, int role );
   bool authDialogOpen;
+  bool publicTimeline;
   TwitterAPI *twitterapi;
   TwitPicEngine *twitpicUpload;
   QMap<QString,ImageDownload*> imageDownloader;
   TwitterAccountsModel *accountsModel;
+  XmlDownload *xmlDownload;
   TweetModel *model;
   QMap<QString,TweetModel*> tweetModels;
-  MapStringImage imageCache;
+  QCache<QString,QImage> imageCache;
   QAuthenticator authData;
   QString currentUser;
   QTimer *timer;

@@ -27,9 +27,7 @@ const QString TwitterAPI::PUBLIC_TIMELINE = "public timeline";
 
 TwitterAPI::TwitterAPI( QObject *parent ) :
     QObject( parent ),
-    publicTimelineSync( false ),
     directMessagesSync( false ),
-    switchUser( false ),
     authDialogOpen( false ),
     xmlDownload( new XmlDownload( this ) ),
     statusesDone( false ),
@@ -57,41 +55,11 @@ void TwitterAPI::createConnections( XmlDownload *xmlDownload )
 //  }
 }
 
-//bool TwitterAPI::isPublicTimelineSync()
-//{
-//  return publicTimelineSync;
-//}
-//
 bool TwitterAPI::isDirectMessagesSync()
 {
   return directMessagesSync;
 }
 
-bool TwitterAPI::setAuthData( const QString &user, const QString &password )
-{
-  switchUser = false;
-  authData.setUser( user );
-  authData.setPassword( password );
-  if ( currentUser.isNull() ) {
-    currentUser = user;
-  } else if ( currentUser.compare( authData.user() ) ) {
-    switchUser = true;
-    emit userChanged();
-  }
-  emit requestListRefresh( publicTimelineSync, switchUser );
-  return switchUser;
-}
-
-//bool TwitterAPI::setPublicTimelineSync( bool b )
-//{
-//  if ( publicTimelineSync != b ) {
-//    publicTimelineSync = b;
-//    emit publicTimelineSyncChanged( b );
-//    return true;
-//  }
-//  return false;
-//}
-//
 bool TwitterAPI::setDirectMessagesSync( bool b )
 {
   if ( directMessagesSync != b ) {
@@ -104,18 +72,18 @@ bool TwitterAPI::setDirectMessagesSync( bool b )
 
 bool TwitterAPI::get()
 {
-  if ( publicTimelineSync ) {
-    xmlDownload->publicTimeline();
-  } else {
-    if ( authData.user().isEmpty() || authData.password().isEmpty() )
-      return false;
-    xmlDownload->friendsTimeline( authData.user(), authData.password() );
-    if ( directMessagesSync )
-      xmlDownload->directMessages( authData.user(), authData.password() );
-  }
-  emit requestListRefresh( publicTimelineSync, switchUser );
-  switchUser = false;
-  return true;
+//  if ( publicTimelineSync ) {
+//    xmlDownload->publicTimeline();
+//  } else {
+//    if ( authData.user().isEmpty() || authData.password().isEmpty() )
+//      return false;
+//    xmlDownload->friendsTimeline( authData.user(), authData.password() );
+//    if ( directMessagesSync )
+//      xmlDownload->directMessages( authData.user(), authData.password() );
+//  }
+//  emit requestListRefresh( publicTimelineSync, switchUser );
+//  switchUser = false;
+//  return true;
 
 //  if ( publicTimelineSync ) {
 //    xmlGet = new XmlDownload ( TwitterAPI::Refresh, authData.user(), authData.password(), this );
@@ -134,29 +102,29 @@ bool TwitterAPI::get()
 //  }
 //  emit requestListRefresh( publicTimelineSync, switchUser );
 //  switchUser = false;
-//  return true;
+  return true;
 }
 
 bool TwitterAPI::post( QString status, int inReplyTo )
 {
-  if ( authData.user().isEmpty() || authData.password().isEmpty() )
-    return false;
-
-  xmlDownload->postUpdate( authData.user(), authData.password(), status, inReplyTo );
-  emit requestListRefresh( publicTimelineSync, switchUser );
-  switchUser = false;
+//  if ( authData.user().isEmpty() || authData.password().isEmpty() )
+//    return false;
+//
+//  xmlDownload->postUpdate( authData.user(), authData.password(), status, inReplyTo );
+//  emit requestListRefresh( publicTimelineSync, switchUser );
+//  switchUser = false;
   return true;
 }
 
 bool TwitterAPI::destroyTweet( int id )
 {
-  if ( authData.user().isEmpty() || authData.password().isEmpty() )
-    return false;
-
-  qDebug() << "Tweet No." << id << "will be destroyed";
-  xmlDownload->deleteUpdate( authData.user(), authData.password(), id );
-  emit requestListRefresh( publicTimelineSync, switchUser );
-  switchUser = false;
+//  if ( authData.user().isEmpty() || authData.password().isEmpty() )
+//    return false;
+//
+//  qDebug() << "Tweet No." << id << "will be destroyed";
+//  xmlDownload->deleteUpdate( authData.user(), authData.password(), id );
+//  emit requestListRefresh( publicTimelineSync, switchUser );
+//  switchUser = false;
   return true;
 }
 
@@ -173,7 +141,7 @@ void TwitterAPI::abort()
 
 const QAuthenticator& TwitterAPI::getAuthData() const
 {
-  return authData;
+  return QAuthenticator();//authData;
 }
 
 void TwitterAPI::setFlag( TwitterAPI::ContentRequested flag )
@@ -201,25 +169,12 @@ void TwitterAPI::setFlag( TwitterAPI::ContentRequested flag )
 
 void TwitterAPI::newEntry( const QString &login, Entry *entry )
 {
-  if ( entry->login == authData.user() ) {
+  if ( entry->login == "hej"/*authData.user()*/ ) {
     entry->isOwn = true;
   }
   emit addEntry( login, entry );
 }
 
-void TwitterAPI::destroyXmlConnection()
-{
-//  if ( xmlPost ) {
-//    qDebug() << "destroying xmlPost";
-//    xmlPost->deleteLater();
-//    xmlPost = NULL;
-//  }
-//  if ( xmlGet ) {
-//    qDebug() << "destroying xmlGet";
-//    xmlGet->deleteLater();
-//    xmlGet = NULL;
-//  }
-}
 
 /*! \class TwitterAPI
     \brief A class for interacting with Twitter API.

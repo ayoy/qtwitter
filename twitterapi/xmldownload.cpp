@@ -236,11 +236,11 @@ void XmlDownload::slotAuthenticationRequired( QNetworkReply *reply, QAuthenticat
     QVariant delId = request.attribute( XmlDownload::ATTR_DELETE_ID );
 
     if ( del.isValid() && del.toBool() ) {
-      emit unauthorized( delId.toInt() );
+      emit unauthorized( login, password, delId.toInt() );
     } else if ( status.isValid() ) {
-      emit unauthorized( status.toString(), inreplyto.toBool() );
+      emit unauthorized( login, password, status.toString(), inreplyto.toBool() );
     } else {
-      emit unauthorized();
+      emit unauthorized( login, password );
     }
   }
 }

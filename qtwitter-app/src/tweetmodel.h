@@ -68,7 +68,7 @@ public slots:
   void retranslateUi();
   void resizeData( int width, int oldWidth );
   void moveFocus( bool up );
-  void setImageForUrl( const QString& url, QImage image );
+  void setImageForUrl( const QString& url, QImage *image );
   void setModelToBeCleared( bool wantsPublic, bool userChanged );
   void setPublicTimelineRequested( bool b );
 

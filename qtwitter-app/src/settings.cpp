@@ -179,7 +179,6 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, QWidget *pa
   connect( ui.colorBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeTheme(QString)) );
   createLanguageMenu();
   ui.portEdit->setValidator( new QIntValidator( 1, 65535, this ) );
-  core->setPublicTimelineRequested( ui.radioPublic->isChecked() );
   loadConfig();
 }
 
@@ -347,8 +346,7 @@ void Settings::slotPublicTimelineSyncChanged( bool isEnabled )
     return;
   if ( !ui.radioPublic->isChecked() ) {
     ui.radioPublic->setChecked( true );
-    core->setPublicTimelineRequested( true );
-    settings.setValue( "General/timeline", ui.radioPublic->isChecked() );
+//    core->setPublicTimelineRequested( true );
   }
 }
 
@@ -516,9 +514,9 @@ void Settings::setBrowser()
 void Settings::applySettings()
 {
   setProxy();
-  core->applySettings( ui.refreshCombo->currentText().toInt() * 60000, ui.userNameEdit->text(), ui.passwordEdit->text(), ui.radioPublic->isChecked(), ui.directCheckBox->isChecked(), ui.tweetCountBox->value() );
+  core->applySettings();
 //  emit accountsChanged( accountsModel->getAccounts(), core->isPublicTimelineRequested() );
-  mainWindow->setupTwitterAccounts( accountsModel->getAccounts(), core->isPublicTimelineRequested() );
+  mainWindow->setupTwitterAccounts( accountsModel->getAccounts(), ui.publicTimelineCheckBox->isChecked() );
   changeTheme( ui.colorBox->currentText() );
 #ifdef Q_WS_X11
   if ( useCustomBrowserCheckBox->isChecked() ) {

@@ -68,9 +68,9 @@ public slots:
 signals:
   void finished( TwitterAPI::ContentRequested content );
   void errorMessage( const QString &message );
-  void unauthorized();
-  void unauthorized( const QString &status, int inReplyToId );
-  void unauthorized( int destroyId );
+  void unauthorized( const QString &login, const QString &password );
+  void unauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId );
+  void unauthorized( const QString &login, const QString &password, int destroyId );
   void newEntry( const QString &login, Entry *entry );
   void deleteEntry( const QString &login, int id );
 

@@ -326,15 +326,15 @@ void TweetModel::moveFocus( bool up )
   }
 }
 
-void TweetModel::setImageForUrl( const QString& url, QImage image )
+void TweetModel::setImageForUrl( const QString& url, QImage *image )
 {
   Status *status;
   for ( int i = 0; i < rowCount(); i++ ) {
     status = &statuses[i];
     if ( url == status->entry.image ) {
-      status->image = image;
+      status->image = *image;
       if ( isVisible )
-        status->tweet->setIcon( image );
+        status->tweet->setIcon( *image );
     }
   }
 }

@@ -25,7 +25,6 @@
 #include <QAuthenticator>
 #include "twitterapi_global.h"
 
-class QTimer;
 class XmlDownload;
 class Entry;
 
@@ -50,11 +49,9 @@ public:
   TwitterAPI( QObject *parent = 0 );
   virtual ~TwitterAPI();
 
-//  bool isPublicTimelineSync();
   bool isDirectMessagesSync();
 
-  bool setAuthData( const QString &user, const QString &password );
-//  bool setPublicTimelineSync( bool b );
+//  bool setAuthData( const QString &user, const QString &password );
   bool setDirectMessagesSync( bool b );
 
 public slots:
@@ -80,26 +77,16 @@ signals:
   void done();
   void timelineUpdated();
   void directMessagesSyncChanged( bool isEnabled );
-//  void publicTimelineSyncChanged( bool isEnabled );
-
-  void userChanged();
 
 private slots:
   void newEntry( const QString &login, Entry* entry );
 
 private:
   void createConnections( XmlDownload *xmlDownload );
-  void destroyXmlConnection();
   bool publicTimelineSync;
   bool directMessagesSync;
-  bool switchUser;
   bool authDialogOpen;
   XmlDownload *xmlDownload;
-//  XmlDownload *xmlGet;
-//  XmlDownload *xmlPost;
-  QAuthenticator authData;
-  QString currentUser;
-  QTimer *timer;
   bool statusesDone;
   bool messagesDone;
 };

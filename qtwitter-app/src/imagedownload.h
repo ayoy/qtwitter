@@ -46,7 +46,7 @@ public:
   void clearData();
 
 signals:
-  void imageReadyForUrl( const QString& path, QImage image );
+  void imageReadyForUrl( const QString& path, QImage *image );
 
 private slots:
   void httpRequestFinished( int requestId, bool error );

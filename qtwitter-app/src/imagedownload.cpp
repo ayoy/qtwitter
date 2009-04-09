@@ -87,6 +87,7 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   ImageData *imageData = &imageByEntry[ requestByEntry.key( requestId ) ];
 
   imageData->buffer->close();
+
   if (error) {
     emit errorMessage( tr("Download failed: ") + errorString() );
   }
@@ -95,7 +96,7 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   if (!imageData->image->loadFromData( *imageData->bytearray ) ) {
     qDebug() << "fail";
   }
-  emit imageReadyForUrl( requestByEntry.key( requestId ), *imageData->image );
+  emit imageReadyForUrl( requestByEntry.key( requestId ), imageData->image );
   imageByEntry.remove( requestByEntry.key( requestId ) );
   requestByEntry.remove( requestByEntry.key( requestId ) );
 }
