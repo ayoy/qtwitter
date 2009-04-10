@@ -23,6 +23,24 @@
 
 #include <QLineEdit>
 
+class QEvent;
+
+class StatusFilter : public QObject
+{
+  Q_OBJECT
+
+public:
+  StatusFilter( QObject *parent = 0 );
+
+signals:
+  void enterPressed();
+  void escPressed();
+
+protected:
+  bool eventFilter( QObject *dist, QEvent *event );
+};
+
+
 class StatusEdit : public QLineEdit
 {
   Q_OBJECT

@@ -23,7 +23,6 @@
 
 #include <QMetaType>
 #include <QDateTime>
-#include "twitterapi.h"
 #include "twitterapi_global.h"
 
 class QString;

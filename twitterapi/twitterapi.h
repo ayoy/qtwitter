@@ -22,11 +22,33 @@
 #define TWITTERAPI_H
 
 #include <QObject>
-#include <QAuthenticator>
-#include "twitterapi_global.h"
+#include <QMap>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QXmlSimpleReader>
+#include <QXmlInputSource>
+#include <QPointer>
+#include "xmlparser.h"
 
-class XmlDownload;
-class Entry;
+class QNetworkReply;
+
+struct Interface
+{
+  QPointer<QNetworkAccessManager> connection;
+  QPointer<XmlParser> statusParser;
+  QPointer<XmlParserDirectMsg> directMsgParser;
+  bool authorized;
+  bool friendsInProgress;
+  bool dmScheduled;
+  ~Interface() {
+    if ( connection )
+      connection.data()->deleteLater();
+    if ( statusParser )
+      statusParser.data()->deleteLater();
+    if ( directMsgParser )
+      directMsgParser.data()->deleteLater();
+  }
+};
 
 class TWITTERAPISHARED_EXPORT TwitterAPI : public QObject
 {
@@ -36,60 +58,52 @@ public:
   static const QString PUBLIC_TIMELINE;
 
   enum Role {
-    Refresh,
-    Submit,
-    Destroy
-  };
-
-  enum ContentRequested {
-    Statuses,
-    DirectMessages
+    ROLE_REFRESH,
+    ROLE_SUBMIT,
+    ROLE_DESTROY
   };
 
   TwitterAPI( QObject *parent = 0 );
   virtual ~TwitterAPI();
 
-  bool isDirectMessagesSync();
-
-//  bool setAuthData( const QString &user, const QString &password );
-  bool setDirectMessagesSync( bool b );
+  void postUpdate( const QString &login, const QString &password, const QString &data, int inReplyTo = -1 );
+  void deleteUpdate( const QString &login, const QString &password, int id );
+  void friendsTimeline( const QString &login, const QString &password );
+  void directMessages( const QString &login, const QString &password );
+  void publicTimeline();
 
 public slots:
-  bool get();
-  bool post( QString status, int inReplyTo = -1 );
-  bool destroyTweet( int id );
-
-  void abort();
-  const QAuthenticator& getAuthData() const;
-  void setFlag( TwitterAPI::ContentRequested flag );
+  void resetConnections();
 
 signals:
-  void errorMessage( const QString &message );
-  void authDataSet( const QAuthenticator &authenticator );
-
-  void unauthorized();
-  void unauthorized( const QString &status, int inReplyToId );
-  void unauthorized( int destroyId );
-
-  void addEntry( const QString &login, Entry *entry );
+  void requestDone();
+  void newEntry( const QString &login, Entry *entry );
   void deleteEntry( const QString &login, int id );
-  void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
-  void done();
-  void timelineUpdated();
-  void directMessagesSyncChanged( bool isEnabled );
+  void errorMessage( const QString &message );
+  void unauthorized( const QString &login, const QString &password );
+  void unauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId );
+  void unauthorized( const QString &login, const QString &password, int destroyId );
 
 private slots:
-  void newEntry( const QString &login, Entry* entry );
+  void requestFinished( QNetworkReply *reply );
+  void slotAuthenticationRequired( QNetworkReply *reply, QAuthenticator *authenticator );
 
 private:
-  void createConnections( XmlDownload *xmlDownload );
-  bool publicTimelineSync;
-  bool directMessagesSync;
-  bool authDialogOpen;
-  XmlDownload *xmlDownload;
-  bool statusesDone;
-  bool messagesDone;
-};
+  void parseXml( const QByteArray &data, XmlParser *parser );
+  Interface* createInterface( const QString &login );
+  QByteArray prepareRequest( const QString &data, int inReplyTo );
 
+  QMap<QString,Interface*> connections;
+  QXmlSimpleReader xmlReader;
+  QXmlInputSource source;
+
+  static const QNetworkRequest::Attribute ATTR_LOGIN;
+  static const QNetworkRequest::Attribute ATTR_PASSWORD;
+  static const QNetworkRequest::Attribute ATTR_STATUS;
+  static const QNetworkRequest::Attribute ATTR_INREPLYTO_ID;
+  static const QNetworkRequest::Attribute ATTR_DM_REQUESTED;
+  static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
+  static const QNetworkRequest::Attribute ATTR_DELETE_ID;
+};
 
 #endif // TWITTERAPI_H

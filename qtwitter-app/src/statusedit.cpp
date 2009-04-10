@@ -18,7 +18,29 @@
  ***************************************************************************/
 
 
+#include <QKeyEvent>
 #include "statusedit.h"
+
+StatusFilter::StatusFilter( QObject *parent ) : QObject( parent ) {}
+
+bool StatusFilter::eventFilter( QObject *dist, QEvent *event )
+{
+  if ( event->type() == QEvent::KeyPress )
+  {
+    QKeyEvent *keyEvent = static_cast<QKeyEvent*>( event );
+    if ( keyEvent->key() == Qt::Key_Enter || keyEvent->key() == Qt::Key_Return )
+    {
+      emit enterPressed();
+      return true;
+    }
+    if ( keyEvent->key() == Qt::Key_Escape )
+    {
+      emit escPressed();
+      return true;
+    }
+  }
+  return QObject::eventFilter(dist, event);
+}
 
 const int StatusEdit::STATUS_MAX_LENGTH = 140;
 
@@ -85,7 +107,7 @@ void StatusEdit::addReplyString( const QString &name, int inReplyTo )
 void StatusEdit::addRetweetString( QString message )
 {
   if ( message.length() > StatusEdit::STATUS_MAX_LENGTH ) {
-    emit errorMessage( tr( "The message is too long and it will be truncated." ) );
+    emit errorMessage( tr( "The message is too long and will be truncated." ) );
     message.truncate( StatusEdit::STATUS_MAX_LENGTH );
   }
   setText( message );
@@ -93,6 +115,33 @@ void StatusEdit::addRetweetString( QString message )
   setFocus();
   emit textChanged( text() );
 }
+
+/*! \class StatusFilter
+    \brief A class for filtering the StatusEdit input.
+
+    This class provides a filter for the StatusEdit class. It performs key press
+    filtering and emits appropriate signals when receives Enter or Esc key presses.
+*/
+
+/*! \fn StatusFilter::StatusFilter( QObject *parent = 0 )
+    Creates an new status filter object with a given \a parent.
+*/
+
+/*! \fn void StatusFilter::enterPressed()
+    Emitted upon receiving an Enter key press event.
+*/
+
+/*! \fn void StatusFilter::escPressed()
+    Emitted upon receiving an Esc key press event.
+*/
+
+/*! \fn bool StatusFilter::eventFilter( QObject *dist, QEvent *event )
+    Event filter method that filters Esc and Enter key presses from all the
+    events received by the filtered object.
+    \param dist A filtered object.
+    \param event A event to be processed.
+    \returns True if the event was processed.
+*/
 
 /*! \class StatusEdit
     \brief A customized QLineEdit class.

@@ -18,342 +18,253 @@
  ***************************************************************************/
 
 
-#include <QDebug>
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QEventLoop>
+#include <QAuthenticator>
 #include "twitterapi.h"
-#include "xmldownload.h"
-#include "entry.h"
+#include "xmlparser.h"
 
 const QString TwitterAPI::PUBLIC_TIMELINE = "public timeline";
 
-TwitterAPI::TwitterAPI( QObject *parent ) :
-    QObject( parent ),
-    directMessagesSync( false ),
-    authDialogOpen( false ),
-    xmlDownload( new XmlDownload( this ) ),
-    statusesDone( false ),
-    messagesDone( false )
-{
-  createConnections( xmlDownload );
-}
+const QNetworkRequest::Attribute TwitterAPI::ATTR_LOGIN              = (QNetworkRequest::Attribute) QNetworkRequest::User;
+const QNetworkRequest::Attribute TwitterAPI::ATTR_PASSWORD           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 1);
+const QNetworkRequest::Attribute TwitterAPI::ATTR_STATUS             = (QNetworkRequest::Attribute) (QNetworkRequest::User + 2);
+const QNetworkRequest::Attribute TwitterAPI::ATTR_INREPLYTO_ID       = (QNetworkRequest::Attribute) (QNetworkRequest::User + 3);
+const QNetworkRequest::Attribute TwitterAPI::ATTR_DM_REQUESTED       = (QNetworkRequest::Attribute) (QNetworkRequest::User + 4);
+const QNetworkRequest::Attribute TwitterAPI::ATTR_DELETION_REQUESTED = (QNetworkRequest::Attribute) (QNetworkRequest::User + 5);
+const QNetworkRequest::Attribute TwitterAPI::ATTR_DELETE_ID          = (QNetworkRequest::Attribute) (QNetworkRequest::User + 6);
+
+TwitterAPI::TwitterAPI( QObject *parent ) : QObject( parent ) {}
 
 TwitterAPI::~TwitterAPI()
 {
-  xmlDownload->deleteLater();
-}
-
-void TwitterAPI::createConnections( XmlDownload *xmlDownload )
-{
-  connect( xmlDownload, SIGNAL(finished(TwitterAPI::ContentRequested)), this, SLOT(setFlag(TwitterAPI::ContentRequested)) );
-  connect( xmlDownload, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
-  connect( xmlDownload, SIGNAL(unauthorized()), this, SIGNAL(unauthorized()) );
-  connect( xmlDownload, SIGNAL(unauthorized(QString,int)), this, SIGNAL(unauthorized(QString,int)) );
-  connect( xmlDownload, SIGNAL(unauthorized(int)), this, SIGNAL(unauthorized(int)) );
-//  if ( xmlDownload->getRole() == TwitterAPI::Destroy ) {
-    connect( xmlDownload, SIGNAL(deleteEntry(QString,int)), this, SIGNAL(deleteEntry(QString,int)) );
-//  } else {
-    connect( xmlDownload, SIGNAL(newEntry(QString,Entry*)), this, SLOT(newEntry(QString,Entry*)) );
-//  }
-}
-
-bool TwitterAPI::isDirectMessagesSync()
-{
-  return directMessagesSync;
-}
-
-bool TwitterAPI::setDirectMessagesSync( bool b )
-{
-  if ( directMessagesSync != b ) {
-    directMessagesSync = b;
-    emit directMessagesSyncChanged( b );
-    return true;
+  QMap<QString,Interface*>::iterator i = connections.begin();
+  while ( i != connections.end() ) {
+    delete (*i);
+    i++;
   }
-  return false;
 }
 
-bool TwitterAPI::get()
+Interface* TwitterAPI::createInterface( const QString &login )
 {
-//  if ( publicTimelineSync ) {
-//    xmlDownload->publicTimeline();
-//  } else {
-//    if ( authData.user().isEmpty() || authData.password().isEmpty() )
-//      return false;
-//    xmlDownload->friendsTimeline( authData.user(), authData.password() );
-//    if ( directMessagesSync )
-//      xmlDownload->directMessages( authData.user(), authData.password() );
-//  }
-//  emit requestListRefresh( publicTimelineSync, switchUser );
-//  switchUser = false;
-//  return true;
+  Interface *interface = new Interface;
+  interface->connection = new QNetworkAccessManager( this );
+  interface->statusParser = new XmlParser( login, this );
 
-//  if ( publicTimelineSync ) {
-//    xmlGet = new XmlDownload ( TwitterAPI::Refresh, authData.user(), authData.password(), this );
-//    createConnections( xmlGet );
-//    xmlGet->getContent( "http://twitter.com/statuses/public_timeline.xml", TwitterAPI::Statuses );
-//  } else {
-//    if ( authData.user().isEmpty() || authData.password().isEmpty() )
-//      return false;
-//
-//    xmlGet = new XmlDownload ( TwitterAPI::Refresh, authData.user(), authData.password(), this );
-//    createConnections( xmlGet );
-//    xmlGet->getContent( "http://twitter.com/statuses/friends_timeline.xml", TwitterAPI::Statuses );
-//    if ( directMessagesSync ) {
-//      xmlGet->getContent( "http://twitter.com/direct_messages.xml", TwitterAPI::DirectMessages );
-//    }
-//  }
-//  emit requestListRefresh( publicTimelineSync, switchUser );
-//  switchUser = false;
-  return true;
-}
+  interface->friendsInProgress = false;
+  interface->authorized = false;
+  interface->dmScheduled = false;
 
-bool TwitterAPI::post( QString status, int inReplyTo )
-{
-//  if ( authData.user().isEmpty() || authData.password().isEmpty() )
-//    return false;
-//
-//  xmlDownload->postUpdate( authData.user(), authData.password(), status, inReplyTo );
-//  emit requestListRefresh( publicTimelineSync, switchUser );
-//  switchUser = false;
-  return true;
-}
-
-bool TwitterAPI::destroyTweet( int id )
-{
-//  if ( authData.user().isEmpty() || authData.password().isEmpty() )
-//    return false;
-//
-//  qDebug() << "Tweet No." << id << "will be destroyed";
-//  xmlDownload->deleteUpdate( authData.user(), authData.password(), id );
-//  emit requestListRefresh( publicTimelineSync, switchUser );
-//  switchUser = false;
-  return true;
-}
-
-void TwitterAPI::abort()
-{
-//  if ( xmlPost ) {
-//    xmlPost->abort();
-//  }
-//  if ( xmlGet ) {
-//    xmlGet->abort();
-//  }
-//  destroyXmlConnection();
-}
-
-const QAuthenticator& TwitterAPI::getAuthData() const
-{
-  return QAuthenticator();//authData;
-}
-
-void TwitterAPI::setFlag( TwitterAPI::ContentRequested flag )
-{
-  switch ( flag ) {
-    case TwitterAPI::DirectMessages:
-      messagesDone = true;
-      break;
-    case TwitterAPI::Statuses:
-    default:
-      statusesDone = true;
+  if ( login != TwitterAPI::PUBLIC_TIMELINE ) {
+    interface->directMsgParser = new XmlParserDirectMsg( login, this );
+    connect( interface->directMsgParser, SIGNAL(newEntry(QString,Entry*)), this, SIGNAL(newEntry(QString,Entry*)) );
+    connect( interface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
   }
-  emit done();
-//  emit publicTimelineSyncChanged( publicTimelineSync );
-
-//  if ( statusesDone && ( publicTimelineSync || (!directMessagesSync ? true : messagesDone) || (xmlPost && !publicTimelineSync)  ) ) {
-//    emit timelineUpdated();
-//    emit authDataSet( authData );
-//    destroyXmlConnection();
-//    currentUser = authData.user();
-//    statusesDone = false;
-//    messagesDone = false;
-//  }
+  connect( interface->connection, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
+  connect( interface->statusParser, SIGNAL(newEntry(QString,Entry*)), this, SIGNAL(newEntry(QString,Entry*)) );
+  connections.insert( login, interface );
+  return interface;
 }
 
-void TwitterAPI::newEntry( const QString &login, Entry *entry )
+void TwitterAPI::postUpdate( const QString &login, const QString &password, const QString &data, int inReplyTo )
 {
-  if ( entry->login == "hej"/*authData.user()*/ ) {
-    entry->isOwn = true;
-  }
-  emit addEntry( login, entry );
+  QNetworkRequest request( QUrl( "http://twitter.com/statuses/update.xml" ) );
+  QByteArray content = prepareRequest( data, inReplyTo );
+  request.setAttribute( TwitterAPI::ATTR_LOGIN, login );
+  request.setAttribute( TwitterAPI::ATTR_PASSWORD, password );
+  request.setAttribute( TwitterAPI::ATTR_STATUS, data );
+  request.setAttribute( TwitterAPI::ATTR_INREPLYTO_ID, inReplyTo );
+  if ( !connections.contains( login ) )
+    createInterface( login );
+  qDebug() << "TwitterAPI::postUpdate(" + login + ")";
+  connections[ login ]->connection.data()->post( request, content );
 }
 
+void TwitterAPI::deleteUpdate( const QString &login, const QString &password, int id )
+{
+  QNetworkRequest request( QUrl( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ) ) );
+  request.setAttribute( TwitterAPI::ATTR_LOGIN, login );
+  request.setAttribute( TwitterAPI::ATTR_PASSWORD, password );
+  request.setAttribute( TwitterAPI::ATTR_DELETION_REQUESTED, true );
+  request.setAttribute( TwitterAPI::ATTR_DELETE_ID, id );
+  if ( !connections.contains( login ) )
+    createInterface( login );
+  qDebug() << "TwitterAPI::deleteUpdate(" + login + ")";
+  connections[ login ]->connection.data()->post( request, QByteArray() );
+}
 
-/*! \class TwitterAPI
-    \brief A class for interacting with Twitter API.
+void TwitterAPI::friendsTimeline( const QString &login, const QString &password )
+{
+  QNetworkRequest request( QUrl( "http://twitter.com/statuses/friends_timeline.xml" ) );
+  request.setAttribute( TwitterAPI::ATTR_LOGIN, login );
+  request.setAttribute( TwitterAPI::ATTR_PASSWORD, password );
+  qDebug() << "TwitterAPI::friendsTimeline(" + login + ")";
+  if ( !connections.contains( login ) )
+    createInterface( login );
+  connections[ login ]->friendsInProgress = true;
+  connections[ login ]->connection.data()->get( request );
+}
 
-    This class is a frontend for communicating with Twitter REST API. Allows for
-    getting either public or friends timeline, posting new status updates, deleting
-    statuses, receiving direct messages, etc.
-*/
+void TwitterAPI::directMessages( const QString &login, const QString &password )
+{
+  QNetworkRequest request( QUrl( "http://twitter.com/direct_messages.xml" ) );
+  request.setAttribute( TwitterAPI::ATTR_LOGIN, login );
+  request.setAttribute( TwitterAPI::ATTR_PASSWORD, password );
+  request.setAttribute( TwitterAPI::ATTR_DM_REQUESTED, true );
+  qDebug() << "TwitterAPI::directMessages(" + login + ")";
+  if ( !connections.contains( login ) )
+    createInterface( login );
+  if ( !connections[ login ]->friendsInProgress || connections[ login ]->authorized || connections[ login ]->dmScheduled ) {
+    connections[ login ]->connection.data()->get( request );
+    connections[ login ]->dmScheduled = false;
+  }
+  else
+    connections[ login ]->dmScheduled = true;
+}
 
-/*! \enum TwitterAPI::Role
-    Describes the function that the current connection has.
-*/
+void TwitterAPI::publicTimeline()
+{
+  if ( !connections.contains( TwitterAPI::PUBLIC_TIMELINE ) )
+    createInterface( TwitterAPI::PUBLIC_TIMELINE );
+  qDebug() << "TwitterAPI::publicTimeline()";
+  connections[ TwitterAPI::PUBLIC_TIMELINE ]->connection.data()->get( QNetworkRequest( QUrl( "http://twitter.com/statuses/public_timeline.xml" ) ) );
+}
 
-/*! \var TwitterAPI::Role TwitterAPI::Refresh
-    Statuses update is requested.
-*/
+void TwitterAPI::resetConnections() {
+  QMap<QString,Interface*>::iterator i = connections.begin();
+  while ( i != connections.end() ) {
+    (*i)->connection->deleteLater();
+    (*i)->connection = new QNetworkAccessManager( this );
+    connect( (*i)->connection, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
+    if ( i.key() != TwitterAPI::PUBLIC_TIMELINE )
+      connect( (*i)->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
+    (*i)->dmScheduled = false;
+    (*i)->authorized = false;
+    (*i)->friendsInProgress = false;
+    i++;
+  }
+}
 
-/*! \var TwitterAPI::Role TwitterAPI::Submit
-    Posting a new status is requested.
-*/
+void TwitterAPI::parseXml( const QByteArray &data, XmlParser *parser )
+{
+  source.setData( data );
+  xmlReader.setContentHandler( parser );
+  xmlReader.parse( source );
+}
 
-/*! \var TwitterAPI::Role TwitterAPI::Destroy
-    Destroying a Tweet is requested.
-*/
+void TwitterAPI::requestFinished( QNetworkReply *reply )
+{
+  int replyCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
+  if ( replyCode == 0 ) {
+    reply->close();
+    return;
+  }
+  QNetworkRequest request = reply->request();
+  QVariant login = request.attribute( TwitterAPI::ATTR_LOGIN );
+  QVariant password = request.attribute( TwitterAPI::ATTR_PASSWORD );
+  QVariant status = request.attribute( TwitterAPI::ATTR_STATUS );
+  QVariant inreplyto = request.attribute( TwitterAPI::ATTR_INREPLYTO_ID );
+  QVariant dm = request.attribute( TwitterAPI::ATTR_DM_REQUESTED );
+  QVariant del = request.attribute( TwitterAPI::ATTR_DELETION_REQUESTED );
+  QVariant delId = request.attribute( TwitterAPI::ATTR_DELETE_ID );
+  switch ( replyCode ) {
+  case 200: // Ok
+    qDebug() << "200" << dm.toBool();
+    if ( reply->operation() == QNetworkAccessManager::GetOperation ) {
+      if ( login.isValid() ) {
+        connections[ login.toString() ]->authorized = true;
+        if ( dm.isValid() && dm.toBool() ) {
+          qDebug() << "TwitterAPI::requestFinished()" << "parsing direct messages";
+          parseXml( reply->readAll(), connections[ login.toString() ]->directMsgParser );
+          emit requestDone();
+        } else {
+          qDebug() << "TwitterAPI::requestFinished()" << "parsing friends timeline";
+          connections[ login.toString() ]->friendsInProgress = false;
+          if ( connections[ login.toString() ]->dmScheduled )
+            directMessages( login.toString(), password.toString() );
+          parseXml( reply->readAll(), connections[ login.toString() ]->statusParser );
+          emit requestDone();
+        }
+      } else {
+        qDebug() << "TwitterAPI::requestFinished()" << "parsing public timeline";
+        parseXml( reply->readAll(), connections[ TwitterAPI::PUBLIC_TIMELINE ]->statusParser );
+        emit requestDone();
+      }
+    } else if ( reply->operation() == QNetworkAccessManager::PostOperation ) {
+      if ( login.isValid() ) {
+        connections[ login.toString() ]->authorized = true;
+        if ( del.isValid() && del.toBool() ) {
+          emit deleteEntry( login.toString(), delId.toInt() );
+          emit requestDone();
+        } else {
+          parseXml( reply->readAll(), connections[ login.toString() ]->statusParser );
+          emit requestDone();
+        }
+      }
+    }
+    break;
+  case 404: // Not Found
+    emit errorMessage( "Not found" );
+    break;
+  case 502:
+    if ( reply->operation() == QNetworkAccessManager::GetOperation ) {
+      if ( login.isValid() )
+        connections[ login.toString() ]->connection.data()->get( request );
+      else
+        connections[ TwitterAPI::PUBLIC_TIMELINE ]->connection.data()->get( request );
+    }
+  default:;
+  }
+  reply->close();
+}
 
-/*! \enum TwitterAPI::ContentRequested
-  Used to specify the content that is currently requested and has to be parsed.
-*/
+QByteArray TwitterAPI::prepareRequest( const QString &data, int inReplyTo )
+{
+  QByteArray request( "status=" );
+  QString statusText( data );
+  statusText.replace( QRegExp( "&" ), "%26" );
+  statusText.replace( QRegExp( "\\+" ), "%2B" );
+  request.append( data.toUtf8() );
+  if ( inReplyTo != -1 ) {
+    request.append( "&in_reply_to_status_id=" + QByteArray::number( inReplyTo ) );
+  }
+  request.append( "&source=qtwitter" );
+  qDebug() << request;
+  return request;
+}
 
-/*! \var TwitterAPI::ContentRequested TwitterAPI::Statuses
-    Statuses are requested.
-*/
+void TwitterAPI::slotAuthenticationRequired( QNetworkReply *reply, QAuthenticator *authenticator )
+{
+  qDebug() << "auth required";
+  QNetworkRequest request = reply->request();
+  qDebug() << request.attribute( TwitterAPI::ATTR_DM_REQUESTED ).toBool();
 
-/*! \var TwitterAPI::ContentRequested TwitterAPI::DirectMessages
-    Direct messages are requested.
-*/
+  QString login = request.attribute( TwitterAPI::ATTR_LOGIN ).toString();
+  QString password = request.attribute( TwitterAPI::ATTR_PASSWORD ).toString();
 
-/*! \fn TwitterAPI::TwitterAPI( QObject *parent = 0 )
-    Creates a new TwitterAPI instance with a given \a parent.
-*/
+  if ( request.attribute( TwitterAPI::ATTR_DM_REQUESTED ).isValid() && // if this is the auth request for dm download
+       connections[ login ]->friendsInProgress ) { // and we're downloading friends timeline (i.e. authorising) just now
+    reply->close();
+    return;
+  }
+  if ( authenticator->user() != login || authenticator->password() != password ) {
+    authenticator->setUser( login );
+    authenticator->setPassword( password );
+  } else {
+    QVariant status = request.attribute( TwitterAPI::ATTR_STATUS );
+    QVariant inreplyto = request.attribute( TwitterAPI::ATTR_INREPLYTO_ID );
+    QVariant del = request.attribute( TwitterAPI::ATTR_DELETION_REQUESTED );
+    QVariant delId = request.attribute( TwitterAPI::ATTR_DELETE_ID );
 
-/*! \fn virtual TwitterAPI::~TwitterAPI()
-    A virtual destructor.
-*/
-
-/*! \fn bool TwitterAPI::isPublicTimelineSync()
-    Returns true if sync with public timeline is requested.
-    \sa setPublicTimelineSync()
-*/
-
-/*! \fn bool TwitterAPI::isDirectMessagesSync()
-    Returns true if direct messages downloading is requested.
-    \sa setDirectMessagesSync()
-*/
-
-/*! \fn bool TwitterAPI::setAuthData( const QString &user, const QString &password )
-    Sets user login and password for authentication at twitter.com.
-    \param user User's login.
-    \param password User's password.
-*/
-
-/*! \fn bool TwitterAPI::setPublicTimelineSync( bool b )
-    Sets whether the public timeline is requested.
-    \param b If true, a sync with public timeline is requested. If false, a sync with friends timeline is performed.
-    \sa isPublicTimelineSync()
-*/
-
-/*! \fn bool TwitterAPI::setDirectMessagesSync( bool b )
-    Sets whether drect messages are requested, when syncing with friends timeline. This setting has no effect if isPublicTimelineSync() returns true.
-    \param b If true, direct messages are downloaded and added to friends timeline. If false, only friends' status updates are downloaded.
-    \sa isDirectMessagesSync(), isPublicTimelineSync()
-*/
-
-/*! \fn bool TwitterAPI::get()
-    Issues a timeline sync request, either public or friends one (with or without direct messages), according to
-    values returned by isPublicTimelineSync and isDirectMessagesSync.
-    \returns False when user's login and password are required and not provided, otherwise returns true.
-    \sa post(), destroyTweet()
-*/
-
-/*! \fn bool TwitterAPI::post( const QByteArray &status, int inReplyTo = -1 )
-    Sends a new Tweet with a content given by \a status.
-    \param status New Tweet's text.
-    \param inReplyTo In case the status is a reply - optional id of the existing status to which the reply is posted.
-    \returns False if user's authenticaton data is missing, otherwise returns true.
-    \sa get(), destroyTweet()
-*/
-
-/*! \fn bool TwitterAPI::destroyTweet( int id )
-    Sends a request to delete Tweet of id given by \a id.
-    \param id Id of the Tweet to be deleted.
-    \returns False if user's authenticaton data is missing, otherwise returns true.
-    \sa get(), post(), deleteEntry()
-*/
-
-/*! \fn void TwitterAPI::abort()
-    Aborts the requests and closes open connections to Twitter.
-*/
-
-/*! \fn const QAuthenticator& TwitterAPI::getAuthData() const
-    Outputs user's login and password.
-    \returns QAuthenticator object containing user's authentication data.
-*/
-
-/*! \fn void TwitterAPI::setFlag( TwitterAPI::ContentRequested flag );
-    Used to figure out when XmlDownload instance finishes its job. XmlDownload class emits
-    signals connected to this slot when it finishes its requests. When all the requests are
-    finished (i.e. one request when public timeline is requested or direct messages downloading
-    is disabled or two requests when friends timeline with direct messages is requested), this
-    slot resets connections and notifies User of new Tweets.
-    \sa timelineUpdated()
-*/
-
-/*! \fn void TwitterAPI::errorMessage( const QString &message )
-    Sends a \a message to notify user about encountered problems.
-    \param message Error message.
-*/
-
-/*! \fn void TwitterAPI::authDataSet( const QAuthenticator &authenticator )
-    Emitted when user authentication data changes.
-    \param authenticator A QAuthenticator object containing new authentication data.
-    \sa setAuthData()
-*/
-
-/*! \fn void TwitterAPI::unauthorized()
-    Emitted when user is unauthorized to get timeline update.
-    \sa unauthorized( const QByteArray &status, int inReplyToId ), unauthorized( int destroyId )
-*/
-
-/*! \fn void TwitterAPI::unauthorized( const QByteArray &status, int inReplyToId )
-    Emitted when user is unauthorized to post a new status.
-    \param status A status that was requested to be posted.
-    \param inReplyToId Id of the status to which a reply was requested to be posted.
-    \sa unauthorized(), unauthorized( int destroyId )
-*/
-
-/*! \fn void TwitterAPI::unauthorized( int destroyId )
-    Emitted when user is unauthorized to delete a status.
-    \param destroyId Id of the status to be destroyed.
-    \sa unauthorized(), unauthorized( const QByteArray &status, int inReplyToId )
-*/
-
-/*! \fn void TwitterAPI::addEntry( Entry *entry )
-    Emitted when a new status was parsed.
-    \param entry A new status.
-*/
-
-/*! \fn void TwitterAPI::deleteEntry( int id )
-    Emitted when a status was deleted.
-    \param id Id of the deleted status.
-*/
-
-/*! \fn void TwitterAPI::requestListRefresh( bool isPublicTimeline, bool isSwitchUser)
-    Emitted when user's request may possibly require deleting currently displayed list.
-    \param isPublicTimeline Value returned by isPublicTimelineSync.
-    \param isSwitchUser Indicates wether the user has changed since previous valid request.
-    \sa isPublicTimelineSync()
-*/
-
-/*! \fn void TwitterAPI::done()
-    Emitted when a single request has finished.
-*/
-
-/*! \fn void TwitterAPI::timelineUpdated()
-    Emitted when all requests have finished.
-*/
-
-/*! \fn void TwitterAPI::directMessagesSyncChanged( bool isEnabled )
-    Emitted to notify model that direct messages have been disabled or enabled,
-    according to \a isEnabled.
-    \param isEnabled Indicates if direct messages were enabled or disabled.
-    \sa setDirectMessagesSync(), isDirectMessagesSync()
-*/
-
-/*! \fn void TwitterAPI::publicTimelineSyncChanged( bool isEnabled )
-    Emitted when user switches to public timeline sync in authentication dialog.
-    \sa isPublicTimelineSync(), setPublicTimelineSync()
-*/
-
-/*! \fn void TwitterAPI::userChanged()
-    Emitted when authenticating user has changed.
-*/
+    if ( del.isValid() && del.toBool() ) {
+      emit unauthorized( login, password, delId.toInt() );
+    } else if ( status.isValid() ) {
+      emit unauthorized( login, password, status.toString(), inreplyto.toBool() );
+    } else {
+      emit unauthorized( login, password );
+    }
+    reply->close();
+  }
+}

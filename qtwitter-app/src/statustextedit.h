@@ -25,14 +25,22 @@
 
 class StatusTextEdit : public QPlainTextEdit
 {
+  Q_OBJECT
 public:
   StatusTextEdit( QWidget *parent = 0 ) : QPlainTextEdit( parent ) {}
+
+signals:
+  void enterPressed();
 
 protected:
   void keyPressEvent( QKeyEvent *e )
   {
     if ( e->key() == Qt::Key_Tab || e->key() == Qt::Key_Backtab ) {
       clearFocus();
+      return;
+    }
+    if ( e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return ) {
+      emit enterPressed();
       return;
     }
     QPlainTextEdit::keyPressEvent( e );

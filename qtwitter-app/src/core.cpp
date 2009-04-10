@@ -22,54 +22,41 @@
 #include <QProcess>
 #include "core.h"
 #include "settings.h"
-#include "twitterapi.h"
 #include "twitpicengine.h"
 #include "tweetmodel.h"
 #include "tweet.h"
 #include "twitteraccountsmodel.h"
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
-#include "xmldownload.h"
+#include "twitterapi.h"
 
 extern ConfigFile settings;
 
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
     authDialogOpen( false ),
+    requestCount( 0 ),
     twitpicUpload( NULL ),
     timer( NULL )
 {
   imageCache.setMaxCost( 50 );
-  xmlDownload = new XmlDownload( this );
-  connect( xmlDownload, SIGNAL(newEntry(QString,Entry*)), this, SLOT(addEntry(QString,Entry*)) );
-  connect( xmlDownload, SIGNAL(newEntry(QString,Entry*)), this, SLOT(downloadImage(QString,Entry*)) );
-  connect( xmlDownload, SIGNAL(deleteEntry(QString,int)), this, SLOT(deleteEntry(QString,int)) );
-  connect( xmlDownload, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
-  connect( xmlDownload, SIGNAL(unauthorized(QString,QString)), this, SLOT(slotUnauthorized(QString,QString)) );
-  connect( xmlDownload, SIGNAL(unauthorized(QString,QString,QString,int)), this, SLOT(slotUnauthorized(QString,QString,QString,int)) );
-  connect( xmlDownload, SIGNAL(unauthorized(QString,QString,int)), this, SLOT(slotUnauthorized(QString,QString,int)) );
+
+  twitterapi = new TwitterAPI( this );
+  connect( twitterapi, SIGNAL(newEntry(QString,Entry*)), this, SLOT(addEntry(QString,Entry*)) );
+  connect( twitterapi, SIGNAL(newEntry(QString,Entry*)), this, SLOT(downloadImage(QString,Entry*)) );
+  connect( twitterapi, SIGNAL(deleteEntry(QString,int)), this, SLOT(deleteEntry(QString,int)) );
+  connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
+  connect( twitterapi, SIGNAL(unauthorized(QString,QString)), this, SLOT(slotUnauthorized(QString,QString)) );
+  connect( twitterapi, SIGNAL(unauthorized(QString,QString,QString,int)), this, SLOT(slotUnauthorized(QString,QString,QString,int)) );
+  connect( twitterapi, SIGNAL(unauthorized(QString,QString,int)), this, SLOT(slotUnauthorized(QString,QString,int)) );
+
+  connect( this, SIGNAL(newRequest()), SLOT(slotNewRequest()) );
+  connect( twitterapi, SIGNAL(requestDone()), this, SLOT(slotRequestDone()) );
 
   listViewForModels = parent->getListView();
   margin = parent->getScrollBarWidth();
 
-  twitterapi = new TwitterAPI( this );
-//  connect( twitterapi, SIGNAL(addEntry(QString,Entry*)), this, SLOT(downloadImage(QString,Entry*)) );
-//  connect( twitterapi, SIGNAL(addEntry(QString,Entry*)), this, SLOT(addEntry(QString,Entry*)) );
-//  connect( twitterapi, SIGNAL(deleteEntry(QString,int)), this, SLOT(deleteEntry(QString,int)) );
-//  connect( twitterapi, SIGNAL(timelineUpdated()), this, SIGNAL(timelineUpdated()) );
-//  connect( twitterapi, SIGNAL(authDataSet(QAuthenticator)), this, SIGNAL(authDataSet(QAuthenticator)) );
-//  connect( twitterapi, SIGNAL(requestListRefresh(bool,bool)), this, SIGNAL(requestListRefresh(bool,bool)) );
-//  connect( twitterapi, SIGNAL(done()), this, SIGNAL(resetUi()) );
-//  connect( twitterapi, SIGNAL(unauthorized()), this, SLOT(slotUnauthorized()) );
-//  connect( twitterapi, SIGNAL(unauthorized(QString,int)), this, SLOT(slotUnauthorized(QString,int)) );
-//  connect( twitterapi, SIGNAL(unauthorized(int)), this, SLOT(slotUnauthorized(int)) );
-//  connect( twitterapi, SIGNAL(directMessagesSyncChanged(bool)), this, SIGNAL(directMessagesSyncChanged(bool)) );
-//  connect( twitterapi, SIGNAL(publicTimelineSyncChanged(bool)), this, SIGNAL(publicTimelineSyncChanged(bool)) );
-
-  model = new TweetModel( margin, listViewForModels, this );
-
   accountsModel = new TwitterAccountsModel( this );
-//  emit modelChanged( model );
 }
 
 Core::~Core()
@@ -84,24 +71,29 @@ Core::~Core()
     (*j)->deleteLater();
     j++;
   }
+  timer->deleteLater();
 }
 
 void Core::applySettings()
 {
   publicTimeline = settings.value(  "TwitterAccounts/publicTimeline", false ).toBool();
   setupTweetModels();
+  twitterapi->resetConnections();
+
+  emit resetUi();
+  requestCount = 0;
+
   int mtc = settings.value( "Appearance/tweet count", 25 ).toInt();
   foreach ( TweetModel *model, tweetModels.values() )
     model->setMaxTweetCount( mtc );
+  foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
+    if ( tweetModels.contains( account.login ) )
+      tweetModels[ account.login ]->slotDirectMessagesChanged( account.directMessages );
+  }
 
-  bool a = setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
-//  bool b = twitterapi->setAuthData( settings.value( "General/username", "" ).toString(), settings.pwHash( settings.value( "General/password", "" ).toString() ) );
-  bool b = false;
-  bool c = false;
-//  bool c = twitterapi->setPublicTimelineSync( settings.value( "General/timeline", true ).toBool() );
-  bool d = twitterapi->setDirectMessagesSync( settings.value( "General/directMessages", true ).toBool() );
-  if ( a || d )//|| b || c || (!c && d) )
-    get();
+
+  setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
+  get();
 }
 
 bool Core::setTimerInterval( int msecs )
@@ -140,7 +132,8 @@ void Core::setCurrentUser( const QString &login )
 
 void Core::setModelTheme( const ThemeData &theme )
 {
-  model->setTheme( theme );
+  foreach ( TweetModel *model, tweetModels.values() )
+    model->setTheme( theme );
 }
 
 QAbstractItemModel* Core::getTwitterAccountsModel()
@@ -163,54 +156,49 @@ void Core::forceGet()
 
 void Core::get( const QString &login, const QString &password )
 {
-  xmlDownload->friendsTimeline( login, password );
+  twitterapi->friendsTimeline( login, password );
+  emit newRequest();
 }
 
 void Core::get()
 {
-  Core::AuthDialogState state;
   foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
     if ( account.isEnabled ) {
-      xmlDownload->friendsTimeline( account.login, account.password );
-      if ( account.directMessages )
-        xmlDownload->directMessages( account.login, account.password );
+      twitterapi->friendsTimeline( account.login, account.password );
+      emit newRequest();
+      if ( account.directMessages ) {
+        twitterapi->directMessages( account.login, account.password );
+        emit newRequest();
+      }
     }
   }
 
-  if ( publicTimeline )
-    xmlDownload->publicTimeline();
-
-//  while ( !twitterapi->get() ) {
-//    state = authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() );
-//    switch ( state ) {
-//    case Core::STATE_REJECTED:
-//      emit errorMessage( tr( "Authentication is required to get your friends' updates." ) );
-//      return;
-//    case Core::STATE_SWITCH_TO_PUBLIC:
-//      break;
-//    default:;
-//    }
-//  }
-  emit requestStarted();
-}
-
-void Core::post( QString status, int inReplyTo )
-{
-  twitterapi->post( status, inReplyTo );
-  emit requestStarted();
-}
-
-void Core::uploadPhoto( QString photoPath, QString status )
-{
-  if ( twitterapi->getAuthData().user().isEmpty() || twitterapi->getAuthData().password().isEmpty() ) {
-//    if ( authDataDialog( twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() ) == Core::STATE_REJECTED ) {
-//      emit errorMessage( tr("Authentication is required to upload photos to TwitPic.") );
-//      return;
-//    }
+  if ( publicTimeline ) {
+    twitterapi->publicTimeline();
+    emit newRequest();
   }
+  emit requestStarted();
+}
+
+void Core::post( const QString &login, const QString &status, int inReplyTo )
+{
+  twitterapi->postUpdate( login, accountsModel->account( login )->password, status, inReplyTo );
+  emit newRequest();
+  emit requestStarted();
+}
+
+void Core::destroyTweet( const QString &login, int id )
+{
+  twitterapi->deleteUpdate( login, accountsModel->account( login )->password, id );
+  emit newRequest();
+  emit requestStarted();
+}
+
+void Core::uploadPhoto( const QString &login, QString photoPath, QString status )
+{
   twitpicUpload = new TwitPicEngine( this );
   qDebug() << "uploading photo";
-  twitpicUpload->postContent( twitterapi->getAuthData(), photoPath, status );
+  twitpicUpload->postContent( login, accountsModel->account( login )->password, photoPath, status );
 }
 
 void Core::abortUploadPhoto()
@@ -218,7 +206,7 @@ void Core::abortUploadPhoto()
   if ( twitpicUpload ) {
     twitpicUpload->abort();
     twitpicUpload->deleteLater();
-    twitpicUpload = NULL;
+    twitpicUpload = 0;
   }
 }
 
@@ -233,18 +221,12 @@ void Core::twitPicResponse( bool responseStatus, QString message, bool newStatus
     forceGet();
   }
   twitpicUpload->deleteLater();
-  twitpicUpload = NULL;
+  twitpicUpload = 0;
   QDialog dlg;
   Ui::TwitPicNewPhoto ui;
   ui.setupUi( &dlg );
   ui.textBrowser->setText( tr( "Photo available at:" ).append( " <a href=\"%1\">%1</a>" ).arg( message ) );
   dlg.exec();
-}
-
-void Core::destroyTweet( int id )
-{
-  twitterapi->destroyTweet( id );
-  emit requestStarted();
 }
 
 void Core::downloadImage( const QString &login, Entry *entry )
@@ -306,24 +288,24 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
   ui.passwordEdit->setText( account->password );
   dlg.adjustSize();
   authDialogOpen = true;
+  int row = accountsModel->indexOf( *account );
   if (dlg.exec() == QDialog::Accepted) {
-    if ( ui.publicBox->isChecked() ) {
+    if ( ui.disableBox->isChecked() ) {
       authDialogOpen = false;
-//      twitterapi->setPublicTimelineSync( true );
-//      emit requestListRefresh( twitterapi->isPublicTimelineSync(), false );
-      emit requestStarted();
-      return Core::STATE_SWITCH_TO_PUBLIC;
+      account->isEnabled = false;
+      settings.setValue( QString("TwitterAccounts/%1/enabled").arg( row ), false );
+      return Core::STATE_DISABLE_ACCOUNT;
+    } else if ( ui.removeBox->isChecked() ) {
+      authDialogOpen = false;
+      accountsModel->removeRow( row );
+      settings.deleteTwitterAccount( row, accountsModel->rowCount() );
+      return Core::STATE_REMOVE_ACCOUNT;
     }
     account->login = ui.loginEdit->text();
     account->password = ui.passwordEdit->text();
     settings.setValue( QString("TwitterAccounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login );
-    settings.setValue( QString("TwitterAccounts/%1/password").arg( accountsModel->indexOf( *account ) ), account->password );
-
-//    twitterapi->setAuthData( ui.loginEdit->text(), ui.passwordEdit->text() );
-//    emit authDataSet( twitterapi->getAuthData() );
+    settings.setValue( QString("TwitterAccounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password ) );
     authDialogOpen = false;
-//    twitterapi->setPublicTimelineSync( false );
-//    emit requestListRefresh( twitterapi->isPublicTimelineSync(), true );
     emit requestStarted();
     return Core::STATE_ACCEPTED;
   }
@@ -359,27 +341,31 @@ void Core::deleteEntry( const QString &login, int id )
 
 void Core::slotUnauthorized( const QString &login, const QString &password )
 {
-//  TwitterAccount account = accountsModel->account( login );
-  if ( !retryAuthorizing( accountsModel->account( login ), TwitterAPI::Refresh ) )
+  Q_UNUSED(password)
+  if ( !retryAuthorizing( accountsModel->account( login ), TwitterAPI::ROLE_REFRESH ) )
     return;
+  requestCount--;
   get( accountsModel->account( login )->login, accountsModel->account( login )->password );
-//  twitterapi->get();
 }
 
 void Core::slotUnauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId )
 {
+  Q_UNUSED(password)
   TwitterAccount *account = accountsModel->account( login );
-  if ( !retryAuthorizing( account, TwitterAPI::Submit ) )
+  if ( !retryAuthorizing( account, TwitterAPI::ROLE_SUBMIT ) )
     return;
-  twitterapi->post( status, inReplyToId );
+  requestCount--;
+  post( accountsModel->account( login )->login, status, inReplyToId );
 }
 
 void Core::slotUnauthorized( const QString &login, const QString &password, int destroyId )
 {
+  Q_UNUSED(password)
   TwitterAccount *account = accountsModel->account( login );
-  if ( !retryAuthorizing( account, TwitterAPI::Destroy ) )
+  if ( !retryAuthorizing( account, TwitterAPI::ROLE_DESTROY ) )
     return;
-  twitterapi->destroyTweet( destroyId );
+  requestCount--;
+  destroyTweet( login, destroyId );
 }
 
 void Core::setupTweetModels()
@@ -403,38 +389,52 @@ void Core::createConnectionsWithModel( TweetModel *model )
   connect( model, SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
   connect( model, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
   connect( model, SIGNAL(about()), this, SIGNAL(about()) );
-  connect( model, SIGNAL(destroy(int)), this, SLOT(destroyTweet(int)) );
+  connect( model, SIGNAL(destroy(QString,int)), this, SLOT(destroyTweet(QString,int)) );
   connect( model, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( model, SIGNAL(newTweets(int,QStringList,int,QStringList)), this, SIGNAL(newTweets(int,QStringList,int,QStringList)) );
   connect( this, SIGNAL(setImageForUrl(QString,QImage*)), model, SLOT(setImageForUrl(QString,QImage*)) );
   connect( this, SIGNAL(requestListRefresh(bool,bool)), model, SLOT(setModelToBeCleared(bool,bool)) );
   connect( this, SIGNAL(timelineUpdated()), model, SLOT(sendNewsInfo()) );
-  connect( this, SIGNAL(directMessagesSyncChanged(bool)), model, SLOT(slotDirectMessagesChanged(bool)) );
   connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
 }
 
 bool Core::retryAuthorizing( TwitterAccount *account, int role )
 {
-  Core::AuthDialogState state = authDataDialog( account );// twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().user(), twitterapi->getAuthData().user().isEmpty() ? QString() : twitterapi->getAuthData().password() );
+  if ( !account )
+    return false;
+  Core::AuthDialogState state = authDataDialog( account );
   switch ( state ) {
+  case Core::STATE_ACCEPTED:
+    return true;
   case Core::STATE_REJECTED:
     switch ( role ) {
-    case TwitterAPI::Submit:
+    case TwitterAPI::ROLE_SUBMIT:
       emit errorMessage( tr( "Authentication is required to post updates." ) );
-    case TwitterAPI::Destroy:
+    case TwitterAPI::ROLE_DESTROY:
       emit errorMessage( tr( "Authentication is required to delete updates." ) );
-    case TwitterAPI::Refresh:
+    case TwitterAPI::ROLE_REFRESH:
       emit errorMessage( tr( "Authentication is required to get your friends' updates." ) );
     }
-    twitterapi->abort();
   case Core::STATE_DIALOG_OPEN:
-    return false;
-  case Core::STATE_SWITCH_TO_PUBLIC:
-    twitterapi->abort();
-//    twitterapi->setPublicTimelineSync( true );
+  case Core::STATE_REMOVE_ACCOUNT:
+  case Core::STATE_DISABLE_ACCOUNT:
   default:;
   }
-  return true;
+  return false;
+}
+
+void Core::slotNewRequest()
+{
+  requestCount++;
+  qDebug() << requestCount;
+}
+
+void Core::slotRequestDone()
+{
+  requestCount--;
+  qDebug() << requestCount;
+  if ( requestCount == 0 )
+    emit resetUi();
 }
 
 /*! \class Core
@@ -442,7 +442,7 @@ bool Core::retryAuthorizing( TwitterAccount *account, int role )
 
     This class includes a high-level interface for connecting with Twitter API
     and submitting changes to the user's updates list. When the update
-    is requested, an XmlDownload class instance is created to perform the
+    is requested, an TwitterAPI class instance is created to perform the
     action. Once the received XML document is parsed, the ImageDownload
     class instance is engaged if necessary, to download profile images for
     new statuses. All the new Entries are passed to a TweetModel for displaying.
@@ -566,14 +566,8 @@ bool Core::retryAuthorizing( TwitterAccount *account, int role )
 
 /*! \fn void Core::errorMessage( const QString &message )
     Sends a \a message to MainWindow class instance, to notify user about encountered
-    problems. Works also as a proxy for internal ImageDownload and XmlDownload classes instances.
+    problems. Works also as a proxy for internal ImageDownload and TwitterAPI classes instances.
     \param message Error message.
-*/
-
-/*! \fn void Core::authDataSet( const QAuthenticator &authenticator )
-    Emitted when user authentication data changes.
-    \param authenticator A QAuthenticator object containing new authentication data.
-    \sa setAuthData(), authDataDialog()
 */
 
 /*! \fn void Core::addEntry( Entry* entry )
@@ -617,12 +611,12 @@ bool Core::retryAuthorizing( TwitterAccount *account, int role )
 */
 
 /*! \fn void Core::resetUi()
-    Emitted when XmlDownload requests are finished, to notify MainWindow instance to
+    Emitted when TwitterAPI requests are finished, to notify MainWindow instance to
     reset StatusEdit field.
 */
 
 /*! \fn void Core::timelineUpdated()
-    Emitted to notify model that XmlDownload requests are finished and notification popup
+    Emitted to notify model that TwitterAPI requests are finished and notification popup
     can be displayed.
 */
 

@@ -74,7 +74,7 @@ public slots:
 
 signals:
   void retweet( QString message );
-  void destroy( int id );
+  void destroy( const QString &login, int id );
   void newTweets( int statusesCount, QStringList statusesNames, int messagesCount, QStringList messagesNames );
   void openBrowser( QUrl address );
   void reply( const QString &name, int inReplyTo );

@@ -13,8 +13,8 @@ macx {
     DESTDIR = ../qtwitter.app/Contents/Frameworks
     FRAMEWORK_HEADERS.files = twitterapi_global.h \
         twitterapi.h \
-        entry.h \
-        httpconnection.h
+        xmlparser.h \
+        entry.h
     FRAMEWORK_HEADERS.path = Versions/$${VER_MAJ}/Headers
     QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
 }
@@ -25,8 +25,8 @@ else:unix {
     target.path = $${INSTALL_PREFIX}/lib
     lib_headers.files = twitterapi_global.h \
         twitterapi.h \
-        entry.h \
-        httpconnection.h
+        xmlparser.h \
+        entry.h
     lib_headers.path = $${INSTALL_PREFIX}/include/$${TARGET}
     INSTALLS += target \
         lib_headers
@@ -35,16 +35,12 @@ else:win32 {
     DESTDIR = ../lib
     DLLDESTDIR = ..
 }
-SOURCES += twitterapi.cpp \
-    xmlparser.cpp \
-    xmldownload.cpp \
-    httpconnection.cpp \
+SOURCES += xmlparser.cpp \
+    twitterapi.cpp \
     entry.cpp
-HEADERS += twitterapi.h \
-    twitterapi_global.h \
+HEADERS += twitterapi_global.h \
     xmlparser.h \
-    xmldownload.h \
-    httpconnection.h \
+    twitterapi.h \
     entry.h
 MOC_DIR = tmp
 OBJECTS_DIR = tmp

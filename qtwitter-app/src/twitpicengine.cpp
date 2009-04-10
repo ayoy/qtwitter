@@ -19,8 +19,8 @@
 
 
 #include <QPixmap>
-#include <QAuthenticator>
 #include "twitpicengine.h"
+#include "twitpicxmlparser.h"
 
 TwitPicEngine::TwitPicEngine( Core *coreParent, QObject *parent ) :
     HttpConnection( parent ),
@@ -32,9 +32,10 @@ TwitPicEngine::TwitPicEngine( Core *coreParent, QObject *parent ) :
 
 TwitPicEngine::~TwitPicEngine()
 {
+  replyParser->deleteLater();
 }
 
-void TwitPicEngine::postContent( const QAuthenticator &authData, QString photoPath, QString status )
+void TwitPicEngine::postContent( const QString &login, const QString &password, QString photoPath, QString status )
 {
   QString path;
   if ( status.isEmpty() ) {
@@ -70,15 +71,15 @@ void TwitPicEngine::postContent( const QAuthenticator &authData, QString photoPa
   }
   requestString.append( "content-disposition: form-data; name=\"source\"\r\n" );
   requestString.append( "\r\n" );
-  requestString.append( "qTwitter\r\n" );
+  requestString.append( "qtwitter\r\n" );
   requestString.append( "--AaB03x\r\n" );
   requestString.append( "content-disposition: form-data; name=\"username\"\r\n" );
   requestString.append( "\r\n" );
-  requestString.append( authData.user().toUtf8() + "\r\n" );
+  requestString.append( login.toUtf8() + "\r\n" );
   requestString.append( "--AaB03x\r\n" );
   requestString.append( "content-disposition: form-data; name=\"password\"\r\n" );
   requestString.append( "\r\n" );
-  requestString.append( authData.password().toUtf8() + "\r\n" );
+  requestString.append( password.toUtf8() + "\r\n" );
   requestString.append( "--AaB03x--\r\n" );
 
 

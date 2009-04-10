@@ -27,6 +27,7 @@ else:win32:LIBS += -L$${TOP}/lib \
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
+    src/httpconnection.cpp \
     src/imagedownload.cpp \
     src/core.cpp \
     src/settings.cpp \
@@ -39,8 +40,8 @@ SOURCES += src/main.cpp \
     src/qtwitter.cpp \
     src/twitteraccountsmodel.cpp
 HEADERS += src/mainwindow.h \
-    src/statusfilter.h \
     src/statusedit.h \
+    src/httpconnection.h \
     src/imagedownload.h \
     src/core.h \
     src/settings.h \

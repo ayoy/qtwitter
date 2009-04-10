@@ -18,14 +18,6 @@
  ***************************************************************************/
 
 
-#include "mainwindow.h"
-#include "statusfilter.h"
-#include "tweet.h"
-#include "ui_about.h"
-#include "twitteraccountsmodel.h"
-#include "twitteraccountsdelegate.h"
-#include "settings.h"
-
 #include <QMenu>
 #include <QScrollBar>
 #include <QMessageBox>
@@ -36,6 +28,12 @@
 #include <QDesktopWidget>
 #include <QSignalMapper>
 #include <QTreeView>
+#include "mainwindow.h"
+#include "tweet.h"
+#include "ui_about.h"
+#include "twitteraccountsmodel.h"
+#include "twitteraccountsdelegate.h"
+#include "settings.h"
 
 extern ConfigFile settings;
 
@@ -160,12 +158,13 @@ int MainWindow::getScrollBarWidth()
 
 void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool publicTimeline )
 {
-  if ( !publicTimeline && accounts.size() < 2 || accounts.isEmpty() ) {
+  if ( ( !publicTimeline && accounts.size() < 2 ) || accounts.isEmpty() ) {
     ui.accountsComboBox->setVisible( false );
+    if ( !accounts.isEmpty() )
+      emit switchModel( accounts.at(1).login );
     return;
   }
 
-  ui.accountsComboBox->setVisible( true );
   ui.accountsComboBox->clear();
   foreach ( TwitterAccount account, accounts ) {
     if ( account.isEnabled )
@@ -175,15 +174,16 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bo
     ui.accountsComboBox->addItem( tr( "public timeline" ) );
   if ( ui.accountsComboBox->count() <= 1 ) {
     ui.accountsComboBox->setVisible( false );
+    emit switchModel( ui.accountsComboBox->currentText() );
     return;
   }
+  ui.accountsComboBox->setVisible( true );
   int index = settings.value( "TwitterAccounts/currentModel", 0 ).toInt();
   if ( index >= ui.accountsComboBox->count() )
     ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->count() - 1 );
   else
     ui.accountsComboBox->setCurrentIndex( index );
   emit switchModel( ui.accountsComboBox->currentText() );
-
 }
 
 void MainWindow::setListViewModel( TweetModel *model )
@@ -237,7 +237,7 @@ void MainWindow::changeLabel()
 void MainWindow::sendStatus()
 {
   resetUiWhenFinished = true;
-  emit post( ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
+  emit post( ui.accountsComboBox->currentText(), ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
   showProgressIcon();
 }
 
@@ -416,7 +416,7 @@ void MainWindow::retranslateUi()
 
 /*! \fn void MainWindow::popupError( const QString &message )
     Pops up a dialog with an error or information for User. This is an interface
-    for all the classes that notify User about any problems (e.g. Core, XmlDownload
+    for all the classes that notify User about any problems (e.g. Core, TwitterAPI
     and ImageDownload).
     \param message An information to be shown to User.
 */

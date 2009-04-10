@@ -96,8 +96,8 @@ void Tweet::createMenu()
   menu->addAction( deleteAction );
   deleteAction->setFont( menuFont );
   signalMapper->setMapping( deleteAction, tweetData->id );
-  connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-  connect( signalMapper, SIGNAL(mapped(int)), tweetListModel, SIGNAL(destroy(int)) );
+  connect( deleteAction, SIGNAL(triggered()), this, SLOT(deleteTweet()) );
+  connect( this, SIGNAL(deleteStatus(QString,int)), tweetListModel, SIGNAL(destroy(QString,int)) );
   if ( !tweetData->isOwn ) {
     deleteAction->setEnabled( false );
   }
@@ -272,6 +272,11 @@ void Tweet::leaveEvent( QEvent *e )
 void Tweet::focusRequest()
 {
   emit selectMe( this );
+}
+
+void Tweet::deleteTweet()
+{
+  emit deleteStatus( tweetData->login, tweetData->id );
 }
 
 

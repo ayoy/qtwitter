@@ -58,7 +58,7 @@ signals:
   void setCurrentModel( const QString &login );
   void updateTweets();
   void openTwitPicDialog();
-  void post( QString status, int inReplyTo = -1 );
+  void post( const QString &login, QString status, int inReplyTo );
   void openBrowser( QUrl address );
   void settingsDialogRequested();
   void addReplyString( const QString& user, int inReplyTo );

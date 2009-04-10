@@ -120,6 +120,9 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
+        <widget class="QComboBox" name="accountsComboBox"/>
+       </item>
+       <item>
         <widget class="QCheckBox" name="postStatusCheckBox">
          <property name="text">
           <string>post a status</string>

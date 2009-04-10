@@ -29,14 +29,12 @@
 #include "imagedownload.h"
 #include "mainwindow.h"
 
-
 class TwitPicEngine;
-class TwitterAPI;
 class TweetModel;
 class QAbstractItemModel;
 class TwitterAccountsModel;
 class StatusList;
-class XmlDownload;
+class TwitterAPI;
 
 class Core : public QObject
 {
@@ -47,7 +45,8 @@ public:
     STATE_ACCEPTED,
     STATE_REJECTED,
     STATE_DIALOG_OPEN,
-    STATE_SWITCH_TO_PUBLIC
+    STATE_DISABLE_ACCOUNT,
+    STATE_REMOVE_ACCOUNT
   };
 
   Core( MainWindow *parent = 0 );
@@ -69,12 +68,12 @@ public slots:
   void forceGet();
   void get();
   void get( const QString &login, const QString &password );
-  void post( QString status, int inReplyTo = -1 );
+  void post( const QString &login, const QString &status, int inReplyTo );
+  void destroyTweet( const QString &login, int id );
 
-  void uploadPhoto( QString photoPath, QString status );
+  void uploadPhoto( const QString &login, QString photoPath, QString status );
   void abortUploadPhoto();
   void twitPicResponse( bool responseStatus, QString message, bool newStatus );
-  void destroyTweet( int id );
 
   void downloadImage( const QString &login, Entry *entry );
   void openBrowser( QUrl address );
@@ -85,7 +84,6 @@ public slots:
 signals:
   void setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool isPublicTimelineRequested );
   void errorMessage( const QString &message );
-  void authDataSet( const QAuthenticator &authenticator );
   void twitPicResponseReceived();
   void twitPicDataSendProgress(int,int);
   void setImageForUrl( const QString& url, QImage *image );
@@ -93,14 +91,14 @@ signals:
   void requestStarted();
   void resetUi();
   void timelineUpdated();
-  void directMessagesSyncChanged( bool isEnabled );
-  void publicTimelineSyncChanged( bool isEnabled );
+  void directMessagesSyncChanged( bool b );
   void modelChanged( TweetModel *model );
   void addReplyString( const QString &user, int id );
   void addRetweetString( QString message );
   void about();
   void newTweets( int statusesCount, QStringList statusesNames, int messagesCount, QStringList messagesNames );
   void resizeData( int width, int oldWidth );
+  void newRequest();
 
 private slots:
   void setImageInHash( const QString&, QImage* );
@@ -109,6 +107,8 @@ private slots:
   void slotUnauthorized( const QString &login, const QString &password );
   void slotUnauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId );
   void slotUnauthorized( const QString &login, const QString &password, int destroyId );
+  void slotNewRequest();
+  void slotRequestDone();
 
 private:
   void setupTweetModels();
@@ -116,12 +116,11 @@ private:
   bool retryAuthorizing( TwitterAccount *account, int role );
   bool authDialogOpen;
   bool publicTimeline;
-  TwitterAPI *twitterapi;
+  int requestCount;
   TwitPicEngine *twitpicUpload;
   QMap<QString,ImageDownload*> imageDownloader;
   TwitterAccountsModel *accountsModel;
-  XmlDownload *xmlDownload;
-  TweetModel *model;
+  TwitterAPI *twitterapi;
   QMap<QString,TweetModel*> tweetModels;
   QCache<QString,QImage> imageCache;
   QAuthenticator authData;

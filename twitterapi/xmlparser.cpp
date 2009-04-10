@@ -86,6 +86,8 @@ bool XmlParser::characters( const QString &ch )
       entry.name = ch;
     } else if ( currentField == Login && entry.login.isNull() ) {
       entry.login = ch;
+      if ( entry.login == login )
+        entry.isOwn = true;
     } else if ( currentField == Text && entry.text.isNull() ) {
       entry.originalText = ch;
       entry.text = textToHtml( ch );

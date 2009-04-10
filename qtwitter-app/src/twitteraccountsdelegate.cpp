@@ -46,11 +46,3 @@ void TwitterAccountsDelegate::paint( QPainter *painter, const QStyleOptionViewIt
     QItemDelegate::paint(painter, option, index);
   }
 }
-
-QSize TwitterAccountsDelegate::sizeHint( const QStyleOptionViewItem &option, const QModelIndex &/*index*/ ) const
-{
-  QSize size = option.rect.size();
-  size.rwidth() = 100;
-  size.rheight() = 20;
-  return size;
-}

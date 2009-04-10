@@ -70,6 +70,7 @@ signals:
   void retweet( QString message );
   void markAllAsRead();
   void selectMe( Tweet *tweet );
+  void deleteStatus( const QString &login, int id );
 
 protected:
   void changeEvent( QEvent *e );
@@ -78,6 +79,7 @@ protected:
 
 private slots:
   void focusRequest();
+  void deleteTweet();
 
 private:
   void createMenu();

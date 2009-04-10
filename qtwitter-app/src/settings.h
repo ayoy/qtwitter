@@ -32,19 +32,12 @@
 class QCheckBox;
 class QLineEdit;
 class QPushButton;
+class TwitPicView;
 class TweetModel;
 class MainWindow;
 class Core;
 class TwitterAccount;
 class TwitterAccountsModel;
-
-//#if defined Q_WS_X11
-//  QSettings settings( "ayoy", "qTwitter" );
-//#elif defined Q_WS_MAC
-//  QSettings settings( "ayoy.net", "qTwitter" );
-//#elif defined Q_WS_WIN
-//  QSettings settings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" );
-//#endif
 
 struct ThemeElement
 {
@@ -94,7 +87,8 @@ class ConfigFile : public QSettings
 {
 public:
   ConfigFile();
-  QString pwHash( const QString &text );
+  static QString pwHash( const QString &text );
+  void deleteTwitterAccount( int id, int rowCount );
 };
 
 class Settings : public QDialog
@@ -110,7 +104,7 @@ public:
   static const ThemeInfo STYLESHEET_PURPLE;
   static const ThemeInfo STYLESHEET_SKY;
 
-  Settings( MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent = 0 );
+  Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView *twitpicviewSettings, QWidget *parent = 0 );
   ~Settings();
 
   void loadConfig( bool dialogRejected = false );
@@ -122,8 +116,6 @@ public slots:
   void accept();
   void reject();
   void switchLanguage( int index );
-  void slotPublicTimelineSyncChanged( bool isEnabled );
-  void setAuthDataInDialog( const QAuthenticator &authData );
 
 signals:
   void accountsChanged( const QList<TwitterAccount> &accounts, bool publicTimeline );
@@ -151,6 +143,7 @@ private:
   MainWindow *mainWindow;
   Core *core;
   TwitterAccountsModel *accountsModel;
+  TwitPicView *twitPicView;
   QMap<QString,ThemeData> themes;
   Ui::Settings ui;
 #ifdef Q_WS_X11

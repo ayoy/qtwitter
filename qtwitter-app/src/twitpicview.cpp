@@ -23,6 +23,9 @@
 #include <QDebug>
 #include "twitpicview.h"
 #include "ui_twitpicview.h"
+#include "settings.h"
+
+extern ConfigFile settings;
 
 TwitPicView::TwitPicView(QWidget *parent) :
     QDialog(parent),
@@ -32,6 +35,7 @@ TwitPicView::TwitPicView(QWidget *parent) :
   m_ui->setupUi(this);
   m_ui->uploadProgressBar->setVisible(false);
   connect( m_ui->uploadButton, SIGNAL(clicked()), this, SLOT(sendUploadRequest()) );
+  connect( m_ui->statusEdit, SIGNAL(enterPressed()), this, SLOT(sendUploadRequest()) );
   connect( m_ui->imagePathEdit, SIGNAL(textChanged(QString)), this, SLOT(setImagePreview(QString)) );
   connect( m_ui->browseButton, SIGNAL(pressed()), this, SLOT(setImagePath()) );
 
@@ -49,6 +53,21 @@ TwitPicView::~TwitPicView()
     pixmap = 0;
   }
 }
+
+void TwitPicView::setupTwitterAccounts( const QList<TwitterAccount> &accounts )
+{
+  m_ui->accountsComboBox->clear();
+  foreach ( TwitterAccount account, accounts ) {
+    if ( account.isEnabled )
+      m_ui->accountsComboBox->addItem( account.login );
+  }
+  int index = settings.value( "TwitterAccounts/currentModel", 0 ).toInt();
+  if ( index >= m_ui->accountsComboBox->count() )
+    m_ui->accountsComboBox->setCurrentIndex( m_ui->accountsComboBox->count() - 1 );
+  else
+    m_ui->accountsComboBox->setCurrentIndex( index );
+}
+
 
 void TwitPicView::showUploadProgress( int done, int total )
 {
@@ -99,9 +118,9 @@ void TwitPicView::sendUploadRequest()
 {
   if ( m_ui->uploadButton->text() == tr( "Upload" ) ) {
     if ( m_ui->postStatusCheckBox->isChecked() ) {
-      emit uploadPhoto( m_ui->imagePathEdit->text(), m_ui->statusEdit->toPlainText() );
+      emit uploadPhoto( m_ui->accountsComboBox->currentText(), m_ui->imagePathEdit->text(), m_ui->statusEdit->toPlainText() );
     } else {
-      emit uploadPhoto( m_ui->imagePathEdit->text(), QString() );
+      emit uploadPhoto( m_ui->accountsComboBox->currentText(), m_ui->imagePathEdit->text(), QString() );
     }
     m_ui->uploadButton->setText( tr( "Abort" ) );
     m_ui->uploadProgressBar->setVisible( true );

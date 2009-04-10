@@ -23,7 +23,8 @@
 
 #include "httpconnection.h"
 #include "core.h"
-#include "twitpicxmlparser.h"
+
+class TwitPicXmlParser;
 
 class TwitPicEngine : public HttpConnection
 {
@@ -33,7 +34,7 @@ public:
   TwitPicEngine( Core *coreParent, QObject *parent = 0 );
   ~TwitPicEngine();
 
-  void postContent( const QAuthenticator &authData, QString photoPath, QString status );
+  void postContent( const QString &login, const QString &password, QString photoPath, QString status );
 
 public slots:
   void abort();
