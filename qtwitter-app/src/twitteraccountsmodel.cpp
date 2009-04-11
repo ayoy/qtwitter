@@ -141,7 +141,7 @@ TwitterAccount* TwitterAccountsModel::account( const QString &login )
     if ( login == accounts[i].login )
       return &accounts[i];
   }
-//  return emptyAccount();
+  return 0;
 }
 
 int TwitterAccountsModel::indexOf( const TwitterAccount &account )

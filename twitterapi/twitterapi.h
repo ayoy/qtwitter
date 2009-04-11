@@ -58,9 +58,11 @@ public:
   static const QString PUBLIC_TIMELINE;
 
   enum Role {
-    ROLE_REFRESH,
-    ROLE_SUBMIT,
-    ROLE_DESTROY
+    ROLE_FRIENDS_TIMELINE,
+    ROLE_DIRECT_MESSAGES,
+    ROLE_PUBLIC_TIMELINE,
+    ROLE_POST_UPDATE,
+    ROLE_DELETE_UPDATE
   };
 
   TwitterAPI( QObject *parent = 0 );
@@ -76,7 +78,7 @@ public slots:
   void resetConnections();
 
 signals:
-  void requestDone();
+  void requestDone( const QString &login, int role );
   void newEntry( const QString &login, Entry *entry );
   void deleteEntry( const QString &login, int id );
   void errorMessage( const QString &message );

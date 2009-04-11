@@ -178,29 +178,29 @@ void TwitterAPI::requestFinished( QNetworkReply *reply )
         if ( dm.isValid() && dm.toBool() ) {
           qDebug() << "TwitterAPI::requestFinished()" << "parsing direct messages";
           parseXml( reply->readAll(), connections[ login.toString() ]->directMsgParser );
-          emit requestDone();
+          emit requestDone( login.toString(), TwitterAPI::ROLE_DIRECT_MESSAGES );
         } else {
           qDebug() << "TwitterAPI::requestFinished()" << "parsing friends timeline";
           connections[ login.toString() ]->friendsInProgress = false;
           if ( connections[ login.toString() ]->dmScheduled )
             directMessages( login.toString(), password.toString() );
           parseXml( reply->readAll(), connections[ login.toString() ]->statusParser );
-          emit requestDone();
+          emit requestDone( login.toString(), TwitterAPI::ROLE_FRIENDS_TIMELINE );
         }
       } else {
         qDebug() << "TwitterAPI::requestFinished()" << "parsing public timeline";
         parseXml( reply->readAll(), connections[ TwitterAPI::PUBLIC_TIMELINE ]->statusParser );
-        emit requestDone();
+        emit requestDone( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::ROLE_PUBLIC_TIMELINE );
       }
     } else if ( reply->operation() == QNetworkAccessManager::PostOperation ) {
       if ( login.isValid() ) {
         connections[ login.toString() ]->authorized = true;
         if ( del.isValid() && del.toBool() ) {
           emit deleteEntry( login.toString(), delId.toInt() );
-          emit requestDone();
+          emit requestDone( login.toString(), TwitterAPI::ROLE_DELETE_UPDATE );
         } else {
           parseXml( reply->readAll(), connections[ login.toString() ]->statusParser );
-          emit requestDone();
+          emit requestDone( login.toString(), TwitterAPI::ROLE_POST_UPDATE );
         }
       }
     }

@@ -22,8 +22,8 @@
 #define IMAGEDOWNLOAD_H
 
 #include <QImage>
+#include <entry.h>
 #include "httpconnection.h"
-#include "entry.h"
 
 struct ImageData
 {
@@ -46,7 +46,7 @@ public:
   void clearData();
 
 signals:
-  void imageReadyForUrl( const QString& path, QImage *image );
+  void imageReadyForUrl( const QString& path, QImage image );
 
 private slots:
   void httpRequestFinished( int requestId, bool error );

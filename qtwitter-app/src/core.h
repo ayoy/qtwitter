@@ -58,8 +58,6 @@ public:
   void setBrowserPath( const QString& path );
 #endif
 
-  const QString& getCurrentUser() const;
-  void setCurrentUser( const QString &login );
   void setModelTheme( const ThemeData &theme );
   QAbstractItemModel* getTwitterAccountsModel();
   TweetModel* getModel( const QString &login );
@@ -89,6 +87,7 @@ signals:
   void setImageForUrl( const QString& url, QImage *image );
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void requestStarted();
+  void allRequestsFinished();
   void resetUi();
   void timelineUpdated();
   void directMessagesSyncChanged( bool b );
@@ -96,35 +95,38 @@ signals:
   void addReplyString( const QString &user, int id );
   void addRetweetString( QString message );
   void about();
-  void newTweets( int statusesCount, QStringList statusesNames, int messagesCount, QStringList messagesNames );
+  void sendNewsReport( QString message );
   void resizeData( int width, int oldWidth );
   void newRequest();
 
 private slots:
-  void setImageInHash( const QString&, QImage* );
+  void setImageInHash( const QString&, QImage );
   void addEntry( const QString &login, Entry* entry );
   void deleteEntry( const QString &login, int id );
   void slotUnauthorized( const QString &login, const QString &password );
   void slotUnauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId );
   void slotUnauthorized( const QString &login, const QString &password, int destroyId );
   void slotNewRequest();
-  void slotRequestDone();
+  void slotRequestDone( const QString &login, int role );
+  void storeNewTweets( const QString &login );
 
 private:
+  void sendNewsInfo();
   void setupTweetModels();
   void createConnectionsWithModel( TweetModel *model );
   bool retryAuthorizing( TwitterAccount *account, int role );
   bool authDialogOpen;
   bool publicTimeline;
   int requestCount;
+  int tempModelCount;
+  QStringList newTweets;
+
   TwitPicEngine *twitpicUpload;
   QMap<QString,ImageDownload*> imageDownloader;
   TwitterAccountsModel *accountsModel;
   TwitterAPI *twitterapi;
   QMap<QString,TweetModel*> tweetModels;
   QCache<QString,QImage> imageCache;
-  QAuthenticator authData;
-  QString currentUser;
   QTimer *timer;
 
   StatusList *listViewForModels;

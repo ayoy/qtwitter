@@ -20,7 +20,7 @@
 
 #include <QObject>
 #include <QCheckBox>
-#include <QApplication>
+#include <QDebug>
 #include "twitteraccountsdelegate.h"
 
 TwitterAccountsDelegate::TwitterAccountsDelegate( QList<int> checkBoxColumns, QObject *parent ) : QItemDelegate( parent )
@@ -36,12 +36,10 @@ void TwitterAccountsDelegate::paint( QPainter *painter, const QStyleOptionViewIt
       state = Qt::Checked;
     else
       state = Qt::Unchecked;
-    QStyleOptionViewItem myOption = option;
-    myOption.displayAlignment = Qt::AlignCenter | Qt::AlignVCenter;
 
-    drawDisplay( painter, myOption, myOption.rect, " " );
-    drawFocus( painter, myOption, myOption.rect );
-    drawCheck( painter, myOption, myOption.rect, state );
+    drawDisplay( painter, option, option.rect, " " );
+    drawFocus( painter, option, option.rect );
+    drawCheck( painter, option, QRect( option.rect.x()+15, option.rect.y()+3 , option.rect.height()-5, option.rect.height()-5 ), state );
   } else {
     QItemDelegate::paint(painter, option, index);
   }

@@ -25,8 +25,8 @@
 #include <QMenu>
 #include <QSignalMapper>
 #include <QStandardItem>
+#include <entry.h>
 #include "tweetmodel.h"
-#include "entry.h"
 
 class ThemeData;
 

@@ -26,7 +26,7 @@
 #include <QUrl>
 #include <QImage>
 #include <QPointer>
-#include "entry.h"
+#include <entry.h>
 #include "statuslist.h"
 
 class Tweet;
@@ -48,14 +48,15 @@ public:
     STATE_ACTIVE
   };
 
-  TweetModel( int margin, StatusList *parentListView, QObject *parent = 0 );
+  TweetModel( const QString &login, int margin, StatusList *parentListView, QObject *parent = 0 );
+  ~TweetModel();
+
   void deselectCurrentIndex();
   void setTheme( const ThemeData &theme );
   void setMaxTweetCount( int count );
   void setVisible( bool isVisible );
   void display();
   void clear();
-  bool isPublicTimelineRequested() const;
 
 public slots:
   void insertTweet( Entry *entry );
@@ -64,18 +65,16 @@ public slots:
   void selectTweet( const QModelIndex &index );
   void selectTweet( Tweet *tweet );
   void markAllAsRead();
-  void sendNewsInfo();
+  void checkForUnread();
   void retranslateUi();
   void resizeData( int width, int oldWidth );
   void moveFocus( bool up );
   void setImageForUrl( const QString& url, QImage *image );
-  void setModelToBeCleared( bool wantsPublic, bool userChanged );
-  void setPublicTimelineRequested( bool b );
 
 signals:
   void retweet( QString message );
   void destroy( const QString &login, int id );
-  void newTweets( int statusesCount, QStringList statusesNames, int messagesCount, QStringList messagesNames );
+  void newTweets( const QString &login );
   void openBrowser( QUrl address );
   void reply( const QString &name, int inReplyTo );
   void about();
@@ -84,20 +83,13 @@ private slots:
   void emitOpenBrowser( QString address );
 
 private:
-  void countUnreadEntries();
-  void addUnreadEntry( Entry );
   bool stripRedundantTweets();
   Status getTweetFromIndex( int );
   Status getTweetFromIndex( QModelIndex );
+  QString login;
   QList<Status> statuses;
   bool isVisible;
-  bool publicTimeline;
-  bool publicTimelineRequested;
-  bool modelToBeCleared;
-  int newStatusesCount;
-  int newMessagesCount;
-  QStringList newStatusesNames;
-  QStringList newMessagesNames;
+  bool unread;
   int maxTweetCount;
   int scrollBarMargin;
   QModelIndex currentIndex;

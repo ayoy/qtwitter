@@ -23,8 +23,6 @@
 
 #include <QItemDelegate>
 
-class QObject;
-
 class TwitterAccountsDelegate : public QItemDelegate
 {
 public:

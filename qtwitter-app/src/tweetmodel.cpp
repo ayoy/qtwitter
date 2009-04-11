@@ -18,23 +18,32 @@
  ***************************************************************************/
 
 
+#include <entry.h>
 #include "tweetmodel.h"
-#include "entry.h"
 #include "tweet.h"
 #include "mainwindow.h"
 #include "settings.h"
 
-TweetModel::TweetModel( int margin, StatusList *parentListView, QObject *parent ) :
+TweetModel::TweetModel( const QString &login, int margin, StatusList *parentListView, QObject *parent ) :
   QStandardItemModel( 0, 0, parent ),
+  login( login ),
   isVisible( false ),
-  modelToBeCleared( false ),
-  newStatusesCount( 0 ),
-  newMessagesCount( 0 ),
   maxTweetCount( 20 ),
   scrollBarMargin( margin ),
   currentIndex( QModelIndex() ),
   view( parentListView )
-{}
+{
+  int i;
+  i = 5;
+}
+
+TweetModel::~TweetModel()
+{
+  foreach ( Status status, statuses ) {
+    if ( !status.tweet.isNull() )
+      status.tweet.data()->deleteLater();
+  }
+}
 
 void TweetModel::deselectCurrentIndex()
 {
@@ -120,17 +129,8 @@ void TweetModel::clear()
   statuses.clear();
 }
 
-bool TweetModel::isPublicTimelineRequested() const
-{
-  return publicTimeline;
-}
-
 void TweetModel::insertTweet( Entry *entry )
 {
-  if ( modelToBeCleared ) {
-    clear();
-    modelToBeCleared = false;
-  }
   for ( int i = 0; i < rowCount(); ++i ) {
     if ( entry->id == statuses[i].entry.id ) {
       qDebug() << "found existing entry of the same id";
@@ -272,14 +272,16 @@ void TweetModel::markAllAsRead()
   }
 }
 
-void TweetModel::sendNewsInfo()
+void TweetModel::checkForUnread()
 {
-  countUnreadEntries();
-  emit newTweets( newStatusesCount, newStatusesNames, newMessagesCount, newMessagesNames );
-  newStatusesCount = newMessagesCount = 0;
-  publicTimeline = publicTimelineRequested;
-  newStatusesNames.clear();
-  newMessagesNames.clear();
+  qDebug() << "TweetModel::checkForUnread( " + login + " );";
+  for ( int i = 0; i < rowCount(); ++i ) {
+    if ( statuses[i].state == TweetModel::STATE_UNREAD ) {
+      emit newTweets( login );
+      return;
+    }
+  }
+  emit newTweets( login );
 }
 
 void TweetModel::retranslateUi()
@@ -335,56 +337,6 @@ void TweetModel::setImageForUrl( const QString& url, QImage *image )
       status->image = *image;
       if ( isVisible )
         status->tweet->setIcon( *image );
-    }
-  }
-}
-
-void TweetModel::setModelToBeCleared( bool wantsPublic, bool userChanged )
-{
-  bool timelineChanged = (!publicTimeline && wantsPublic) || (publicTimeline && !wantsPublic);
-  if ( (!publicTimeline && !timelineChanged && !userChanged) || (publicTimeline && !timelineChanged) ) {
-    qDebug() << publicTimeline << timelineChanged << userChanged << "won't clear list";
-    modelToBeCleared = false;
-    publicTimelineRequested = wantsPublic;
-    return;
-  }
-  qDebug() << publicTimeline << wantsPublic << userChanged << "will clear list";
-  deselectCurrentIndex();
-  modelToBeCleared = true;
-  publicTimelineRequested = wantsPublic;
-}
-
-void TweetModel::setPublicTimelineRequested( bool b )
-{
-  publicTimelineRequested = b;
-}
-
-void TweetModel::countUnreadEntries()
-{
-  Status status;
-  for ( int i = 0; i < rowCount(); ++i ) {
-    status = statuses[i];
-    if ( status.state == TweetModel::STATE_UNREAD ) {
-      addUnreadEntry( status.entry );
-    }
-  }
-}
-
-void TweetModel::addUnreadEntry( Entry entry )
-{
-  switch ( entry.type ) {
-  case Entry::DirectMessage:
-    newMessagesCount += 1;
-    if ( !newMessagesNames.contains( entry.name ) ) {
-      newMessagesNames << entry.name;
-    }
-    break;
-  case Entry::Status:
-  default:
-    newStatusesCount += 1;
-    QString name = entry.isOwn ? tr( "you" ) : entry.name;
-    if ( !newStatusesNames.contains( name ) ) {
-      newStatusesNames << name;
     }
   }
 }

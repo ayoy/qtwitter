@@ -46,7 +46,7 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
   connect( core, SIGNAL(resetUi()), this, SLOT(resetStatusEdit()) );
   connect( core, SIGNAL(requestStarted()), this, SLOT(showProgressIcon()) );
   if ( QSystemTrayIcon::supportsMessages() )
-    connect( core, SIGNAL(newTweets(int,QStringList,int,QStringList)), this, SLOT(popupMessage(int,QStringList,int,QStringList)) );
+    connect( core, SIGNAL(sendNewsReport(QString)), this, SLOT(popupMessage(QString)) );
 
   connect( this, SIGNAL(settingsDialogRequested()), settingsDialog, SLOT( show() ) );
 
@@ -65,7 +65,6 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
 
 void Qtwitter::setCurrentModel( const QString &login )
 {
-  core->setCurrentUser( login );
   setListViewModel( core->getModel( login ) );
 
 // TODO:
