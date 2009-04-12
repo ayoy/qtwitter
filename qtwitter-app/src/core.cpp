@@ -463,6 +463,10 @@ void Core::sendNewsInfo()
   newTweets.clear();
 }
 
+void Core::shortenUrl( const QString &url )
+{
+  urlShorten->shorten(url);
+}
 
 /*! \class Core
     \brief A class responsible for managing connections to Twitter.

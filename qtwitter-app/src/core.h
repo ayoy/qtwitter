@@ -122,6 +122,8 @@ private:
   QStringList newTweets;
 
   TwitPicEngine *twitpicUpload;
+  UrlShorten *urlShorten;
+
   QMap<QString,ImageDownload*> imageDownloader;
   TwitterAccountsModel *accountsModel;
   TwitterAPI *twitterapi;

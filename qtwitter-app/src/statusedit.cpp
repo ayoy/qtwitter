@@ -84,6 +84,11 @@ int StatusEdit::getInReplyTo() const
   return inReplyToId;
 }
 
+QString StatusEdit::getSelectedUrl() const
+{
+  return selectedUrl;
+}
+
 void StatusEdit::cancelEditing()
 {
   initialize();
@@ -114,6 +119,19 @@ void StatusEdit::addRetweetString( QString message )
   statusClean = false;
   setFocus();
   emit textChanged( text() );
+}
+
+void StatusEdit::shortenUrl()
+{ 
+  if( hasSelectedText() ) {
+    selectedUrl = selectedText();
+    emit shortenUrl( selectedUrl );
+  }
+}
+
+int StatusEdit::charsLeft() const
+{
+  return isStatusClean() ? STATUS_MAX_LENGTH : STATUS_MAX_LENGTH - text().length();
 }
 
 /*! \class StatusFilter
@@ -203,4 +221,9 @@ void StatusEdit::addRetweetString( QString message )
 /*! \fn void StatusEdit::errorMessage( const QString &message )
     Emitted to inform user about encountered problems.
     \param message Error message.
+*/
+
+/*! \fn int StatusEdit::charsLeft()
+    Counts number of characters left
+    \returns number of characters left
 */

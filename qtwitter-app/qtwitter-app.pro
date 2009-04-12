@@ -61,7 +61,8 @@ SOURCES += src/main.cpp \
     src/twitpicxmlparser.cpp \
     src/twitteraccountsdelegate.cpp \
     src/qtwitter.cpp \
-    src/twitteraccountsmodel.cpp
+    src/twitteraccountsmodel.cpp \
+    src/urlshorten.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/httpconnection.h \
@@ -78,7 +79,8 @@ HEADERS += src/mainwindow.h \
     src/statustextedit.h \
     src/twitteraccountsdelegate.h \
     src/qtwitter.h \
-    src/twitteraccountsmodel.h
+    src/twitteraccountsmodel.h \
+    src/urlshorten.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
@@ -100,3 +102,4 @@ OBJECTS_DIR = tmp
 INCLUDEPATH += $${TOP} \
     src \
     tmp
+    

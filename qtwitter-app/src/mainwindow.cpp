@@ -72,8 +72,10 @@ void MainWindow::createConnections()
   connect( ui.accountsComboBox, SIGNAL(activated(int)), this, SLOT(configSaveCurrentModel(int)) );
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
+  connect( filter, SIGNAL( shortenUrlPressed() ), ui.statusEdit, SLOT( shortenUrl() ));
   connect( this, SIGNAL(addReplyString(QString,int)), ui.statusEdit, SLOT(addReplyString(QString,int)) );
   connect( this, SIGNAL(addRetweetString(QString)), ui.statusEdit, SLOT(addRetweetString(QString)) );
+  connect( ui.statusEdit, SIGNAL( shortenUrl( QString ) ), this, SIGNAL( shortenUrl( QString ) ) );
 
   QShortcut *hideShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_H ), this );
   connect( hideShortcut, SIGNAL(activated()), this, SLOT(hide()) );
@@ -230,12 +232,28 @@ void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
 
 void MainWindow::changeLabel()
 {
-  ui.countdownLabel->setText( ui.statusEdit->isStatusClean() ? QString::number( StatusEdit::STATUS_MAX_LENGTH ) : QString::number( StatusEdit::STATUS_MAX_LENGTH - ui.statusEdit->text().length() ) );
-  ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
+  QString toolTip = QString::number( ui.statusEdit->charsLeft() ) + " " + tr( "characters left" );
+  QPalette palette( ui.countdownLabel->palette() );
+
+  if( !ui.statusEdit->isStatusClean() )
+    if ( ui.statusEdit->charsLeft() < 0 ) {
+      palette.setColor( QPalette::Foreground, Qt::red );
+      toolTip = QString::number( ui.statusEdit->charsLeft() * -1 )  + " " + tr( "characters over the limit" );
+    } else {
+      palette.setColor( QPalette::Foreground, Qt::black );
+    }
+
+  ui.countdownLabel->setText( QString::number( ui.statusEdit->charsLeft() ) );
+  ui.countdownLabel->setPalette( palette );
+  ui.countdownLabel->setToolTip( toolTip );
 }
 
 void MainWindow::sendStatus()
 {
+  if( ui.statusEdit->charsLeft() < 0 ) {
+    popupError( tr( "Sorry your message is too long") );
+    return;
+  }
   resetUiWhenFinished = true;
   emit post( ui.accountsComboBox->currentText(), ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
   showProgressIcon();
@@ -325,6 +343,13 @@ void MainWindow::retranslateUi()
   newtwitpicAction->setText( tr( "Upload a photo to TwitPic" ) );
   gototwitterAction->setText( tr( "Go to Twitter" ) );
   gototwitpicAction->setText( tr( "Go to TwitPic" ) );
+}
+
+void MainWindow::replaceUrl( const QString &url )
+{
+    QString text = ui.statusEdit->text();
+    text.replace( ui.statusEdit->getSelectedUrl(), url );
+    ui.statusEdit->setText( text );
 }
 
 /*! \class MainWindow

@@ -54,18 +54,24 @@ public:
   void initialize();
   bool isStatusClean() const;
   int getInReplyTo() const;
+  QString getSelectedUrl() const;
+  int charsLeft() const;
 
 public slots:
   void cancelEditing();
   void addReplyString( const QString &name, int inReplyTo );
   void addRetweetString( QString message );
+  void shortenUrl();
 
 signals:
   void errorMessage( const QString &message );
+  void shortenUrl( const QString &url );
 
 private:
   bool statusClean;
   int inReplyToId;
+  QString selectedUrl;
+
 };
 
 #endif //STATUSEDIT_H
