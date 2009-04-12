@@ -26,15 +26,13 @@
 #include <QUrl>
 #include <QImage>
 #include <QPointer>
-#include <entry.h>
+#include <twitterapi/twitterapi.h>
 #include "statuslist.h"
 
 class Tweet;
 class ThemeData;
 class TweetModel;
 struct Status;
-
-
 
 class TweetModel : public QStandardItemModel
 {

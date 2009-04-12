@@ -19,7 +19,27 @@ else:unix {
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
-    INSTALLS += target
+    doc.path = $${INSTALL_PREFIX}/share/doc/$${TARGET}
+    doc.files = ../CHANGELOG ../README ../LICENSE
+    icons.path = $${INSTALL_PREFIX}/share/icons/scalable/apps
+    icons.files = x11/icons/scalable/qtwitter.svg
+    icons16.path = $${INSTALL_PREFIX}/share/icons/hicolor/16x16/apps
+    icons16.files = x11/icons/16x16/qtwitter.png
+    icons22.path = $${INSTALL_PREFIX}/share/icons/hicolor/22x22/apps
+    icons22.files = x11/icons/22x22/qtwitter.png
+    icons32.path = $${INSTALL_PREFIX}/share/icons/hicolor/32x32/apps
+    icons32.files = x11/icons/32x32/qtwitter.png
+    icons48.path = $${INSTALL_PREFIX}/share/icons/hicolor/48x48/apps
+    icons48.files = x11/icons/48x48/qtwitter.png
+    icons64.path = $${INSTALL_PREFIX}/share/icons/hicolor/64x64/apps
+    icons64.files = x11/icons/64x64/qtwitter.png
+    icons128.path = $${INSTALL_PREFIX}/share/icons/hicolor/128x128/apps
+    icons128.files = x11/icons/128x128/qtwitter.png
+    icons256.path = $${INSTALL_PREFIX}/share/icons/hicolor/256x256/apps
+    icons256.files = x11/icons/256x256/qtwitter.png
+    desktop.path = $${INSTALL_PREFIX}/share/applications
+    desktop.files = x11/qtwitter.desktop
+    INSTALLS += target doc icons icons16 icons22 icons32 icons48 icons64 icons128 icons256 desktop
 }
 else:win32:LIBS += -L$${TOP}/lib \
     $$TWITTERAPI_LIB \
@@ -74,5 +94,6 @@ UI_DIR = tmp
 MOC_DIR = tmp
 RCC_DIR = tmp
 OBJECTS_DIR = tmp
-INCLUDEPATH += src \
+INCLUDEPATH += $${TOP} \
+    src \
     tmp

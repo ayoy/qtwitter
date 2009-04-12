@@ -18,7 +18,7 @@
  ***************************************************************************/
 
 
-#include <entry.h>
+#include <twitterapi/twitterapi.h>
 #include "tweetmodel.h"
 #include "tweet.h"
 #include "mainwindow.h"

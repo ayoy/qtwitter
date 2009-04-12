@@ -20,7 +20,7 @@
 
 #include <QDesktopServices>
 #include <QProcess>
-#include <twitterapi.h>
+#include <twitterapi/twitterapi.h>
 #include "core.h"
 #include "settings.h"
 #include "twitpicengine.h"

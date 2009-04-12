@@ -1,0 +1,16 @@
+[Desktop Entry]
+Exec=qtwitter
+Name=qTwitter
+Icon=qtwitter
+Type=Application
+Categories=Network;Instant Messaging;
+Comment=A Qt client for Twitter
+Comment[ca]=El client Qt de Twitter
+Comment[es]=El cliente Qt de Twitter
+Comment[pl]=Klient Twittera w Qt
+GenericName=A Qt client for Twitter
+GenericName[ca]=El client Qt de Twitter
+GenericName[es]=El cliente Qt de Twitter
+GenericName[pl]=Klient Twittera w Qt
+Terminal=false
+X-KDE-StartupNotify=false

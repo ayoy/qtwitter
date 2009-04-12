@@ -22,7 +22,7 @@
 #define IMAGEDOWNLOAD_H
 
 #include <QImage>
-#include <entry.h>
+#include <twitterapi/twitterapi.h>
 #include "httpconnection.h"
 
 struct ImageData
