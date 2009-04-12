@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -36,6 +37,11 @@ bool StatusFilter::eventFilter( QObject *dist, QEvent *event )
     if ( keyEvent->key() == Qt::Key_Escape )
     {
       emit escPressed();
+      return true;
+    }
+    if ( keyEvent->key() == Qt::Key_J && keyEvent->modifiers() == Qt::ControlModifier )
+    {
+      emit shortenUrlPressed();
       return true;
     }
   }
@@ -111,10 +117,6 @@ void StatusEdit::addReplyString( const QString &name, int inReplyTo )
 
 void StatusEdit::addRetweetString( QString message )
 {
-  if ( message.length() > StatusEdit::STATUS_MAX_LENGTH ) {
-    emit errorMessage( tr( "The message is too long and will be truncated." ) );
-    message.truncate( StatusEdit::STATUS_MAX_LENGTH );
-  }
   setText( message );
   statusClean = false;
   setFocus();

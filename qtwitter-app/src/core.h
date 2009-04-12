@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -35,6 +36,7 @@ class QAbstractItemModel;
 class TwitterAccountsModel;
 class StatusList;
 class TwitterAPI;
+class UrlShorten;
 
 class Core : public QObject
 {
@@ -76,6 +78,7 @@ public slots:
   void downloadImage( const QString &login, Entry *entry );
   void openBrowser( QUrl address );
   AuthDialogState authDataDialog( TwitterAccount *account );
+  void shortenUrl( const QString &url );
 
   void retranslateUi();
 
@@ -98,6 +101,7 @@ signals:
   void sendNewsReport( QString message );
   void resizeData( int width, int oldWidth );
   void newRequest();
+  void urlShortened( const QString &url);
 
 private slots:
   void setImageInHash( const QString&, QImage );

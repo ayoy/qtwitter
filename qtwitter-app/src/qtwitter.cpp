@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -16,6 +17,7 @@
  *   Free Software Foundation, Inc.,                                       *
  *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
  ***************************************************************************/
+
 
 #include <QSystemTrayIcon>
 #include <QSignalMapper>
@@ -39,6 +41,8 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
   connect( this, SIGNAL(post(QString,QString,int)), core, SLOT(post(QString,QString,int)) );
   connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
+  connect( this, SIGNAL(shortenUrl(QString)), core, SLOT(shortenUrl(QString)));
+  connect( core, SIGNAL(urlShortened(QString)), this, SLOT(replaceUrl(QString)));
   connect( core, SIGNAL(about()), this, SLOT(about()) );
   connect( core, SIGNAL(addReplyString(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
   connect( core, SIGNAL(addRetweetString(QString)), this, SIGNAL(addRetweetString(QString)) );

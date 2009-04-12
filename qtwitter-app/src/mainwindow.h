@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -53,6 +54,7 @@ public slots:
   void showProgressIcon();
   void about();
   void setListViewModel( TweetModel *model );
+  void replaceUrl( const QString &url );
 
 signals:
   void setCurrentModel( const QString &login );
@@ -65,6 +67,7 @@ signals:
   void addRetweetString( QString message );
   void resizeView( int width, int oldWidth );
   void switchModel( const QString &login );
+  void shortenUrl( const QString &url );
 
 protected:
   void closeEvent( QCloseEvent *e );

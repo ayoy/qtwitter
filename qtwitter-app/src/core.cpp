@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -27,6 +28,7 @@
 #include "tweetmodel.h"
 #include "tweet.h"
 #include "twitteraccountsmodel.h"
+#include "urlshorten.h"
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
 
@@ -41,6 +43,9 @@ Core::Core( MainWindow *parent ) :
     timer( NULL )
 {
   imageCache.setMaxCost( 50 );
+
+  urlShorten = new UrlShorten( this );
+  connect( urlShorten, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
 
   twitterapi = new TwitterAPI( this );
   connect( twitterapi, SIGNAL(newEntry(QString,Entry*)), this, SLOT(addEntry(QString,Entry*)) );

@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -35,6 +36,7 @@ public:
 signals:
   void enterPressed();
   void escPressed();
+  void shortenUrlPressed();
 
 protected:
   bool eventFilter( QObject *dist, QEvent *event );

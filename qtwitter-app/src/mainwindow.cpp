@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -251,8 +252,15 @@ void MainWindow::changeLabel()
 void MainWindow::sendStatus()
 {
   if( ui.statusEdit->charsLeft() < 0 ) {
-    popupError( tr( "Sorry your message is too long") );
-    return;
+    QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Message to long" ), tr( "Your message is too long." ), QMessageBox::NoButton, this );
+    QPushButton *accept = messageBox->addButton( tr( "Cool" ), QMessageBox::AcceptRole );
+    QPushButton *reject = messageBox->addButton( tr( "Oops..." ), QMessageBox::RejectRole );
+    messageBox->setInformativeText( tr( "You can still post it like this, but it will be truncated." ) );
+    messageBox->setDefaultButton( accept );
+    messageBox->setEscapeButton( reject );
+    messageBox->exec();
+    if ( messageBox->clickedButton() == reject )
+      return;
   }
   resetUiWhenFinished = true;
   emit post( ui.accountsComboBox->currentText(), ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
