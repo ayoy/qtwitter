@@ -39,7 +39,7 @@ ConfigFile::ConfigFile():
 #if defined Q_WS_MAC
 QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy.net", "qTwitter" )
 #elif defined Q_WS_WIN
-QSettings( QSettings::IniFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
+QSettings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" )
 #else
 QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
 #endif

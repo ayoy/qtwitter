@@ -1,8 +1,9 @@
 - added support for working with multiple accounts at the same time,
+- the whole Twitter API interface separated from the GUI-related code by putting it into a standalone shared library,
 - added support for Unicode for TwitPic statuses - ticket #4,
 - fixed a bug of cutting status when first '&' enountered - ticket #7,
 - added the appication identification for TwitPic - ticket #13,
-- the whole Twitter API interface separated from the GUI-related code by putting it into a standalone shared library,
+- changed the program icon and provided desktop integration resources for Linux and Windows - ticket #14,
 - web browser customization on Linux now made global (includes links in statuses and all dialogs) - ticket #2,
 - added an icon indicating that status list update is in progress.
 v0.5.0 (2009/03/11):

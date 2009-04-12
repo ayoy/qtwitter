@@ -41,9 +41,12 @@ else:unix {
     desktop.files = x11/qtwitter.desktop
     INSTALLS += target doc icons icons16 icons22 icons32 icons48 icons64 icons128 icons256 desktop
 }
-else:win32:LIBS += -L$${TOP}/lib \
+else:win32 {
+    RC_FILE = win32/qtwitter.rc
+    LIBS += -L$${TOP}/lib \
     $$TWITTERAPI_LIB \
     -Wl,-rpath,$${PWD}/$${TOP}/lib
+}
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
