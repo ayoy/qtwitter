@@ -27,7 +27,7 @@
 
 class QString;
 
-struct TWITTERAPISHARED_EXPORT Entry
+struct TWITTERAPI_EXPORT Entry
 {
   enum Type {
     Status,

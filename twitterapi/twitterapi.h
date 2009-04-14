@@ -50,7 +50,7 @@ struct Interface
   }
 };
 
-class TWITTERAPISHARED_EXPORT TwitterAPI : public QObject
+class TWITTERAPI_EXPORT TwitterAPI : public QObject
 {
   Q_OBJECT
 

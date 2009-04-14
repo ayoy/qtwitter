@@ -164,7 +164,7 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bo
   if ( ( !publicTimeline && accounts.size() < 2 ) || accounts.isEmpty() ) {
     ui.accountsComboBox->setVisible( false );
     if ( !accounts.isEmpty() )
-      emit switchModel( accounts.at(1).login );
+      emit switchModel( accounts.at(0).login );
     return;
   }
 
@@ -340,9 +340,9 @@ void MainWindow::about()
 
 void MainWindow::retranslateUi()
 {
+  ui.updateButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Update tweets" ) ).arg( ui.updateButton->shortcut().toString( QKeySequence::NativeText ) ) );
+  ui.settingsButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Settings" ), ui.settingsButton->shortcut().toString( QKeySequence::NativeText ) ) );
   ui.moreButton->setToolTip( tr("More...") );
-  ui.settingsButton->setToolTip( tr("Settings") );
-  ui.updateButton->setToolTip( tr("Update tweets") );
   if ( ui.statusEdit->isStatusClean() ) {
     ui.statusEdit->initialize();
   }

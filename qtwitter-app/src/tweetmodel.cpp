@@ -91,6 +91,7 @@ void TweetModel::setVisible( bool isVisible )
 
 void TweetModel::display()
 {
+  view->setUpdatesEnabled( false );
   setVisible( true );
   Status *status;
   for (int i = 0; i < rowCount(); i++ ) {
@@ -113,6 +114,7 @@ void TweetModel::display()
     statuses[ currentIndex.row() ].tweet->applyTheme();
     view->scrollTo( currentIndex );
   }
+  view->setUpdatesEnabled( true );
 }
 
 void TweetModel::clear()

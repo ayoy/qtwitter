@@ -198,9 +198,6 @@
      </item>
      <item>
       <widget class="QToolButton" name="settingsButton">
-       <property name="toolTip">
-        <string>Settings</string>
-       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -221,9 +218,6 @@
      </item>
      <item>
       <widget class="QToolButton" name="updateButton">
-       <property name="toolTip">
-        <string>Update tweets</string>
-       </property>
        <property name="styleSheet">
         <string notr="true"/>
        </property>
@@ -280,9 +274,6 @@
          <width>32</width>
          <height>0</height>
         </size>
-       </property>
-       <property name="toolTip">
-        <string/>
        </property>
        <property name="layoutDirection">
         <enum>Qt::LeftToRight</enum>
