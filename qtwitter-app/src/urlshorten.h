@@ -69,4 +69,15 @@ class TrImShorten : public UrlShorten
     virtual void replyFinished( QNetworkReply* );
 };
 
+class MetaMarkShorten : public UrlShorten
+{
+  Q_OBJECT
+
+  public:
+    MetaMarkShorten( QObject *parent = 0);
+    void shorten( const QString &url );
+  protected slots:
+    virtual void replyFinished( QNetworkReply* );
+};
+
 #endif // URLSHORTEN_H

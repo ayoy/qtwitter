@@ -113,6 +113,29 @@ void TrImShorten::replyFinished( QNetworkReply *reply )
   }
 }
 
+MetaMarkShorten::MetaMarkShorten( QObject *parent ) : UrlShorten( parent ) {}
+
+void MetaMarkShorten::shorten( const QString &url )
+{
+  QRegExp rx("http://xrl.us/");
+  if( rx.indexIn( url ) == -1 ){
+    manager->get( QNetworkRequest( QUrl( "http://metamark.net/api/rest/simple?long_url=" + url ) ) );
+  }
+}
+
+void MetaMarkShorten::replyFinished( QNetworkReply *reply )
+{
+  QString response = reply->readLine();
+
+  switch( replyStatus( reply ) ) {
+    case 200:
+      emit shortened( response );
+      break;
+    default: case 500:
+      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  }
+}
+
 /*! \class UrlShorten
     \brief A class responsible for interacting with URL shortening services.
 
