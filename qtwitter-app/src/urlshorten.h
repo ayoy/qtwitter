@@ -32,18 +32,41 @@ class UrlShorten : public QObject
 
 public:
     UrlShorten( QObject *parent = 0 );
-    ~UrlShorten();
-    void shorten( const QString &url );
+    virtual ~UrlShorten();
+    virtual void shorten( const QString &url ) = 0;
 
-private:
+protected:
     QNetworkAccessManager *manager;
+    int replyStatus( QNetworkReply *reply ) const;
 
 signals:
     void shortened( const QString &url );
     void errorMessage( const QString &message );
 
-private slots:
-    void replyFinished( QNetworkReply* );
+protected slots:
+    virtual void replyFinished( QNetworkReply* ) = 0;
+};
+
+class IsGdShorten : public UrlShorten
+{
+  Q_OBJECT
+
+  public:
+    IsGdShorten( QObject *parent = 0);
+    void shorten( const QString &url );
+  protected slots:
+    virtual void replyFinished( QNetworkReply* );
+};
+
+class TrImShorten : public UrlShorten
+{
+  Q_OBJECT
+
+  public:
+    TrImShorten( QObject *parent = 0);
+    void shorten( const QString &url );
+  protected slots:
+    virtual void replyFinished( QNetworkReply* );
 };
 
 #endif // URLSHORTEN_H

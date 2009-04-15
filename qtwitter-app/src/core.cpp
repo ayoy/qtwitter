@@ -44,7 +44,7 @@ Core::Core( MainWindow *parent ) :
 {
   imageCache.setMaxCost( 50 );
 
-  urlShorten = new UrlShorten( this );
+  urlShorten = new TrImShorten( this );
   connect( urlShorten, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
 
   twitterapi = new TwitterAPI( this );

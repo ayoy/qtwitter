@@ -33,11 +33,16 @@ UrlShorten::UrlShorten( QObject *parent ) : QObject( parent )
     connect( this, SIGNAL(errorMessage(QString)), parent, SIGNAL(errorMessage(QString)) );
 }
 
-UrlShorten::~UrlShorten()
+int UrlShorten::replyStatus( QNetworkReply *reply ) const
 {
+  return reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
 }
 
-void UrlShorten::shorten( const QString &url )
+UrlShorten::~UrlShorten() {}
+
+IsGdShorten::IsGdShorten( QObject *parent ) : UrlShorten( parent ) {}
+
+void IsGdShorten::shorten( const QString &url )
 {
   QRegExp rx("http://is.gd/");
   if( rx.indexIn( url ) == -1 ){
@@ -45,20 +50,66 @@ void UrlShorten::shorten( const QString &url )
   }
 }
 
-void UrlShorten::replyFinished( QNetworkReply * reply )
+void IsGdShorten::replyFinished( QNetworkReply * reply )
 {
-  int status = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
   QString response = reply->readLine();
 
-  switch( status ) {
+  switch( replyStatus( reply ) ) {
     case 200:
       emit shortened( response );
       break;
-    case 500:
-      emit errorMessage( response.replace("Error: ", "") );
+    case 500: {
+        QString message = response.replace("Error: ", "");
+        if( message == "The URL entered was not valid." ) {
+          emit errorMessage( tr( "The URL entered was not valid.") );
+        } else if ( message == "The URL entered was too long." ) {
+          emit errorMessage( tr( "The URL entered was too long.") );
+        } else if ( message ==  "The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop." )  {
+          emit errorMessage( tr( "The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.") );
+        } else if ( message == "The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.") {
+          emit errorMessage( tr( "The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist" ) );
+        } else if ( message == "The URL you entered is on our blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse)" ) {
+          emit errorMessage( tr( "The URL you entered is on our blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse)" ) );
+        } else if ( message == "The address making this request has been blocked by is.gd (normally the result of a violation of our terms of use)" ) {
+          emit errorMessage( tr( "The address making this request has been blocked by is.gd (normally the result of a violation of our terms of use)" ) );
+        }
+      }
       break;
     default:
-      emit errorMessage( "An unknown error occurred when shortening your URL" );
+      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  }
+}
+
+TrImShorten::TrImShorten( QObject *parent ) : UrlShorten( parent ) {}
+
+void TrImShorten::shorten( const QString &url )
+{
+  QString newUrl =  url.indexOf("http://") > -1 ? url : "http://" + url;
+  QRegExp rx("http://tr.im/");
+  if( rx.indexIn( newUrl ) == -1 ){
+    manager->get( QNetworkRequest( QUrl( "http://api.tr.im/api/trim_simple?url=" + newUrl ) ) );
+  }
+}
+
+void TrImShorten::replyFinished( QNetworkReply *reply )
+{
+  QString response = reply->readLine();
+
+  switch( replyStatus( reply ) ) {
+    case 200:
+      emit shortened( response );
+      break;
+    case 401:
+      emit errorMessage( tr( "Submitted URL is invalid." ) );
+      break;
+    case 402:
+      errorMessage( tr( "Submitted URL is already a shortened URL." ) );
+      break;
+    case 403:
+      errorMessage( tr( "The URL has been Flagged as Spam and Rejected." ) );
+      break;
+    default: case 450:
+      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
 
