@@ -39,13 +39,11 @@ Core::Core( MainWindow *parent ) :
     authDialogOpen( false ),
     requestCount( 0 ),
     tempModelCount( 0 ),
-    twitpicUpload( NULL ),
-    timer( NULL )
+    twitpicUpload( 0 ),
+    urlShorten( 0 ),
+    timer( 0 )
 {
   imageCache.setMaxCost( 50 );
-
-  urlShorten = new MetaMarkShorten( this );
-  connect( urlShorten, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
 
   twitterapi = new TwitterAPI( this );
   connect( twitterapi, SIGNAL(newEntry(QString,Entry*)), this, SLOT(addEntry(QString,Entry*)) );
@@ -81,6 +79,7 @@ Core::~Core()
 
 void Core::applySettings()
 {
+  setShorteningService();
   publicTimeline = settings.value(  "TwitterAccounts/publicTimeline", false ).toBool();
   setupTweetModels();
   twitterapi->resetConnections();
@@ -98,6 +97,24 @@ void Core::applySettings()
 
   setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
   get();
+}
+
+void Core::setShorteningService()
+{
+  if( urlShorten )
+    delete urlShorten;
+
+  switch( settings.value( "General/shortening-service" ).toInt() ) {
+    case 0:
+      urlShorten = new TrImShorten( this );
+      break;
+    case 1:
+      urlShorten = new IsGdShorten( this );
+      break;
+    case 2:
+      urlShorten = new MetaMarkShorten( this );
+  }
+  connect( urlShorten, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
 }
 
 bool Core::setTimerInterval( int msecs )
