@@ -170,6 +170,8 @@ QString XmlParser::textToHtml( QString newText )
   ahref.setPattern( "(<a href=[^ ]+)/>" );
   ahref.setMinimal( true );
   newText.replace( ahref, "\\1>" );
+  QRegExp mailto( "([a-z0-9\\._%-]+@[a-z0-9\\.-]+\\.[a-z]{2,4})", Qt::CaseInsensitive );
+  newText.replace( mailto, "<a href='mailto:\\1'>\\1</a>" );
   return newText;
 }
 
