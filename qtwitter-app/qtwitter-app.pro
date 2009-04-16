@@ -93,6 +93,7 @@ QT += network \
     xml
 TRANSLATIONS += loc/qtwitter_pl.ts \
     loc/qtwitter_ca.ts \
+    loc/qtwitter_de.ts \
     loc/qtwitter_es.ts \
     loc/qtwitter_jp.ts
 UI_DIR = tmp

@@ -18,5 +18,6 @@
         <file>qtwitter_es.qm</file>
         <file>qtwitter_pl.qm</file>
         <file>qtwitter_jp.qm</file>
+        <file>qtwitter_de.qm</file>
     </qresource>
 </RCC>
