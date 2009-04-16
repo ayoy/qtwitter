@@ -36,7 +36,7 @@ public:
     virtual void shorten( const QString &url ) = 0;
 
 protected:
-    QNetworkAccessManager *manager;
+    QNetworkAccessManager *connection;
     int replyStatus( QNetworkReply *reply ) const;
 
 signals:

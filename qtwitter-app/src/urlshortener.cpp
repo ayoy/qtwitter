@@ -28,9 +28,9 @@
 
 UrlShortener::UrlShortener( QObject *parent ) : QObject( parent )
 {
-    manager = new QNetworkAccessManager( this );
-    connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)) );
-    connect( this, SIGNAL(errorMessage(QString)), parent, SIGNAL(errorMessage(QString)) );
+  connection = new QNetworkAccessManager( this );
+  connect( connection, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)) );
+  connect( this, SIGNAL(errorMessage(QString)), parent, SIGNAL(errorMessage(QString)) );
 }
 
 int UrlShortener::replyStatus( QNetworkReply *reply ) const
@@ -44,9 +44,8 @@ IsGdShortener::IsGdShortener( QObject *parent ) : UrlShortener( parent ) {}
 
 void IsGdShortener::shorten( const QString &url )
 {
-  QRegExp rx("http://is.gd/");
-  if( rx.indexIn( url ) == -1 ){
-    manager->get( QNetworkRequest( QUrl( "http://is.gd/api.php?longurl=" + url ) ) );
+  if( QRegExp("http://is.gd/").indexIn( url ) == -1 ) {
+    connection->get( QNetworkRequest( QUrl( "http://is.gd/api.php?longurl=" + url ) ) );
   }
 }
 
@@ -84,10 +83,10 @@ TrImShortener::TrImShortener( QObject *parent ) : UrlShortener( parent ) {}
 
 void TrImShortener::shorten( const QString &url )
 {
-  QString newUrl =  url.indexOf("http://") > -1 ? url : "http://" + url;
-  QRegExp rx("http://tr.im/");
-  if( rx.indexIn( newUrl ) == -1 ){
-    manager->get( QNetworkRequest( QUrl( "http://api.tr.im/api/trim_simple?url=" + newUrl ) ) );
+  QString newUrl = url.indexOf("http://") > -1 ? url : "http://" + url;
+  
+  if( QRegExp("http://tr.im/").indexIn( newUrl ) == -1 ) {
+    connection->get( QNetworkRequest( QUrl( "http://api.tr.im/api/trim_simple?url=" + newUrl ) ) );
   }
 }
 
@@ -97,18 +96,13 @@ void TrImShortener::replyFinished( QNetworkReply *reply )
 
   switch( replyStatus( reply ) ) {
     case 200:
-      emit shortened( response );
+      if( QRegExp( "\\s*" ).exactMatch( response ) ) {
+        emit errorMessage( tr( "The URL has been rejected by the tr.im" ) );
+      } else {
+        emit shortened( response.trimmed() );
+      }
       break;
-    case 401:
-      emit errorMessage( tr( "Submitted URL is invalid." ) );
-      break;
-    case 402:
-      errorMessage( tr( "Submitted URL is already a shortened URL." ) );
-      break;
-    case 403:
-      errorMessage( tr( "The URL has been Flagged as Spam and Rejected." ) );
-      break;
-    default: case 450:
+    default:
       emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
@@ -117,9 +111,8 @@ MetaMarkShortener::MetaMarkShortener( QObject *parent ) : UrlShortener( parent )
 
 void MetaMarkShortener::shorten( const QString &url )
 {
-  QRegExp rx("http://xrl.us/");
-  if( rx.indexIn( url ) == -1 ){
-    manager->get( QNetworkRequest( QUrl( "http://metamark.net/api/rest/simple?long_url=" + url ) ) );
+  if( QRegExp("http://xrl.us/").indexIn( url ) == -1 ) {
+    connection->get( QNetworkRequest( QUrl( "http://metamark.net/api/rest/simple?long_url=" + url ) ) );
   }
 }
 
@@ -137,24 +130,48 @@ void MetaMarkShortener::replyFinished( QNetworkReply *reply )
 }
 
 /*! \class UrlShortener
-    \brief A class responsible for interacting with URL shortening services.
+    \brief A class responsible for interacting with URL shortering services.
 
-    This class provides an interface for communicating with URL shortening services.
+    Provides a basic interface for interacting with URL shortering services.
+    Classes which provide handling of particular shortering services should inherit from it.
 */
 
 /*! \fn UrlShortener::UrlShortener( QObject *parent )
-    Creates a new instance of UrlShorten class with the given \a parent
+    Creates a new instance of UrlShortener class with the given \a parent
+    \param parent The object's parent.
 */
 
-/*! \fn UrlShortener::~UrlShortener()
-    Destroys UrlShorten instance
+/*! \fn virtual UrlShortener::~UrlShortener()
+    Destroys UrlShortener instance.
 */
 
-/*! \fn void UrlShortener::shorten( const QString &url )
-    Sends a request to the shortening service with the give \a url
+/*! \fn virtual void UrlShortener::shorten( const QString &url )
+    Sends a request to the shortening service with the give \a url.
 */
 
 /*! \fn void UrlShortener::shortened( const QString &url )
-    Emitted for a shortened URL
+    Emitted for a shortened URL.
 */
 
+/*! \fn int UrlShortener::replyStatus( QNetworkReply *reply )
+    Extracts HTTP status code from the given \a reply.
+    \param reply Network reply
+    \returns HTTP status code
+*/
+
+/*! \fn virtual void UrlShortener::replyFinished( QNetworkReply *reply )
+    Called when the request is finished, it processes the reply and emits appropriate signals.
+    \param reply Network reply
+*/
+
+/*! \class IsGdShortener
+    \brief This class is responsible for interacting with http://is.gd
+ */
+
+/*! \class TrImShortener
+    \brief This class is responsible for interacting with http://tr.im
+ */
+
+/*! \class MetaMarkShortener
+    \brief This class is responsible for interacting with http://metamark.com
+ */

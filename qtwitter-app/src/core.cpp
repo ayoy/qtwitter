@@ -79,7 +79,7 @@ Core::~Core()
 
 void Core::applySettings()
 {
-  setShorteningService();
+  setUrlShortener();
   publicTimeline = settings.value(  "TwitterAccounts/publicTimeline", false ).toBool();
   setupTweetModels();
   twitterapi->resetConnections();
@@ -99,17 +99,17 @@ void Core::applySettings()
   get();
 }
 
-void Core::setShorteningService()
+void Core::setUrlShortener()
 {
   if( urlShortener )
     delete urlShortener;
 
   switch( settings.value( "General/url-shortener" ).toInt() ) {
     case 0:
-      urlShortener = new TrImShortener( this );
+      urlShortener = new IsGdShortener( this );
       break;
     case 1:
-      urlShortener = new IsGdShortener( this );
+      urlShortener = new TrImShortener( this );
       break;
     case 2:
       urlShortener = new MetaMarkShortener( this );
