@@ -28,7 +28,7 @@
 #include "tweetmodel.h"
 #include "tweet.h"
 #include "twitteraccountsmodel.h"
-#include "urlshorten.h"
+#include "urlshortener.h"
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
 
@@ -40,7 +40,7 @@ Core::Core( MainWindow *parent ) :
     requestCount( 0 ),
     tempModelCount( 0 ),
     twitpicUpload( 0 ),
-    urlShorten( 0 ),
+    urlShortener( 0 ),
     timer( 0 )
 {
   imageCache.setMaxCost( 50 );
@@ -101,20 +101,20 @@ void Core::applySettings()
 
 void Core::setShorteningService()
 {
-  if( urlShorten )
-    delete urlShorten;
+  if( urlShortener )
+    delete urlShortener;
 
-  switch( settings.value( "General/shortening-service" ).toInt() ) {
+  switch( settings.value( "General/url-shortener" ).toInt() ) {
     case 0:
-      urlShorten = new TrImShorten( this );
+      urlShortener = new TrImShortener( this );
       break;
     case 1:
-      urlShorten = new IsGdShorten( this );
+      urlShortener = new IsGdShortener( this );
       break;
     case 2:
-      urlShorten = new MetaMarkShorten( this );
+      urlShortener = new MetaMarkShortener( this );
   }
-  connect( urlShorten, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
+  connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
 }
 
 bool Core::setTimerInterval( int msecs )
@@ -487,7 +487,7 @@ void Core::sendNewsInfo()
 
 void Core::shortenUrl( const QString &url )
 {
-  urlShorten->shorten(url);
+  urlShortener->shorten(url);
 }
 
 /*! \class Core

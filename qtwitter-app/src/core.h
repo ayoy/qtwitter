@@ -36,7 +36,7 @@ class QAbstractItemModel;
 class TwitterAccountsModel;
 class StatusList;
 class TwitterAPI;
-class UrlShorten;
+class UrlShortener;
 
 class Core : public QObject
 {
@@ -127,7 +127,7 @@ private:
   QStringList newTweets;
 
   TwitPicEngine *twitpicUpload;
-  UrlShorten *urlShorten;
+  UrlShortener *urlShortener;
 
   QMap<QString,ImageDownload*> imageDownloader;
   TwitterAccountsModel *accountsModel;

@@ -205,7 +205,7 @@ void Settings::loadConfig( bool dialogRejected )
   settings.beginGroup( "General" );
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh-index", 3 ).toInt() );
     ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
-    ui.shorteningServiceCombo->setCurrentIndex( settings.value( "shortening-service", 0 ).toInt() );
+    ui.urlShortenerCombo->setCurrentIndex( settings.value( "url-shortener", 0 ).toInt() );
   settings.endGroup();
   settings.beginGroup( "TwitterAccounts" );
   if ( !dialogRejected ) {
@@ -292,7 +292,7 @@ void Settings::saveConfig( int quitting )
     settings.setValue( "refresh-index", ui.refreshCombo->currentIndex() );
     settings.setValue( "refresh-value", ui.refreshCombo->currentText() );
     settings.setValue( "language", ui.languageCombo->currentIndex() );
-    settings.setValue( "shortening-service", ui.shorteningServiceCombo->currentIndex() );
+    settings.setValue( "url-shortener", ui.urlShortenerCombo->currentIndex() );
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );

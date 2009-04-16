@@ -135,7 +135,7 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QComboBox" name="shorteningServiceCombo">
+        <widget class="QComboBox" name="urlShortenerCombo">
          <item>
           <property name="text">
            <string>is.gd</string>

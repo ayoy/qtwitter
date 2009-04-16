@@ -24,25 +24,25 @@
 #include <QNetworkRequest>
 #include <QDebug>
 #include <QRegExp>
-#include "urlshorten.h"
+#include "urlshortener.h"
 
-UrlShorten::UrlShorten( QObject *parent ) : QObject( parent )
+UrlShortener::UrlShortener( QObject *parent ) : QObject( parent )
 {
     manager = new QNetworkAccessManager( this );
     connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(replyFinished(QNetworkReply*)) );
     connect( this, SIGNAL(errorMessage(QString)), parent, SIGNAL(errorMessage(QString)) );
 }
 
-int UrlShorten::replyStatus( QNetworkReply *reply ) const
+int UrlShortener::replyStatus( QNetworkReply *reply ) const
 {
   return reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
 }
 
-UrlShorten::~UrlShorten() {}
+UrlShortener::~UrlShortener() {}
 
-IsGdShorten::IsGdShorten( QObject *parent ) : UrlShorten( parent ) {}
+IsGdShortener::IsGdShortener( QObject *parent ) : UrlShortener( parent ) {}
 
-void IsGdShorten::shorten( const QString &url )
+void IsGdShortener::shorten( const QString &url )
 {
   QRegExp rx("http://is.gd/");
   if( rx.indexIn( url ) == -1 ){
@@ -50,7 +50,7 @@ void IsGdShorten::shorten( const QString &url )
   }
 }
 
-void IsGdShorten::replyFinished( QNetworkReply * reply )
+void IsGdShortener::replyFinished( QNetworkReply * reply )
 {
   QString response = reply->readLine();
 
@@ -80,9 +80,9 @@ void IsGdShorten::replyFinished( QNetworkReply * reply )
   }
 }
 
-TrImShorten::TrImShorten( QObject *parent ) : UrlShorten( parent ) {}
+TrImShortener::TrImShortener( QObject *parent ) : UrlShortener( parent ) {}
 
-void TrImShorten::shorten( const QString &url )
+void TrImShortener::shorten( const QString &url )
 {
   QString newUrl =  url.indexOf("http://") > -1 ? url : "http://" + url;
   QRegExp rx("http://tr.im/");
@@ -91,7 +91,7 @@ void TrImShorten::shorten( const QString &url )
   }
 }
 
-void TrImShorten::replyFinished( QNetworkReply *reply )
+void TrImShortener::replyFinished( QNetworkReply *reply )
 {
   QString response = reply->readLine();
 
@@ -113,9 +113,9 @@ void TrImShorten::replyFinished( QNetworkReply *reply )
   }
 }
 
-MetaMarkShorten::MetaMarkShorten( QObject *parent ) : UrlShorten( parent ) {}
+MetaMarkShortener::MetaMarkShortener( QObject *parent ) : UrlShortener( parent ) {}
 
-void MetaMarkShorten::shorten( const QString &url )
+void MetaMarkShortener::shorten( const QString &url )
 {
   QRegExp rx("http://xrl.us/");
   if( rx.indexIn( url ) == -1 ){
@@ -123,7 +123,7 @@ void MetaMarkShorten::shorten( const QString &url )
   }
 }
 
-void MetaMarkShorten::replyFinished( QNetworkReply *reply )
+void MetaMarkShortener::replyFinished( QNetworkReply *reply )
 {
   QString response = reply->readLine();
 
@@ -136,26 +136,25 @@ void MetaMarkShorten::replyFinished( QNetworkReply *reply )
   }
 }
 
-/*! \class UrlShorten
+/*! \class UrlShortener
     \brief A class responsible for interacting with URL shortening services.
 
     This class provides an interface for communicating with URL shortening services.
-    Right now, it only supports http://is.gd
 */
 
-/*! \fn UrlShorten::UrlShorten( QObject *parent )
+/*! \fn UrlShortener::UrlShortener( QObject *parent )
     Creates a new instance of UrlShorten class with the given \a parent
 */
 
-/*! \fn UrlShorten~UrlShorten()
+/*! \fn UrlShortener::~UrlShortener()
     Destroys UrlShorten instance
 */
 
-/*! \fn void UrlShorten::shorten( const QString &url )
+/*! \fn void UrlShortener::shorten( const QString &url )
     Sends a request to the shortening service with the give \a url
 */
 
-/*! \fn void UrlShorten::shortened( const QString &url )
+/*! \fn void UrlShortener::shortened( const QString &url )
     Emitted for a shortened URL
 */
 
