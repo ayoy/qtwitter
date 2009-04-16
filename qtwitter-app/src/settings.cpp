@@ -205,6 +205,7 @@ void Settings::loadConfig( bool dialogRejected )
   settings.beginGroup( "General" );
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh-index", 3 ).toInt() );
     ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
+    ui.notificationsBox->setChecked( settings.value( "notifications" ).toBool() );
   settings.endGroup();
   settings.beginGroup( "TwitterAccounts" );
   if ( !dialogRejected ) {
@@ -291,6 +292,7 @@ void Settings::saveConfig( int quitting )
     settings.setValue( "refresh-index", ui.refreshCombo->currentIndex() );
     settings.setValue( "refresh-value", ui.refreshCombo->currentText() );
     settings.setValue( "language", ui.languageCombo->currentIndex() );
+    settings.setValue( "notifications", ui.notificationsBox->isChecked() );
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
@@ -452,6 +454,7 @@ void Settings::retranslateUi()
   ui.label->setText( tr("Refresh every") );
   ui.label_2->setText( tr("minutes") );
   ui.label_3->setText( tr("Language") );
+  ui.label_4->setText( tr("Show notifications") );
   ui.tabs->setTabText( 1, tr( "Twitter" ) );
   ui.accountGroupBox->setTitle( tr( "Account" ) );
   ui.accountEnabledCheckBox->setText( tr( "Enabled" ) );
