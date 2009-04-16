@@ -455,7 +455,7 @@ void Core::storeNewTweets( const QString &login )
 
 void Core::sendNewsInfo()
 {
-  QString message( tr( "For " ) );
+  QString message( tr( "For" ).append( " " ) );
   if ( newTweets.count() == 1 ) {
     message.append( newTweets.at(0) );
     emit sendNewsReport( message );

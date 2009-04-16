@@ -29,7 +29,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabs">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="usesScrollButtons">
       <bool>true</bool>
@@ -150,11 +150,8 @@
       <attribute name="title">
        <string>Twitter</string>
       </attribute>
-      <layout class="QFormLayout" name="formLayout">
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-       </property>
-       <item row="0" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <widget class="QTreeView" name="usersView">
@@ -222,7 +219,7 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
+       <item>
         <widget class="QGroupBox" name="accountGroupBox">
          <property name="enabled">
           <bool>true</bool>
@@ -230,8 +227,8 @@
          <property name="title">
           <string>Account</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0" colspan="2">
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
            <widget class="QCheckBox" name="accountEnabledCheckBox">
             <property name="enabled">
              <bool>false</bool>
@@ -291,7 +288,7 @@
          </layout>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
+       <item>
         <widget class="QCheckBox" name="publicTimelineCheckBox">
          <property name="text">
           <string>include public timeline</string>

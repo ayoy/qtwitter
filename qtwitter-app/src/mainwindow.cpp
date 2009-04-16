@@ -81,6 +81,7 @@ void MainWindow::createConnections()
   QShortcut *hideShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_H ), this );
   connect( hideShortcut, SIGNAL(activated()), this, SLOT(hide()) );
   QShortcut *quitShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ), this );
+  quitShortcut->setContext( Qt::ApplicationShortcut );
   connect( quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()) );
 #ifdef Q_WS_MAC
   ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Comma ) );

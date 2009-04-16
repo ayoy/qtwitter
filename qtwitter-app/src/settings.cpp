@@ -146,8 +146,8 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   ui.usersView->setItemDelegate( new TwitterAccountsDelegate( QList<int>() << 0 << 3, this ) );
 
   ui.usersView->hideColumn( 2 );
-  ui.usersView->setColumnWidth( 0, (int)(ui.usersView->width() * 0.2 ));
-  ui.usersView->setColumnWidth( 1, (int)(ui.usersView->width() * 0.5 ));
+  ui.usersView->setColumnWidth( 0, (int)(ui.usersView->width() * 0.5 ));
+  ui.usersView->setColumnWidth( 1, (int)(ui.usersView->width() * 1.0 ));
   ui.usersView->setColumnWidth( 3, (int)(ui.usersView->width() * 0.2 ));
 
   connect( ui.usersView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(fillAccountEditor(QModelIndex,QModelIndex)) );
