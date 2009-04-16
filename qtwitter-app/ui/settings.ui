@@ -29,7 +29,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabs">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <property name="usesScrollButtons">
       <bool>true</bool>
@@ -92,14 +92,14 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
+       <item row="2" column="0">
         <widget class="QLabel" name="label_3">
          <property name="text">
           <string>Language</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="2" column="1" colspan="2">
         <widget class="QComboBox" name="languageCombo">
          <property name="currentIndex">
           <number>0</number>
@@ -114,7 +114,24 @@
          </item>
         </widget>
        </item>
-       <item row="3" column="0">
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_4">
+         <property name="text">
+          <string>Show notifications</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QCheckBox" name="notificationsBox">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
         <spacer name="verticalSpacer_4">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -127,14 +144,14 @@
          </property>
         </spacer>
        </item>
-       <item row="2" column="0">
+       <item row="3" column="0">
         <widget class="QLabel" name="label_4">
          <property name="text">
           <string>Shorten via</string>
          </property>
         </widget>
        </item>
-       <item row="2" column="1">
+       <item row="3" column="1">
         <widget class="QComboBox" name="urlShortenerCombo">
          <item>
           <property name="text">
@@ -159,11 +176,8 @@
       <attribute name="title">
        <string>Twitter</string>
       </attribute>
-      <layout class="QFormLayout" name="formLayout">
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-       </property>
-       <item row="0" column="0">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <widget class="QTreeView" name="usersView">
@@ -231,7 +245,7 @@
          </item>
         </layout>
        </item>
-       <item row="1" column="0">
+       <item>
         <widget class="QGroupBox" name="accountGroupBox">
          <property name="enabled">
           <bool>true</bool>
@@ -239,8 +253,8 @@
          <property name="title">
           <string>Account</string>
          </property>
-         <layout class="QGridLayout" name="gridLayout_4">
-          <item row="0" column="0" colspan="2">
+         <layout class="QFormLayout" name="formLayout">
+          <item row="0" column="0">
            <widget class="QCheckBox" name="accountEnabledCheckBox">
             <property name="enabled">
              <bool>false</bool>
@@ -300,7 +314,7 @@
          </layout>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
+       <item>
         <widget class="QCheckBox" name="publicTimelineCheckBox">
          <property name="text">
           <string>include public timeline</string>
@@ -403,67 +417,49 @@
       <attribute name="title">
        <string>Appearance</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLabel" name="tweetCountLabel">
-           <property name="text">
-            <string>Tweet count:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QSpinBox" name="tweetCountBox">
-           <property name="maximumSize">
-            <size>
-             <width>63</width>
-             <height>16777215</height>
-            </size>
-           </property>
-           <property name="accelerated">
-            <bool>true</bool>
-           </property>
-           <property name="minimum">
-            <number>1</number>
-           </property>
-           <property name="maximum">
-            <number>100</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QLabel" name="colorLabel">
-           <property name="text">
-            <string>Color scheme:</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="colorBox">
-           <property name="currentIndex">
-            <number>-1</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+      <layout class="QFormLayout" name="formLayout_2">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
+       </property>
+       <item row="0" column="0">
+        <widget class="QLabel" name="tweetCountLabel">
+         <property name="text">
+          <string>Tweet count:</string>
          </property>
-         <property name="sizeHint" stdset="0">
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QSpinBox" name="tweetCountBox">
+         <property name="maximumSize">
           <size>
-           <width>20</width>
-           <height>156</height>
+           <width>63</width>
+           <height>16777215</height>
           </size>
          </property>
-        </spacer>
+         <property name="accelerated">
+          <bool>true</bool>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>100</number>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QLabel" name="colorLabel">
+         <property name="text">
+          <string>Color scheme:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="colorBox">
+         <property name="currentIndex">
+          <number>-1</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>

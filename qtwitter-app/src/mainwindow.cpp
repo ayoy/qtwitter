@@ -81,6 +81,7 @@ void MainWindow::createConnections()
   QShortcut *hideShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_H ), this );
   connect( hideShortcut, SIGNAL(activated()), this, SLOT(hide()) );
   QShortcut *quitShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ), this );
+  quitShortcut->setContext( Qt::ApplicationShortcut );
   connect( quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()) );
 #ifdef Q_WS_MAC
   ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Comma ) );
@@ -161,6 +162,12 @@ int MainWindow::getScrollBarWidth()
 
 void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool publicTimeline )
 {
+  ui.accountsComboBox->clear();
+  foreach ( TwitterAccount account, accounts ) {
+    if ( account.isEnabled )
+      ui.accountsComboBox->addItem( account.login );
+  }
+
   if ( ( !publicTimeline && accounts.size() < 2 ) || accounts.isEmpty() ) {
     ui.accountsComboBox->setVisible( false );
     if ( !accounts.isEmpty() )
@@ -168,11 +175,6 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bo
     return;
   }
 
-  ui.accountsComboBox->clear();
-  foreach ( TwitterAccount account, accounts ) {
-    if ( account.isEnabled )
-      ui.accountsComboBox->addItem( account.login );
-  }
   if ( publicTimeline )
     ui.accountsComboBox->addItem( tr( "public timeline" ) );
   if ( ui.accountsComboBox->count() <= 1 ) {
@@ -306,7 +308,9 @@ void MainWindow::resizeEvent( QResizeEvent *event )
 
 void MainWindow::popupMessage( QString message )
 {
-  trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
+  if( settings.value( "General/notifications" ).toBool() ) {
+    trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
+  }
 }
 
 void MainWindow::popupError( const QString &message )

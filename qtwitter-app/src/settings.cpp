@@ -146,8 +146,8 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   ui.usersView->setItemDelegate( new TwitterAccountsDelegate( QList<int>() << 0 << 3, this ) );
 
   ui.usersView->hideColumn( 2 );
-  ui.usersView->setColumnWidth( 0, (int)(ui.usersView->width() * 0.2 ));
-  ui.usersView->setColumnWidth( 1, (int)(ui.usersView->width() * 0.5 ));
+  ui.usersView->setColumnWidth( 0, (int)(ui.usersView->width() * 0.5 ));
+  ui.usersView->setColumnWidth( 1, (int)(ui.usersView->width() * 1.0 ));
   ui.usersView->setColumnWidth( 3, (int)(ui.usersView->width() * 0.2 ));
 
   connect( ui.usersView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(fillAccountEditor(QModelIndex,QModelIndex)) );
@@ -206,6 +206,7 @@ void Settings::loadConfig( bool dialogRejected )
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh-index", 3 ).toInt() );
     ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
     ui.urlShortenerCombo->setCurrentIndex( settings.value( "url-shortener", 0 ).toInt() );
+    ui.notificationsBox->setChecked( settings.value( "notifications" ).toBool() );
   settings.endGroup();
   settings.beginGroup( "TwitterAccounts" );
   if ( !dialogRejected ) {
@@ -293,6 +294,7 @@ void Settings::saveConfig( int quitting )
     settings.setValue( "refresh-value", ui.refreshCombo->currentText() );
     settings.setValue( "language", ui.languageCombo->currentIndex() );
     settings.setValue( "url-shortener", ui.urlShortenerCombo->currentIndex() );
+    settings.setValue( "notifications", ui.notificationsBox->isChecked() );
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
@@ -454,6 +456,7 @@ void Settings::retranslateUi()
   ui.label->setText( tr("Refresh every") );
   ui.label_2->setText( tr("minutes") );
   ui.label_3->setText( tr("Language") );
+  ui.label_4->setText( tr("Show notifications") );
   ui.tabs->setTabText( 1, tr( "Twitter" ) );
   ui.accountGroupBox->setTitle( tr( "Account" ) );
   ui.accountEnabledCheckBox->setText( tr( "Enabled" ) );
