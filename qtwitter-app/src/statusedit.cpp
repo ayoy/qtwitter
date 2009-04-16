@@ -128,6 +128,15 @@ void StatusEdit::shortenUrl()
   if( hasSelectedText() ) {
     selectedUrl = selectedText();
     emit shortenUrl( selectedUrl );
+  } else {
+    QRegExp rx( "((ftp|http|https)://(\\w+:{0,1}\\w*@)?([^ ]+)(:[0-9]+)?(/|/([\\w#!:.?+=&%@!-/]))?)", Qt::CaseInsensitive );
+
+    int position = rx.indexIn( text() );
+    QString url = rx.capturedTexts().at( 1 );
+    if( cursorPosition() >= position && cursorPosition() <= url.length() + position ) {
+      selectedUrl = url;
+      emit shortenUrl( selectedUrl );
+    }
   }
 }
 
