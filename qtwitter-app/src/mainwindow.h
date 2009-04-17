@@ -82,6 +82,8 @@ private slots:
   void sendStatus();
   void resetStatus();
   void configSaveCurrentModel( int index );
+  void selectNextAccount();
+  void selectPrevAccount();
 
 private:
   void createConnections();

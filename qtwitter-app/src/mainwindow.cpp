@@ -78,6 +78,11 @@ void MainWindow::createConnections()
   connect( this, SIGNAL(addRetweetString(QString)), ui.statusEdit, SLOT(addRetweetString(QString)) );
   connect( ui.statusEdit, SIGNAL( shortenUrl( QString ) ), this, SIGNAL( shortenUrl( QString ) ) );
 
+  QShortcut *nextAccountShortcut = new QShortcut( QKeySequence( QKeySequence::MoveToNextWord ), this ); //used separately in retranslateUi()
+  QShortcut *prevAccountShortcut = new QShortcut( QKeySequence( QKeySequence::MoveToPreviousWord ), this );
+  connect( nextAccountShortcut, SIGNAL(activated()), this, SLOT(selectNextAccount()) );
+  connect( prevAccountShortcut, SIGNAL(activated()), this, SLOT(selectPrevAccount()) );
+
   QShortcut *hideShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_H ), this );
   connect( hideShortcut, SIGNAL(activated()), this, SLOT(hide()) );
   QShortcut *quitShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ), this );
@@ -315,6 +320,22 @@ void MainWindow::configSaveCurrentModel( int index )
   ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
 }
 
+void MainWindow::selectNextAccount()
+{
+  if ( ui.accountsComboBox->currentIndex() < ui.accountsComboBox->count() - 1 ) {
+    ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->currentIndex() + 1 );
+    configSaveCurrentModel( ui.accountsComboBox->currentIndex() );
+  }
+}
+
+void MainWindow::selectPrevAccount()
+{
+  if ( ui.accountsComboBox->currentIndex() > 0 ) {
+    ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->currentIndex() - 1 );
+    configSaveCurrentModel( ui.accountsComboBox->currentIndex() );
+  }
+}
+
 void MainWindow::resetStatus()
 {
   if ( ui.statusEdit->isStatusClean() ) {
@@ -367,6 +388,7 @@ void MainWindow::retranslateUi()
 {
   ui.updateButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Update tweets" ) ).arg( ui.updateButton->shortcut().toString( QKeySequence::NativeText ) ) );
   ui.settingsButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Settings" ), ui.settingsButton->shortcut().toString( QKeySequence::NativeText ) ) );
+  ui.accountsComboBox->setToolTip( QString("Navigate using <span style=\"color: gray\">%1</span> and <span style=\"color: gray\">%2</span>").arg( QKeySequence( QKeySequence::MoveToPreviousWord ).toString( QKeySequence::NativeText ) ).arg( QKeySequence( QKeySequence::MoveToNextWord ).toString( QKeySequence::NativeText ) ) );
   ui.moreButton->setToolTip( tr("More...") );
   if ( ui.statusEdit->isStatusClean() ) {
     ui.statusEdit->initialize();

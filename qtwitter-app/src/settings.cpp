@@ -453,10 +453,10 @@ void Settings::retranslateUi()
 {
   this->setWindowTitle( tr("Settings") );
   ui.tabs->setTabText( 0, tr( "General" ) );
-  ui.label->setText( tr("Refresh every") );
-  ui.label_2->setText( tr("minutes") );
-  ui.label_3->setText( tr("Language") );
-  ui.label_4->setText( tr("Show notifications") );
+  ui.refreshLabel->setText( tr("Refresh every (mins)") );
+  ui.languageLabel->setText( tr("Language") );
+  ui.shortenLabel->setText( tr("Shorten links via") );
+  ui.notificationsBox->setText( tr("Show tray notifications") );
   ui.tabs->setTabText( 1, tr( "Twitter" ) );
   ui.accountGroupBox->setTitle( tr( "Account" ) );
   ui.accountEnabledCheckBox->setText( tr( "Enabled" ) );
