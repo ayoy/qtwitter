@@ -72,7 +72,7 @@ public slots:
 signals:
   void retweet( QString message );
   void destroy( const QString &login, int id );
-  void newTweets( const QString &login );
+  void newTweets( const QString &login, bool exists );
   void openBrowser( QUrl address );
   void reply( const QString &name, int inReplyTo );
   void about();
@@ -82,8 +82,6 @@ private slots:
 
 private:
   bool stripRedundantTweets();
-  Status getTweetFromIndex( int );
-  Status getTweetFromIndex( QModelIndex );
   QString login;
   QList<Status> statuses;
   bool isVisible;

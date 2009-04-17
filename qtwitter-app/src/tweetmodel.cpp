@@ -32,10 +32,7 @@ TweetModel::TweetModel( const QString &login, int margin, StatusList *parentList
   scrollBarMargin( margin ),
   currentIndex( QModelIndex() ),
   view( parentListView )
-{
-  int i;
-  i = 5;
-}
+{}
 
 TweetModel::~TweetModel()
 {
@@ -76,6 +73,9 @@ void TweetModel::setMaxTweetCount( int count )
 
 void TweetModel::setVisible( bool isVisible )
 {
+  if ( this->isVisible == isVisible )
+    return;
+
   this->isVisible = isVisible;
   if ( this->isVisible ) {
     connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(selectTweet(QModelIndex)) );
@@ -104,10 +104,12 @@ void TweetModel::display()
     status->tweet->applyTheme();
     status->tweet->resize( view->width() - scrollBarMargin, status->tweet->height() );
     item(i)->setSizeHint( status->tweet->size() );
-    view->setIndexWidget( item(i)->index(), status->tweet );
-    QApplication::processEvents();
     if ( i == rowCount() - 1 )
       resizeData( view->width(), view->width() - 1 );
+  }
+  for (int i = 0; i < rowCount(); i++ ) {
+    view->setIndexWidget( item(i)->index(), statuses[i].tweet.data() );
+    QApplication::processEvents( QEventLoop::ExcludeUserInputEvents );
   }
   if ( currentIndex.isValid() ) {
     statuses[ currentIndex.row() ].state = TweetModel::STATE_ACTIVE;
@@ -232,9 +234,10 @@ void TweetModel::selectTweet( const QModelIndex &index )
   currentIndex = index;
   status = &statuses[ index.row() ];
   status->state = TweetModel::STATE_ACTIVE;
-  status->tweet->applyTheme();
-  if ( isVisible )
+  if ( isVisible ) {
+    status->tweet->applyTheme();
     view->setCurrentIndex( currentIndex );
+  }
 }
 
 void TweetModel::selectTweet( Tweet *tweet )
@@ -279,15 +282,17 @@ void TweetModel::checkForUnread()
   qDebug() << "TweetModel::checkForUnread( " + login + " );";
   for ( int i = 0; i < rowCount(); ++i ) {
     if ( statuses[i].state == TweetModel::STATE_UNREAD ) {
-      emit newTweets( login );
+      emit newTweets( login, true );
       return;
     }
   }
-  emit newTweets( login );
+  emit newTweets( login, false );
 }
 
 void TweetModel::retranslateUi()
 {
+  if ( !isVisible )
+    return;
   for ( int i = 0; i < rowCount(); i++ ) {
     Tweet *aTweet = statuses[i].tweet;
     aTweet->retranslateUi();
@@ -361,16 +366,6 @@ bool TweetModel::stripRedundantTweets()
     return true;
   }
   return false;
-}
-
-Status TweetModel::getTweetFromIndex( int i )
-{
-  return item(i)->data().value<Status>();
-}
-
-Status TweetModel::getTweetFromIndex( QModelIndex i )
-{
-  return item( i.row() )->data().value<Status>();
 }
 
 void TweetModel::emitOpenBrowser( QString address )

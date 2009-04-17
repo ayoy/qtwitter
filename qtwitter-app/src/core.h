@@ -63,6 +63,7 @@ public:
   void setModelTheme( const ThemeData &theme );
   QAbstractItemModel* getTwitterAccountsModel();
   TweetModel* getModel( const QString &login );
+  TweetModel* getPublicTimelineModel();
 
 public slots:
   void forceGet();
@@ -112,7 +113,7 @@ private slots:
   void slotUnauthorized( const QString &login, const QString &password, int destroyId );
   void slotNewRequest();
   void slotRequestDone( const QString &login, int role );
-  void storeNewTweets( const QString &login );
+  void storeNewTweets( const QString &login, bool exists );
 
 private:
   void sendNewsInfo();

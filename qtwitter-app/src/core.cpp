@@ -81,7 +81,7 @@ Core::~Core()
 
 void Core::applySettings()
 {
-  publicTimeline = settings.value(  "TwitterAccounts/publicTimeline", false ).toBool();
+  publicTimeline = settings.value( "TwitterAccounts/publicTimeline", false ).toBool();
   setupTweetModels();
   twitterapi->resetConnections();
 
@@ -137,9 +137,12 @@ QAbstractItemModel* Core::getTwitterAccountsModel()
 
 TweetModel* Core::getModel( const QString &login )
 {
-  if ( !tweetModels.contains( login ) )
-    return 0;
-  return tweetModels.value( login );
+  return tweetModels.contains( login ) ? tweetModels.value( login ) : 0;
+}
+
+TweetModel* Core::getPublicTimelineModel()
+{
+  return tweetModels.contains( TwitterAPI::PUBLIC_TIMELINE ) ? tweetModels.value( TwitterAPI::PUBLIC_TIMELINE ) : 0;
 }
 
 void Core::forceGet()
@@ -303,7 +306,6 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
     emit requestStarted();
     return Core::STATE_ACCEPTED;
   }
-  qDebug() << "returning false";
   authDialogOpen = false;
   return Core::STATE_REJECTED;
 }
@@ -391,7 +393,7 @@ void Core::createConnectionsWithModel( TweetModel *model )
   connect( model, SIGNAL(about()), this, SIGNAL(about()) );
   connect( model, SIGNAL(destroy(QString,int)), this, SLOT(destroyTweet(QString,int)) );
   connect( model, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
-  connect( model, SIGNAL(newTweets(QString)), this, SLOT(storeNewTweets(QString)) );
+  connect( model, SIGNAL(newTweets(QString,bool)), this, SLOT(storeNewTweets(QString,bool)) );
   connect( this, SIGNAL(setImageForUrl(QString,QImage*)), model, SLOT(setImageForUrl(QString,QImage*)) );
   connect( this, SIGNAL(allRequestsFinished()), model, SLOT(checkForUnread()) );
   connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
@@ -443,13 +445,14 @@ void Core::slotRequestDone( const QString &login, int role )
   }
 }
 
-void Core::storeNewTweets( const QString &login )
+void Core::storeNewTweets( const QString &login, bool exists )
 {
   if ( !tempModelCount )
     return;
-  qDebug() << "Core::storeNewTweets( " + login + " )";
-  newTweets << login;
-  if ( --tempModelCount == 0 )
+  qDebug() << "Core::storeNewTweets( " + login + ", " + exists + " )";
+  if ( exists )
+    newTweets << login;
+  if ( --tempModelCount == 0 && newTweets.size() > 0 )
     sendNewsInfo();
 }
 
@@ -463,7 +466,7 @@ void Core::sendNewsInfo()
     return;
   }
   message.append( newTweets.join( ", " ) );
-  message.replace( message.lastIndexOf( ", " ), 2, tr( " and " ) );
+  message.replace( message.lastIndexOf( ", " ), 2, QString( " %1 " ).arg( tr( "and" ) ) );
   emit sendNewsReport( message );
   newTweets.clear();
 }

@@ -163,6 +163,7 @@ int MainWindow::getScrollBarWidth()
 void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool publicTimeline )
 {
   ui.accountsComboBox->clear();
+
   foreach ( TwitterAccount account, accounts ) {
     if ( account.isEnabled )
       ui.accountsComboBox->addItem( account.login );
@@ -172,23 +173,37 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bo
     ui.accountsComboBox->setVisible( false );
     if ( !accounts.isEmpty() )
       emit switchModel( accounts.at(0).login );
+    ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
     return;
   }
 
   if ( publicTimeline )
     ui.accountsComboBox->addItem( tr( "public timeline" ) );
+
   if ( ui.accountsComboBox->count() <= 1 ) {
     ui.accountsComboBox->setVisible( false );
-    emit switchModel( ui.accountsComboBox->currentText() );
+
+    if ( ui.accountsComboBox->currentText() == tr( "public timeline" ) )
+      emit switchToPublicTimelineModel();
+    else
+      emit switchModel( ui.accountsComboBox->currentText() );
+    ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
     return;
   }
   ui.accountsComboBox->setVisible( true );
+
   int index = settings.value( "TwitterAccounts/currentModel", 0 ).toInt();
+
   if ( index >= ui.accountsComboBox->count() )
     ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->count() - 1 );
   else
     ui.accountsComboBox->setCurrentIndex( index );
-  emit switchModel( ui.accountsComboBox->currentText() );
+
+  if ( ui.accountsComboBox->currentText() == tr( "public timeline" ) )
+    emit switchToPublicTimelineModel();
+  else
+    emit switchModel( ui.accountsComboBox->currentText() );
+  ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
 }
 
 void MainWindow::setListViewModel( TweetModel *model )
@@ -254,7 +269,7 @@ void MainWindow::changeLabel()
 void MainWindow::sendStatus()
 {
   if( ui.statusEdit->charsLeft() < 0 ) {
-    QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Message to long" ), tr( "Your message is too long." ), QMessageBox::NoButton, this );
+    QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Message to long" ), tr( "Your message is too long." ) );
     QPushButton *accept = messageBox->addButton( tr( "Cool" ), QMessageBox::AcceptRole );
     QPushButton *reject = messageBox->addButton( tr( "Oops..." ), QMessageBox::RejectRole );
     messageBox->setInformativeText( tr( "You can still post it like this, but it will be truncated." ) );
@@ -263,6 +278,7 @@ void MainWindow::sendStatus()
     messageBox->exec();
     if ( messageBox->clickedButton() == reject )
       return;
+    messageBox->deleteLater();
   }
   resetUiWhenFinished = true;
   emit post( ui.accountsComboBox->currentText(), ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
@@ -290,8 +306,12 @@ void MainWindow::configSaveCurrentModel( int index )
 {
   if ( settings.value( "TwitterAccounts/currentModel", 0 ).toInt() != index ) {
     settings.setValue( "TwitterAccounts/currentModel", index );
-    emit switchModel( ui.accountsComboBox->currentText() );
+    if ( ui.accountsComboBox->currentText() == tr( "public timeline" ) )
+      emit switchModel( "public timeline" );
+    else
+      emit switchModel( ui.accountsComboBox->currentText() );
   }
+  ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
 }
 
 void MainWindow::resetStatus()

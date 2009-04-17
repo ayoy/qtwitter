@@ -31,11 +31,12 @@
 
 Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
 {
+  connect( this, SIGNAL(switchModel(QString)), SLOT(setCurrentModel(QString)) );
+  connect( this, SIGNAL(switchToPublicTimelineModel()), SLOT(setPublicTimelineModel()) );
+
   core = new Core( this );
   twitpic = new TwitPicView( this );
   settingsDialog = new Settings( this, core, twitpic, this );
-
-  connect( this, SIGNAL(switchModel(QString)), SLOT(setCurrentModel(QString)) );
 
   connect( this, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
@@ -64,13 +65,15 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
   mapper->setMapping( qApp, 1 );
   connect( qApp, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(int)), settingsDialog, SLOT(saveConfig(int)) );
-  setCurrentModel( ui.accountsComboBox->currentText() );
 }
 
 void Qtwitter::setCurrentModel( const QString &login )
 {
   setListViewModel( core->getModel( login ) );
+}
 
-// TODO:
-// core->model( login )->repaint();
+//  this is to avoid relying on translation files
+void Qtwitter::setPublicTimelineModel()
+{
+  setListViewModel( core->getPublicTimelineModel() );
 }

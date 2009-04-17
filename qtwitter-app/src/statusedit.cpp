@@ -60,6 +60,7 @@ void StatusEdit::focusInEvent( QFocusEvent *event )
 {
   if ( statusClean ) {
     setText( "" );
+    setStyleSheet( "color: black" );
     statusClean = false;
   }
   QLineEdit::focusInEvent( event );
@@ -76,6 +77,7 @@ void StatusEdit::focusOutEvent( QFocusEvent *event )
 void StatusEdit::initialize()
 {
   setText( tr( "What are you doing?" ) );
+  setStyleSheet( "color: gray" );
   inReplyToId = -1;
   statusClean = true;
 }
@@ -105,6 +107,7 @@ void StatusEdit::addReplyString( const QString &name, int inReplyTo )
 {
   if ( statusClean ) {
     setText( "@" + name + " ");
+    setStyleSheet( "color: black" );
     statusClean = false;
   } else {
     insert( "@" + name + " ");
@@ -118,6 +121,7 @@ void StatusEdit::addReplyString( const QString &name, int inReplyTo )
 void StatusEdit::addRetweetString( QString message )
 {
   setText( message );
+  setStyleSheet( "color: black" );
   statusClean = false;
   setFocus();
   emit textChanged( text() );

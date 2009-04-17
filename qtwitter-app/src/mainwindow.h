@@ -67,6 +67,7 @@ signals:
   void addRetweetString( QString message );
   void resizeView( int width, int oldWidth );
   void switchModel( const QString &login );
+  void switchToPublicTimelineModel();
   void shortenUrl( const QString &url );
 
 protected:
