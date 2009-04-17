@@ -253,13 +253,14 @@ void MainWindow::changeLabel()
   QString toolTip = QString::number( ui.statusEdit->charsLeft() ) + " " + tr( "characters left" );
   QPalette palette( ui.countdownLabel->palette() );
 
-  if( !ui.statusEdit->isStatusClean() )
+  if( !ui.statusEdit->isStatusClean() ) {
     if ( ui.statusEdit->charsLeft() < 0 ) {
       palette.setColor( QPalette::Foreground, Qt::red );
       toolTip = QString::number( ui.statusEdit->charsLeft() * -1 )  + " " + tr( "characters over the limit" );
     } else {
       palette.setColor( QPalette::Foreground, Qt::black );
     }
+  }
 
   ui.countdownLabel->setText( QString::number( ui.statusEdit->charsLeft() ) );
   ui.countdownLabel->setPalette( palette );
@@ -382,6 +383,7 @@ void MainWindow::replaceUrl( const QString &url )
     QString text = ui.statusEdit->text();
     text.replace( ui.statusEdit->getSelectedUrl(), url );
     ui.statusEdit->setText( text );
+    ui.statusEdit->setCursorPosition( text.indexOf( url ) + url.length() );
 }
 
 /*! \class MainWindow

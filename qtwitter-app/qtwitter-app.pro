@@ -62,7 +62,7 @@ SOURCES += src/main.cpp \
     src/twitteraccountsdelegate.cpp \
     src/qtwitter.cpp \
     src/twitteraccountsmodel.cpp \
-    src/urlshorten.cpp
+    src/urlshortener.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/httpconnection.h \
@@ -80,7 +80,7 @@ HEADERS += src/mainwindow.h \
     src/twitteraccountsdelegate.h \
     src/qtwitter.h \
     src/twitteraccountsmodel.h \
-    src/urlshorten.h
+    src/urlshortener.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \

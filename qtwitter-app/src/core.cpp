@@ -28,7 +28,7 @@
 #include "tweetmodel.h"
 #include "tweet.h"
 #include "twitteraccountsmodel.h"
-#include "urlshorten.h"
+#include "urlshortener.h"
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
 
@@ -39,13 +39,11 @@ Core::Core( MainWindow *parent ) :
     authDialogOpen( false ),
     requestCount( 0 ),
     tempModelCount( 0 ),
-    twitpicUpload( NULL ),
-    timer( NULL )
+    twitpicUpload( 0 ),
+    urlShortener( 0 ),
+    timer( 0 )
 {
   imageCache.setMaxCost( 50 );
-
-  urlShorten = new UrlShorten( this );
-  connect( urlShorten, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
 
   twitterapi = new TwitterAPI( this );
   connect( twitterapi, SIGNAL(newEntry(QString,Entry*)), this, SLOT(addEntry(QString,Entry*)) );
@@ -81,7 +79,8 @@ Core::~Core()
 
 void Core::applySettings()
 {
-  publicTimeline = settings.value( "TwitterAccounts/publicTimeline", false ).toBool();
+  setUrlShortener();
+  publicTimeline = settings.value(  "TwitterAccounts/publicTimeline", false ).toBool();
   setupTweetModels();
   twitterapi->resetConnections();
 
@@ -98,6 +97,24 @@ void Core::applySettings()
 
   setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
   get();
+}
+
+void Core::setUrlShortener()
+{
+  if( urlShortener )
+    delete urlShortener;
+
+  switch( settings.value( "General/url-shortener" ).toInt() ) {
+    case 0:
+      urlShortener = new IsGdShortener( this );
+      break;
+    case 1:
+      urlShortener = new TrImShortener( this );
+      break;
+    case 2:
+      urlShortener = new MetaMarkShortener( this );
+  }
+  connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
 }
 
 bool Core::setTimerInterval( int msecs )
@@ -473,7 +490,7 @@ void Core::sendNewsInfo()
 
 void Core::shortenUrl( const QString &url )
 {
-  urlShorten->shorten(url);
+  urlShortener->shorten(url);
 }
 
 /*! \class Core

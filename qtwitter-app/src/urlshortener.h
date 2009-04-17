@@ -18,32 +18,66 @@
  ***************************************************************************/
 
 
-#ifndef URLSHORTEN_H
-#define URLSHORTEN_H
+#ifndef URLSHORTENER_H
+#define URLSHORTENER_H
 
 #include <QObject>
 
 class QNetworkReply;
 class QNetworkAccessManager;
 
-class UrlShorten : public QObject
+class UrlShortener : public QObject
 {
     Q_OBJECT
 
 public:
-    UrlShorten( QObject *parent = 0 );
-    ~UrlShorten();
-    void shorten( const QString &url );
+    UrlShortener( QObject *parent = 0 );
+    virtual ~UrlShortener();
+    virtual void shorten( const QString &url ) = 0;
 
-private:
-    QNetworkAccessManager *manager;
+protected:
+    QNetworkAccessManager *connection;
+    int replyStatus( QNetworkReply *reply ) const;
 
 signals:
     void shortened( const QString &url );
     void errorMessage( const QString &message );
 
-private slots:
-    void replyFinished( QNetworkReply* );
+protected slots:
+    virtual void replyFinished( QNetworkReply* ) = 0;
 };
 
-#endif // URLSHORTEN_H
+class IsGdShortener : public UrlShortener
+{
+  Q_OBJECT
+
+  public:
+    IsGdShortener( QObject *parent = 0);
+    void shorten( const QString &url );
+  protected slots:
+    virtual void replyFinished( QNetworkReply* );
+};
+
+class TrImShortener : public UrlShortener
+{
+  Q_OBJECT
+
+  public:
+    TrImShortener( QObject *parent = 0);
+    void shorten( const QString &url );
+  protected slots:
+    virtual void replyFinished( QNetworkReply* );
+};
+
+class MetaMarkShortener : public UrlShortener
+{
+  Q_OBJECT
+
+  public:
+    MetaMarkShortener( QObject *parent = 0);
+    void shorten( const QString &url );
+  protected slots:
+    virtual void replyFinished( QNetworkReply* );
+};
+
+#endif // URLSHORTENER_H
