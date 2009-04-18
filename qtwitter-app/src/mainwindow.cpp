@@ -348,9 +348,16 @@ void MainWindow::resizeEvent( QResizeEvent *event )
   emit resizeView( event->size().width(), event->oldSize().width() );
 }
 
+/*
+  TRANSLATOR MainWindow
+
+  "the public timeline"
+    The full sentence is e.g.: "New tweets for <user A>, <user B> and the public timeline"
+*/
 void MainWindow::popupMessage( QString message )
 {
   if( settings.value( "General/notifications" ).toBool() ) {
+    message.replace( "public timeline", tr( "the public timeline" ) );
     trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
   }
 }
@@ -379,7 +386,7 @@ void MainWindow::about()
   Ui::AboutDialog aboutUi;
   aboutUi.setupUi( dlg );
   dlg->adjustSize();
-  aboutUi.textBrowser->setHtml( aboutUi.textBrowser->toHtml().arg( APP_VERSION ) );
+  aboutUi.textBrowser->setHtml( tr( "<style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\"><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">qTwitter - a Qt Twitter client</p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">version %1</p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Copyright &copy; 2008-2009</p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">by <a href=\"http://twitter.com/ayoy\"><span style=\" text-decoration: underline; color:#0000ff;\">Dominik Kapusta</span></a></p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Distributed under the GPL license</p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">version 3 or later</p><p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">qTwitter icon by</p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/\"><span style=\" text-decoration: underline; color:#0000ff;\">thedesignsuperhero.com</span></a></p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Other icons by <a href=\"http://wefunction.com/2008/07/function-free-icon-set/\"><span style=\" text-decoration: underline; color:#0000ff;\">wefunction.com</span></a></p></body></html>" ).arg( MainWindow::APP_VERSION ) );//aboutUi.textBrowser->toHtml().arg( APP_VERSION ) );
   dlg->exec();
   dlg->deleteLater();
 }
