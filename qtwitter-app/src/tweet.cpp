@@ -62,7 +62,7 @@ void Tweet::createMenu()
 {
   menu = new QMenu( this );
   QFont menuFont;
-  menuFont.setPixelSize( 10 );
+  menuFont.setPointSize( menu->font().pointSize() - 3 );
   menu->setFont( menuFont );
 
   signalMapper = new QSignalMapper( this );

@@ -55,18 +55,17 @@ ImageDownload::~ImageDownload()
   }
 }
 
-void ImageDownload::imageGet( Entry *entry )      //requestByEntry[entry.getId()] = httpGetId;
+void ImageDownload::imageGet( const QString &imageUrl )      //requestByEntry[entry.getId()] = httpGetId;
 {
-  QString imagePath = entry->image;
-  QByteArray encodedPath = prepareRequest( imagePath );
+  QByteArray encodedPath = prepareRequest( imageUrl );
   httpGetId = get( encodedPath, buffer );
-  requestByEntry.insert( imagePath, httpGetId );
+  requestByEntry.insert( imageUrl, httpGetId );
   ImageData *imageData = new ImageData;
   imageData->buffer = buffer;
   imageData->bytearray = bytearray;
   buffer = 0;
   bytearray = 0;
-  imageByEntry.insert( imagePath, *imageData );
+  imageByEntry.insert( imageUrl, *imageData );
   qDebug() << "Request of type GET and id" << httpGetId << "started";
 }
 

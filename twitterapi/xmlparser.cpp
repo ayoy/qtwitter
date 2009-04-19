@@ -126,7 +126,7 @@ XmlParser::FieldType XmlParser::checkFieldType(const QString &element )
 
 QDateTime XmlParser::toDateTime( const QString &timestamp )
 {
-  QRegExp rx( "(\\w+) (\\w+) (\\d\\d) (\\d\\d):(\\d\\d):(\\d\\d) .+ (\\d\\d\\d\\d)" );
+  QRegExp rx( "(\\w+) (\\w+) (\\d{2}) (\\d{2}):(\\d{2}):(\\d{2}) .+ (\\d{4})" );
   rx.indexIn( timestamp );
   return QDateTime( QDate( rx.cap(7).toInt(), getMonth( rx.cap(2) ), rx.cap(3).toInt() ),
                     QTime( rx.cap(4).toInt(), rx.cap(5).toInt(), rx.cap(6).toInt() ) );

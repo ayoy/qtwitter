@@ -111,12 +111,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="436"/>
+        <location filename="../src/core.cpp" line="437"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation type="unfinished">ご友人の更新情報をお読みになるには、ユーザー認証が必要です。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="430"/>
+        <location filename="../src/core.cpp" line="431"/>
         <source>Authentication is required to post updates.</source>
         <translation type="unfinished">最新情報を掲示するには、ユーザー認証が必要となります。</translation>
     </message>
@@ -125,32 +125,32 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">トゥウィートピックに写真をアップロードするには、ユーザー認証が必要となります。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="231"/>
+        <location filename="../src/core.cpp" line="230"/>
         <source>There was a problem uploading your photo:</source>
         <translation>写真をアップロードするときに、問題が発生しました:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="242"/>
+        <location filename="../src/core.cpp" line="241"/>
         <source>Photo available at:</source>
         <translation>写真が次のところから入手できます:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="300"/>
+        <location filename="../src/core.cpp" line="287"/>
         <source>&lt;empty&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="432"/>
+        <location filename="../src/core.cpp" line="433"/>
         <source>Authentication is required to delete updates.</source>
         <translation type="unfinished">更新情報を削除するには、ユーザー認証が必要です。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="478"/>
+        <location filename="../src/core.cpp" line="479"/>
         <source>For</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="486"/>
+        <location filename="../src/core.cpp" line="487"/>
         <source>and</source>
         <translation type="unfinished">および</translation>
     </message>
@@ -170,7 +170,7 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ImageDownload</name>
     <message>
-        <location filename="../src/imagedownload.cpp" line="92"/>
+        <location filename="../src/imagedownload.cpp" line="91"/>
         <source>Download failed: </source>
         <translation>ダウンロードが失敗しました:</translation>
     </message>
@@ -223,25 +223,25 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="102"/>
-        <location filename="../src/mainwindow.cpp" line="405"/>
+        <location filename="../src/mainwindow.cpp" line="424"/>
         <source>New tweet</source>
         <translation>新着トゥウィート</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="103"/>
-        <location filename="../src/mainwindow.cpp" line="406"/>
+        <location filename="../src/mainwindow.cpp" line="425"/>
         <source>Upload a photo to TwitPic</source>
         <translation>トゥウィートピックに写真をアップロードする</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="104"/>
-        <location filename="../src/mainwindow.cpp" line="407"/>
+        <location filename="../src/mainwindow.cpp" line="426"/>
         <source>Go to Twitter</source>
         <translation>トゥウィータにアクセスする</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="105"/>
-        <location filename="../src/mainwindow.cpp" line="408"/>
+        <location filename="../src/mainwindow.cpp" line="427"/>
         <source>Go to TwitPic</source>
         <translation>トゥウィートピックにアクセスする</translation>
     </message>
@@ -252,7 +252,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="140"/>
-        <location filename="../src/mainwindow.cpp" line="398"/>
+        <location filename="../src/mainwindow.cpp" line="413"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
@@ -305,17 +305,17 @@ p, li { white-space: pre-wrap; }
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="361"/>
+        <location filename="../src/mainwindow.cpp" line="360"/>
         <source>the public timeline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="362"/>
+        <location filename="../src/mainwindow.cpp" line="361"/>
         <source>New tweets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="368"/>
+        <location filename="../src/mainwindow.cpp" line="367"/>
         <source>Error</source>
         <translation>エラー</translation>
     </message>
@@ -364,24 +364,29 @@ p, li { white-space: pre-wrap; }
         <translation type="obsolete">ｷｭｰトゥウィータからのニュース</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="400"/>
+        <location filename="../src/mainwindow.cpp" line="419"/>
         <location filename="../ui/mainwindow.ui" line="179"/>
         <source>More...</source>
         <translation>詳細...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="397"/>
+        <location filename="../src/mainwindow.cpp" line="412"/>
         <source>Update tweets</source>
         <translation>トゥウィートの更新</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="390"/>
-        <source>&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; }&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;version %1&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Distributed under the GPL license&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;version 3 or later&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;qTwitter icon by&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p align=&quot;center&quot; style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Other icons by &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <location filename="../src/mainwindow.cpp" line="389"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distributed under the GPL license&lt;/p&gt;&lt;p&gt;version 3 or later&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;qTwitter icon by&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Other icons by &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="404"/>
-        <location filename="../ui/mainwindow.ui" line="257"/>
+        <location filename="../src/mainwindow.cpp" line="414"/>
+        <source>Navigate using %1 and %2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="423"/>
+        <location filename="../ui/mainwindow.ui" line="248"/>
         <source>What are you doing?</source>
         <translation>何をしているのですか?</translation>
     </message>
@@ -391,11 +396,8 @@ p, li { white-space: pre-wrap; }
         <translation>ｷｭｰトゥウィータ</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="182"/>
-        <location filename="../ui/mainwindow.ui" line="205"/>
-        <location filename="../ui/mainwindow.ui" line="225"/>
         <source>...</source>
-        <translation>...</translation>
+        <translation type="obsolete">...</translation>
     </message>
 </context>
 <context>
@@ -457,13 +459,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/settings.cpp" line="463"/>
-        <location filename="../ui/settings.ui" line="258"/>
+        <location filename="../ui/settings.ui" line="252"/>
         <source>Username</source>
         <translation>ユーザー名</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="464"/>
-        <location filename="../ui/settings.ui" line="275"/>
+        <location filename="../ui/settings.ui" line="269"/>
         <source>Password</source>
         <translation>パスワード</translation>
     </message>
@@ -509,67 +511,67 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../src/settings.cpp" line="461"/>
-        <location filename="../ui/settings.ui" line="239"/>
+        <location filename="../ui/settings.ui" line="233"/>
         <source>Account</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="462"/>
-        <location filename="../ui/settings.ui" line="248"/>
+        <location filename="../ui/settings.ui" line="242"/>
         <source>Enabled</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="465"/>
-        <location filename="../ui/settings.ui" line="295"/>
+        <location filename="../ui/settings.ui" line="289"/>
         <source>download direct messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="466"/>
-        <location filename="../ui/settings.ui" line="305"/>
+        <location filename="../ui/settings.ui" line="299"/>
         <source>include public timeline</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="467"/>
-        <location filename="../ui/settings.ui" line="313"/>
+        <location filename="../ui/settings.ui" line="307"/>
         <source>Network</source>
         <translation>ネットワーク</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="468"/>
-        <location filename="../ui/settings.ui" line="321"/>
+        <location filename="../ui/settings.ui" line="315"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>ＨＴＴＰプロクシを使用する</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="469"/>
-        <location filename="../ui/settings.ui" line="328"/>
+        <location filename="../ui/settings.ui" line="322"/>
         <source>Host:</source>
         <translation>ホスト:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="470"/>
-        <location filename="../ui/settings.ui" line="361"/>
+        <location filename="../ui/settings.ui" line="355"/>
         <source>Port:</source>
         <translation>ポート:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="471"/>
-        <location filename="../ui/settings.ui" line="403"/>
+        <location filename="../ui/settings.ui" line="397"/>
         <source>Appearance</source>
         <translation>外見</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="472"/>
-        <location filename="../ui/settings.ui" line="412"/>
+        <location filename="../ui/settings.ui" line="406"/>
         <source>Tweet count:</source>
         <translation>トゥウィート数:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="473"/>
-        <location filename="../ui/settings.ui" line="438"/>
+        <location filename="../ui/settings.ui" line="432"/>
         <source>Color scheme:</source>
         <translation>カラー図式:</translation>
     </message>
@@ -640,25 +642,8 @@ p, li { white-space: pre-wrap; }
         <translation>60</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="133"/>
-        <source>is.gd</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/settings.ui" line="138"/>
-        <source>tr.im</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/settings.ui" line="143"/>
-        <source>MetaMark</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../ui/settings.ui" line="197"/>
-        <location filename="../ui/settings.ui" line="208"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation type="obsolete">...</translation>
     </message>
 </context>
 <context>

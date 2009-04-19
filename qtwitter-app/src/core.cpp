@@ -47,7 +47,6 @@ Core::Core( MainWindow *parent ) :
 
   twitterapi = new TwitterAPI( this );
   connect( twitterapi, SIGNAL(newEntry(QString,Entry*)), this, SLOT(addEntry(QString,Entry*)) );
-  connect( twitterapi, SIGNAL(newEntry(QString,Entry*)), this, SLOT(downloadImage(QString,Entry*)) );
   connect( twitterapi, SIGNAL(deleteEntry(QString,int)), this, SLOT(deleteEntry(QString,int)) );
   connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( twitterapi, SIGNAL(unauthorized(QString,QString)), this, SLOT(slotUnauthorized(QString,QString)) );
@@ -243,24 +242,12 @@ void Core::twitPicResponse( bool responseStatus, QString message, bool newStatus
   dlg.exec();
 }
 
-void Core::downloadImage( const QString &login, Entry *entry )
+void Core::downloadImage( const QString &imageUrl )
 {
-  Q_UNUSED(login)
-  if ( entry->type == Entry::DirectMessage )
-    return;
-
-  if ( imageCache.contains( entry->image ) ) {
-    if ( !imageCache.contains( entry->image ) || imageCache[ entry->image ]->isNull() ) {
-      qDebug() << "not downloading";
-    } else {
-      emit setImageForUrl( entry->image, imageCache[ entry->image ] );
-    }
-    return;
-  }
-  QString host = QUrl( entry->image ).host();
+  QString host = QUrl( imageUrl ).host();
   if ( imageDownloader.contains( host ) ) {
-    imageDownloader[host]->imageGet( entry );
-    imageCache.insert( entry->image, new QImage );
+    imageDownloader[host]->imageGet( imageUrl );
+    imageCache.insert( imageUrl, new QImage );
     qDebug() << "setting null image";
     return;
   }
@@ -268,9 +255,9 @@ void Core::downloadImage( const QString &login, Entry *entry )
   imageDownloader[host] = getter;
   connect( getter, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
-  getter->imageGet( entry );
-  imageCache.insert( entry->image, new QImage );
-  qDebug() << "setting null image" << imageCache[ entry->image ]->isNull();
+  getter->imageGet( imageUrl );
+  imageCache.insert( imageUrl, new QImage );
+  qDebug() << "setting null image" << imageCache[ imageUrl ]->isNull();
 }
 
 void Core::openBrowser( QUrl address )
@@ -342,8 +329,22 @@ void Core::setImageInHash( const QString &url, QImage image )
 
 void Core::addEntry( const QString &login, Entry *entry )
 {
-  if ( tweetModels.contains( login ) )
-    tweetModels[ login ]->insertTweet( entry );
+  if ( !tweetModels.contains( login ) )
+    return;
+
+  Entry tempEntry = *entry;
+  tweetModels[ login ]->insertTweet( &tempEntry );
+  if ( tempEntry.type == Entry::Status ) {
+    if ( imageCache.contains( tempEntry.image ) ) {
+      if ( !imageCache.contains( tempEntry.image ) || imageCache[ tempEntry.image ]->isNull() )
+        qDebug() << "image in cache";
+      else
+        emit setImageForUrl( tempEntry.image, imageCache[ tempEntry.image ] );
+    } else {
+      downloadImage( tempEntry.image );
+    }
+  }
+//  delete entry;
 }
 
 void Core::deleteEntry( const QString &login, int id )

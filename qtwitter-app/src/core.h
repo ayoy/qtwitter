@@ -76,7 +76,7 @@ public slots:
   void abortUploadPhoto();
   void twitPicResponse( bool responseStatus, QString message, bool newStatus );
 
-  void downloadImage( const QString &login, Entry *entry );
+  void downloadImage( const QString &imageUrl );
   void openBrowser( QUrl address );
   AuthDialogState authDataDialog( TwitterAccount *account );
   void shortenUrl( const QString &url );

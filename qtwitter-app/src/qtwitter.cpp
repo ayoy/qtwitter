@@ -73,6 +73,7 @@ void Qtwitter::setCurrentModel( const QString &login )
 }
 
 //  this is to avoid relying on translation files
+//  caused by a bug in tr() method
 void Qtwitter::setPublicTimelineModel()
 {
   setListViewModel( core->getPublicTimelineModel() );

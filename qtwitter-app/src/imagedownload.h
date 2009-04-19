@@ -42,7 +42,7 @@ public:
   ImageDownload();
   ~ImageDownload();
 
-  void imageGet( Entry *entry );
+  void imageGet( const QString& imageUrl );
   void clearData();
 
 signals:

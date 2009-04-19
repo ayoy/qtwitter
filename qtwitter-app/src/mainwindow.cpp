@@ -386,7 +386,23 @@ void MainWindow::about()
   Ui::AboutDialog aboutUi;
   aboutUi.setupUi( dlg );
   dlg->adjustSize();
-  aboutUi.textBrowser->setHtml( tr( "<style type=\"text/css\">p, li { white-space: pre-wrap; }</style></head><body style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\"><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">qTwitter - a Qt Twitter client</p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">version %1</p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Copyright &copy; 2008-2009</p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">by <a href=\"http://twitter.com/ayoy\"><span style=\" text-decoration: underline; color:#0000ff;\">Dominik Kapusta</span></a></p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Distributed under the GPL license</p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">version 3 or later</p><p align=\"center\" style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"></p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">qTwitter icon by</p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><a href=\"http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/\"><span style=\" text-decoration: underline; color:#0000ff;\">thedesignsuperhero.com</span></a></p><p align=\"center\" style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Other icons by <a href=\"http://wefunction.com/2008/07/function-free-icon-set/\"><span style=\" text-decoration: underline; color:#0000ff;\">wefunction.com</span></a></p></body></html>" ).arg( MainWindow::APP_VERSION ) );//aboutUi.textBrowser->toHtml().arg( APP_VERSION ) );
+  aboutUi.textBrowser->setHtml( tr( "<html>"
+                                      "<head>"
+                                        "<style type=\"text/css\">p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }</style>"
+                                      "</head>"
+                                      "<body align=\"center\" style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">"
+                                        "<p>qTwitter - a Qt Twitter client</p>"
+                                        "<p>version %1</p>"
+                                        "<p>Copyright &copy; 2008-2009</p>"
+                                        "<p>by <a href=\"http://twitter.com/ayoy\"><span style=\" text-decoration: underline; color:#0000ff;\">Dominik Kapusta</span></a></p>"
+                                        "<p>Distributed under the GPL license</p>"
+                                        "<p>version 3 or later</p>"
+                                        "<p style=\"-qt-paragraph-type:empty; \"></p>"
+                                        "<p>qTwitter icon by</p>"
+                                        "<p><a href=\"http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/\"><span style=\" text-decoration: underline; color:#0000ff;\">thedesignsuperhero.com</span></a></p>"
+                                        "<p>Other icons by <a href=\"http://wefunction.com/2008/07/function-free-icon-set/\"><span style=\" text-decoration: underline; color:#0000ff;\">wefunction.com</span></a></p>"
+                                      "</body>"
+                                    "</html>" ).arg( MainWindow::APP_VERSION ) );
   dlg->exec();
   dlg->deleteLater();
 }
@@ -395,12 +411,16 @@ void MainWindow::retranslateUi()
 {
   ui.updateButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Update tweets" ) ).arg( ui.updateButton->shortcut().toString( QKeySequence::NativeText ) ) );
   ui.settingsButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Settings" ), ui.settingsButton->shortcut().toString( QKeySequence::NativeText ) ) );
-  ui.accountsComboBox->setToolTip( QString("Navigate using <span style=\"color: gray\">%1</span> and <span style=\"color: gray\">%2</span>").arg( QKeySequence( QKeySequence::MoveToPreviousWord ).toString( QKeySequence::NativeText ) ).arg( QKeySequence( QKeySequence::MoveToNextWord ).toString( QKeySequence::NativeText ) ) );
+  ui.accountsComboBox->setToolTip( tr( "Navigate using %1 and %2" )
+                                   .arg( QString( "<span style=\"color: gray\">%1</span>" )
+                                         .arg(QKeySequence( QKeySequence::MoveToPreviousWord ).toString( QKeySequence::NativeText ) ) )
+                                   .arg( QString( "<span style=\"color: gray\">%1</span>" )
+                                         .arg(QKeySequence( QKeySequence::MoveToNextWord ).toString( QKeySequence::NativeText ) ) ) );
   ui.moreButton->setToolTip( tr("More...") );
   if ( ui.statusEdit->isStatusClean() ) {
     ui.statusEdit->initialize();
   }
-  ui.statusEdit->setText( tr("What are you doing?") );
+  ui.statusEdit->setText( tr( "What are you doing?" ) );
   newtweetAction->setText( tr( "New tweet" ) );
   newtwitpicAction->setText( tr( "Upload a photo to TwitPic" ) );
   gototwitterAction->setText( tr( "Go to Twitter" ) );

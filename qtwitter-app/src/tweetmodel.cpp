@@ -38,7 +38,7 @@ TweetModel::~TweetModel()
 {
   foreach ( Status status, statuses ) {
     if ( !status.tweet.isNull() )
-      status.tweet.data()->deleteLater();
+      delete status.tweet;
   }
 }
 
@@ -84,18 +84,26 @@ void TweetModel::setVisible( bool isVisible )
     disconnect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(selectTweet(QModelIndex)) );
     disconnect( view, SIGNAL(moveFocus(bool)), this, SLOT(moveFocus(bool)) );
     for (int i = 0; i < rowCount(); i++ ) {
-      view->indexWidget( item(i)->index() )->deleteLater();
+      delete view->indexWidget( item(i)->index() );
     }
   }
 }
 
 void TweetModel::display()
 {
+  if ( isVisible )
+    return;
+
   view->setUpdatesEnabled( false );
   setVisible( true );
   Status *status;
   for (int i = 0; i < rowCount(); i++ ) {
     status = &statuses[i];
+    if ( status->tweet ) {
+//      qDebug() << "Deleting tweet" << i;
+      delete status->tweet;
+    }
+    Q_ASSERT( status->tweet == 0 );
     if ( status->entry.type == Entry::DirectMessage )
       status->tweet = new Tweet( &status->entry, &status->state, QImage( ":/icons/mail_48.png" ), this );
     else
@@ -108,7 +116,8 @@ void TweetModel::display()
       resizeData( view->width(), view->width() - 1 );
   }
   for (int i = 0; i < rowCount(); i++ ) {
-    view->setIndexWidget( item(i)->index(), statuses[i].tweet.data() );
+    view->setIndexWidget( item(i)->index(), statuses[i].tweet );
+    Q_ASSERT( statuses[i].tweet == view->indexWidget( item(i)->index() ) );
     QApplication::processEvents( QEventLoop::ExcludeUserInputEvents );
   }
   if ( currentIndex.isValid() ) {
@@ -127,7 +136,7 @@ void TweetModel::clear()
 
   if ( isVisible )
     for ( int i = rc - 1; i >= 0; i-- ) {
-        view->indexWidget( item(i)->index() )->deleteLater();
+        delete view->indexWidget( item(i)->index() );
     }
   QStandardItemModel::clear();
   statuses.clear();
@@ -151,7 +160,7 @@ void TweetModel::insertTweet( Entry *entry )
     status.tweet = new Tweet( &status.entry, &status.state, QImage(), this );
   status.tweet->setTweetData( &status.entry, &status.state );
 
-  QStandardItem *newItem = new QStandardItem();
+  QStandardItem *newItem = new QStandardItem;
   if ( isVisible ) {
     status.tweet->resize( view->width() - scrollBarMargin, status.tweet->size().height() );
     newItem->setSizeHint( status.tweet->size() );
@@ -178,7 +187,9 @@ void TweetModel::insertTweet( Entry *entry )
     }
   }
   if ( stripRedundantTweets() ) {
-    status.tweet->deleteLater();
+    qDebug() << "Deleting obsolete tweet";
+    delete status.tweet;
+    delete newItem;
     return;
   }
   QStandardItemModel::appendRow( newItem );
@@ -193,9 +204,9 @@ void TweetModel::deleteTweet( int id )
   for ( int i = 0; i < rowCount(); i++ ) {
     if ( id == statuses[i].entry.id  ) {
       if ( isVisible )
-        view->indexWidget( item(i)->index() )->deleteLater();
+        delete view->indexWidget( item(i)->index() );
       removeRow(i);
-      statuses[i].tweet->deleteLater();
+      Q_ASSERT(statuses[i].tweet == 0 );
       statuses.removeAt(i);
       return;
     }
@@ -209,10 +220,10 @@ void TweetModel::slotDirectMessagesChanged( bool isEnabled )
   for ( int i = 0; i < rowCount(); i++ ) {
     if ( statuses[i].entry.type == Entry::DirectMessage ) {
       if ( isVisible ) {
-        view->indexWidget( item(i)->index() )->deleteLater();
+        delete view->indexWidget( item(i)->index() );
       }
       removeRow(i);
-//      statuses[i].tweet->deleteLater();
+      Q_ASSERT(statuses[i].tweet == 0 );
       statuses.removeAt(i);
       i--;
     }
@@ -293,10 +304,8 @@ void TweetModel::retranslateUi()
 {
   if ( !isVisible )
     return;
-  for ( int i = 0; i < rowCount(); i++ ) {
-    Tweet *aTweet = statuses[i].tweet;
-    aTweet->retranslateUi();
-  }
+  for ( int i = 0; i < rowCount(); i++ )
+    statuses[i].tweet.data()->retranslateUi();
 }
 
 void TweetModel::resizeData( int width, int oldWidth )
@@ -357,9 +366,9 @@ bool TweetModel::stripRedundantTweets()
     int currentRowCount = rowCount();
     for (int i = currentRowCount - 1; i >= maxTweetCount; i-- ) {
       if ( isVisible ) {
-        view->indexWidget( item(i)->index() )->deleteLater();
+        delete view->indexWidget( item(i)->index() );
       }
-//      statuses[i].tweet->deleteLater();
+      Q_ASSERT(statuses[i].tweet == 0 );
       statuses.removeAt(i);
       QStandardItemModel::removeRow(i);
     }
