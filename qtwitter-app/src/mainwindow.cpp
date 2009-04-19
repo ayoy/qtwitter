@@ -351,15 +351,10 @@ void MainWindow::resizeEvent( QResizeEvent *event )
   emit resizeView( event->size().width(), event->oldSize().width() );
 }
 
-/*
-  TRANSLATOR MainWindow
-
-  "the public timeline"
-    The full sentence is e.g.: "New tweets for <user A>, <user B> and the public timeline"
-*/
 void MainWindow::popupMessage( QString message )
 {
   if( settings.value( "General/notifications" ).toBool() ) {
+    //: The full sentence is e.g.: "New tweets for <user A>, <user B> and the public timeline"
     message.replace( "public timeline", tr( "the public timeline" ) );
     trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
   }
