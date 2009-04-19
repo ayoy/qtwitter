@@ -204,7 +204,10 @@ void Settings::loadConfig( bool dialogRejected )
 {
   settings.beginGroup( "General" );
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh-index", 3 ).toInt() );
-    ui.languageCombo->setCurrentIndex( settings.value( "language", 0 ).toInt() );
+
+    QStringList fileNames = QDir( ":/translations" ).entryList( QStringList( "qtwitter_*.qm" ) );
+    int language = fileNames.indexOf( "qtwitter_" +  QLocale::system().name().left( 2 ) + ".qm" ) + 1;
+    ui.languageCombo->setCurrentIndex( settings.value( "language", position ).toInt() );
     ui.urlShortenerCombo->setCurrentIndex( settings.value( "url-shortener", 0 ).toInt() );
     ui.notificationsBox->setChecked( settings.value( "notifications" ).toBool() );
   settings.endGroup();
