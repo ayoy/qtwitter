@@ -204,10 +204,7 @@ void Settings::loadConfig( bool dialogRejected )
 {
   settings.beginGroup( "General" );
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh-index", 3 ).toInt() );
-
-    QStringList fileNames = QDir( ":/translations" ).entryList( QStringList( "qtwitter_*.qm" ) );
-    int language = fileNames.indexOf( "qtwitter_" +  QLocale::system().name().left( 2 ) + ".qm" ) + 1;
-    ui.languageCombo->setCurrentIndex( settings.value( "language", language ).toInt() );
+    ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( settings.value( "language", QLocale::system().name().left( 2 ) ) ) );
     ui.urlShortenerCombo->setCurrentIndex( settings.value( "url-shortener", 0 ).toInt() );
     ui.notificationsBox->setChecked( settings.value( "notifications" ).toBool() );
   settings.endGroup();
@@ -295,7 +292,7 @@ void Settings::saveConfig( int quitting )
   settings.beginGroup( "General" );
     settings.setValue( "refresh-index", ui.refreshCombo->currentIndex() );
     settings.setValue( "refresh-value", ui.refreshCombo->currentText() );
-    settings.setValue( "language", ui.languageCombo->currentIndex() );
+    settings.setValue( "language", ui.languageCombo->itemData( ui.languageCombo->currentIndex() ).toString() );
     settings.setValue( "url-shortener", ui.urlShortenerCombo->currentIndex() );
     settings.setValue( "notifications", ui.notificationsBox->isChecked() );
   settings.endGroup();
