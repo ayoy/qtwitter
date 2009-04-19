@@ -46,7 +46,7 @@ Core::Core( MainWindow *parent ) :
   imageCache.setMaxCost( 50 );
 
   twitterapi = new TwitterAPI( this );
-  connect( twitterapi, SIGNAL(newEntry(QString,Entry*)), this, SLOT(addEntry(QString,Entry*)) );
+  connect( twitterapi, SIGNAL(newEntry(QString,Entry)), this, SLOT(addEntry(QString,Entry)) );
   connect( twitterapi, SIGNAL(deleteEntry(QString,int)), this, SLOT(deleteEntry(QString,int)) );
   connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( twitterapi, SIGNAL(unauthorized(QString,QString)), this, SLOT(slotUnauthorized(QString,QString)) );
@@ -327,24 +327,22 @@ void Core::setImageInHash( const QString &url, QImage image )
   emit setImageForUrl( url, imageCache[ url ] );
 }
 
-void Core::addEntry( const QString &login, Entry *entry )
+void Core::addEntry( const QString &login, Entry entry )
 {
   if ( !tweetModels.contains( login ) )
     return;
 
-  Entry tempEntry = *entry;
-  tweetModels[ login ]->insertTweet( &tempEntry );
-  if ( tempEntry.type == Entry::Status ) {
-    if ( imageCache.contains( tempEntry.image ) ) {
-      if ( !imageCache.contains( tempEntry.image ) || imageCache[ tempEntry.image ]->isNull() )
+  tweetModels[ login ]->insertTweet( &entry );
+  if ( entry.type == Entry::Status ) {
+    if ( imageCache.contains( entry.image ) ) {
+      if ( !imageCache.contains( entry.image ) || imageCache[ entry.image ]->isNull() )
         qDebug() << "image in cache";
       else
-        emit setImageForUrl( tempEntry.image, imageCache[ tempEntry.image ] );
+        emit setImageForUrl( entry.image, imageCache[ entry.image ] );
     } else {
-      downloadImage( tempEntry.image );
+      downloadImage( entry.image );
     }
   }
-//  delete entry;
 }
 
 void Core::deleteEntry( const QString &login, int id )

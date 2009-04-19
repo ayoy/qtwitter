@@ -106,7 +106,7 @@ signals:
 
 private slots:
   void setImageInHash( const QString&, QImage );
-  void addEntry( const QString &login, Entry* entry );
+  void addEntry( const QString &login, Entry entry );
   void deleteEntry( const QString &login, int id );
   void slotUnauthorized( const QString &login, const QString &password );
   void slotUnauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId );

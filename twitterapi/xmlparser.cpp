@@ -71,7 +71,7 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
 bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
   if ( qName == "status" ) {
-    emit newEntry( login, &entry );
+    emit newEntry( login, entry );
   }
   return true;
 
@@ -195,7 +195,7 @@ bool XmlParserDirectMsg::startElement( const QString & /* namespaceURI */, const
 bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
   if ( qName == "direct_message" ) {
-    emit newEntry( login, &entry );
+    emit newEntry( login, entry );
   }
   if ( qName == "sender" ) {
     parsingSender = false;

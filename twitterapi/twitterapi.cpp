@@ -60,11 +60,11 @@ Interface* TwitterAPI::createInterface( const QString &login )
 
   if ( login != TwitterAPI::PUBLIC_TIMELINE ) {
     interface->directMsgParser = new XmlParserDirectMsg( login, this );
-    connect( interface->directMsgParser, SIGNAL(newEntry(QString,Entry*)), this, SIGNAL(newEntry(QString,Entry*)) );
+    connect( interface->directMsgParser, SIGNAL(newEntry(QString,Entry)), this, SIGNAL(newEntry(QString,Entry)) );
     connect( interface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
   }
   connect( interface->connection, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
-  connect( interface->statusParser, SIGNAL(newEntry(QString,Entry*)), this, SIGNAL(newEntry(QString,Entry*)) );
+  connect( interface->statusParser, SIGNAL(newEntry(QString,Entry)), this, SIGNAL(newEntry(QString,Entry)) );
   connections.insert( login, interface );
   return interface;
 }

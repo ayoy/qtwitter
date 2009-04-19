@@ -66,7 +66,7 @@ void ImageDownload::imageGet( const QString &imageUrl )      //requestByEntry[en
   buffer = 0;
   bytearray = 0;
   imageByEntry.insert( imageUrl, *imageData );
-  qDebug() << "Request of type GET and id" << httpGetId << "started";
+//  qDebug() << "Request of type GET and id" << httpGetId << "started";
 }
 
 void ImageDownload::clearData()
@@ -104,7 +104,7 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
 //  qDebug() << "Response for" << requestByEntry.key( currentId() );//url.path();
-  qDebug() << "Code:" << responseHeader.statusCode() << ", status:" << responseHeader.reasonPhrase();
+//  qDebug() << "Code:" << responseHeader.statusCode() << ", status:" << responseHeader.reasonPhrase();
   switch ( responseHeader.statusCode() ) {
   case 200:                   // Ok
   case 301:                   // Moved Permanently

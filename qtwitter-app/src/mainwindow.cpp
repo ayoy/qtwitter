@@ -222,7 +222,6 @@ void MainWindow::setListViewModel( TweetModel *model )
     currentModel->setVisible( false );
   }
   ui.statusListView->setModel( model );
-//  model->setVisible( true );
   model->display();
 }
 

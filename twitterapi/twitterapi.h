@@ -83,7 +83,7 @@ public slots:
 
 signals:
   void requestDone( const QString &login, int role );
-  void newEntry( const QString &login, Entry *entry );
+  void newEntry( const QString &login, Entry entry );
   void deleteEntry( const QString &login, int id );
   void errorMessage( const QString &message );
   void unauthorized( const QString &login, const QString &password );
