@@ -58,8 +58,10 @@ void TweetModel::setTheme( const ThemeData &theme )
 {
   Tweet::setTheme( theme );
   if ( isVisible && rowCount() > 0 ) {
+    Tweet *aTweet;
     for ( int i = 0; i < rowCount(); i++ ) {
-      Tweet *aTweet = statuses[i].tweet;
+      aTweet = statuses[i].tweet;
+      qDebug() << login << i;
       aTweet->applyTheme();
     }
   }
@@ -84,7 +86,9 @@ void TweetModel::setVisible( bool isVisible )
     disconnect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(selectTweet(QModelIndex)) );
     disconnect( view, SIGNAL(moveFocus(bool)), this, SLOT(moveFocus(bool)) );
     for (int i = 0; i < rowCount(); i++ ) {
+      Q_ASSERT( statuses[i].tweet == view->indexWidget( item(i)->index() ) );
       delete view->indexWidget( item(i)->index() );
+      Q_ASSERT( statuses[i].tweet == 0 );
     }
   }
 }
@@ -100,7 +104,6 @@ void TweetModel::display()
   for (int i = 0; i < rowCount(); i++ ) {
     status = &statuses[i];
     if ( status->tweet ) {
-//      qDebug() << "Deleting tweet" << i;
       delete status->tweet;
     }
     Q_ASSERT( status->tweet == 0 );
@@ -187,7 +190,6 @@ void TweetModel::insertTweet( Entry *entry )
     }
   }
   if ( stripRedundantTweets() ) {
-    qDebug() << "Deleting obsolete tweet";
     delete status.tweet;
     delete newItem;
     return;
@@ -221,6 +223,8 @@ void TweetModel::slotDirectMessagesChanged( bool isEnabled )
     if ( statuses[i].entry.type == Entry::DirectMessage ) {
       if ( isVisible ) {
         delete view->indexWidget( item(i)->index() );
+      } else {
+        delete statuses[i].tweet;
       }
       removeRow(i);
       Q_ASSERT(statuses[i].tweet == 0 );
@@ -314,8 +318,9 @@ void TweetModel::resizeData( int width, int oldWidth )
     return;
 
   QSize itemSize;
+  Tweet *aTweet;
   for ( int i = 0; i < rowCount(); i++ ) {
-    Tweet *aTweet = statuses[i].tweet;
+    aTweet = statuses[i].tweet;
     aTweet->resize( width - scrollBarMargin, aTweet->size().height() );
     itemSize = item(i)->sizeHint();
     itemSize.rwidth() += width - oldWidth;
@@ -367,6 +372,8 @@ bool TweetModel::stripRedundantTweets()
     for (int i = currentRowCount - 1; i >= maxTweetCount; i-- ) {
       if ( isVisible ) {
         delete view->indexWidget( item(i)->index() );
+      } else {
+        delete statuses[i].tweet;
       }
       Q_ASSERT(statuses[i].tweet == 0 );
       statuses.removeAt(i);

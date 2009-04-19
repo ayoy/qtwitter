@@ -216,9 +216,13 @@ void MainWindow::setListViewModel( TweetModel *model )
   if ( !model )
     return;
   TweetModel *currentModel = qobject_cast<TweetModel*>( ui.statusListView->model() );
-  if ( currentModel )
+  if ( currentModel ) {
+    if ( model == currentModel )
+      return;
     currentModel->setVisible( false );
+  }
   ui.statusListView->setModel( model );
+//  model->setVisible( true );
   model->display();
 }
 
