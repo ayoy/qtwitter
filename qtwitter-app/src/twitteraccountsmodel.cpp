@@ -78,6 +78,7 @@ QVariant TwitterAccountsModel::headerData( int section, Qt::Orientation orientat
   case 1:
     return tr( "Login" );
   case 3:
+    //: This should be as short as possible (e.g. PW in Polish)
     return tr( "Direct msgs" );
   default:
     return QVariant();
@@ -153,6 +154,7 @@ TwitterAccount TwitterAccountsModel::emptyAccount()
 {
   TwitterAccount empty;
   empty.isEnabled = false;
+  //: This is for newly created account - when the login isn't given yet
   empty.login = tr( "<empty>" );
   empty.password = "";
   empty.directMessages = false;

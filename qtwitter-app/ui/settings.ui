@@ -56,37 +56,37 @@
         <widget class="QComboBox" name="refreshCombo">
          <item>
           <property name="text">
-           <string>3</string>
+           <string notr="true">3</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>5</string>
+           <string notr="true">5</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>10</string>
+           <string notr="true">10</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>15</string>
+           <string notr="true">15</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>30</string>
+           <string notr="true">30</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>45</string>
+           <string notr="true">45</string>
           </property>
          </item>
          <item>
           <property name="text">
-           <string>60</string>
+           <string notr="true">60</string>
           </property>
          </item>
         </widget>

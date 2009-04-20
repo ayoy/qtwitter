@@ -84,7 +84,7 @@ void Tweet::createMenu()
 
   menu->addSeparator();
 
-  copylinkAction = new QAction( tr( "Copy link to this Tweet" ), this );
+  copylinkAction = new QAction( tr( "Copy link to this tweet" ), this );
   menu->addAction( copylinkAction );
   copylinkAction->setFont( menuFont );
   connect( copylinkAction, SIGNAL(triggered()), this, SLOT(copyLink()) );
@@ -181,7 +181,7 @@ void Tweet::retranslateUi()
 {
   replyAction->setText( tr( "Reply to %1" ).arg( tweetData->login ) );
   retweetAction->setText( tr( "Retweet" ) );
-  copylinkAction->setText( tr( "Copy link to this Tweet" ) );
+  copylinkAction->setText( tr( "Copy link to this tweet" ) );
   deleteAction->setText( tr( "Delete tweet" ) );
   markallasreadAction->setText( tr( "Mark all as read" ) );
   gotohomepageAction->setText( tr( "Go to User's homepage" ) );

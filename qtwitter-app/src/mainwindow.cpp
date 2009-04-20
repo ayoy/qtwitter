@@ -49,7 +49,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
   ui.countdownLabel->setMovie( progressIcon );
-  ui.countdownLabel->setToolTip( ui.countdownLabel->text() + " " + tr( "characters left" ) );
+  ui.countdownLabel->setToolTip( tr( "%n characters left", "", ui.countdownLabel->text().toInt() ) );
 
   createConnections();
   createMenu();
@@ -258,13 +258,13 @@ void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
 
 void MainWindow::changeLabel()
 {
-  QString toolTip = QString::number( ui.statusEdit->charsLeft() ) + " " + tr( "characters left" );
+  QString toolTip = tr( "%n characters left", "", ui.statusEdit->charsLeft() );
   QPalette palette( ui.countdownLabel->palette() );
 
   if( !ui.statusEdit->isStatusClean() ) {
     if ( ui.statusEdit->charsLeft() < 0 ) {
       palette.setColor( QPalette::Foreground, Qt::red );
-      toolTip = QString::number( ui.statusEdit->charsLeft() * -1 )  + " " + tr( "characters over the limit" );
+      toolTip = tr( "%n characters over the limit", "", ui.statusEdit->charsLeft() * -1 );
     } else {
       palette.setColor( QPalette::Foreground, Qt::black );
     }

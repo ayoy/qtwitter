@@ -139,6 +139,7 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   qApp->installTranslator( &translator );
 
   ui.setupUi( this );
+  ui.languageCombo->setItemData( 0, "en" );
   accountsModel = qobject_cast<TwitterAccountsModel*>( core->getTwitterAccountsModel() );
   if ( accountsModel ) {
     ui.usersView->setModel( accountsModel );
@@ -228,7 +229,7 @@ void Settings::loadConfig( bool dialogRejected )
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
-      ui.proxyBox->setCheckState( (Qt::CheckState)settings.value( "enabled" ).toInt() );
+      ui.proxyBox->setChecked( settings.value( "enabled" ).toBool() );
       ui.hostEdit->setText( settings.value( "host" ).toString() );
       ui.portEdit->setText( settings.value( "port" ).toString() );
     settings.endGroup();
@@ -298,7 +299,7 @@ void Settings::saveConfig( int quitting )
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
-      settings.setValue( "enabled", ui.proxyBox->checkState() );
+      settings.setValue( "enabled", ui.proxyBox->isChecked() );
       settings.setValue( "host", ui.hostEdit->text() );
       settings.setValue( "port", ui.portEdit->text() );
     settings.endGroup();
@@ -380,6 +381,7 @@ void Settings::addTwitterAccount()
   ui.accountLoginEdit->selectAll();
   settings.beginGroup( QString( "TwitterAccounts/%1" ).arg( accountsModel->rowCount() - 1 ) );
     settings.setValue( "enabled", false );
+    //: This is for newly created account - when the login isn't given yet
     settings.setValue( "login", tr( "<empty>" ) );
     settings.setValue( "password", "" );
     settings.setValue( "directmsgs", false );
@@ -453,15 +455,15 @@ void Settings::retranslateUi()
 {
   this->setWindowTitle( tr("Settings") );
   ui.tabs->setTabText( 0, tr( "General" ) );
-  ui.refreshLabel->setText( tr("Refresh every (mins)") );
-  ui.languageLabel->setText( tr("Language") );
-  ui.shortenLabel->setText( tr("Shorten links via") );
+  ui.refreshLabel->setText( tr("Refresh every (mins):") );
+  ui.languageLabel->setText( tr("Language:") );
+  ui.shortenLabel->setText( tr("Shorte links via:") );
   ui.notificationsBox->setText( tr("Show tray notifications") );
   ui.tabs->setTabText( 1, tr( "Twitter" ) );
   ui.accountGroupBox->setTitle( tr( "Account" ) );
   ui.accountEnabledCheckBox->setText( tr( "Enabled" ) );
-  ui.accountLoginLabel->setText( tr( "Username" ) );
-  ui.accountPasswordLabel->setText( tr( "Password" ) );
+  ui.accountLoginLabel->setText( tr( "Username:" ) );
+  ui.accountPasswordLabel->setText( tr( "Password:" ) );
   ui.accountDMCheckBox->setText( tr( "download direct messages" ) );
   ui.publicTimelineCheckBox->setText( tr( "include public timeline" ) );
   ui.tabs->setTabText( 2, tr( "Network" ) );

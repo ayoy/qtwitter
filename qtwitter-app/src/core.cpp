@@ -284,6 +284,7 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
   QDialog dlg;
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
+  //: This is for newly created account - when the login isn't given yet
   ui.loginEdit->setText( ( account->login == tr( "<empty>" ) ) ? QString() : account->login );
   ui.loginEdit->selectAll();
   ui.passwordEdit->setText( account->password );
