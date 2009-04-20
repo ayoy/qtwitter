@@ -200,12 +200,6 @@ border-radius: 0px}</string>
       </disabled>
      </palette>
     </property>
-    <property name="focusPolicy">
-     <enum>Qt::NoFocus</enum>
-    </property>
-    <property name="styleSheet">
-     <string notr="true"/>
-    </property>
     <property name="frameShape">
      <enum>QFrame::NoFrame</enum>
     </property>
