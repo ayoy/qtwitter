@@ -42,6 +42,11 @@ TweetModel::~TweetModel()
   }
 }
 
+void TweetModel::setLogin( const QString &login )
+{
+  this->login = login;
+}
+
 void TweetModel::deselectCurrentIndex()
 {
   if ( currentIndex.isValid() ) {

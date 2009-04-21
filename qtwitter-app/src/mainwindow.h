@@ -35,14 +35,15 @@ class MainWindow : public QWidget
 {
   Q_OBJECT
 
+public:
   static const QString APP_VERSION;
 
-public:
   MainWindow( QWidget *parent = 0 );
   virtual ~MainWindow();
 
   StatusList* getListView();
   int getScrollBarWidth();
+
   
 public slots:
   void setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool isPublicTimelineRequested );

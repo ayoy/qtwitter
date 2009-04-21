@@ -178,6 +178,8 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bo
     ui.accountsComboBox->setVisible( false );
     if ( !accounts.isEmpty() )
       emit switchModel( accounts.at(0).login );
+    else
+      emit switchToPublicTimelineModel();
     ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
     return;
   }
@@ -199,7 +201,7 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bo
 
   int index = settings.value( "TwitterAccounts/currentModel", 0 ).toInt();
 
-  if ( index >= ui.accountsComboBox->count() )
+  if ( index < 0 || index >= ui.accountsComboBox->count() )
     ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->count() - 1 );
   else
     ui.accountsComboBox->setCurrentIndex( index );
@@ -278,7 +280,7 @@ void MainWindow::changeLabel()
 void MainWindow::sendStatus()
 {
   if( ui.statusEdit->charsLeft() < 0 ) {
-    QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Message to long" ), tr( "Your message is too long." ) );
+    QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Message too long" ), tr( "Your message is too long." ) );
     QPushButton *accept = messageBox->addButton( tr( "Cool" ), QMessageBox::AcceptRole );
     QPushButton *reject = messageBox->addButton( tr( "Oops..." ), QMessageBox::RejectRole );
     messageBox->setInformativeText( tr( "You can still post it like this, but it will be truncated." ) );

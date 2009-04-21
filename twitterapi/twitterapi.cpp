@@ -313,6 +313,7 @@ void TwitterAPI::slotAuthenticationRequired( QNetworkReply *reply, QAuthenticato
     } else {
       emit unauthorized( login, password );
     }
-    reply->close();
+    reply->abort();
+//    reply->close();
   }
 }

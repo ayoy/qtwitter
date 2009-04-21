@@ -171,6 +171,10 @@ void Core::get( const QString &login, const QString &password )
 {
   twitterapi->friendsTimeline( login, password );
   emit newRequest();
+  if ( accountsModel->account( login )->directMessages ) {
+    twitterapi->directMessages( login, password );
+    emit newRequest();
+  }
 }
 
 void Core::get()
@@ -296,14 +300,22 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
       authDialogOpen = false;
       account->isEnabled = false;
       settings.setValue( QString("TwitterAccounts/%1/enabled").arg( row ), false );
+      emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
       return Core::STATE_DISABLE_ACCOUNT;
     } else if ( ui.removeBox->isChecked() ) {
       authDialogOpen = false;
       accountsModel->removeRow( row );
       settings.deleteTwitterAccount( row, accountsModel->rowCount() );
+      emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
       return Core::STATE_REMOVE_ACCOUNT;
     }
-    account->login = ui.loginEdit->text();
+    if ( account->login != ui.loginEdit->text() ) {
+      tweetModels[ ui.loginEdit->text() ] = tweetModels[ account->login ];
+      tweetModels[ ui.loginEdit->text() ]->setLogin( account->login );
+      tweetModels.remove( account->login );
+      account->login = ui.loginEdit->text();
+      emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
+    }
     account->password = ui.passwordEdit->text();
     settings.setValue( QString("TwitterAccounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login );
     settings.setValue( QString("TwitterAccounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password ) );
@@ -355,10 +367,13 @@ void Core::deleteEntry( const QString &login, int id )
 void Core::slotUnauthorized( const QString &login, const QString &password )
 {
   Q_UNUSED(password)
-  if ( !retryAuthorizing( accountsModel->account( login ), TwitterAPI::ROLE_FRIENDS_TIMELINE ) )
+  TwitterAccount *account = accountsModel->account( login );
+  if ( !retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE ) )
     return;
   requestCount--;
-  get( accountsModel->account( login )->login, accountsModel->account( login )->password );
+  if ( account->directMessages )
+    requestCount--;
+  get( account->login, account->password );
 }
 
 void Core::slotUnauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId )
@@ -368,7 +383,7 @@ void Core::slotUnauthorized( const QString &login, const QString &password, cons
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE ) )
     return;
   requestCount--;
-  post( accountsModel->account( login )->login, status, inReplyToId );
+  post( account->login, status, inReplyToId );
 }
 
 void Core::slotUnauthorized( const QString &login, const QString &password, int destroyId )
@@ -378,7 +393,7 @@ void Core::slotUnauthorized( const QString &login, const QString &password, int 
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE ) )
     return;
   requestCount--;
-  destroyTweet( login, destroyId );
+  destroyTweet( account->login, destroyId );
 }
 
 void Core::setupTweetModels()
