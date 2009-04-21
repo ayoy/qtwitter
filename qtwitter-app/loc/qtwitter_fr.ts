@@ -6,8 +6,7 @@
     <message>
         <location filename="../ui/about.ui" line="32"/>
         <source>About qTwitter</source>
-        <translatorcomment>decide if capital letters should be written with accents or not</translatorcomment>
-        <translation type="unfinished">À propos de qTwitter</translation>
+        <translation>À propos de qTwitter</translation>
     </message>
     <message>
         <location filename="../ui/about.ui" line="188"/>
@@ -20,12 +19,14 @@
     <message>
         <location filename="../ui/authdialog.ui" line="32"/>
         <source>Authentication required</source>
-        <translation type="unfinished">Une authentification est nécessaire pour la connexion</translation>
+        <translatorcomment>fuzzy</translatorcomment>
+        <translation type="unfinished">Authentification nécessaire</translation>
     </message>
     <message>
         <location filename="../ui/authdialog.ui" line="65"/>
         <source>The credentials you provided are incorrect</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Got rid of &apos;you provided&apos; to keep the length sensible</translatorcomment>
+        <translation type="unfinished">Les informations de connexion sont erronées</translation>
     </message>
     <message>
         <location filename="../ui/authdialog.ui" line="78"/>
@@ -65,12 +66,13 @@
     <message>
         <location filename="../src/core.cpp" line="230"/>
         <source>There was a problem uploading your photo:</source>
-        <translation type="unfinished"></translation>
+        <translation>Une erreur est survenue lors de l&apos;envoi de la photo:</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="241"/>
         <source>Photo available at:</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>need context; la photo or une photo?</translatorcomment>
+        <translation>La photo est disponible sur:</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="288"/>
@@ -81,27 +83,28 @@
     <message>
         <location filename="../src/core.cpp" line="430"/>
         <source>Authentication is required to post updates.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>or, publier des messages. Or, envoyer des messages. Decide.</translatorcomment>
+        <translation type="unfinished">Une authentification est nécessaire pour publier des mises á jour.</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="432"/>
         <source>Authentication is required to delete updates.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Une authentification est nécessaire pour supprimer des messages.</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="436"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Une authentification est necéssaire pour recevoir les messages de vos amis.</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="478"/>
         <source>For</source>
-        <translation type="unfinished"></translation>
+        <translation>Pour</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="486"/>
         <source>and</source>
-        <translation type="unfinished"></translation>
+        <translation>et</translation>
     </message>
 </context>
 <context>
@@ -109,7 +112,7 @@
     <message>
         <location filename="../src/imagedownload.cpp" line="91"/>
         <source>Download failed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Le téléchargement a échoué:</translation>
     </message>
 </context>
 <context>
@@ -234,9 +237,9 @@
         <location filename="../src/mainwindow.cpp" line="52"/>
         <location filename="../src/mainwindow.cpp" line="261"/>
         <source>%n characters left</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n caractère restant</numerusform>
+            <numerusform>%n caractères restants</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -288,8 +291,7 @@
         <location filename="../src/mainwindow.cpp" line="421"/>
         <location filename="../ui/mainwindow.ui" line="248"/>
         <source>What are you doing?</source>
-        <translatorcomment>Consider if using &apos;tu&apos; form instead of &apos;vous&apos; is acceptable</translatorcomment>
-        <translation type="unfinished">Que fais-tu?</translation>
+        <translation type="unfinished">Que faites-vous?</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="20"/>
@@ -302,7 +304,8 @@
     <message>
         <location filename="../src/urlshortener.cpp" line="128"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Let someone speaking French check it, please..</translatorcomment>
+        <translation>Une erreur inconnue est survenue en train de raccourcir votre URL.</translation>
     </message>
 </context>
 <context>
@@ -317,7 +320,7 @@
         <location filename="../src/settings.cpp" line="179"/>
         <location filename="../src/settings.cpp" line="478"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Naviguer</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="385"/>
@@ -351,19 +354,20 @@
     <message>
         <location filename="../ui/settings.ui" line="122"/>
         <source>Shorten links via</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>par?</translatorcomment>
+        <translation>Raccourcir des liens via</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="461"/>
         <location filename="../ui/settings.ui" line="151"/>
         <source>Show tray notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Afficher des pop-ups dans la zone de notification</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="462"/>
         <location filename="../ui/settings.ui" line="162"/>
         <source>Twitter</source>
-        <translation type="unfinished"></translation>
+        <translation>Twitter</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="463"/>
@@ -375,8 +379,7 @@
         <location filename="../src/settings.cpp" line="464"/>
         <location filename="../ui/settings.ui" line="242"/>
         <source>Enabled</source>
-        <translatorcomment>fuzzy</translatorcomment>
-        <translation type="unfinished">Activé</translation>
+        <translation>Activé</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="252"/>
@@ -391,39 +394,39 @@
     <message>
         <location filename="../src/settings.cpp" line="458"/>
         <source>Refresh every (mins):</source>
-        <translation type="unfinished"></translation>
+        <translation>Rafraîchir toutes les (min):</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="459"/>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Langue:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="460"/>
         <source>Shorte links via:</source>
-        <translation type="unfinished"></translation>
+        <translation>Raccourcir des liens via:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="465"/>
         <source>Username:</source>
-        <translation type="unfinished">Nom d&apos;utilisateur:</translation>
+        <translation>Nom d&apos;utilisateur:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="466"/>
         <source>Password:</source>
-        <translation type="unfinished">Mot de passe:</translation>
+        <translation>Mot de passe:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="467"/>
         <location filename="../ui/settings.ui" line="289"/>
         <source>download direct messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Recevoir des messages privés</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="468"/>
         <location filename="../ui/settings.ui" line="299"/>
         <source>include public timeline</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">recevoir </translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="469"/>
@@ -492,8 +495,7 @@
     <message>
         <location filename="../src/settings.cpp" line="492"/>
         <source>All files (*)</source>
-        <translatorcomment>needs checking</translatorcomment>
-        <translation type="unfinished">Toutes les fichiers (*)</translation>
+        <translation>Toutes les fichiers (*)</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="525"/>
@@ -508,7 +510,7 @@
         <location filename="../src/statusedit.cpp" line="79"/>
         <source>What are you doing?</source>
         <translatorcomment>see the same string in MainWindow</translatorcomment>
-        <translation type="unfinished">Que fais-tu?</translation>
+        <translation>Que faites-vous?</translation>
     </message>
 </context>
 <context>
@@ -530,25 +532,26 @@
         <location filename="../src/tweet.cpp" line="70"/>
         <location filename="../src/tweet.cpp" line="182"/>
         <source>Reply to %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Répondre à %1</translation>
     </message>
     <message>
         <location filename="../src/tweet.cpp" line="79"/>
         <location filename="../src/tweet.cpp" line="183"/>
         <source>Retweet</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>simple forward; todo</translatorcomment>
+        <translation type="unfinished">Faire suivre</translation>
     </message>
     <message>
         <location filename="../src/tweet.cpp" line="87"/>
         <location filename="../src/tweet.cpp" line="184"/>
         <source>Copy link to this tweet</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copier le lien vers ce message</translation>
     </message>
     <message>
         <location filename="../src/tweet.cpp" line="95"/>
         <location filename="../src/tweet.cpp" line="185"/>
         <source>Delete tweet</source>
-        <translation type="unfinished"></translation>
+        <translation>Supprimer ce tweet</translation>
     </message>
     <message>
         <location filename="../src/tweet.cpp" line="105"/>
@@ -560,25 +563,25 @@
         <location filename="../src/tweet.cpp" line="112"/>
         <location filename="../src/tweet.cpp" line="188"/>
         <source>Go to User&apos;s Twitter page</source>
-        <translation type="unfinished"></translation>
+        <translation>Aller à la page de l&apos;utilisateur sur Twitter</translation>
     </message>
     <message>
         <location filename="../src/tweet.cpp" line="119"/>
         <location filename="../src/tweet.cpp" line="187"/>
         <source>Go to User&apos;s homepage</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>fuzzy</translatorcomment>
+        <translation type="unfinished">Aller à la page d&apos;accueil de l&apos;utilisateur</translation>
     </message>
     <message>
         <location filename="../src/tweet.cpp" line="130"/>
         <location filename="../src/tweet.cpp" line="189"/>
         <source>About qTwitter...</source>
-        <translatorcomment>or, à propos de.. &apos; if you consider the above form too long</translatorcomment>
         <translation>À propos de qTwitter...</translation>
     </message>
     <message>
         <location filename="../ui/tweet.ui" line="20"/>
         <source>Form</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -586,7 +589,7 @@
     <message>
         <location filename="../ui/twitpicnewphoto.ui" line="26"/>
         <source>Upload completed</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;envoi a été effectué</translation>
     </message>
 </context>
 <context>
@@ -597,23 +600,25 @@
         <location filename="../src/twitpicview.cpp" line="129"/>
         <location filename="../ui/twitpicview.ui" line="151"/>
         <source>Upload</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>fuzzy</translatorcomment>
+        <translation type="unfinished">Envoyer</translation>
     </message>
     <message>
         <location filename="../src/twitpicview.cpp" line="125"/>
         <location filename="../src/twitpicview.cpp" line="127"/>
         <source>Abort</source>
-        <translation type="unfinished"></translation>
+        <translation>Abandonner</translation>
     </message>
     <message>
         <location filename="../src/twitpicview.cpp" line="137"/>
         <source>Select photo to upload</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>unfinished; possible envoyer; possible selectionnez or choisir..?</translatorcomment>
+        <translation type="unfinished">Choisissez une photo pour l&apos;envoi</translation>
     </message>
     <message>
         <location filename="../src/twitpicview.cpp" line="137"/>
         <source>Image files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fichiers d&apos; images</translation>
     </message>
     <message>
         <location filename="../src/twitpicview.cpp" line="143"/>
@@ -621,27 +626,28 @@
         <location filename="../src/twitpicview.cpp" line="160"/>
         <location filename="../ui/twitpicview.ui" line="110"/>
         <source>Select a photo to upload</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>fuzzy</translatorcomment>
+        <translation type="unfinished">Choisir une photo pour envoyer</translation>
     </message>
     <message>
         <location filename="../ui/twitpicview.ui" line="20"/>
         <source>Upload a photo to Twitpic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Envoyer une photo à TwitPic</translation>
     </message>
     <message>
         <location filename="../ui/twitpicview.ui" line="28"/>
         <source>Choose a photo:</source>
-        <translation type="unfinished"></translation>
+        <translation>Choisir une photo:</translation>
     </message>
     <message>
         <location filename="../ui/twitpicview.ui" line="38"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>Naviguer</translation>
     </message>
     <message>
         <location filename="../ui/twitpicview.ui" line="128"/>
         <source>post a status</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">ajouter un message</translation>
     </message>
 </context>
 <context>
@@ -649,24 +655,24 @@
     <message>
         <location filename="../src/twitteraccountsmodel.cpp" line="77"/>
         <source>Enabled</source>
-        <translation type="unfinished">Activé</translation>
+        <translation>Activé</translation>
     </message>
     <message>
         <location filename="../src/twitteraccountsmodel.cpp" line="79"/>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Identifiant</translation>
     </message>
     <message>
         <location filename="../src/twitteraccountsmodel.cpp" line="82"/>
         <source>Direct msgs</source>
         <extracomment>This should be as short as possible (e.g. PW in Polish)</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Messages privés</translation>
     </message>
     <message>
         <location filename="../src/twitteraccountsmodel.cpp" line="158"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation type="unfinished">&lt;vide&gt;</translation>
+        <translation>&lt;vide&gt;</translation>
     </message>
 </context>
 </TS>

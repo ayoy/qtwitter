@@ -523,13 +523,13 @@
         <location filename="../src/tweet.cpp" line="112"/>
         <location filename="../src/tweet.cpp" line="188"/>
         <source>Go to User&apos;s Twitter page</source>
-        <translation>Idź do strony na Twitterze</translation>
+        <translation>Idź do strony użytkownika na Twitterze</translation>
     </message>
     <message>
         <location filename="../src/tweet.cpp" line="119"/>
         <location filename="../src/tweet.cpp" line="187"/>
         <source>Go to User&apos;s homepage</source>
-        <translation>Idź do strony domowej</translation>
+        <translation>Idź do strony domowej użytkownika</translation>
     </message>
     <message>
         <location filename="../src/tweet.cpp" line="95"/>
