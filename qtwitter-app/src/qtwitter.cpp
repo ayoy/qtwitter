@@ -43,6 +43,7 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
   connect( this, SIGNAL(post(QString,QString,int)), core, SLOT(post(QString,QString,int)) );
   connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
   connect( this, SIGNAL(shortenUrl(QString)), core, SLOT(shortenUrl(QString)));
+  connect( core, SIGNAL(twitterAccountsChanged(QList<TwitterAccount>,bool)), this, SLOT(setupTwitterAccounts(QList<TwitterAccount>,bool)) );
   connect( core, SIGNAL(urlShortened(QString)), this, SLOT(replaceUrl(QString)));
   connect( core, SIGNAL(about()), this, SLOT(about()) );
   connect( core, SIGNAL(addReplyString(QString,int)), this, SIGNAL(addReplyString(QString,int)) );

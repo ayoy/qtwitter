@@ -173,8 +173,6 @@ void Tweet::applyTheme()
     setStyleSheet( currentTheme.read.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.read.linkColor );
   }
-  m_ui->userStatus->setHtml( tweetData->text );
-  this->update();
 }
 
 void Tweet::retranslateUi()

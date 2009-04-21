@@ -123,7 +123,8 @@ bool TwitterAccountsModel::removeRows( int row, int count, const QModelIndex &pa
 
 void TwitterAccountsModel::clear()
 {
-  removeRows( 0, accounts.size() );
+  if ( accounts.size() > 0 )
+    removeRows( 0, accounts.size() );
 }
 
 QList<TwitterAccount>& TwitterAccountsModel::getAccounts()

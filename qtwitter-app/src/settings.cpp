@@ -43,7 +43,10 @@ QSettings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" )
 #else
 QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
 #endif
-{}
+{
+  if ( value( "General/version", QString() ).toString().isNull() )
+    convertSettings();
+}
 
 QString ConfigFile::pwHash( const QString &text )
 {
@@ -68,6 +71,25 @@ void ConfigFile::deleteTwitterAccount( int id, int rowCount )
   endGroup();
 }
 
+void ConfigFile::convertSettings()
+{
+  setValue( "General/version", MainWindow::APP_VERSION );
+  if ( contains( "General/username" ) ) {
+    setValue( "TwitterAccounts/0/enabled", true );
+    setValue( "TwitterAccounts/0/login", value( "General/username", "<empty>" ).toString() );
+    setValue( "TwitterAccounts/0/password", value( "General/password", "" ).toString() );
+    setValue( "TwitterAccounts/0/directmsgs", value( "General/directMessages", false ).toBool() );
+  }
+  setValue( "TwitterAccounts/publicTimeline", true );
+  if ( value( "General/timeline", false ).toBool() ) {
+    setValue( "TwitterAccounts/currentModel", 1 );
+  }
+  setValue( "General/language", "en" );
+  remove( "General/username" );
+  remove( "General/password" );
+  remove( "General/directMessages" );
+  remove( "General/timeline" );
+}
 
 const ThemeInfo Settings::STYLESHEET_CARAMEL =  ThemeInfo( QString( "Caramel" ),
                                                            ThemeData( ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(23, 14, 40, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(219, 204, 56); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" ),
@@ -225,7 +247,7 @@ void Settings::loadConfig( bool dialogRejected )
         ui.deleteAccountButton->setEnabled( true );
       }
   }
-  ui.publicTimelineCheckBox->setChecked( settings.value( "publicTimeline", Qt::Unchecked ).toBool() );
+  ui.publicTimelineCheckBox->setChecked( settings.value( "publicTimeline", false ).toBool() );
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
@@ -248,7 +270,7 @@ void Settings::loadConfig( bool dialogRejected )
 
   if ( !dialogRejected ) {
     settings.beginGroup( "MainWindow" );
-    mainWindow->resize( settings.value( "size", QSize(307, 245) ).toSize() );
+    mainWindow->resize( settings.value( "size", QSize(300, 400) ).toSize() );
     QPoint offset( settings.value( "pos", QPoint(500,500) ).toPoint() );
     if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
       offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
@@ -326,6 +348,10 @@ void Settings::show()
 {
   ui.tabs->setCurrentIndex( 0 );
   QDialog::show();
+  if ( accountsModel->index( ui.usersView->currentIndex().row(), 0 ).isValid() ) {
+    TwitterAccount &account = accountsModel->account( accountsModel->index( ui.usersView->currentIndex().row(), 0 ).row() );
+    ui.accountEnabledCheckBox->setChecked( account.isEnabled );
+  }
 }
 
 void Settings::accept()
