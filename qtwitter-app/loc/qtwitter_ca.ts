@@ -563,7 +563,7 @@
         <location filename="../src/tweet.cpp" line="87"/>
         <location filename="../src/tweet.cpp" line="184"/>
         <source>Copy link to this tweet</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Copiar l&apos;enllaç a aquest missatge</translation>
     </message>
 </context>
 <context>

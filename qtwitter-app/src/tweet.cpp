@@ -63,13 +63,13 @@ void Tweet::createMenu()
   menu = new QMenu( this );
   QFont menuFont;
   menuFont.setPointSize( menu->font().pointSize() - 3 );
-  menu->setFont( menuFont );
+  //menu->setFont( menuFont );
 
   signalMapper = new QSignalMapper( this );
 
   replyAction = new QAction( tr("Reply to %1" ).arg( tweetData->login ), this);
   menu->addAction( replyAction );
-  replyAction->setFont( menuFont );
+//  replyAction->setFont( menuFont );
   connect( replyAction, SIGNAL(triggered()), this, SLOT(sendReply()) );
   connect( this, SIGNAL(reply(QString,int)), tweetListModel, SIGNAL(reply(QString,int)) );
   if ( tweetData->type != Entry::Status ) {
@@ -78,7 +78,7 @@ void Tweet::createMenu()
 
   retweetAction = new QAction( tr( "Retweet" ), this );
   menu->addAction( retweetAction );
-  retweetAction->setFont( menuFont );
+//  retweetAction->setFont( menuFont );
   connect( retweetAction, SIGNAL(triggered()), this, SLOT(sendRetweet()) );
   connect( this, SIGNAL(retweet(QString)), tweetListModel, SIGNAL(retweet(QString)) );
 
@@ -86,7 +86,7 @@ void Tweet::createMenu()
 
   copylinkAction = new QAction( tr( "Copy link to this tweet" ), this );
   menu->addAction( copylinkAction );
-  copylinkAction->setFont( menuFont );
+//  copylinkAction->setFont( menuFont );
   connect( copylinkAction, SIGNAL(triggered()), this, SLOT(copyLink()) );
   if ( tweetData->type != Entry::Status ) {
     copylinkAction->setEnabled( false );
@@ -94,7 +94,7 @@ void Tweet::createMenu()
 
   deleteAction = new QAction( tr( "Delete tweet" ), this );
   menu->addAction( deleteAction );
-  deleteAction->setFont( menuFont );
+//  deleteAction->setFont( menuFont );
   signalMapper->setMapping( deleteAction, tweetData->id );
   connect( deleteAction, SIGNAL(triggered()), this, SLOT(deleteTweet()) );
   connect( this, SIGNAL(deleteStatus(QString,int)), tweetListModel, SIGNAL(destroy(QString,int)) );
@@ -104,21 +104,21 @@ void Tweet::createMenu()
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
   menu->addAction( markallasreadAction );
-  markallasreadAction->setFont( menuFont );
+//  markallasreadAction->setFont( menuFont );
   connect( markallasreadAction, SIGNAL(triggered()), tweetListModel, SLOT(markAllAsRead()) );
 
   menu->addSeparator();
 
   gototwitterpageAction = new QAction( tr( "Go to User's Twitter page" ), this );
   menu->addAction( gototwitterpageAction );
-  gototwitterpageAction->setFont( menuFont );
+//  gototwitterpageAction->setFont( menuFont );
   signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + tweetData->login );
   connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   connect( signalMapper, SIGNAL(mapped(QString)), tweetListModel, SLOT(emitOpenBrowser(QString)) );
 
   gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
   menu->addAction( gotohomepageAction );
-  gotohomepageAction->setFont( menuFont );
+//  gotohomepageAction->setFont( menuFont );
   signalMapper->setMapping( gotohomepageAction, tweetData->homepage );
   connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   if ( !tweetData->homepage.compare("") ) {
@@ -129,7 +129,7 @@ void Tweet::createMenu()
 
   aboutAction = new QAction( tr( "About qTwitter..." ), this );
   menu->addAction( aboutAction );
-  aboutAction->setFont( menuFont );
+//  aboutAction->setFont( menuFont );
   connect( aboutAction, SIGNAL(triggered()), tweetListModel, SIGNAL(about()) );
 }
 
