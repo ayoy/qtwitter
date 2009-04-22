@@ -49,6 +49,7 @@ public:
   TweetModel( const QString &login, int margin, StatusList *parentListView, QObject *parent = 0 );
   ~TweetModel();
 
+  Tweet* currentTweet();
   void setLogin( const QString &login );
   void deselectCurrentIndex();
   void setTheme( const ThemeData &theme );

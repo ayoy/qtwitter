@@ -44,6 +44,7 @@ public:
   explicit Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, TweetModel *parentModel, QWidget *parent = 0 );
   virtual ~Tweet();
 
+  const Entry& data() const;
   void resize( const QSize& size );
   void resize( int w, int h );
 
@@ -61,9 +62,10 @@ public:
 public slots:
   void adjustSize();
   void menuRequested();
-  void sendReply();
-  void sendRetweet();
-  void copyLink();
+  void slotReply();
+  void slotRetweet();
+  void slotCopyLink();
+  void slotDelete();
 
 signals:
   void reply( const QString &name, int inReplyTo );
@@ -79,7 +81,6 @@ protected:
 
 private slots:
   void focusRequest();
-  void deleteTweet();
 
 private:
   void createMenu();

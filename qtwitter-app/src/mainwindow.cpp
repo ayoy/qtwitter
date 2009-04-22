@@ -38,7 +38,7 @@
 
 extern ConfigFile settings;
 
-const QString MainWindow::APP_VERSION = "0.6.0_pre1";
+const QString MainWindow::APP_VERSION = "0.6.0_rc1";
 
 MainWindow::MainWindow( QWidget *parent ) :
     QWidget( parent ),
@@ -49,7 +49,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
   ui.countdownLabel->setMovie( progressIcon );
-  ui.countdownLabel->setToolTip( tr( "%n characters left", "", ui.countdownLabel->text().toInt() ) );
+  ui.countdownLabel->setToolTip( tr( "%n character(s) left", "", ui.countdownLabel->text().toInt() ) );
 
   createConnections();
   createMenu();
@@ -62,6 +62,23 @@ MainWindow::~MainWindow() {
 
 void MainWindow::createConnections()
 {
+  QShortcut *replyShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ), this, SLOT(tweetReplyAction()) );
+  QShortcut *retweetShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ), this, SLOT(tweetRetweetAction()) );
+  QShortcut *copylinkShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ), this, SLOT(tweetCopylinkAction()) );
+  QShortcut *deleteShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ), this, SLOT(tweetDeleteAction()) );
+  QShortcut *markallasreadShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ), this, SLOT(tweetMarkallasreadAction()) );
+  QShortcut *gototwitterpageShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ), this, SLOT(tweetGototwitterpageAction()) );
+  QShortcut *gotohomepageShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ), this, SLOT(tweetGotohomepageAction()) );
+
+  Q_UNUSED(replyShortcut);
+  Q_UNUSED(retweetShortcut);
+  Q_UNUSED(copylinkShortcut);
+  Q_UNUSED(deleteShortcut);
+  Q_UNUSED(markallasreadShortcut);
+  Q_UNUSED(gototwitterpageShortcut);
+  Q_UNUSED(gotohomepageShortcut);
+
+
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
 
@@ -260,13 +277,13 @@ void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
 
 void MainWindow::changeLabel()
 {
-  QString toolTip = tr( "%n characters left", "", ui.statusEdit->charsLeft() );
+  QString toolTip = tr( "%n character(s) left", "", ui.statusEdit->charsLeft() );
   QPalette palette( ui.countdownLabel->palette() );
 
   if( !ui.statusEdit->isStatusClean() ) {
     if ( ui.statusEdit->charsLeft() < 0 ) {
       palette.setColor( QPalette::Foreground, Qt::red );
-      toolTip = tr( "%n characters over the limit", "", ui.statusEdit->charsLeft() * -1 );
+      toolTip = tr( "%n character(s) over the limit", "", ui.statusEdit->charsLeft() * -1 );
     } else {
       palette.setColor( QPalette::Foreground, Qt::black );
     }
@@ -433,6 +450,73 @@ void MainWindow::replaceUrl( const QString &url )
     text.replace( ui.statusEdit->getSelectedUrl(), url );
     ui.statusEdit->setText( text );
     ui.statusEdit->setCursorPosition( text.indexOf( url ) + url.length() );
+}
+
+void MainWindow::tweetReplyAction()
+{
+  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  if ( model )
+    if ( model->currentTweet() )
+    {
+      model->currentTweet()->slotReply();
+    }
+}
+
+void MainWindow::tweetRetweetAction()
+{
+  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  if ( model )
+    if ( model->currentTweet() )
+    {
+      model->currentTweet()->slotRetweet();
+    }
+}
+
+void MainWindow::tweetCopylinkAction()
+{
+  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  if ( model )
+    if ( model->currentTweet() )
+    {
+      model->currentTweet()->slotCopyLink();
+    }
+}
+
+void MainWindow::tweetDeleteAction()
+{
+  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  if ( model )
+    if ( model->currentTweet() )
+    {
+      model->currentTweet()->slotDelete();
+    }
+}
+
+void MainWindow::tweetMarkallasreadAction()
+{
+  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  if ( model )
+    model->markAllAsRead();
+}
+
+void MainWindow::tweetGototwitterpageAction()
+{
+  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  if ( model )
+    if ( model->currentTweet() )
+    {
+      emitOpenBrowser( "http://twitter.com/" + model->currentTweet()->data().login );
+    }
+}
+
+void MainWindow::tweetGotohomepageAction()
+{
+  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  if ( model )
+    if ( model->currentTweet() )
+    {
+      emitOpenBrowser( model->currentTweet()->data().homepage );
+    }
 }
 
 /*! \class MainWindow

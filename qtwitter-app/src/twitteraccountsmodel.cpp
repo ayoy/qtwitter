@@ -25,7 +25,7 @@ TwitterAccountsModel::TwitterAccountsModel( QObject *parent ) : QAbstractItemMod
 
 int TwitterAccountsModel::rowCount( const QModelIndex &parent ) const
 {
-  Q_UNUSED(parent)
+  Q_UNUSED(parent);
   if ( accounts.isEmpty() )
     return 0;
   return accounts.size();
@@ -33,7 +33,7 @@ int TwitterAccountsModel::rowCount( const QModelIndex &parent ) const
 
 int TwitterAccountsModel::columnCount(const QModelIndex &parent ) const
 {
-  Q_UNUSED(parent)
+  Q_UNUSED(parent);
   return 4;
 }
 
@@ -44,7 +44,7 @@ QModelIndex TwitterAccountsModel::index( int row, int column, const QModelIndex 
 
 QModelIndex TwitterAccountsModel::parent( const QModelIndex &index ) const
 {
-  Q_UNUSED(index)
+  Q_UNUSED(index);
   return QModelIndex();
 }
 
@@ -87,7 +87,7 @@ QVariant TwitterAccountsModel::headerData( int section, Qt::Orientation orientat
 
 bool TwitterAccountsModel::insertRows( int row, int count, const QModelIndex &parent )
 {
-  Q_UNUSED(parent)
+  Q_UNUSED(parent);
   if ( row > accounts.size() )
     row = accounts.size();
 
@@ -101,11 +101,8 @@ bool TwitterAccountsModel::insertRows( int row, int count, const QModelIndex &pa
 
 bool TwitterAccountsModel::removeRows( int row, int count, const QModelIndex &parent )
 {
-  Q_UNUSED(parent)
+  Q_UNUSED(parent);
 //  if ( !parent.isValid() )
-//    return false;
-
-//  if ( row >= accounts.size() || row + count >= accounts.size() )
 //    return false;
 
   if ( row > accounts.size() )
