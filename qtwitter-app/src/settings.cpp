@@ -33,6 +33,8 @@
 #include "twitteraccountsmodel.h"
 #include "twitteraccountsdelegate.h"
 
+const QString ConfigFile::APP_VERSION = "0.6.0_rc1";
+
 ConfigFile settings;
 
 ConfigFile::ConfigFile():
@@ -73,7 +75,7 @@ void ConfigFile::deleteTwitterAccount( int id, int rowCount )
 
 void ConfigFile::convertSettings()
 {
-  setValue( "General/version", MainWindow::APP_VERSION );
+  setValue( "General/version", ConfigFile::APP_VERSION );
   if ( contains( "General/username" ) ) {
     setValue( "TwitterAccounts/0/enabled", true );
     setValue( "TwitterAccounts/0/login", value( "General/username", "<empty>" ).toString() );
@@ -373,9 +375,9 @@ void Settings::switchLanguage( int index )
   qDebug() << "switching language to" << locale << "from" << qmPath;
   translator.load( "qtwitter_" + locale, qmPath );
   retranslateUi();
+//  ui.retranslateUi(this);
   mainWindow->retranslateUi();
   core->retranslateUi();
-  adjustSize();
 }
 
 void Settings::fillAccountEditor( const QModelIndex &current, const QModelIndex &previous )
@@ -506,7 +508,9 @@ void Settings::retranslateUi()
   ui.buttonBox->button( QDialogButtonBox::Apply )->setText( tr( "Apply" ) );
   ui.buttonBox->button( QDialogButtonBox::Cancel )->setText( tr( "Cancel" ) );
   ui.buttonBox->button( QDialogButtonBox::Ok )->setText( tr( "OK" ) );
-  adjustSize();
+  update();
+//  adjustSize();
+//  updateGeometry();
 }
 
 #ifdef Q_WS_X11

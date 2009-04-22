@@ -36,8 +36,6 @@ class MainWindow : public QWidget
   Q_OBJECT
 
 public:
-  static const QString APP_VERSION;
-
   MainWindow( QWidget *parent = 0 );
   virtual ~MainWindow();
 

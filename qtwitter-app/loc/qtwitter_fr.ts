@@ -120,32 +120,34 @@
     <message>
         <location filename="../src/urlshortener.cpp" line="63"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">L&apos;URL entré n&apos;est pas valide.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="65"/>
         <source>The URL entered was too long.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">L&apos;URL entré est trop long.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="67"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Votre adresse IP est sur la liste noire Spamhaus (SBL/XBL) ou Spamcop.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="69"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>todo</translatorcomment>
+        <translation type="unfinished">L&apos;URL entré est un site spam presenté sur la liste noire SURBL ou URIBL.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="71"/>
         <source>The URL you entered is on our blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>unfinished;todo</translatorcomment>
+        <translation type="unfinished">L&apos;URL entré est sur la liste noire de is.gd.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="73"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of our terms of use).</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Votre adresse IP est sur la liste noire de is.gd (Les conditions d&apos;utilisation de is.gd ont dû être violées).</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="78"/>
@@ -159,13 +161,13 @@
         <location filename="../src/mainwindow.cpp" line="119"/>
         <location filename="../src/mainwindow.cpp" line="441"/>
         <source>New tweet</source>
-        <translation type="unfinished"></translation>
+        <translation>Nouveau message</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="120"/>
         <location filename="../src/mainwindow.cpp" line="442"/>
         <source>Upload a photo to TwitPic</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Envoyer une photo à TwitPic</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="121"/>
@@ -200,27 +202,27 @@
         <location filename="../src/mainwindow.cpp" line="337"/>
         <location filename="../src/mainwindow.cpp" line="342"/>
         <source>public timeline</source>
-        <translation type="unfinished"></translation>
+        <translation>liste publique</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="300"/>
         <source>Your message is too long.</source>
-        <translation type="unfinished"></translation>
+        <translation>Votre message est trop long.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="301"/>
         <source>Cool</source>
-        <translation type="unfinished"></translation>
+        <translation>Cool</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="302"/>
         <source>Oops...</source>
-        <translation type="unfinished"></translation>
+        <translation>Oups...</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="303"/>
         <source>You can still post it like this, but it will be truncated.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Il est encore possible de envoyer votre message comme ça, mais il va être coupé.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="351"/>
@@ -240,26 +242,26 @@
     <message numerus="yes">
         <location filename="../src/mainwindow.cpp" line="286"/>
         <source>%n character(s) over the limit</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n caractère excédentaire</numerusform>
+            <numerusform>%n caractères excédentaires</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="300"/>
         <source>Message too long</source>
-        <translation type="unfinished"></translation>
+        <translation>Le message est trop long</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="377"/>
         <source>the public timeline</source>
         <extracomment>The full sentence is e.g.: &quot;New tweets for &lt;user A&gt;, &lt;user B&gt; and the public timeline&quot;</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>le liste publique</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="378"/>
         <source>New tweets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Des messages nouveaux</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="384"/>
@@ -269,29 +271,29 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="406"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distributed under the GPL license&lt;/p&gt;&lt;p&gt;version 3 or later&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;qTwitter icon by&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Other icons by &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter un client Qt de Twitter&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distribué sous les conditions éconcées par la licence GNU GPL&lt;/p&gt;&lt;p&gt;version 3 ou&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;L&apos;icône de qTwitter par&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Les autres icônes par &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="429"/>
         <source>Update tweets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Actualiser des messages</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="431"/>
         <source>Navigate using %1 and %2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Naviguer avec %1 et %2</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="436"/>
         <location filename="../ui/mainwindow.ui" line="179"/>
         <source>More...</source>
-        <translation type="unfinished"></translation>
+        <translation>Plus...</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="440"/>
         <location filename="../ui/mainwindow.ui" line="248"/>
         <source>What are you doing?</source>
-        <translation type="unfinished">Que faites-vous?</translation>
+        <translation>Que faites-vous?</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="20"/>
@@ -314,7 +316,8 @@
         <location filename="../src/settings.cpp" line="199"/>
         <location filename="../src/settings.cpp" line="503"/>
         <source>Use custom web browser</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>?</translatorcomment>
+        <translation type="unfinished">Utliser le navigateur hors norme</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="201"/>
@@ -426,7 +429,8 @@
         <location filename="../src/settings.cpp" line="494"/>
         <location filename="../ui/settings.ui" line="299"/>
         <source>include public timeline</source>
-        <translation type="unfinished">recevoir </translation>
+        <translatorcomment>télécharger as in polish translation? Inclure?</translatorcomment>
+        <translation type="unfinished">recevoir la liste publique</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="495"/>
@@ -463,7 +467,8 @@
         <location filename="../src/settings.cpp" line="500"/>
         <location filename="../ui/settings.ui" line="406"/>
         <source>Tweet count:</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>fuzzy; replace messages</translatorcomment>
+        <translation type="unfinished">Nombre de messages:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="501"/>
@@ -490,7 +495,7 @@
     <message>
         <location filename="../src/settings.cpp" line="518"/>
         <source>Select your browser executable</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Selectionnez le navigateur</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="518"/>
@@ -518,12 +523,12 @@
     <message>
         <location filename="../src/urlshortener.cpp" line="100"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;URL a été rejetée par tr.im</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="106"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Une erreur inconnue est survenue en train de raccourcir votre URL.</translation>
+        <translation>Une erreur inconnue est survenue en train de raccourcir votre URL.</translation>
     </message>
 </context>
 <context>
@@ -557,7 +562,7 @@
         <location filename="../src/tweet.cpp" line="101"/>
         <location filename="../src/tweet.cpp" line="184"/>
         <source>Mark all as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Tout marquer comme lu</translation>
     </message>
     <message>
         <location filename="../src/tweet.cpp" line="108"/>
@@ -627,7 +632,7 @@
         <location filename="../ui/twitpicview.ui" line="110"/>
         <source>Select a photo to upload</source>
         <translatorcomment>fuzzy</translatorcomment>
-        <translation type="unfinished">Choisir une photo pour envoyer</translation>
+        <translation type="unfinished">Choisissez une photo pour l&apos;envoi</translation>
     </message>
     <message>
         <location filename="../ui/twitpicview.ui" line="20"/>

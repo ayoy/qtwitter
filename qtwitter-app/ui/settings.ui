@@ -147,6 +147,12 @@
        </item>
        <item row="3" column="1">
         <widget class="QCheckBox" name="notificationsBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>2</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="text">
           <string>Show tray notifications</string>
          </property>
@@ -194,7 +200,7 @@
            <item>
             <widget class="QToolButton" name="addAccountButton">
              <property name="icon">
-              <iconset resource="../res/resources.qrc">
+              <iconset>
                <normaloff>:/icons/add_48.png</normaloff>:/icons/add_48.png</iconset>
              </property>
             </widget>
@@ -202,7 +208,7 @@
            <item>
             <widget class="QToolButton" name="deleteAccountButton">
              <property name="icon">
-              <iconset resource="../res/resources.qrc">
+              <iconset>
                <normaloff>:/icons/cancel_48.png</normaloff>:/icons/cancel_48.png</iconset>
              </property>
             </widget>
@@ -480,9 +486,7 @@
   <tabstop>tweetCountBox</tabstop>
   <tabstop>colorBox</tabstop>
  </tabstops>
- <resources>
-  <include location="../res/resources.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
