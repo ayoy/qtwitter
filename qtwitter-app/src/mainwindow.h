@@ -57,6 +57,14 @@ public slots:
   void setListViewModel( TweetModel *model );
   void replaceUrl( const QString &url );
 
+  void tweetReplyAction();
+  void tweetRetweetAction();
+  void tweetCopylinkAction();
+  void tweetDeleteAction();
+  void tweetMarkallasreadAction();
+  void tweetGototwitterpageAction();
+  void tweetGotohomepageAction();
+
 signals:
   void setCurrentModel( const QString &login );
   void updateTweets();

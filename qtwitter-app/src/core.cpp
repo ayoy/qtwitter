@@ -366,7 +366,7 @@ void Core::deleteEntry( const QString &login, int id )
 
 void Core::slotUnauthorized( const QString &login, const QString &password )
 {
-  Q_UNUSED(password)
+  Q_UNUSED(password);
   TwitterAccount *account = accountsModel->account( login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE ) )
     return;
@@ -378,7 +378,7 @@ void Core::slotUnauthorized( const QString &login, const QString &password )
 
 void Core::slotUnauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId )
 {
-  Q_UNUSED(password)
+  Q_UNUSED(password);
   TwitterAccount *account = accountsModel->account( login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE ) )
     return;
@@ -388,7 +388,7 @@ void Core::slotUnauthorized( const QString &login, const QString &password, cons
 
 void Core::slotUnauthorized( const QString &login, const QString &password, int destroyId )
 {
-  Q_UNUSED(password)
+  Q_UNUSED(password);
   TwitterAccount *account = accountsModel->account( login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE ) )
     return;
@@ -466,8 +466,8 @@ void Core::slotNewRequest()
 
 void Core::slotRequestDone( const QString &login, int role )
 {
-  Q_UNUSED(login)
-  Q_UNUSED(role)
+  Q_UNUSED(login);
+  Q_UNUSED(role);
   requestCount--;
   qDebug() << requestCount;
   if ( requestCount == 0 ) {

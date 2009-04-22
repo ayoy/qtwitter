@@ -62,43 +62,43 @@
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="288"/>
+        <location filename="../src/core.cpp" line="292"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;puste&gt;</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="432"/>
+        <location filename="../src/core.cpp" line="447"/>
         <source>Authentication is required to delete updates.</source>
         <translation>Do kasowania statusów wymagana jest autoryzacja.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="436"/>
+        <location filename="../src/core.cpp" line="451"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>Do pobrania statusów znajomych wymagana jest autoryzacja.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="478"/>
+        <location filename="../src/core.cpp" line="493"/>
         <source>For</source>
         <translation>Dla</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="486"/>
+        <location filename="../src/core.cpp" line="501"/>
         <source>and</source>
         <translation>i</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="430"/>
+        <location filename="../src/core.cpp" line="445"/>
         <source>Authentication is required to post updates.</source>
         <translation>Do publikowania statusów wymagana jest autoryzacja.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="230"/>
+        <location filename="../src/core.cpp" line="234"/>
         <source>There was a problem uploading your photo:</source>
         <translation>Wystąpił błąd przy ładowaniu Twojego zdjęcia:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="241"/>
+        <location filename="../src/core.cpp" line="245"/>
         <source>Photo available at:</source>
         <translation>Zdjęcie dostępne na:</translation>
     </message>
@@ -152,7 +152,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="365"/>
+        <location filename="../src/mainwindow.cpp" line="384"/>
         <source>Error</source>
         <translation>Błąd</translation>
     </message>
@@ -162,83 +162,32 @@
         <translation>qTwitter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="421"/>
+        <location filename="../src/mainwindow.cpp" line="440"/>
         <location filename="../ui/mainwindow.ui" line="248"/>
         <source>What are you doing?</source>
         <translation>Co teraz robisz?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="140"/>
-        <location filename="../src/mainwindow.cpp" line="411"/>
+        <location filename="../src/mainwindow.cpp" line="157"/>
+        <location filename="../src/mainwindow.cpp" line="430"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="181"/>
-        <location filename="../src/mainwindow.cpp" line="186"/>
-        <location filename="../src/mainwindow.cpp" line="191"/>
-        <location filename="../src/mainwindow.cpp" line="195"/>
-        <location filename="../src/mainwindow.cpp" line="207"/>
-        <location filename="../src/mainwindow.cpp" line="211"/>
-        <location filename="../src/mainwindow.cpp" line="318"/>
-        <location filename="../src/mainwindow.cpp" line="323"/>
+        <location filename="../src/mainwindow.cpp" line="200"/>
+        <location filename="../src/mainwindow.cpp" line="205"/>
+        <location filename="../src/mainwindow.cpp" line="210"/>
+        <location filename="../src/mainwindow.cpp" line="214"/>
+        <location filename="../src/mainwindow.cpp" line="226"/>
+        <location filename="../src/mainwindow.cpp" line="230"/>
+        <location filename="../src/mainwindow.cpp" line="337"/>
+        <location filename="../src/mainwindow.cpp" line="342"/>
         <source>public timeline</source>
         <translation>lista publiczna</translation>
     </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="281"/>
-        <source>Message to long</source>
-        <translation>Zbyt długi status</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="281"/>
-        <source>Your message is too long.</source>
-        <translation>Twoja wiadomość jest zbyt długa.</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="282"/>
-        <source>Cool</source>
-        <translation>Fajnie</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="283"/>
-        <source>Oops...</source>
-        <translation>Ups...</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="284"/>
-        <source>You can still post it like this, but it will be truncated.</source>
-        <translation>Możesz ją wysłać w tej postaci, ale będzie skrócona.</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="387"/>
-        <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distributed under the GPL license&lt;/p&gt;&lt;p&gt;version 3 or later&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;qTwitter icon by&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Other icons by &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - klient Twittera w Qt&lt;/p&gt;&lt;p&gt;wersja %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Objęty licencją GPL&lt;/p&gt;&lt;p&gt;w wersji 3 lub późniejszych&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;ikona qTwittera z&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Pozostałe ikony z &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="412"/>
-        <source>Navigate using %1 and %2</source>
-        <translation>Zmieniaj użytkownika używając %1 i %2</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="358"/>
-        <source>the public timeline</source>
-        <extracomment>The full sentence is e.g.: &quot;New tweets for &lt;user A&gt;, &lt;user B&gt; and the public timeline&quot;</extracomment>
-        <translation>listy publicznej</translation>
-    </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="52"/>
-        <location filename="../src/mainwindow.cpp" line="261"/>
-        <source>%n characters left</source>
-        <translation>
-            <numerusform>Pozostał %n znak</numerusform>
-            <numerusform>Pozostały %n znaki</numerusform>
-            <numerusform>Pozostało %n znaków</numerusform>
-        </translation>
-    </message>
-    <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="267"/>
-        <source>%n characters over the limit</source>
+        <location filename="../src/mainwindow.cpp" line="286"/>
+        <source>%n character(s) over the limit</source>
         <translation>
             <numerusform>Za dużo o %n znak</numerusform>
             <numerusform>Za dużo o %n znaki</numerusform>
@@ -246,47 +195,98 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="359"/>
+        <location filename="../src/mainwindow.cpp" line="300"/>
+        <source>Your message is too long.</source>
+        <translation>Twoja wiadomość jest zbyt długa.</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="300"/>
+        <source>Message too long</source>
+        <translation>Zbyt długi status</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="301"/>
+        <source>Cool</source>
+        <translation>Fajnie</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="302"/>
+        <source>Oops...</source>
+        <translation>Ups...</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="303"/>
+        <source>You can still post it like this, but it will be truncated.</source>
+        <translation>Możesz ją wysłać w tej postaci, ale będzie skrócona.</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="406"/>
+        <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distributed under the GPL license&lt;/p&gt;&lt;p&gt;version 3 or later&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;qTwitter icon by&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Other icons by &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - klient Twittera w Qt&lt;/p&gt;&lt;p&gt;wersja %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Objęty licencją GPL&lt;/p&gt;&lt;p&gt;w wersji 3 lub późniejszych&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;ikona qTwittera z&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Pozostałe ikony z &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="431"/>
+        <source>Navigate using %1 and %2</source>
+        <translation>Zmieniaj użytkownika używając %1 i %2</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="377"/>
+        <source>the public timeline</source>
+        <extracomment>The full sentence is e.g.: &quot;New tweets for &lt;user A&gt;, &lt;user B&gt; and the public timeline&quot;</extracomment>
+        <translation>listy publicznej</translation>
+    </message>
+    <message>
+        <location filename="../src/mainwindow.cpp" line="378"/>
         <source>New tweets</source>
         <translation>Nowe tweety</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="417"/>
+        <location filename="../src/mainwindow.cpp" line="436"/>
         <location filename="../ui/mainwindow.ui" line="179"/>
         <source>More...</source>
         <translation>Więcej...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="410"/>
+        <location filename="../src/mainwindow.cpp" line="429"/>
         <source>Update tweets</source>
         <translation>Aktualizuj statusy</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="139"/>
+        <location filename="../src/mainwindow.cpp" line="156"/>
         <source>Quit</source>
         <translation>Wyjdź</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="102"/>
-        <location filename="../src/mainwindow.cpp" line="422"/>
+        <location filename="../src/mainwindow.cpp" line="119"/>
+        <location filename="../src/mainwindow.cpp" line="441"/>
         <source>New tweet</source>
         <translation>Nowy status</translation>
     </message>
+    <message numerus="yes">
+        <location filename="../src/mainwindow.cpp" line="52"/>
+        <location filename="../src/mainwindow.cpp" line="280"/>
+        <source>%n character(s) left</source>
+        <translation>
+            <numerusform>Pozostał %n znak</numerusform>
+            <numerusform>Pozostały %n znaki</numerusform>
+            <numerusform>Pozostało %n znaków</numerusform>
+        </translation>
+    </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="103"/>
-        <location filename="../src/mainwindow.cpp" line="423"/>
+        <location filename="../src/mainwindow.cpp" line="120"/>
+        <location filename="../src/mainwindow.cpp" line="442"/>
         <source>Upload a photo to TwitPic</source>
         <translation>Załaduj zdjęcie na TwitPic</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="104"/>
-        <location filename="../src/mainwindow.cpp" line="424"/>
+        <location filename="../src/mainwindow.cpp" line="121"/>
+        <location filename="../src/mainwindow.cpp" line="443"/>
         <source>Go to Twitter</source>
         <translation>Idź do Twittera</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="105"/>
-        <location filename="../src/mainwindow.cpp" line="425"/>
+        <location filename="../src/mainwindow.cpp" line="122"/>
+        <location filename="../src/mainwindow.cpp" line="444"/>
         <source>Go to TwitPic</source>
         <translation>Idź do TwitPica</translation>
     </message>
@@ -302,13 +302,13 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="455"/>
+        <location filename="../src/settings.cpp" line="482"/>
         <location filename="../ui/settings.ui" line="26"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="456"/>
+        <location filename="../src/settings.cpp" line="483"/>
         <location filename="../ui/settings.ui" line="39"/>
         <source>General</source>
         <translation>Ogólne</translation>
@@ -319,19 +319,19 @@
         <translation>Język</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="524"/>
+        <location filename="../src/settings.cpp" line="551"/>
         <location filename="../ui/settings.ui" line="114"/>
         <source>English</source>
         <translation>Polski</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="468"/>
+        <location filename="../src/settings.cpp" line="495"/>
         <location filename="../ui/settings.ui" line="307"/>
         <source>Network</source>
         <translation>Sieć</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="384"/>
+        <location filename="../src/settings.cpp" line="411"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;puste&gt;</translation>
@@ -347,81 +347,81 @@
         <translation>Skracaj linki przez</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="460"/>
+        <location filename="../src/settings.cpp" line="487"/>
         <location filename="../ui/settings.ui" line="151"/>
         <source>Show tray notifications</source>
         <translation>Pokazuj dymki z powiadomieniami</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="461"/>
+        <location filename="../src/settings.cpp" line="488"/>
         <location filename="../ui/settings.ui" line="162"/>
         <source>Twitter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="462"/>
+        <location filename="../src/settings.cpp" line="489"/>
         <location filename="../ui/settings.ui" line="233"/>
         <source>Account</source>
         <translation>Konto</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="463"/>
+        <location filename="../src/settings.cpp" line="490"/>
         <location filename="../ui/settings.ui" line="242"/>
         <source>Enabled</source>
         <translation>Aktywne</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="464"/>
+        <location filename="../src/settings.cpp" line="491"/>
         <source>Username:</source>
         <translation>Nazwa użytkownika:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="465"/>
+        <location filename="../src/settings.cpp" line="492"/>
         <source>Password:</source>
         <translation>Hasło:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="466"/>
+        <location filename="../src/settings.cpp" line="493"/>
         <location filename="../ui/settings.ui" line="289"/>
         <source>download direct messages</source>
         <translation>Ściągaj prywatne wiadomości</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="467"/>
+        <location filename="../src/settings.cpp" line="494"/>
         <location filename="../ui/settings.ui" line="299"/>
         <source>include public timeline</source>
         <translation>ściągaj publiczną listę</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="469"/>
+        <location filename="../src/settings.cpp" line="496"/>
         <location filename="../ui/settings.ui" line="315"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Używaj &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="470"/>
+        <location filename="../src/settings.cpp" line="497"/>
         <location filename="../ui/settings.ui" line="322"/>
         <source>Host:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="471"/>
+        <location filename="../src/settings.cpp" line="498"/>
         <location filename="../ui/settings.ui" line="355"/>
         <source>Port:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="479"/>
+        <location filename="../src/settings.cpp" line="506"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="480"/>
+        <location filename="../src/settings.cpp" line="507"/>
         <source>Cancel</source>
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="481"/>
+        <location filename="../src/settings.cpp" line="508"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -431,8 +431,8 @@
         <translation>Nazwa użytkownika</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="176"/>
-        <location filename="../src/settings.cpp" line="476"/>
+        <location filename="../src/settings.cpp" line="199"/>
+        <location filename="../src/settings.cpp" line="503"/>
         <source>Use custom web browser</source>
         <translation>Używaj innej przeglądarki</translation>
     </message>
@@ -442,50 +442,50 @@
         <translation>Hasło</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="178"/>
-        <location filename="../src/settings.cpp" line="477"/>
+        <location filename="../src/settings.cpp" line="201"/>
+        <location filename="../src/settings.cpp" line="504"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="457"/>
+        <location filename="../src/settings.cpp" line="484"/>
         <source>Refresh every (mins):</source>
         <translation>Odświeżaj co (min.):</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="458"/>
+        <location filename="../src/settings.cpp" line="485"/>
         <source>Language:</source>
         <translation>Język:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="459"/>
+        <location filename="../src/settings.cpp" line="486"/>
         <source>Shorte links via:</source>
         <translation>Skracaj linki przez:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="473"/>
+        <location filename="../src/settings.cpp" line="500"/>
         <location filename="../ui/settings.ui" line="406"/>
         <source>Tweet count:</source>
         <translation>Ilość statusów:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="491"/>
+        <location filename="../src/settings.cpp" line="518"/>
         <source>Select your browser executable</source>
         <translation>Wybierz przeglądarkę internetową</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="491"/>
+        <location filename="../src/settings.cpp" line="518"/>
         <source>All files (*)</source>
         <translation>Wszystkie pliki (*)</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="472"/>
+        <location filename="../src/settings.cpp" line="499"/>
         <location filename="../ui/settings.ui" line="397"/>
         <source>Appearance</source>
         <translation>Wygląd</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="474"/>
+        <location filename="../src/settings.cpp" line="501"/>
         <location filename="../ui/settings.ui" line="432"/>
         <source>Color scheme:</source>
         <translation>Schemat kolorów:</translation>
@@ -520,50 +520,50 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="112"/>
-        <location filename="../src/tweet.cpp" line="188"/>
+        <location filename="../src/tweet.cpp" line="108"/>
+        <location filename="../src/tweet.cpp" line="186"/>
         <source>Go to User&apos;s Twitter page</source>
         <translation>Idź do strony użytkownika na Twitterze</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="119"/>
-        <location filename="../src/tweet.cpp" line="187"/>
+        <location filename="../src/tweet.cpp" line="115"/>
+        <location filename="../src/tweet.cpp" line="185"/>
         <source>Go to User&apos;s homepage</source>
         <translation>Idź do strony domowej użytkownika</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="95"/>
-        <location filename="../src/tweet.cpp" line="185"/>
+        <location filename="../src/tweet.cpp" line="91"/>
+        <location filename="../src/tweet.cpp" line="183"/>
         <source>Delete tweet</source>
         <translation>Usuń status</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="130"/>
-        <location filename="../src/tweet.cpp" line="189"/>
+        <location filename="../src/tweet.cpp" line="126"/>
+        <location filename="../src/tweet.cpp" line="187"/>
         <source>About qTwitter...</source>
         <translation>O programie...</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="105"/>
-        <location filename="../src/tweet.cpp" line="186"/>
+        <location filename="../src/tweet.cpp" line="101"/>
+        <location filename="../src/tweet.cpp" line="184"/>
         <source>Mark all as read</source>
         <translation>Zaznacz wszystkie jako przeczytane</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="70"/>
-        <location filename="../src/tweet.cpp" line="182"/>
+        <location filename="../src/tweet.cpp" line="66"/>
+        <location filename="../src/tweet.cpp" line="180"/>
         <source>Reply to %1</source>
         <translation>Odpowiedz do %1</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="79"/>
-        <location filename="../src/tweet.cpp" line="183"/>
+        <location filename="../src/tweet.cpp" line="75"/>
+        <location filename="../src/tweet.cpp" line="181"/>
         <source>Retweet</source>
         <translation>Podaj dalej</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="87"/>
-        <location filename="../src/tweet.cpp" line="184"/>
+        <location filename="../src/tweet.cpp" line="83"/>
+        <location filename="../src/tweet.cpp" line="182"/>
         <source>Copy link to this tweet</source>
         <translation>Skopiuj link do tego statusu</translation>
     </message>
@@ -650,7 +650,7 @@
         <translation>PW</translation>
     </message>
     <message>
-        <location filename="../src/twitteraccountsmodel.cpp" line="158"/>
+        <location filename="../src/twitteraccountsmodel.cpp" line="156"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;puste&gt;</translation>
