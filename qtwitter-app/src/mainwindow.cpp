@@ -38,7 +38,6 @@
 
 extern ConfigFile settings;
 
-const QString MainWindow::APP_VERSION = "0.6.0_rc1";
 
 MainWindow::MainWindow( QWidget *parent ) :
     QWidget( parent ),
@@ -423,7 +422,7 @@ void MainWindow::about()
                                         "<p><a href=\"http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/\"><span style=\" text-decoration: underline; color:#0000ff;\">thedesignsuperhero.com</span></a></p>"
                                         "<p>Other icons by <a href=\"http://wefunction.com/2008/07/function-free-icon-set/\"><span style=\" text-decoration: underline; color:#0000ff;\">wefunction.com</span></a></p>"
                                       "</body>"
-                                    "</html>" ).arg( MainWindow::APP_VERSION ) );
+                                    "</html>" ).arg( ConfigFile::APP_VERSION ) );
   dlg->exec();
   dlg->deleteLater();
 }
