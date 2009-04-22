@@ -26,10 +26,23 @@
    <string>Settings</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="1" column="0">
+   <item row="2" column="0">
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="0">
     <widget class="QTabWidget" name="tabs">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <property name="usesScrollButtons">
       <bool>true</bool>
@@ -38,114 +51,128 @@
       <attribute name="title">
        <string>General</string>
       </attribute>
-      <layout class="QFormLayout" name="formLayout_3">
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-       </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="refreshLabel">
-         <property name="text">
-          <string>Refresh every (mins)</string>
-         </property>
-         <property name="buddy">
-          <cstring>refreshCombo</cstring>
-         </property>
-        </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <layout class="QGridLayout" name="gridLayout_3">
+         <item row="0" column="0">
+          <widget class="QLabel" name="refreshLabel">
+           <property name="text">
+            <string>Refresh every (mins)</string>
+           </property>
+           <property name="buddy">
+            <cstring>refreshCombo</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="refreshCombo">
+           <item>
+            <property name="text">
+             <string notr="true">3</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">5</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">10</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">15</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">30</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">45</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">60</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="languageLabel">
+           <property name="text">
+            <string>Language</string>
+           </property>
+           <property name="buddy">
+            <cstring>languageCombo</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="languageCombo">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <property name="insertPolicy">
+            <enum>QComboBox::InsertAlphabetically</enum>
+           </property>
+           <item>
+            <property name="text">
+             <string>English</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="shortenLabel">
+           <property name="text">
+            <string>Shorten links via</string>
+           </property>
+           <property name="buddy">
+            <cstring>urlShortenerCombo</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="urlShortenerCombo">
+           <item>
+            <property name="text">
+             <string notr="true">is.gd</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">tr.im</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string notr="true">MetaMark</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+        </layout>
        </item>
-       <item row="0" column="1">
-        <widget class="QComboBox" name="refreshCombo">
-         <item>
-          <property name="text">
-           <string notr="true">3</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string notr="true">5</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string notr="true">10</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string notr="true">15</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string notr="true">30</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string notr="true">45</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string notr="true">60</string>
-          </property>
-         </item>
-        </widget>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="languageLabel">
-         <property name="text">
-          <string>Language</string>
-         </property>
-         <property name="buddy">
-          <cstring>languageCombo</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="languageCombo">
-         <property name="currentIndex">
-          <number>0</number>
-         </property>
-         <property name="insertPolicy">
-          <enum>QComboBox::InsertAlphabetically</enum>
-         </property>
-         <item>
-          <property name="text">
-           <string>English</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="shortenLabel">
-         <property name="text">
-          <string>Shorten links via</string>
-         </property>
-         <property name="buddy">
-          <cstring>urlShortenerCombo</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="urlShortenerCombo">
-         <item>
-          <property name="text">
-           <string notr="true">is.gd</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string notr="true">tr.im</string>
-          </property>
-         </item>
-         <item>
-          <property name="text">
-           <string notr="true">MetaMark</string>
-          </property>
-         </item>
-        </widget>
-       </item>
-       <item row="3" column="1">
+       <item>
         <widget class="QCheckBox" name="notificationsBox">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -450,24 +477,10 @@
      </widget>
     </widget>
    </item>
-   <item row="2" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-     <property name="centerButtons">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
   </layout>
  </widget>
  <tabstops>
   <tabstop>buttonBox</tabstop>
-  <tabstop>tabs</tabstop>
   <tabstop>refreshCombo</tabstop>
   <tabstop>languageCombo</tabstop>
   <tabstop>urlShortenerCombo</tabstop>

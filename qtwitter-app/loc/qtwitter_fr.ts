@@ -364,7 +364,7 @@
         <location filename="../src/settings.cpp" line="487"/>
         <location filename="../ui/settings.ui" line="151"/>
         <source>Show tray notifications</source>
-        <translation>Afficher des pop-ups dans la zone de notification</translation>
+        <translation type="unfinished">Afficher des pop-ups dans la zone de notification spacerspacerspacerspacerspacerspacerspacerspacerspacer</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="488"/>

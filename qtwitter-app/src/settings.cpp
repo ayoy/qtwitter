@@ -264,7 +264,7 @@ void Settings::loadConfig( bool dialogRejected )
   settings.endGroup();
   settings.beginGroup( "Appearance" );
     ui.tweetCountBox->setValue( settings.value( "tweet count", 25 ).toInt() );
-    ui.colorBox->setCurrentIndex( settings.value( "color scheme", 2 ).toInt() );
+    ui.colorBox->setCurrentIndex( settings.value( "color scheme", 3 ).toInt() );
   settings.endGroup();
 
   ui.hostEdit->setEnabled( (bool) ui.proxyBox->checkState() );
@@ -350,6 +350,7 @@ void Settings::show()
 {
   ui.tabs->setCurrentIndex( 0 );
   QDialog::show();
+  adjustSize();
   if ( accountsModel->index( ui.usersView->currentIndex().row(), 0 ).isValid() ) {
     TwitterAccount &account = accountsModel->account( accountsModel->index( ui.usersView->currentIndex().row(), 0 ).row() );
     ui.accountEnabledCheckBox->setChecked( account.isEnabled );
@@ -378,6 +379,8 @@ void Settings::switchLanguage( int index )
 //  ui.retranslateUi(this);
   mainWindow->retranslateUi();
   core->retranslateUi();
+ // ui.tabs->adjustSize();
+  adjustSize();
 }
 
 void Settings::fillAccountEditor( const QModelIndex &current, const QModelIndex &previous )
@@ -485,7 +488,7 @@ void Settings::retranslateUi()
   ui.tabs->setTabText( 0, tr( "General" ) );
   ui.refreshLabel->setText( tr("Refresh every (mins):") );
   ui.languageLabel->setText( tr("Language:") );
-  ui.shortenLabel->setText( tr("Shorte links via:") );
+  ui.shortenLabel->setText( tr("Shorten links via:") );
   ui.notificationsBox->setText( tr("Show tray notifications") );
   ui.tabs->setTabText( 1, tr( "Twitter" ) );
   ui.accountGroupBox->setTitle( tr( "Account" ) );
