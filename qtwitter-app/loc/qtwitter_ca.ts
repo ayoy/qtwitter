@@ -25,7 +25,7 @@
     <message>
         <location filename="../ui/authdialog.ui" line="65"/>
         <source>The credentials you provided are incorrect</source>
-        <translation type="unfinished"></translation>
+        <translation>Les dades d&apos;autenticació son incorrectes</translation>
     </message>
     <message>
         <location filename="../ui/authdialog.ui" line="78"/>
@@ -40,18 +40,18 @@
     <message>
         <location filename="../ui/authdialog.ui" line="154"/>
         <source>disable account</source>
-        <translation type="unfinished"></translation>
+        <translation>desactivar el compte</translation>
     </message>
     <message>
         <location filename="../ui/authdialog.ui" line="157"/>
         <location filename="../ui/authdialog.ui" line="167"/>
         <source>buttonGroup</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../ui/authdialog.ui" line="164"/>
         <source>remove account</source>
-        <translation type="unfinished"></translation>
+        <translation>suprimir el compte</translation>
     </message>
     <message>
         <location filename="../ui/authdialog.ui" line="144"/>
@@ -65,32 +65,32 @@
         <location filename="../src/core.cpp" line="292"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;buit&gt;</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="447"/>
         <source>Authentication is required to delete updates.</source>
-        <translation type="unfinished">Autenticació és requerida per a suprimir els teus actualitzacions.</translation>
+        <translation>Verificació és requerida per a suprimir les seves actualitzacions.</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="451"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
-        <translation type="unfinished">Autenticació és requerida per a obtenir actualitzacions dels teus amics.</translation>
+        <translation>Autenticació és requerida per a obtenir les actualitzacions dels teus amics.</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="493"/>
         <source>For</source>
-        <translation type="unfinished"></translation>
+        <translation>Per a</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="501"/>
         <source>and</source>
-        <translation type="unfinished">i</translation>
+        <translation>i</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="445"/>
         <source>Authentication is required to post updates.</source>
-        <translation type="unfinished">Autenticació és requerida per a publicar els teus actualitzacions.</translation>
+        <translation>Es requereix autenticació per a publicar les seves actualitzacions.</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="234"/>
@@ -108,7 +108,7 @@
     <message>
         <location filename="../src/imagedownload.cpp" line="91"/>
         <source>Download failed:</source>
-        <translation type="unfinished"></translation>
+        <translation>Error de baixada:</translation>
     </message>
 </context>
 <context>
@@ -116,12 +116,12 @@
     <message>
         <location filename="../src/urlshortener.cpp" line="63"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>La URL introduida no és vàlida.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="65"/>
         <source>The URL entered was too long.</source>
-        <translation type="unfinished"></translation>
+        <translation>La URL introduida és massa llarga.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="67"/>
@@ -152,7 +152,7 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="384"/>
+        <location filename="../src/mainwindow.cpp" line="388"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
@@ -162,129 +162,131 @@
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="440"/>
+        <location filename="../src/mainwindow.cpp" line="444"/>
         <location filename="../ui/mainwindow.ui" line="248"/>
         <source>What are you doing?</source>
         <translation>Què estàs fent ara?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="157"/>
-        <location filename="../src/mainwindow.cpp" line="430"/>
+        <location filename="../src/mainwindow.cpp" line="161"/>
+        <location filename="../src/mainwindow.cpp" line="434"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="200"/>
-        <location filename="../src/mainwindow.cpp" line="205"/>
-        <location filename="../src/mainwindow.cpp" line="210"/>
+        <location filename="../src/mainwindow.cpp" line="204"/>
+        <location filename="../src/mainwindow.cpp" line="209"/>
         <location filename="../src/mainwindow.cpp" line="214"/>
-        <location filename="../src/mainwindow.cpp" line="226"/>
+        <location filename="../src/mainwindow.cpp" line="218"/>
         <location filename="../src/mainwindow.cpp" line="230"/>
-        <location filename="../src/mainwindow.cpp" line="337"/>
-        <location filename="../src/mainwindow.cpp" line="342"/>
+        <location filename="../src/mainwindow.cpp" line="234"/>
+        <location filename="../src/mainwindow.cpp" line="341"/>
+        <location filename="../src/mainwindow.cpp" line="346"/>
         <source>public timeline</source>
-        <translation type="unfinished">actualitzacions de tots els usuaris</translation>
+        <translation>la llista pública</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="286"/>
+        <location filename="../src/mainwindow.cpp" line="290"/>
         <source>%n character(s) over the limit</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n caràcter més enllà del limit</numerusform>
+            <numerusform>%n caràcters més enllà del limit</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="300"/>
+        <location filename="../src/mainwindow.cpp" line="304"/>
         <source>Your message is too long.</source>
-        <translation type="unfinished"></translation>
+        <translation>El seu missatge és massa llarg.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="300"/>
+        <location filename="../src/mainwindow.cpp" line="304"/>
         <source>Message too long</source>
-        <translation type="unfinished"></translation>
+        <translation>El missatge massa llarg</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="301"/>
+        <location filename="../src/mainwindow.cpp" line="305"/>
         <source>Cool</source>
-        <translation type="unfinished"></translation>
+        <translation>Bé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="302"/>
+        <location filename="../src/mainwindow.cpp" line="306"/>
         <source>Oops...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ai!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="303"/>
+        <location filename="../src/mainwindow.cpp" line="307"/>
         <source>You can still post it like this, but it will be truncated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Segueix podent pujar-lo com aixi, però el serà truncat.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="377"/>
+        <location filename="../src/mainwindow.cpp" line="381"/>
         <source>the public timeline</source>
         <extracomment>The full sentence is e.g.: &quot;New tweets for &lt;user A&gt;, &lt;user B&gt; and the public timeline&quot;</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>la llista pública</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="378"/>
+        <location filename="../src/mainwindow.cpp" line="382"/>
         <source>New tweets</source>
-        <translation type="unfinished"></translation>
+        <translation>Hi ha missatges nous</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="406"/>
+        <location filename="../src/mainwindow.cpp" line="410"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distributed under the GPL license&lt;/p&gt;&lt;p&gt;version 3 or later&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;qTwitter icon by&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Other icons by &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - el client Qt de Twitter&lt;/p&gt;&lt;p&gt;versió %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distribuint sota la llicència GPL&lt;/p&gt;&lt;p&gt;versió 3 o posteriors&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;La icona de qTwitter per&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Altres icones par &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="431"/>
+        <location filename="../src/mainwindow.cpp" line="435"/>
         <source>Navigate using %1 and %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Navegui usant %1 i %2</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="436"/>
+        <location filename="../src/mainwindow.cpp" line="440"/>
         <location filename="../ui/mainwindow.ui" line="179"/>
         <source>More...</source>
         <translation>Més....</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="429"/>
+        <location filename="../src/mainwindow.cpp" line="433"/>
         <source>Update tweets</source>
         <translation>Actualitzar estats</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="156"/>
+        <location filename="../src/mainwindow.cpp" line="120"/>
+        <location filename="../src/mainwindow.cpp" line="160"/>
+        <location filename="../src/mainwindow.cpp" line="449"/>
         <source>Quit</source>
         <translation>Surt</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="119"/>
-        <location filename="../src/mainwindow.cpp" line="441"/>
+        <location filename="../src/mainwindow.cpp" line="116"/>
+        <location filename="../src/mainwindow.cpp" line="445"/>
         <source>New tweet</source>
         <translation>Nou estat</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/mainwindow.cpp" line="52"/>
-        <location filename="../src/mainwindow.cpp" line="280"/>
+        <location filename="../src/mainwindow.cpp" line="284"/>
         <source>%n character(s) left</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n caràcter queda</numerusform>
+            <numerusform>%n caracters queden</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="120"/>
-        <location filename="../src/mainwindow.cpp" line="442"/>
+        <location filename="../src/mainwindow.cpp" line="117"/>
+        <location filename="../src/mainwindow.cpp" line="446"/>
         <source>Upload a photo to TwitPic</source>
-        <translation>Carrega el foto a TwitPic</translation>
+        <translation>Puja el foto a TwitPic</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="121"/>
-        <location filename="../src/mainwindow.cpp" line="443"/>
+        <location filename="../src/mainwindow.cpp" line="118"/>
+        <location filename="../src/mainwindow.cpp" line="447"/>
         <source>Go to Twitter</source>
         <translation>Vés-hi a Twitter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="122"/>
-        <location filename="../src/mainwindow.cpp" line="444"/>
+        <location filename="../src/mainwindow.cpp" line="119"/>
+        <location filename="../src/mainwindow.cpp" line="448"/>
         <source>Go to TwitPic</source>
         <translation>Vés-hi a TwitPic</translation>
     </message>
@@ -294,7 +296,7 @@
     <message>
         <location filename="../src/urlshortener.cpp" line="128"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
 </context>
 <context>
@@ -332,63 +334,63 @@
         <location filename="../src/settings.cpp" line="411"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;buit&gt;</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="48"/>
         <source>Refresh every (mins)</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualitza cada (min)</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="122"/>
         <source>Shorten links via</source>
-        <translation type="unfinished"></translation>
+        <translation>Escurçar enllaços amb</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="487"/>
         <location filename="../ui/settings.ui" line="151"/>
         <source>Show tray notifications</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mostrar les notificacions en la bandeja de sistema</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="488"/>
         <location filename="../ui/settings.ui" line="162"/>
         <source>Twitter</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="489"/>
         <location filename="../ui/settings.ui" line="233"/>
         <source>Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Compte</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="490"/>
         <location filename="../ui/settings.ui" line="242"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitat</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="491"/>
         <source>Username:</source>
-        <translation type="unfinished">Nom d&apos;usuari:</translation>
+        <translation>Nom d&apos;usuari:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="492"/>
         <source>Password:</source>
-        <translation type="unfinished">Contrasenya:</translation>
+        <translation>Contrasenya:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="493"/>
         <location filename="../ui/settings.ui" line="289"/>
         <source>download direct messages</source>
-        <translation type="unfinished"></translation>
+        <translation>pujar els missatges privats</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="494"/>
         <location filename="../ui/settings.ui" line="299"/>
         <source>include public timeline</source>
-        <translation type="unfinished"></translation>
+        <translation>incluir la llista pública</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="496"/>
@@ -448,17 +450,17 @@
     <message>
         <location filename="../src/settings.cpp" line="484"/>
         <source>Refresh every (mins):</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualitza cada (min):</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="485"/>
         <source>Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Llengua:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="486"/>
         <source>Shorte links via:</source>
-        <translation type="unfinished"></translation>
+        <translation>Escurçar enllaços amb:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="500"/>
@@ -563,7 +565,7 @@
         <location filename="../src/tweet.cpp" line="83"/>
         <location filename="../src/tweet.cpp" line="182"/>
         <source>Copy link to this tweet</source>
-        <translation type="unfinished">Copiar l&apos;enllaç a aquest missatge</translation>
+        <translation>Copiar l&apos;enllaç a aquest missatge</translation>
     </message>
 </context>
 <context>
@@ -634,24 +636,24 @@
     <message>
         <location filename="../src/twitteraccountsmodel.cpp" line="77"/>
         <source>Enabled</source>
-        <translation type="unfinished"></translation>
+        <translation>Habilitat</translation>
     </message>
     <message>
         <location filename="../src/twitteraccountsmodel.cpp" line="79"/>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Usuari</translation>
     </message>
     <message>
         <location filename="../src/twitteraccountsmodel.cpp" line="82"/>
         <source>Direct msgs</source>
         <extracomment>This should be as short as possible (e.g. PW in Polish)</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Missatges privats</translation>
     </message>
     <message>
         <location filename="../src/twitteraccountsmodel.cpp" line="156"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;buit&gt;</translation>
     </message>
 </context>
 </TS>

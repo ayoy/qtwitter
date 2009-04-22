@@ -102,9 +102,6 @@ void MainWindow::createConnections()
 
   QShortcut *hideShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_H ), this );
   connect( hideShortcut, SIGNAL(activated()), this, SLOT(hide()) );
-  QShortcut *quitShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ), this );
-  quitShortcut->setContext( Qt::ApplicationShortcut );
-  connect( quitShortcut, SIGNAL(activated()), qApp, SLOT(quit()) );
 #ifdef Q_WS_MAC
   ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Comma ) );
 #else
@@ -120,6 +117,11 @@ void MainWindow::createMenu()
   newtwitpicAction = new QAction( tr( "Upload a photo to TwitPic" ), buttonMenu );
   gototwitterAction = new QAction( tr( "Go to Twitter" ), buttonMenu );
   gototwitpicAction = new QAction( tr( "Go to TwitPic" ), buttonMenu );
+  quitAction = new QAction( tr( "Quit" ), buttonMenu );
+  quitAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
+  quitAction->setShortcutContext( Qt::ApplicationShortcut );
+  connect( quitAction, SIGNAL(triggered()), qApp, SLOT(quit()) );
+
   newtweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ) );
   newtwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_N ) );
   gototwitterAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
@@ -140,6 +142,8 @@ void MainWindow::createMenu()
   buttonMenu->addSeparator();
   buttonMenu->addAction( gototwitterAction );
   buttonMenu->addAction( gototwitpicAction );
+  buttonMenu->addSeparator();
+  buttonMenu->addAction( quitAction );
   ui.moreButton->setMenu( buttonMenu );
 }
 
@@ -442,6 +446,7 @@ void MainWindow::retranslateUi()
   newtwitpicAction->setText( tr( "Upload a photo to TwitPic" ) );
   gototwitterAction->setText( tr( "Go to Twitter" ) );
   gototwitpicAction->setText( tr( "Go to TwitPic" ) );
+  quitAction->setText( tr( "Quit" ) );
 }
 
 void MainWindow::replaceUrl( const QString &url )
