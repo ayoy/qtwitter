@@ -151,7 +151,7 @@ int TwitterAccountsModel::indexOf( const TwitterAccount &account )
 TwitterAccount TwitterAccountsModel::emptyAccount()
 {
   TwitterAccount empty;
-  empty.isEnabled = false;
+  empty.isEnabled = true;
   //: This is for newly created account - when the login isn't given yet
   empty.login = tr( "<empty>" );
   empty.password = "";

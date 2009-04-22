@@ -411,7 +411,7 @@ void Settings::addTwitterAccount()
   ui.accountLoginEdit->setFocus();
   ui.accountLoginEdit->selectAll();
   settings.beginGroup( QString( "TwitterAccounts/%1" ).arg( accountsModel->rowCount() - 1 ) );
-    settings.setValue( "enabled", false );
+    settings.setValue( "enabled", true );
     //: This is for newly created account - when the login isn't given yet
     settings.setValue( "login", tr( "<empty>" ) );
     settings.setValue( "password", "" );
