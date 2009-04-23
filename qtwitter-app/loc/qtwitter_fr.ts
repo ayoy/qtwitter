@@ -425,7 +425,7 @@
         <location filename="../src/settings.cpp" line="498"/>
         <location filename="../ui/settings.ui" line="322"/>
         <source>download direct messages</source>
-        <translation>Recevoir des messages privés</translation>
+        <translation type="unfinished">Recevoir des messages privés</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="499"/>
