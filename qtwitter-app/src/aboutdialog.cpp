@@ -1,0 +1,126 @@
+/***************************************************************************
+ *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 3 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ *   This program is distributed in the hope that it will be useful,       *
+ *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
+ *   GNU General Public License for more details.                          *
+ *                                                                         *
+ *   You should have received a copy of the GNU General Public License     *
+ *   along with this program; if not, write to the                         *
+ *   Free Software Foundation, Inc.,                                       *
+ *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ ***************************************************************************/
+
+
+#include "aboutdialog.h"
+#include "settings.h"
+
+AboutDialog::AboutDialog( QWidget *parent ) :
+    QDialog( parent ),
+    ui( new Ui::AboutDialog )
+{
+  ui->setupUi( this );
+  populateAuthors();
+  populateCredits();
+  displayAbout();
+}
+
+AboutDialog::~AboutDialog()
+{
+  delete ui;
+}
+#include <QDebug>
+QString AboutDialog::addContributor( const QString &name, const QString &email, const QString &role )
+{
+  qDebug() << name;
+  qDebug() << "ęęęę";
+  if ( role.isNull() )
+    return QString( "<p><b>%1</b> - <a href=\"mailto:%2\">%2</a></p>" ).arg( name, email );
+  return QString( "<p><b>%1</b> - <a href=\"mailto:%2\">%2</a></p>"
+                  "<p>%3</p><br/>" ).arg( name, email, role );
+}
+
+void AboutDialog::populateAuthors()
+{
+  QString authorsHtml( "<html>"
+                         "<head>"
+                           "<style type=\"text/css\">p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }</style>"
+                         "</head>"
+                         "<body style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">" );
+
+  authorsHtml.append( QString( "<p><b>%1</b></p><br/>" ).arg( tr( "Development team as for 0.6.0:" ) ) );
+
+  authorsHtml.append( addContributor( "Dominik Kapusta", "d@ayoy.net", tr( "Application concept and main development" ) ) );
+  authorsHtml.append( addContributor( "Mateusz Pietrzyk", "wijet@wijet.pl", tr( "URL shortening services support" ) ) );
+  authorsHtml.append( addContributor( "Anna Nowak", "wiorka@gmail.com", tr( "Visual aspects of internationalization" ) ) );
+
+  authorsHtml.append( QString( "<p><b>%1</b></p><br/>" ).arg( tr( "Translations:" ) ) );
+
+  authorsHtml.append( addContributor( "Anna Nowak", "wiorka@gmail.com", tr( "French translation" ) ) );
+  authorsHtml.append( addContributor( "Jan Schummers", "darkadmiral@onlinehome.de", tr( "German translation" ) ) );
+  authorsHtml.append( addContributor( QString::fromUtf8( "Maciej Dębiński" ), "misanthroposs@gmail.com", tr( "Japanese translation" ) ) );
+  authorsHtml.append( addContributor( "Dominik Kapusta", "d@ayoy.net", tr( "Polish, Spanish and Catalan translation" ) ) );
+
+  authorsHtml.append(   "</body>"
+                      "</html>" );
+
+  ui->authorsText->setHtml( authorsHtml );
+  ui->authorsText->moveCursor( QTextCursor::Start );
+}
+
+void AboutDialog::populateCredits()
+{
+  QString creditsHtml( "<html>"
+                         "<head>"
+                           "<style type=\"text/css\">p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }</style>"
+                         "</head>"
+                         "<body style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">" );
+
+  //: qTwitter icon design by thedesignsuperhero.com
+  creditsHtml.append( QString( "<p>%1 <a href=\"http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/\">thedesignsuperhero.com</span></a></p><br/>" )
+                      .arg( tr( "qTwitter icon design by") ) );
+
+  //: Other icons by wefunction.com
+  creditsHtml.append( QString( "<p>%1 <a href=\"http://wefunction.com/2008/07/function-free-icon-set/\">wefunction.com</a></p>" )
+                      .arg( tr( "Other icons by" ) ) );
+
+  creditsHtml.append( QString( "<br/><p><b>%1</b></p><br/>" ).arg( tr( "Testing:" ) ) );
+  creditsHtml.append( addContributor( "Harry Bellemare", "behr62@gmail.com" ) );
+  creditsHtml.append( addContributor( "Piotr Gackowski", "pmgpmg@wp.pl" ) );
+
+  creditsHtml.append( QString( "<br/><p><b>%1</b></p><br/>" ).arg( tr( "Releasing:" ) ) );
+  creditsHtml.append( addContributor( "Markos Chandras", "hwoarang@gentoo.org", "Gentoo" ) );
+  creditsHtml.append( addContributor( "Eugene Pivnev", "ti.eugene@gmail.com", "Fedora, openSuse, Mandriva" ) );
+  creditsHtml.append( addContributor( "Shirakawasuna", "email@email.com", "Arch" ) );
+  creditsHtml.append( addContributor( "Dominik Kapusta", "d@ayoy.net", "Ubuntu/Debian, MacOS X, Windows" ) );
+
+  creditsHtml.append(   "</body>"
+                      "</html>" );
+
+  ui->creditsText->setHtml( creditsHtml );
+  ui->creditsText->moveCursor( QTextCursor::Start );
+}
+
+void AboutDialog::displayAbout()
+{
+  ui->aboutText->setHtml( tr( "<html>"
+                                "<head>"
+                                  "<style type=\"text/css\">p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }</style>"
+                                "</head>"
+                                "<body align=\"center\" style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">"
+                                  "<p>qTwitter - a Qt Twitter client</p>"
+                                  "<p>version %1</p>"
+                                  "<p>Copyright &copy; 2008-2009</p>"
+                                  "<p>by <a href=\"http://twitter.com/ayoy\"><span style=\" text-decoration: underline; color:#0000ff;\">Dominik Kapusta</span></a></p>"
+                                  "<p style=\"-qt-paragraph-type:empty; \"></p>"
+                                  "<p>Distributed under the GPL license</p>"
+                                  "<p>version 3 or later</p>"
+                                "</body>"
+                              "</html>" ).arg( ConfigFile::APP_VERSION ) );
+}
