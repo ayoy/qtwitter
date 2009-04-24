@@ -57,7 +57,7 @@ QByteArray HttpConnection::prepareRequest( const QString &path )
 
   if ( !buffer->open(QIODevice::ReadWrite) )
   {
-    emit errorMessage( tr("Unable to open device: ") + buffer->errorString() );
+    emit errorMessage( "Error: Unable to open device " + buffer->errorString() );
     delete buffer;
     buffer = 0;
     delete bytearray;

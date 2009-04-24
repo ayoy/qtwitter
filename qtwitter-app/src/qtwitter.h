@@ -35,6 +35,7 @@ public:
 
 public slots:
   void setCurrentModel( const QString &login );
+  void setPublicTimelineModel();
 
 private:
   Core *core;

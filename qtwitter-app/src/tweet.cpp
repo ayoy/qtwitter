@@ -61,64 +61,60 @@ Tweet::~Tweet()
 void Tweet::createMenu()
 {
   menu = new QMenu( this );
-  QFont menuFont;
-  menuFont.setPixelSize( 10 );
-  menu->setFont( menuFont );
-
   signalMapper = new QSignalMapper( this );
 
   replyAction = new QAction( tr("Reply to %1" ).arg( tweetData->login ), this);
+  replyAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ) );
   menu->addAction( replyAction );
-  replyAction->setFont( menuFont );
-  connect( replyAction, SIGNAL(triggered()), this, SLOT(sendReply()) );
+  connect( replyAction, SIGNAL(triggered()), this, SLOT(slotReply()) );
   connect( this, SIGNAL(reply(QString,int)), tweetListModel, SIGNAL(reply(QString,int)) );
   if ( tweetData->type != Entry::Status ) {
     replyAction->setEnabled( false );
   }
 
   retweetAction = new QAction( tr( "Retweet" ), this );
+  retweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ) );
   menu->addAction( retweetAction );
-  retweetAction->setFont( menuFont );
-  connect( retweetAction, SIGNAL(triggered()), this, SLOT(sendRetweet()) );
+  connect( retweetAction, SIGNAL(triggered()), this, SLOT(slotRetweet()) );
   connect( this, SIGNAL(retweet(QString)), tweetListModel, SIGNAL(retweet(QString)) );
 
   menu->addSeparator();
 
-  copylinkAction = new QAction( tr( "Copy link to this Tweet" ), this );
+  copylinkAction = new QAction( tr( "Copy link to this tweet" ), this );
+  copylinkAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ) );
   menu->addAction( copylinkAction );
-  copylinkAction->setFont( menuFont );
-  connect( copylinkAction, SIGNAL(triggered()), this, SLOT(copyLink()) );
+  connect( copylinkAction, SIGNAL(triggered()), this, SLOT(slotCopyLink()) );
   if ( tweetData->type != Entry::Status ) {
     copylinkAction->setEnabled( false );
   }
 
   deleteAction = new QAction( tr( "Delete tweet" ), this );
+  deleteAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ) );
   menu->addAction( deleteAction );
-  deleteAction->setFont( menuFont );
   signalMapper->setMapping( deleteAction, tweetData->id );
-  connect( deleteAction, SIGNAL(triggered()), this, SLOT(deleteTweet()) );
+  connect( deleteAction, SIGNAL(triggered()), this, SLOT(slotDelete()) );
   connect( this, SIGNAL(deleteStatus(QString,int)), tweetListModel, SIGNAL(destroy(QString,int)) );
   if ( !tweetData->isOwn ) {
     deleteAction->setEnabled( false );
   }
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
+  markallasreadAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ) );
   menu->addAction( markallasreadAction );
-  markallasreadAction->setFont( menuFont );
   connect( markallasreadAction, SIGNAL(triggered()), tweetListModel, SLOT(markAllAsRead()) );
 
   menu->addSeparator();
 
   gototwitterpageAction = new QAction( tr( "Go to User's Twitter page" ), this );
+  gototwitterpageAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ) );
   menu->addAction( gototwitterpageAction );
-  gototwitterpageAction->setFont( menuFont );
   signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + tweetData->login );
   connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   connect( signalMapper, SIGNAL(mapped(QString)), tweetListModel, SLOT(emitOpenBrowser(QString)) );
 
   gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
+  gotohomepageAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ) );
   menu->addAction( gotohomepageAction );
-  gotohomepageAction->setFont( menuFont );
   signalMapper->setMapping( gotohomepageAction, tweetData->homepage );
   connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   if ( !tweetData->homepage.compare("") ) {
@@ -129,7 +125,6 @@ void Tweet::createMenu()
 
   aboutAction = new QAction( tr( "About qTwitter..." ), this );
   menu->addAction( aboutAction );
-  aboutAction->setFont( menuFont );
   connect( aboutAction, SIGNAL(triggered()), tweetListModel, SIGNAL(about()) );
 }
 
@@ -145,6 +140,11 @@ void Tweet::resize( int w, int h )
   m_ui->frame->resize( w, h );
   m_ui->userStatus->resize( size().width() - m_ui->userStatus->geometry().x() - 18, m_ui->userStatus->size().height() );
   adjustSize();
+}
+
+const Entry& Tweet::data() const
+{
+  return *tweetData;
 }
 
 void Tweet::setTweetData( Entry *entry, TweetModel::TweetState *state )
@@ -173,15 +173,13 @@ void Tweet::applyTheme()
     setStyleSheet( currentTheme.read.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.read.linkColor );
   }
-  m_ui->userStatus->setHtml( tweetData->text );
-  this->update();
 }
 
 void Tweet::retranslateUi()
 {
   replyAction->setText( tr( "Reply to %1" ).arg( tweetData->login ) );
   retweetAction->setText( tr( "Retweet" ) );
-  copylinkAction->setText( tr( "Copy link to this Tweet" ) );
+  copylinkAction->setText( tr( "Copy link to this tweet" ) );
   deleteAction->setText( tr( "Delete tweet" ) );
   markallasreadAction->setText( tr( "Mark all as read" ) );
   gotohomepageAction->setText( tr( "Go to User's homepage" ) );
@@ -232,17 +230,17 @@ void Tweet::menuRequested()
   menu->exec( QCursor::pos() );
 }
 
-void Tweet::sendReply()
+void Tweet::slotReply()
 {
   emit reply( tweetData->login, tweetData->id );
 }
 
-void Tweet::sendRetweet()
+void Tweet::slotRetweet()
 {
   emit retweet( QString("RT @" + tweetData->login + ": " + tweetData->originalText ) );
 }
 
-void Tweet::copyLink()
+void Tweet::slotCopyLink()
 {
   QApplication::clipboard()->setText( "http://twitter.com/" + tweetData->login + "/statuses/" + QString::number( tweetData->id ) );
 }
@@ -274,7 +272,7 @@ void Tweet::focusRequest()
   emit selectMe( this );
 }
 
-void Tweet::deleteTweet()
+void Tweet::slotDelete()
 {
   emit deleteStatus( tweetData->login, tweetData->id );
 }
@@ -388,18 +386,18 @@ void Tweet::deleteTweet()
     Opens a Tweet menu.
 */
 
-/*! \fn void Tweet::sendReply()
+/*! \fn void Tweet::slotReply()
     Prepares and emits a \ref reply() signal.
     \sa reply()
 */
 
-/*! \fn void Tweet::sendRetweet()
+/*! \fn void Tweet::slotRetweet()
     Prepares a retweet (citation of other user's status) and emits a
     \ref retweet() signal to post it.
     \sa retweet()
 */
 
-/*! \fn void Tweet::copyLink()
+/*! \fn void Tweet::slotCopyLink()
     Copies a link to the Tweet to system clipboard.
 */
 
@@ -408,14 +406,14 @@ void Tweet::deleteTweet()
     to send a reply.
     \param name Login of the User to whom a reply is addressed.
     \param inReplyTo Id of the existing status to which the reply is posted.
-    \sa sendReply()
+    \sa slotReply()
 */
 
 /*! \fn void Tweet::retweet( QString message )
     Emitted to notify the Core class instance about the User's request
     to retweet a status.
-    \param message A retweet status message prepared by \ref sendRetweet().
-    \sa sendRetweet()
+    \param message A retweet status message prepared by \ref slotRetweet().
+    \sa slotRetweet()
 */
 
 /*! \fn void Tweet::markAllAsRead()

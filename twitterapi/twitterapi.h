@@ -58,11 +58,13 @@ public:
   static const QString PUBLIC_TIMELINE;
 
   enum Role {
+    ROLE_PUBLIC_TIMELINE = 101,
     ROLE_FRIENDS_TIMELINE,
     ROLE_DIRECT_MESSAGES,
-    ROLE_PUBLIC_TIMELINE,
     ROLE_POST_UPDATE,
-    ROLE_DELETE_UPDATE
+    ROLE_DELETE_UPDATE,
+    ROLE_POST_DM,
+    ROLE_DELETE_DM
   };
 
   TwitterAPI( QObject *parent = 0 );
@@ -72,6 +74,8 @@ public:
   void deleteUpdate( const QString &login, const QString &password, int id );
   void friendsTimeline( const QString &login, const QString &password );
   void directMessages( const QString &login, const QString &password );
+  void postDM( const QString &login, const QString &password, const QString &user, const QString &data );
+  void deleteDM( const QString &login, const QString &password, int id );
   void publicTimeline();
 
 public slots:
@@ -79,7 +83,7 @@ public slots:
 
 signals:
   void requestDone( const QString &login, int role );
-  void newEntry( const QString &login, Entry *entry );
+  void newEntry( const QString &login, Entry entry );
   void deleteEntry( const QString &login, int id );
   void errorMessage( const QString &message );
   void unauthorized( const QString &login, const QString &password );
@@ -99,6 +103,7 @@ private:
   QXmlSimpleReader xmlReader;
   QXmlInputSource source;
 
+  static const QNetworkRequest::Attribute ATTR_ROLE;
   static const QNetworkRequest::Attribute ATTR_LOGIN;
   static const QNetworkRequest::Attribute ATTR_PASSWORD;
   static const QNetworkRequest::Attribute ATTR_STATUS;

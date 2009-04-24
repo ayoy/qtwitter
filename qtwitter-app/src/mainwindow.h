@@ -35,14 +35,13 @@ class MainWindow : public QWidget
 {
   Q_OBJECT
 
-  static const QString APP_VERSION;
-
 public:
   MainWindow( QWidget *parent = 0 );
   virtual ~MainWindow();
 
   StatusList* getListView();
   int getScrollBarWidth();
+
   
 public slots:
   void setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool isPublicTimelineRequested );
@@ -56,6 +55,14 @@ public slots:
   void setListViewModel( TweetModel *model );
   void replaceUrl( const QString &url );
 
+  void tweetReplyAction();
+  void tweetRetweetAction();
+  void tweetCopylinkAction();
+  void tweetDeleteAction();
+  void tweetMarkallasreadAction();
+  void tweetGototwitterpageAction();
+  void tweetGotohomepageAction();
+
 signals:
   void setCurrentModel( const QString &login );
   void updateTweets();
@@ -67,6 +74,7 @@ signals:
   void addRetweetString( QString message );
   void resizeView( int width, int oldWidth );
   void switchModel( const QString &login );
+  void switchToPublicTimelineModel();
   void shortenUrl( const QString &url );
 
 protected:
@@ -81,6 +89,8 @@ private slots:
   void sendStatus();
   void resetStatus();
   void configSaveCurrentModel( int index );
+  void selectNextAccount();
+  void selectPrevAccount();
 
 private:
   void createConnections();
@@ -93,6 +103,7 @@ private:
   QAction *newtwitpicAction;
   QAction *gototwitterAction;
   QAction *gototwitpicAction;
+  QAction *quitAction;
   QMovie *progressIcon;
   QSystemTrayIcon *trayIcon;
 };

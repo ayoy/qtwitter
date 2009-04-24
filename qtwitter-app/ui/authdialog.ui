@@ -80,6 +80,9 @@
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
        </property>
+       <property name="buddy">
+        <cstring>loginEdit</cstring>
+       </property>
       </widget>
      </item>
      <item row="1" column="1">
@@ -106,6 +109,9 @@
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+       <property name="buddy">
+        <cstring>passwordEdit</cstring>
        </property>
       </widget>
      </item>
@@ -205,70 +211,6 @@
     <hint type="destinationlabel">
      <x>157</x>
      <y>194</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>disableBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>passwordEdit</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>124</x>
-     <y>166</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>126</x>
-     <y>127</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>disableBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>loginEdit</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>167</x>
-     <y>161</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>167</x>
-     <y>91</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>disableBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>passwordLabel</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>99</x>
-     <y>167</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>37</x>
-     <y>122</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>disableBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>loginLabel</receiver>
-   <slot>setDisabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>111</x>
-     <y>159</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>67</x>
-     <y>85</y>
     </hint>
    </hints>
   </connection>

@@ -46,8 +46,7 @@ Core::Core( MainWindow *parent ) :
   imageCache.setMaxCost( 50 );
 
   twitterapi = new TwitterAPI( this );
-  connect( twitterapi, SIGNAL(newEntry(QString,Entry*)), this, SLOT(addEntry(QString,Entry*)) );
-  connect( twitterapi, SIGNAL(newEntry(QString,Entry*)), this, SLOT(downloadImage(QString,Entry*)) );
+  connect( twitterapi, SIGNAL(newEntry(QString,Entry)), this, SLOT(addEntry(QString,Entry)) );
   connect( twitterapi, SIGNAL(deleteEntry(QString,int)), this, SLOT(deleteEntry(QString,int)) );
   connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( twitterapi, SIGNAL(unauthorized(QString,QString)), this, SLOT(slotUnauthorized(QString,QString)) );
@@ -154,9 +153,12 @@ QAbstractItemModel* Core::getTwitterAccountsModel()
 
 TweetModel* Core::getModel( const QString &login )
 {
-  if ( !tweetModels.contains( login ) )
-    return 0;
-  return tweetModels.value( login );
+  return tweetModels.contains( login ) ? tweetModels.value( login ) : 0;
+}
+
+TweetModel* Core::getPublicTimelineModel()
+{
+  return tweetModels.contains( TwitterAPI::PUBLIC_TIMELINE ) ? tweetModels.value( TwitterAPI::PUBLIC_TIMELINE ) : 0;
 }
 
 void Core::forceGet()
@@ -169,6 +171,10 @@ void Core::get( const QString &login, const QString &password )
 {
   twitterapi->friendsTimeline( login, password );
   emit newRequest();
+  if ( accountsModel->account( login )->directMessages ) {
+    twitterapi->directMessages( login, password );
+    emit newRequest();
+  }
 }
 
 void Core::get()
@@ -240,24 +246,12 @@ void Core::twitPicResponse( bool responseStatus, QString message, bool newStatus
   dlg.exec();
 }
 
-void Core::downloadImage( const QString &login, Entry *entry )
+void Core::downloadImage( const QString &imageUrl )
 {
-  Q_UNUSED(login)
-  if ( entry->type == Entry::DirectMessage )
-    return;
-
-  if ( imageCache.contains( entry->image ) ) {
-    if ( !imageCache.contains( entry->image ) || imageCache[ entry->image ]->isNull() ) {
-      qDebug() << "not downloading";
-    } else {
-      emit setImageForUrl( entry->image, imageCache[ entry->image ] );
-    }
-    return;
-  }
-  QString host = QUrl( entry->image ).host();
+  QString host = QUrl( imageUrl ).host();
   if ( imageDownloader.contains( host ) ) {
-    imageDownloader[host]->imageGet( entry );
-    imageCache.insert( entry->image, new QImage );
+    imageDownloader[host]->imageGet( imageUrl );
+    imageCache.insert( imageUrl, new QImage );
     qDebug() << "setting null image";
     return;
   }
@@ -265,9 +259,9 @@ void Core::downloadImage( const QString &login, Entry *entry )
   imageDownloader[host] = getter;
   connect( getter, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
-  getter->imageGet( entry );
-  imageCache.insert( entry->image, new QImage );
-  qDebug() << "setting null image" << imageCache[ entry->image ]->isNull();
+  getter->imageGet( imageUrl );
+  imageCache.insert( imageUrl, new QImage );
+  qDebug() << "setting null image" << imageCache[ imageUrl ]->isNull();
 }
 
 void Core::openBrowser( QUrl address )
@@ -294,6 +288,7 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
   QDialog dlg;
   Ui::AuthDialog ui;
   ui.setupUi(&dlg);
+  //: This is for newly created account - when the login isn't given yet
   ui.loginEdit->setText( ( account->login == tr( "<empty>" ) ) ? QString() : account->login );
   ui.loginEdit->selectAll();
   ui.passwordEdit->setText( account->password );
@@ -305,14 +300,22 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
       authDialogOpen = false;
       account->isEnabled = false;
       settings.setValue( QString("TwitterAccounts/%1/enabled").arg( row ), false );
+      emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
       return Core::STATE_DISABLE_ACCOUNT;
     } else if ( ui.removeBox->isChecked() ) {
       authDialogOpen = false;
       accountsModel->removeRow( row );
       settings.deleteTwitterAccount( row, accountsModel->rowCount() );
+      emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
       return Core::STATE_REMOVE_ACCOUNT;
     }
-    account->login = ui.loginEdit->text();
+    if ( account->login != ui.loginEdit->text() ) {
+      tweetModels[ ui.loginEdit->text() ] = tweetModels[ account->login ];
+      tweetModels[ ui.loginEdit->text() ]->setLogin( account->login );
+      tweetModels.remove( account->login );
+      account->login = ui.loginEdit->text();
+      emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
+    }
     account->password = ui.passwordEdit->text();
     settings.setValue( QString("TwitterAccounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login );
     settings.setValue( QString("TwitterAccounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password ) );
@@ -320,7 +323,6 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
     emit requestStarted();
     return Core::STATE_ACCEPTED;
   }
-  qDebug() << "returning false";
   authDialogOpen = false;
   return Core::STATE_REJECTED;
 }
@@ -338,10 +340,22 @@ void Core::setImageInHash( const QString &url, QImage image )
   emit setImageForUrl( url, imageCache[ url ] );
 }
 
-void Core::addEntry( const QString &login, Entry *entry )
+void Core::addEntry( const QString &login, Entry entry )
 {
-  if ( tweetModels.contains( login ) )
-    tweetModels[ login ]->insertTweet( entry );
+  if ( !tweetModels.contains( login ) )
+    return;
+
+  tweetModels[ login ]->insertTweet( &entry );
+  if ( entry.type == Entry::Status ) {
+    if ( imageCache.contains( entry.image ) ) {
+      if ( !imageCache.contains( entry.image ) || imageCache[ entry.image ]->isNull() )
+        qDebug() << "image in cache";
+      else
+        emit setImageForUrl( entry.image, imageCache[ entry.image ] );
+    } else {
+      downloadImage( entry.image );
+    }
+  }
 }
 
 void Core::deleteEntry( const QString &login, int id )
@@ -352,31 +366,34 @@ void Core::deleteEntry( const QString &login, int id )
 
 void Core::slotUnauthorized( const QString &login, const QString &password )
 {
-  Q_UNUSED(password)
-  if ( !retryAuthorizing( accountsModel->account( login ), TwitterAPI::ROLE_FRIENDS_TIMELINE ) )
+  Q_UNUSED(password);
+  TwitterAccount *account = accountsModel->account( login );
+  if ( !retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE ) )
     return;
   requestCount--;
-  get( accountsModel->account( login )->login, accountsModel->account( login )->password );
+  if ( account->directMessages )
+    requestCount--;
+  get( account->login, account->password );
 }
 
 void Core::slotUnauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId )
 {
-  Q_UNUSED(password)
+  Q_UNUSED(password);
   TwitterAccount *account = accountsModel->account( login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE ) )
     return;
   requestCount--;
-  post( accountsModel->account( login )->login, status, inReplyToId );
+  post( account->login, status, inReplyToId );
 }
 
 void Core::slotUnauthorized( const QString &login, const QString &password, int destroyId )
 {
-  Q_UNUSED(password)
+  Q_UNUSED(password);
   TwitterAccount *account = accountsModel->account( login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE ) )
     return;
   requestCount--;
-  destroyTweet( login, destroyId );
+  destroyTweet( account->login, destroyId );
 }
 
 void Core::setupTweetModels()
@@ -408,7 +425,7 @@ void Core::createConnectionsWithModel( TweetModel *model )
   connect( model, SIGNAL(about()), this, SIGNAL(about()) );
   connect( model, SIGNAL(destroy(QString,int)), this, SLOT(destroyTweet(QString,int)) );
   connect( model, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
-  connect( model, SIGNAL(newTweets(QString)), this, SLOT(storeNewTweets(QString)) );
+  connect( model, SIGNAL(newTweets(QString,bool)), this, SLOT(storeNewTweets(QString,bool)) );
   connect( this, SIGNAL(setImageForUrl(QString,QImage*)), model, SLOT(setImageForUrl(QString,QImage*)) );
   connect( this, SIGNAL(allRequestsFinished()), model, SLOT(checkForUnread()) );
   connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
@@ -449,8 +466,8 @@ void Core::slotNewRequest()
 
 void Core::slotRequestDone( const QString &login, int role )
 {
-  Q_UNUSED(login)
-  Q_UNUSED(role)
+  Q_UNUSED(login);
+  Q_UNUSED(role);
   requestCount--;
   qDebug() << requestCount;
   if ( requestCount == 0 ) {
@@ -460,13 +477,14 @@ void Core::slotRequestDone( const QString &login, int role )
   }
 }
 
-void Core::storeNewTweets( const QString &login )
+void Core::storeNewTweets( const QString &login, bool exists )
 {
   if ( !tempModelCount )
     return;
-  qDebug() << "Core::storeNewTweets( " + login + " )";
-  newTweets << login;
-  if ( --tempModelCount == 0 )
+  qDebug() << "Core::storeNewTweets( " + login + ", " + exists + " )";
+  if ( exists )
+    newTweets << login;
+  if ( --tempModelCount == 0 && newTweets.size() > 0 )
     sendNewsInfo();
 }
 
@@ -480,7 +498,7 @@ void Core::sendNewsInfo()
     return;
   }
   message.append( newTweets.join( ", " ) );
-  message.replace( message.lastIndexOf( ", " ), 2, tr( " and " ) );
+  message.replace( message.lastIndexOf( ", " ), 2, QString( " %1 " ).arg( tr( "and" ) ) );
   emit sendNewsReport( message );
   newTweets.clear();
 }

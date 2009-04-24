@@ -63,6 +63,7 @@ public:
   void setModelTheme( const ThemeData &theme );
   QAbstractItemModel* getTwitterAccountsModel();
   TweetModel* getModel( const QString &login );
+  TweetModel* getPublicTimelineModel();
 
 public slots:
   void forceGet();
@@ -75,7 +76,7 @@ public slots:
   void abortUploadPhoto();
   void twitPicResponse( bool responseStatus, QString message, bool newStatus );
 
-  void downloadImage( const QString &login, Entry *entry );
+  void downloadImage( const QString &imageUrl );
   void openBrowser( QUrl address );
   AuthDialogState authDataDialog( TwitterAccount *account );
   void shortenUrl( const QString &url );
@@ -83,7 +84,7 @@ public slots:
   void retranslateUi();
 
 signals:
-  void setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool isPublicTimelineRequested );
+  void twitterAccountsChanged( const QList<TwitterAccount> &accounts, bool isPublicTimelineRequested );
   void errorMessage( const QString &message );
   void twitPicResponseReceived();
   void twitPicDataSendProgress(int,int);
@@ -105,14 +106,14 @@ signals:
 
 private slots:
   void setImageInHash( const QString&, QImage );
-  void addEntry( const QString &login, Entry* entry );
+  void addEntry( const QString &login, Entry entry );
   void deleteEntry( const QString &login, int id );
   void slotUnauthorized( const QString &login, const QString &password );
   void slotUnauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId );
   void slotUnauthorized( const QString &login, const QString &password, int destroyId );
   void slotNewRequest();
   void slotRequestDone( const QString &login, int role );
-  void storeNewTweets( const QString &login );
+  void storeNewTweets( const QString &login, bool exists );
 
 private:
   void sendNewsInfo();

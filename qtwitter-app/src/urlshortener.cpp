@@ -66,11 +66,11 @@ void IsGdShortener::replyFinished( QNetworkReply * reply )
         } else if ( message ==  "The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop." )  {
           emit errorMessage( tr( "The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.") );
         } else if ( message == "The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.") {
-          emit errorMessage( tr( "The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist" ) );
-        } else if ( message == "The URL you entered is on our blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse)" ) {
-          emit errorMessage( tr( "The URL you entered is on our blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse)" ) );
-        } else if ( message == "The address making this request has been blocked by is.gd (normally the result of a violation of our terms of use)" ) {
-          emit errorMessage( tr( "The address making this request has been blocked by is.gd (normally the result of a violation of our terms of use)" ) );
+          emit errorMessage( tr( "The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist." ) );
+        } else if ( message == "The URL you entered is on the is.gd's blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse)." ) {
+          emit errorMessage( tr( "The URL you entered is on the is.gd's blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse)." ) );
+        } else if ( message == "The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use)." ) {
+          emit errorMessage( tr( "The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use)." ) );
         }
       }
       break;

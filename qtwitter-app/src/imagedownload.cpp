@@ -55,19 +55,18 @@ ImageDownload::~ImageDownload()
   }
 }
 
-void ImageDownload::imageGet( Entry *entry )      //requestByEntry[entry.getId()] = httpGetId;
+void ImageDownload::imageGet( const QString &imageUrl )      //requestByEntry[entry.getId()] = httpGetId;
 {
-  QString imagePath = entry->image;
-  QByteArray encodedPath = prepareRequest( imagePath );
+  QByteArray encodedPath = prepareRequest( imageUrl );
   httpGetId = get( encodedPath, buffer );
-  requestByEntry.insert( imagePath, httpGetId );
+  requestByEntry.insert( imageUrl, httpGetId );
   ImageData *imageData = new ImageData;
   imageData->buffer = buffer;
   imageData->bytearray = bytearray;
   buffer = 0;
   bytearray = 0;
-  imageByEntry.insert( imagePath, *imageData );
-  qDebug() << "Request of type GET and id" << httpGetId << "started";
+  imageByEntry.insert( imageUrl, *imageData );
+//  qDebug() << "Request of type GET and id" << httpGetId << "started";
 }
 
 void ImageDownload::clearData()
@@ -89,13 +88,14 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
   imageData->buffer->close();
 
   if (error) {
-    emit errorMessage( tr("Download failed: ") + errorString() );
+    emit errorMessage( tr("Download failed:").append( " " ) + errorString() );
   }
   qDebug() << "Image request of id" << requestId << "finished" << requestByEntry.key( requestId );
   imageData->image = new QImage;
-  if (!imageData->image->loadFromData( *imageData->bytearray ) ) {
-    qDebug() << "fail";
-  }
+  imageData->image->loadFromData( *imageData->bytearray );
+//  if (!imageData->image->loadFromData( *imageData->bytearray ) ) {
+//    qDebug() << "fail";
+//  }
   emit imageReadyForUrl( requestByEntry.key( requestId ), *(imageData->image) );
   imageData->free();
   imageByEntry.remove( requestByEntry.key( requestId ) );
@@ -105,7 +105,7 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
 void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
 //  qDebug() << "Response for" << requestByEntry.key( currentId() );//url.path();
-  qDebug() << "Code:" << responseHeader.statusCode() << ", status:" << responseHeader.reasonPhrase();
+//  qDebug() << "Code:" << responseHeader.statusCode() << ", status:" << responseHeader.reasonPhrase();
   switch ( responseHeader.statusCode() ) {
   case 200:                   // Ok
   case 301:                   // Moved Permanently

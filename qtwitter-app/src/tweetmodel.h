@@ -49,6 +49,8 @@ public:
   TweetModel( const QString &login, int margin, StatusList *parentListView, QObject *parent = 0 );
   ~TweetModel();
 
+  Tweet* currentTweet();
+  void setLogin( const QString &login );
   void deselectCurrentIndex();
   void setTheme( const ThemeData &theme );
   void setMaxTweetCount( int count );
@@ -72,7 +74,7 @@ public slots:
 signals:
   void retweet( QString message );
   void destroy( const QString &login, int id );
-  void newTweets( const QString &login );
+  void newTweets( const QString &login, bool exists );
   void openBrowser( QUrl address );
   void reply( const QString &name, int inReplyTo );
   void about();
@@ -82,8 +84,6 @@ private slots:
 
 private:
   bool stripRedundantTweets();
-  Status getTweetFromIndex( int );
-  Status getTweetFromIndex( QModelIndex );
   QString login;
   QList<Status> statuses;
   bool isVisible;

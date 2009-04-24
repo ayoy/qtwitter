@@ -86,9 +86,12 @@ typedef QPair<QString,ThemeData> ThemeInfo;
 class ConfigFile : public QSettings
 {
 public:
+  static const QString APP_VERSION;
   ConfigFile();
   static QString pwHash( const QString &text );
   void deleteTwitterAccount( int id, int rowCount );
+private:
+  void convertSettings();
 };
 
 class Settings : public QDialog

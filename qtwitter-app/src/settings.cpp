@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -33,6 +34,8 @@
 #include "twitteraccountsmodel.h"
 #include "twitteraccountsdelegate.h"
 
+const QString ConfigFile::APP_VERSION = "0.6.0";
+
 ConfigFile settings;
 
 ConfigFile::ConfigFile():
@@ -43,7 +46,10 @@ QSettings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" )
 #else
 QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
 #endif
-{}
+{
+  if ( value( "General/version", QString() ).toString().isNull() )
+    convertSettings();
+}
 
 QString ConfigFile::pwHash( const QString &text )
 {
@@ -68,6 +74,25 @@ void ConfigFile::deleteTwitterAccount( int id, int rowCount )
   endGroup();
 }
 
+void ConfigFile::convertSettings()
+{
+  setValue( "General/version", ConfigFile::APP_VERSION );
+  if ( contains( "General/username" ) ) {
+    setValue( "TwitterAccounts/0/enabled", true );
+    setValue( "TwitterAccounts/0/login", value( "General/username", "<empty>" ).toString() );
+    setValue( "TwitterAccounts/0/password", value( "General/password", "" ).toString() );
+    setValue( "TwitterAccounts/0/directmsgs", value( "General/directMessages", false ).toBool() );
+  }
+  setValue( "TwitterAccounts/publicTimeline", true );
+  if ( value( "General/timeline", false ).toBool() ) {
+    setValue( "TwitterAccounts/currentModel", 1 );
+  }
+  setValue( "General/language", "en" );
+  remove( "General/username" );
+  remove( "General/password" );
+  remove( "General/directMessages" );
+  remove( "General/timeline" );
+}
 
 const ThemeInfo Settings::STYLESHEET_CARAMEL =  ThemeInfo( QString( "Caramel" ),
                                                            ThemeData( ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(23, 14, 40, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(219, 204, 56); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" ),
@@ -139,6 +164,7 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   qApp->installTranslator( &translator );
 
   ui.setupUi( this );
+  ui.languageCombo->setItemData( 0, "en" );
   accountsModel = qobject_cast<TwitterAccountsModel*>( core->getTwitterAccountsModel() );
   if ( accountsModel ) {
     ui.usersView->setModel( accountsModel );
@@ -224,11 +250,11 @@ void Settings::loadConfig( bool dialogRejected )
         ui.deleteAccountButton->setEnabled( true );
       }
   }
-  ui.publicTimelineCheckBox->setChecked( settings.value( "publicTimeline", Qt::Unchecked ).toBool() );
+  ui.publicTimelineCheckBox->setChecked( settings.value( "publicTimeline", false ).toBool() );
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
-      ui.proxyBox->setCheckState( (Qt::CheckState)settings.value( "enabled" ).toInt() );
+      ui.proxyBox->setChecked( settings.value( "enabled" ).toBool() );
       ui.hostEdit->setText( settings.value( "host" ).toString() );
       ui.portEdit->setText( settings.value( "port" ).toString() );
     settings.endGroup();
@@ -239,7 +265,7 @@ void Settings::loadConfig( bool dialogRejected )
   settings.endGroup();
   settings.beginGroup( "Appearance" );
     ui.tweetCountBox->setValue( settings.value( "tweet count", 25 ).toInt() );
-    ui.colorBox->setCurrentIndex( settings.value( "color scheme", 2 ).toInt() );
+    ui.colorBox->setCurrentIndex( settings.value( "color scheme", 3 ).toInt() );
   settings.endGroup();
 
   ui.hostEdit->setEnabled( (bool) ui.proxyBox->checkState() );
@@ -247,7 +273,7 @@ void Settings::loadConfig( bool dialogRejected )
 
   if ( !dialogRejected ) {
     settings.beginGroup( "MainWindow" );
-    mainWindow->resize( settings.value( "size", QSize(307, 245) ).toSize() );
+    mainWindow->resize( settings.value( "size", QSize(300, 400) ).toSize() );
     QPoint offset( settings.value( "pos", QPoint(500,500) ).toPoint() );
     if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
       offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
@@ -298,7 +324,7 @@ void Settings::saveConfig( int quitting )
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
-      settings.setValue( "enabled", ui.proxyBox->checkState() );
+      settings.setValue( "enabled", ui.proxyBox->isChecked() );
       settings.setValue( "host", ui.hostEdit->text() );
       settings.setValue( "port", ui.portEdit->text() );
     settings.endGroup();
@@ -325,6 +351,11 @@ void Settings::show()
 {
   ui.tabs->setCurrentIndex( 0 );
   QDialog::show();
+  adjustSize();
+  if ( accountsModel->index( ui.usersView->currentIndex().row(), 0 ).isValid() ) {
+    TwitterAccount &account = accountsModel->account( accountsModel->index( ui.usersView->currentIndex().row(), 0 ).row() );
+    ui.accountEnabledCheckBox->setChecked( account.isEnabled );
+  }
 }
 
 void Settings::accept()
@@ -346,14 +377,16 @@ void Settings::switchLanguage( int index )
   qDebug() << "switching language to" << locale << "from" << qmPath;
   translator.load( "qtwitter_" + locale, qmPath );
   retranslateUi();
+//  ui.retranslateUi(this);
   mainWindow->retranslateUi();
   core->retranslateUi();
+ // ui.tabs->adjustSize();
   adjustSize();
 }
 
 void Settings::fillAccountEditor( const QModelIndex &current, const QModelIndex &previous )
 {
-  Q_UNUSED(previous)
+  Q_UNUSED(previous);
 
   ui.accountEnabledCheckBox->setEnabled( true );
   ui.accountLoginLabel->setEnabled( true );
@@ -379,7 +412,8 @@ void Settings::addTwitterAccount()
   ui.accountLoginEdit->setFocus();
   ui.accountLoginEdit->selectAll();
   settings.beginGroup( QString( "TwitterAccounts/%1" ).arg( accountsModel->rowCount() - 1 ) );
-    settings.setValue( "enabled", false );
+    settings.setValue( "enabled", true );
+    //: This is for newly created account - when the login isn't given yet
     settings.setValue( "login", tr( "<empty>" ) );
     settings.setValue( "password", "" );
     settings.setValue( "directmsgs", false );
@@ -453,15 +487,15 @@ void Settings::retranslateUi()
 {
   this->setWindowTitle( tr("Settings") );
   ui.tabs->setTabText( 0, tr( "General" ) );
-  ui.label->setText( tr("Refresh every") );
-  ui.label_2->setText( tr("minutes") );
-  ui.label_3->setText( tr("Language") );
-  ui.label_4->setText( tr("Show notifications") );
+  ui.refreshLabel->setText( tr("Refresh every (mins):") );
+  ui.languageLabel->setText( tr("Language:") );
+  ui.shortenLabel->setText( tr("Shorten links via:") );
+  ui.notificationsBox->setText( tr("Show tray notifications") );
   ui.tabs->setTabText( 1, tr( "Twitter" ) );
   ui.accountGroupBox->setTitle( tr( "Account" ) );
   ui.accountEnabledCheckBox->setText( tr( "Enabled" ) );
-  ui.accountLoginLabel->setText( tr( "Username" ) );
-  ui.accountPasswordLabel->setText( tr( "Password" ) );
+  ui.accountLoginLabel->setText( tr( "Username:" ) );
+  ui.accountPasswordLabel->setText( tr( "Password:" ) );
   ui.accountDMCheckBox->setText( tr( "download direct messages" ) );
   ui.publicTimelineCheckBox->setText( tr( "include public timeline" ) );
   ui.tabs->setTabText( 2, tr( "Network" ) );
@@ -478,7 +512,9 @@ void Settings::retranslateUi()
   ui.buttonBox->button( QDialogButtonBox::Apply )->setText( tr( "Apply" ) );
   ui.buttonBox->button( QDialogButtonBox::Cancel )->setText( tr( "Cancel" ) );
   ui.buttonBox->button( QDialogButtonBox::Ok )->setText( tr( "OK" ) );
-  adjustSize();
+  update();
+//  adjustSize();
+//  updateGeometry();
 }
 
 #ifdef Q_WS_X11

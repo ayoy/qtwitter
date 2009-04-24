@@ -55,7 +55,7 @@ public:
   virtual bool characters( const QString &ch );
 
 signals:
-  void newEntry( const QString &login, Entry *entry );
+  void newEntry( const QString &login, Entry entry );
 
 protected:
   FieldType checkFieldType( const QString &element );

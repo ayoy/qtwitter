@@ -31,17 +31,19 @@
 
 Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
 {
+  connect( this, SIGNAL(switchModel(QString)), SLOT(setCurrentModel(QString)) );
+  connect( this, SIGNAL(switchToPublicTimelineModel()), SLOT(setPublicTimelineModel()) );
+
   core = new Core( this );
   twitpic = new TwitPicView( this );
   settingsDialog = new Settings( this, core, twitpic, this );
-
-  connect( this, SIGNAL(switchModel(QString)), SLOT(setCurrentModel(QString)) );
 
   connect( this, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
   connect( this, SIGNAL(post(QString,QString,int)), core, SLOT(post(QString,QString,int)) );
   connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
   connect( this, SIGNAL(shortenUrl(QString)), core, SLOT(shortenUrl(QString)));
+  connect( core, SIGNAL(twitterAccountsChanged(QList<TwitterAccount>,bool)), this, SLOT(setupTwitterAccounts(QList<TwitterAccount>,bool)) );
   connect( core, SIGNAL(urlShortened(QString)), this, SLOT(replaceUrl(QString)));
   connect( core, SIGNAL(about()), this, SLOT(about()) );
   connect( core, SIGNAL(addReplyString(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
@@ -64,13 +66,16 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
   mapper->setMapping( qApp, 1 );
   connect( qApp, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(int)), settingsDialog, SLOT(saveConfig(int)) );
-  setCurrentModel( ui.accountsComboBox->currentText() );
 }
 
 void Qtwitter::setCurrentModel( const QString &login )
 {
   setListViewModel( core->getModel( login ) );
+}
 
-// TODO:
-// core->model( login )->repaint();
+//  this is to avoid relying on translation files
+//  caused by a bug in tr() method
+void Qtwitter::setPublicTimelineModel()
+{
+  setListViewModel( core->getPublicTimelineModel() );
 }

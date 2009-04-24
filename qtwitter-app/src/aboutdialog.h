@@ -18,43 +18,27 @@
  ***************************************************************************/
 
 
-#ifndef IMAGEDOWNLOAD_H
-#define IMAGEDOWNLOAD_H
+#ifndef ABOUTDIALOG_H
+#define ABOUTDIALOG_H
 
-#include <QImage>
-#include <twitterapi/twitterapi.h>
-#include "httpconnection.h"
+#include <QDialog>
+#include "ui_aboutdialog.h"
 
-struct ImageData
+class AboutDialog : public QDialog
 {
-  QImage *image;
-  QByteArray *bytearray;
-  QBuffer *buffer;
-  ImageData();
-  void free();
-};
-
-class ImageDownload : public HttpConnection
-{
-  Q_OBJECT
 
 public:
-  ImageDownload();
-  ~ImageDownload();
-
-  void imageGet( const QString& imageUrl );
-  void clearData();
-
-signals:
-  void imageReadyForUrl( const QString& path, QImage image );
-
-private slots:
-  void httpRequestFinished( int requestId, bool error );
-  void readResponseHeader( const QHttpResponseHeader &responseHeader );
+  AboutDialog( QWidget *parent = 0 );
+  ~AboutDialog();
 
 private:
-  QMap<QString,int> requestByEntry;
-  QMap<QString,ImageData> imageByEntry;
+  QString addContributor( const QString &name, const QString &email, const QString &role = QString() );
+
+  void populateAuthors();
+  void populateCredits();
+  void displayAbout();
+
+  Ui::AboutDialog *ui;
 };
 
-#endif //IMAGEDOWNLOAD_H
+#endif // ABOUTDIALOG_H
