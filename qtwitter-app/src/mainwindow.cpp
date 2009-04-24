@@ -116,6 +116,7 @@ void MainWindow::createMenu()
   newtwitpicAction = new QAction( tr( "Upload a photo to TwitPic" ), buttonMenu );
   gototwitterAction = new QAction( tr( "Go to Twitter" ), buttonMenu );
   gototwitpicAction = new QAction( tr( "Go to TwitPic" ), buttonMenu );
+  aboutAction = new QAction( tr( "About qTwitter..." ), buttonMenu );
   quitAction = new QAction( tr( "Quit" ), buttonMenu );
   quitAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
   quitAction->setShortcutContext( Qt::ApplicationShortcut );
@@ -135,6 +136,7 @@ void MainWindow::createMenu()
   connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(QString)), this, SLOT(emitOpenBrowser(QString)) );
+  connect( aboutAction, SIGNAL(triggered()), this, SLOT(about()) );
 
   buttonMenu->addAction( newtweetAction );
   buttonMenu->addAction( newtwitpicAction );
@@ -142,6 +144,7 @@ void MainWindow::createMenu()
   buttonMenu->addAction( gototwitterAction );
   buttonMenu->addAction( gototwitpicAction );
   buttonMenu->addSeparator();
+  buttonMenu->addAction( aboutAction );
   buttonMenu->addAction( quitAction );
   ui.moreButton->setMenu( buttonMenu );
 }
@@ -424,6 +427,7 @@ void MainWindow::retranslateUi()
   newtwitpicAction->setText( tr( "Upload a photo to TwitPic" ) );
   gototwitterAction->setText( tr( "Go to Twitter" ) );
   gototwitpicAction->setText( tr( "Go to TwitPic" ) );
+  aboutAction->setText( tr( "About qTwitter..." ) );
   quitAction->setText( tr( "Quit" ) );
 }
 

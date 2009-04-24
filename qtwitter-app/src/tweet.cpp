@@ -66,35 +66,40 @@ void Tweet::createMenu()
   replyAction = new QAction( tr("Reply to %1" ).arg( tweetData->login ), this);
   replyAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ) );
   menu->addAction( replyAction );
-  connect( replyAction, SIGNAL(triggered()), this, SLOT(slotReply()) );
-  connect( this, SIGNAL(reply(QString,int)), tweetListModel, SIGNAL(reply(QString,int)) );
-  if ( tweetData->type != Entry::Status ) {
+  // TODO: enable replying when at least one account is configured
+  if ( tweetData->type != Entry::Status || tweetListModel->getLogin() == TwitterAPI::PUBLIC_TIMELINE ) {
+    connect( replyAction, SIGNAL(triggered()), this, SLOT(slotReply()) );
+    connect( this, SIGNAL(reply(QString,int)), tweetListModel, SIGNAL(reply(QString,int)) );
     replyAction->setEnabled( false );
   }
 
   retweetAction = new QAction( tr( "Retweet" ), this );
   retweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ) );
   menu->addAction( retweetAction );
-  connect( retweetAction, SIGNAL(triggered()), this, SLOT(slotRetweet()) );
-  connect( this, SIGNAL(retweet(QString)), tweetListModel, SIGNAL(retweet(QString)) );
+  // TODO: enable retweeting when at least one account is configured
+  if ( tweetListModel->getLogin() == TwitterAPI::PUBLIC_TIMELINE ) {
+    connect( retweetAction, SIGNAL(triggered()), this, SLOT(slotRetweet()) );
+    connect( this, SIGNAL(retweet(QString)), tweetListModel, SIGNAL(retweet(QString)) );
+    retweetAction->setEnabled( false );
+  }
 
   menu->addSeparator();
 
   copylinkAction = new QAction( tr( "Copy link to this tweet" ), this );
   copylinkAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ) );
   menu->addAction( copylinkAction );
-  connect( copylinkAction, SIGNAL(triggered()), this, SLOT(slotCopyLink()) );
   if ( tweetData->type != Entry::Status ) {
+    connect( copylinkAction, SIGNAL(triggered()), this, SLOT(slotCopyLink()) );
     copylinkAction->setEnabled( false );
   }
 
   deleteAction = new QAction( tr( "Delete tweet" ), this );
   deleteAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ) );
   menu->addAction( deleteAction );
-  signalMapper->setMapping( deleteAction, tweetData->id );
-  connect( deleteAction, SIGNAL(triggered()), this, SLOT(slotDelete()) );
-  connect( this, SIGNAL(deleteStatus(QString,int)), tweetListModel, SIGNAL(destroy(QString,int)) );
   if ( !tweetData->isOwn ) {
+    signalMapper->setMapping( deleteAction, tweetData->id );
+    connect( deleteAction, SIGNAL(triggered()), this, SLOT(slotDelete()) );
+    connect( this, SIGNAL(deleteStatus(QString,int)), tweetListModel, SIGNAL(destroy(QString,int)) );
     deleteAction->setEnabled( false );
   }
 
@@ -115,17 +120,11 @@ void Tweet::createMenu()
   gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
   gotohomepageAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ) );
   menu->addAction( gotohomepageAction );
-  signalMapper->setMapping( gotohomepageAction, tweetData->homepage );
-  connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   if ( !tweetData->homepage.compare("") ) {
+    signalMapper->setMapping( gotohomepageAction, tweetData->homepage );
+    connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
     gotohomepageAction->setEnabled( false );
   }
-
-  menu->addSeparator();
-
-  aboutAction = new QAction( tr( "About qTwitter..." ), this );
-  menu->addAction( aboutAction );
-  connect( aboutAction, SIGNAL(triggered()), tweetListModel, SIGNAL(about()) );
 }
 
 void Tweet::resize( const QSize &s )
@@ -184,7 +183,6 @@ void Tweet::retranslateUi()
   markallasreadAction->setText( tr( "Mark all as read" ) );
   gotohomepageAction->setText( tr( "Go to User's homepage" ) );
   gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
-  aboutAction->setText( tr( "About qTwitter..." ) );
 }
 
 bool Tweet::isRead() const

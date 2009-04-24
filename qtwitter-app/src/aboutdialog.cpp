@@ -38,12 +38,11 @@ AboutDialog::~AboutDialog()
 #include <QDebug>
 QString AboutDialog::addContributor( const QString &name, const QString &email, const QString &role )
 {
-  qDebug() << name;
-  qDebug() << "ęęęę";
   if ( role.isNull() )
     return QString( "<p><b>%1</b> - <a href=\"mailto:%2\">%2</a></p>" ).arg( name, email );
   return QString( "<p><b>%1</b> - <a href=\"mailto:%2\">%2</a></p>"
-                  "<p>%3</p><br/>" ).arg( name, email, role );
+                  "<p>%3</p>"
+                  "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( name, email, role );
 }
 
 void AboutDialog::populateAuthors()
@@ -54,13 +53,15 @@ void AboutDialog::populateAuthors()
                          "</head>"
                          "<body style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">" );
 
-  authorsHtml.append( QString( "<p><b>%1</b></p><br/>" ).arg( tr( "Development team as for 0.6.0:" ) ) );
+  authorsHtml.append( QString( "<p><b>%1</b></p>"
+                               "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Development team as for 0.6.0:" ) ) );
 
   authorsHtml.append( addContributor( "Dominik Kapusta", "d@ayoy.net", tr( "Application concept and main development" ) ) );
-  authorsHtml.append( addContributor( "Mateusz Pietrzyk", "wijet@wijet.pl", tr( "URL shortening services support" ) ) );
+  authorsHtml.append( addContributor( "Mariusz Pietrzyk", "wijet@wijet.pl", tr( "URL shortening services support" ) ) );
   authorsHtml.append( addContributor( "Anna Nowak", "wiorka@gmail.com", tr( "Visual aspects of internationalization" ) ) );
 
-  authorsHtml.append( QString( "<p><b>%1</b></p><br/>" ).arg( tr( "Translations:" ) ) );
+  authorsHtml.append( QString( "<br/><p><b>%1</b></p>"
+                               "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Translations:" ) ) );
 
   authorsHtml.append( addContributor( "Anna Nowak", "wiorka@gmail.com", tr( "French translation" ) ) );
   authorsHtml.append( addContributor( "Jan Schummers", "darkadmiral@onlinehome.de", tr( "German translation" ) ) );
@@ -90,14 +91,16 @@ void AboutDialog::populateCredits()
   creditsHtml.append( QString( "<p>%1 <a href=\"http://wefunction.com/2008/07/function-free-icon-set/\">wefunction.com</a></p>" )
                       .arg( tr( "Other icons by" ) ) );
 
-  creditsHtml.append( QString( "<br/><p><b>%1</b></p><br/>" ).arg( tr( "Testing:" ) ) );
+  creditsHtml.append( QString( "<br/><p><b>%1</b></p>"
+                               "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Testing:" ) ) );
   creditsHtml.append( addContributor( "Harry Bellemare", "behr62@gmail.com" ) );
   creditsHtml.append( addContributor( "Piotr Gackowski", "pmgpmg@wp.pl" ) );
 
-  creditsHtml.append( QString( "<br/><p><b>%1</b></p><br/>" ).arg( tr( "Releasing:" ) ) );
+  creditsHtml.append( QString( "<br/><p><b>%1</b></p>"
+                               "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Releasing:" ) ) );
   creditsHtml.append( addContributor( "Markos Chandras", "hwoarang@gentoo.org", "Gentoo" ) );
   creditsHtml.append( addContributor( "Eugene Pivnev", "ti.eugene@gmail.com", "Fedora, openSuse, Mandriva" ) );
-  creditsHtml.append( addContributor( "Shirakawasuna", "email@email.com", "Arch" ) );
+  creditsHtml.append( addContributor( "Shirakawasuna", "your.email@goes.here", "Arch" ) );
   creditsHtml.append( addContributor( "Dominik Kapusta", "d@ayoy.net", "Ubuntu/Debian, MacOS X, Windows" ) );
 
   creditsHtml.append(   "</body>"

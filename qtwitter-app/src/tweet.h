@@ -92,7 +92,6 @@ private:
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;
-  QAction *aboutAction;
   TweetModel::TweetState *tweetState;
   Entry *tweetData;
   QSignalMapper *signalMapper;

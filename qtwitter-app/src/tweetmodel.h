@@ -51,6 +51,7 @@ public:
 
   Tweet* currentTweet();
   void setLogin( const QString &login );
+  const QString& getLogin() const;
   void deselectCurrentIndex();
   void setTheme( const ThemeData &theme );
   void setMaxTweetCount( int count );
