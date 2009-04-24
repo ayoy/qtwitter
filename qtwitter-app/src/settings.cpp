@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU General Public License as published by  *
@@ -33,7 +34,7 @@
 #include "twitteraccountsmodel.h"
 #include "twitteraccountsdelegate.h"
 
-const QString ConfigFile::APP_VERSION = "0.6.0_rc1";
+const QString ConfigFile::APP_VERSION = "0.6.0";
 
 ConfigFile settings;
 

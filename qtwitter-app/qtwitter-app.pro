@@ -20,7 +20,9 @@ else:unix {
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
     doc.path = $${INSTALL_PREFIX}/share/doc/$${TARGET}
-    doc.files = ../CHANGELOG ../README ../LICENSE
+    doc.files = ../CHANGELOG \
+        ../README \
+        ../LICENSE
     icons.path = $${INSTALL_PREFIX}/share/icons/scalable/apps
     icons.files = x11/icons/scalable/qtwitter.svg
     icons16.path = $${INSTALL_PREFIX}/share/icons/hicolor/16x16/apps
@@ -39,13 +41,23 @@ else:unix {
     icons256.files = x11/icons/256x256/qtwitter.png
     desktop.path = $${INSTALL_PREFIX}/share/applications
     desktop.files = x11/qtwitter.desktop
-    INSTALLS += target doc icons icons16 icons22 icons32 icons48 icons64 icons128 icons256 desktop
+    INSTALLS += target \
+        doc \
+        icons \
+        icons16 \
+        icons22 \
+        icons32 \
+        icons48 \
+        icons64 \
+        icons128 \
+        icons256 \
+        desktop
 }
-else:win32 {
+else:win32 { 
     RC_FILE = win32/qtwitter.rc
     LIBS += -L$${TOP}/lib \
-    $$TWITTERAPI_LIB \
-    -Wl,-rpath,$${PWD}/$${TOP}/lib
+        $$TWITTERAPI_LIB \
+        -Wl,-rpath,$${PWD}/$${TOP}/lib
 }
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
@@ -62,7 +74,8 @@ SOURCES += src/main.cpp \
     src/twitteraccountsdelegate.cpp \
     src/qtwitter.cpp \
     src/twitteraccountsmodel.cpp \
-    src/urlshortener.cpp
+    src/urlshortener.cpp \
+    src/aboutdialog.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/httpconnection.h \
@@ -80,12 +93,13 @@ HEADERS += src/mainwindow.h \
     src/twitteraccountsdelegate.h \
     src/qtwitter.h \
     src/twitteraccountsmodel.h \
-    src/urlshortener.h
+    src/urlshortener.h \
+    src/aboutdialog.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
     ui/tweet.ui \
-    ui/about.ui \
+    ui/aboutdialog.ui \
     ui/twitpicview.ui \
     ui/twitpicnewphoto.ui
 RESOURCES += res/resources.qrc
@@ -104,4 +118,3 @@ OBJECTS_DIR = tmp
 INCLUDEPATH += $${TOP} \
     src \
     tmp
-    

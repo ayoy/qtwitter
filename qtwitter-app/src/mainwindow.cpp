@@ -31,7 +31,7 @@
 #include <QTreeView>
 #include "mainwindow.h"
 #include "tweet.h"
-#include "ui_about.h"
+#include "aboutdialog.h"
 #include "twitteraccountsmodel.h"
 #include "twitteraccountsdelegate.h"
 #include "settings.h"
@@ -402,29 +402,8 @@ void MainWindow::changeListBackgroundColor(const QColor &newColor )
 
 void MainWindow::about()
 {
-  QDialog *dlg = new QDialog( this );
-  Ui::AboutDialog aboutUi;
-  aboutUi.setupUi( dlg );
-  dlg->adjustSize();
-  aboutUi.textBrowser->setHtml( tr( "<html>"
-                                      "<head>"
-                                        "<style type=\"text/css\">p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }</style>"
-                                      "</head>"
-                                      "<body align=\"center\" style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">"
-                                        "<p>qTwitter - a Qt Twitter client</p>"
-                                        "<p>version %1</p>"
-                                        "<p>Copyright &copy; 2008-2009</p>"
-                                        "<p>by <a href=\"http://twitter.com/ayoy\"><span style=\" text-decoration: underline; color:#0000ff;\">Dominik Kapusta</span></a></p>"
-                                        "<p>Distributed under the GPL license</p>"
-                                        "<p>version 3 or later</p>"
-                                        "<p style=\"-qt-paragraph-type:empty; \"></p>"
-                                        "<p>qTwitter icon by</p>"
-                                        "<p><a href=\"http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/\"><span style=\" text-decoration: underline; color:#0000ff;\">thedesignsuperhero.com</span></a></p>"
-                                        "<p>Other icons by <a href=\"http://wefunction.com/2008/07/function-free-icon-set/\"><span style=\" text-decoration: underline; color:#0000ff;\">wefunction.com</span></a></p>"
-                                      "</body>"
-                                    "</html>" ).arg( ConfigFile::APP_VERSION ) );
-  dlg->exec();
-  dlg->deleteLater();
+  AboutDialog dlg;
+  dlg.exec();
 }
 
 void MainWindow::retranslateUi()
