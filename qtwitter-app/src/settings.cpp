@@ -493,6 +493,7 @@ void Settings::retranslateUi()
   ui.languageLabel->setText( tr("Language:") );
   ui.shortenLabel->setText( tr("Shorten links via:") );
   ui.notificationsBox->setText( tr("Show tray notifications") );
+  ui.confirmDeletionBox->setText( tr("Confim messages deletion") );
   ui.tabs->setTabText( 1, tr( "Twitter" ) );
   ui.accountGroupBox->setTitle( tr( "Account" ) );
   ui.accountEnabledCheckBox->setText( tr( "Enabled" ) );
