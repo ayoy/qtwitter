@@ -21,6 +21,7 @@
 
 #include <QDesktopServices>
 #include <QProcess>
+#include <QMessageBox>
 #include <twitterapi/twitterapi.h>
 #include "core.h"
 #include "settings.h"
@@ -41,7 +42,8 @@ Core::Core( MainWindow *parent ) :
     tempModelCount( 0 ),
     twitpicUpload( 0 ),
     urlShortener( 0 ),
-    timer( 0 )
+    timer( 0 ),
+    parentMainWindow( parent )
 {
   imageCache.setMaxCost( 50 );
 
@@ -206,6 +208,18 @@ void Core::post( const QString &login, const QString &status, int inReplyTo )
 
 void Core::destroyTweet( const QString &login, int id )
 {
+  if ( settings.value( "confirmTweetDeletion", true ).toBool() ) {
+    QMessageBox *confirm = new QMessageBox( QMessageBox::Warning,
+                                            //: Are you sure to delete your message
+                                            tr( "Are you sure?" ),
+                                            tr( "Are you sure to delete this tweet?" ),
+                                            QMessageBox::Yes | QMessageBox::Cancel,
+                                            parentMainWindow );
+    int result = confirm->exec();
+    delete confirm;
+    if ( result == QMessageBox::Cancel )
+      return;
+  }
   twitterapi->deleteUpdate( login, accountsModel->account( login )->password, id );
   emit newRequest();
   emit requestStarted();
@@ -285,28 +299,30 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
   if ( authDialogOpen )
     return Core::STATE_DIALOG_OPEN;
   emit resetUi();
-  QDialog dlg;
+  QDialog *dlg = new QDialog( parentMainWindow );
   Ui::AuthDialog ui;
-  ui.setupUi(&dlg);
+  ui.setupUi( dlg );
   //: This is for newly created account - when the login isn't given yet
   ui.loginEdit->setText( ( account->login == tr( "<empty>" ) ) ? QString() : account->login );
   ui.loginEdit->selectAll();
   ui.passwordEdit->setText( account->password );
-  dlg.adjustSize();
+  dlg->adjustSize();
   authDialogOpen = true;
   int row = accountsModel->indexOf( *account );
-  if (dlg.exec() == QDialog::Accepted) {
+  if ( dlg->exec() == QDialog::Accepted ) {
     if ( ui.disableBox->isChecked() ) {
       authDialogOpen = false;
       account->isEnabled = false;
       settings.setValue( QString("TwitterAccounts/%1/enabled").arg( row ), false );
       emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
+      delete dlg;
       return Core::STATE_DISABLE_ACCOUNT;
     } else if ( ui.removeBox->isChecked() ) {
       authDialogOpen = false;
       accountsModel->removeRow( row );
       settings.deleteTwitterAccount( row, accountsModel->rowCount() );
       emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
+      delete dlg;
       return Core::STATE_REMOVE_ACCOUNT;
     }
     if ( account->login != ui.loginEdit->text() ) {
@@ -321,9 +337,11 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
     settings.setValue( QString("TwitterAccounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password ) );
     authDialogOpen = false;
     emit requestStarted();
+    delete dlg;
     return Core::STATE_ACCEPTED;
   }
   authDialogOpen = false;
+  delete dlg;
   return Core::STATE_REJECTED;
 }
 

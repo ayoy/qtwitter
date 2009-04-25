@@ -232,7 +232,8 @@ void Settings::loadConfig( bool dialogRejected )
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh-index", 3 ).toInt() );
     ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( settings.value( "language", QLocale::system().name().left( 2 ) ) ) );
     ui.urlShortenerCombo->setCurrentIndex( settings.value( "url-shortener", 0 ).toInt() );
-    ui.notificationsBox->setChecked( settings.value( "notifications" ).toBool() );
+    ui.confirmDeletionBox->setChecked( settings.value( "confirmTweetDeletion", true ).toBool() );
+    ui.notificationsBox->setChecked( settings.value( "notifications", true ).toBool() );
   settings.endGroup();
   settings.beginGroup( "TwitterAccounts" );
   if ( !dialogRejected ) {
@@ -320,6 +321,7 @@ void Settings::saveConfig( int quitting )
     settings.setValue( "refresh-value", ui.refreshCombo->currentText() );
     settings.setValue( "language", ui.languageCombo->itemData( ui.languageCombo->currentIndex() ).toString() );
     settings.setValue( "url-shortener", ui.urlShortenerCombo->currentIndex() );
+    settings.setValue( "confirmTweetDeletion", ui.confirmDeletionBox->isChecked() );
     settings.setValue( "notifications", ui.notificationsBox->isChecked() );
   settings.endGroup();
   settings.beginGroup( "Network" );

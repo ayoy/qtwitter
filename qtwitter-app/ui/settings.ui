@@ -42,7 +42,7 @@
    <item row="0" column="0">
     <widget class="QTabWidget" name="tabs">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <property name="usesScrollButtons">
       <bool>true</bool>
@@ -160,17 +160,11 @@
         </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+        <widget class="QCheckBox" name="confirmDeletionBox">
+         <property name="text">
+          <string>Confim messages deletion</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="notificationsBox">
@@ -187,6 +181,19 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -227,7 +234,7 @@
            <item>
             <widget class="QToolButton" name="addAccountButton">
              <property name="icon">
-              <iconset>
+              <iconset resource="../res/resources.qrc">
                <normaloff>:/icons/add_48.png</normaloff>:/icons/add_48.png</iconset>
              </property>
             </widget>
@@ -235,7 +242,7 @@
            <item>
             <widget class="QToolButton" name="deleteAccountButton">
              <property name="icon">
-              <iconset>
+              <iconset resource="../res/resources.qrc">
                <normaloff>:/icons/cancel_48.png</normaloff>:/icons/cancel_48.png</iconset>
              </property>
             </widget>
@@ -484,7 +491,6 @@
   <tabstop>refreshCombo</tabstop>
   <tabstop>languageCombo</tabstop>
   <tabstop>urlShortenerCombo</tabstop>
-  <tabstop>notificationsBox</tabstop>
   <tabstop>usersView</tabstop>
   <tabstop>addAccountButton</tabstop>
   <tabstop>deleteAccountButton</tabstop>
@@ -499,7 +505,9 @@
   <tabstop>tweetCountBox</tabstop>
   <tabstop>colorBox</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../res/resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

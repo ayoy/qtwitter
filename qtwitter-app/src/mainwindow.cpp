@@ -405,8 +405,9 @@ void MainWindow::changeListBackgroundColor(const QColor &newColor )
 
 void MainWindow::about()
 {
-  AboutDialog dlg;
-  dlg.exec();
+  AboutDialog *dlg = new AboutDialog( this );
+  dlg->exec();
+  dlg->deleteLater();
 }
 
 void MainWindow::retranslateUi()

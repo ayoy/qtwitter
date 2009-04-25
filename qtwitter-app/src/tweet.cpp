@@ -49,8 +49,9 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, 
   m_ui->userImage->setPixmap( QPixmap::fromImage( image ) );
   adjustSize();
   setFocusProxy( m_ui->userStatus );
-  connect( m_ui->menuButton, SIGNAL(pressed()), this, SLOT(menuRequested()) );
+  connect( m_ui->menuButton, SIGNAL(pressed()), this, SLOT(slotDelete()) );
   createMenu();
+  m_ui->userStatus->setMenu( menu );
 }
 
 Tweet::~Tweet()
@@ -68,19 +69,21 @@ void Tweet::createMenu()
   menu->addAction( replyAction );
   // TODO: enable replying when at least one account is configured
   if ( tweetData->type != Entry::Status || tweetListModel->getLogin() == TwitterAPI::PUBLIC_TIMELINE ) {
+    replyAction->setEnabled( false );
+  } else {
     connect( replyAction, SIGNAL(triggered()), this, SLOT(slotReply()) );
     connect( this, SIGNAL(reply(QString,int)), tweetListModel, SIGNAL(reply(QString,int)) );
-    replyAction->setEnabled( false );
   }
 
   retweetAction = new QAction( tr( "Retweet" ), this );
   retweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ) );
   menu->addAction( retweetAction );
   // TODO: enable retweeting when at least one account is configured
-  if ( tweetListModel->getLogin() == TwitterAPI::PUBLIC_TIMELINE ) {
+  if ( tweetData->type != Entry::Status || tweetListModel->getLogin() == TwitterAPI::PUBLIC_TIMELINE ) {
+    retweetAction->setEnabled( false );
+  } else {
     connect( retweetAction, SIGNAL(triggered()), this, SLOT(slotRetweet()) );
     connect( this, SIGNAL(retweet(QString)), tweetListModel, SIGNAL(retweet(QString)) );
-    retweetAction->setEnabled( false );
   }
 
   menu->addSeparator();
@@ -89,18 +92,20 @@ void Tweet::createMenu()
   copylinkAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ) );
   menu->addAction( copylinkAction );
   if ( tweetData->type != Entry::Status ) {
-    connect( copylinkAction, SIGNAL(triggered()), this, SLOT(slotCopyLink()) );
     copylinkAction->setEnabled( false );
+  } else {
+    connect( copylinkAction, SIGNAL(triggered()), this, SLOT(slotCopyLink()) );
   }
 
   deleteAction = new QAction( tr( "Delete tweet" ), this );
   deleteAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ) );
   menu->addAction( deleteAction );
   if ( !tweetData->isOwn ) {
+    deleteAction->setEnabled( false );
+  } else {
     signalMapper->setMapping( deleteAction, tweetData->id );
     connect( deleteAction, SIGNAL(triggered()), this, SLOT(slotDelete()) );
     connect( this, SIGNAL(deleteStatus(QString,int)), tweetListModel, SIGNAL(destroy(QString,int)) );
-    deleteAction->setEnabled( false );
   }
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
@@ -121,9 +126,10 @@ void Tweet::createMenu()
   gotohomepageAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ) );
   menu->addAction( gotohomepageAction );
   if ( !tweetData->homepage.compare("") ) {
+    gotohomepageAction->setEnabled( false );
+  } else {
     signalMapper->setMapping( gotohomepageAction, tweetData->homepage );
     connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-    gotohomepageAction->setEnabled( false );
   }
 }
 
@@ -255,7 +261,8 @@ void Tweet::changeEvent( QEvent *e )
 
 void Tweet::enterEvent( QEvent *e )
 {
-  m_ui->menuButton->setIcon( QIcon( ":/icons/star_48.png" ) );
+  if ( tweetData->isOwn )
+    m_ui->menuButton->setIcon( QIcon( ":/icons/cancel_48.png" ) );
   QWidget::enterEvent( e );
 }
 
@@ -263,6 +270,14 @@ void Tweet::leaveEvent( QEvent *e )
 {
   m_ui->menuButton->setIcon( QIcon() );
   QWidget::leaveEvent( e );
+}
+
+void Tweet::mousePressEvent( QMouseEvent *e )
+{
+  emit focusRequest();
+  if ( e->button() == Qt::RightButton ) {
+    menu->exec( QCursor::pos() );
+  }
 }
 
 void Tweet::focusRequest()

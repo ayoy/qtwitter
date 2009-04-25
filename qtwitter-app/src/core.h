@@ -138,6 +138,7 @@ private:
   QTimer *timer;
 
   StatusList *listViewForModels;
+  MainWindow *parentMainWindow;
   int margin;
 
 #ifdef Q_WS_X11

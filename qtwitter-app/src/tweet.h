@@ -78,6 +78,7 @@ protected:
   void changeEvent( QEvent *e );
   void enterEvent( QEvent *e );
   void leaveEvent( QEvent *e );
+  void mousePressEvent( QMouseEvent *e );
 
 private slots:
   void focusRequest();
