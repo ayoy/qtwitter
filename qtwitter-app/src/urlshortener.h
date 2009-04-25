@@ -28,12 +28,19 @@ class QNetworkAccessManager;
 
 class UrlShortener : public QObject
 {
-    Q_OBJECT
+  Q_OBJECT
 
 public:
-    UrlShortener( QObject *parent = 0 );
-    virtual ~UrlShortener();
-    virtual void shorten( const QString &url ) = 0;
+  UrlShortener( QObject *parent = 0 );
+  virtual ~UrlShortener();
+  virtual void shorten( const QString &url ) = 0;
+
+  enum Shorteners {
+    SHORTENER_ISGD,
+    SHORTENER_TRIM,
+    SHORTENER_METAMARK,
+    SHORTENER_TINYURL
+  };
 
 protected:
     QNetworkAccessManager *connection;
@@ -75,6 +82,17 @@ class MetaMarkShortener : public UrlShortener
 
   public:
     MetaMarkShortener( QObject *parent = 0);
+    void shorten( const QString &url );
+  protected slots:
+    virtual void replyFinished( QNetworkReply* );
+};
+
+class TinyUrlShortener : public UrlShortener
+{
+  Q_OBJECT
+
+  public:
+    TinyUrlShortener( QObject *parent = 0);
     void shorten( const QString &url );
   protected slots:
     virtual void replyFinished( QNetworkReply* );

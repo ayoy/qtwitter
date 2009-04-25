@@ -44,7 +44,7 @@ IsGdShortener::IsGdShortener( QObject *parent ) : UrlShortener( parent ) {}
 
 void IsGdShortener::shorten( const QString &url )
 {
-  if( QRegExp("http://is.gd/").indexIn( url ) == -1 ) {
+  if( QRegExp( "http://is.gd/" ).indexIn( url ) == -1 ) {
     connection->get( QNetworkRequest( QUrl( "http://is.gd/api.php?longurl=" + url ) ) );
   }
 }
@@ -83,9 +83,9 @@ TrImShortener::TrImShortener( QObject *parent ) : UrlShortener( parent ) {}
 
 void TrImShortener::shorten( const QString &url )
 {
-  QString newUrl = url.indexOf("http://") > -1 ? url : "http://" + url;
+  QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
   
-  if( QRegExp("http://tr.im/").indexIn( newUrl ) == -1 ) {
+  if( QRegExp( "http://tr.im/" ).indexIn( newUrl ) == -1 ) {
     connection->get( QNetworkRequest( QUrl( "http://api.tr.im/api/trim_simple?url=" + newUrl ) ) );
   }
 }
@@ -111,12 +111,34 @@ MetaMarkShortener::MetaMarkShortener( QObject *parent ) : UrlShortener( parent )
 
 void MetaMarkShortener::shorten( const QString &url )
 {
-  if( QRegExp("http://xrl.us/").indexIn( url ) == -1 ) {
+  if( QRegExp( "http://xrl.us/" ).indexIn( url ) == -1 ) {
     connection->get( QNetworkRequest( QUrl( "http://metamark.net/api/rest/simple?long_url=" + url ) ) );
   }
 }
 
 void MetaMarkShortener::replyFinished( QNetworkReply *reply )
+{
+  QString response = reply->readLine();
+
+  switch( replyStatus( reply ) ) {
+    case 200:
+      emit shortened( response );
+      break;
+    default: case 500:
+      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  }
+}
+
+TinyUrlShortener::TinyUrlShortener( QObject *parent ) : UrlShortener( parent ) {}
+
+void TinyUrlShortener::shorten( const QString &url )
+{
+  if( QRegExp( "http://tinyurl.com/" ).indexIn( url ) == -1 ) {
+    connection->get( QNetworkRequest( QUrl( "http://tinyurl.com/api-create.php?url=" + url ) ) );
+  }
+}
+
+void TinyUrlShortener::replyFinished( QNetworkReply *reply )
 {
   QString response = reply->readLine();
 

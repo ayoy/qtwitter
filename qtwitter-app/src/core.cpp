@@ -106,14 +106,17 @@ void Core::setUrlShortener()
     delete urlShortener;
 
   switch( settings.value( "General/url-shortener" ).toInt() ) {
-    case 0:
+    case UrlShortener::SHORTENER_ISGD:
       urlShortener = new IsGdShortener( this );
       break;
-    case 1:
+    case UrlShortener::SHORTENER_TRIM:
       urlShortener = new TrImShortener( this );
       break;
-    case 2:
+    case UrlShortener::SHORTENER_METAMARK:
       urlShortener = new MetaMarkShortener( this );
+      break;
+    case UrlShortener::SHORTENER_TINYURL:
+      urlShortener = new TinyUrlShortener( this );
   }
   connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
 }
