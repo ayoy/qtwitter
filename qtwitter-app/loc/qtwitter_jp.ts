@@ -195,11 +195,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>For</source>
-        <translatorcomment>Bez kontekstu, w ktorym to for bedzie uzyte nie jestem w stanie podac zadnego sensownego tlumaczenia. Nie wspominam tu juz o fakcie, ze kazde slowo oznaczajace for w jezyku japonskim wymaga odwrotnej kolejnosci slow niz w jezyku angielskim.</translatorcomment>
-        <translation type="obsolete">??</translation>
-    </message>
-    <message>
         <location filename="../src/core.cpp" line="522"/>
         <source>and</source>
         <translation>および</translation>
@@ -255,32 +250,32 @@
     <name>MainWindow</name>
     <message>
         <location filename="../src/mainwindow.cpp" line="116"/>
-        <location filename="../src/mainwindow.cpp" line="429"/>
+        <location filename="../src/mainwindow.cpp" line="430"/>
         <source>New tweet</source>
         <translation>新着トゥウィート</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="117"/>
-        <location filename="../src/mainwindow.cpp" line="430"/>
+        <location filename="../src/mainwindow.cpp" line="431"/>
         <source>Upload a photo to TwitPic</source>
         <translation>トゥウィートピックに写真をアップロードする</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="118"/>
-        <location filename="../src/mainwindow.cpp" line="431"/>
+        <location filename="../src/mainwindow.cpp" line="432"/>
         <source>Go to Twitter</source>
         <translation>トゥウィータにアクセスする</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="119"/>
-        <location filename="../src/mainwindow.cpp" line="432"/>
+        <location filename="../src/mainwindow.cpp" line="433"/>
         <source>Go to TwitPic</source>
         <translation>トゥウィートピックにアクセスする</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="121"/>
         <location filename="../src/mainwindow.cpp" line="163"/>
-        <location filename="../src/mainwindow.cpp" line="434"/>
+        <location filename="../src/mainwindow.cpp" line="435"/>
         <source>Quit</source>
         <translation>終了</translation>
     </message>
@@ -312,7 +307,7 @@
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="120"/>
-        <location filename="../src/mainwindow.cpp" line="433"/>
+        <location filename="../src/mainwindow.cpp" line="434"/>
         <source>About qTwitter...</source>
         <translation type="unfinished">ｷｭｰトゥウィータに関して...</translation>
     </message>
@@ -365,7 +360,7 @@
         <translation>エラー</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="424"/>
+        <location filename="../src/mainwindow.cpp" line="425"/>
         <location filename="../ui/mainwindow.ui" line="179"/>
         <source>More...</source>
         <translation>詳細...</translation>
@@ -376,16 +371,12 @@
         <translation>トゥウィートの更新</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distributed under the GPL license&lt;/p&gt;&lt;p&gt;version 3 or later&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;qTwitter icon by&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Other icons by &lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;ｷｭｰトゥウィータ - Qtによるトゥウィータクライアント&lt;/p&gt;&lt;p&gt;バージョン %1&lt;/p&gt;&lt;p&gt;著作権 &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;バージョン３以上のGPLのライセンスにより配布されています&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;ｷｭｰトゥウィータのアイコンは&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;thedesignsuperhero.com&lt;/span&gt;&lt;/a&gt;により作られました。&lt;/p&gt;&lt;p&gt;他のアイコンは&lt;a href=&quot;http://wefunction.com/2008/07/function-free-icon-set/&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;wefunction.com&lt;/span&gt;&lt;/a&gt;により作られたのです。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <location filename="../src/mainwindow.cpp" line="419"/>
+        <location filename="../src/mainwindow.cpp" line="420"/>
         <source>Navigate using %1 and %2</source>
         <translation>%1あるいは%2を使用してナビゲートする</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="428"/>
+        <location filename="../src/mainwindow.cpp" line="429"/>
         <location filename="../ui/mainwindow.ui" line="251"/>
         <source>What are you doing?</source>
         <translation>何をしているのですか?</translation>
@@ -437,39 +428,39 @@
     </message>
     <message>
         <location filename="../src/settings.cpp" line="493"/>
-        <location filename="../ui/settings.ui" line="52"/>
+        <location filename="../ui/settings.ui" line="39"/>
         <source>General</source>
         <translation>一般</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="109"/>
+        <location filename="../ui/settings.ui" line="96"/>
         <source>Language</source>
         <translation>言語</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="498"/>
-        <location filename="../ui/settings.ui" line="149"/>
+        <location filename="../ui/settings.ui" line="136"/>
         <source>Confim messages deletion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="276"/>
+        <location filename="../ui/settings.ui" line="265"/>
         <source>Username</source>
         <translation>ユーザー名</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="293"/>
+        <location filename="../ui/settings.ui" line="282"/>
         <source>Password</source>
         <translation>パスワード</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="60"/>
+        <location filename="../ui/settings.ui" line="47"/>
         <source>Refresh every (mins)</source>
         <translatorcomment>Czy takie samo tlumaczenie, jak dwa zdania nizej bedzie pasowalo do kontekstu? Powyzej jest wersja &quot;Odswiezac co nastepujacy czas (min):&quot;</translatorcomment>
         <translation type="unfinished">次の時間ごとに更新する（分）：</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="134"/>
+        <location filename="../ui/settings.ui" line="121"/>
         <source>Shorten links via</source>
         <translatorcomment>W japonskim to, co w angielskim nastepuje po via, pisze sie przed nim, wiec troche przeksztalcilem to zdanie. Po jap.teraz brzmi: &quot;Shorten links via the following string:&quot;. Czy pasuje to do twojego zamierzenia? Moze latwiej byloby zamienic ten lancuch na &quot;Shorten links via %1&quot; czy cos?</translatorcomment>
         <translation type="unfinished">次の文字列を使ってリンクを短縮する：</translation>
@@ -491,25 +482,25 @@
     </message>
     <message>
         <location filename="../src/settings.cpp" line="497"/>
-        <location filename="../ui/settings.ui" line="162"/>
+        <location filename="../ui/settings.ui" line="149"/>
         <source>Show tray notifications</source>
         <translation>トレーの通知を表示する</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="499"/>
-        <location filename="../ui/settings.ui" line="186"/>
+        <location filename="../ui/settings.ui" line="173"/>
         <source>Twitter</source>
         <translation>トゥウィータ</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="500"/>
-        <location filename="../ui/settings.ui" line="257"/>
+        <location filename="../ui/settings.ui" line="244"/>
         <source>Account</source>
         <translation>アカウント</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="501"/>
-        <location filename="../ui/settings.ui" line="266"/>
+        <location filename="../ui/settings.ui" line="253"/>
         <source>Enabled</source>
         <translation>使用可能</translation>
     </message>
@@ -525,55 +516,55 @@
     </message>
     <message>
         <location filename="../src/settings.cpp" line="504"/>
-        <location filename="../ui/settings.ui" line="313"/>
+        <location filename="../ui/settings.ui" line="304"/>
         <source>download direct messages</source>
         <translation>直接なメッセージをダウンロードする</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="505"/>
-        <location filename="../ui/settings.ui" line="323"/>
+        <location filename="../ui/settings.ui" line="314"/>
         <source>include public timeline</source>
         <translation>公共の年表を含む</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="506"/>
-        <location filename="../ui/settings.ui" line="331"/>
+        <location filename="../ui/settings.ui" line="322"/>
         <source>Network</source>
         <translation>ネットワーク</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="507"/>
-        <location filename="../ui/settings.ui" line="339"/>
+        <location filename="../ui/settings.ui" line="328"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>ＨＴＴＰプロクシを使用する</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="508"/>
-        <location filename="../ui/settings.ui" line="346"/>
+        <location filename="../ui/settings.ui" line="337"/>
         <source>Host:</source>
         <translation>ホスト:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="509"/>
-        <location filename="../ui/settings.ui" line="379"/>
+        <location filename="../ui/settings.ui" line="357"/>
         <source>Port:</source>
         <translation>ポート:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="510"/>
-        <location filename="../ui/settings.ui" line="421"/>
+        <location filename="../ui/settings.ui" line="399"/>
         <source>Appearance</source>
         <translation>外見</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="511"/>
-        <location filename="../ui/settings.ui" line="430"/>
+        <location filename="../ui/settings.ui" line="408"/>
         <source>Tweet count:</source>
         <translation>トゥウィート数:</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="512"/>
-        <location filename="../ui/settings.ui" line="456"/>
+        <location filename="../ui/settings.ui" line="434"/>
         <source>Color scheme:</source>
         <translation>カラー図式:</translation>
     </message>
@@ -604,7 +595,7 @@
     </message>
     <message>
         <location filename="../src/settings.cpp" line="564"/>
-        <location filename="../ui/settings.ui" line="126"/>
+        <location filename="../ui/settings.ui" line="113"/>
         <source>English</source>
         <translation>日本語</translation>
     </message>
@@ -681,10 +672,6 @@
         <location filename="../src/tweet.cpp" line="190"/>
         <source>Go to User&apos;s homepage</source>
         <translation>このユーザーのホームページにアクセスする</translation>
-    </message>
-    <message>
-        <source>About qTwitter...</source>
-        <translation type="obsolete">ｷｭｰトゥウィータに関して...</translation>
     </message>
     <message>
         <location filename="../ui/tweet.ui" line="20"/>
