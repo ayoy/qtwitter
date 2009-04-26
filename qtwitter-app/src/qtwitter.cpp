@@ -35,9 +35,6 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
   connect( this, SIGNAL(switchToPublicTimelineModel()), SLOT(setPublicTimelineModel()) );
 
   core = new Core( this );
-  twitpic = new TwitPicView( this );
-  settingsDialog = new Settings( this, core, twitpic, this );
-
   connect( this, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
   connect( this, SIGNAL(post(QString,QString,int)), core, SLOT(post(QString,QString,int)) );
@@ -54,13 +51,15 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
   if ( QSystemTrayIcon::supportsMessages() )
     connect( core, SIGNAL(sendNewsReport(QString)), this, SLOT(popupMessage(QString)) );
 
-  connect( this, SIGNAL(settingsDialogRequested()), settingsDialog, SLOT( show() ) );
-
+  twitpic = new TwitPicView( this );
   connect( twitpic, SIGNAL(uploadPhoto(QString,QString,QString)), core, SLOT(uploadPhoto(QString,QString,QString)) );
   connect( twitpic, SIGNAL(abortUpload()), core, SLOT(abortUploadPhoto()) );
   connect( this, SIGNAL(openTwitPicDialog()), twitpic, SLOT(show()) );
   connect( core, SIGNAL(twitPicResponseReceived()), twitpic, SLOT(resetForm()) );
   connect( core, SIGNAL(twitPicDataSendProgress(int,int)), twitpic, SLOT(showUploadProgress(int,int)) );
+
+  settingsDialog = new Settings( this, core, twitpic, this );
+  connect( this, SIGNAL(settingsDialogRequested()), settingsDialog, SLOT( show() ) );
 
   QSignalMapper *mapper = new QSignalMapper( this );
   mapper->setMapping( qApp, 1 );

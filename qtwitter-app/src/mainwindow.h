@@ -103,6 +103,7 @@ private:
   QAction *newtwitpicAction;
   QAction *gototwitterAction;
   QAction *gototwitpicAction;
+  QAction *aboutAction;
   QAction *quitAction;
   QMovie *progressIcon;
   QSystemTrayIcon *trayIcon;

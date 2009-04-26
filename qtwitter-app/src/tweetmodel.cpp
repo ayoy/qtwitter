@@ -47,6 +47,11 @@ void TweetModel::setLogin( const QString &login )
   this->login = login;
 }
 
+const QString& TweetModel::getLogin() const
+{
+  return login;
+}
+
 Tweet* TweetModel::currentTweet()
 {
   if ( !currentIndex.isValid() )
@@ -74,7 +79,6 @@ void TweetModel::setTheme( const ThemeData &theme )
     Tweet *aTweet;
     for ( int i = 0; i < rowCount(); i++ ) {
       aTweet = statuses[i].tweet;
-      qDebug() << login << i;
       aTweet->applyTheme();
     }
   }

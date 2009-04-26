@@ -22,27 +22,50 @@
 #define TWEETTEXTBROWSER_H
 
 #include <QTextBrowser>
+#include <QMenu>
 #include <QKeyEvent>
 
 class TweetTextBrowser : public QTextBrowser
 {
   Q_OBJECT
 public:
-  TweetTextBrowser( QWidget *parent = 0 ) : QTextBrowser( parent ) {}
+  TweetTextBrowser( QWidget *parent = 0 ) :
+      QTextBrowser( parent )
+  {}
 
-  void mousePressEvent ( QMouseEvent * e )
+  void mousePressEvent( QMouseEvent * e )
   {
     emit mousePressed();
     QTextBrowser::mousePressEvent( e );
   }
+
+
+  void contextMenuEvent( QContextMenuEvent *e )
+  {
+    Q_UNUSED(e);
+    QMenu *menu = createStandardContextMenu( QCursor::pos() );
+    menu->addSeparator();
+    menu->addActions( tweetMenu->actions() );
+    menu->exec( QCursor::pos() );
+    delete menu;
+  }
+
 
   void keyPressEvent( QKeyEvent *e )
   {
     e->ignore();
   }
 
+  void setMenu( QMenu *tweetMenu )
+  {
+    this->tweetMenu = tweetMenu;
+  }
+
 signals:
   void mousePressed();
+
+private:
+  QMenu *tweetMenu;
 
 };
 

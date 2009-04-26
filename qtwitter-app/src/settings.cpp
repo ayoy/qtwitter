@@ -33,6 +33,7 @@
 #include "twitpicview.h"
 #include "twitteraccountsmodel.h"
 #include "twitteraccountsdelegate.h"
+#include "urlshortener.h"
 
 const QString ConfigFile::APP_VERSION = "0.6.0";
 
@@ -220,6 +221,7 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
   connect( ui.colorBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeTheme(QString)) );
   createLanguageMenu();
+  createUrlShortenerMenu();
   ui.portEdit->setValidator( new QIntValidator( 1, 65535, this ) );
   loadConfig();
 }
@@ -231,8 +233,9 @@ void Settings::loadConfig( bool dialogRejected )
   settings.beginGroup( "General" );
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh-index", 3 ).toInt() );
     ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( settings.value( "language", QLocale::system().name().left( 2 ) ) ) );
-    ui.urlShortenerCombo->setCurrentIndex( settings.value( "url-shortener", 0 ).toInt() );
-    ui.notificationsBox->setChecked( settings.value( "notifications" ).toBool() );
+    ui.urlShortenerCombo->setCurrentIndex( ui.urlShortenerCombo->findData( settings.value( "url-shortener", UrlShortener::SHORTENER_ISGD ).toInt() ) );
+    ui.confirmDeletionBox->setChecked( settings.value( "confirmTweetDeletion", true ).toBool() );
+    ui.notificationsBox->setChecked( settings.value( "notifications", true ).toBool() );
   settings.endGroup();
   settings.beginGroup( "TwitterAccounts" );
   if ( !dialogRejected ) {
@@ -319,7 +322,8 @@ void Settings::saveConfig( int quitting )
     settings.setValue( "refresh-index", ui.refreshCombo->currentIndex() );
     settings.setValue( "refresh-value", ui.refreshCombo->currentText() );
     settings.setValue( "language", ui.languageCombo->itemData( ui.languageCombo->currentIndex() ).toString() );
-    settings.setValue( "url-shortener", ui.urlShortenerCombo->currentIndex() );
+    settings.setValue( "url-shortener", ui.urlShortenerCombo->itemData( ui.urlShortenerCombo->currentIndex() ).toInt() );
+    settings.setValue( "confirmTweetDeletion", ui.confirmDeletionBox->isChecked() );
     settings.setValue( "notifications", ui.notificationsBox->isChecked() );
   settings.endGroup();
   settings.beginGroup( "Network" );
@@ -491,6 +495,7 @@ void Settings::retranslateUi()
   ui.languageLabel->setText( tr("Language:") );
   ui.shortenLabel->setText( tr("Shorten links via:") );
   ui.notificationsBox->setText( tr("Show tray notifications") );
+  ui.confirmDeletionBox->setText( tr("Confim messages deletion") );
   ui.tabs->setTabText( 1, tr( "Twitter" ) );
   ui.accountGroupBox->setTitle( tr( "Account" ) );
   ui.accountEnabledCheckBox->setText( tr( "Enabled" ) );
@@ -566,6 +571,13 @@ void Settings::createLanguageMenu()
   ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
 }
 
+void Settings::createUrlShortenerMenu()
+{
+  ui.urlShortenerCombo->addItem( "is.gd", UrlShortener::SHORTENER_ISGD );
+  ui.urlShortenerCombo->addItem( "MetaMark", UrlShortener::SHORTENER_METAMARK );
+  ui.urlShortenerCombo->addItem( "TinyURL", UrlShortener::SHORTENER_TINYURL );
+  ui.urlShortenerCombo->addItem( "tr.im", UrlShortener::SHORTENER_TRIM );
+}
 
 /*! \struct ThemeElement
     \brief A struct containing customization data for themed UI elements.

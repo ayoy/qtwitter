@@ -241,6 +241,9 @@
          <height>32</height>
         </size>
        </property>
+       <property name="toolTip">
+        <string>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</string>
+       </property>
        <property name="styleSheet">
         <string notr="true">QStatusEdit { background-color: rgb(76, 76, 76) }</string>
        </property>
