@@ -100,7 +100,7 @@ void AboutDialog::populateCredits()
                                "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Releasing:" ) ) );
   creditsHtml.append( addContributor( "Markos Chandras", "hwoarang@gentoo.org", "Gentoo" ) );
   creditsHtml.append( addContributor( "Eugene Pivnev", "ti.eugene@gmail.com", "Fedora, openSuse, Mandriva" ) );
-  creditsHtml.append( addContributor( "Shirakawasuna", "your.email@goes.here", "Arch" ) );
+  creditsHtml.append( addContributor( "Nick B", "shirakawasuna@gmail.com", "Arch" ) );
   creditsHtml.append( addContributor( "Dominik Kapusta", "d@ayoy.net", "Ubuntu/Debian, MacOS X, Windows" ) );
 
   creditsHtml.append(   "</body>"

@@ -511,7 +511,7 @@ void Core::storeNewTweets( const QString &login, bool exists )
 
 void Core::sendNewsInfo()
 {
-  QString message( tr( "For" ).append( " " ) );
+  QString message;
   if ( newTweets.count() == 1 ) {
     message.append( newTweets.at(0) );
     emit sendNewsReport( message );
@@ -520,7 +520,7 @@ void Core::sendNewsInfo()
   }
   message.append( newTweets.join( ", " ) );
   message.replace( message.lastIndexOf( ", " ), 2, QString( " %1 " ).arg( tr( "and" ) ) );
-  emit sendNewsReport( message );
+  emit sendNewsReport( tr( "For %1" ).arg(message) );
   newTweets.clear();
 }
 

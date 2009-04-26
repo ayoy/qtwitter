@@ -98,7 +98,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="115"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the GPL license&lt;/p&gt;&lt;p&gt;version 3 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;ｷｭｰトゥウィータ - Qtによるトゥウィータクライアント&lt;/p&gt;&lt;p&gt;バージョン %1&lt;/p&gt;&lt;p&gt;著作権 &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;バージョン３以上のGPLのライセンスにより配布されています&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -148,55 +148,59 @@
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="469"/>
+        <location filename="../src/core.cpp" line="472"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>ご友人の更新情報をお読みになるには、ユーザー認証が必要です。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="463"/>
+        <location filename="../src/core.cpp" line="466"/>
         <source>Authentication is required to post updates.</source>
         <translation>最新情報を掲示するには、ユーザー認証が必要となります。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="214"/>
+        <location filename="../src/core.cpp" line="217"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="215"/>
+        <location filename="../src/core.cpp" line="218"/>
         <source>Are you sure to delete this tweet?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="248"/>
+        <location filename="../src/core.cpp" line="251"/>
         <source>There was a problem uploading your photo:</source>
         <translation>写真をアップロードするときに、問題が発生しました:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="259"/>
+        <location filename="../src/core.cpp" line="262"/>
         <source>Photo available at:</source>
         <translation>写真が次のところから入手できます:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="306"/>
+        <location filename="../src/core.cpp" line="309"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;空&gt;</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="465"/>
+        <location filename="../src/core.cpp" line="468"/>
         <source>Authentication is required to delete updates.</source>
         <translation>更新情報を削除するには、ユーザー認証が必要です。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="511"/>
-        <source>For</source>
-        <translatorcomment>Bez kontekstu, w ktorym to for bedzie uzyte nie jestem w stanie podac zadnego sensownego tlumaczenia. Nie wspominam tu juz o fakcie, ze kazde slowo oznaczajace for w jezyku japonskim wymaga odwrotnej kolejnosci slow niz w jezyku angielskim.</translatorcomment>
-        <translation type="unfinished">??</translation>
+        <location filename="../src/core.cpp" line="523"/>
+        <source>For %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="519"/>
+        <source>For</source>
+        <translatorcomment>Bez kontekstu, w ktorym to for bedzie uzyte nie jestem w stanie podac zadnego sensownego tlumaczenia. Nie wspominam tu juz o fakcie, ze kazde slowo oznaczajace for w jezyku japonskim wymaga odwrotnej kolejnosci slow niz w jezyku angielskim.</translatorcomment>
+        <translation type="obsolete">??</translation>
+    </message>
+    <message>
+        <location filename="../src/core.cpp" line="522"/>
         <source>and</source>
         <translation>および</translation>
     </message>
@@ -403,31 +407,31 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="202"/>
-        <location filename="../src/settings.cpp" line="511"/>
+        <location filename="../src/settings.cpp" line="203"/>
+        <location filename="../src/settings.cpp" line="514"/>
         <source>Use custom web browser</source>
         <translation>カスタムのブラウザーを使用する</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="204"/>
-        <location filename="../src/settings.cpp" line="512"/>
+        <location filename="../src/settings.cpp" line="205"/>
+        <location filename="../src/settings.cpp" line="515"/>
         <source>Browse</source>
         <translation>閲覧</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="419"/>
+        <location filename="../src/settings.cpp" line="421"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;空&gt;</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="490"/>
+        <location filename="../src/settings.cpp" line="492"/>
         <location filename="../ui/settings.ui" line="26"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="491"/>
+        <location filename="../src/settings.cpp" line="493"/>
         <location filename="../ui/settings.ui" line="52"/>
         <source>General</source>
         <translation>一般</translation>
@@ -438,17 +442,18 @@
         <translation>言語</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="165"/>
+        <location filename="../src/settings.cpp" line="498"/>
+        <location filename="../ui/settings.ui" line="149"/>
         <source>Confim messages deletion</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="292"/>
+        <location filename="../ui/settings.ui" line="276"/>
         <source>Username</source>
         <translation>ユーザー名</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="309"/>
+        <location filename="../ui/settings.ui" line="293"/>
         <source>Password</source>
         <translation>パスワード</translation>
     </message>
@@ -465,135 +470,135 @@
         <translation type="unfinished">次の文字列を使ってリンクを短縮する：</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="492"/>
+        <location filename="../src/settings.cpp" line="494"/>
         <source>Refresh every (mins):</source>
         <translation>次の時間ごとに更新する（分）:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="493"/>
+        <location filename="../src/settings.cpp" line="495"/>
         <source>Language:</source>
         <translation>言語:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="494"/>
+        <location filename="../src/settings.cpp" line="496"/>
         <source>Shorten links via:</source>
         <translation>次の文字列を使ってリンクを短縮する:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="495"/>
-        <location filename="../ui/settings.ui" line="178"/>
+        <location filename="../src/settings.cpp" line="497"/>
+        <location filename="../ui/settings.ui" line="162"/>
         <source>Show tray notifications</source>
         <translation>トレーの通知を表示する</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="496"/>
-        <location filename="../ui/settings.ui" line="202"/>
+        <location filename="../src/settings.cpp" line="499"/>
+        <location filename="../ui/settings.ui" line="186"/>
         <source>Twitter</source>
         <translation>トゥウィータ</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="497"/>
-        <location filename="../ui/settings.ui" line="273"/>
+        <location filename="../src/settings.cpp" line="500"/>
+        <location filename="../ui/settings.ui" line="257"/>
         <source>Account</source>
         <translation>アカウント</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="498"/>
-        <location filename="../ui/settings.ui" line="282"/>
+        <location filename="../src/settings.cpp" line="501"/>
+        <location filename="../ui/settings.ui" line="266"/>
         <source>Enabled</source>
         <translation>使用可能</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="499"/>
+        <location filename="../src/settings.cpp" line="502"/>
         <source>Username:</source>
         <translation>ユーザー名:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="500"/>
+        <location filename="../src/settings.cpp" line="503"/>
         <source>Password:</source>
         <translation>パスワード:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="501"/>
-        <location filename="../ui/settings.ui" line="329"/>
+        <location filename="../src/settings.cpp" line="504"/>
+        <location filename="../ui/settings.ui" line="313"/>
         <source>download direct messages</source>
         <translation>直接なメッセージをダウンロードする</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="502"/>
-        <location filename="../ui/settings.ui" line="339"/>
+        <location filename="../src/settings.cpp" line="505"/>
+        <location filename="../ui/settings.ui" line="323"/>
         <source>include public timeline</source>
         <translation>公共の年表を含む</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="503"/>
-        <location filename="../ui/settings.ui" line="347"/>
+        <location filename="../src/settings.cpp" line="506"/>
+        <location filename="../ui/settings.ui" line="331"/>
         <source>Network</source>
         <translation>ネットワーク</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="504"/>
-        <location filename="../ui/settings.ui" line="355"/>
+        <location filename="../src/settings.cpp" line="507"/>
+        <location filename="../ui/settings.ui" line="339"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>ＨＴＴＰプロクシを使用する</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="505"/>
-        <location filename="../ui/settings.ui" line="362"/>
+        <location filename="../src/settings.cpp" line="508"/>
+        <location filename="../ui/settings.ui" line="346"/>
         <source>Host:</source>
         <translation>ホスト:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="506"/>
-        <location filename="../ui/settings.ui" line="395"/>
+        <location filename="../src/settings.cpp" line="509"/>
+        <location filename="../ui/settings.ui" line="379"/>
         <source>Port:</source>
         <translation>ポート:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="507"/>
-        <location filename="../ui/settings.ui" line="437"/>
+        <location filename="../src/settings.cpp" line="510"/>
+        <location filename="../ui/settings.ui" line="421"/>
         <source>Appearance</source>
         <translation>外見</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="508"/>
-        <location filename="../ui/settings.ui" line="446"/>
+        <location filename="../src/settings.cpp" line="511"/>
+        <location filename="../ui/settings.ui" line="430"/>
         <source>Tweet count:</source>
         <translation>トゥウィート数:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="509"/>
-        <location filename="../ui/settings.ui" line="472"/>
+        <location filename="../src/settings.cpp" line="512"/>
+        <location filename="../ui/settings.ui" line="456"/>
         <source>Color scheme:</source>
         <translation>カラー図式:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="514"/>
+        <location filename="../src/settings.cpp" line="517"/>
         <source>Apply</source>
         <translation>適用</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="515"/>
+        <location filename="../src/settings.cpp" line="518"/>
         <source>Cancel</source>
         <translation>取り消し</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="516"/>
+        <location filename="../src/settings.cpp" line="519"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="528"/>
+        <location filename="../src/settings.cpp" line="531"/>
         <source>Select your browser executable</source>
         <translation>ご使用のブラウザーの実行ファイルをご指摘ください</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="528"/>
+        <location filename="../src/settings.cpp" line="531"/>
         <source>All files (*)</source>
         <translation>すべてのファイル (*)</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="561"/>
+        <location filename="../src/settings.cpp" line="564"/>
         <location filename="../ui/settings.ui" line="126"/>
         <source>English</source>
         <translation>日本語</translation>
@@ -605,6 +610,14 @@
         <location filename="../src/statusedit.cpp" line="79"/>
         <source>What are you doing?</source>
         <translation>何をしているのですか?</translation>
+    </message>
+</context>
+<context>
+    <name>TinyUrlShortener</name>
+    <message>
+        <location filename="../src/urlshortener.cpp" line="150"/>
+        <source>An unknown error occurred when shortening your URL.</source>
+        <translation>URLを短執する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
