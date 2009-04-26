@@ -35,7 +35,7 @@ AboutDialog::~AboutDialog()
 {
   delete ui;
 }
-#include <QDebug>
+
 QString AboutDialog::addContributor( const QString &name, const QString &email, const QString &role )
 {
   if ( role.isNull() )
