@@ -126,38 +126,16 @@
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QComboBox" name="urlShortenerCombo">
-           <item>
-            <property name="text">
-             <string notr="true">is.gd</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">tr.im</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">MetaMark</string>
-            </property>
-           </item>
-          </widget>
+          <widget class="QComboBox" name="urlShortenerCombo"/>
          </item>
         </layout>
        </item>
        <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
+        <widget class="QCheckBox" name="confirmDeletionBox">
+         <property name="text">
+          <string>Confim messages deletion</string>
          </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
+        </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="notificationsBox">
@@ -174,6 +152,19 @@
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -475,7 +466,6 @@
   <tabstop>refreshCombo</tabstop>
   <tabstop>languageCombo</tabstop>
   <tabstop>urlShortenerCombo</tabstop>
-  <tabstop>notificationsBox</tabstop>
   <tabstop>usersView</tabstop>
   <tabstop>addAccountButton</tabstop>
   <tabstop>deleteAccountButton</tabstop>

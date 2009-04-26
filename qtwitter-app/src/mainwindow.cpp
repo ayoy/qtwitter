@@ -49,6 +49,7 @@ MainWindow::MainWindow( QWidget *parent ) :
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
   ui.countdownLabel->setMovie( progressIcon );
   ui.countdownLabel->setToolTip( tr( "%n character(s) left", "", ui.countdownLabel->text().toInt() ) );
+  ui.statusEdit->setToolTip( ui.statusEdit->toolTip().arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
 
   createConnections();
   createMenu();
@@ -116,6 +117,7 @@ void MainWindow::createMenu()
   newtwitpicAction = new QAction( tr( "Upload a photo to TwitPic" ), buttonMenu );
   gototwitterAction = new QAction( tr( "Go to Twitter" ), buttonMenu );
   gototwitpicAction = new QAction( tr( "Go to TwitPic" ), buttonMenu );
+  aboutAction = new QAction( tr( "About qTwitter..." ), buttonMenu );
   quitAction = new QAction( tr( "Quit" ), buttonMenu );
   quitAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
   quitAction->setShortcutContext( Qt::ApplicationShortcut );
@@ -135,6 +137,7 @@ void MainWindow::createMenu()
   connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(QString)), this, SLOT(emitOpenBrowser(QString)) );
+  connect( aboutAction, SIGNAL(triggered()), this, SLOT(about()) );
 
   buttonMenu->addAction( newtweetAction );
   buttonMenu->addAction( newtwitpicAction );
@@ -142,6 +145,7 @@ void MainWindow::createMenu()
   buttonMenu->addAction( gototwitterAction );
   buttonMenu->addAction( gototwitpicAction );
   buttonMenu->addSeparator();
+  buttonMenu->addAction( aboutAction );
   buttonMenu->addAction( quitAction );
   ui.moreButton->setMenu( buttonMenu );
 }
@@ -402,14 +406,17 @@ void MainWindow::changeListBackgroundColor(const QColor &newColor )
 
 void MainWindow::about()
 {
-  AboutDialog dlg;
-  dlg.exec();
+  AboutDialog *dlg = new AboutDialog( this );
+  dlg->exec();
+  dlg->deleteLater();
 }
 
 void MainWindow::retranslateUi()
 {
   ui.updateButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Update tweets" ) ).arg( ui.updateButton->shortcut().toString( QKeySequence::NativeText ) ) );
   ui.settingsButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Settings" ), ui.settingsButton->shortcut().toString( QKeySequence::NativeText ) ) );
+  ui.retranslateUi( this );
+  ui.statusEdit->setToolTip( ui.statusEdit->toolTip().arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
   ui.accountsComboBox->setToolTip( tr( "Navigate using %1 and %2" )
                                    .arg( QString( "<span style=\"color: gray\">%1</span>" )
                                          .arg(QKeySequence( QKeySequence::MoveToPreviousWord ).toString( QKeySequence::NativeText ) ) )
@@ -424,6 +431,7 @@ void MainWindow::retranslateUi()
   newtwitpicAction->setText( tr( "Upload a photo to TwitPic" ) );
   gototwitterAction->setText( tr( "Go to Twitter" ) );
   gototwitpicAction->setText( tr( "Go to TwitPic" ) );
+  aboutAction->setText( tr( "About qTwitter..." ) );
   quitAction->setText( tr( "Quit" ) );
 }
 

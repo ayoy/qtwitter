@@ -78,6 +78,7 @@ protected:
   void changeEvent( QEvent *e );
   void enterEvent( QEvent *e );
   void leaveEvent( QEvent *e );
+  void mousePressEvent( QMouseEvent *e );
 
 private slots:
   void focusRequest();
@@ -92,7 +93,6 @@ private:
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;
-  QAction *aboutAction;
   TweetModel::TweetState *tweetState;
   Entry *tweetData;
   QSignalMapper *signalMapper;
