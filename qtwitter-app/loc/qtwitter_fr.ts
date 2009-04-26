@@ -543,7 +543,7 @@
         <location filename="../src/settings.cpp" line="504"/>
         <location filename="../ui/settings.ui" line="313"/>
         <source>download direct messages</source>
-        <translation>Recevoir des messages privés</translation>
+        <translation type="unfinished">Recevoir des messages privés</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="505"/>

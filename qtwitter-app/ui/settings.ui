@@ -25,27 +25,14 @@
   <property name="windowTitle">
    <string>Settings</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="2" column="0">
-    <widget class="QDialogButtonBox" name="buttonBox">
-     <property name="orientation">
-      <enum>Qt::Horizontal</enum>
-     </property>
-     <property name="standardButtons">
-      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-     </property>
-     <property name="centerButtons">
-      <bool>false</bool>
-     </property>
-    </widget>
-   </item>
-   <item row="0" column="0">
+  <layout class="QVBoxLayout" name="verticalLayout_6">
+   <item>
     <widget class="QTabWidget" name="tabs">
      <property name="currentIndex">
       <number>0</number>
      </property>
      <property name="usesScrollButtons">
-      <bool>true</bool>
+      <bool>false</bool>
      </property>
      <widget class="QWidget" name="generalTab">
       <attribute name="title">
@@ -256,8 +243,8 @@
          <property name="title">
           <string>Account</string>
          </property>
-         <layout class="QFormLayout" name="formLayout">
-          <item row="0" column="0">
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
            <widget class="QCheckBox" name="accountEnabledCheckBox">
             <property name="enabled">
              <bool>false</bool>
@@ -267,44 +254,48 @@
             </property>
            </widget>
           </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="accountLoginLabel">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Username</string>
-            </property>
-           </widget>
+          <item>
+           <layout class="QGridLayout" name="gridLayout_4">
+            <item row="0" column="0">
+             <widget class="QLabel" name="accountLoginLabel">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Username</string>
+              </property>
+             </widget>
+            </item>
+            <item row="0" column="1">
+             <widget class="QLineEdit" name="accountLoginEdit">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="0">
+             <widget class="QLabel" name="accountPasswordLabel">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="text">
+               <string>Password</string>
+              </property>
+             </widget>
+            </item>
+            <item row="1" column="1">
+             <widget class="QLineEdit" name="accountPasswordEdit">
+              <property name="enabled">
+               <bool>false</bool>
+              </property>
+              <property name="echoMode">
+               <enum>QLineEdit::Password</enum>
+              </property>
+             </widget>
+            </item>
+           </layout>
           </item>
-          <item row="1" column="1">
-           <widget class="QLineEdit" name="accountLoginEdit">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="accountPasswordLabel">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Password</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QLineEdit" name="accountPasswordEdit">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="echoMode">
-             <enum>QLineEdit::Password</enum>
-            </property>
-           </widget>
-          </item>
-          <item row="3" column="1">
+          <item>
            <widget class="QCheckBox" name="accountDMCheckBox">
             <property name="enabled">
              <bool>false</bool>
@@ -332,15 +323,15 @@
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <layout class="QGridLayout" name="gridLayout_2">
-         <item row="0" column="0" colspan="3">
-          <widget class="QCheckBox" name="proxyBox">
-           <property name="text">
-            <string>Use HTTP &amp;proxy</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
+        <widget class="QCheckBox" name="proxyBox">
+         <property name="text">
+          <string>Use HTTP &amp;proxy</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QGridLayout" name="gridLayout">
+         <item row="0" column="0">
           <widget class="QLabel" name="hostLabel">
            <property name="text">
             <string>Host:</string>
@@ -350,7 +341,7 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="1" colspan="2">
+         <item row="0" column="1">
           <widget class="QLineEdit" name="hostEdit">
            <property name="enabled">
             <bool>false</bool>
@@ -360,20 +351,7 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="2" column="1">
+         <item row="1" column="0">
           <widget class="QLabel" name="portLabel">
            <property name="text">
             <string>Port:</string>
@@ -383,13 +361,13 @@
            </property>
           </widget>
          </item>
-         <item row="2" column="2">
+         <item row="1" column="1">
           <widget class="QLineEdit" name="portEdit">
            <property name="enabled">
             <bool>false</bool>
            </property>
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -468,6 +446,19 @@
      </widget>
     </widget>
    </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+     <property name="centerButtons">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <tabstops>
@@ -481,7 +472,6 @@
   <tabstop>accountEnabledCheckBox</tabstop>
   <tabstop>accountLoginEdit</tabstop>
   <tabstop>accountPasswordEdit</tabstop>
-  <tabstop>accountDMCheckBox</tabstop>
   <tabstop>publicTimelineCheckBox</tabstop>
   <tabstop>proxyBox</tabstop>
   <tabstop>hostEdit</tabstop>
