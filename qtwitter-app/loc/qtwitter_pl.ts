@@ -76,29 +76,39 @@
         <translation>Tłumaczenie polskie, hiszpańskie i katalońskie</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="89"/>
+        <location filename="../src/aboutdialog.cpp" line="88"/>
+        <source>qTwitter icon design by %1</source>
+        <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
+        <translation>Ikona qTwittera: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="94"/>
+        <source>Other icons by %1</source>
+        <extracomment>Other icons by wefunction.com</extracomment>
+        <translation>Pozostałe ikony: %1</translation>
+    </message>
+    <message>
         <source>qTwitter icon design by</source>
         <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
-        <translation>Ikona qTwittera:</translation>
+        <translation type="obsolete">Ikona qTwittera:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="93"/>
         <source>Other icons by</source>
         <extracomment>Other icons by wefunction.com</extracomment>
-        <translation>Pozostałe ikony:</translation>
+        <translation type="obsolete">Pozostałe ikony:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="96"/>
+        <location filename="../src/aboutdialog.cpp" line="100"/>
         <source>Testing:</source>
         <translation>Testowanie:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="101"/>
+        <location filename="../src/aboutdialog.cpp" line="105"/>
         <source>Releasing:</source>
         <translation>Wydawanie:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="116"/>
+        <location filename="../src/aboutdialog.cpp" line="120"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the GPL license&lt;/p&gt;&lt;p&gt;version 3 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - klient Twittera w Qt&lt;/p&gt;&lt;p&gt;wersja %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Objęty licencją GPL&lt;/p&gt;&lt;p&gt;w wersji 3 lub późniejszej&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>

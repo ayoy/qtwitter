@@ -85,12 +85,10 @@ void AboutDialog::populateCredits()
                          "<body style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">" );
 
   //: qTwitter icon design by thedesignsuperhero.com
-  creditsHtml.append( QString( "<p>%1 <a href=\"http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/\">thedesignsuperhero.com</span></a></p><br/>" )
-                      .arg( tr( "qTwitter icon design by") ) );
+  creditsHtml.append( "<p>" + tr( "qTwitter icon design by %1" ).arg( "<a href=\"http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/\">thedesignsuperhero.com</span></a>" ) + "</p><p style=\"-qt-paragraph-type:empty; \"></p>" );
 
   //: Other icons by wefunction.com
-  creditsHtml.append( QString( "<p>%1 <a href=\"http://wefunction.com/2008/07/function-free-icon-set/\">wefunction.com</a></p>" )
-                      .arg( tr( "Other icons by" ) ) );
+  creditsHtml.append( "<p>" + tr( "Other icons by %1" ).arg( "<a href=\"http://wefunction.com/2008/07/function-free-icon-set/\">wefunction.com</a>" ) + "</p>" );
 
   creditsHtml.append( QString( "<br/><p><b>%1</b></p>"
                                "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Testing:" ) ) );

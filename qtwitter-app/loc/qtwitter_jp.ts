@@ -6,22 +6,22 @@
     <message>
         <location filename="../ui/aboutdialog.ui" line="26"/>
         <source>About qTwitter</source>
-        <translation>ｷｭｰトゥウィータに関して</translation>
+        <translation>キｭｰトゥウィータに関して</translation>
     </message>
     <message>
         <location filename="../ui/aboutdialog.ui" line="97"/>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>このプログラムについて</translation>
     </message>
     <message>
         <location filename="../ui/aboutdialog.ui" line="181"/>
         <source>Authors</source>
-        <translation type="unfinished"></translation>
+        <translation>創造者</translation>
     </message>
     <message>
         <location filename="../ui/aboutdialog.ui" line="265"/>
         <source>Credits</source>
-        <translation type="unfinished"></translation>
+        <translation>クレジットタイトル</translation>
     </message>
     <message>
         <location filename="../ui/aboutdialog.ui" line="367"/>
@@ -31,72 +31,72 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="57"/>
         <source>Development team as for 0.6.0:</source>
-        <translation type="unfinished"></translation>
+        <translation>0.6.0バージョンの開発チーム:</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="59"/>
         <source>Application concept and main development</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションの着想と主要開発</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="60"/>
         <source>URL shortening services support</source>
-        <translation type="unfinished"></translation>
+        <translation>URLを短縮するサービスのサポート</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="61"/>
         <source>Visual aspects of internationalization</source>
-        <translation type="unfinished"></translation>
+        <translation>国際化によるビジュアル問題の解決</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="64"/>
         <source>Translations:</source>
-        <translation type="unfinished"></translation>
+        <translation>翻訳:</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="67"/>
         <source>French translation</source>
-        <translation type="unfinished"></translation>
+        <translation>フランス語への翻訳</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="68"/>
         <source>German translation</source>
-        <translation type="unfinished"></translation>
+        <translation>ドイツ語への翻訳</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="69"/>
         <source>Japanese translation</source>
-        <translation type="unfinished"></translation>
+        <translation>日本語への翻訳</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="70"/>
         <source>Polish, Spanish and Catalan translation</source>
-        <translation type="unfinished"></translation>
+        <translation>ポーランド語、スペイン語、カタルーニャ語への翻訳</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="89"/>
-        <source>qTwitter icon design by</source>
+        <location filename="../src/aboutdialog.cpp" line="88"/>
+        <source>qTwitter icon design by %1</source>
         <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>キｭｰトゥウィータのアイコンのデザインは%1により作られました</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="93"/>
-        <source>Other icons by</source>
+        <location filename="../src/aboutdialog.cpp" line="94"/>
+        <source>Other icons by %1</source>
         <extracomment>Other icons by wefunction.com</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>他のアイコンは%1により作られました</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="96"/>
+        <location filename="../src/aboutdialog.cpp" line="100"/>
         <source>Testing:</source>
-        <translation type="unfinished"></translation>
+        <translation>テスト:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="101"/>
+        <location filename="../src/aboutdialog.cpp" line="105"/>
         <source>Releasing:</source>
-        <translation type="unfinished"></translation>
+        <translation>リリース:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="116"/>
+        <location filename="../src/aboutdialog.cpp" line="120"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the GPL license&lt;/p&gt;&lt;p&gt;version 3 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;ｷｭｰトゥウィータ - Qtによるトゥウィータクライアント&lt;/p&gt;&lt;p&gt;バージョン %1&lt;/p&gt;&lt;p&gt;著作権 &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;バージョン３以上のGPLのライセンスにより配布されています&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -161,12 +161,12 @@
         <location filename="../src/core.cpp" line="217"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>よろしいですか?</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="218"/>
         <source>Are you sure to delete this tweet?</source>
-        <translation type="unfinished"></translation>
+        <translation>このトゥウィートを削除してよろしいですか?</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="251"/>
@@ -192,7 +192,7 @@
     <message>
         <location filename="../src/core.cpp" line="523"/>
         <source>For %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1に</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="522"/>
@@ -309,7 +309,7 @@
         <location filename="../src/mainwindow.cpp" line="120"/>
         <location filename="../src/mainwindow.cpp" line="434"/>
         <source>About qTwitter...</source>
-        <translation type="unfinished">ｷｭｰトゥウィータに関して...</translation>
+        <translation>キｭｰトゥウィータに関して...</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/mainwindow.cpp" line="293"/>
@@ -384,12 +384,12 @@
     <message>
         <location filename="../ui/mainwindow.ui" line="20"/>
         <source>qTwitter</source>
-        <translation>ｷｭｰトゥウィータ</translation>
+        <translation>キｭｰトゥウィータ</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="245"/>
         <source>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;span style=&quot;color: black&quot;&gt;リンクを短縮するには &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; をご使用ください&lt;/span&gt;</translation>
     </message>
 </context>
 <context>
@@ -441,7 +441,7 @@
         <location filename="../src/settings.cpp" line="498"/>
         <location filename="../ui/settings.ui" line="136"/>
         <source>Confim messages deletion</source>
-        <translation type="unfinished"></translation>
+        <translation>メッセージの削除を確認する</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="265"/>
@@ -456,14 +456,12 @@
     <message>
         <location filename="../ui/settings.ui" line="47"/>
         <source>Refresh every (mins)</source>
-        <translatorcomment>Czy takie samo tlumaczenie, jak dwa zdania nizej bedzie pasowalo do kontekstu? Powyzej jest wersja &quot;Odswiezac co nastepujacy czas (min):&quot;</translatorcomment>
-        <translation type="unfinished">次の時間ごとに更新する（分）：</translation>
+        <translation>次の時間ごとに更新する（分）：</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="121"/>
         <source>Shorten links via</source>
-        <translatorcomment>W japonskim to, co w angielskim nastepuje po via, pisze sie przed nim, wiec troche przeksztalcilem to zdanie. Po jap.teraz brzmi: &quot;Shorten links via the following string:&quot;. Czy pasuje to do twojego zamierzenia? Moze latwiej byloby zamienic ten lancuch na &quot;Shorten links via %1&quot; czy cos?</translatorcomment>
-        <translation type="unfinished">次の文字列を使ってリンクを短縮する：</translation>
+        <translation>次の文字列を使ってリンクを短縮する：</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="494"/>
@@ -536,7 +534,7 @@
         <location filename="../src/settings.cpp" line="507"/>
         <location filename="../ui/settings.ui" line="328"/>
         <source>Use HTTP &amp;proxy</source>
-        <translation>ＨＴＴＰプロクシを使用する</translation>
+        <translation>&amp;HTTPプロクシを使用する</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="508"/>
