@@ -3,16 +3,14 @@ TARGET = qtwitter
 TOP = ..
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
-macx { 
+macx {
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
     QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
-    
-    # INCLUDEPATH += $${TOP}/$${TARGET}.app/Contents/Frameworks/twitterapi.framework/Versions/$${VER_MAJ}/Headers
     LIBS += -framework \
         twitterapi
 }
-else:unix { 
+else:unix {
     LIBS += -L$${TOP}/lib \
         $$TWITTERAPI_LIB \
         -Wl,-rpath,$${PWD}/$${TOP}/lib

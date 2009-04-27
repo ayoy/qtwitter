@@ -2,19 +2,19 @@
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 3 of the License, or     *
- *   (at your option) any later version.                                   *
+ *   it under the terms of the GNU Lesser General Public License as        *
+ *   published by the Free Software Foundation; either version 2.1 of      *
+ *   the License, or (at your option) any later version.                   *
  *                                                                         *
  *   This program is distributed in the hope that it will be useful,       *
  *   but WITHOUT ANY WARRANTY; without even the implied warranty of        *
- *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the         *
- *   GNU General Public License for more details.                          *
+ *   MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU     *
+ *   Lesser General Public License for more details.                       *
  *                                                                         *
- *   You should have received a copy of the GNU General Public License     *
- *   along with this program; if not, write to the                         *
- *   Free Software Foundation, Inc.,                                       *
- *   59 Temple Place - Suite 330, Boston, MA  02111-1307, USA.             *
+ *   You should have received a copy of the GNU Lesser General Public      *
+ *   License along with this program; if not, write to                     *
+ *   the Free Software Foundation, Inc.,                                   *
+ *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
 
@@ -121,8 +121,8 @@ void AboutDialog::displayAbout()
                                   "<p>Copyright &copy; 2008-2009</p>"
                                   "<p>by <a href=\"http://twitter.com/ayoy\"><span style=\" text-decoration: underline; color:#0000ff;\">Dominik Kapusta</span></a></p>"
                                   "<p style=\"-qt-paragraph-type:empty; \"></p>"
-                                  "<p>Distributed under the GPL license</p>"
-                                  "<p>version 3 or later</p>"
+                                  "<p>Distributed under the LGPL license</p>"
+                                  "<p>version 2.1 or later</p>"
                                 "</body>"
                               "</html>" ).arg( ConfigFile::APP_VERSION ) );
 }

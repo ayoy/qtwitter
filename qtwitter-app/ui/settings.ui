@@ -133,7 +133,7 @@
        <item>
         <widget class="QCheckBox" name="confirmDeletionBox">
          <property name="text">
-          <string>Confim messages deletion</string>
+          <string>Confirm messages deletion</string>
          </property>
         </widget>
        </item>
