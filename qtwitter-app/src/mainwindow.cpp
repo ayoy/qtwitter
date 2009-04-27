@@ -382,6 +382,7 @@ void MainWindow::popupMessage( QString message )
   if( settings.value( "General/notifications" ).toBool() ) {
     //: The full sentence is e.g.: "New tweets for <user A>, <user B> and the public timeline"
     message.replace( "public timeline", tr( "the public timeline" ) );
+    //: New tweets received (pops up in tray)
     trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
   }
 }

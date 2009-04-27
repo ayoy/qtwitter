@@ -108,7 +108,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="120"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the GPL license&lt;/p&gt;&lt;p&gt;version 3 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter un client Qt de Twitter&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distribué sous les conditions éconcées par la licence GNU GPL&lt;/p&gt;&lt;p&gt;version 3 ou&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter un client Qt de Twitter&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distribué sous les conditions éconcées par la licence GNU GPL&lt;/p&gt;&lt;p&gt;version 3 ou ultérieure&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
 </context>
 <context>
@@ -228,39 +228,39 @@
     <message>
         <location filename="../src/urlshortener.cpp" line="63"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">L&apos;URL saisi n&apos;est pas valide.</translation>
+        <translation>L&apos;URL saisi n&apos;est pas valide.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="65"/>
         <source>The URL entered was too long.</source>
-        <translation type="unfinished">L&apos;URL saisi est trop long.</translation>
+        <translation>L&apos;URL saisi est trop long.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="67"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="unfinished">Votre IP est sur la liste noire de Spamhaus (SBL/XBL) ou Spamcop.</translation>
+        <translation>Votre IP est sur la liste noire de Spamhaus (SBL/XBL) ou Spamcop.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="69"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
         <translatorcomment>todo</translatorcomment>
-        <translation type="unfinished">L&apos;URL saisi pointe vers un site spam presenté sur la liste noire SURBL ou URIBL.</translation>
+        <translation>L&apos;URL saisi pointe vers un site spam presenté sur la liste noire SURBL ou URIBL.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="71"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
         <translatorcomment>unfinished;todo</translatorcomment>
-        <translation type="unfinished">La raccourcissement des URLs vers les sites Web qui raccourcissent encore des liens (ou vers is.gd lui-même) a été désactivé pour empêcher l&apos;abus.</translation>
+        <translation>La raccourcissement des URLs vers les sites Web qui raccourcissent encore des liens (ou vers is.gd lui-même) a été désactivé pour empêcher l&apos;abus.</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="73"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="unfinished">Votre IP est sur la liste noire de is.gd (il est probable que ses conditions d&apos;utilisation aient été auparavant violées).</translation>
+        <translation>Votre IP est sur la liste noire de is.gd (il est probable que ses conditions d&apos;utilisation aient été auparavant violées).</translation>
     </message>
     <message>
         <location filename="../src/urlshortener.cpp" line="78"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
+        <translation>Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
     </message>
 </context>
 <context>
@@ -379,7 +379,7 @@
         <location filename="../src/mainwindow.cpp" line="385"/>
         <source>New tweets</source>
         <translatorcomment>context?</translatorcomment>
-        <translation type="unfinished">Nouveaux mises-à-jour</translation>
+        <translation>Nouveaux mises-à-jour</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="391"/>
@@ -416,7 +416,7 @@
     <message>
         <location filename="../ui/mainwindow.ui" line="245"/>
         <source>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</source>
-        <translation type="unfinished">&lt;span style=&quot;color: black&quot;&gt;Utiliseur &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; pour raccourcir des URLs&lt;/span&gt;</translation>
+        <translation>&lt;span style=&quot;color: black&quot;&gt;Utiliseur &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; pour raccourcir des URLs&lt;/span&gt;</translation>
     </message>
 </context>
 <context>
@@ -425,7 +425,7 @@
         <location filename="../src/urlshortener.cpp" line="128"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translatorcomment>Let someone speaking French check it, please..</translatorcomment>
-        <translation type="unfinished">Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
+        <translation>Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
     </message>
 </context>
 <context>
@@ -487,7 +487,7 @@
         <location filename="../src/settings.cpp" line="497"/>
         <location filename="../ui/settings.ui" line="149"/>
         <source>Show tray notifications</source>
-        <translation type="unfinished">Afficher des pop-ups dans la zone de notification</translation>
+        <translation>Afficher des pop-ups dans la zone de notification</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="499"/>
@@ -623,7 +623,7 @@
     <message>
         <location filename="../src/settings.cpp" line="531"/>
         <source>All files (*)</source>
-        <translation type="unfinished">Tous les fichiers (*)</translation>
+        <translation>Tous les fichiers (*)</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="564"/>
@@ -638,7 +638,7 @@
         <location filename="../src/statusedit.cpp" line="79"/>
         <source>What are you doing?</source>
         <translatorcomment>French requires a non-breaking space before certain punctuation (exclamation marks, question marks, colons and semicolons).</translatorcomment>
-        <translation type="unfinished">Que faites-vous ?</translation>
+        <translation>Que faites-vous ?</translation>
     </message>
 </context>
 <context>

@@ -464,7 +464,7 @@
         <location filename="../src/settings.cpp" line="498"/>
         <location filename="../ui/settings.ui" line="136"/>
         <source>Confim messages deletion</source>
-        <translation>Confirmar supresión de los mensajes</translation>
+        <translation>Confirmar la supresión de mensajes</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="497"/>

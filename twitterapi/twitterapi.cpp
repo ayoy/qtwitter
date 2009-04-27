@@ -131,6 +131,9 @@ void TwitterAPI::directMessages( const QString &login, const QString &password )
 
 void postDM( const QString &login, const QString &password, const QString &data )
 {
+  Q_UNUSED(login);
+  Q_UNUSED(password);
+  Q_UNUSED(data);
 //  QNetworkRequest request( QUrl( "http://twitter.com/statuses/update.xml" ) );
 //  QByteArray content = prepareRequest( data, inReplyTo );
 //  request.setAttribute( TwitterAPI::ATTR_ROLE, TwitterAPI::ROLE_POST_DM );
@@ -145,6 +148,9 @@ void postDM( const QString &login, const QString &password, const QString &data 
 
 void deleteDM( const QString &login, const QString &password, int id )
 {
+  Q_UNUSED(login);
+  Q_UNUSED(password);
+  Q_UNUSED(id);
 //  QNetworkRequest request( QUrl( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ) ) );
 //  request.setAttribute( TwitterAPI::ATTR_ROLE, TwitterAPI::ROLE_DELETE_DM );
 //  request.setAttribute( TwitterAPI::ATTR_LOGIN, login );
