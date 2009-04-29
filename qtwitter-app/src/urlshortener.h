@@ -55,56 +55,56 @@ protected slots:
     virtual void replyFinished( QNetworkReply* ) = 0;
 };
 
-class IsGdShortener : public UrlShortener
+class IsgdShortener : public UrlShortener
 {
   Q_OBJECT
 
   public:
-    IsGdShortener( QObject *parent = 0);
+    IsgdShortener( QObject *parent = 0);
     void shorten( const QString &url );
   protected slots:
     virtual void replyFinished( QNetworkReply* );
 };
 
-class TrImShortener : public UrlShortener
+class TrimShortener : public UrlShortener
 {
   Q_OBJECT
 
   public:
-    TrImShortener( QObject *parent = 0);
+    TrimShortener( QObject *parent = 0);
     void shorten( const QString &url );
   protected slots:
     virtual void replyFinished( QNetworkReply* );
 };
 
-class MetaMarkShortener : public UrlShortener
+class MetamarkShortener : public UrlShortener
 {
   Q_OBJECT
 
   public:
-    MetaMarkShortener( QObject *parent = 0);
+    MetamarkShortener( QObject *parent = 0);
     void shorten( const QString &url );
   protected slots:
     virtual void replyFinished( QNetworkReply* );
 };
 
-class TinyUrlShortener : public UrlShortener
+class TinyurlShortener : public UrlShortener
 {
   Q_OBJECT
 
   public:
-    TinyUrlShortener( QObject *parent = 0);
+    TinyurlShortener( QObject *parent = 0);
     void shorten( const QString &url );
   protected slots:
     virtual void replyFinished( QNetworkReply* );
 };
 
-class TinyarroWsShortener : public UrlShortener
+class TinyarrowsShortener : public UrlShortener
 {
   Q_OBJECT
 
   public:
-    TinyarroWsShortener( QObject *parent = 0);
+    TinyarrowsShortener( QObject *parent = 0);
     void shorten( const QString &url );
   protected slots:
     virtual void replyFinished( QNetworkReply* );

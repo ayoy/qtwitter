@@ -107,19 +107,19 @@ void Core::setUrlShortener()
 
   switch( settings.value( "General/url-shortener" ).toInt() ) {
     case UrlShortener::SHORTENER_ISGD:
-      urlShortener = new IsGdShortener( this );
+      urlShortener = new IsgdShortener( this );
       break;
     case UrlShortener::SHORTENER_TRIM:
-      urlShortener = new TrImShortener( this );
+      urlShortener = new TrimShortener( this );
       break;
     case UrlShortener::SHORTENER_METAMARK:
-      urlShortener = new MetaMarkShortener( this );
+      urlShortener = new MetamarkShortener( this );
       break;
     case UrlShortener::SHORTENER_TINYURL:
-      urlShortener = new TinyUrlShortener( this );
+      urlShortener = new TinyurlShortener( this );
       break;
      case UrlShortener::SHORTENER_TINYARROWS:
-      urlShortener = new TinyarroWsShortener( this );
+      urlShortener = new TinyarrowsShortener( this );
   }
   connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
 }
