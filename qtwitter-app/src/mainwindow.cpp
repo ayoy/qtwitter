@@ -439,7 +439,7 @@ void MainWindow::retranslateUi()
 void MainWindow::replaceUrl( const QString &url )
 {
     QString text = ui.statusEdit->text();
-    text.replace( ui.statusEdit->getSelectedUrl(), url );
+    text.replace( ui.statusEdit->getSelectedUrl(), url.trimmed() );
     ui.statusEdit->setText( text );
     ui.statusEdit->setCursorPosition( text.indexOf( url ) + url.length() );
 }

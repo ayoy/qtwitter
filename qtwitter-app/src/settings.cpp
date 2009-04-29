@@ -578,6 +578,7 @@ void Settings::createUrlShortenerMenu()
   ui.urlShortenerCombo->addItem( "tinyarro.ws", UrlShortener::SHORTENER_TINYARROWS );
   ui.urlShortenerCombo->addItem( "TinyURL", UrlShortener::SHORTENER_TINYURL );
   ui.urlShortenerCombo->addItem( "tr.im", UrlShortener::SHORTENER_TRIM );
+  ui.urlShortenerCombo->addItem( "u.nu", UrlShortener::SHORTENER_UNU );
 }
 
 /*! \struct ThemeElement
