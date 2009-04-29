@@ -40,16 +40,16 @@ int UrlShortener::replyStatus( QNetworkReply *reply ) const
 
 UrlShortener::~UrlShortener() {}
 
-IsGdShortener::IsGdShortener( QObject *parent ) : UrlShortener( parent ) {}
+IsgdShortener::IsgdShortener( QObject *parent ) : UrlShortener( parent ) {}
 
-void IsGdShortener::shorten( const QString &url )
+void IsgdShortener::shorten( const QString &url )
 {
   if( QRegExp( "http://is.gd/" ).indexIn( url ) == -1 ) {
     connection->get( QNetworkRequest( QUrl( "http://is.gd/api.php?longurl=" + url ) ) );
   }
 }
 
-void IsGdShortener::replyFinished( QNetworkReply * reply )
+void IsgdShortener::replyFinished( QNetworkReply * reply )
 {
   QString response = reply->readLine();
 
@@ -79,9 +79,9 @@ void IsGdShortener::replyFinished( QNetworkReply * reply )
   }
 }
 
-TrImShortener::TrImShortener( QObject *parent ) : UrlShortener( parent ) {}
+TrimShortener::TrimShortener( QObject *parent ) : UrlShortener( parent ) {}
 
-void TrImShortener::shorten( const QString &url )
+void TrimShortener::shorten( const QString &url )
 {
   QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
   
@@ -90,7 +90,7 @@ void TrImShortener::shorten( const QString &url )
   }
 }
 
-void TrImShortener::replyFinished( QNetworkReply *reply )
+void TrimShortener::replyFinished( QNetworkReply *reply )
 {
   QString response = reply->readLine();
 
@@ -107,16 +107,16 @@ void TrImShortener::replyFinished( QNetworkReply *reply )
   }
 }
 
-MetaMarkShortener::MetaMarkShortener( QObject *parent ) : UrlShortener( parent ) {}
+MetamarkShortener::MetamarkShortener( QObject *parent ) : UrlShortener( parent ) {}
 
-void MetaMarkShortener::shorten( const QString &url )
+void MetamarkShortener::shorten( const QString &url )
 {
   if( QRegExp( "http://xrl.us/" ).indexIn( url ) == -1 ) {
     connection->get( QNetworkRequest( QUrl( "http://metamark.net/api/rest/simple?long_url=" + url ) ) );
   }
 }
 
-void MetaMarkShortener::replyFinished( QNetworkReply *reply )
+void MetamarkShortener::replyFinished( QNetworkReply *reply )
 {
   QString response = reply->readLine();
 
@@ -129,16 +129,16 @@ void MetaMarkShortener::replyFinished( QNetworkReply *reply )
   }
 }
 
-TinyUrlShortener::TinyUrlShortener( QObject *parent ) : UrlShortener( parent ) {}
+TinyurlShortener::TinyurlShortener( QObject *parent ) : UrlShortener( parent ) {}
 
-void TinyUrlShortener::shorten( const QString &url )
+void TinyurlShortener::shorten( const QString &url )
 {
   if( QRegExp( "http://tinyurl.com/" ).indexIn( url ) == -1 ) {
     connection->get( QNetworkRequest( QUrl( "http://tinyurl.com/api-create.php?url=" + url ) ) );
   }
 }
 
-void TinyUrlShortener::replyFinished( QNetworkReply *reply )
+void TinyurlShortener::replyFinished( QNetworkReply *reply )
 {
   QString response = reply->readLine();
 
@@ -151,16 +151,16 @@ void TinyUrlShortener::replyFinished( QNetworkReply *reply )
   }
 }
 
-TinyarroWsShortener::TinyarroWsShortener( QObject *parent ) : UrlShortener( parent ) {}
+TinyarrowsShortener::TinyarrowsShortener( QObject *parent ) : UrlShortener( parent ) {}
 
-void TinyarroWsShortener::shorten( const QString &url )
+void TinyarrowsShortener::shorten( const QString &url )
 {
   if( QRegExp( "http://➡.ws/" ).indexIn( url ) == -1 ) {
     connection->get( QNetworkRequest( QUrl( "http://tinyarro.ws/api-create.php?utfpure=1&url=" + url ) ) );
   }
 }
 
-void TinyarroWsShortener::replyFinished( QNetworkReply *reply )
+void TinyarrowsShortener::replyFinished( QNetworkReply *reply )
 {
   QString response = QString::fromUtf8( reply->readLine() );
 
@@ -207,14 +207,22 @@ void TinyarroWsShortener::replyFinished( QNetworkReply *reply )
     \param reply Network reply
 */
 
-/*! \class IsGdShortener
+/*! \class IsgdShortener
     \brief This class is responsible for interacting with http://is.gd
  */
 
-/*! \class TrImShortener
+/*! \class TrimShortener
     \brief This class is responsible for interacting with http://tr.im
  */
 
-/*! \class MetaMarkShortener
+/*! \class MetamarkShortener
     \brief This class is responsible for interacting with http://metamark.com
+ */
+
+/*! \class TinyurlShortener
+    \brief This class is responsible for interacting with http://tinyurl.com
+ */
+
+/*! \class TinyarrowsShortener
+    \brief This class is responsible for interacting with http://tinyarro.ws
  */
