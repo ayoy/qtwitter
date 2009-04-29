@@ -39,7 +39,8 @@ public:
     SHORTENER_ISGD,
     SHORTENER_TRIM,
     SHORTENER_METAMARK,
-    SHORTENER_TINYURL
+    SHORTENER_TINYURL,
+    SHORTENER_TINYARROWS
   };
 
 protected:
@@ -93,6 +94,17 @@ class TinyUrlShortener : public UrlShortener
 
   public:
     TinyUrlShortener( QObject *parent = 0);
+    void shorten( const QString &url );
+  protected slots:
+    virtual void replyFinished( QNetworkReply* );
+};
+
+class TinyarroWsShortener : public UrlShortener
+{
+  Q_OBJECT
+
+  public:
+    TinyarroWsShortener( QObject *parent = 0);
     void shorten( const QString &url );
   protected slots:
     virtual void replyFinished( QNetworkReply* );

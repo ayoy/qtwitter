@@ -151,6 +151,27 @@ void TinyUrlShortener::replyFinished( QNetworkReply *reply )
   }
 }
 
+TinyarroWsShortener::TinyarroWsShortener( QObject *parent ) : UrlShortener( parent ) {}
+
+void TinyarroWsShortener::shorten( const QString &url )
+{
+  if( QRegExp( "http://➡.ws/" ).indexIn( url ) == -1 ) {
+    connection->get( QNetworkRequest( QUrl( "http://tinyarro.ws/api-create.php?utfpure=1&url=" + url ) ) );
+  }
+}
+
+void TinyarroWsShortener::replyFinished( QNetworkReply *reply )
+{
+  QString response = QString::fromUtf8( reply->readLine() );
+
+  switch( replyStatus( reply ) ) {
+    case 200:
+      emit shortened( response );
+      break;
+    default: case 500:
+      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  }
+}
 /*! \class UrlShortener
     \brief A class responsible for interacting with URL shortering services.
 
