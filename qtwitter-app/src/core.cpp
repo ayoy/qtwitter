@@ -117,6 +117,9 @@ void Core::setUrlShortener()
       break;
     case UrlShortener::SHORTENER_TINYURL:
       urlShortener = new TinyUrlShortener( this );
+      break;
+     case UrlShortener::SHORTENER_TINYARROWS:
+      urlShortener = new TinyarroWsShortener( this );
   }
   connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
 }
