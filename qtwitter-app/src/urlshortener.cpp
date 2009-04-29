@@ -172,6 +172,33 @@ void TinyarrowsShortener::replyFinished( QNetworkReply *reply )
       emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
+
+UnuShortener::UnuShortener( QObject *parent ) : UrlShortener( parent ) {}
+
+void UnuShortener::shorten( const QString &url )
+{
+  if( QRegExp( "http://u.nu" ).indexIn( url ) == -1 ) {
+    connection->get( QNetworkRequest( QUrl( "http://u.nu/unu-api-simple?url=" + url ) ) );
+  }
+}
+
+void UnuShortener::replyFinished( QNetworkReply *reply )
+{
+  QString response = reply->readLine();
+
+  switch( replyStatus( reply ) ) {
+    case 200:
+      if( response.indexOf( "http://" ) == 0 ) {
+        emit shortened( response );
+      } else {
+        emit errorMessage( tr( "Your URL has been rejected by u.nu" ) );
+      }
+      break;
+    default: case 500:
+      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  }
+}
+
 /*! \class UrlShortener
     \brief A class responsible for interacting with URL shortering services.
 
@@ -226,3 +253,8 @@ void TinyarrowsShortener::replyFinished( QNetworkReply *reply )
 /*! \class TinyarrowsShortener
     \brief This class is responsible for interacting with http://tinyarro.ws
  */
+
+/*! \class UnuShortener
+    \brief This class is responsible for interacting with http://u.nu
+ */
+
