@@ -35,14 +35,10 @@ int main( int argc, char **argv )
 //  QApplication::setLibraryPaths( QStringList(dir.absolutePath()) );
 //#endif
 
-  qApp->quit();
   qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
-
   Qtwitter qtwitter;
-
   QApplication::setQuitOnLastWindowClosed( false );
 
   qtwitter.show();
-
   return app.exec();
 }

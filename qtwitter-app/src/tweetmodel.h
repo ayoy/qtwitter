@@ -88,7 +88,6 @@ private:
   QString login;
   QList<Status> statuses;
   bool isVisible;
-  bool unread;
   int maxTweetCount;
   int scrollBarMargin;
   QModelIndex currentIndex;

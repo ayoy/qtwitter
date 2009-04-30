@@ -131,10 +131,10 @@ private:
   UrlShortener *urlShortener;
 
   QMap<QString,ImageDownload*> imageDownloader;
+  QCache<QString,QImage> imageCache;
   TwitterAccountsModel *accountsModel;
   TwitterAPI *twitterapi;
   QMap<QString,TweetModel*> tweetModels;
-  QCache<QString,QImage> imageCache;
   QTimer *timer;
 
   StatusList *listViewForModels;
