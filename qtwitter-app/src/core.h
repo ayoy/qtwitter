@@ -88,7 +88,7 @@ signals:
   void errorMessage( const QString &message );
   void twitPicResponseReceived();
   void twitPicDataSendProgress(int,int);
-  void setImageForUrl( const QString& url, QImage *image );
+  void setImageForUrl( const QString& url, QPixmap *image );
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void requestStarted();
   void allRequestsFinished();
@@ -105,7 +105,7 @@ signals:
   void urlShortened( const QString &url);
 
 private slots:
-  void setImageInHash( const QString&, QImage );
+  void setImageInHash( const QString&, QPixmap );
   void addEntry( const QString &login, Entry entry );
   void deleteEntry( const QString &login, int id );
   void slotUnauthorized( const QString &login, const QString &password );
@@ -131,7 +131,7 @@ private:
   UrlShortener *urlShortener;
 
   QMap<QString,ImageDownload*> imageDownloader;
-  QCache<QString,QImage> imageCache;
+  QCache<QString,QPixmap> imageCache;
   TwitterAccountsModel *accountsModel;
   TwitterAPI *twitterapi;
   QMap<QString,TweetModel*> tweetModels;

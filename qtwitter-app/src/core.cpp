@@ -274,16 +274,16 @@ void Core::downloadImage( const QString &imageUrl )
   QString host = QUrl( imageUrl ).host();
   if ( imageDownloader.contains( host ) ) {
     imageDownloader[host]->imageGet( imageUrl );
-    imageCache.insert( imageUrl, new QImage );
+    imageCache.insert( imageUrl, new QPixmap );
     qDebug() << "setting null image";
     return;
   }
   ImageDownload *getter = new ImageDownload;
   imageDownloader[host] = getter;
   connect( getter, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
-  connect( getter, SIGNAL(imageReadyForUrl(QString,QImage)), this, SLOT(setImageInHash(QString,QImage)) );
+  connect( getter, SIGNAL(imageReadyForUrl(QString,QPixmap)), this, SLOT(setImageInHash(QString,QPixmap)) );
   getter->imageGet( imageUrl );
-  imageCache.insert( imageUrl, new QImage );
+  imageCache.insert( imageUrl, new QPixmap );
   qDebug() << "setting null image" << imageCache[ imageUrl ]->isNull();
 }
 
@@ -361,9 +361,9 @@ void Core::retranslateUi()
   }
 }
 
-void Core::setImageInHash( const QString &url, QImage image )
+void Core::setImageInHash( const QString &url, QPixmap image )
 {
-  imageCache.insert( url, new QImage( image ) );
+  imageCache.insert( url, new QPixmap( image ) );
   emit setImageForUrl( url, imageCache[ url ] );
 }
 
@@ -453,7 +453,7 @@ void Core::createConnectionsWithModel( TweetModel *model )
   connect( model, SIGNAL(destroy(QString,int)), this, SLOT(destroyTweet(QString,int)) );
   connect( model, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( model, SIGNAL(newTweets(QString,bool)), this, SLOT(storeNewTweets(QString,bool)) );
-  connect( this, SIGNAL(setImageForUrl(QString,QImage*)), model, SLOT(setImageForUrl(QString,QImage*)) );
+  connect( this, SIGNAL(setImageForUrl(QString,QPixmap*)), model, SLOT(setImageForUrl(QString,QPixmap*)) );
   connect( this, SIGNAL(allRequestsFinished()), model, SLOT(checkForUnread()) );
   connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
 }
@@ -691,7 +691,7 @@ void Core::shortenUrl( const QString &url )
     \sa uploadPhoto(), abortUploadPhoto()
 */
 
-/*! \fn void Core::setImageForUrl( const QString& url, QImage image )
+/*! \fn void Core::setImageForUrl( const QString& url, QPixmap image )
     Emitted when an \a image is downloaded and is ready to be shown in model.
     \param url A URL pointing to \a image.
     \param image An image to show for Tweets with the given \a url

@@ -24,7 +24,7 @@
 #include <QStandardItemModel>
 #include <QListView>
 #include <QUrl>
-#include <QImage>
+#include <QPixmap>
 #include <QPointer>
 #include <twitterapi/twitterapi.h>
 #include "statuslist.h"
@@ -70,7 +70,7 @@ public slots:
   void retranslateUi();
   void resizeData( int width, int oldWidth );
   void moveFocus( bool up );
-  void setImageForUrl( const QString& url, QImage *image );
+  void setImageForUrl( const QString& url, QPixmap *image );
 
 signals:
   void retweet( QString message );
@@ -98,7 +98,7 @@ struct Status {
   Entry entry;
   TweetModel::TweetState state;
   QPointer<Tweet> tweet;
-  QImage image;
+  QPixmap image;
 };
 
 Q_DECLARE_METATYPE(Status)

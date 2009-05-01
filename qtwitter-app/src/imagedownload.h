@@ -21,13 +21,13 @@
 #ifndef IMAGEDOWNLOAD_H
 #define IMAGEDOWNLOAD_H
 
-#include <QImage>
+#include <QPixmap>
 #include <twitterapi/twitterapi.h>
 #include "httpconnection.h"
 
 struct ImageData
 {
-  QImage *image;
+  QPixmap *image;
   QByteArray *bytearray;
   QBuffer *buffer;
   ImageData();
@@ -46,7 +46,7 @@ public:
   void clearData();
 
 signals:
-  void imageReadyForUrl( const QString& path, QImage image );
+  void imageReadyForUrl( const QString& path, QPixmap image );
 
 private slots:
   void httpRequestFinished( int requestId, bool error );

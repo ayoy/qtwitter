@@ -125,7 +125,7 @@ void TweetModel::display()
     }
     Q_ASSERT( status->tweet == 0 );
     if ( status->entry.type == Entry::DirectMessage )
-      status->tweet = new Tweet( &status->entry, &status->state, QImage( ":/icons/mail_48.png" ), this );
+      status->tweet = new Tweet( &status->entry, &status->state, QPixmap( ":/icons/mail_48.png" ), this );
     else
       status->tweet = new Tweet( &status->entry, &status->state, status->image, this );
     status->tweet->setTweetData( &status->entry, &status->state );
@@ -175,9 +175,9 @@ void TweetModel::insertTweet( Entry *entry )
   status.state = TweetModel::STATE_UNREAD;
   status.entry = *entry;
   if ( status.entry.type == Entry::DirectMessage )
-    status.tweet = new Tweet( &status.entry, &status.state, QImage( ":/icons/mail_48.png" ), this );
+    status.tweet = new Tweet( &status.entry, &status.state, QPixmap( ":/icons/mail_48.png" ), this );
   else
-    status.tweet = new Tweet( &status.entry, &status.state, QImage(), this );
+    status.tweet = new Tweet( &status.entry, &status.state, QPixmap(), this );
   status.tweet->setTweetData( &status.entry, &status.state );
 
   QStandardItem *newItem = new QStandardItem;
@@ -366,7 +366,7 @@ void TweetModel::moveFocus( bool up )
   }
 }
 
-void TweetModel::setImageForUrl( const QString& url, QImage *image )
+void TweetModel::setImageForUrl( const QString& url, QPixmap *image )
 {
   Status *status;
   for ( int i = 0; i < rowCount(); i++ ) {
@@ -498,7 +498,7 @@ void TweetModel::emitOpenBrowser( QString address )
     \sa deselectCurrentIndex()
 */
 
-/*! \fn void TweetModel::setImageForUrl( const QString& url, QImage image )
+/*! \fn void TweetModel::setImageForUrl( const QString& url, QPixmap image )
     Assigns the given \a image to all the Tweets having \a url as their profile image URL.
     \param url Profile image URL of the Tweet.
     \param image Image to be set for the Tweet(s).

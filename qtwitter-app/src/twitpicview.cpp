@@ -153,7 +153,7 @@ void TwitPicView::setImagePreview( const QString &path )
     delete pixmap;
     pixmap = NULL;
   }
-  pixmap = new QPixmap( QPixmap::fromImage( QImage( path ) ) );
+  pixmap = new QPixmap( path );
   if ( pixmap->isNull() ) {
     delete pixmap;
     pixmap = NULL;
