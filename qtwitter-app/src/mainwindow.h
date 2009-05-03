@@ -80,6 +80,7 @@ signals:
 protected:
   void closeEvent( QCloseEvent *e );
   void resizeEvent( QResizeEvent* );
+  void keyPressEvent( QKeyEvent* );
   Ui::MainWindow ui;
 
 private slots:
