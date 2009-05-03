@@ -261,6 +261,13 @@ void MainWindow::closeEvent( QCloseEvent *e )
   QWidget::closeEvent( e );
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_Escape)
+        if(isVisible())
+            hide();
+}
+
 void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
 {
   switch ( reason ) {
