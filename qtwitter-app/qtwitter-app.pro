@@ -1,8 +1,12 @@
 TEMPLATE = app
 TARGET = qtwitter
-TOP = ..
+
+# sets the TOP variable to the root source code dir
+include(../qtwitter.pri)
+
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
+
 macx {
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
@@ -11,9 +15,8 @@ macx {
         twitterapi
 }
 else:unix {
-    LIBS += -L$${TOP}/lib \
-        $$TWITTERAPI_LIB \
-        -Wl,-rpath,$${PWD}/$${TOP}/lib
+    LIBS += -L$${TOP} \
+        $$TWITTERAPI_LIB
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
@@ -53,9 +56,9 @@ else:unix {
 }
 else:win32 { 
     RC_FILE = win32/qtwitter.rc
-    LIBS += -L$${TOP}/lib \
-        $$TWITTERAPI_LIB \
-        -Wl,-rpath,$${PWD}/$${TOP}/lib
+    LIBS += -L$${TOP} \
+        $$TWITTERAPI_LIB
+        #-Wl,-rpath,$${PWD}/$${TOP}/lib
 }
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \

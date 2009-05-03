@@ -41,7 +41,7 @@ class Tweet : public QWidget
 
 public:
 
-  explicit Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, TweetModel *parentModel, QWidget *parent = 0 );
+  explicit Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image, TweetModel *parentModel, QWidget *parent = 0 );
   virtual ~Tweet();
 
   const Entry& data() const;
@@ -49,7 +49,7 @@ public:
   void resize( int w, int h );
 
   void setTweetData( Entry *entry, TweetModel::TweetState *state );
-  void setIcon( const QImage &image );
+  void setIcon( const QPixmap &image );
   void applyTheme();
   void retranslateUi();
 

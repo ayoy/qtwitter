@@ -489,7 +489,7 @@
         <location filename="../src/settings.cpp" line="504"/>
         <location filename="../ui/settings.ui" line="304"/>
         <source>download direct messages</source>
-        <translation>dowload Direkt-Nachrichten</translation>
+        <translation>download Direkt-Nachrichten</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="505"/>

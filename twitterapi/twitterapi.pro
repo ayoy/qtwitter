@@ -1,22 +1,25 @@
+TARGET = twitterapi
+
+include(../qtwitter.pri)
+include(twitterapi.pri)
+
+TEMPLATE = lib
 QT += network \
     xml
 QT -= gui
-TARGET = twitterapi
-TEMPLATE = lib
 CONFIG += dll
-include(twitterapi.pri)
 DEFINES += TWITTERAPI_LIBRARY
 macx { 
     CONFIG += lib_bundle
     LIBS += -install_name \
         @executable_path/../Frameworks/$${TARGET}.framework/Versions/$${VER_MAJ}/$${TARGET}
-    DESTDIR = ../qtwitter.app/Contents/Frameworks
+    DESTDIR = $${TOP}/qtwitter.app/Contents/Frameworks
     FRAMEWORK_HEADERS.files = twitterapi.h
     FRAMEWORK_HEADERS.path = Versions/$${VER_MAJ}/Headers
     QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
 }
 else:unix { 
-    DESTDIR = ../lib
+    DESTDIR = $${TOP}
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/lib
@@ -26,8 +29,8 @@ else:unix {
         lib_headers
 }
 else:win32 { 
-    DESTDIR = ../lib
-    DLLDESTDIR = ..
+    DESTDIR = $${TOP}
+    DLLDESTDIR = $${DESTDIR}
 }
 SOURCES += xmlparser.cpp \
     twitterapi.cpp \

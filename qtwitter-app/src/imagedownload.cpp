@@ -19,7 +19,7 @@
 
 
 #include <QMap>
-#include <QImage>
+#include <QPixmap>
 #include "imagedownload.h"
 
 ImageData::ImageData() :
@@ -91,7 +91,7 @@ void ImageDownload::httpRequestFinished( int requestId, bool error )
     emit errorMessage( tr("Download failed:").append( " " ) + errorString() );
   }
   qDebug() << "Image request of id" << requestId << "finished" << requestByEntry.key( requestId );
-  imageData->image = new QImage;
+  imageData->image = new QPixmap;
   imageData->image->loadFromData( *imageData->bytearray );
 //  if (!imageData->image->loadFromData( *imageData->bytearray ) ) {
 //    qDebug() << "fail";
@@ -131,7 +131,7 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
     covered inside the ImageDownload class.
 */
 
-/*! \var QImage* ImageData::image
+/*! \var QPixmap* ImageData::image
     A pointer to the image.
 */
 
@@ -177,7 +177,7 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
     Forces clearing of temporary images store, gathered while updating timeline.
 */
 
-/*! \fn void ImageDownload::imageReadyForUrl( const QString& path, QImage image )
+/*! \fn void ImageDownload::imageReadyForUrl( const QString& path, QPixmap image )
     Emitted when the request is finished and the image is ready to be displayed.
     \param path The image's URL.
     \param image The downloaded image.

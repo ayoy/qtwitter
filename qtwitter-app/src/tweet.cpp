@@ -27,7 +27,7 @@
 
 ThemeData Tweet::currentTheme = ThemeData();
 
-Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, TweetModel *parentModel, QWidget *parent ) :
+Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image, TweetModel *parentModel, QWidget *parent ) :
   QWidget(parent),
   replyAction(0),
   gotohomepageAction(0),
@@ -46,7 +46,7 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QImage &image, 
   applyTheme();
   m_ui->userName->setText( tweetData->name );
   m_ui->userStatus->setHtml( tweetData->text );
-  m_ui->userImage->setPixmap( QPixmap::fromImage( image ) );
+  m_ui->userImage->setPixmap( image );
   adjustSize();
   setFocusProxy( m_ui->userStatus );
   connect( m_ui->menuButton, SIGNAL(pressed()), this, SLOT(slotDelete()) );
@@ -158,9 +158,9 @@ void Tweet::setTweetData( Entry *entry, TweetModel::TweetState *state )
   tweetState = state;
 }
 
-void Tweet::setIcon( const QImage &image )
+void Tweet::setIcon( const QPixmap &image )
 {
-  m_ui->userImage->setPixmap( QPixmap::fromImage( image ) );
+  m_ui->userImage->setPixmap( image );
 }
 
 void Tweet::applyTheme()
@@ -316,7 +316,7 @@ void Tweet::slotDelete()
     The Tweet is active, i.e. currently highlighted.
 */
 
-/*! \fn explicit Tweet::Tweet( const Entry &entry, const QImage &image, QWidget *parent = 0 )
+/*! \fn explicit Tweet::Tweet( const Entry &entry, const QPixmap &image, QWidget *parent = 0 )
     Creates a new Tweet with a given \a parent, fills its data with the given
     \a entry and sets its user image to \a image.
 */
@@ -339,7 +339,7 @@ void Tweet::slotDelete()
     \sa adjustSize()
 */
 
-/*! \fn void Tweet::setIcon( const QImage &image )
+/*! \fn void Tweet::setIcon( const QPixmap &image )
     Sets the Tweet's User profile image to \a image.
     \param image An image to be set.
 */

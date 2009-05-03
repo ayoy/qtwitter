@@ -514,12 +514,11 @@ void Settings::retranslateUi()
   useCustomBrowserCheckBox->setText( tr( "Use custom web browser" ) );
   selectBrowserButton->setText( tr( "Browse" ) );
 #endif
-  ui.buttonBox->button( QDialogButtonBox::Apply )->setText( tr( "Apply" ) );
-  ui.buttonBox->button( QDialogButtonBox::Cancel )->setText( tr( "Cancel" ) );
-  ui.buttonBox->button( QDialogButtonBox::Ok )->setText( tr( "OK" ) );
+  ui.buttonBox->clear();
+  ui.buttonBox->addButton("OK", QDialogButtonBox::AcceptRole)->setText( "OK" );
+  ui.buttonBox->addButton("Apply", QDialogButtonBox::ApplyRole)->setText( tr( "Apply" ) );
+  ui.buttonBox->addButton("Cancel", QDialogButtonBox::RejectRole)->setText( tr( "Cancel" ) );
   update();
-//  adjustSize();
-//  updateGeometry();
 }
 
 #ifdef Q_WS_X11
