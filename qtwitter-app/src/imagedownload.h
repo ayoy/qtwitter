@@ -21,40 +21,31 @@
 #ifndef IMAGEDOWNLOAD_H
 #define IMAGEDOWNLOAD_H
 
+#include <QObject>
 #include <QPixmap>
+#include <QNetworkAccessManager>
 #include <twitterapi/twitterapi.h>
-#include "httpconnection.h"
 
-struct ImageData
-{
-  QPixmap *image;
-  QByteArray *bytearray;
-  QBuffer *buffer;
-  ImageData();
-  void free();
-};
-
-class ImageDownload : public HttpConnection
+class ImageDownload : public QObject
 {
   Q_OBJECT
 
 public:
-  ImageDownload();
-  ~ImageDownload();
+  ImageDownload( QObject *parent = 0 );
 
   void imageGet( const QString& imageUrl );
-  void clearData();
+  bool contains( const QString &imageUrl ) const;
+  QPixmap* imageFromUrl( const QString &imageUrl ) const;
 
 signals:
-  void imageReadyForUrl( const QString& path, QPixmap image );
+  void imageReadyForUrl( const QString& path, QPixmap *image );
 
 private slots:
-  void httpRequestFinished( int requestId, bool error );
-  void readResponseHeader( const QHttpResponseHeader &responseHeader );
+  void requestFinished( QNetworkReply *reply );
 
 private:
-  QMap<QString,int> requestByEntry;
-  QMap<QString,ImageData> imageByEntry;
+  QMap<QString,QNetworkAccessManager*> connections;
+  QCache<QString,QPixmap> imageCache;
 };
 
 #endif //IMAGEDOWNLOAD_H

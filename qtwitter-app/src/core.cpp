@@ -45,7 +45,8 @@ Core::Core( MainWindow *parent ) :
     timer( 0 ),
     parentMainWindow( parent )
 {
-  imageCache.setMaxCost( 50 );
+  imageDownload = new ImageDownload( this );
+  connect( imageDownload, SIGNAL(imageReadyForUrl(QString,QPixmap*)), this, SIGNAL(setImageForUrl(QString,QPixmap*)) );
 
   twitterapi = new TwitterAPI( this );
   connect( twitterapi, SIGNAL(newEntry(QString,Entry)), this, SLOT(addEntry(QString,Entry)) );
@@ -70,11 +71,6 @@ Core::~Core()
   while ( i != tweetModels.end() ) {
     (*i)->deleteLater();
     i++;
-  }
-  QMap<QString,ImageDownload*>::iterator j = imageDownloader.begin();
-  while ( j != imageDownloader.end() ) {
-    (*j)->deleteLater();
-    j++;
   }
 }
 
@@ -269,24 +265,6 @@ void Core::twitPicResponse( bool responseStatus, QString message, bool newStatus
   dlg.exec();
 }
 
-void Core::downloadImage( const QString &imageUrl )
-{
-  QString host = QUrl( imageUrl ).host();
-  if ( imageDownloader.contains( host ) ) {
-    imageDownloader[host]->imageGet( imageUrl );
-    imageCache.insert( imageUrl, new QPixmap );
-    qDebug() << "setting null image";
-    return;
-  }
-  ImageDownload *getter = new ImageDownload;
-  imageDownloader[host] = getter;
-  connect( getter, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
-  connect( getter, SIGNAL(imageReadyForUrl(QString,QPixmap)), this, SLOT(setImageInHash(QString,QPixmap)) );
-  getter->imageGet( imageUrl );
-  imageCache.insert( imageUrl, new QPixmap );
-  qDebug() << "setting null image" << imageCache[ imageUrl ]->isNull();
-}
-
 void Core::openBrowser( QUrl address )
 {
   if ( address.isEmpty() )
@@ -361,12 +339,6 @@ void Core::retranslateUi()
   }
 }
 
-void Core::setImageInHash( const QString &url, QPixmap image )
-{
-  imageCache.insert( url, new QPixmap( image ) );
-  emit setImageForUrl( url, imageCache[ url ] );
-}
-
 void Core::addEntry( const QString &login, Entry entry )
 {
   if ( !tweetModels.contains( login ) )
@@ -374,13 +346,13 @@ void Core::addEntry( const QString &login, Entry entry )
 
   tweetModels[ login ]->insertTweet( &entry );
   if ( entry.type == Entry::Status ) {
-    if ( imageCache.contains( entry.image ) ) {
-      if ( !imageCache.contains( entry.image ) || imageCache[ entry.image ]->isNull() )
-        qDebug() << "image in cache";
+    if ( imageDownload->contains( entry.image ) ) {
+      if ( imageDownload->imageFromUrl( entry.image )->isNull() )
+        qDebug() << "image download in progress";
       else
-        emit setImageForUrl( entry.image, imageCache[ entry.image ] );
+        emit setImageForUrl( entry.image, imageDownload->imageFromUrl( entry.image ) );
     } else {
-      downloadImage( entry.image );
+      imageDownload->imageGet( entry.image );
     }
   }
 }
