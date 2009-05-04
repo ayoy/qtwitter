@@ -7,14 +7,14 @@ include(../qtwitter.pri)
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
 
-macx {
+macx { 
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
     QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
     LIBS += -framework \
         twitterapi
 }
-else:unix {
+else:unix { 
     LIBS += -L$${TOP} \
         $$TWITTERAPI_LIB
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
@@ -58,12 +58,10 @@ else:win32 {
     RC_FILE = win32/qtwitter.rc
     LIBS += -L$${TOP} \
         $$TWITTERAPI_LIB
-        #-Wl,-rpath,$${PWD}/$${TOP}/lib
 }
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
-    src/httpconnection.cpp \
     src/imagedownload.cpp \
     src/core.cpp \
     src/settings.cpp \
@@ -79,7 +77,6 @@ SOURCES += src/main.cpp \
     src/aboutdialog.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
-    src/httpconnection.h \
     src/imagedownload.h \
     src/core.h \
     src/settings.h \

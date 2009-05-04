@@ -18,36 +18,29 @@
  ***************************************************************************/
 
 
-#include <QPixmap>
 #include "twitpicengine.h"
 #include "twitpicxmlparser.h"
 
 TwitPicEngine::TwitPicEngine( Core *coreParent, QObject *parent ) :
-    HttpConnection( parent ),
-    core( coreParent )
+    QHttp( parent )
 {
   replyParser = new TwitPicXmlParser( this );
-  createConnections( core );
+  setHost( "twitpic.com", QHttp::ConnectionModeHttp);
+  createConnections( coreParent );
 }
 
 TwitPicEngine::~TwitPicEngine()
 {
-  replyParser->deleteLater();
+  clearDataStorage();
 }
 
 void TwitPicEngine::postContent( const QString &login, const QString &password, QString photoPath, QString status )
 {
   QString path;
   if ( status.isEmpty() ) {
-    path = "http://twitpic.com/api/upload";
+    path = "/api/upload";
   } else {
-    path = "http://twitpic.com/api/uploadAndPost";
-  }
-
-  QByteArray encodedPath = prepareRequest( path );
-  if ( encodedPath == "invalid" ) {
-    httpRequestAborted = true;
-    return;
+    path = "/api/uploadAndPost";
   }
 
   QFile photo( photoPath );
@@ -83,7 +76,7 @@ void TwitPicEngine::postContent( const QString &login, const QString &password, 
   requestString.append( "--AaB03x--\r\n" );
 
 
-  QHttpRequestHeader header( "POST", encodedPath );
+  QHttpRequestHeader header( "POST", path );
   header.setValue( "Host", "twitpic.com" );
   header.setValue( "Content-type", "multipart/form-data, boundary=AaB03x" );
   header.setValue( "Cache-Control", "no-cache" );
@@ -91,9 +84,14 @@ void TwitPicEngine::postContent( const QString &login, const QString &password, 
   header.setContentLength( requestString.length() );
 
   qDebug() << header.toString() << header.isValid();
+
+  bytearray = new QByteArray;
+  buffer = new QBuffer( bytearray );
+  httpRequestAborted = false;
+
   httpGetId = request( header, requestString, buffer );
   qDebug() << "Request of type POST and id" << httpGetId << "started";
-  qDebug() << this->currentRequest().toString();
+  qDebug() << currentRequest().toString();
 }
 
 void TwitPicEngine::abort()
@@ -105,17 +103,7 @@ void TwitPicEngine::abort()
 
 void TwitPicEngine::readResponseHeader(const QHttpResponseHeader &responseHeader)
 {
-  //qDebug() << responseHeader.values() ;// allValues( "Set-Cookie" );
-  //emit cookieReceived( responseHeader.allValues( "Set-Cookie" ) );
-  switch (responseHeader.statusCode()) {
-  case 200:                   // Ok
-  case 301:                   // Moved Permanently
-  case 302:                   // Found
-  case 303:                   // See Other
-  case 307:                   // Temporary Redirect
-    // these are not error conditions
-    break;
-  default:
+  if ( responseHeader.statusCode() >= 400 ) {
     qDebug() << "Download failed: " << responseHeader.reasonPhrase();
     abort();
     clearDataStorage();
@@ -124,13 +112,12 @@ void TwitPicEngine::readResponseHeader(const QHttpResponseHeader &responseHeader
 
 void TwitPicEngine::httpRequestFinished(int requestId, bool error)
 {
-  closeId = close();
   if (httpRequestAborted) {
     clearDataStorage();
     qDebug() << "request aborted";
     return;
   }
-  if (requestId != httpGetId )
+  if ( requestId != httpGetId )
     return;
 
   buffer->close();
@@ -150,9 +137,28 @@ void TwitPicEngine::httpRequestFinished(int requestId, bool error)
 
 void TwitPicEngine::createConnections( Core *coreParent )
 {
+  connect( this, SIGNAL(requestStarted(int)), SLOT(httpRequestStarted(int)));
+  connect( this, SIGNAL(requestFinished(int, bool)), SLOT(httpRequestFinished(int, bool)));
+  connect( this, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), SLOT(readResponseHeader(const QHttpResponseHeader &)));
+
   connect( this, SIGNAL(errorMessage(QString)), coreParent, SIGNAL(errorMessage(QString)) );
   connect( replyParser, SIGNAL(completed(bool,QString,bool)), coreParent, SLOT(twitPicResponse(bool,QString,bool)) );
   connect( this, SIGNAL(dataSendProgress(int,int)), coreParent, SIGNAL(twitPicDataSendProgress(int,int)) );
+}
+
+void TwitPicEngine::clearDataStorage()
+{
+  if (buffer) {
+    if ( buffer->isOpen() ) {
+      buffer->close();
+    }
+    delete buffer;
+    buffer = 0;
+  }
+  if(bytearray) {
+    delete bytearray;
+    bytearray = 0;
+  }
 }
 
 
