@@ -179,6 +179,7 @@ void TweetModel::insertTweet( Entry *entry )
   else
     status.tweet = new Tweet( &status.entry, &status.state, QPixmap(), this );
   status.tweet->setTweetData( &status.entry, &status.state );
+  qDebug() << login << " type: " << status.entry.type << " id:" << status.entry.id;
 
   QStandardItem *newItem = new QStandardItem;
   if ( isVisible ) {
