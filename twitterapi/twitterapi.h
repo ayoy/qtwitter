@@ -73,7 +73,7 @@ public:
   void postUpdate( const QString &login, const QString &password, const QString &data, int inReplyTo = -1 );
   void deleteUpdate( const QString &login, const QString &password, int id );
   void friendsTimeline( const QString &login, const QString &password, int msgCount);
-  void directMessages( const QString &login, const QString &password );
+  void directMessages( const QString &login, const QString &password, int msgCount );
   void postDM( const QString &login, const QString &password, const QString &user, const QString &data );
   void deleteDM( const QString &login, const QString &password, int id );
   void publicTimeline();
@@ -111,6 +111,7 @@ private:
   static const QNetworkRequest::Attribute ATTR_DM_REQUESTED;
   static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
   static const QNetworkRequest::Attribute ATTR_DELETE_ID;
+  static const QNetworkRequest::Attribute ATTR_MSGCOUNT;
 };
 
 #endif // TWITTERAPI_H

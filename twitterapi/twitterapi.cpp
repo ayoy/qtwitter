@@ -36,6 +36,7 @@ const QNetworkRequest::Attribute TwitterAPI::ATTR_INREPLYTO_ID       = (QNetwork
 const QNetworkRequest::Attribute TwitterAPI::ATTR_DM_REQUESTED       = (QNetworkRequest::Attribute) (QNetworkRequest::User + 5);
 const QNetworkRequest::Attribute TwitterAPI::ATTR_DELETION_REQUESTED = (QNetworkRequest::Attribute) (QNetworkRequest::User + 6);
 const QNetworkRequest::Attribute TwitterAPI::ATTR_DELETE_ID          = (QNetworkRequest::Attribute) (QNetworkRequest::User + 7);
+const QNetworkRequest::Attribute TwitterAPI::ATTR_MSGCOUNT           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 8);
 
 TwitterAPI::TwitterAPI( QObject *parent ) : QObject( parent ) {}
 
@@ -98,13 +99,14 @@ void TwitterAPI::deleteUpdate( const QString &login, const QString &password, in
   connections[ login ]->connection.data()->post( request, QByteArray() );
 }
 
-void TwitterAPI::friendsTimeline( const QString &login, const QString &password, int msgCount)
+void TwitterAPI::friendsTimeline( const QString &login, const QString &password, int msgCount )
 {
-  QString tweetCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount));
-  QNetworkRequest request( QUrl( "http://twitter.com/statuses/friends_timeline.xml?count="+tweetCount));
+  QString tweetCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
+  QNetworkRequest request( QUrl( "http://twitter.com/statuses/friends_timeline.xml?count="+tweetCount) );
   request.setAttribute( TwitterAPI::ATTR_ROLE, TwitterAPI::ROLE_FRIENDS_TIMELINE );
   request.setAttribute( TwitterAPI::ATTR_LOGIN, login );
   request.setAttribute( TwitterAPI::ATTR_PASSWORD, password );
+  request.setAttribute( TwitterAPI::ATTR_MSGCOUNT, tweetCount );
   qDebug() << "TwitterAPI::friendsTimeline(" + login + ")";
   if ( !connections.contains( login ) )
     createInterface( login );
@@ -112,9 +114,13 @@ void TwitterAPI::friendsTimeline( const QString &login, const QString &password,
   connections[ login ]->connection.data()->get( request );
 }
 
-void TwitterAPI::directMessages( const QString &login, const QString &password )
+void TwitterAPI::directMessages( const QString &login, const QString &password, int msgCount )
 {
-  QNetworkRequest request( QUrl( "http://twitter.com/direct_messages.xml" ) );
+  /* When directMessages is called from requestFinished, msgCount argument shouldn't be out of bounds,
+     but we can check if the value is correct anyway
+  */
+  QString tweetCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
+  QNetworkRequest request( QUrl( "http://twitter.com/direct_messages.xml?count="+tweetCount) );
   request.setAttribute( TwitterAPI::ATTR_ROLE, TwitterAPI::ROLE_DIRECT_MESSAGES );
   request.setAttribute( TwitterAPI::ATTR_LOGIN, login );
   request.setAttribute( TwitterAPI::ATTR_PASSWORD, password );
@@ -229,7 +235,10 @@ void TwitterAPI::requestFinished( QNetworkReply *reply )
       qDebug() << "TwitterAPI::requestFinished()" << "parsing friends timeline";
       connections[ login.toString() ]->friendsInProgress = false;
       if ( connections[ login.toString() ]->dmScheduled )
-        directMessages( login.toString(), password.toString() );
+      {
+        if( int msgCount = request.attribute( TwitterAPI::ATTR_MSGCOUNT ).toInt() )
+          directMessages( login.toString(), password.toString() , msgCount);
+      }
       parseXml( reply->readAll(), connections[ login.toString() ]->statusParser );
       emit requestDone( login.toString(), TwitterAPI::ROLE_FRIENDS_TIMELINE );
       break;
