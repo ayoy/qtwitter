@@ -103,6 +103,7 @@ void Tweet::createMenu()
   if ( !tweetData->isOwn ) {
     deleteAction->setEnabled( false );
   } else {
+
     signalMapper->setMapping( deleteAction, tweetData->id );
     connect( deleteAction, SIGNAL(triggered()), this, SLOT(slotDelete()) );
     connect( this, SIGNAL(deleteStatus(QString,int)), tweetListModel, SIGNAL(destroy(QString,int)) );

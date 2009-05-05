@@ -1,6 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
  *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -176,10 +177,10 @@ void Core::forceGet()
 
 void Core::get( const QString &login, const QString &password )
 {
-  twitterapi->friendsTimeline( login, password, settings.value("Appearance/tweet count").toInt() );
+  twitterapi->friendsTimeline( login, password, settings.value("Appearance/tweet count", 20).toInt() );
   emit newRequest();
   if ( accountsModel->account( login )->directMessages ) {
-    twitterapi->directMessages( login, password, settings.value("Appearance/tweet count").toInt() );
+    twitterapi->directMessages( login, password, settings.value("Appearance/tweet count", 20).toInt() );
     emit newRequest();
   }
 }
@@ -188,10 +189,10 @@ void Core::get()
 {
   foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
     if ( account.isEnabled ) {
-      twitterapi->friendsTimeline( account.login, account.password, settings.value("Appearance/tweet count").toInt());
+      twitterapi->friendsTimeline( account.login, account.password, settings.value("Appearance/tweet count", 20).toInt());
       emit newRequest();
       if ( account.directMessages ) {
-        twitterapi->directMessages( account.login, account.password, settings.value("Appearance/tweet count").toInt());
+        twitterapi->directMessages( account.login, account.password, settings.value("Appearance/tweet count", 20).toInt());
         emit newRequest();
       }
     }
