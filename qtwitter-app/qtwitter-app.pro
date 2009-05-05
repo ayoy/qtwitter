@@ -16,7 +16,8 @@ macx {
 }
 else:unix {
     LIBS += -L$${TOP} \
-        $$TWITTERAPI_LIB
+        $$TWITTERAPI_LIB \
+        -Wl,-rpath,$${TOP}
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin

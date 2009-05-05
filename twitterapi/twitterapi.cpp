@@ -98,9 +98,10 @@ void TwitterAPI::deleteUpdate( const QString &login, const QString &password, in
   connections[ login ]->connection.data()->post( request, QByteArray() );
 }
 
-void TwitterAPI::friendsTimeline( const QString &login, const QString &password )
+void TwitterAPI::friendsTimeline( const QString &login, const QString &password, int msgCount)
 {
-  QNetworkRequest request( QUrl( "http://twitter.com/statuses/friends_timeline.xml" ) );
+  QString tweetCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount));
+  QNetworkRequest request( QUrl( "http://twitter.com/statuses/friends_timeline.xml?count="+tweetCount));
   request.setAttribute( TwitterAPI::ATTR_ROLE, TwitterAPI::ROLE_FRIENDS_TIMELINE );
   request.setAttribute( TwitterAPI::ATTR_LOGIN, login );
   request.setAttribute( TwitterAPI::ATTR_PASSWORD, password );

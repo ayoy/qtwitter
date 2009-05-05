@@ -29,7 +29,7 @@
    <item>
     <widget class="QTabWidget" name="tabs">
      <property name="currentIndex">
-      <number>0</number>
+      <number>3</number>
      </property>
      <property name="usesScrollButtons">
       <bool>false</bool>
@@ -424,7 +424,7 @@
           <number>1</number>
          </property>
          <property name="maximum">
-          <number>100</number>
+          <number>200</number>
          </property>
         </widget>
        </item>

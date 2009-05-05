@@ -176,7 +176,7 @@ void Core::forceGet()
 
 void Core::get( const QString &login, const QString &password )
 {
-  twitterapi->friendsTimeline( login, password );
+  twitterapi->friendsTimeline( login, password, settings.value("Appearance/tweet count").toInt() );
   emit newRequest();
   if ( accountsModel->account( login )->directMessages ) {
     twitterapi->directMessages( login, password );
@@ -188,7 +188,7 @@ void Core::get()
 {
   foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
     if ( account.isEnabled ) {
-      twitterapi->friendsTimeline( account.login, account.password );
+      twitterapi->friendsTimeline( account.login, account.password, settings.value("Appearance/tweet count").toInt());
       emit newRequest();
       if ( account.directMessages ) {
         twitterapi->directMessages( account.login, account.password );

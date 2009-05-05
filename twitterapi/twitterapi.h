@@ -72,7 +72,7 @@ public:
 
   void postUpdate( const QString &login, const QString &password, const QString &data, int inReplyTo = -1 );
   void deleteUpdate( const QString &login, const QString &password, int id );
-  void friendsTimeline( const QString &login, const QString &password );
+  void friendsTimeline( const QString &login, const QString &password, int msgCount);
   void directMessages( const QString &login, const QString &password );
   void postDM( const QString &login, const QString &password, const QString &user, const QString &data );
   void deleteDM( const QString &login, const QString &password, int id );
