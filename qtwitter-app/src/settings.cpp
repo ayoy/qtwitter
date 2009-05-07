@@ -34,6 +34,7 @@
 #include "twitteraccountsmodel.h"
 #include "twitteraccountsdelegate.h"
 #include "urlshortener.h"
+#include "qticonloader.h"
 
 const QString ConfigFile::APP_VERSION = "0.6.0";
 
@@ -195,6 +196,11 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
 
   for (int i = 0; i < themes.keys().size(); ++i ) {
     ui.colorBox->addItem( themes.keys()[i] );
+
+    //> freedesktop experiment begin
+    ui.addAccountButton->setIcon(QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")));
+    ui.deleteAccountButton->setIcon(QtIconLoader::icon("list-remove", QIcon(":/icons/cancel_48.png")));
+    //< freedesktop experiment end
   }
 
 #ifdef Q_WS_X11
