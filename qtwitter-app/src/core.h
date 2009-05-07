@@ -117,7 +117,7 @@ private:
   void sendNewsInfo();
   void setupTweetModels();
   void createConnectionsWithModel( TweetModel *model );
-  void setUrlShortener();
+//  void setUrlShortener();
   bool retryAuthorizing( TwitterAccount *account, int role );
   bool authDialogOpen;
   bool publicTimeline;

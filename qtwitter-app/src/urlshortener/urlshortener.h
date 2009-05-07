@@ -25,17 +25,14 @@
 
 class QNetworkReply;
 class QNetworkAccessManager;
+class UrlShortenerImplementation;
 
 class UrlShortener : public QObject
 {
   Q_OBJECT
 
 public:
-  UrlShortener( QObject *parent = 0 );
-  virtual ~UrlShortener();
-  virtual void shorten( const QString &url ) = 0;
-
-  enum Shorteners {
+  enum Shortener {
     SHORTENER_ISGD,
     SHORTENER_TRIM,
     SHORTENER_METAMARK,
@@ -44,82 +41,16 @@ public:
     SHORTENER_UNU
   };
 
-protected:
-    QNetworkAccessManager *connection;
-    int replyStatus( QNetworkReply *reply ) const;
+  UrlShortener( QObject *parent = 0 );
+  void shorten( const QString &url, Shortener shorteningService = SHORTENER_ISGD );
 
 signals:
-    void shortened( const QString &url );
-    void errorMessage( const QString &message );
+  void shortened( const QString &url );
+  void errorMessage( const QString &message );
 
-protected slots:
-    virtual void replyFinished( QNetworkReply* ) = 0;
+private:
+  UrlShortenerImplementation *shortenerInstance;
 };
 
-class IsgdShortener : public UrlShortener
-{
-  Q_OBJECT
-
-  public:
-    IsgdShortener( QObject *parent = 0);
-    void shorten( const QString &url );
-  protected slots:
-    virtual void replyFinished( QNetworkReply* );
-};
-
-class TrimShortener : public UrlShortener
-{
-  Q_OBJECT
-
-  public:
-    TrimShortener( QObject *parent = 0);
-    void shorten( const QString &url );
-  protected slots:
-    virtual void replyFinished( QNetworkReply* );
-};
-
-class MetamarkShortener : public UrlShortener
-{
-  Q_OBJECT
-
-  public:
-    MetamarkShortener( QObject *parent = 0);
-    void shorten( const QString &url );
-  protected slots:
-    virtual void replyFinished( QNetworkReply* );
-};
-
-class TinyurlShortener : public UrlShortener
-{
-  Q_OBJECT
-
-  public:
-    TinyurlShortener( QObject *parent = 0);
-    void shorten( const QString &url );
-  protected slots:
-    virtual void replyFinished( QNetworkReply* );
-};
-
-class TinyarrowsShortener : public UrlShortener
-{
-  Q_OBJECT
-
-  public:
-    TinyarrowsShortener( QObject *parent = 0);
-    void shorten( const QString &url );
-  protected slots:
-    virtual void replyFinished( QNetworkReply* );
-};
-
-class UnuShortener : public UrlShortener
-{
-  Q_OBJECT
-
-  public:
-    UnuShortener( QObject *parent = 0);
-    void shorten( const QString &url );
-  protected slots:
-    virtual void replyFinished( QNetworkReply* );
-};
 
 #endif // URLSHORTENER_H

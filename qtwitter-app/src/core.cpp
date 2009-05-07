@@ -42,7 +42,6 @@ Core::Core( MainWindow *parent ) :
     requestCount( 0 ),
     tempModelCount( 0 ),
     twitpicUpload( 0 ),
-    urlShortener( 0 ),
     timer( 0 ),
     parentMainWindow( parent )
 {
@@ -64,6 +63,10 @@ Core::Core( MainWindow *parent ) :
   margin = parent->getScrollBarWidth();
 
   accountsModel = new TwitterAccountsModel( this );
+
+  urlShortener = new UrlShortener( this );
+  connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
+  connect( urlShortener, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
 }
 
 Core::~Core()
@@ -77,7 +80,7 @@ Core::~Core()
 
 void Core::applySettings()
 {
-  setUrlShortener();
+//  setUrlShortener();
   publicTimeline = settings.value(  "TwitterAccounts/publicTimeline", false ).toBool();
   setupTweetModels();
   twitterapi->resetConnections();
@@ -97,32 +100,33 @@ void Core::applySettings()
   get();
 }
 
-void Core::setUrlShortener()
-{
-  if( urlShortener )
-    delete urlShortener;
-
-  switch( settings.value( "General/url-shortener" ).toInt() ) {
-    case UrlShortener::SHORTENER_ISGD:
-      urlShortener = new IsgdShortener( this );
-      break;
-    case UrlShortener::SHORTENER_TRIM:
-      urlShortener = new TrimShortener( this );
-      break;
-    case UrlShortener::SHORTENER_METAMARK:
-      urlShortener = new MetamarkShortener( this );
-      break;
-    case UrlShortener::SHORTENER_TINYURL:
-      urlShortener = new TinyurlShortener( this );
-      break;
-     case UrlShortener::SHORTENER_TINYARROWS:
-      urlShortener = new TinyarrowsShortener( this );
-      break;
-     case UrlShortener::SHORTENER_UNU:
-      urlShortener = new UnuShortener( this );
-  }
-  connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
-}
+//void Core::setUrlShortener()
+//{
+//  if( urlShortener )
+//    delete urlShortener;
+//
+//  switch( settings.value( "General/url-shortener" ).toInt() ) {
+//    case UrlShortener::SHORTENER_ISGD:
+//      urlShortener = new IsgdShortener( this );
+//      break;
+//    case UrlShortener::SHORTENER_TRIM:
+//      urlShortener = new TrimShortener( this );
+//      break;
+//    case UrlShortener::SHORTENER_METAMARK:
+//      urlShortener = new MetamarkShortener( this );
+//      break;
+//    case UrlShortener::SHORTENER_TINYURL:
+//      urlShortener = new TinyurlShortener( this );
+//      break;
+//     case UrlShortener::SHORTENER_TINYARROWS:
+//      urlShortener = new TinyarrowsShortener( this );
+//      break;
+//     case UrlShortener::SHORTENER_UNU:
+//      urlShortener = new UnuShortener( this );
+//  }
+//  connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
+//  connect( urlShortener, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
+//}
 
 bool Core::setTimerInterval( int msecs )
 {
@@ -505,7 +509,7 @@ void Core::sendNewsInfo()
 
 void Core::shortenUrl( const QString &url )
 {
-  urlShortener->shorten(url);
+  urlShortener->shorten(url, (UrlShortener::Shortener) settings.value( "General/url-shortener" ).toInt() );
 }
 
 /*! \class Core
