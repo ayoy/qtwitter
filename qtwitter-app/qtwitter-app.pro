@@ -5,6 +5,7 @@ TARGET = qtwitter
 include(../qtwitter.pri)
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
+include($${TOP}/qticonloader/qticonloader.pri)
 macx { 
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
@@ -73,8 +74,7 @@ SOURCES += src/main.cpp \
     src/qtwitter.cpp \
     src/twitteraccountsmodel.cpp \
     src/urlshortener.cpp \
-    src/aboutdialog.cpp \
-    src/qticonloader.cpp
+    src/aboutdialog.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/imagedownload.h \
@@ -92,8 +92,7 @@ HEADERS += src/mainwindow.h \
     src/qtwitter.h \
     src/twitteraccountsmodel.h \
     src/urlshortener.h \
-    src/aboutdialog.h \
-    src/qticonloader.h
+    src/aboutdialog.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
