@@ -27,13 +27,13 @@
 #include <QDesktopServices>
 #include <QProcess>
 #include <QSettings>
+#include <urlshortener/urlshortener.h>
 #include "settings.h"
 #include "core.h"
 #include "mainwindow.h"
 #include "twitpicview.h"
 #include "twitteraccountsmodel.h"
 #include "twitteraccountsdelegate.h"
-#include "urlshortener.h"
 #include "qticonloader.h"
 
 const QString ConfigFile::APP_VERSION = "0.6.0";
