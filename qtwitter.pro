@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
-SUBDIRS = twitterapi qtwitter-app
+SUBDIRS = twitterapi urlshortener qtwitter-app
 CONFIG += ordered

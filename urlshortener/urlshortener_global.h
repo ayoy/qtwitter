@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Dominik Kapusta            <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This library is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -18,15 +19,15 @@
  ***************************************************************************/
 
 
-#ifndef TWITTERAPI_GLOBAL_H
-#define TWITTERAPI_GLOBAL_H
+#ifndef URLSHORTENER_GLOBAL_H
+#define URLSHORTENER_GLOBAL_H
 
 #include <QtCore/qglobal.h>
 
-#if defined(TWITTERAPI)
-#  define TWITTERAPI_EXPORT Q_DECL_EXPORT
+#if defined(URLSHORTENER)
+#  define URLSHORTENER_EXPORT Q_DECL_EXPORT
 #else
-#  define TWITTERAPI_EXPORT Q_DECL_IMPORT
+#  define URLSHORTENER_EXPORT Q_DECL_IMPORT
 #endif
 
-#endif // TWITTERAPI_GLOBAL_H
+#endif // URLSHORTENER_GLOBAL_H

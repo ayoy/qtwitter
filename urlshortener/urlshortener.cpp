@@ -1,4 +1,5 @@
 /***************************************************************************
+ *   Copyright (C) 2009 by Dominik Kapusta            <d@ayoy.net>         *
  *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *

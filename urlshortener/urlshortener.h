@@ -1,4 +1,5 @@
 /***************************************************************************
+ *   Copyright (C) 2009 by Dominik Kapusta            <d@ayoy.net>         *
  *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,12 +23,13 @@
 #define URLSHORTENER_H
 
 #include <QObject>
+#include "urlshortener_global.h"
 
 class QNetworkReply;
 class QNetworkAccessManager;
 class UrlShortenerImplementation;
 
-class UrlShortener : public QObject
+class URLSHORTENER_EXPORT UrlShortener : public QObject
 {
   Q_OBJECT
 

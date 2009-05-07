@@ -24,13 +24,13 @@
 #include <QProcess>
 #include <QMessageBox>
 #include <twitterapi/twitterapi.h>
+#include <urlshortener/urlshortener.h>
 #include "core.h"
 #include "settings.h"
 #include "twitpicengine.h"
 #include "tweetmodel.h"
 #include "tweet.h"
 #include "twitteraccountsmodel.h"
-#include "urlshortener.h"
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
 
