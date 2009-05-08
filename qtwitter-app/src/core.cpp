@@ -91,9 +91,9 @@ void Core::applySettings()
   int mtc = settings.value( "Appearance/tweet count", 25 ).toInt();
   foreach ( TweetModel *model, tweetModels.values() )
     model->setMaxTweetCount( mtc );
-  foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
-    if ( tweetModels.contains( account.login ) )
-      tweetModels[ account.login ]->slotDirectMessagesChanged( account.directMessages );
+  foreach ( TwitterAccount* account, accountsModel->getAccounts() ) {
+    if ( tweetModels.contains( account->login ) )
+      tweetModels[ account->login ]->slotDirectMessagesChanged( account->directMessages );
   }
 
   setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
@@ -191,12 +191,12 @@ void Core::get( const QString &login, const QString &password )
 
 void Core::get()
 {
-  foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
-    if ( account.isEnabled ) {
-      twitterapi->friendsTimeline( account.login, account.password, settings.value("Appearance/tweet count", 20).toInt());
+  foreach ( TwitterAccount* account, accountsModel->getAccounts() ) {
+    if ( account->isEnabled ) {
+      twitterapi->friendsTimeline( account->login, account->password, settings.value("Appearance/tweet count", 20).toInt());
       emit newRequest();
-      if ( account.directMessages ) {
-        twitterapi->directMessages( account.login, account.password, settings.value("Appearance/tweet count", 20).toInt());
+      if ( account->directMessages ) {
+        twitterapi->directMessages( account->login, account->password, settings.value("Appearance/tweet count", 20).toInt());
         emit newRequest();
       }
     }
@@ -300,7 +300,7 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
   ui.passwordEdit->setText( account->password );
   dlg->adjustSize();
   authDialogOpen = true;
-  int row = accountsModel->indexOf( *account );
+  int row = accountsModel->indexOf( account );
   if ( dlg->exec() == QDialog::Accepted ) {
     if ( ui.disableBox->isChecked() ) {
       authDialogOpen = false;
@@ -325,8 +325,8 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
       emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
     }
     account->password = ui.passwordEdit->text();
-    settings.setValue( QString("TwitterAccounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login );
-    settings.setValue( QString("TwitterAccounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password ) );
+    settings.setValue( QString("TwitterAccounts/%1/login").arg( accountsModel->indexOf( account ) ), account->login );
+    settings.setValue( QString("TwitterAccounts/%1/password").arg( accountsModel->indexOf( account ) ), ConfigFile::pwHash( account->password ) );
     authDialogOpen = false;
     emit requestStarted();
     delete dlg;
@@ -402,15 +402,15 @@ void Core::slotUnauthorized( const QString &login, const QString &password, int 
 
 void Core::setupTweetModels()
 {
-  foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
-    if ( account.isEnabled && !tweetModels.contains( account.login ) ) {
-      TweetModel *model = new TweetModel( account.login, margin, listViewForModels, this );
+  foreach ( TwitterAccount* account, accountsModel->getAccounts() ) {
+    if ( account->isEnabled && !tweetModels.contains( account->login ) ) {
+      TweetModel *model = new TweetModel( account->login, margin, listViewForModels, this );
       createConnectionsWithModel( model );
-      tweetModels.insert( account.login, model );
+      tweetModels.insert( account->login, model );
     }
-    if ( !account.isEnabled && tweetModels.contains( account.login ) ) {
-      tweetModels[ account.login ]->deleteLater();
-      tweetModels.remove( account.login );
+    if ( !account->isEnabled && tweetModels.contains( account->login ) ) {
+      tweetModels[ account->login ]->deleteLater();
+      tweetModels.remove( account->login );
     }
   }
   if ( publicTimeline && !tweetModels.contains( TwitterAPI::PUBLIC_TIMELINE ) ) {

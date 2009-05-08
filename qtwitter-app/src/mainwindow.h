@@ -44,7 +44,7 @@ public:
 
   
 public slots:
-  void setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool isPublicTimelineRequested );
+  void setupTwitterAccounts( const QList<TwitterAccount*> &accounts, bool isPublicTimelineRequested );
   void changeListBackgroundColor( const QColor &newColor );
   void popupMessage( QString message );
   void popupError( const QString &message );

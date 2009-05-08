@@ -124,13 +124,8 @@ signals:
   void accountsChanged( const QList<TwitterAccount> &accounts, bool publicTimeline );
 
 private slots:
-  void fillAccountEditor( const QModelIndex &current, const QModelIndex &previous );
   void addTwitterAccount();
   void deleteTwitterAccount();
-  void setTwitterAccountEnabled( bool state );
-  void setTwitterAccountLogin( const QString &login );
-  void setTwitterAccountPassword( const QString &password );
-  void setTwitterAccountDM( bool state );
   void setPublicTimelineEnabled( bool state );
   void changeTheme( const QString& );
   void retranslateUi();

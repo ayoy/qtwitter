@@ -20,12 +20,48 @@
 
 #include <QObject>
 #include <QCheckBox>
-#include <QDebug>
+#include "accountdialog.h"
 #include "twitteraccountsdelegate.h"
+#include "twitteraccountsmodel.h"
 
 TwitterAccountsDelegate::TwitterAccountsDelegate( QList<int> checkBoxColumns, QObject *parent ) : QItemDelegate( parent )
 {
   this->checkBoxColumns = checkBoxColumns;
+}
+
+QWidget *TwitterAccountsDelegate::createEditor(QWidget *parent,
+                                        const QStyleOptionViewItem &/* option */,
+                                        const QModelIndex & index ) const
+{
+  TwitterAccount* account = static_cast<TwitterAccount*>(index.internalPointer());
+  AccountDialog *editor = new AccountDialog((account), parent);
+  return editor;
+}
+
+void TwitterAccountsDelegate::setEditorData(QWidget *editor,
+                                     const QModelIndex &index) const
+{
+  AccountDialog* accountEditor = static_cast<AccountDialog*>(editor);
+  TwitterAccount* account = static_cast<TwitterAccount*>(index.internalPointer());
+  accountEditor->setAccount(account);
+}
+
+void TwitterAccountsDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
+                                    const QModelIndex &index) const
+{
+  Q_UNUSED(model)
+  AccountDialog* accountEditor = static_cast<AccountDialog*>(editor);
+  TwitterAccount* account = static_cast<TwitterAccount*>(index.internalPointer());
+  account = accountEditor->account();
+}
+
+void TwitterAccountsDelegate::updateEditorGeometry(QWidget *editor,
+      const QStyleOptionViewItem &option, const QModelIndex & index) const
+{
+  if ( checkBoxColumns.contains( index.column() ) )
+    editor->setGeometry(QRect( option.rect.x()+15, option.rect.y()+3 , option.rect.height()-5, option.rect.height()-5 ));
+  else
+    editor->setGeometry(option.rect);
 }
 
 void TwitterAccountsDelegate::paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const

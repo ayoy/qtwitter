@@ -47,6 +47,7 @@ class TwitterAccountsModel : public QAbstractItemModel
 
 public:
   TwitterAccountsModel( QObject *parent = 0 );
+  ~TwitterAccountsModel();
 
   int rowCount( const QModelIndex &parent = QModelIndex() ) const;
   int columnCount( const QModelIndex &parent = QModelIndex() ) const;
@@ -54,21 +55,25 @@ public:
   QModelIndex index( int row, int column, const QModelIndex &parent = QModelIndex() ) const;
   QModelIndex parent( const QModelIndex &index ) const;
 
+  Qt::ItemFlags flags(const QModelIndex &index) const;
+
   QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
+  bool setData( const QModelIndex &index, const QVariant & value, int role );
   QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
+  bool insertAccount( int row, TwitterAccount* account);
   bool insertRows( int row, int count, const QModelIndex &parent = QModelIndex() );
   bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
   void clear();
 
-  QList<TwitterAccount>& getAccounts();
-  TwitterAccount& account( int index );
+  QList<TwitterAccount*>& getAccounts();
+  TwitterAccount* account( int index );
   TwitterAccount* account( const QString &login );
-  int indexOf( const TwitterAccount &account );
+  int indexOf( TwitterAccount* account );
 
 private:
-  TwitterAccount emptyAccount();
-  QList<TwitterAccount> accounts;
+  TwitterAccount* emptyAccount();
+  QList<TwitterAccount*> accounts;
 };
 
 #endif // TWITTERACCOUNTSMODEL_H

@@ -197,19 +197,19 @@ int MainWindow::getScrollBarWidth()
   return ui.statusListView->verticalScrollBar()->size().width();
 }
 
-void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool publicTimeline )
+void MainWindow::setupTwitterAccounts( const QList<TwitterAccount*> &accounts, bool publicTimeline )
 {
   ui.accountsComboBox->clear();
 
-  foreach ( TwitterAccount account, accounts ) {
-    if ( account.isEnabled )
-      ui.accountsComboBox->addItem( account.login );
+  foreach ( TwitterAccount* account, accounts ) {
+    if ( account->isEnabled )
+      ui.accountsComboBox->addItem( account->login );
   }
 
   if ( ( !publicTimeline && accounts.size() < 2 ) || accounts.isEmpty() ) {
     ui.accountsComboBox->setVisible( false );
     if ( !accounts.isEmpty() )
-      emit switchModel( accounts.at(0).login );
+      emit switchModel( accounts.at(0)->login );
     else
       emit switchToPublicTimelineModel();
     ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );

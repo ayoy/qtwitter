@@ -36,7 +36,7 @@ public:
   virtual ~TwitPicView();
 
 public slots:
-  void setupTwitterAccounts( const QList<TwitterAccount> &accounts );
+  void setupTwitterAccounts( const QList<TwitterAccount*> &accounts );
   void showUploadProgress( int done, int total );
   void resetForm();
   void reject();

@@ -23,6 +23,14 @@
 
 TwitterAccountsModel::TwitterAccountsModel( QObject *parent ) : QAbstractItemModel( parent ) {}
 
+TwitterAccountsModel::~TwitterAccountsModel()
+{
+  foreach(TwitterAccount* account, accounts)
+    delete account;
+
+  accounts.clear();
+}
+
 int TwitterAccountsModel::rowCount( const QModelIndex &parent ) const
 {
   Q_UNUSED(parent);
@@ -39,13 +47,21 @@ int TwitterAccountsModel::columnCount(const QModelIndex &parent ) const
 
 QModelIndex TwitterAccountsModel::index( int row, int column, const QModelIndex &parent ) const
 {
-  return hasIndex(row, column, parent) ? createIndex(row, column ) : QModelIndex();
+  return hasIndex(row, column, parent) ? createIndex(row, column, accounts[row] ) : QModelIndex();
 }
 
 QModelIndex TwitterAccountsModel::parent( const QModelIndex &index ) const
 {
   Q_UNUSED(index);
   return QModelIndex();
+}
+
+Qt::ItemFlags TwitterAccountsModel::flags(const QModelIndex &index) const
+{
+  if (!index.isValid())
+    return 0;
+
+  return Qt::ItemIsEnabled | Qt::ItemIsSelectable | Qt::ItemIsEditable;
 }
 
 QVariant TwitterAccountsModel::data( const QModelIndex &index, int role ) const
@@ -55,16 +71,38 @@ QVariant TwitterAccountsModel::data( const QModelIndex &index, int role ) const
 
   switch ( index.column() ) {
   case 0:
-    return accounts.at( index.row() ).isEnabled;
+    return accounts.at( index.row() )->isEnabled;
   case 1:
-    return accounts.at( index.row() ).login;
+    return accounts.at( index.row() )->login;
   case 2:
-    return accounts.at( index.row() ).password;
+    return accounts.at( index.row() )->password;
   case 3:
-    return accounts.at( index.row() ).directMessages;
+    return accounts.at( index.row() )->directMessages;
   default:
     return QVariant();
   }
+}
+
+bool TwitterAccountsModel::setData( const QModelIndex &index, const QVariant & value, int role )
+{
+  if ( !index.isValid() || role != Qt::EditRole )
+    return false;
+
+  switch ( index.column() ) {
+    case 0:
+      accounts.at(index.row())->isEnabled = value.toBool();
+    case 1:
+      accounts.at(index.row())->login = value.toString();
+    case 2:
+      accounts.at(index.row())->password = value.toString();
+    case 3:
+      accounts.at(index.row())->directMessages = value.toBool();
+    default:
+      return false;
+  }
+
+  emit dataChanged(index, index);
+  return true;
 }
 
 QVariant TwitterAccountsModel::headerData( int section, Qt::Orientation orientation, int role ) const
@@ -83,6 +121,18 @@ QVariant TwitterAccountsModel::headerData( int section, Qt::Orientation orientat
   default:
     return QVariant();
   }
+}
+
+
+bool TwitterAccountsModel::insertAccount( int row, TwitterAccount* account)
+{
+  if ( row > accounts.size() )
+    row = accounts.size();
+
+  beginInsertRows( QModelIndex(), row, row);
+  accounts.insert( row, account );
+  endInsertRows();
+  return true;
 }
 
 bool TwitterAccountsModel::insertRows( int row, int count, const QModelIndex &parent )
@@ -124,37 +174,37 @@ void TwitterAccountsModel::clear()
     removeRows( 0, accounts.size() );
 }
 
-QList<TwitterAccount>& TwitterAccountsModel::getAccounts()
+QList<TwitterAccount*>& TwitterAccountsModel::getAccounts()
 {
   return accounts;
 }
 
-TwitterAccount& TwitterAccountsModel::account( int index )
+TwitterAccount* TwitterAccountsModel::account( int index )
 {
-  return accounts[ index ];
+  return accounts.at(index);
 }
 
 TwitterAccount* TwitterAccountsModel::account( const QString &login )
 {
   for ( int i = 0; i < accounts.size(); i++ ) {
-    if ( login == accounts[i].login )
-      return &accounts[i];
+    if ( login == accounts[i]->login )
+      return accounts[i];
   }
   return 0;
 }
 
-int TwitterAccountsModel::indexOf( const TwitterAccount &account )
+int TwitterAccountsModel::indexOf( TwitterAccount* account )
 {
   return accounts.indexOf( account );
 }
 
-TwitterAccount TwitterAccountsModel::emptyAccount()
+TwitterAccount* TwitterAccountsModel::emptyAccount()
 {
-  TwitterAccount empty;
-  empty.isEnabled = true;
+  TwitterAccount* empty = new TwitterAccount;
+  empty->isEnabled = true;
   //: This is for newly created account - when the login isn't given yet
-  empty.login = tr( "<empty>" );
-  empty.password = "";
-  empty.directMessages = false;
+  empty->login = tr( "<empty>" );
+  empty->password = "";
+  empty->directMessages = false;
   return empty;
 }

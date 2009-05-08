@@ -54,12 +54,12 @@ TwitPicView::~TwitPicView()
   }
 }
 
-void TwitPicView::setupTwitterAccounts( const QList<TwitterAccount> &accounts )
+void TwitPicView::setupTwitterAccounts( const QList<TwitterAccount*> &accounts )
 {
   m_ui->accountsComboBox->clear();
-  foreach ( TwitterAccount account, accounts ) {
-    if ( account.isEnabled )
-      m_ui->accountsComboBox->addItem( account.login );
+  foreach ( TwitterAccount* account, accounts ) {
+    if ( account->isEnabled )
+      m_ui->accountsComboBox->addItem( account->login );
   }
   int index = settings.value( "TwitterAccounts/currentModel", 0 ).toInt();
   if ( index >= m_ui->accountsComboBox->count() )

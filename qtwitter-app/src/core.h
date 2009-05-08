@@ -83,7 +83,7 @@ public slots:
   void retranslateUi();
 
 signals:
-  void twitterAccountsChanged( const QList<TwitterAccount> &accounts, bool isPublicTimelineRequested );
+  void twitterAccountsChanged( const QList<TwitterAccount*> &accounts, bool isPublicTimelineRequested );
   void errorMessage( const QString &message );
   void twitPicResponseReceived();
   void twitPicDataSendProgress(int,int);
