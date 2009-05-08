@@ -22,8 +22,9 @@
 #define TWITPICENGINE_H
 
 #include <QHttp>
-#include "core.h"
 
+class QBuffer;
+class Core;
 class TwitPicXmlParser;
 
 class TwitPicEngine : public QHttp

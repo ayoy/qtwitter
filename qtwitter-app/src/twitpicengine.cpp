@@ -18,6 +18,9 @@
  ***************************************************************************/
 
 
+#include <QDebug>
+#include <QBuffer>
+#include "core.h"
 #include "twitpicengine.h"
 #include "twitpicxmlparser.h"
 

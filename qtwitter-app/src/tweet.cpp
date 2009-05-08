@@ -20,7 +20,10 @@
 
 #include <QDebug>
 #include <QClipboard>
-#include <QProcess>
+//#include <QProcess>
+#include <QMenu>
+#include <QSignalMapper>
+#include <twitterapi/twitterapi.h>
 #include "tweet.h"
 #include "ui_tweet.h"
 #include "settings.h"

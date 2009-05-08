@@ -19,6 +19,11 @@
  ***************************************************************************/
 
 
+#include <QNetworkProxy>
+#include <QTranslator>
+#include <QFile>
+#include <QDir>
+#include <QAuthenticator>
 #include <QPushButton>
 #include <QCheckBox>
 #include <QPoint>
@@ -162,9 +167,7 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
     mainWindow( mainwinSettings ),
     core( coreSettings ),
     twitPicView( twitpicviewSettings )
-{  
-  qApp->installTranslator( &translator );
-
+{
   ui.setupUi( this );
   ui.languageCombo->setItemData( 0, "en" );
   accountsModel = qobject_cast<TwitterAccountsModel*>( core->getTwitterAccountsModel() );
@@ -307,6 +310,7 @@ void Settings::loadConfig( bool dialogRejected )
 
 void Settings::setProxy()
 {
+  QNetworkProxy proxy;
   if ( ui.proxyBox->isChecked() ) {
     proxy.setType( QNetworkProxy::HttpProxy );
     proxy.setHostName( ui.hostEdit->text() );
@@ -385,7 +389,9 @@ void Settings::switchLanguage( int index )
   QString locale = ui.languageCombo->itemData( index ).toString();
   QString qmPath( ":/translations" );
   qDebug() << "switching language to" << locale << "from" << qmPath;
+  QTranslator translator;
   translator.load( "qtwitter_" + locale, qmPath );
+  qApp->installTranslator( &translator );
   retranslateUi();
 //  ui.retranslateUi(this);
   mainWindow->retranslateUi();
