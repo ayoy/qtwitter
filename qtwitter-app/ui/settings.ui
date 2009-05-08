@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>362</width>
-    <height>475</height>
+    <width>365</width>
+    <height>260</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -153,19 +153,6 @@
          </property>
         </widget>
        </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="twitterTab">
@@ -176,27 +163,12 @@
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QTreeView" name="usersView">
-           <property name="horizontalScrollBarPolicy">
-            <enum>Qt::ScrollBarAsNeeded</enum>
-           </property>
+          <widget class="QTableView" name="usersView">
            <property name="selectionMode">
             <enum>QAbstractItemView::SingleSelection</enum>
            </property>
            <property name="selectionBehavior">
             <enum>QAbstractItemView::SelectRows</enum>
-           </property>
-           <property name="indentation">
-            <number>0</number>
-           </property>
-           <property name="itemsExpandable">
-            <bool>false</bool>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-           <property name="expandsOnDoubleClick">
-            <bool>false</bool>
            </property>
           </widget>
          </item>
@@ -205,7 +177,7 @@
            <item>
             <widget class="QToolButton" name="addAccountButton">
              <property name="icon">
-              <iconset>
+              <iconset resource="../res/resources.qrc">
                <normaloff>:/icons/add_48.png</normaloff>:/icons/add_48.png</iconset>
              </property>
             </widget>
@@ -213,7 +185,7 @@
            <item>
             <widget class="QToolButton" name="deleteAccountButton">
              <property name="icon">
-              <iconset>
+              <iconset resource="../res/resources.qrc">
                <normaloff>:/icons/cancel_48.png</normaloff>:/icons/cancel_48.png</iconset>
              </property>
             </widget>
@@ -234,79 +206,6 @@
           </layout>
          </item>
         </layout>
-       </item>
-       <item>
-        <widget class="QGroupBox" name="accountGroupBox">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="title">
-          <string>Account</string>
-         </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <widget class="QCheckBox" name="accountEnabledCheckBox">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>Enabled</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QGridLayout" name="gridLayout_4">
-            <item row="0" column="0">
-             <widget class="QLabel" name="accountLoginLabel">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Username</string>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <widget class="QLineEdit" name="accountLoginEdit">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="accountPasswordLabel">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>Password</string>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <widget class="QLineEdit" name="accountPasswordEdit">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="echoMode">
-               <enum>QLineEdit::Password</enum>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="accountDMCheckBox">
-            <property name="enabled">
-             <bool>false</bool>
-            </property>
-            <property name="text">
-             <string>download direct messages</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
-        </widget>
        </item>
        <item>
         <widget class="QCheckBox" name="publicTimelineCheckBox">
@@ -330,8 +229,8 @@
         </widget>
        </item>
        <item>
-        <layout class="QGridLayout" name="gridLayout">
-         <item row="0" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout">
+         <item>
           <widget class="QLabel" name="hostLabel">
            <property name="text">
             <string>Host:</string>
@@ -341,7 +240,7 @@
            </property>
           </widget>
          </item>
-         <item row="0" column="1">
+         <item>
           <widget class="QLineEdit" name="hostEdit">
            <property name="enabled">
             <bool>false</bool>
@@ -351,7 +250,11 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
+        </layout>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_2">
+         <item>
           <widget class="QLabel" name="portLabel">
            <property name="text">
             <string>Port:</string>
@@ -361,7 +264,7 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
+         <item>
           <widget class="QLineEdit" name="portEdit">
            <property name="enabled">
             <bool>false</bool>
@@ -379,68 +282,60 @@
          </item>
         </layout>
        </item>
-       <item>
-        <spacer name="verticalSpacer">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>100</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
       </layout>
      </widget>
      <widget class="QWidget" name="appearanceTab">
       <attribute name="title">
        <string>Appearance</string>
       </attribute>
-      <layout class="QFormLayout" name="formLayout_2">
-       <property name="fieldGrowthPolicy">
-        <enum>QFormLayout::FieldsStayAtSizeHint</enum>
-       </property>
-       <item row="0" column="0">
-        <widget class="QLabel" name="tweetCountLabel">
-         <property name="text">
-          <string>Tweet count:</string>
-         </property>
-        </widget>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
+         <item>
+          <widget class="QLabel" name="tweetCountLabel">
+           <property name="text">
+            <string>Tweet count:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QSpinBox" name="tweetCountBox">
+           <property name="maximumSize">
+            <size>
+             <width>63</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="accelerated">
+            <bool>true</bool>
+           </property>
+           <property name="minimum">
+            <number>1</number>
+           </property>
+           <property name="maximum">
+            <number>200</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
-       <item row="0" column="1">
-        <widget class="QSpinBox" name="tweetCountBox">
-         <property name="maximumSize">
-          <size>
-           <width>63</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="accelerated">
-          <bool>true</bool>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>200</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="colorLabel">
-         <property name="text">
-          <string>Color scheme:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QComboBox" name="colorBox">
-         <property name="currentIndex">
-          <number>-1</number>
-         </property>
-        </widget>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_5">
+         <item>
+          <widget class="QLabel" name="colorLabel">
+           <property name="text">
+            <string>Color scheme:</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QComboBox" name="colorBox">
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>
@@ -466,12 +361,8 @@
   <tabstop>refreshCombo</tabstop>
   <tabstop>languageCombo</tabstop>
   <tabstop>urlShortenerCombo</tabstop>
-  <tabstop>usersView</tabstop>
   <tabstop>addAccountButton</tabstop>
   <tabstop>deleteAccountButton</tabstop>
-  <tabstop>accountEnabledCheckBox</tabstop>
-  <tabstop>accountLoginEdit</tabstop>
-  <tabstop>accountPasswordEdit</tabstop>
   <tabstop>publicTimelineCheckBox</tabstop>
   <tabstop>proxyBox</tabstop>
   <tabstop>hostEdit</tabstop>
@@ -479,7 +370,9 @@
   <tabstop>tweetCountBox</tabstop>
   <tabstop>colorBox</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../res/resources.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>
