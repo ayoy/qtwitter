@@ -19,10 +19,10 @@
  ***************************************************************************/
 
 
-#include <QUrl>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
+#include <QUrl>
 #include <QDebug>
 #include <QRegExp>
 #include "urlshortener.h"

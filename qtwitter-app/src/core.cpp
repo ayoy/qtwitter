@@ -23,9 +23,13 @@
 #include <QDesktopServices>
 #include <QProcess>
 #include <QMessageBox>
+#include <QDebug>
 #include <twitterapi/twitterapi.h>
+#include <twitterapi/entry.h>
 #include <urlshortener/urlshortener.h>
 #include "core.h"
+#include "mainwindow.h"
+#include "imagedownload.h"
 #include "settings.h"
 #include "twitpicengine.h"
 #include "tweetmodel.h"
@@ -99,34 +103,6 @@ void Core::applySettings()
   setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
   get();
 }
-
-//void Core::setUrlShortener()
-//{
-//  if( urlShortener )
-//    delete urlShortener;
-//
-//  switch( settings.value( "General/url-shortener" ).toInt() ) {
-//    case UrlShortener::SHORTENER_ISGD:
-//      urlShortener = new IsgdShortener( this );
-//      break;
-//    case UrlShortener::SHORTENER_TRIM:
-//      urlShortener = new TrimShortener( this );
-//      break;
-//    case UrlShortener::SHORTENER_METAMARK:
-//      urlShortener = new MetamarkShortener( this );
-//      break;
-//    case UrlShortener::SHORTENER_TINYURL:
-//      urlShortener = new TinyurlShortener( this );
-//      break;
-//     case UrlShortener::SHORTENER_TINYARROWS:
-//      urlShortener = new TinyarrowsShortener( this );
-//      break;
-//     case UrlShortener::SHORTENER_UNU:
-//      urlShortener = new UnuShortener( this );
-//  }
-//  connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
-//  connect( urlShortener, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
-//}
 
 bool Core::setTimerInterval( int msecs )
 {

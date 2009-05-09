@@ -22,10 +22,10 @@
 #define QTWITTER_H
 
 #include "mainwindow.h"
-#include "settings.h"
 
 class Core;
 class TwitPicView;
+class Settings;
 
 class Qtwitter : public MainWindow
 {

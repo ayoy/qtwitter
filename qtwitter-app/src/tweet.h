@@ -22,12 +22,12 @@
 #define TWEET_H
 
 #include <QtGui/QWidget>
-#include <QMenu>
-#include <QSignalMapper>
-#include <QStandardItem>
-#include <twitterapi/twitterapi.h>
 #include "tweetmodel.h"
 
+class QMenu;
+class QSignalMapper;
+class TweetModel;
+class Entry;
 class ThemeData;
 
 namespace Ui {

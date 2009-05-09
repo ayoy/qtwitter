@@ -27,12 +27,15 @@
 #include <QTimer>
 #include <QMap>
 #include <QCache>
-#include "imagedownload.h"
-#include "mainwindow.h"
+#include <twitterapi/twitterapi.h>
 
+class QAbstractItemModel;
+class MainWindow;
+class ImageDownload;
 class TwitPicEngine;
 class TweetModel;
-class QAbstractItemModel;
+class ThemeData;
+class TwitterAccount;
 class TwitterAccountsModel;
 class StatusList;
 class TwitterAPI;
@@ -117,7 +120,6 @@ private:
   void sendNewsInfo();
   void setupTweetModels();
   void createConnectionsWithModel( TweetModel *model );
-//  void setUrlShortener();
   bool retryAuthorizing( TwitterAccount *account, int role );
   bool authDialogOpen;
   bool publicTimeline;

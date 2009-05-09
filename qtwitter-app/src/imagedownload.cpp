@@ -18,8 +18,6 @@
  ***************************************************************************/
 
 
-#include <QMap>
-#include <QPixmap>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include "imagedownload.h"

@@ -21,14 +21,13 @@
 #ifndef SETTINGS_H
 #define SETTINGS_H
 
-#include <QNetworkProxy>
-#include <QTranslator>
-#include <QFile>
-#include <QDir>
-#include <QAuthenticator>
+#include <QDialog>
 #include <QSettings>
 #include "ui_settings.h"
 
+class QFile;
+class QDir;
+class QAuthenticator;
 class QCheckBox;
 class QLineEdit;
 class QPushButton;
@@ -142,8 +141,6 @@ private:
   void applySettings();
   void createLanguageMenu();
   void createUrlShortenerMenu();
-  QTranslator translator;
-  QNetworkProxy proxy;
   MainWindow *mainWindow;
   Core *core;
   TwitterAccountsModel *accountsModel;

@@ -25,6 +25,7 @@
 #include <QMenu>
 #include <QKeyEvent>
 
+
 class TweetTextBrowser : public QTextBrowser
 {
   Q_OBJECT

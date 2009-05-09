@@ -26,9 +26,9 @@
 #include <QUrl>
 #include <QList>
 #include "ui_mainwindow.h"
-#include "tweetmodel.h"
 
 class QMovie;
+class TweetModel;
 class TwitterAccount;
 
 class MainWindow : public QWidget
