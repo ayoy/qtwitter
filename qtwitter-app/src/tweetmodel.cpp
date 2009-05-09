@@ -20,6 +20,7 @@
 
 #include <QUrl>
 #include <QPixmap>
+#include <QDebug>
 #include <twitterapi/twitterapi.h>
 #include "statuslist.h"
 #include "tweetmodel.h"

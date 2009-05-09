@@ -24,32 +24,18 @@
 
 #include <QObject>
 #include <QMap>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
-#include <QXmlSimpleReader>
-#include <QXmlInputSource>
 #include <QPointer>
-#include "xmlparser.h"
+#include "twitterapi_global.h"
+#include "entry.h"
 
 class QNetworkReply;
+class QAuthenticator;
+class QXmlSimpleReader;
+class QXmlInputSource;
+class XmlParser;
+struct Interface;
 
-struct Interface
-{
-  QPointer<QNetworkAccessManager> connection;
-  QPointer<XmlParser> statusParser;
-  QPointer<XmlParserDirectMsg> directMsgParser;
-  bool authorized;
-  bool friendsInProgress;
-  bool dmScheduled;
-  ~Interface() {
-    if ( connection )
-      connection.data()->deleteLater();
-    if ( statusParser )
-      statusParser.data()->deleteLater();
-    if ( directMsgParser )
-      directMsgParser.data()->deleteLater();
-  }
-};
 
 class TWITTERAPI_EXPORT TwitterAPI : public QObject
 {
@@ -101,8 +87,8 @@ private:
   QByteArray prepareRequest( const QString &data, int inReplyTo );
 
   QMap<QString,Interface*> connections;
-  QXmlSimpleReader xmlReader;
-  QXmlInputSource source;
+  QXmlSimpleReader *xmlReader;
+  QXmlInputSource *source;
 
   static const QNetworkRequest::Attribute ATTR_ROLE;
   static const QNetworkRequest::Attribute ATTR_LOGIN;

@@ -22,10 +22,30 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QEventLoop>
+#include <QXmlSimpleReader>
+#include <QXmlInputSource>
 #include <QAuthenticator>
+#include <QDebug>
 #include "twitterapi.h"
 #include "xmlparser.h"
+
+struct Interface
+{
+  QPointer<QNetworkAccessManager> connection;
+  QPointer<XmlParser> statusParser;
+  QPointer<XmlParserDirectMsg> directMsgParser;
+  bool authorized;
+  bool friendsInProgress;
+  bool dmScheduled;
+  ~Interface() {
+    if ( connection )
+      connection.data()->deleteLater();
+    if ( statusParser )
+      statusParser.data()->deleteLater();
+    if ( directMsgParser )
+      directMsgParser.data()->deleteLater();
+  }
+};
 
 const QString TwitterAPI::PUBLIC_TIMELINE = "public timeline";
 
@@ -39,10 +59,22 @@ const QNetworkRequest::Attribute TwitterAPI::ATTR_DELETION_REQUESTED = (QNetwork
 const QNetworkRequest::Attribute TwitterAPI::ATTR_DELETE_ID          = (QNetworkRequest::Attribute) (QNetworkRequest::User + 7);
 const QNetworkRequest::Attribute TwitterAPI::ATTR_MSGCOUNT           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 8);
 
-TwitterAPI::TwitterAPI( QObject *parent ) : QObject( parent ) {}
+TwitterAPI::TwitterAPI( QObject *parent ) : QObject( parent )
+{
+  xmlReader = new QXmlSimpleReader;
+  source = new QXmlInputSource;
+}
 
 TwitterAPI::~TwitterAPI()
 {
+  if ( xmlReader ) {
+    delete xmlReader;
+    xmlReader = 0;
+  }
+  if ( source ) {
+    delete source;
+    source = 0;
+  }
   QMap<QString,Interface*>::iterator i = connections.begin();
   while ( i != connections.end() ) {
     delete (*i);
@@ -198,9 +230,9 @@ void TwitterAPI::resetConnections() {
 
 void TwitterAPI::parseXml( const QByteArray &data, XmlParser *parser )
 {
-  source.setData( data );
-  xmlReader.setContentHandler( parser );
-  xmlReader.parse( source );
+  source->setData( data );
+  xmlReader->setContentHandler( parser );
+  xmlReader->parse( source );
 }
 
 void TwitterAPI::requestFinished( QNetworkReply *reply )

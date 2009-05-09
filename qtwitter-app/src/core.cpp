@@ -23,6 +23,7 @@
 #include <QDesktopServices>
 #include <QProcess>
 #include <QMessageBox>
+#include <QDebug>
 #include <twitterapi/twitterapi.h>
 #include <twitterapi/entry.h>
 #include <urlshortener/urlshortener.h>
