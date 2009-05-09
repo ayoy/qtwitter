@@ -36,7 +36,6 @@ class QXmlInputSource;
 class XmlParser;
 struct Interface;
 
-
 class TWITTERAPI_EXPORT TwitterAPI : public QObject
 {
   Q_OBJECT
