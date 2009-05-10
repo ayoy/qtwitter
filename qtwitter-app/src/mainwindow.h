@@ -46,7 +46,6 @@ public:
 public slots:
   void setupTwitterAccounts( const QList<TwitterAccount*> &accounts, bool isPublicTimelineRequested );
   void changeListBackgroundColor( const QColor &newColor );
-  void popupMessage( QString message );
   void popupError( const QString &message );
   void retranslateUi();
   void resetStatusEdit();
@@ -78,7 +77,6 @@ signals:
   void shortenUrl( const QString &url );
 
 protected:
-  void closeEvent( QCloseEvent *e );
   void resizeEvent( QResizeEvent* );
   Ui::MainWindow ui;
 
@@ -95,7 +93,6 @@ private slots:
 private:
   void createConnections();
   void createMenu();
-  void createTrayIcon();
   bool resetUiWhenFinished;
   QMenu *trayMenu;
   QMenu *buttonMenu;
@@ -106,7 +103,6 @@ private:
   QAction *aboutAction;
   QAction *quitAction;
   QMovie *progressIcon;
-  QSystemTrayIcon *trayIcon;
 };
 
 #endif //MAINWINDOW_H

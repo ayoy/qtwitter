@@ -26,6 +26,7 @@
 
 class Core;
 class MainWindow;
+class QSystemTrayIcon;
 class TwitPicView;
 
 class Qtwitter : public QMainWindow
@@ -35,18 +36,21 @@ public:
   Qtwitter( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
+  void popupMessage( QString message );
   void setCurrentModel( const QString &login );
   void setPublicTimelineModel();
 
 protected:
+  void closeEvent( QCloseEvent *e );
   void keyPressEvent ( QKeyEvent * event );
 
 private:
   void createMenu();
-
+  void createTrayIcon();
 
   Core *core;
   MainWindow* mainwindow;
+  QSystemTrayIcon *trayIcon;
   TwitPicView *twitpic;
   Settings *settingsDialog;
 };

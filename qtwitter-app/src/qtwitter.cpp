@@ -33,6 +33,8 @@
 #include "settings.h"
 #include "twitteraccountsmodel.h"
 
+extern ConfigFile settings;
+
 Qtwitter::Qtwitter( QWidget *parent, Qt::WindowFlags flags)
   : QMainWindow( parent, flags )
 {
@@ -57,7 +59,7 @@ Qtwitter::Qtwitter( QWidget *parent, Qt::WindowFlags flags)
   connect( core, SIGNAL(resetUi()), mainwindow, SLOT(resetStatusEdit()) );
   connect( core, SIGNAL(requestStarted()), mainwindow, SLOT(showProgressIcon()) );
   if ( QSystemTrayIcon::supportsMessages() )
-    connect( core, SIGNAL(sendNewsReport(QString)), mainwindow, SLOT(popupMessage(QString)) );
+    connect( core, SIGNAL(sendNewsReport(QString)), this, SLOT(popupMessage(QString)) );
 
   twitpic = new TwitPicView( this );
   connect( twitpic, SIGNAL(uploadPhoto(QString,QString,QString)), core, SLOT(uploadPhoto(QString,QString,QString)) );
@@ -78,6 +80,7 @@ Qtwitter::Qtwitter( QWidget *parent, Qt::WindowFlags flags)
   // create menu bar only on maemo
   createMenu();
 //#endif
+  createTrayIcon();
 }
 
 void Qtwitter::keyPressEvent(QKeyEvent *event)
@@ -98,6 +101,17 @@ void Qtwitter::keyPressEvent(QKeyEvent *event)
   else
     QWidget::keyPressEvent( event);
 }
+
+void Qtwitter::closeEvent( QCloseEvent *e )
+{
+  if ( trayIcon->isVisible()) {
+    hide();
+    e->ignore();
+    return;
+  }
+  QWidget::closeEvent( e );
+}
+
 
 void Qtwitter::createMenu()
 {
@@ -125,3 +139,44 @@ void Qtwitter::setPublicTimelineModel()
 {
   mainwindow->setListViewModel( core->getPublicTimelineModel() );
 }
+
+void Qtwitter::createTrayIcon()
+{
+  trayIcon = new QSystemTrayIcon( this );
+  trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
+
+  connect( trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)) );
+  connect( trayIcon, SIGNAL(messageClicked()), this, SLOT(show()) );
+#ifndef Q_WS_MAC
+  QMenu *trayMenu = new QMenu( this );
+  trayMenu = new QMenu( this );
+  QAction *quitaction = new QAction( tr( "Quit" ), trayMenu);
+  QAction *settingsaction = new QAction( tr( "Settings" ), trayMenu);
+  settingsaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
+  quitaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
+
+  connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
+  connect( settingsaction, SIGNAL(triggered()), this, SIGNAL(settingsDialogRequested()) );
+  connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
+
+  trayMenu->addAction(settingsaction);
+  trayMenu->addSeparator();
+  trayMenu->addAction(quitaction);
+  trayIcon->setContextMenu( trayMenu );
+
+  trayIcon->setToolTip( "qTwitter" );
+#endif
+  trayIcon->show();
+}
+
+void Qtwitter::popupMessage( QString message )
+{
+  if( settings.value( "General/notifications" ).toBool() ) {
+    //: The full sentence is e.g.: "New tweets for <user A>, <user B> and the public timeline"
+    message.replace( "public timeline", tr( "the public timeline" ) );
+    //: New tweets received (pops up in tray)
+    trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
+  }
+}
+
+
