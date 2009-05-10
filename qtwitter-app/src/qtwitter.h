@@ -21,27 +21,34 @@
 #ifndef QTWITTER_H
 #define QTWITTER_H
 
-#include "mainwindow.h"
+#include <QMainWindow>
 #include "settings.h"
 
 class Core;
+class MainWindow;
 class TwitPicView;
 
-class Qtwitter : public MainWindow
+class Qtwitter : public QMainWindow
 {
   Q_OBJECT
 public:
-  Qtwitter( QWidget *parent = 0 );
+  Qtwitter( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
 public slots:
   void setCurrentModel( const QString &login );
   void setPublicTimelineModel();
 
+protected:
+  void keyPressEvent ( QKeyEvent * event );
+
 private:
+  void createMenu();
+
+
   Core *core;
+  MainWindow* mainwindow;
   TwitPicView *twitpic;
   Settings *settingsDialog;
-
 };
 
 #endif // QTWITTER_H
