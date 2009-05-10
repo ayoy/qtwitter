@@ -27,14 +27,6 @@ int main( int argc, char **argv )
 {
   QApplication app( argc, argv );
 
-// For using plugins integrated in bundle. Uncomment for release builds
-//#ifdef Q_WS_MAC
-//  QDir dir(QApplication::applicationDirPath());
-//  dir.cdUp();
-//  dir.cd( "Plugins" );
-//  QApplication::setLibraryPaths( QStringList(dir.absolutePath()) );
-//#endif
-
   qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
   Qtwitter qtwitter;
   QApplication::setQuitOnLastWindowClosed( false );
