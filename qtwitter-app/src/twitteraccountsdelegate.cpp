@@ -20,14 +20,50 @@
 
 #include <QObject>
 #include <QCheckBox>
+#include <QComboBox>
 #include <QDebug>
 #include "twitteraccountsdelegate.h"
+
+AccountTypeDelegate::AccountTypeDelegate( QObject *parent ) : QItemDelegate( parent ) {}
+
+QWidget* AccountTypeDelegate::createEditor( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const
+{
+  Q_UNUSED(option);
+  Q_UNUSED(index);
+  QComboBox *editor = new QComboBox( parent );
+  editor->addItems( QStringList() << "Twitter" << "Identi.ca" );
+  return editor;
+}
+
+void AccountTypeDelegate::setEditorData( QWidget *editor, const QModelIndex &index ) const
+{
+  QString text = index.model()->data( index ).toString();
+  QComboBox *comboBox = static_cast<QComboBox*>(editor);
+  comboBox->setCurrentIndex( comboBox->findText( text ) );
+  return;
+}
+
+void AccountTypeDelegate::updateEditorGeometry( QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index ) const
+{
+  Q_UNUSED(index);
+  editor->setGeometry( option.rect );
+  return;
+}
+
+void AccountTypeDelegate::setModelData( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const
+{
+  QComboBox *comboBox = static_cast<QComboBox*>(editor);
+  model->setData( index, comboBox->currentIndex(), Qt::EditRole );
+  return;
+}
+
 
 TwitterAccountsDelegate::TwitterAccountsDelegate( QList<int> checkBoxColumns, QObject *parent ) : QItemDelegate( parent )
 {
   this->checkBoxColumns = checkBoxColumns;
 }
 
+// TODO: change this, at least remove magic numbers
 void TwitterAccountsDelegate::paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
   if ( checkBoxColumns.contains( index.column() ) ) {

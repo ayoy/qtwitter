@@ -72,6 +72,7 @@ void ConfigFile::deleteTwitterAccount( int id, int rowCount )
   if ( id < rowCount ) {
     for (int i = id; i < rowCount; i++ ) {
       setValue( QString( "%1/enabled" ).arg(i), value( QString( "%1/enabled" ).arg(i+1) ) );
+      setValue( QString( "%1/service" ).arg(i), value( QString( "%1/service" ).arg(i+1) ) );
       setValue( QString( "%1/login" ).arg(i), value( QString( "%1/login" ).arg(i+1) ) );
       setValue( QString( "%1/password" ).arg(i), value( QString( "%1/password" ).arg(i+1) ) );
       setValue( QString( "%1/directmsgs" ).arg(i), value( QString( "%1/directmsgs" ).arg(i+1) ) );
@@ -86,6 +87,7 @@ void ConfigFile::convertSettings()
   setValue( "General/version", ConfigFile::APP_VERSION );
   if ( contains( "General/username" ) ) {
     setValue( "TwitterAccounts/0/enabled", true );
+    setValue( "TwitterAccounts/0/service", TwitterAccount::SERVICE_TWITTER );
     setValue( "TwitterAccounts/0/login", value( "General/username", "<empty>" ).toString() );
     setValue( "TwitterAccounts/0/password", value( "General/password", "" ).toString() );
     setValue( "TwitterAccounts/0/directmsgs", value( "General/directMessages", false ).toBool() );
@@ -174,14 +176,17 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   if ( accountsModel ) {
     ui.usersView->setModel( accountsModel );
   }
-  ui.usersView->setItemDelegate( new TwitterAccountsDelegate( QList<int>() << 0 << 3, this ) );
+  ui.usersView->setItemDelegate( new TwitterAccountsDelegate( QList<int>() << 0 << 4, this ) );
+  ui.usersView->setItemDelegateForColumn( 1, new AccountTypeDelegate( this ) );
 
-  ui.usersView->hideColumn( 2 );
+  ui.usersView->hideColumn( 3 );
   ui.usersView->setColumnWidth( 0, (int)(ui.usersView->width() * 0.5 ));
-  ui.usersView->setColumnWidth( 1, (int)(ui.usersView->width() * 1.0 ));
-  ui.usersView->setColumnWidth( 3, (int)(ui.usersView->width() * 0.2 ));
+  ui.usersView->setColumnWidth( 1, (int)(ui.usersView->width() * 0.7 ));
+  ui.usersView->setColumnWidth( 2, (int)(ui.usersView->width() * 0.8 ));
+  ui.usersView->setColumnWidth( 4, (int)(ui.usersView->width() * 0.2 ));
 
   connect( ui.usersView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(fillAccountEditor(QModelIndex,QModelIndex)) );
+  connect( ui.usersView->model(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateAccounts(QModelIndex,QModelIndex)) );
   connect( ui.addAccountButton, SIGNAL(clicked()), this, SLOT(addTwitterAccount()));
   connect( ui.deleteAccountButton, SIGNAL(clicked()), this, SLOT(deleteTwitterAccount()));
   connect( ui.accountEnabledCheckBox, SIGNAL(clicked(bool)), this, SLOT(setTwitterAccountEnabled(bool)) );
@@ -252,6 +257,8 @@ void Settings::loadConfig( bool dialogRejected )
       for ( int i = 0; i < settings.childGroups().count(); i++ ) {
         accountsModel->insertRow(i);
         accountsModel->account(i).isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
+        // TODO: provide a static const QString for "Twitter" and "Identi.ca"
+        accountsModel->account(i).setService( settings.value( QString( "%1/service" ).arg(i), "Twitter" ).toString() );
         accountsModel->account(i).login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
         accountsModel->account(i).password = settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
         accountsModel->account(i).directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
@@ -415,9 +422,33 @@ void Settings::fillAccountEditor( const QModelIndex &current, const QModelIndex 
   int row = current.row();
   rootIndex = current.sibling( row, 0 );
   ui.accountEnabledCheckBox->setChecked( rootIndex.data().toBool() );
-  ui.accountLoginEdit->setText( rootIndex.sibling( row, 1 ).data().toString() );
-  ui.accountPasswordEdit->setText( rootIndex.sibling( row, 2 ).data().toString() );
-  ui.accountDMCheckBox->setChecked( rootIndex.sibling( row, 3 ).data().toBool() );
+  ui.accountLoginEdit->setText( rootIndex.sibling( row, 2 ).data().toString() );
+  ui.accountPasswordEdit->setText( rootIndex.sibling( row, 3 ).data().toString() );
+  ui.accountDMCheckBox->setChecked( rootIndex.sibling( row, 4 ).data().toBool() );
+}
+
+void Settings::updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight )
+{
+  // TODO: change config file to organise accounts in an array,
+  //       i.e. "TwitterAccounts/%1/%2" with respect to view's row and column
+  Q_UNUSED(bottomRight);
+  if ( !topLeft.isValid() )
+    return;
+  switch ( topLeft.column() ) {
+  case 0:
+    settings.setValue( QString("TwitterAccounts/%1/enabled").arg( topLeft.row() ), topLeft.data() );
+    return;
+  case 1:
+    settings.setValue( QString("TwitterAccounts/%1/service").arg( topLeft.row() ), topLeft.data() );
+    return;
+  case 2:
+    settings.setValue( QString("TwitterAccounts/%1/enabled").arg( topLeft.row() ), topLeft.data() );
+    return;
+  case 4:
+    settings.setValue( QString("TwitterAccounts/%1/enabled").arg( topLeft.row() ), topLeft.data() );
+  default:
+    return;
+  }
 }
 
 void Settings::addTwitterAccount()
@@ -429,6 +460,7 @@ void Settings::addTwitterAccount()
   ui.accountLoginEdit->selectAll();
   settings.beginGroup( QString( "TwitterAccounts/%1" ).arg( accountsModel->rowCount() - 1 ) );
     settings.setValue( "enabled", true );
+    settings.setValue( "service", TwitterAccount::SERVICE_TWITTER );
     //: This is for newly created account - when the login isn't given yet
     settings.setValue( "login", tr( "<empty>" ) );
     settings.setValue( "password", "" );

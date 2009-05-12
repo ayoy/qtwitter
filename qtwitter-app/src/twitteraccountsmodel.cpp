@@ -34,7 +34,7 @@ int TwitterAccountsModel::rowCount( const QModelIndex &parent ) const
 int TwitterAccountsModel::columnCount(const QModelIndex &parent ) const
 {
   Q_UNUSED(parent);
-  return 4;
+  return 5;
 }
 
 QModelIndex TwitterAccountsModel::index( int row, int column, const QModelIndex &parent ) const
@@ -57,10 +57,18 @@ QVariant TwitterAccountsModel::data( const QModelIndex &index, int role ) const
   case 0:
     return accounts.at( index.row() ).isEnabled;
   case 1:
-    return accounts.at( index.row() ).login;
+    switch ( accounts.at( index.row() ).service ) {
+    case TwitterAccount::SERVICE_IDENTICA:
+      return "Identi.ca";
+    case TwitterAccount::SERVICE_TWITTER:
+    default:
+      return "Twitter";
+    }
   case 2:
-    return accounts.at( index.row() ).password;
+    return accounts.at( index.row() ).login;
   case 3:
+    return accounts.at( index.row() ).password;
+  case 4:
     return accounts.at( index.row() ).directMessages;
   default:
     return QVariant();
@@ -76,13 +84,52 @@ QVariant TwitterAccountsModel::headerData( int section, Qt::Orientation orientat
   case 0:
     return tr( "Enabled" );
   case 1:
+    //: "Service", i.e. Twitter or Identi.ca
+    return tr( "Service" );
+  case 2:
     return tr( "Login" );
-  case 3:
+  case 4:
     //: This should be as short as possible (e.g. PW in Polish)
     return tr( "Direct msgs" );
   default:
     return QVariant();
   }
+}
+
+bool TwitterAccountsModel::setData( const QModelIndex &index, const QVariant &value, int role )
+{
+  if ( !index.isValid() || role != Qt::EditRole )
+    return false;
+
+  switch ( index.column() ) {
+  case 0:
+    accounts[ index.row() ].isEnabled = value.toBool();
+    emit dataChanged( index, index );
+    return true;
+  case 1:
+    accounts[ index.row() ].service = value.toInt();
+    emit dataChanged( index, index );
+    return true;
+  case 2:
+    accounts[ index.row() ].login = value.toString();
+    emit dataChanged( index, index );
+    return true;
+  case 3:
+    accounts[ index.row() ].password = value.toString();
+    emit dataChanged( index, index );
+    return true;
+  case 4:
+    accounts[ index.row() ].directMessages = value.toBool();
+    emit dataChanged( index, index );
+    return true;
+  default:;
+  }
+  return false;
+}
+
+Qt::ItemFlags TwitterAccountsModel::flags( const QModelIndex &index ) const
+{
+  return QAbstractItemModel::flags( index ) |= Qt::ItemIsEditable;
 }
 
 bool TwitterAccountsModel::insertRows( int row, int count, const QModelIndex &parent )
@@ -152,6 +199,7 @@ TwitterAccount TwitterAccountsModel::emptyAccount()
 {
   TwitterAccount empty;
   empty.isEnabled = true;
+  empty.service = TwitterAccount::SERVICE_TWITTER;
   //: This is for newly created account - when the login isn't given yet
   empty.login = tr( "<empty>" );
   empty.password = "";

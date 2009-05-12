@@ -27,12 +27,35 @@
 
 struct TwitterAccount
 {
+  enum Type {
+    SERVICE_TWITTER,
+    SERVICE_IDENTICA
+  };
+
   bool isEnabled;
+  int service;
   QString login;
   QString password;
   bool directMessages;
+
+  void setService( const QString &name ) {
+    if ( name == "Twitter" )
+      service = SERVICE_TWITTER;
+    else if ( name == "Identi.ca" )
+      service = SERVICE_IDENTICA;
+  }
+  QString getService() const {
+    switch( service ) {
+    case SERVICE_IDENTICA:
+      return "Identi.ca";
+    case SERVICE_TWITTER:
+    default:
+      return "Twitter";
+    }
+  }
   bool operator==( const TwitterAccount &other ) const {
     return ( isEnabled == other.isEnabled &&
+             service == other.service &&
              login == other.login &&
              password == other.password &&
              directMessages == other.directMessages );
@@ -57,13 +80,19 @@ public:
   QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
   QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
+  bool setData( const QModelIndex &index, const QVariant &value, int role = Qt::EditRole );
+  Qt::ItemFlags flags( const QModelIndex &index ) const;
+
   bool insertRows( int row, int count, const QModelIndex &parent = QModelIndex() );
   bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
   void clear();
 
   QList<TwitterAccount>& getAccounts();
+
+  // TODO: do we really need these two?
   TwitterAccount& account( int index );
   TwitterAccount* account( const QString &login );
+
   int indexOf( const TwitterAccount &account );
 
 private:

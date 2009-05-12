@@ -31,6 +31,7 @@ class QAuthenticator;
 class QCheckBox;
 class QLineEdit;
 class QPushButton;
+class QModelIndex;
 class TwitPicView;
 class TweetModel;
 class MainWindow;
@@ -124,6 +125,7 @@ signals:
 
 private slots:
   void fillAccountEditor( const QModelIndex &current, const QModelIndex &previous );
+  void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
   void addTwitterAccount();
   void deleteTwitterAccount();
   void setTwitterAccountEnabled( bool state );
