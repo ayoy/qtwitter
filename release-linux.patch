@@ -1,0 +1,14 @@
+diff --git a/qtwitter-app/qtwitter-app.pro b/qtwitter-app/qtwitter-app.pro
+index b4535a8..b698b7f 100644
+--- a/qtwitter-app/qtwitter-app.pro
++++ b/qtwitter-app/qtwitter-app.pro
+@@ -16,8 +16,7 @@ macx {
+ }
+ else:unix { 
+     LIBS += -L$${TOP} \
+-        $$TWITTERAPI_LIB \
+-	-Wl,-rpath,$${TOP}
++        $$TWITTERAPI_LIB
+     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
+     else:INSTALL_PREFIX = $${PREFIX}
+     target.path = $${INSTALL_PREFIX}/bin

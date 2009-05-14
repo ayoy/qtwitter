@@ -23,7 +23,7 @@
 
 #include <QtCore/qglobal.h>
 
-#if defined(TWITTERAPI_LIBRARY)
+#if defined(TWITTERAPI)
 #  define TWITTERAPI_EXPORT Q_DECL_EXPORT
 #else
 #  define TWITTERAPI_EXPORT Q_DECL_IMPORT

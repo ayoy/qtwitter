@@ -26,9 +26,9 @@
 #include <QUrl>
 #include <QList>
 #include "ui_mainwindow.h"
-#include "tweetmodel.h"
 
 class QMovie;
+class TweetModel;
 class TwitterAccount;
 
 class MainWindow : public QWidget
@@ -80,6 +80,7 @@ signals:
 protected:
   void closeEvent( QCloseEvent *e );
   void resizeEvent( QResizeEvent* );
+  void keyPressEvent( QKeyEvent* );
   Ui::MainWindow ui;
 
 private slots:

@@ -25,7 +25,6 @@
 #include <QDateTime>
 #include "twitterapi_global.h"
 
-class QString;
 
 struct TWITTERAPI_EXPORT Entry
 {

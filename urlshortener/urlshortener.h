@@ -1,5 +1,6 @@
 /***************************************************************************
- *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Dominik Kapusta            <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -18,30 +19,40 @@
  ***************************************************************************/
 
 
-#ifndef QTWITTER_H
-#define QTWITTER_H
+#ifndef URLSHORTENER_H
+#define URLSHORTENER_H
 
-#include "mainwindow.h"
+#include <QObject>
+#include "urlshortener_global.h"
 
-class Core;
-class TwitPicView;
-class Settings;
+class QNetworkReply;
+class QNetworkAccessManager;
+class UrlShortenerImplementation;
 
-class Qtwitter : public MainWindow
+class URLSHORTENER_EXPORT UrlShortener : public QObject
 {
   Q_OBJECT
-public:
-  Qtwitter( QWidget *parent = 0 );
 
-public slots:
-  void setCurrentModel( const QString &login );
-  void setPublicTimelineModel();
+public:
+  enum Shortener {
+    SHORTENER_ISGD,
+    SHORTENER_TRIM,
+    SHORTENER_METAMARK,
+    SHORTENER_TINYURL,
+    SHORTENER_TINYARROWS,
+    SHORTENER_UNU
+  };
+
+  UrlShortener( QObject *parent = 0 );
+  void shorten( const QString &url, Shortener shorteningService = SHORTENER_ISGD );
+
+signals:
+  void shortened( const QString &url );
+  void errorMessage( const QString &message );
 
 private:
-  Core *core;
-  TwitPicView *twitpic;
-  Settings *settingsDialog;
-
+  UrlShortenerImplementation *shortenerInstance;
 };
 
-#endif // QTWITTER_H
+
+#endif // URLSHORTENER_H

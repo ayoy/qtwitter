@@ -6,17 +6,17 @@ include(../qtwitter.pri)
 
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
+include($${TOP}/urlshortener/urlshortener.pri)
 
-macx {
+macx { 
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
     QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
-    LIBS += -framework \
-        twitterapi
+    LIBS += -framework twitterapi -framework urlshortener
 }
-else:unix {
-    LIBS += -L$${TOP} \
-        $$TWITTERAPI_LIB
+else:unix { 
+    LIBS += -L$${TOP} $$TWITTERAPI_LIB $$URLSHORTENER_LIB \
+        -Wl,-rpath,$${TOP}
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
@@ -56,14 +56,13 @@ else:unix {
 }
 else:win32 { 
     RC_FILE = win32/qtwitter.rc
-    LIBS += -L$${TOP} \
-        $$TWITTERAPI_LIB
-        #-Wl,-rpath,$${PWD}/$${TOP}/lib
+    LIBS += -L$${TOP} $$TWITTERAPI_LIB $$URLSHORTENER_LIB
 }
+
+include(src/qticonloader/qticonloader.pri)
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
-    src/httpconnection.cpp \
     src/imagedownload.cpp \
     src/core.cpp \
     src/settings.cpp \
@@ -75,11 +74,9 @@ SOURCES += src/main.cpp \
     src/twitteraccountsdelegate.cpp \
     src/qtwitter.cpp \
     src/twitteraccountsmodel.cpp \
-    src/urlshortener.cpp \
     src/aboutdialog.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
-    src/httpconnection.h \
     src/imagedownload.h \
     src/core.h \
     src/settings.h \
@@ -94,7 +91,6 @@ HEADERS += src/mainwindow.h \
     src/twitteraccountsdelegate.h \
     src/qtwitter.h \
     src/twitteraccountsmodel.h \
-    src/urlshortener.h \
     src/aboutdialog.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
@@ -119,3 +115,5 @@ OBJECTS_DIR = tmp
 INCLUDEPATH += $${TOP} \
     src \
     tmp
+
+

@@ -18,10 +18,13 @@
  ***************************************************************************/
 
 
+#include <QUrl>
+#include <QPixmap>
+#include <QDebug>
 #include <twitterapi/twitterapi.h>
+#include "statuslist.h"
 #include "tweetmodel.h"
 #include "tweet.h"
-#include "mainwindow.h"
 #include "settings.h"
 
 TweetModel::TweetModel( const QString &login, int margin, StatusList *parentListView, QObject *parent ) :
@@ -179,6 +182,7 @@ void TweetModel::insertTweet( Entry *entry )
   else
     status.tweet = new Tweet( &status.entry, &status.state, QPixmap(), this );
   status.tweet->setTweetData( &status.entry, &status.state );
+  qDebug() << login << " type: " << status.entry.type << " id:" << status.entry.id;
 
   QStandardItem *newItem = new QStandardItem;
   if ( isVisible ) {

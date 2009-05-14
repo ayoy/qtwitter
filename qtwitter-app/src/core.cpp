@@ -1,6 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
  *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -22,14 +23,18 @@
 #include <QDesktopServices>
 #include <QProcess>
 #include <QMessageBox>
+#include <QDebug>
 #include <twitterapi/twitterapi.h>
+#include <twitterapi/entry.h>
+#include <urlshortener/urlshortener.h>
 #include "core.h"
+#include "mainwindow.h"
+#include "imagedownload.h"
 #include "settings.h"
 #include "twitpicengine.h"
 #include "tweetmodel.h"
 #include "tweet.h"
 #include "twitteraccountsmodel.h"
-#include "urlshortener.h"
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
 
@@ -41,11 +46,11 @@ Core::Core( MainWindow *parent ) :
     requestCount( 0 ),
     tempModelCount( 0 ),
     twitpicUpload( 0 ),
-    urlShortener( 0 ),
     timer( 0 ),
     parentMainWindow( parent )
 {
-  imageCache.setMaxCost( 50 );
+  imageDownload = new ImageDownload( this );
+  connect( imageDownload, SIGNAL(imageReadyForUrl(QString,QPixmap*)), this, SIGNAL(setImageForUrl(QString,QPixmap*)) );
 
   twitterapi = new TwitterAPI( this );
   connect( twitterapi, SIGNAL(newEntry(QString,Entry)), this, SLOT(addEntry(QString,Entry)) );
@@ -62,6 +67,10 @@ Core::Core( MainWindow *parent ) :
   margin = parent->getScrollBarWidth();
 
   accountsModel = new TwitterAccountsModel( this );
+
+  urlShortener = new UrlShortener( this );
+  connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
+  connect( urlShortener, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
 }
 
 Core::~Core()
@@ -71,16 +80,11 @@ Core::~Core()
     (*i)->deleteLater();
     i++;
   }
-  QMap<QString,ImageDownload*>::iterator j = imageDownloader.begin();
-  while ( j != imageDownloader.end() ) {
-    (*j)->deleteLater();
-    j++;
-  }
 }
 
 void Core::applySettings()
 {
-  setUrlShortener();
+//  setUrlShortener();
   publicTimeline = settings.value(  "TwitterAccounts/publicTimeline", false ).toBool();
   setupTweetModels();
   twitterapi->resetConnections();
@@ -98,33 +102,6 @@ void Core::applySettings()
 
   setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
   get();
-}
-
-void Core::setUrlShortener()
-{
-  if( urlShortener )
-    delete urlShortener;
-
-  switch( settings.value( "General/url-shortener" ).toInt() ) {
-    case UrlShortener::SHORTENER_ISGD:
-      urlShortener = new IsgdShortener( this );
-      break;
-    case UrlShortener::SHORTENER_TRIM:
-      urlShortener = new TrimShortener( this );
-      break;
-    case UrlShortener::SHORTENER_METAMARK:
-      urlShortener = new MetamarkShortener( this );
-      break;
-    case UrlShortener::SHORTENER_TINYURL:
-      urlShortener = new TinyurlShortener( this );
-      break;
-     case UrlShortener::SHORTENER_TINYARROWS:
-      urlShortener = new TinyarrowsShortener( this );
-      break;
-     case UrlShortener::SHORTENER_UNU:
-      urlShortener = new UnuShortener( this );
-  }
-  connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
 }
 
 bool Core::setTimerInterval( int msecs )
@@ -180,10 +157,10 @@ void Core::forceGet()
 
 void Core::get( const QString &login, const QString &password )
 {
-  twitterapi->friendsTimeline( login, password );
+  twitterapi->friendsTimeline( login, password, settings.value("Appearance/tweet count", 20).toInt() );
   emit newRequest();
   if ( accountsModel->account( login )->directMessages ) {
-    twitterapi->directMessages( login, password );
+    twitterapi->directMessages( login, password, settings.value("Appearance/tweet count", 20).toInt() );
     emit newRequest();
   }
 }
@@ -192,10 +169,10 @@ void Core::get()
 {
   foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
     if ( account.isEnabled ) {
-      twitterapi->friendsTimeline( account.login, account.password );
+      twitterapi->friendsTimeline( account.login, account.password, settings.value("Appearance/tweet count", 20).toInt());
       emit newRequest();
       if ( account.directMessages ) {
-        twitterapi->directMessages( account.login, account.password );
+        twitterapi->directMessages( account.login, account.password, settings.value("Appearance/tweet count", 20).toInt());
         emit newRequest();
       }
     }
@@ -267,24 +244,6 @@ void Core::twitPicResponse( bool responseStatus, QString message, bool newStatus
   ui.setupUi( &dlg );
   ui.textBrowser->setText( tr( "Photo available at:" ).append( " <a href=\"%1\">%1</a>" ).arg( message ) );
   dlg.exec();
-}
-
-void Core::downloadImage( const QString &imageUrl )
-{
-  QString host = QUrl( imageUrl ).host();
-  if ( imageDownloader.contains( host ) ) {
-    imageDownloader[host]->imageGet( imageUrl );
-    imageCache.insert( imageUrl, new QPixmap );
-    qDebug() << "setting null image";
-    return;
-  }
-  ImageDownload *getter = new ImageDownload;
-  imageDownloader[host] = getter;
-  connect( getter, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
-  connect( getter, SIGNAL(imageReadyForUrl(QString,QPixmap)), this, SLOT(setImageInHash(QString,QPixmap)) );
-  getter->imageGet( imageUrl );
-  imageCache.insert( imageUrl, new QPixmap );
-  qDebug() << "setting null image" << imageCache[ imageUrl ]->isNull();
 }
 
 void Core::openBrowser( QUrl address )
@@ -361,12 +320,6 @@ void Core::retranslateUi()
   }
 }
 
-void Core::setImageInHash( const QString &url, QPixmap image )
-{
-  imageCache.insert( url, new QPixmap( image ) );
-  emit setImageForUrl( url, imageCache[ url ] );
-}
-
 void Core::addEntry( const QString &login, Entry entry )
 {
   if ( !tweetModels.contains( login ) )
@@ -374,13 +327,13 @@ void Core::addEntry( const QString &login, Entry entry )
 
   tweetModels[ login ]->insertTweet( &entry );
   if ( entry.type == Entry::Status ) {
-    if ( imageCache.contains( entry.image ) ) {
-      if ( !imageCache.contains( entry.image ) || imageCache[ entry.image ]->isNull() )
-        qDebug() << "image in cache";
+    if ( imageDownload->contains( entry.image ) ) {
+      if ( imageDownload->imageFromUrl( entry.image )->isNull() )
+        qDebug() << "image download in progress";
       else
-        emit setImageForUrl( entry.image, imageCache[ entry.image ] );
+        emit setImageForUrl( entry.image, imageDownload->imageFromUrl( entry.image ) );
     } else {
-      downloadImage( entry.image );
+      imageDownload->imageGet( entry.image );
     }
   }
 }
@@ -532,7 +485,7 @@ void Core::sendNewsInfo()
 
 void Core::shortenUrl( const QString &url )
 {
-  urlShortener->shorten(url);
+  urlShortener->shorten(url, (UrlShortener::Shortener) settings.value( "General/url-shortener" ).toInt() );
 }
 
 /*! \class Core

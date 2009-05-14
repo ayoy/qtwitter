@@ -21,12 +21,13 @@
 #ifndef TWITPICENGINE_H
 #define TWITPICENGINE_H
 
-#include "httpconnection.h"
-#include "core.h"
+#include <QHttp>
 
+class QBuffer;
+class Core;
 class TwitPicXmlParser;
 
-class TwitPicEngine : public HttpConnection
+class TwitPicEngine : public QHttp
 {
   Q_OBJECT
 
@@ -41,6 +42,7 @@ public slots:
 
 signals:
   void finished();
+  void errorMessage( const QString &message );
 
 private slots:
   void readResponseHeader( const QHttpResponseHeader &responseHeader );
@@ -48,8 +50,12 @@ private slots:
 
 private:
   void createConnections( Core *whereToConnectTo );
+  void clearDataStorage();
   TwitPicXmlParser *replyParser;
-  Core *core;
+  int httpGetId;
+  bool httpRequestAborted;
+  QByteArray *bytearray;
+  QBuffer *buffer;
 };
 
 #endif // TWITPICENGINE_H

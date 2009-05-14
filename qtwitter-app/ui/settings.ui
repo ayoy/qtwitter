@@ -205,7 +205,7 @@
            <item>
             <widget class="QToolButton" name="addAccountButton">
              <property name="icon">
-              <iconset resource="../res/resources.qrc">
+              <iconset>
                <normaloff>:/icons/add_48.png</normaloff>:/icons/add_48.png</iconset>
              </property>
             </widget>
@@ -213,7 +213,7 @@
            <item>
             <widget class="QToolButton" name="deleteAccountButton">
              <property name="icon">
-              <iconset resource="../res/resources.qrc">
+              <iconset>
                <normaloff>:/icons/cancel_48.png</normaloff>:/icons/cancel_48.png</iconset>
              </property>
             </widget>
@@ -424,7 +424,7 @@
           <number>1</number>
          </property>
          <property name="maximum">
-          <number>100</number>
+          <number>200</number>
          </property>
         </widget>
        </item>
@@ -479,9 +479,7 @@
   <tabstop>tweetCountBox</tabstop>
   <tabstop>colorBox</tabstop>
  </tabstops>
- <resources>
-  <include location="../res/resources.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

@@ -27,12 +27,15 @@
 #include <QTimer>
 #include <QMap>
 #include <QCache>
-#include "imagedownload.h"
-#include "mainwindow.h"
+#include <twitterapi/twitterapi.h>
 
+class QAbstractItemModel;
+class MainWindow;
+class ImageDownload;
 class TwitPicEngine;
 class TweetModel;
-class QAbstractItemModel;
+class ThemeData;
+class TwitterAccount;
 class TwitterAccountsModel;
 class StatusList;
 class TwitterAPI;
@@ -76,7 +79,6 @@ public slots:
   void abortUploadPhoto();
   void twitPicResponse( bool responseStatus, QString message, bool newStatus );
 
-  void downloadImage( const QString &imageUrl );
   void openBrowser( QUrl address );
   AuthDialogState authDataDialog( TwitterAccount *account );
   void shortenUrl( const QString &url );
@@ -105,7 +107,6 @@ signals:
   void urlShortened( const QString &url);
 
 private slots:
-  void setImageInHash( const QString&, QPixmap );
   void addEntry( const QString &login, Entry entry );
   void deleteEntry( const QString &login, int id );
   void slotUnauthorized( const QString &login, const QString &password );
@@ -119,7 +120,6 @@ private:
   void sendNewsInfo();
   void setupTweetModels();
   void createConnectionsWithModel( TweetModel *model );
-  void setUrlShortener();
   bool retryAuthorizing( TwitterAccount *account, int role );
   bool authDialogOpen;
   bool publicTimeline;
@@ -130,8 +130,8 @@ private:
   TwitPicEngine *twitpicUpload;
   UrlShortener *urlShortener;
 
-  QMap<QString,ImageDownload*> imageDownloader;
-  QCache<QString,QPixmap> imageCache;
+  ImageDownload* imageDownload;
+
   TwitterAccountsModel *accountsModel;
   TwitterAPI *twitterapi;
   QMap<QString,TweetModel*> tweetModels;

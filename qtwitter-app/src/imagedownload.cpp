@@ -18,138 +18,59 @@
  ***************************************************************************/
 
 
-#include <QMap>
-#include <QPixmap>
+#include <QNetworkRequest>
+#include <QNetworkReply>
 #include "imagedownload.h"
 
-ImageData::ImageData() :
-    image(0),
-    bytearray(0),
-    buffer(0)
-{}
-
-void ImageData::free()
+ImageDownload::ImageDownload( QObject *parent ) :
+    QObject( parent )
 {
-  if ( image ) {
-    delete image;
-    image = 0;
-  }
-  if ( bytearray ) {
-    delete bytearray;
-    bytearray = 0;
-  }
-  if ( buffer ) {
-    buffer->deleteLater();
-    buffer = 0;
-  }
+  imageCache.setMaxCost( 50 );
 }
 
-ImageDownload::ImageDownload() : HttpConnection() {}
-
-ImageDownload::~ImageDownload()
+void ImageDownload::imageGet( const QString &imageUrl )
 {
-  QMap<QString,ImageData>::iterator i = imageByEntry.begin();
-  while ( i != imageByEntry.end() ) {
-    (*i).free();
-    i++;
-  }
-}
-
-void ImageDownload::imageGet( const QString &imageUrl )      //requestByEntry[entry.getId()] = httpGetId;
-{
-  QByteArray encodedPath = prepareRequest( imageUrl );
-  httpGetId = get( encodedPath, buffer );
-  requestByEntry.insert( imageUrl, httpGetId );
-  ImageData *imageData = new ImageData;
-  imageData->buffer = buffer;
-  imageData->bytearray = bytearray;
-  buffer = 0;
-  bytearray = 0;
-  imageByEntry.insert( imageUrl, *imageData );
-//  qDebug() << "Request of type GET and id" << httpGetId << "started";
-}
-
-void ImageDownload::clearData()
-{
-  imageByEntry.clear();
-  requestByEntry.clear();
-}
-
-void ImageDownload::httpRequestFinished( int requestId, bool error )
-{
-//  qDebug() << "finished" << state();
-  if ( !requestByEntry.values().contains( requestId ) || httpRequestAborted ) {
-    httpRequestAborted = false;
+  if ( imageCache.contains( imageUrl ) ) {
+    emit imageReadyForUrl( imageUrl, imageCache[ imageUrl ] );
     return;
   }
 
-  ImageData *imageData = &imageByEntry[ requestByEntry.key( requestId ) ];
+  QUrl url( imageUrl );
+  QString host( url.host() );
+  QNetworkRequest request( url );
 
-  imageData->buffer->close();
-
-  if (error) {
-    emit errorMessage( tr("Download failed:").append( " " ) + errorString() );
+  if ( !connections.contains( host ) ) {
+    connections.insert( host, new QNetworkAccessManager( this ) );
+    connect( connections[ host ], SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
   }
-  qDebug() << "Image request of id" << requestId << "finished" << requestByEntry.key( requestId );
-  imageData->image = new QPixmap;
-  imageData->image->loadFromData( *imageData->bytearray );
-//  if (!imageData->image->loadFromData( *imageData->bytearray ) ) {
-//    qDebug() << "fail";
-//  }
-  emit imageReadyForUrl( requestByEntry.key( requestId ), *(imageData->image) );
-  imageData->free();
-  imageByEntry.remove( requestByEntry.key( requestId ) );
-  requestByEntry.remove( requestByEntry.key( requestId ) );
+
+  connections[ host ]->get( request );
+  imageCache.insert( imageUrl, new QPixmap );
 }
 
-void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader)
+bool ImageDownload::contains( const QString &imageUrl ) const
 {
-//  qDebug() << "Response for" << requestByEntry.key( currentId() );//url.path();
-//  qDebug() << "Code:" << responseHeader.statusCode() << ", status:" << responseHeader.reasonPhrase();
-  switch ( responseHeader.statusCode() ) {
-  case 200:                   // Ok
-  case 301:                   // Moved Permanently
-  case 302:                   // Found
-  case 303:                   // See Other
-  case 307:                   // Temporary Redirect
-    // these are not error conditions
-    break;
-  default:
-    //emit errorMessage( tr( "Download failed: " ) + responseHeader.reasonPhrase() );
-    httpRequestAborted = true;
-  }
+  return imageCache.contains( imageUrl );
 }
 
-/*! \struct ImageData
-    \brief A struct containing data handles for retrieved images.
+QPixmap* ImageDownload::imageFromUrl( const QString &imageUrl ) const
+{
+  return imageCache[ imageUrl ];
+}
 
-    Before creating a connection for image downlaod, an ImageData structure
-    instance is created, and its \ref buffer and \ref bytearray members are
-    assigned to corresponding ImageDownload class's members, that can be
-    freed then. When download finishes, a downloaded image is assigned to
-    \ref image field. All the memory management for ImageData struct is
-    covered inside the ImageDownload class.
-*/
+void ImageDownload::requestFinished( QNetworkReply *reply )
+{
+  int replyCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
 
-/*! \var QPixmap* ImageData::image
-    A pointer to the image.
-*/
+  if ( replyCode != 200 )
+    return;
 
-/*! \var QByteArray* ImageData::bytearray
-    A pointer to the bytearray.
-*/
+  QPixmap *pixmap = new QPixmap;
+  pixmap->loadFromData( reply->readAll() );
+  imageCache.insert( reply->url().toString(), pixmap );
+  emit imageReadyForUrl( reply->url().toString(), pixmap );
+}
 
-/*! \var QBuffer* ImageData::buffer
-    A pointer to the buffer.
-*/
-
-/*! \fn ImageData::ImageData()
-    Creates a new ImageData object with null pointers.
-*/
-
-/*! \fn ImageData::~ImageData()
-    Destroys an instance of ImageData, freeing the memory allocated by its members.
-*/
 
 /*! \class ImageDownload
     \brief A class for downlading images for Tweets.
@@ -160,10 +81,6 @@ void ImageDownload::readResponseHeader(const QHttpResponseHeader &responseHeader
 
 /*! \fn ImageDownload::ImageDownload()
     A default constructor.
-*/
-
-/*! \fn ImageDownload::~ImageDownload()
-    A destructor.
 */
 
 /*! \fn void ImageDownload::imageGet( Entry *entry )

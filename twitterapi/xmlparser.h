@@ -21,7 +21,7 @@
 #ifndef XMLPARSER_H
 #define XMLPARSER_H
 
-#include <QtXml>
+#include <QXmlDefaultHandler>
 #include "entry.h"
 
 class XmlParser : public QObject, public QXmlDefaultHandler

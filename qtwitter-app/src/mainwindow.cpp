@@ -1,6 +1,7 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
  *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -29,12 +30,14 @@
 #include <QDesktopWidget>
 #include <QSignalMapper>
 #include <QTreeView>
+#include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
 #include "tweet.h"
 #include "aboutdialog.h"
 #include "twitteraccountsmodel.h"
 #include "twitteraccountsdelegate.h"
 #include "settings.h"
+#include "qticonloader.h"
 
 extern ConfigFile settings;
 
@@ -50,6 +53,12 @@ MainWindow::MainWindow( QWidget *parent ) :
   ui.countdownLabel->setMovie( progressIcon );
   ui.countdownLabel->setToolTip( tr( "%n character(s) left", "", ui.countdownLabel->text().toInt() ) );
   ui.statusEdit->setToolTip( ui.statusEdit->toolTip().arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
+
+  //> experiment begin
+  ui.moreButton->setIcon(QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")));
+  ui.settingsButton->setIcon(QtIconLoader::icon("preferences-other", QIcon(":/icons/spanner_48.png")));
+  ui.updateButton->setIcon(QtIconLoader::icon("reload", QIcon(":icons/refresh_48.png")));
+  //< experiment end
 
   createConnections();
   createMenu();
@@ -259,6 +268,13 @@ void MainWindow::closeEvent( QCloseEvent *e )
     return;
   }
   QWidget::closeEvent( e );
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_Escape)
+        if(isVisible())
+            hide();
 }
 
 void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )

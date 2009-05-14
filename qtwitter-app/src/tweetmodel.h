@@ -22,16 +22,15 @@
 #define TWEETMODEL_H
 
 #include <QStandardItemModel>
-#include <QListView>
-#include <QUrl>
-#include <QPixmap>
 #include <QPointer>
 #include <twitterapi/twitterapi.h>
-#include "statuslist.h"
 
+class QPixmap;
+class QUrl;
 class Tweet;
 class ThemeData;
 class TweetModel;
+class StatusList;
 struct Status;
 
 class TweetModel : public QStandardItemModel

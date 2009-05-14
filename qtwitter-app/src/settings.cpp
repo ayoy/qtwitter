@@ -19,6 +19,11 @@
  ***************************************************************************/
 
 
+#include <QNetworkProxy>
+#include <QTranslator>
+#include <QFile>
+#include <QDir>
+#include <QAuthenticator>
 #include <QPushButton>
 #include <QCheckBox>
 #include <QPoint>
@@ -27,13 +32,14 @@
 #include <QDesktopServices>
 #include <QProcess>
 #include <QSettings>
+#include <urlshortener/urlshortener.h>
 #include "settings.h"
 #include "core.h"
 #include "mainwindow.h"
 #include "twitpicview.h"
 #include "twitteraccountsmodel.h"
 #include "twitteraccountsdelegate.h"
-#include "urlshortener.h"
+#include "qticonloader.h"
 
 const QString ConfigFile::APP_VERSION = "0.6.0";
 
@@ -161,9 +167,7 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
     mainWindow( mainwinSettings ),
     core( coreSettings ),
     twitPicView( twitpicviewSettings )
-{  
-  qApp->installTranslator( &translator );
-
+{
   ui.setupUi( this );
   ui.languageCombo->setItemData( 0, "en" );
   accountsModel = qobject_cast<TwitterAccountsModel*>( core->getTwitterAccountsModel() );
@@ -195,6 +199,11 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
 
   for (int i = 0; i < themes.keys().size(); ++i ) {
     ui.colorBox->addItem( themes.keys()[i] );
+
+    //> freedesktop experiment begin
+    ui.addAccountButton->setIcon(QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")));
+    ui.deleteAccountButton->setIcon(QtIconLoader::icon("list-remove", QIcon(":/icons/cancel_48.png")));
+    //< freedesktop experiment end
   }
 
 #ifdef Q_WS_X11
@@ -301,6 +310,7 @@ void Settings::loadConfig( bool dialogRejected )
 
 void Settings::setProxy()
 {
+  QNetworkProxy proxy;
   if ( ui.proxyBox->isChecked() ) {
     proxy.setType( QNetworkProxy::HttpProxy );
     proxy.setHostName( ui.hostEdit->text() );
@@ -379,7 +389,9 @@ void Settings::switchLanguage( int index )
   QString locale = ui.languageCombo->itemData( index ).toString();
   QString qmPath( ":/translations" );
   qDebug() << "switching language to" << locale << "from" << qmPath;
+  QTranslator translator;
   translator.load( "qtwitter_" + locale, qmPath );
+  qApp->installTranslator( &translator );
   retranslateUi();
 //  ui.retranslateUi(this);
   mainWindow->retranslateUi();
