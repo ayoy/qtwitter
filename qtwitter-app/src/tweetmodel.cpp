@@ -21,14 +21,14 @@
 #include <QUrl>
 #include <QPixmap>
 #include <QDebug>
-#include <twitterapi/twitterapi.h>
 #include "statuslist.h"
 #include "tweetmodel.h"
 #include "tweet.h"
 #include "settings.h"
 
-TweetModel::TweetModel( const QString &login, int margin, StatusList *parentListView, QObject *parent ) :
+TweetModel::TweetModel( TwitterAPI::SocialNetwork network, const QString &login, int margin, StatusList *parentListView, QObject *parent ) :
   QStandardItemModel( 0, 0, parent ),
+  network( network ),
   login( login ),
   isVisible( false ),
   maxTweetCount( 20 ),

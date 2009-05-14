@@ -25,6 +25,7 @@
 #include <QSystemTrayIcon>
 #include <QUrl>
 #include <QList>
+#include <twitterapi/twitterapi_global.h>
 #include "ui_mainwindow.h"
 
 class QMovie;
@@ -64,16 +65,15 @@ public slots:
   void tweetGotohomepageAction();
 
 signals:
-  void setCurrentModel( const QString &login );
   void updateTweets();
   void openTwitPicDialog();
-  void post( const QString &login, QString status, int inReplyTo );
+  void post( TwitterAPI::SocialNetwork network, const QString &login, QString status, int inReplyTo );
   void openBrowser( QUrl address );
   void settingsDialogRequested();
   void addReplyString( const QString& user, int inReplyTo );
   void addRetweetString( QString message );
   void resizeView( int width, int oldWidth );
-  void switchModel( const QString &login );
+  void switchModel( TwitterAPI::SocialNetwork network, const QString &login );
   void switchToPublicTimelineModel();
   void shortenUrl( const QString &url );
 

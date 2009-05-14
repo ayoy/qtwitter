@@ -143,6 +143,7 @@ private:
   void applySettings();
   void createLanguageMenu();
   void createUrlShortenerMenu();
+  bool updateAccountsOnExit;
   MainWindow *mainWindow;
   Core *core;
   TwitterAccountsModel *accountsModel;

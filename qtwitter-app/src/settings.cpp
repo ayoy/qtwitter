@@ -33,6 +33,7 @@
 #include <QProcess>
 #include <QSettings>
 #include <urlshortener/urlshortener.h>
+#include <twitterapi/twitterapi_global.h>
 #include "settings.h"
 #include "core.h"
 #include "mainwindow.h"
@@ -87,7 +88,7 @@ void ConfigFile::convertSettings()
   setValue( "General/version", ConfigFile::APP_VERSION );
   if ( contains( "General/username" ) ) {
     setValue( "TwitterAccounts/0/enabled", true );
-    setValue( "TwitterAccounts/0/service", TwitterAccount::SERVICE_TWITTER );
+    setValue( "TwitterAccounts/0/service", TwitterAPI::SOCIALNETWORK_TWITTER );
     setValue( "TwitterAccounts/0/login", value( "General/username", "<empty>" ).toString() );
     setValue( "TwitterAccounts/0/password", value( "General/password", "" ).toString() );
     setValue( "TwitterAccounts/0/directmsgs", value( "General/directMessages", false ).toBool() );
@@ -166,6 +167,7 @@ const ThemeInfo Settings::STYLESHEET_SKY     = ThemeInfo( QString( "Sky" ),
 
 Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView *twitpicviewSettings, QWidget *parent ) :
     QDialog( parent ),
+    updateAccountsOnExit( false ),
     mainWindow( mainwinSettings ),
     core( coreSettings ),
     twitPicView( twitpicviewSettings )
@@ -186,7 +188,8 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   ui.usersView->setColumnWidth( 4, (int)(ui.usersView->width() * 0.2 ));
 
   connect( ui.usersView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(fillAccountEditor(QModelIndex,QModelIndex)) );
-  connect( ui.usersView->model(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateAccounts(QModelIndex,QModelIndex)) );
+  connect( accountsModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateAccounts(QModelIndex,QModelIndex)) );
+//  connect( ui.usersView->model(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateAccounts(QModelIndex,QModelIndex)) );
   connect( ui.addAccountButton, SIGNAL(clicked()), this, SLOT(addTwitterAccount()));
   connect( ui.deleteAccountButton, SIGNAL(clicked()), this, SLOT(deleteTwitterAccount()));
   connect( ui.accountEnabledCheckBox, SIGNAL(clicked(bool)), this, SLOT(setTwitterAccountEnabled(bool)) );
@@ -258,7 +261,7 @@ void Settings::loadConfig( bool dialogRejected )
         accountsModel->insertRow(i);
         accountsModel->account(i).isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
         // TODO: provide a static const QString for "Twitter" and "Identi.ca"
-        accountsModel->account(i).setService( settings.value( QString( "%1/service" ).arg(i), "Twitter" ).toString() );
+        accountsModel->account(i).network = TwitterAccount::networkFromString( settings.value( QString( "%1/service" ).arg(i), "Twitter" ).toString() );
         accountsModel->account(i).login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
         accountsModel->account(i).password = settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
         accountsModel->account(i).directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
@@ -370,6 +373,7 @@ void Settings::saveConfig( int quitting )
 
 void Settings::show()
 {
+  updateAccountsOnExit = false;
   ui.tabs->setCurrentIndex( 0 );
   QDialog::show();
   adjustSize();
@@ -381,7 +385,7 @@ void Settings::show()
 
 void Settings::accept()
 {
-  saveConfig();
+  saveConfig( !updateAccountsOnExit );
   QDialog::accept();
 }
 
@@ -434,6 +438,8 @@ void Settings::updateAccounts( const QModelIndex &topLeft, const QModelIndex &bo
   Q_UNUSED(bottomRight);
   if ( !topLeft.isValid() )
     return;
+  updateAccountsOnExit = true;
+  // TODO: consider moving this to TwitterAccountsModel::setData()
   switch ( topLeft.column() ) {
   case 0:
     settings.setValue( QString("TwitterAccounts/%1/enabled").arg( topLeft.row() ), topLeft.data() );
@@ -460,7 +466,7 @@ void Settings::addTwitterAccount()
   ui.accountLoginEdit->selectAll();
   settings.beginGroup( QString( "TwitterAccounts/%1" ).arg( accountsModel->rowCount() - 1 ) );
     settings.setValue( "enabled", true );
-    settings.setValue( "service", TwitterAccount::SERVICE_TWITTER );
+    settings.setValue( "service", TwitterAPI::SOCIALNETWORK_TWITTER );
     //: This is for newly created account - when the login isn't given yet
     settings.setValue( "login", tr( "<empty>" ) );
     settings.setValue( "password", "" );

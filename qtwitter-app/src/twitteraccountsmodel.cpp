@@ -57,10 +57,10 @@ QVariant TwitterAccountsModel::data( const QModelIndex &index, int role ) const
   case 0:
     return accounts.at( index.row() ).isEnabled;
   case 1:
-    switch ( accounts.at( index.row() ).service ) {
-    case TwitterAccount::SERVICE_IDENTICA:
+    switch ( accounts.at( index.row() ).network ) {
+    case TwitterAPI::SOCIALNETWORK_IDENTICA:
       return "Identi.ca";
-    case TwitterAccount::SERVICE_TWITTER:
+    case TwitterAPI::SOCIALNETWORK_TWITTER:
     default:
       return "Twitter";
     }
@@ -107,7 +107,7 @@ bool TwitterAccountsModel::setData( const QModelIndex &index, const QVariant &va
     emit dataChanged( index, index );
     return true;
   case 1:
-    accounts[ index.row() ].service = value.toInt();
+    accounts[ index.row() ].network = (TwitterAPI::SocialNetwork)value.toInt();
     emit dataChanged( index, index );
     return true;
   case 2:
@@ -181,10 +181,10 @@ TwitterAccount& TwitterAccountsModel::account( int index )
   return accounts[ index ];
 }
 
-TwitterAccount* TwitterAccountsModel::account( const QString &login )
+TwitterAccount* TwitterAccountsModel::account( TwitterAPI::SocialNetwork network, const QString &login )
 {
   for ( int i = 0; i < accounts.size(); i++ ) {
-    if ( login == accounts[i].login )
+    if ( login == accounts[i].login && network == accounts[i].network )
       return &accounts[i];
   }
   return 0;
@@ -199,7 +199,7 @@ TwitterAccount TwitterAccountsModel::emptyAccount()
 {
   TwitterAccount empty;
   empty.isEnabled = true;
-  empty.service = TwitterAccount::SERVICE_TWITTER;
+  empty.network = TwitterAPI::SOCIALNETWORK_TWITTER;
   //: This is for newly created account - when the login isn't given yet
   empty.login = tr( "<empty>" );
   empty.password = "";

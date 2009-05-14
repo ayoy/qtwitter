@@ -22,6 +22,7 @@
 #define XMLPARSER_H
 
 #include <QXmlDefaultHandler>
+#include "twitterapi.h"
 #include "entry.h"
 
 class XmlParser : public QObject, public QXmlDefaultHandler
@@ -40,8 +41,8 @@ public:
     Timestamp
   };
 
-  XmlParser( const QString &login, QObject *parent = 0 );
-  XmlParser( const QString &login, Entry::Type entryType = Entry::Status, QObject *parent = 0 );
+  XmlParser( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent = 0 );
+  XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Entry::Type entryType = Entry::Status, QObject *parent = 0 );
 
   virtual bool startDocument();
   virtual bool endDocument();
@@ -55,13 +56,14 @@ public:
   virtual bool characters( const QString &ch );
 
 signals:
-  void newEntry( const QString &login, Entry entry );
+  void newEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
 
 protected:
   FieldType checkFieldType( const QString &element );
   QDateTime toDateTime( const QString &timestamp );
   int getMonth( const QString &month );
   QString textToHtml( QString newText );
+  TwitterAPI::SocialNetwork network;
   QString login;
   int currentField;
   Entry entry;
@@ -79,7 +81,7 @@ protected:
 class XmlParserDirectMsg : public XmlParser
 {
 public:
-  XmlParserDirectMsg( const QString &login, QObject *parent = 0 );
+  XmlParserDirectMsg( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent = 0 );
 
   bool startElement( const QString &namespaceURI,
                      const QString &localName,

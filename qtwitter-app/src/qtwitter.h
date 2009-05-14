@@ -34,7 +34,7 @@ public:
   Qtwitter( QWidget *parent = 0 );
 
 public slots:
-  void setCurrentModel( const QString &login );
+  void setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login );
   void setPublicTimelineModel();
 
 private:

@@ -29,4 +29,80 @@
 #  define TWITTERAPI_EXPORT Q_DECL_IMPORT
 #endif
 
+namespace TwitterAPI {
+  enum SocialNetwork {
+    SOCIALNETWORK_TWITTER,
+    SOCIALNETWORK_IDENTICA
+  };
+
+  enum Role {
+    ROLE_PUBLIC_TIMELINE = 101,
+    ROLE_FRIENDS_TIMELINE,
+    ROLE_DIRECT_MESSAGES,
+    ROLE_POST_UPDATE,
+    ROLE_DELETE_UPDATE,
+    ROLE_POST_DM,
+    ROLE_DELETE_DM
+  };
+
+  /*!
+    A constant used as a "login" for public timeline requests.
+  */
+  const QString PUBLIC_TIMELINE = "public timeline";
+  const QString URL_IDENTICA = "http://identi.ca/api";
+  const QString URL_TWITTER = "http://twitter.com";
+}
+
 #endif // TWITTERAPI_GLOBAL_H
+
+/*!
+  \enum TwitterAPI::Role
+
+  Set for sent requests, represents the activity performed by the specific request.
+*/
+
+/*!
+  \var TwitterAPI::ROLE_PUBLIC_TIMELINE
+
+  Indicates that the request is for downloading the public timeline.
+*/
+
+/*!
+  \var TwitterAPI::ROLE_FRIENDS_TIMELINE
+
+  Indicates that the request is for downloading the friends timeline.
+*/
+
+/*!
+  \var TwitterAPI::ROLE_DIRECT_MESSAGES
+
+  Indicates that the request is for downloading direct messages list.
+*/
+
+/*!
+  \var TwitterAPI::ROLE_POST_UPDATE
+
+  Indicates that the request is for posting a status update.
+*/
+
+/*!
+  \var TwitterAPI::ROLE_DELETE_UPDATE
+
+  Indicates that the request is for deleting a status update.
+*/
+
+/*!
+  \var TwitterAPI::ROLE_POST_DM
+
+  Indicates that the request is for posting a direct message.
+
+  \note Not implemented yet.
+*/
+
+/*!
+  \var TwitterAPI::ROLE_DELETE_DM
+
+  Indicates that the request is for deleting a direct message.
+
+  \note Not implemented yet.
+*/

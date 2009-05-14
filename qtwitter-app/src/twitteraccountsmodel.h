@@ -22,44 +22,75 @@
 #define TWITTERACCOUNTSMODEL_H
 
 #include <QAbstractItemModel>
+#include <QRegExp>
 #include <QList>
 #include <QMetaType>
+#include <twitterapi/twitterapi_global.h>
 
 struct TwitterAccount
 {
-  enum Type {
-    SERVICE_TWITTER,
-    SERVICE_IDENTICA
-  };
-
   bool isEnabled;
-  int service;
+  TwitterAPI::SocialNetwork network;
   QString login;
   QString password;
   bool directMessages;
 
-  void setService( const QString &name ) {
-    if ( name == "Twitter" )
-      service = SERVICE_TWITTER;
-    else if ( name == "Identi.ca" )
-      service = SERVICE_IDENTICA;
+  static QPair<TwitterAPI::SocialNetwork,QString> fromString( const QString &name )
+  {
+    QRegExp rx( "(.+) @ (.+)" );
+    if ( rx.indexIn( name ) == -1 )
+      return QPair<TwitterAPI::SocialNetwork,QString>();
+    return QPair<TwitterAPI::SocialNetwork,QString>( networkFromString(rx.cap(2)), rx.cap(1) );
   }
-  QString getService() const {
-    switch( service ) {
-    case SERVICE_IDENTICA:
+
+  static TwitterAPI::SocialNetwork networkFromString( const QString &name )
+  {
+    if ( name == "Twitter" )
+      return TwitterAPI::SOCIALNETWORK_TWITTER;
+    // TODO: return some error code
+    return TwitterAPI::SOCIALNETWORK_IDENTICA;
+  }
+
+  static const TwitterAccount publicTimeline( TwitterAPI::SocialNetwork network )
+  {
+    TwitterAccount account;
+    account.isEnabled = true;
+    account.network = network;
+    account.login = TwitterAPI::PUBLIC_TIMELINE;
+    account.password = "";
+    account.directMessages = false;
+    return account;
+  }
+
+  QString toString() const
+  {
+    return QString( "%1 @ %2" ).arg( login, networkToString() );
+  }
+  QString networkToString() const
+  {
+    switch( network ) {
+    case TwitterAPI::SOCIALNETWORK_IDENTICA:
       return "Identi.ca";
-    case SERVICE_TWITTER:
+    case TwitterAPI::SOCIALNETWORK_TWITTER:
     default:
       return "Twitter";
     }
   }
-  bool operator==( const TwitterAccount &other ) const {
+  bool operator==( const TwitterAccount &other ) const
+  {
     return ( isEnabled == other.isEnabled &&
-             service == other.service &&
+             network == other.network &&
              login == other.login &&
              password == other.password &&
              directMessages == other.directMessages );
   }
+  bool operator<( const TwitterAccount &other ) const
+  {
+    if ( network != other.network )
+      return network < other.network;
+    return login < other.login;
+  }
+
 };
 
 Q_DECLARE_METATYPE(TwitterAccount)
@@ -91,7 +122,7 @@ public:
 
   // TODO: do we really need these two?
   TwitterAccount& account( int index );
-  TwitterAccount* account( const QString &login );
+  TwitterAccount* account( TwitterAPI::SocialNetwork network, const QString &login );
 
   int indexOf( const TwitterAccount &account );
 

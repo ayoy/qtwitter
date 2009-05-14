@@ -29,23 +29,25 @@ const QByteArray XmlParser::USER_PHOTO = "profile_image_url";
 const QByteArray XmlParser::USER_HOMEPAGE = "url";
 const QByteArray XmlParser::USER_TIMESTAMP = "created_at";
 
-XmlParser::XmlParser( const QString &login, QObject *parent) :
+XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent) :
     QObject( parent ),
     QXmlDefaultHandler(),
     currentField( None ),
     entry(),
     important( false )
 {
+  this->network = network;
   this->login = login;
 }
 
-XmlParser::XmlParser( const QString &login, Entry::Type entryType, QObject *parent) :
+XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Entry::Type entryType, QObject *parent) :
     QObject( parent ),
     QXmlDefaultHandler(),
     currentField( None ),
     entry( entryType ),
     important( false )
 {
+  this->network = network;
   this->login = login;
 }
 
@@ -71,7 +73,7 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
 bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
   if ( qName == "status" ) {
-    emit newEntry( login, entry );
+    emit newEntry( network, login, entry );
   }
   return true;
 
@@ -105,7 +107,7 @@ bool XmlParser::characters( const QString &ch )
   return true;
 }
 
-XmlParser::FieldType XmlParser::checkFieldType(const QString &element )
+XmlParser::FieldType XmlParser::checkFieldType( const QString &element )
 {
   if ( !element.compare(USER_ID) )
     return Id;
@@ -175,8 +177,9 @@ QString XmlParser::textToHtml( QString newText )
   return newText;
 }
 
-XmlParserDirectMsg::XmlParserDirectMsg( const QString &login, QObject *parent ) :
-    XmlParser( login, Entry::DirectMessage, parent ),
+
+XmlParserDirectMsg::XmlParserDirectMsg( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent ) :
+    XmlParser( network, login, Entry::DirectMessage, parent ),
     parsingSender( false )
 {}
 
@@ -195,7 +198,7 @@ bool XmlParserDirectMsg::startElement( const QString & /* namespaceURI */, const
 bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
   if ( qName == "direct_message" ) {
-    emit newEntry( login, entry );
+    emit newEntry( network, login, entry );
   }
   if ( qName == "sender" ) {
     parsingSender = false;
@@ -306,7 +309,7 @@ bool XmlParserDirectMsg::characters( const QString &ch )
     being read here.
 */
 
-/*! \fn void XmlParser::newEntry( Entry *entry )
+/*! \fn void XmlParser::newEntry( network, Entry *entry )
     Emitted when a complete entry is read.
     \param entry A parsed entry.
 */
