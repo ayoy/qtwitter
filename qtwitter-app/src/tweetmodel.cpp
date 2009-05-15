@@ -45,6 +45,16 @@ TweetModel::~TweetModel()
   }
 }
 
+void TweetModel::setNetwork( TwitterAPI::SocialNetwork network )
+{
+  this->network = network;
+}
+
+TwitterAPI::SocialNetwork TweetModel::getNetwork() const
+{
+  return network;
+}
+
 void TweetModel::setLogin( const QString &login )
 {
   this->login = login;
@@ -234,6 +244,12 @@ void TweetModel::deleteTweet( int id )
       return;
     }
   }
+}
+
+void TweetModel::sendDeleteRequest( int id )
+{
+  qDebug() << "TweetModel::sendDeleteRequest";
+  emit destroy( network, login, id );
 }
 
 void TweetModel::slotDirectMessagesChanged( bool isEnabled )

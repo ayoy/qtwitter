@@ -65,6 +65,10 @@ Core::Core( MainWindow *parent ) :
   margin = parent->getScrollBarWidth();
 
   accountsModel = new TwitterAccountsModel( this );
+  accountsModel->insertRows(0,2);
+  accountsModel->account(0) = TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER );
+  accountsModel->account(1) = TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA );
+
 
   urlShortener = new UrlShortener( this );
   connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
@@ -405,7 +409,7 @@ void Core::createConnectionsWithModel( TweetModel *model )
   connect( model, SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
   connect( model, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
   connect( model, SIGNAL(about()), this, SIGNAL(about()) );
-  connect( model, SIGNAL(destroy(QString,int)), this, SLOT(destroyTweet(TwitterAPI::SocialNetwork,QString,int)) );
+  connect( model, SIGNAL(destroy(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(destroyTweet(TwitterAPI::SocialNetwork,QString,int)) );
   connect( model, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( model, SIGNAL(newTweets(QString,bool)), this, SLOT(storeNewTweets(QString,bool)) );
   connect( this, SIGNAL(setImageForUrl(QString,QPixmap*)), model, SLOT(setImageForUrl(QString,QPixmap*)) );

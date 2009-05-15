@@ -286,7 +286,7 @@ void TwitterAPIInterface::postUpdate( TwitterAPI::SocialNetwork network, const Q
 */
 void TwitterAPIInterface::deleteUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id )
 {
-  QNetworkRequest request( QUrl( QString("%1/statuses/destroy/%1.xml").arg( services[ network ], QString::number(id) ) ) );
+  QNetworkRequest request( QUrl( QString("%1/statuses/destroy/%2.xml").arg( services[ network ], QString::number(id) ) ) );
   request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
   request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_DELETE_UPDATE );
   request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
@@ -354,7 +354,9 @@ void TwitterAPIInterface::directMessages( TwitterAPI::SocialNetwork network, con
   qDebug() << "TwitterAPIInterface::directMessages(" + login + ")";
   if ( !connections[ network ].contains( login ) )
     createInterface( network, login );
-  if ( !connections[ network ][ login ]->friendsInProgress || connections[ network ][ login ]->authorized || connections[ network ][ login ]->dmScheduled ) {
+  if ( !connections[ network ][ login ]->friendsInProgress ||
+       connections[ network ][ login ]->authorized ||
+       connections[ network ][ login ]->dmScheduled ) {
     connections[ network ][ login ]->connection.data()->get( request );
     connections[ network ][ login ]->dmScheduled = false;
   }

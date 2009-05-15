@@ -21,7 +21,11 @@
 #include <QStringList>
 #include "twitteraccountsmodel.h"
 
-TwitterAccountsModel::TwitterAccountsModel( QObject *parent ) : QAbstractItemModel( parent ) {}
+TwitterAccountsModel::TwitterAccountsModel( QObject *parent ) : QAbstractItemModel( parent )
+{
+  accounts.append( TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) );
+  accounts.append( TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) );
+}
 
 int TwitterAccountsModel::rowCount( const QModelIndex &parent ) const
 {

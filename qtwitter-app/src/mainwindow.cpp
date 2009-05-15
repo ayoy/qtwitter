@@ -334,7 +334,7 @@ void MainWindow::sendStatus()
     messageBox->deleteLater();
   }
   resetUiWhenFinished = true;
-  emit post( TwitterAPI::SOCIALNETWORK_TWITTER, ui.accountsComboBox->currentText(), ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
+  emit post( TwitterAccount::fromString( ui.accountsComboBox->currentText() ).first, TwitterAccount::fromString( ui.accountsComboBox->currentText() ).second, ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
   showProgressIcon();
 }
 

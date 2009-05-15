@@ -76,6 +76,16 @@ struct TwitterAccount
       return "Twitter";
     }
   }
+  TwitterAccount operator=( const TwitterAccount &other )
+  {
+    TwitterAccount account;
+    account.isEnabled = other.isEnabled;
+    account.network = other.network;
+    account.login = other.login;
+    account.password = other.password;
+    account.directMessages = other.directMessages;
+    return account;
+  }
   bool operator==( const TwitterAccount &other ) const
   {
     return ( isEnabled == other.isEnabled &&
