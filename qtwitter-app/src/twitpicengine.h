@@ -54,7 +54,6 @@ private:
   void createConnections( Core *whereToConnectTo );
   void clearDataStorage();
   void parseReply(QByteArray &reply);
-  TwitPicXmlParser *replyParser;
   int httpGetId;
   bool httpRequestAborted;
   QByteArray *bytearray;
