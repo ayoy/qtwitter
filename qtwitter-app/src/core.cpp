@@ -229,6 +229,7 @@ void Core::abortUploadPhoto()
 
 void Core::twitPicResponse( bool responseStatus, QString message, bool newStatus )
 {
+  qDebug() << "twicPicResponse";
   emit twitPicResponseReceived();
   if ( !responseStatus ) {
     emit errorMessage( tr( "There was a problem uploading your photo:" ).append( " %1" ).arg( message ) );

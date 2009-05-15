@@ -154,13 +154,13 @@ void TwitPicView::setImagePreview( const QString &path )
     pixmap = NULL;
   }
   pixmap = new QPixmap( path );
-  if ( pixmap->isNull() ) {
-    delete pixmap;
-    pixmap = NULL;
-    m_ui->imagePreview->setText( tr( "Select a photo to upload" ) );
-    m_ui->uploadButton->setEnabled( false );
-    return;
-  }
+//  if ( pixmap->isNull() ) {
+//    delete pixmap;
+//    pixmap = NULL;
+//    m_ui->imagePreview->setText( tr( "Select a photo to upload" ) );
+//    m_ui->uploadButton->setEnabled( false );
+//    return;
+//  }
   if ( pixmap->width() > m_ui->imagePreview->width() || pixmap->height() > m_ui->imagePreview->height() ) {
     m_ui->imagePreview->setPixmap( pixmap->scaled( m_ui->imagePreview->size(), Qt::KeepAspectRatio ) );
   } else {
