@@ -12,10 +12,15 @@ macx {
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
     QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
-    LIBS += -framework twitterapi -framework urlshortener
+    LIBS += -framework \
+        twitterapi \
+        -framework \
+        urlshortener
 }
 else:unix { 
-    LIBS += -L$${TOP} $$TWITTERAPI_LIB $$URLSHORTENER_LIB \
+    LIBS += -L$${TOP} \
+        $$TWITTERAPI_LIB \
+        $$URLSHORTENER_LIB \
         -Wl,-rpath,$${TOP}
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
@@ -56,7 +61,9 @@ else:unix {
 }
 else:win32 { 
     RC_FILE = win32/qtwitter.rc
-    LIBS += -L$${TOP} $$TWITTERAPI_LIB $$URLSHORTENER_LIB
+    LIBS += -L$${TOP} \
+        $$TWITTERAPI_LIB \
+        $$URLSHORTENER_LIB
 }
 
 include(src/qticonloader/qticonloader.pri)
@@ -70,7 +77,6 @@ SOURCES += src/main.cpp \
     src/tweetmodel.cpp \
     src/twitpicview.cpp \
     src/twitpicengine.cpp \
-    src/twitpicxmlparser.cpp \
     src/twitteraccountsdelegate.cpp \
     src/qtwitter.cpp \
     src/twitteraccountsmodel.cpp \
@@ -86,7 +92,6 @@ HEADERS += src/mainwindow.h \
     src/statuslist.h \
     src/twitpicview.h \
     src/twitpicengine.h \
-    src/twitpicxmlparser.h \
     src/statustextedit.h \
     src/twitteraccountsdelegate.h \
     src/qtwitter.h \
@@ -115,5 +120,3 @@ OBJECTS_DIR = tmp
 INCLUDEPATH += $${TOP} \
     src \
     tmp
-
-

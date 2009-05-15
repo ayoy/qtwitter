@@ -26,6 +26,7 @@
 class QBuffer;
 class Core;
 class TwitPicXmlParser;
+class TwitPicDomParser;
 
 class TwitPicEngine : public QHttp
 {
@@ -43,6 +44,7 @@ public slots:
 signals:
   void finished();
   void errorMessage( const QString &message );
+  void completed( bool responseStatus, QString message, bool newStatus );
 
 private slots:
   void readResponseHeader( const QHttpResponseHeader &responseHeader );
@@ -51,6 +53,7 @@ private slots:
 private:
   void createConnections( Core *whereToConnectTo );
   void clearDataStorage();
+  void parseReply(QByteArray &reply);
   TwitPicXmlParser *replyParser;
   int httpGetId;
   bool httpRequestAborted;

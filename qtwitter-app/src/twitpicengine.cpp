@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -20,14 +21,13 @@
 
 #include <QDebug>
 #include <QBuffer>
+#include <QtXml>
 #include "core.h"
 #include "twitpicengine.h"
-#include "twitpicxmlparser.h"
 
 TwitPicEngine::TwitPicEngine( Core *coreParent, QObject *parent ) :
     QHttp( parent )
 {
-  replyParser = new TwitPicXmlParser( this );
   setHost( "twitpic.com", QHttp::ConnectionModeHttp);
   createConnections( coreParent );
 }
@@ -128,14 +128,71 @@ void TwitPicEngine::httpRequestFinished(int requestId, bool error)
   if (error) {
     emit errorMessage( "Download failed: " + errorString() );
   } else {
-    QXmlSimpleReader xmlReader;
-    QXmlInputSource source;
-    source.setData( *bytearray );
-    xmlReader.setContentHandler( replyParser );
-    xmlReader.parse( source );
+    qDebug() << "========= XML PARSING STARTED =========" << state();
+    parseReply( *bytearray );
     qDebug() << "========= XML PARSING FINISHED =========" << state();
   }
   clearDataStorage();
+}
+
+/*!
+  Parses xml returned by Twitpic after the photo has been uploaded.
+
+  \param &reply Contains the server's response.
+*/
+void TwitPicEngine::parseReply(QByteArray &reply)
+{
+  QString url;
+  bool userId = false;
+  QDomDocument doc;
+
+  doc.setContent(reply, false);
+  QDomElement docElem = doc.documentElement();
+
+  if ( docElem.hasAttribute("stat") && (docElem.attribute("stat") == "fail") ) {
+
+    //failures have only att. "stat"
+    QDomElement error = docElem.firstChild().toElement();
+    qDebug() << error.tagName();
+    if (!error.isNull()) {
+      int errCode = error.attribute("code").toInt();
+      QString errMsg;
+
+      switch (errCode) {
+      case 1001:
+        errMsg = tr( "Invalid twitter username or password");
+        break;
+      case 1002:
+        errMsg = tr( "Image not found" );
+        break;
+      case 1003:
+        errMsg = tr( "Invalid image type" );
+        break;
+      case 1004:
+        errMsg = tr( "Image larger than 4MB" );
+        break;
+      default:
+        errMsg = tr( "We're sorry, but due to some mysterious error your image failed to upload" );
+      }
+      emit completed(false, "\n" + errMsg, false);
+      return;
+    }
+
+    //status ok:
+    QDomNode n = docElem.firstChild();
+    while ( !n.isNull() ) {
+      QDomElement e = n.toElement();
+      if ( !e.isNull() ) {
+        qDebug() << qPrintable( e.tagName() );
+        if(e.tagName() == "userid")
+          userId = true;
+        else if(e.tagName() == "mediaurl")
+          url = e.text();
+      }
+      n = n.nextSibling();
+    }
+    emit completed(true, url, userId);
+  }
 }
 
 void TwitPicEngine::createConnections( Core *coreParent )
@@ -145,7 +202,7 @@ void TwitPicEngine::createConnections( Core *coreParent )
   connect( this, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), SLOT(readResponseHeader(const QHttpResponseHeader &)));
 
   connect( this, SIGNAL(errorMessage(QString)), coreParent, SIGNAL(errorMessage(QString)) );
-  connect( replyParser, SIGNAL(completed(bool,QString,bool)), coreParent, SLOT(twitPicResponse(bool,QString,bool)) );
+  connect( this, SIGNAL(completed(bool, QString, bool)), coreParent, SLOT(twitPicResponse(bool, QString, bool)) );
   connect( this, SIGNAL(dataSendProgress(int,int)), coreParent, SIGNAL(twitPicDataSendProgress(int,int)) );
 }
 
