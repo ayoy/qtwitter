@@ -241,6 +241,11 @@ void TweetModel::deleteTweet( int id )
       removeRow(i);
       Q_ASSERT(statuses[i].tweet == 0 );
       statuses.removeAt(i);
+      if ( currentIndex.row() > statuses.size() - 1 ) {
+        currentIndex = index( statuses.size() - 1, 0 );
+        selectTweet( currentIndex );
+//        selectTweet( currentIndex.sibling( statuses.size() - 1, 0 ) );
+      }
       return;
     }
   }

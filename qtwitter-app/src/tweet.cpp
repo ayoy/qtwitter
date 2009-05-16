@@ -109,8 +109,6 @@ void Tweet::createMenu()
     connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
     connect( m_ui->menuButton, SIGNAL(clicked()), signalMapper, SLOT(map()) );
     connect( signalMapper, SIGNAL(mapped(int)), tweetListModel, SLOT(sendDeleteRequest(int)) );
-    // TODO: Bug in Qt (?) about QSignalMapper not mapping signals sent by QAction's shortcut
-    connect( deleteAction, SIGNAL(triggered()), this, SLOT(slotDelete()) );
   }
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
