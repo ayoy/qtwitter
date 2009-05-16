@@ -134,7 +134,10 @@ void TwitPicView::sendUploadRequest()
 
 void TwitPicView::setImagePath()
 {
-  m_ui->imagePathEdit->setText( QFileDialog::getOpenFileName( this, tr( "Select photo to upload" ), getHomeDir(), tr( "Image files" ).append( " (*.jpg *.jpeg *.png *.bmp *.gif)" ) ) );
+  m_ui->imagePathEdit->setText( QFileDialog::getOpenFileName(
+      this, tr( "Select photo to upload" ),
+      settings.value("TwitPic/lastPath", getHomeDir()).toString(),
+      tr( "Image files" ).append( " (*.jpg *.jpeg *.png *.bmp *.gif *.JPG *.JPEG *.PNG *.GIF)" ) ) );
 }
 
 void TwitPicView::setImagePreview( const QString &path )
@@ -167,6 +170,8 @@ void TwitPicView::setImagePreview( const QString &path )
     m_ui->imagePreview->setPixmap( *pixmap );
   }
   m_ui->uploadButton->setEnabled( true );
+
+  settings.setValue("TwitPic/lastPath", QFileInfo( path ).path());
 }
 
 QString TwitPicView::getHomeDir()
