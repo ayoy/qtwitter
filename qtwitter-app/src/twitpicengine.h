@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -25,8 +26,6 @@
 
 class QBuffer;
 class Core;
-class TwitPicXmlParser;
-class TwitPicDomParser;
 
 class TwitPicEngine : public QHttp
 {
@@ -54,6 +53,15 @@ private:
   void createConnections( Core *whereToConnectTo );
   void clearDataStorage();
   void parseReply(QByteArray &reply);
+
+private:
+  enum ErrorId {
+    ErrInvalidLogin = 1001,
+    ErrImageNotFound = 1002,
+    ErrInvalidType = 1003,
+    ErrOversized = 1004
+  };
+
   int httpGetId;
   bool httpRequestAborted;
   QByteArray *bytearray;
