@@ -18,30 +18,16 @@
  ***************************************************************************/
 
 
-#ifndef TWITTERACCOUNTSDELEGATE_H
-#define TWITTERACCOUNTSDELEGATE_H
+#include <QModelIndex>
+#include "accountsview.h"
 
-#include <QItemDelegate>
-
-class AccountTypeDelegate : public QItemDelegate
+AccountsView::AccountsView( QWidget *parent ) : QTreeView( parent )
 {
-public:
-  AccountTypeDelegate( QObject *parent = 0 );
+  connect ( this, SIGNAL(clicked(QModelIndex)), SLOT(filterClick(QModelIndex)) );
+}
 
-  QWidget* createEditor ( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
-  void setEditorData ( QWidget *editor, const QModelIndex &index ) const;
-  void updateEditorGeometry ( QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
-  void setModelData ( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const;
-};
-
-class TwitterAccountsDelegate : public QItemDelegate
+void AccountsView::filterClick( const QModelIndex &index )
 {
-public:
-  TwitterAccountsDelegate( QList<int> checkBoxColumns, QObject *parent = 0 );
-
-  void paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
-private:
-  QList<int> checkBoxColumns;
-};
-
-#endif // TWITTERACCOUNTSDELEGATE_H
+  if ( index.column() == 0  || index.column() == 4 )
+    emit checkBoxClicked( index );
+}

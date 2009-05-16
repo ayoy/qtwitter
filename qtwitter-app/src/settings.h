@@ -126,6 +126,7 @@ signals:
 private slots:
   void fillAccountEditor( const QModelIndex &current, const QModelIndex &previous );
   void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
+  void updateCheckBox( const QModelIndex &index );
   void addTwitterAccount();
   void deleteTwitterAccount();
   void setTwitterAccountEnabled( bool state );

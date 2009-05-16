@@ -47,7 +47,7 @@ struct TwitterAccount
   {
     if ( name == "Twitter" )
       return TwitterAPI::SOCIALNETWORK_TWITTER;
-    // TODO: return some error code
+    // TODO: return some error code?
     return TwitterAPI::SOCIALNETWORK_IDENTICA;
   }
 

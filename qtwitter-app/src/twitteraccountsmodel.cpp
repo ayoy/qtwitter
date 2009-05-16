@@ -54,29 +54,41 @@ QModelIndex TwitterAccountsModel::parent( const QModelIndex &index ) const
 
 QVariant TwitterAccountsModel::data( const QModelIndex &index, int role ) const
 {
-  if ( !index.isValid() || role != Qt::DisplayRole )
+  if ( !index.isValid() )
     return QVariant();
-
+  
   switch ( index.column() ) {
   case 0:
-    return accounts.at( index.row() ).isEnabled;
+    if ( role == Qt::CheckStateRole )
+      return accounts.at( index.row() ).isEnabled ? Qt::Checked : Qt::Unchecked;
+    break;
   case 1:
-    switch ( accounts.at( index.row() ).network ) {
-    case TwitterAPI::SOCIALNETWORK_IDENTICA:
-      return "Identi.ca";
-    case TwitterAPI::SOCIALNETWORK_TWITTER:
-    default:
-      return "Twitter";
+    if ( role == Qt::DisplayRole || role == Qt::EditRole ) {
+      switch ( accounts.at( index.row() ).network ) {
+      case TwitterAPI::SOCIALNETWORK_IDENTICA:
+        return "Identi.ca";
+      case TwitterAPI::SOCIALNETWORK_TWITTER:
+      default:
+        return "Twitter";
+      }
     }
+    break;
   case 2:
-    return accounts.at( index.row() ).login;
+    if ( role == Qt::DisplayRole || role == Qt::EditRole )
+      return accounts.at( index.row() ).login;
+    break;
   case 3:
-    return accounts.at( index.row() ).password;
+    if ( role == Qt::DisplayRole )
+      return QString::fromUtf8( "••••••••" );
+    if ( role == Qt::EditRole )
+      return accounts.at( index.row() ).password;
+    break;
   case 4:
-    return accounts.at( index.row() ).directMessages;
-  default:
-    return QVariant();
+    if ( role == Qt::CheckStateRole )
+      return accounts.at( index.row() ).directMessages ? Qt::Checked : Qt::Unchecked;
+  default:;
   }
+  return QVariant();
 }
 
 QVariant TwitterAccountsModel::headerData( int section, Qt::Orientation orientation, int role ) const
@@ -92,6 +104,8 @@ QVariant TwitterAccountsModel::headerData( int section, Qt::Orientation orientat
     return tr( "Service" );
   case 2:
     return tr( "Login" );
+  case 3:
+    return tr( "Password" );
   case 4:
     //: This should be as short as possible (e.g. PW in Polish)
     return tr( "Direct msgs" );
@@ -133,7 +147,9 @@ bool TwitterAccountsModel::setData( const QModelIndex &index, const QVariant &va
 
 Qt::ItemFlags TwitterAccountsModel::flags( const QModelIndex &index ) const
 {
-  return QAbstractItemModel::flags( index ) |= Qt::ItemIsEditable;
+  if ( index.column() != 0 && index.column() != 4 )
+    return QAbstractItemModel::flags( index ) |= Qt::ItemIsEditable;
+  return QAbstractItemModel::flags( index );
 }
 
 bool TwitterAccountsModel::insertRows( int row, int count, const QModelIndex &parent )

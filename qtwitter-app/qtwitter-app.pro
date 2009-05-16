@@ -3,19 +3,22 @@ TARGET = qtwitter
 
 # sets the TOP variable to the root source code dir
 include(../qtwitter.pri)
-
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
-
 macx { 
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
     QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
-    LIBS += -framework twitterapi -framework urlshortener
+    LIBS += -framework \
+        twitterapi \
+        -framework \
+        urlshortener
 }
 else:unix { 
-    LIBS += -L$${TOP} $$TWITTERAPI_LIB $$URLSHORTENER_LIB \
+    LIBS += -L$${TOP} \
+        $$TWITTERAPI_LIB \
+        $$URLSHORTENER_LIB \
         -Wl,-rpath,$${TOP}
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
@@ -56,9 +59,10 @@ else:unix {
 }
 else:win32 { 
     RC_FILE = win32/qtwitter.rc
-    LIBS += -L$${TOP} $$TWITTERAPI_LIB $$URLSHORTENER_LIB
+    LIBS += -L$${TOP} \
+        $$TWITTERAPI_LIB \
+        $$URLSHORTENER_LIB
 }
-
 include(src/qticonloader/qticonloader.pri)
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
@@ -71,10 +75,11 @@ SOURCES += src/main.cpp \
     src/twitpicview.cpp \
     src/twitpicengine.cpp \
     src/twitpicxmlparser.cpp \
-    src/twitteraccountsdelegate.cpp \
+    src/accountsdelegate.cpp \
     src/qtwitter.cpp \
     src/twitteraccountsmodel.cpp \
-    src/aboutdialog.cpp
+    src/aboutdialog.cpp \
+    src/accountsview.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/imagedownload.h \
@@ -88,10 +93,11 @@ HEADERS += src/mainwindow.h \
     src/twitpicengine.h \
     src/twitpicxmlparser.h \
     src/statustextedit.h \
-    src/twitteraccountsdelegate.h \
+    src/accountsdelegate.h \
     src/qtwitter.h \
     src/twitteraccountsmodel.h \
-    src/aboutdialog.h
+    src/aboutdialog.h \
+    src/accountsview.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
@@ -115,5 +121,3 @@ OBJECTS_DIR = tmp
 INCLUDEPATH += $${TOP} \
     src \
     tmp
-
-

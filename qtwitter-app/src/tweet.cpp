@@ -197,7 +197,11 @@ void Tweet::retranslateUi()
   deleteAction->setText( tr( "Delete tweet" ) );
   markallasreadAction->setText( tr( "Mark all as read" ) );
   gotohomepageAction->setText( tr( "Go to User's homepage" ) );
-  gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
+  if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+    gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
+  } else {
+    gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
+  }
 }
 
 bool Tweet::isRead() const

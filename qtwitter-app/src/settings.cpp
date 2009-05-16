@@ -39,8 +39,10 @@
 #include "mainwindow.h"
 #include "twitpicview.h"
 #include "twitteraccountsmodel.h"
-#include "twitteraccountsdelegate.h"
+#include "accountsdelegate.h"
 #include "qticonloader.h"
+
+#include "accountsview.h"
 
 const QString ConfigFile::APP_VERSION = "0.6.0";
 
@@ -178,15 +180,16 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   if ( accountsModel ) {
     ui.usersView->setModel( accountsModel );
   }
-  ui.usersView->setItemDelegate( new TwitterAccountsDelegate( QList<int>() << 0 << 4, this ) );
-  ui.usersView->setItemDelegateForColumn( 1, new AccountTypeDelegate( this ) );
 
-  ui.usersView->hideColumn( 3 );
+  ui.usersView->setItemDelegate( new AccountsDelegate( this ) );
+
+//  ui.usersView->hideColumn( 3 );
   ui.usersView->setColumnWidth( 0, (int)(ui.usersView->width() * 0.5 ));
   ui.usersView->setColumnWidth( 1, (int)(ui.usersView->width() * 0.7 ));
   ui.usersView->setColumnWidth( 2, (int)(ui.usersView->width() * 0.8 ));
   ui.usersView->setColumnWidth( 4, (int)(ui.usersView->width() * 0.2 ));
 
+  connect( ui.usersView, SIGNAL(checkBoxClicked(QModelIndex)), this, SLOT(updateCheckBox(QModelIndex)) );
   connect( ui.usersView->selectionModel(), SIGNAL(currentRowChanged(QModelIndex,QModelIndex)), this, SLOT(fillAccountEditor(QModelIndex,QModelIndex)) );
   connect( accountsModel, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateAccounts(QModelIndex,QModelIndex)) );
 //  connect( ui.usersView->model(), SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateAccounts(QModelIndex,QModelIndex)) );
@@ -457,6 +460,20 @@ void Settings::updateAccounts( const QModelIndex &topLeft, const QModelIndex &bo
   }
 }
 
+void Settings::updateCheckBox( const QModelIndex &index )
+{
+  TwitterAccount &account = accountsModel->account( index.row() );
+  if ( index.column() == 0 ) {
+    account.isEnabled = !account.isEnabled;
+    setTwitterAccountEnabled( account.isEnabled );
+  } else if ( index.column() == 4 ) {
+    account.directMessages = !account.directMessages;
+    setTwitterAccountDM( account.directMessages );
+  }
+  ui.usersView->update( index );
+  updateAccountsOnExit = true;
+}
+
 void Settings::addTwitterAccount()
 {
   accountsModel->insertRow( accountsModel->rowCount() );
@@ -495,6 +512,7 @@ void Settings::setTwitterAccountEnabled( bool state )
   accountsModel->account( ui.usersView->currentIndex().row() ).isEnabled = state;
   ui.usersView->update( accountsModel->index( ui.usersView->currentIndex().row(), 0, QModelIndex() ) );
   settings.setValue( QString("TwitterAccounts/%1/enabled").arg( ui.usersView->currentIndex().row() ), state );
+  updateAccountsOnExit = true;
 }
 
 void Settings::setTwitterAccountLogin( const QString &login )
@@ -505,6 +523,7 @@ void Settings::setTwitterAccountLogin( const QString &login )
   account.login = login;
   ui.usersView->update( accountsModel->index( ui.usersView->currentIndex().row(), 1, QModelIndex() ) );
   settings.setValue( QString("TwitterAccounts/%1/login").arg( ui.usersView->currentIndex().row() ), login );
+  updateAccountsOnExit = true;
 }
 
 void Settings::setTwitterAccountPassword( const QString &password )
@@ -514,6 +533,7 @@ void Settings::setTwitterAccountPassword( const QString &password )
   TwitterAccount &account = accountsModel->account( ui.usersView->currentIndex().row() );
   account.password = password;
   settings.setValue( QString("TwitterAccounts/%1/password").arg( ui.usersView->currentIndex().row() ), settings.pwHash( password ) );
+  updateAccountsOnExit = true;
 }
 
 void Settings::setTwitterAccountDM( bool state )
@@ -524,6 +544,7 @@ void Settings::setTwitterAccountDM( bool state )
   account.directMessages = state;
   ui.usersView->update( accountsModel->index( ui.usersView->currentIndex().row(), 3, QModelIndex() ) );
   settings.setValue( QString("TwitterAccounts/%1/directmsgs").arg( ui.usersView->currentIndex().row() ), state );
+  updateAccountsOnExit = true;
 }
 
 void Settings::setPublicTimelineEnabled( bool state )
@@ -539,6 +560,7 @@ void Settings::changeTheme( const QString &theme )
 
 void Settings::retranslateUi()
 {
+//  ui.retranslateUi( this );
   this->setWindowTitle( tr("Settings") );
   ui.tabs->setTabText( 0, tr( "General" ) );
   ui.refreshLabel->setText( tr("Refresh every (mins):") );
@@ -553,6 +575,7 @@ void Settings::retranslateUi()
   ui.accountPasswordLabel->setText( tr( "Password:" ) );
   ui.accountDMCheckBox->setText( tr( "download direct messages" ) );
   ui.publicTimelineCheckBox->setText( tr( "include public timeline" ) );
+  ui.publicTimelineLabel->setText( tr( "public timeline:" ) );
   ui.tabs->setTabText( 2, tr( "Network" ) );
   ui.proxyBox->setText( tr( "Use HTTP &proxy" ) );
   ui.hostLabel->setText( tr( "Host:" ) );

@@ -181,7 +181,7 @@
             <number>6</number>
            </property>
            <item>
-            <widget class="QTreeView" name="usersView">
+            <widget class="AccountsView" name="usersView">
              <property name="horizontalScrollBarPolicy">
               <enum>Qt::ScrollBarAsNeeded</enum>
              </property>
@@ -208,14 +208,14 @@
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <widget class="QLabel" name="label">
+              <widget class="QLabel" name="publicTimelineLabel">
                <property name="text">
                 <string>public timeline:</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="comboBox">
+              <widget class="QComboBox" name="publicTimelineComboBox">
                <item>
                 <property name="text">
                  <string>No</string>
@@ -503,6 +503,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>AccountsView</class>
+   <extends>QTreeView</extends>
+   <header>accountsview.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>buttonBox</tabstop>
   <tabstop>refreshCombo</tabstop>

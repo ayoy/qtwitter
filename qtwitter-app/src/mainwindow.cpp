@@ -35,7 +35,7 @@
 #include "tweet.h"
 #include "aboutdialog.h"
 #include "twitteraccountsmodel.h"
-#include "twitteraccountsdelegate.h"
+#include "accountsdelegate.h"
 #include "settings.h"
 #include "qticonloader.h"
 
