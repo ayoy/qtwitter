@@ -19,36 +19,49 @@
 
 
 #include <QRegExp>
+#include <QDebug>
 #include "xmlparser.h"
 
-const QByteArray XmlParser::USER_ID = "id";
-const QByteArray XmlParser::USER_TEXT = "text";
-const QByteArray XmlParser::USER_NAME = "name";
-const QByteArray XmlParser::USER_LOGIN = "screen_name";
-const QByteArray XmlParser::USER_PHOTO = "profile_image_url";
-const QByteArray XmlParser::USER_HOMEPAGE = "url";
-const QByteArray XmlParser::USER_TIMESTAMP = "created_at";
+const QString XmlParser::TAG_STATUS = "status";
+const QString XmlParser::TAG_USER_ID = "id";
+const QString XmlParser::TAG_USER_TEXT = "text";
+const QString XmlParser::TAG_USER_NAME = "name";
+const QString XmlParser::TAG_USER_LOGIN = "screen_name";
+const QString XmlParser::TAG_USER_IMAGE = "profile_image_url";
+const QString XmlParser::TAG_USER_HOMEPAGE = "url";
+const QString XmlParser::TAG_USER_TIMESTAMP = "created_at";
+
+const QString XmlParserDirectMsg::TAG_DIRECT_MESSAGE = "direct_message";
+const QString XmlParserDirectMsg::TAG_SENDER = "sender";
 
 XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent) :
     QObject( parent ),
     QXmlDefaultHandler(),
-    currentField( None ),
+    currentTag( QString() ),
     entry(),
     important( false )
 {
   this->network = network;
   this->login = login;
+  populateTagsSet();
 }
 
 XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Entry::Type entryType, QObject *parent) :
     QObject( parent ),
     QXmlDefaultHandler(),
-    currentField( None ),
+    currentTag( QString() ),
     entry( entryType ),
     important( false )
 {
   this->network = network;
   this->login = login;
+  populateTagsSet();
+}
+
+void XmlParser::populateTagsSet()
+{
+  tags << TAG_USER_ID << TAG_USER_TEXT << TAG_USER_NAME << TAG_USER_LOGIN
+       << TAG_USER_IMAGE << TAG_USER_HOMEPAGE << TAG_USER_TIMESTAMP;
 }
 
 bool XmlParser::startDocument()
@@ -63,41 +76,42 @@ bool XmlParser::endDocument()
 
 bool XmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ )
 {
-  if ( qName == "status" ) {
+  if ( qName == TAG_STATUS ) {
     entry.initialize();
   }
-  ( (currentField = checkFieldType( qName )) != None ) ? important = true : important = false;
+  important = tags.contains( qName );
+  if ( important )
+    currentTag = qName;
   return true;
 }
 
 bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
-  if ( qName == "status" ) {
+  if ( qName == TAG_STATUS ) {
     emit newEntry( network, login, entry );
   }
   return true;
-
 }
 
 bool XmlParser::characters( const QString &ch )
 {
   if ( important ) {
-    if ( currentField == Id && entry.id == -1 ) {
+    if ( currentTag == TAG_USER_ID && entry.id == -1 ) {
       entry.id = ch.toInt();
-    } else if ( currentField == Name && entry.name.isNull() ) {
+    } else if ( currentTag == TAG_USER_NAME && entry.name.isNull() ) {
       entry.name = ch;
-    } else if ( currentField == Login && entry.login.isNull() ) {
+    } else if ( currentTag == TAG_USER_LOGIN && entry.login.isNull() ) {
       entry.login = ch;
       if ( entry.login == login )
         entry.isOwn = true;
-    } else if ( currentField == Text && entry.text.isNull() ) {
+    } else if ( currentTag == TAG_USER_TEXT && entry.text.isNull() ) {
       entry.originalText = ch;
       entry.text = textToHtml( ch );
-    } else if ( currentField == Image && entry.image.isNull() ) {
+    } else if ( currentTag == TAG_USER_IMAGE && entry.image.isNull() ) {
       entry.image = ch;
-    } else if ( currentField == Timestamp && entry.timestamp.isNull() ) {
+    } else if ( currentTag == TAG_USER_TIMESTAMP && entry.timestamp.isNull() ) {
       entry.timestamp = toDateTime( ch );
-    } else if ( currentField == Homepage ) {
+    } else if ( currentTag == TAG_USER_HOMEPAGE ) {
       if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
         entry.hasHomepage = true;
         entry.homepage = ch;
@@ -105,25 +119,6 @@ bool XmlParser::characters( const QString &ch )
     }
   }
   return true;
-}
-
-XmlParser::FieldType XmlParser::checkFieldType( const QString &element )
-{
-  if ( !element.compare(USER_ID) )
-    return Id;
-  if ( !element.compare(USER_TEXT) )
-    return Text;
-  if ( !element.compare(USER_NAME) )
-    return Name;
-  if ( !element.compare(USER_LOGIN) )
-    return Login;
-  if ( !element.compare(USER_HOMEPAGE) )
-    return Homepage;
-  if ( !element.compare(USER_PHOTO) )
-    return Image;
-  if ( !element.compare(USER_TIMESTAMP) )
-    return Timestamp;
-  return None;
 }
 
 QDateTime XmlParser::toDateTime( const QString &timestamp )
@@ -166,9 +161,11 @@ int XmlParser::getMonth( const QString &month )
 
 QString XmlParser::textToHtml( QString newText )
 {
+  QString networkUrl = ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) ? TwitterAPI::URL_TWITTER : TwitterAPI::URL_IDENTICA;
+  networkUrl.replace( QRegExp( "/api$" ), "" );
   QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
   newText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
-  newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([^ @.,!:;]+)" ), "\\1<a href=http://twitter.com/\\2>@\\2</a>" );
+  newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([^ @.,!:;]+)" ), QString( "\\1<a href=%1/\\2>@\\2</a>").arg( networkUrl ) );
   ahref.setPattern( "(<a href=[^ ]+)/>" );
   ahref.setMinimal( true );
   newText.replace( ahref, "\\1>" );
@@ -185,22 +182,24 @@ XmlParserDirectMsg::XmlParserDirectMsg( TwitterAPI::SocialNetwork network, const
 
 bool XmlParserDirectMsg::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ )
 {
-  if ( qName == "direct_message" ) {
+  if ( qName == TAG_DIRECT_MESSAGE ) {
     entry.initialize();
   }
-  if ( qName == "sender" ) {
+  if ( qName == TAG_SENDER ) {
     parsingSender = true;
   }
-  ( (currentField = checkFieldType( qName )) != None ) ? important = true : important = false;
+  important = tags.contains( qName );
+  if ( important )
+    currentTag = qName;
   return true;
 }
 
 bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
-  if ( qName == "direct_message" ) {
+  if ( qName == TAG_DIRECT_MESSAGE ) {
     emit newEntry( network, login, entry );
   }
-  if ( qName == "sender" ) {
+  if ( qName == TAG_SENDER ) {
     parsingSender = false;
   }
   return true;
@@ -209,20 +208,20 @@ bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const Q
 bool XmlParserDirectMsg::characters( const QString &ch )
 {
   if ( important ) {
-    if ( currentField == Id && entry.id == -1 ) {
+    if ( currentTag == TAG_USER_ID && entry.id == -1 ) {
       entry.id = ch.toInt();
-    } else if ( currentField == Text && entry.text.isNull() ) {
+    } else if ( currentTag == TAG_USER_TEXT && entry.text.isNull() ) {
       entry.originalText = ch;
       entry.text = textToHtml( ch );
-    } else if ( currentField == Timestamp && entry.timestamp.isNull() ) {
+    } else if ( currentTag == TAG_USER_TIMESTAMP && entry.timestamp.isNull() ) {
       entry.timestamp = toDateTime( ch );
     }
     if ( parsingSender ) {
-      if ( currentField == Name && entry.name.isNull() ) {
+      if ( currentTag == TAG_USER_NAME && entry.name.isNull() ) {
         entry.name = ch;
-      } else if ( currentField == Login && entry.login.isNull() ) {
+      } else if ( currentTag == TAG_USER_LOGIN && entry.login.isNull() ) {
         entry.login = ch;
-      } else if ( currentField == Homepage ) {
+      } else if ( currentTag == TAG_USER_HOMEPAGE ) {
         if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
           entry.hasHomepage = true;
           entry.homepage = ch;

@@ -35,6 +35,9 @@ namespace TwitterAPI {
     SOCIALNETWORK_IDENTICA
   };
 
+  /*!
+    Set for sent requests, represents the activity performed by the specific request.
+  */
   enum Role {
     ROLE_PUBLIC_TIMELINE = 101,
     ROLE_FRIENDS_TIMELINE,
@@ -49,17 +52,12 @@ namespace TwitterAPI {
     A constant used as a "login" for public timeline requests.
   */
   const QString PUBLIC_TIMELINE = "public timeline";
+
   const QString URL_IDENTICA = "http://identi.ca/api";
   const QString URL_TWITTER = "http://twitter.com";
 }
 
 #endif // TWITTERAPI_GLOBAL_H
-
-/*!
-  \enum TwitterAPI::Role
-
-  Set for sent requests, represents the activity performed by the specific request.
-*/
 
 /*!
   \var TwitterAPI::ROLE_PUBLIC_TIMELINE
