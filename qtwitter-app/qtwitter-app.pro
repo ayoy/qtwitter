@@ -5,7 +5,7 @@ TARGET = qtwitter
 include(../qtwitter.pri)
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
-include($${TOP}/qticonloader/qticonloader.pri)
+include(src/qticonloader/qticonloader.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
 macx { 
     ICON = macx/qtwitter.icns

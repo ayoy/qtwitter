@@ -21,9 +21,11 @@
 
 #include <QDebug>
 #include <QBuffer>
-#include <QtXml>
+#include <QFile>
+#include <QDomDocument>
 #include "core.h"
 #include "twitpicengine.h"
+
 
 TwitPicEngine::TwitPicEngine( Core *coreParent, QObject *parent ) :
     QHttp( parent )
@@ -128,9 +130,7 @@ void TwitPicEngine::httpRequestFinished(int requestId, bool error)
   if (error) {
     emit errorMessage( "Download failed: " + errorString() );
   } else {
-    qDebug() << "========= XML PARSING STARTED =========" << state();
     parseReply( *bytearray );
-    qDebug() << "========= XML PARSING FINISHED =========" << state();
   }
   clearDataStorage();
 }
@@ -159,16 +159,16 @@ void TwitPicEngine::parseReply(QByteArray &reply)
       QString errMsg;
 
       switch (errCode) {
-      case 1001:
+      case ErrInvalidLogin:
         errMsg = tr( "Invalid twitter username or password");
         break;
-      case 1002:
+      case ErrImageNotFound:
         errMsg = tr( "Image not found" );
         break;
-      case 1003:
+      case ErrInvalidType:
         errMsg = tr( "Invalid image type" );
         break;
-      case 1004:
+      case ErrOversized:
         errMsg = tr( "Image larger than 4MB" );
         break;
       default:
