@@ -22,6 +22,8 @@
 #define XMLPARSER_H
 
 #include <QXmlDefaultHandler>
+#include <QSet>
+#include "twitterapi.h"
 #include "entry.h"
 
 class XmlParser : public QObject, public QXmlDefaultHandler
@@ -29,19 +31,9 @@ class XmlParser : public QObject, public QXmlDefaultHandler
   Q_OBJECT
 
 public:
-  enum FieldType {
-    None,
-    Id,
-    Text,
-    Name,
-    Login,
-    Image,
-    Homepage,
-    Timestamp
-  };
 
-  XmlParser( const QString &login, QObject *parent = 0 );
-  XmlParser( const QString &login, Entry::Type entryType = Entry::Status, QObject *parent = 0 );
+  XmlParser( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent = 0 );
+  XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Entry::Type entryType = Entry::Status, QObject *parent = 0 );
 
   virtual bool startDocument();
   virtual bool endDocument();
@@ -55,31 +47,40 @@ public:
   virtual bool characters( const QString &ch );
 
 signals:
-  void newEntry( const QString &login, Entry entry );
+  void newEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
 
 protected:
-  FieldType checkFieldType( const QString &element );
   QDateTime toDateTime( const QString &timestamp );
   int getMonth( const QString &month );
   QString textToHtml( QString newText );
+
+  TwitterAPI::SocialNetwork network;
   QString login;
-  int currentField;
+
+  QString currentTag;
   Entry entry;
   bool important;
 
-  static const QByteArray USER_ID;
-  static const QByteArray USER_TEXT;
-  static const QByteArray USER_NAME;
-  static const QByteArray USER_LOGIN;
-  static const QByteArray USER_PHOTO;
-  static const QByteArray USER_HOMEPAGE;
-  static const QByteArray USER_TIMESTAMP;
+  QSet<QString> tags;
+
+  static const QString TAG_STATUS;
+  static const QString TAG_USER_ID;
+  static const QString TAG_USER_TEXT;
+  static const QString TAG_USER_NAME;
+  static const QString TAG_USER_LOGIN;
+  static const QString TAG_USER_IMAGE;
+  static const QString TAG_USER_HOMEPAGE;
+  static const QString TAG_USER_TIMESTAMP;
+
+private:
+  void populateTagsSet();
+
 };
 
 class XmlParserDirectMsg : public XmlParser
 {
 public:
-  XmlParserDirectMsg( const QString &login, QObject *parent = 0 );
+  XmlParserDirectMsg( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent = 0 );
 
   bool startElement( const QString &namespaceURI,
                      const QString &localName,
@@ -92,6 +93,9 @@ public:
 
 private:
   bool parsingSender;
+
+  static const QString TAG_DIRECT_MESSAGE;
+  static const QString TAG_SENDER;
 };
 
 #endif //XMLPARSER_H

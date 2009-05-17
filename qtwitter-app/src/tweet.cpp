@@ -20,10 +20,9 @@
 
 #include <QDebug>
 #include <QClipboard>
-//#include <QProcess>
 #include <QMenu>
 #include <QSignalMapper>
-#include <twitterapi/twitterapi.h>
+#include <twitterapi/twitterapi_global.h>
 #include "tweet.h"
 #include "ui_tweet.h"
 #include "settings.h"
@@ -52,7 +51,6 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image,
   m_ui->userImage->setPixmap( image );
   adjustSize();
   setFocusProxy( m_ui->userStatus );
-  connect( m_ui->menuButton, SIGNAL(pressed()), this, SLOT(slotDelete()) );
   createMenu();
   m_ui->userStatus->setMenu( menu );
 }
@@ -106,10 +104,11 @@ void Tweet::createMenu()
   if ( !tweetData->isOwn ) {
     deleteAction->setEnabled( false );
   } else {
-
     signalMapper->setMapping( deleteAction, tweetData->id );
-    connect( deleteAction, SIGNAL(triggered()), this, SLOT(slotDelete()) );
-    connect( this, SIGNAL(deleteStatus(QString,int)), tweetListModel, SIGNAL(destroy(QString,int)) );
+    signalMapper->setMapping( m_ui->menuButton, tweetData->id );
+    connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+    connect( m_ui->menuButton, SIGNAL(clicked()), signalMapper, SLOT(map()) );
+    connect( signalMapper, SIGNAL(mapped(int)), tweetListModel, SLOT(sendDeleteRequest(int)) );
   }
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
@@ -119,10 +118,16 @@ void Tweet::createMenu()
 
   menu->addSeparator();
 
-  gototwitterpageAction = new QAction( tr( "Go to User's Twitter page" ), this );
+  gototwitterpageAction = new QAction( this );
   gototwitterpageAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ) );
   menu->addAction( gototwitterpageAction );
-  signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + tweetData->login );
+  if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+    gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
+    signalMapper->setMapping( gototwitterpageAction, "http://identi.ca/" + tweetData->login );
+  } else {
+    gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
+    signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + tweetData->login );
+  }
   connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   connect( signalMapper, SIGNAL(mapped(QString)), tweetListModel, SLOT(emitOpenBrowser(QString)) );
 
@@ -192,7 +197,11 @@ void Tweet::retranslateUi()
   deleteAction->setText( tr( "Delete tweet" ) );
   markallasreadAction->setText( tr( "Mark all as read" ) );
   gotohomepageAction->setText( tr( "Go to User's homepage" ) );
-  gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
+  if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+    gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
+  } else {
+    gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
+  }
 }
 
 bool Tweet::isRead() const
@@ -250,7 +259,10 @@ void Tweet::slotRetweet()
 
 void Tweet::slotCopyLink()
 {
-  QApplication::clipboard()->setText( "http://twitter.com/" + tweetData->login + "/statuses/" + QString::number( tweetData->id ) );
+  if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_TWITTER )
+    QApplication::clipboard()->setText( "http://twitter.com/" + tweetData->login + "/statuses/" + QString::number( tweetData->id ) );
+  else if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_IDENTICA )
+    QApplication::clipboard()->setText( "http://identi.ca/notice/" + QString::number( tweetData->id ) );
 }
 
 void Tweet::changeEvent( QEvent *e )
@@ -291,7 +303,7 @@ void Tweet::focusRequest()
 
 void Tweet::slotDelete()
 {
-  emit deleteStatus( tweetData->login, tweetData->id );
+  tweetListModel->sendDeleteRequest( tweetData->id );
 }
 
 

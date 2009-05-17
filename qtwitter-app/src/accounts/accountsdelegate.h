@@ -18,19 +18,22 @@
  ***************************************************************************/
 
 
-#ifndef TWITTERACCOUNTSDELEGATE_H
-#define TWITTERACCOUNTSDELEGATE_H
+#ifndef ACCOUNTSDELEGATE_H
+#define ACCOUNTSDELEGATE_H
 
-#include <QItemDelegate>
+#include <QStyledItemDelegate>
 
-class TwitterAccountsDelegate : public QItemDelegate
+class QItemEditorFactory;
+
+class AccountsDelegate : public QStyledItemDelegate
 {
 public:
-  TwitterAccountsDelegate( QList<int> checkBoxColumns, QObject *parent = 0 );
+  AccountsDelegate( QObject *parent = 0 );
 
-  void paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
-private:
-  QList<int> checkBoxColumns;
+  QWidget* createEditor ( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+  void setEditorData ( QWidget *editor, const QModelIndex &index ) const;
+  void updateEditorGeometry ( QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+  void setModelData ( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const;
 };
 
-#endif // TWITTERACCOUNTSDELEGATE_H
+#endif // ACCOUNTSDELEGATE_H
