@@ -31,12 +31,14 @@ class QAuthenticator;
 class QCheckBox;
 class QLineEdit;
 class QPushButton;
+class QModelIndex;
 class TwitPicView;
 class TweetModel;
 class MainWindow;
 class Core;
-class TwitterAccount;
-class TwitterAccountsModel;
+class Account;
+class AccountsModel;
+class AccountsController;
 
 struct ThemeElement
 {
@@ -88,7 +90,8 @@ public:
   static const QString APP_VERSION;
   ConfigFile();
   static QString pwHash( const QString &text );
-  void deleteTwitterAccount( int id, int rowCount );
+  void addAccount( int id, const Account &account );
+  void deleteAccount( int id, int rowCount );
 private:
   void convertSettings();
 };
@@ -120,16 +123,15 @@ public slots:
   void switchLanguage( int index );
 
 signals:
-  void accountsChanged( const QList<TwitterAccount> &accounts, bool publicTimeline );
+  void accountsChanged( const QList<Account> &accounts, bool publicTimeline );
+  void createAccounts( QWidget *view );
 
 private slots:
-  void fillAccountEditor( const QModelIndex &current, const QModelIndex &previous );
-  void addTwitterAccount();
-  void deleteTwitterAccount();
-  void setTwitterAccountEnabled( bool state );
-  void setTwitterAccountLogin( const QString &login );
-  void setTwitterAccountPassword( const QString &password );
-  void setTwitterAccountDM( bool state );
+//  void fillAccountEditor( const QModelIndex &current, const QModelIndex &previous );
+//  void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
+//  void updateCheckBox( const QModelIndex &index );
+//  void addAccount();
+//  void deleteAccount();
   void setPublicTimelineEnabled( bool state );
   void changeTheme( const QString& );
   void retranslateUi();
@@ -141,9 +143,9 @@ private:
   void applySettings();
   void createLanguageMenu();
   void createUrlShortenerMenu();
+  bool updateAccountsOnExit;
   MainWindow *mainWindow;
   Core *core;
-  TwitterAccountsModel *accountsModel;
   TwitPicView *twitPicView;
   QMap<QString,ThemeData> themes;
   Ui::Settings ui;

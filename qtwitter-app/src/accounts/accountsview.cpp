@@ -18,29 +18,16 @@
  ***************************************************************************/
 
 
-#include <QObject>
-#include <QCheckBox>
-#include <QDebug>
-#include "twitteraccountsdelegate.h"
+#include <QModelIndex>
+#include "accountsview.h"
 
-TwitterAccountsDelegate::TwitterAccountsDelegate( QList<int> checkBoxColumns, QObject *parent ) : QItemDelegate( parent )
+AccountsView::AccountsView( QWidget *parent ) : QTreeView( parent )
 {
-  this->checkBoxColumns = checkBoxColumns;
+  connect ( this, SIGNAL(clicked(QModelIndex)), SLOT(filterClick(QModelIndex)) );
 }
 
-void TwitterAccountsDelegate::paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const
+void AccountsView::filterClick( const QModelIndex &index )
 {
-  if ( checkBoxColumns.contains( index.column() ) ) {
-    Qt::CheckState state;
-    if ( index.model()->data( index, Qt::DisplayRole ).toBool() )
-      state = Qt::Checked;
-    else
-      state = Qt::Unchecked;
-
-    drawDisplay( painter, option, option.rect, " " );
-    drawFocus( painter, option, option.rect );
-    drawCheck( painter, option, QRect( option.rect.x()+15, option.rect.y()+3 , option.rect.height()-5, option.rect.height()-5 ), state );
-  } else {
-    QItemDelegate::paint(painter, option, index);
-  }
+  if ( index.column() == 0  || index.column() == 4 )
+    emit checkBoxClicked( index );
 }

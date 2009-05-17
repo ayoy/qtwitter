@@ -18,30 +18,52 @@
  ***************************************************************************/
 
 
-#ifndef QTWITTER_H
-#define QTWITTER_H
+#ifndef ACCOUNTSCONTROLLER_H
+#define ACCOUNTSCONTROLLER_H
 
-#include "mainwindow.h"
+#include <QObject>
 
-class Core;
-class TwitPicView;
-class Settings;
+class QWidget;
+class QModelIndex;
+class AccountsModel;
+class AccountsView;
 
-class Qtwitter : public MainWindow
+namespace Ui {
+  class Accounts;
+}
+
+class AccountsController : public QObject
 {
   Q_OBJECT
 public:
-  Qtwitter( QWidget *parent = 0 );
+
+  enum PublicTimeline {
+    PT_NONE = 0,
+    PT_TWITTER,
+    PT_IDENTICA,
+    PT_BOTH
+  };
+
+  AccountsController( QWidget *widget, QObject *parent );
+  virtual ~AccountsController();
+  AccountsModel* getModel() const;
 
 public slots:
-  void setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login );
-  void setPublicTimelineModel( TwitterAPI::SocialNetwork network );
+  void loadAccounts();
+
+private slots:
+  void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
+  void updateCheckBox( const QModelIndex &index );
+  void updatePublicTimeline( int state );
+  void addAccount();
+  void deleteAccount();
 
 private:
-  Core *core;
-  TwitPicView *twitpic;
-  Settings *settingsDialog;
-
+  void setAccountEnabled( bool state );
+  void setAccountDM( bool state );
+  AccountsModel *model;
+  AccountsView *view;
+  Ui::Accounts *ui;
 };
 
-#endif // QTWITTER_H
+#endif // ACCOUNTSCONTROLLER_H

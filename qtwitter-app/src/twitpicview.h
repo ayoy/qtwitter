@@ -22,7 +22,7 @@
 #define TWITPICVIEW_H
 
 #include <QtGui/QDialog>
-#include "twitteraccountsmodel.h"
+#include "account.h"
 
 namespace Ui {
   class TwitPicView;
@@ -36,7 +36,7 @@ public:
   virtual ~TwitPicView();
 
 public slots:
-  void setupTwitterAccounts( const QList<TwitterAccount> &accounts );
+  void setupAccounts( const QList<Account> &accounts );
   void showUploadProgress( int done, int total );
   void resetForm();
   void reject();

@@ -18,30 +18,32 @@
  ***************************************************************************/
 
 
-#ifndef QTWITTER_H
-#define QTWITTER_H
+#ifndef ACCOUNT_H
+#define ACCOUNT_H
 
-#include "mainwindow.h"
+#include <QPair>
+#include <QMetaType>
+#include <twitterapi/twitterapi_global.h>
 
-class Core;
-class TwitPicView;
-class Settings;
-
-class Qtwitter : public MainWindow
+struct Account
 {
-  Q_OBJECT
-public:
-  Qtwitter( QWidget *parent = 0 );
+  bool isEnabled;
+  TwitterAPI::SocialNetwork network;
+  QString login;
+  QString password;
+  bool directMessages;
 
-public slots:
-  void setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login );
-  void setPublicTimelineModel( TwitterAPI::SocialNetwork network );
+  static QPair<TwitterAPI::SocialNetwork,QString> fromString( const QString &name );
+  static TwitterAPI::SocialNetwork networkFromString( const QString &name );
+  static QString networkToString( TwitterAPI::SocialNetwork network );
+  static const Account publicTimeline( TwitterAPI::SocialNetwork network );
 
-private:
-  Core *core;
-  TwitPicView *twitpic;
-  Settings *settingsDialog;
-
+  QString toString() const;
+  Account operator=( const Account &other );
+  bool operator==( const Account &other ) const;
+  bool operator<( const Account &other ) const;
 };
 
-#endif // QTWITTER_H
+Q_DECLARE_METATYPE(Account)
+
+#endif // ACCOUNT_H

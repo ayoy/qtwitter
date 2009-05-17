@@ -18,30 +18,24 @@
  ***************************************************************************/
 
 
-#ifndef QTWITTER_H
-#define QTWITTER_H
+#ifndef ACCOUNTSVIEW_H
+#define ACCOUNTSVIEW_H
 
-#include "mainwindow.h"
+#include <QTreeView>
 
-class Core;
-class TwitPicView;
-class Settings;
+class QModelIndex;
 
-class Qtwitter : public MainWindow
+class AccountsView : public QTreeView
 {
   Q_OBJECT
 public:
-  Qtwitter( QWidget *parent = 0 );
+  AccountsView( QWidget *parent = 0 );
 
-public slots:
-  void setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login );
-  void setPublicTimelineModel( TwitterAPI::SocialNetwork network );
+signals:
+  void checkBoxClicked( const QModelIndex &index );
 
-private:
-  Core *core;
-  TwitPicView *twitpic;
-  Settings *settingsDialog;
-
+private slots:
+  void filterClick( const QModelIndex &index );
 };
 
-#endif // QTWITTER_H
+#endif // ACCOUNTSVIEW_H
