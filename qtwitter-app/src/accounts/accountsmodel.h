@@ -22,94 +22,24 @@
 #define ACCOUNTSMODEL_H
 
 #include <QAbstractItemModel>
-#include <QRegExp>
 #include <QList>
-#include <QMetaType>
 #include <twitterapi/twitterapi_global.h>
-
-struct Account
-{
-  bool isEnabled;
-  TwitterAPI::SocialNetwork network;
-  QString login;
-  QString password;
-  bool directMessages;
-
-  static QPair<TwitterAPI::SocialNetwork,QString> fromString( const QString &name )
-  {
-    QRegExp rx( "(.+) @ (.+)" );
-    if ( rx.indexIn( name ) == -1 )
-      return QPair<TwitterAPI::SocialNetwork,QString>();
-    return QPair<TwitterAPI::SocialNetwork,QString>( networkFromString(rx.cap(2)), rx.cap(1) );
-  }
-
-  static TwitterAPI::SocialNetwork networkFromString( const QString &name )
-  {
-    if ( name == "Twitter" )
-      return TwitterAPI::SOCIALNETWORK_TWITTER;
-    // TODO: return some error code?
-    return TwitterAPI::SOCIALNETWORK_IDENTICA;
-  }
-
-  static const Account publicTimeline( TwitterAPI::SocialNetwork network )
-  {
-    Account account;
-    account.isEnabled = true;
-    account.network = network;
-    account.login = TwitterAPI::PUBLIC_TIMELINE;
-    account.password = "";
-    account.directMessages = false;
-    return account;
-  }
-
-  QString toString() const
-  {
-    return QString( "%1 @ %2" ).arg( login, networkToString() );
-  }
-  QString networkToString() const
-  {
-    switch( network ) {
-    case TwitterAPI::SOCIALNETWORK_IDENTICA:
-      return "Identi.ca";
-    case TwitterAPI::SOCIALNETWORK_TWITTER:
-    default:
-      return "Twitter";
-    }
-  }
-  Account operator=( const Account &other )
-  {
-    Account account;
-    account.isEnabled = other.isEnabled;
-    account.network = other.network;
-    account.login = other.login;
-    account.password = other.password;
-    account.directMessages = other.directMessages;
-    return account;
-  }
-  bool operator==( const Account &other ) const
-  {
-    return ( isEnabled == other.isEnabled &&
-             network == other.network &&
-             login == other.login &&
-             password == other.password &&
-             directMessages == other.directMessages );
-  }
-  bool operator<( const Account &other ) const
-  {
-    if ( network != other.network )
-      return network < other.network;
-    return login < other.login;
-  }
-
-};
-
-Q_DECLARE_METATYPE(Account)
+#include "account.h"
 
 class AccountsModel : public QAbstractItemModel
 {
   Q_OBJECT
 
 public:
+
+  enum Columns {
+    COL_ENABLED = 0,
+    COL_NETWORK,
+    COL_LOGIN,
+    COL_PASSWORD,
+    COL_DM
+  };
+
   AccountsModel( QObject *parent = 0 );
 
   int rowCount( const QModelIndex &parent = QModelIndex() ) const;
@@ -137,7 +67,7 @@ public:
   int indexOf( const Account &account );
 
 private:
-  Account emptyAccount();
+  static Account emptyAccount();
   QList<Account> accounts;
 };
 

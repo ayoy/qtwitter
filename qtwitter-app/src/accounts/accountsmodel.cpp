@@ -59,12 +59,15 @@ QVariant AccountsModel::data( const QModelIndex &index, int role ) const
     return QVariant();
   
   switch ( index.column() ) {
-  case 0:
+  case COL_ENABLED:
     if ( role == Qt::CheckStateRole )
       return accounts.at( index.row() ).isEnabled ? Qt::Checked : Qt::Unchecked;
     break;
-  case 1:
-    if ( role == Qt::DisplayRole || role == Qt::EditRole ) {
+  case COL_NETWORK:
+    if ( role == Qt::EditRole ) {
+      return accounts.at( index.row() ).network;
+    }
+    if ( role == Qt::DisplayRole ) {
       switch ( accounts.at( index.row() ).network ) {
       case TwitterAPI::SOCIALNETWORK_IDENTICA:
         return "Identi.ca";
@@ -74,17 +77,17 @@ QVariant AccountsModel::data( const QModelIndex &index, int role ) const
       }
     }
     break;
-  case 2:
+  case COL_LOGIN:
     if ( role == Qt::DisplayRole || role == Qt::EditRole )
       return accounts.at( index.row() ).login;
     break;
-  case 3:
+  case COL_PASSWORD:
     if ( role == Qt::DisplayRole )
       return QString( accounts.at( index.row() ).password.length(), QChar(0x25cf) );
     if ( role == Qt::EditRole )
       return accounts.at( index.row() ).password;
     break;
-  case 4:
+  case COL_DM:
     if ( role == Qt::CheckStateRole )
       return accounts.at( index.row() ).directMessages ? Qt::Checked : Qt::Unchecked;
   default:;
@@ -98,16 +101,16 @@ QVariant AccountsModel::headerData( int section, Qt::Orientation orientation, in
     return QVariant();
 
   switch (section) {
-  case 0:
+  case COL_ENABLED:
     return tr( "Enabled" );
-  case 1:
+  case COL_NETWORK:
     //: "Service", i.e. Twitter or Identi.ca
     return tr( "Service" );
-  case 2:
+  case COL_LOGIN:
     return tr( "Login" );
-  case 3:
+  case COL_PASSWORD:
     return tr( "Password" );
-  case 4:
+  case COL_DM:
     //: This should be as short as possible (e.g. PW in Polish)
     return tr( "Direct msgs" );
   default:
@@ -121,23 +124,23 @@ bool AccountsModel::setData( const QModelIndex &index, const QVariant &value, in
     return false;
 
   switch ( index.column() ) {
-  case 0:
+  case COL_ENABLED:
     accounts[ index.row() ].isEnabled = value.toBool();
     emit dataChanged( index, index );
     return true;
-  case 1:
+  case COL_NETWORK:
     accounts[ index.row() ].network = (TwitterAPI::SocialNetwork)value.toInt();
     emit dataChanged( index, index );
     return true;
-  case 2:
+  case COL_LOGIN:
     accounts[ index.row() ].login = value.toString();
     emit dataChanged( index, index );
     return true;
-  case 3:
+  case COL_PASSWORD:
     accounts[ index.row() ].password = ConfigFile::pwHash( value.toString() );
     emit dataChanged( index, index );
     return true;
-  case 4:
+  case COL_DM:
     accounts[ index.row() ].directMessages = value.toBool();
     emit dataChanged( index, index );
     return true;

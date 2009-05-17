@@ -28,7 +28,7 @@
 #include "twitpicview.h"
 #include "tweet.h"
 #include "settings.h"
-#include "accountsmodel.h"
+#include "account.h"
 
 Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
 {

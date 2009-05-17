@@ -22,6 +22,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QDebug>
+#include "accountsmodel.h"
 #include "accountsdelegate.h"
 
 AccountsDelegate::AccountsDelegate( QObject *parent ) : QStyledItemDelegate( parent ) {}
@@ -34,16 +35,16 @@ QWidget* AccountsDelegate::createEditor( QWidget *parent, const QStyleOptionView
   QComboBox *comboBox;
   QLineEdit *lineEdit;
   switch ( index.column() ) {
-  case 1:
+  case AccountsModel::COL_NETWORK:
     comboBox = new QComboBox( parent );
     comboBox->addItems( QStringList() << "Twitter" << "Identi.ca" );
     editor = comboBox;
     break;
-  case 2:
+  case AccountsModel::COL_LOGIN:
     lineEdit = new QLineEdit( parent );
     editor = lineEdit;
     break;
-  case 3:
+  case AccountsModel::COL_PASSWORD:
     lineEdit = new QLineEdit( parent );
     editor = lineEdit;
     lineEdit->setEchoMode( QLineEdit::Password );
@@ -55,16 +56,18 @@ QWidget* AccountsDelegate::createEditor( QWidget *parent, const QStyleOptionView
 
 void AccountsDelegate::setEditorData( QWidget *editor, const QModelIndex &index ) const
 {
-  QString text = index.model()->data( index, Qt::EditRole ).toString();
+  QString text;
   QComboBox *comboBox;
   QLineEdit *lineEdit;
   switch ( index.column() ) {
-  case 1:
+  case AccountsModel::COL_NETWORK:
+    text = index.model()->data( index, Qt::DisplayRole ).toString();
     comboBox = static_cast<QComboBox*>(editor);
     comboBox->setCurrentIndex( comboBox->findText( text ) );
     break;
-  case 2:
-  case 3:
+  case AccountsModel::COL_LOGIN:
+  case AccountsModel::COL_PASSWORD:
+    text = index.model()->data( index, Qt::EditRole ).toString();
     lineEdit = static_cast<QLineEdit*>(editor);
     lineEdit->setText( text );
   default:
@@ -85,12 +88,12 @@ void AccountsDelegate::setModelData( QWidget *editor, QAbstractItemModel *model,
   QComboBox *comboBox;
   QLineEdit *lineEdit;
   switch ( index.column() ) {
-  case 1:
+  case AccountsModel::COL_NETWORK:
     comboBox = static_cast<QComboBox*>(editor);
     model->setData( index, comboBox->currentIndex(), Qt::EditRole );
     break;
-  case 2:
-  case 3:
+  case AccountsModel::COL_LOGIN:
+  case AccountsModel::COL_PASSWORD:
     lineEdit = static_cast<QLineEdit*>(editor);
     model->setData( index, lineEdit->text(), Qt::EditRole );
   default:

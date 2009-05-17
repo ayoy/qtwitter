@@ -18,43 +18,32 @@
  ***************************************************************************/
 
 
-#ifndef ACCOUNTSCONTROLLER_H
-#define ACCOUNTSCONTROLLER_H
+#ifndef ACCOUNT_H
+#define ACCOUNT_H
 
-#include <QObject>
+#include <QPair>
+#include <QMetaType>
+#include <twitterapi/twitterapi_global.h>
 
-class QWidget;
-class QModelIndex;
-class AccountsModel;
-class AccountsView;
-
-namespace Ui {
-  class Accounts;
-}
-
-class AccountsController : public QObject
+struct Account
 {
-  Q_OBJECT
-public:
-  AccountsController( QWidget *widget, QObject *parent );
-  virtual ~AccountsController();
-  AccountsModel* getModel() const;
+  bool isEnabled;
+  TwitterAPI::SocialNetwork network;
+  QString login;
+  QString password;
+  bool directMessages;
 
-public slots:
-  void loadAccounts();
+  static QPair<TwitterAPI::SocialNetwork,QString> fromString( const QString &name );
+  static TwitterAPI::SocialNetwork networkFromString( const QString &name );
+  static const Account publicTimeline( TwitterAPI::SocialNetwork network );
 
-private slots:
-  void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
-  void updateCheckBox( const QModelIndex &index );
-  void addAccount();
-  void deleteAccount();
-
-private:
-  void setAccountEnabled( bool state );
-  void setAccountDM( bool state );
-  AccountsModel *model;
-  AccountsView *view;
-  Ui::Accounts *ui;
+  QString toString() const;
+  QString networkToString() const;
+  Account operator=( const Account &other );
+  bool operator==( const Account &other ) const;
+  bool operator<( const Account &other ) const;
 };
 
-#endif // ACCOUNTSCONTROLLER_H
+Q_DECLARE_METATYPE(Account)
+
+#endif // ACCOUNT_H

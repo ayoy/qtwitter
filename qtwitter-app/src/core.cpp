@@ -308,9 +308,10 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
       return Core::STATE_REMOVE_ACCOUNT;
     }
     if ( account->login != ui.loginEdit->text() ) {
-      // TODO: create local account variable?
-      tweetModels[ *accountsModel->account( account->network, ui.loginEdit->text() ) ] = tweetModels[ *account ];
-      tweetModels[ *accountsModel->account( account->network, ui.loginEdit->text() ) ]->setLogin( account->login );
+      Account newAccount = *account;
+      newAccount.login = ui.loginEdit->text();
+      tweetModels[ newAccount ] = tweetModels[ *account ];
+      tweetModels[ newAccount ]->setLogin( newAccount.login );
       tweetModels.remove( *account );
       account->login = ui.loginEdit->text();
       emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );

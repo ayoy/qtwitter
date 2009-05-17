@@ -22,7 +22,7 @@
 #define TWITPICVIEW_H
 
 #include <QtGui/QDialog>
-#include "accountsmodel.h"
+#include "account.h"
 
 namespace Ui {
   class TwitPicView;

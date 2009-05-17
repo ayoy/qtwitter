@@ -34,7 +34,7 @@
 #include "mainwindow.h"
 #include "tweet.h"
 #include "aboutdialog.h"
-#include "accountsmodel.h"
+#include "account.h"
 #include "accountsdelegate.h"
 #include "settings.h"
 #include "qticonloader.h"

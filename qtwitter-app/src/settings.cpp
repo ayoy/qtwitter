@@ -34,12 +34,12 @@
 #include <QSettings>
 #include <urlshortener/urlshortener.h>
 #include <twitterapi/twitterapi_global.h>
+#include <qticonloader.h>
+//#include <accountsview.h>
 #include "settings.h"
 #include "core.h"
 #include "mainwindow.h"
 #include "twitpicview.h"
-#include "accountscontroller.h"
-#include "qticonloader.h"
 
 
 const QString ConfigFile::APP_VERSION = "0.6.0";
@@ -347,10 +347,6 @@ void Settings::show()
   ui.tabs->setCurrentIndex( 0 );
   QDialog::show();
   adjustSize();
-//  if ( accountsModel->index( ui.usersView->currentIndex().row(), 0 ).isValid() ) {
-//    Account &account = accountsModel->account( accountsModel->index( ui.usersView->currentIndex().row(), 0 ).row() );
-//    ui.accountEnabledCheckBox->setChecked( account.isEnabled );
-//  }
 }
 
 void Settings::accept()
@@ -441,7 +437,7 @@ void Settings::setBrowser()
 void Settings::applySettings()
 {
   setProxy();
-  core->applySettings();
+  core->applySettings( );
   // TODO: public timeline
 //  mainWindow->setupAccounts( accountsModel->getAccounts(), false );//ui.publicTimelineCheckBox->isChecked() );
 //  twitPicView->setupAccounts( accountsModel->getAccounts() );

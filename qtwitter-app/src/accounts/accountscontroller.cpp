@@ -19,10 +19,10 @@
 
 
 #include <qticonloader.h>
+#include <settings.h>
 #include "accountsmodel.h"
 #include "accountsview.h"
 #include "accountsdelegate.h"
-#include "settings.h"
 #include "accountscontroller.h"
 #include "ui_accounts.h"
 
@@ -97,19 +97,19 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
 //  updateAccountsOnExit = true;
   // TODO: consider moving this to AccountsModel::setData()
   switch ( topLeft.column() ) {
-  case 0:
+  case AccountsModel::COL_ENABLED:
     settings.setValue( QString("TwitterAccounts/%1/enabled").arg( topLeft.row() ), topLeft.data() );
     return;
-  case 1:
-    settings.setValue( QString("TwitterAccounts/%1/service").arg( topLeft.row() ), topLeft.data() );
+  case AccountsModel::COL_NETWORK:
+    settings.setValue( QString("TwitterAccounts/%1/service").arg( topLeft.row() ), topLeft.data( Qt::EditRole ) );
     return;
-  case 2:
+  case AccountsModel::COL_LOGIN:
     settings.setValue( QString("TwitterAccounts/%1/login").arg( topLeft.row() ), topLeft.data() );
     return;
-  case 3:
+  case AccountsModel::COL_PASSWORD:
     settings.setValue( QString("TwitterAccounts/%1/password").arg( topLeft.row() ), topLeft.data( Qt::EditRole ) );
     return;
-  case 4:
+  case AccountsModel::COL_DM:
     settings.setValue( QString("TwitterAccounts/%1/directMessages").arg( topLeft.row() ), topLeft.data() );
   default:
     return;
@@ -119,15 +119,14 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
 void AccountsController::updateCheckBox( const QModelIndex &index )
 {
   Account &account = model->account( index.row() );
-  if ( index.column() == 0 ) {
+  if ( index.column() == AccountsModel::COL_ENABLED ) {
     account.isEnabled = !account.isEnabled;
     setAccountEnabled( account.isEnabled );
-  } else if ( index.column() == 4 ) {
+  } else if ( index.column() == AccountsModel::COL_DM ) {
     account.directMessages = !account.directMessages;
     setAccountDM( account.directMessages );
   }
   view->update( index );
-//  updateAccountsOnExit = true;
 }
 
 void AccountsController::addAccount()
@@ -157,15 +156,13 @@ void AccountsController::setAccountEnabled( bool state )
   if ( !view->selectionModel()->currentIndex().isValid() )
     return;
   model->account( view->currentIndex().row() ).isEnabled = state;
-  view->update( model->index( view->currentIndex().row(), 0, QModelIndex() ) );
   settings.setValue( QString("TwitterAccounts/%1/enabled").arg( view->currentIndex().row() ), state );
 }
 
 void AccountsController::setAccountDM( bool state )
 {
   if ( !view->selectionModel()->currentIndex().isValid() )
-    return;  Account &account = model->account( view->currentIndex().row() );
-  account.directMessages = state;
-  view->update( model->index( view->currentIndex().row(), 3, QModelIndex() ) );
+    return;
+  model->account( view->currentIndex().row() ).directMessages = state;
   settings.setValue( QString("TwitterAccounts/%1/directmsgs").arg( view->currentIndex().row() ), state );
 }
