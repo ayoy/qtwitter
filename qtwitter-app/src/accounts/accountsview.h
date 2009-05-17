@@ -29,14 +29,6 @@ class AccountsView : public QTreeView
 {
   Q_OBJECT
 public:
-
-  enum PublicTimelineState {
-    PT_NONE = 0,
-    PT_TWITTER,
-    PT_IDENTICA,
-    PT_BOTH
-  };
-
   AccountsView( QWidget *parent = 0 );
 
 signals:

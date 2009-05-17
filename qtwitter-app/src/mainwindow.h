@@ -45,7 +45,7 @@ public:
 
   
 public slots:
-  void setupAccounts( const QList<Account> &accounts, bool isPublicTimelineRequested );
+  void setupAccounts( const QList<Account> &accounts, int isPublicTimelineRequested );
   void changeListBackgroundColor( const QColor &newColor );
   void popupMessage( QString message );
   void popupError( const QString &message );
@@ -74,7 +74,7 @@ signals:
   void addRetweetString( QString message );
   void resizeView( int width, int oldWidth );
   void switchModel( TwitterAPI::SocialNetwork network, const QString &login );
-  void switchToPublicTimelineModel();
+  void switchToPublicTimelineModel( TwitterAPI::SocialNetwork network );
   void shortenUrl( const QString &url );
 
 protected:

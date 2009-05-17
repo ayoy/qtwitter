@@ -90,7 +90,7 @@ void Core::createAccounts( QWidget *view )
 
 void Core::applySettings()
 {
-  publicTimeline = settings.value(  "TwitterAccounts/publicTimeline", false ).toBool();
+  publicTimeline = settings.value( "TwitterAccounts/publicTimeline", AccountsController::PT_NONE ).toInt();
   accounts->loadAccounts();
   setupTweetModels();
   emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
@@ -151,11 +151,10 @@ TweetModel* Core::getModel( TwitterAPI::SocialNetwork network, const QString &lo
   return tweetModels.contains( *accountsModel->account( network, login ) ) ? tweetModels.value( *accountsModel->account( network, login ) ) : 0;
 }
 
-TweetModel* Core::getPublicTimelineModel()
+TweetModel* Core::getPublicTimelineModel( TwitterAPI::SocialNetwork network )
 {
-  // TODOTODO: enable getting both Twitter and Identi.ca public timelines
-  return tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) )
-                               ? tweetModels.value( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) : 0;
+  return tweetModels.contains( Account::publicTimeline( network ) )
+                               ? tweetModels.value( Account::publicTimeline( network ) ) : 0;
 }
 
 void Core::forceGet()
@@ -189,10 +188,21 @@ void Core::get()
     }
   }
 
-  if ( publicTimeline ) {
+  switch ( publicTimeline ) {
+  case AccountsController::PT_BOTH:
+  case AccountsController::PT_TWITTER:
+    twitterapi->publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER );
     started = true;
-    twitterapi->publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA );
     emit newRequest();
+    if ( publicTimeline == AccountsController::PT_TWITTER )
+      return;
+  case AccountsController::PT_IDENTICA:
+    twitterapi->publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA );
+    started = true;
+    emit newRequest();
+  case AccountsController::PT_NONE:
+  default:
+    break;
   }
 
   if ( started )
@@ -338,10 +348,16 @@ void Core::retranslateUi()
 
 void Core::addEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry )
 {
-  if ( !tweetModels.contains( *accountsModel->account( network, login ) ) )
-    return;
+  if ( login == TwitterAPI::PUBLIC_TIMELINE ) {
+    if ( !tweetModels.contains( Account::publicTimeline( network ) ) )
+      return;
+    tweetModels[ Account::publicTimeline( network ) ]->insertTweet( &entry );
+  } else {
+    if ( !tweetModels.contains( *accountsModel->account( network, login ) ) )
+      return;
+    tweetModels[ *accountsModel->account( network, login ) ]->insertTweet( &entry );
+  }
 
-  tweetModels[ *accountsModel->account( network, login ) ]->insertTweet( &entry );
   if ( entry.type == Entry::Status ) {
     if ( imageDownload->contains( entry.image ) ) {
       if ( imageDownload->imageFromUrl( entry.image )->isNull() )
@@ -394,16 +410,19 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
 
 void Core::setupTweetModels()
 {
+  TweetModel *model;
+
   QList<Account> newAccounts = accountsModel->getAccounts();
   foreach ( Account account, tweetModels.keys() ) {
-    if ( !newAccounts.contains( account ) ) {
+    if ( account.login != TwitterAPI::PUBLIC_TIMELINE && !newAccounts.contains( account ) ) {
       tweetModels[ account ]->deleteLater();
       tweetModels.remove( account );
     }
   }
+
   foreach ( Account account, accountsModel->getAccounts() ) {
     if ( account.isEnabled && !tweetModels.contains( account ) ) {
-      TweetModel *model = new TweetModel( account.network, account.login, margin, listViewForModels, this );
+      model = new TweetModel( account.network, account.login, margin, listViewForModels, this );
       createConnectionsWithModel( model );
       tweetModels.insert( account, model );
     }
@@ -412,11 +431,51 @@ void Core::setupTweetModels()
       tweetModels.remove( account );
     }
   }
-  if ( publicTimeline && !tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
-    // TODOTODO: enable Twitter public timeline
-    TweetModel *model = new TweetModel( TwitterAPI::SOCIALNETWORK_IDENTICA, TwitterAPI::PUBLIC_TIMELINE, margin, listViewForModels, this );
-    createConnectionsWithModel( model );
-    tweetModels.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ), model );
+
+  switch ( publicTimeline ) {
+  case AccountsController::PT_NONE:
+    if ( tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ) ) {
+      tweetModels[ Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ]->deleteLater();
+      tweetModels.remove( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) );
+    }
+    if ( tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
+      tweetModels[ Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ]->deleteLater();
+      tweetModels.remove( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) );
+    }
+    break;
+  case AccountsController::PT_TWITTER:
+    if ( !tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ) ) {
+      model = new TweetModel( TwitterAPI::SOCIALNETWORK_TWITTER, TwitterAPI::PUBLIC_TIMELINE, margin, listViewForModels, this );
+      createConnectionsWithModel( model );
+      tweetModels.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ), model );
+    }
+    if ( tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
+      tweetModels[ Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ]->deleteLater();
+      tweetModels.remove( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) );
+    }
+    break;
+  case AccountsController::PT_IDENTICA:
+    if ( !tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
+      model = new TweetModel( TwitterAPI::SOCIALNETWORK_IDENTICA, TwitterAPI::PUBLIC_TIMELINE, margin, listViewForModels, this );
+      createConnectionsWithModel( model );
+      tweetModels.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ), model );
+    }
+    if ( tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ) ) {
+      tweetModels[ Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ]->deleteLater();
+      tweetModels.remove( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) );
+    }
+    break;
+  case AccountsController::PT_BOTH:
+    if ( !tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ) ) {
+      model = new TweetModel( TwitterAPI::SOCIALNETWORK_TWITTER, TwitterAPI::PUBLIC_TIMELINE, margin, listViewForModels, this );
+      createConnectionsWithModel( model );
+      tweetModels.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ), model );
+    }
+    if ( !tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
+      model = new TweetModel( TwitterAPI::SOCIALNETWORK_IDENTICA, TwitterAPI::PUBLIC_TIMELINE, margin, listViewForModels, this );
+      createConnectionsWithModel( model );
+      tweetModels.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ), model );
+    }
   }
   newTweets.clear();
   requestCount = 0;

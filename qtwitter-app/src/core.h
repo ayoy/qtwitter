@@ -68,7 +68,7 @@ public:
   void setModelTheme( const ThemeData &theme );
   const AccountsModel* const getAccountsModel() const;
   TweetModel* getModel( TwitterAPI::SocialNetwork network, const QString &login );
-  TweetModel* getPublicTimelineModel();
+  TweetModel* getPublicTimelineModel( TwitterAPI::SocialNetwork network );
 
 public slots:
   void forceGet();
@@ -88,7 +88,7 @@ public slots:
   void retranslateUi();
 
 signals:
-  void accountsUpdated( const QList<Account> &accounts, bool isPublicTimelineRequested );
+  void accountsUpdated( const QList<Account> &accounts, int isPublicTimelineRequested );
   void errorMessage( const QString &message );
   void twitPicResponseReceived();
   void twitPicDataSendProgress(int,int);
@@ -125,7 +125,7 @@ private:
   void createConnectionsWithModel( TweetModel *model );
   bool retryAuthorizing( Account *account, int role );
   bool authDialogOpen;
-  bool publicTimeline;
+  int publicTimeline;
   int requestCount;
   int tempModelCount;
   QStringList newTweets;

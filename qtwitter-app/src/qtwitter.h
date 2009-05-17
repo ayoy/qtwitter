@@ -35,7 +35,7 @@ public:
 
 public slots:
   void setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login );
-  void setPublicTimelineModel();
+  void setPublicTimelineModel( TwitterAPI::SocialNetwork network );
 
 private:
   Core *core;

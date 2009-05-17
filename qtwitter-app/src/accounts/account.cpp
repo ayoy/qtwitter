@@ -37,6 +37,17 @@ TwitterAPI::SocialNetwork Account::networkFromString( const QString &name )
   return TwitterAPI::SOCIALNETWORK_IDENTICA;
 }
 
+QString Account::networkToString( TwitterAPI::SocialNetwork network )
+{
+  switch( network ) {
+  case TwitterAPI::SOCIALNETWORK_IDENTICA:
+    return "Identi.ca";
+  case TwitterAPI::SOCIALNETWORK_TWITTER:
+  default:
+    return "Twitter";
+  }
+}
+
 const Account Account::publicTimeline( TwitterAPI::SocialNetwork network )
 {
   Account account;
@@ -50,18 +61,7 @@ const Account Account::publicTimeline( TwitterAPI::SocialNetwork network )
 
 QString Account::toString() const
 {
-  return QString( "%1 @ %2" ).arg( login, networkToString() );
-}
-
-QString Account::networkToString() const
-{
-  switch( network ) {
-  case TwitterAPI::SOCIALNETWORK_IDENTICA:
-    return "Identi.ca";
-  case TwitterAPI::SOCIALNETWORK_TWITTER:
-  default:
-    return "Twitter";
-  }
+  return QString( "%1 @ %2" ).arg( login, networkToString( network ) );
 }
 
 Account Account::operator=( const Account &other )

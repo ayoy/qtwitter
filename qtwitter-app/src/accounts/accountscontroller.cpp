@@ -40,6 +40,7 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   connect( model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateAccounts(QModelIndex,QModelIndex)) );
   connect( ui->addAccountButton, SIGNAL(clicked()), this, SLOT(addAccount()));
   connect( ui->deleteAccountButton, SIGNAL(clicked()), this, SLOT(deleteAccount()));
+  connect( ui->publicTimelineComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePublicTimeline(int)) );
 
   view->setModel( model );
   view->setItemDelegate( new AccountsDelegate( this ) );
@@ -54,6 +55,8 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   ui->addAccountButton->setIcon(QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")));
   ui->deleteAccountButton->setIcon(QtIconLoader::icon("list-remove", QIcon(":/icons/cancel_48.png")));
   //< freedesktop experiment end
+
+  ui->publicTimelineComboBox->setCurrentIndex( settings.value( "TwitterAccounts/publicTimeline", PT_NONE ).toInt() );
 }
 
 AccountsController::~AccountsController()
@@ -127,6 +130,11 @@ void AccountsController::updateCheckBox( const QModelIndex &index )
     setAccountDM( account.directMessages );
   }
   view->update( index );
+}
+
+void AccountsController::updatePublicTimeline( int state )
+{
+  settings.setValue( "TwitterAccounts/publicTimeline", state );
 }
 
 void AccountsController::addAccount()

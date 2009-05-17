@@ -36,6 +36,7 @@
 #include "aboutdialog.h"
 #include "account.h"
 #include "accountsdelegate.h"
+#include "accountscontroller.h"
 #include "settings.h"
 #include "qticonloader.h"
 
@@ -189,37 +190,54 @@ int MainWindow::getScrollBarWidth()
   return ui.statusListView->verticalScrollBar()->size().width();
 }
 
-void MainWindow::setupAccounts( const QList<Account> &accounts, bool publicTimeline )
+void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeline )
 {
   ui.accountsComboBox->clear();
 
   foreach ( Account account, accounts ) {
     if ( account.isEnabled )
-      ui.accountsComboBox->addItem( QString( "%1 @ %2" ).arg( account.login, account.networkToString() ) );
+      ui.accountsComboBox->addItem( QString( "%1 @ %2" ).arg( account.login, Account::networkToString( account.network ) ) );
   }
 
-  if ( ( !publicTimeline && accounts.size() < 2 ) || accounts.isEmpty() ) {
+  if ( ( publicTimeline == AccountsController::PT_NONE && accounts.size() < 2 ) || accounts.isEmpty() ) {
     ui.accountsComboBox->setVisible( false );
-    if ( !accounts.isEmpty() )
+    if ( !accounts.isEmpty() ) {
+      ui.statusEdit->setEnabled( true );
       emit switchModel( accounts.at(0).network, accounts.at(0).login );
-    else
-      emit switchToPublicTimelineModel();
-    ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
+    } else if ( publicTimeline != AccountsController::PT_NONE ) {
+      ui.statusEdit->setEnabled( true );
+      if ( publicTimeline == AccountsController::PT_IDENTICA )
+        emit switchToPublicTimelineModel( TwitterAPI::SOCIALNETWORK_IDENTICA );
+      else
+        emit switchToPublicTimelineModel( TwitterAPI::SOCIALNETWORK_TWITTER );
+    }
     return;
   }
 
-  if ( publicTimeline )
-    ui.accountsComboBox->addItem( tr( "public timeline" ) );
+  switch ( publicTimeline ) {
+  case AccountsController::PT_BOTH:
+  case AccountsController::PT_TWITTER:
+    ui.accountsComboBox->addItem( QString( "%1 @ %2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_TWITTER ) ) );
+    if ( publicTimeline == AccountsController::PT_TWITTER )
+      break;
+  case AccountsController::PT_IDENTICA:
+    ui.accountsComboBox->addItem( QString( "%1 @ %2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) );
+  case AccountsController::PT_NONE:
+  default:
+    break;
+  }
 
   if ( ui.accountsComboBox->count() <= 1 ) {
     ui.accountsComboBox->setVisible( false );
 
-    if ( ui.accountsComboBox->currentText() == tr( "public timeline" ) )
-      emit switchToPublicTimelineModel();
-    else
+    if ( Account::fromString( ui.accountsComboBox->currentText() ).second == tr( "public timeline" ) ) {
+      ui.statusEdit->setEnabled( false );
+      emit switchToPublicTimelineModel( Account::fromString( ui.accountsComboBox->currentText() ).first );
+    } else {
+      ui.statusEdit->setEnabled( true );
       emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
                         Account::fromString( ui.accountsComboBox->currentText() ).second );
-    ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
+    }
     return;
   }
   ui.accountsComboBox->setVisible( true );
@@ -231,12 +249,14 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, bool publicTimel
   else
     ui.accountsComboBox->setCurrentIndex( index );
 
-  if ( ui.accountsComboBox->currentText() == tr( "public timeline" ) )
-    emit switchToPublicTimelineModel();
-  else
+  if ( Account::fromString( ui.accountsComboBox->currentText() ).second == tr( "public timeline" ) ) {
+    ui.statusEdit->setEnabled( false );
+    emit switchToPublicTimelineModel( Account::fromString( ui.accountsComboBox->currentText() ).first );
+  } else {
+    ui.statusEdit->setEnabled( true );
     emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
                       Account::fromString( ui.accountsComboBox->currentText() ).second );
-  ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
+  }
 }
 
 void MainWindow::setListViewModel( TweetModel *model )
@@ -350,9 +370,8 @@ void MainWindow::configSaveCurrentModel( int index )
 {
   if ( settings.value( "TwitterAccounts/currentModel", 0 ).toInt() != index ) {
     settings.setValue( "TwitterAccounts/currentModel", index );
-    if ( ui.accountsComboBox->currentText() == tr( "public timeline" ) )
-      // TODOTODO: support Twitter here
-      emit switchModel( TwitterAPI::SOCIALNETWORK_IDENTICA, "public timeline" );
+    if ( Account::fromString( ui.accountsComboBox->currentText() ).second == tr( "public timeline" ) )
+      emit switchToPublicTimelineModel( Account::fromString( ui.accountsComboBox->currentText() ).first );
     else {
       QRegExp rx( "(.+) @ (.+)" );
       if ( rx.indexIn( ui.accountsComboBox->currentText() ) == -1 )

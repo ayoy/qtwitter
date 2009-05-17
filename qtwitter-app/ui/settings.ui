@@ -168,9 +168,9 @@
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="twitterTab">
+     <widget class="QWidget" name="accountsTab">
       <attribute name="title">
-       <string>Twitter</string>
+       <string>Accounts</string>
       </attribute>
       <layout class="QVBoxLayout" name="verticalLayout_7">
        <item>

@@ -35,7 +35,6 @@
 #include <urlshortener/urlshortener.h>
 #include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
-//#include <accountsview.h>
 #include "settings.h"
 #include "core.h"
 #include "mainwindow.h"
@@ -398,7 +397,7 @@ void Settings::retranslateUi()
   ui.shortenLabel->setText( tr("Shorten links via:") );
   ui.notificationsBox->setText( tr("Show tray notifications") );
   ui.confirmDeletionBox->setText( tr("Confirm messages deletion") );
-  ui.tabs->setTabText( 1, tr( "Twitter" ) );
+  ui.tabs->setTabText( 1, tr( "Accounts" ) );
 //  ui.accountGroupBox->setTitle( tr( "Account" ) );
 //  ui.accountEnabledCheckBox->setText( tr( "Enabled" ) );
 //  ui.accountLoginLabel->setText( tr( "Username:" ) );
