@@ -20,6 +20,7 @@
 
 #include <QStringList>
 #include "accountsmodel.h"
+#include "settings.h"
 
 AccountsModel::AccountsModel( QObject *parent ) : QAbstractItemModel( parent )
 {
@@ -79,7 +80,7 @@ QVariant AccountsModel::data( const QModelIndex &index, int role ) const
     break;
   case 3:
     if ( role == Qt::DisplayRole )
-      return QString::fromUtf8( "••••••••" );
+      return QString( accounts.at( index.row() ).password.length(), QChar(0x25cf) );
     if ( role == Qt::EditRole )
       return accounts.at( index.row() ).password;
     break;
@@ -133,7 +134,7 @@ bool AccountsModel::setData( const QModelIndex &index, const QVariant &value, in
     emit dataChanged( index, index );
     return true;
   case 3:
-    accounts[ index.row() ].password = value.toString();
+    accounts[ index.row() ].password = ConfigFile::pwHash( value.toString() );
     emit dataChanged( index, index );
     return true;
   case 4:

@@ -90,6 +90,7 @@ public:
   static const QString APP_VERSION;
   ConfigFile();
   static QString pwHash( const QString &text );
+  void addAccount( int id, const Account &account );
   void deleteAccount( int id, int rowCount );
 private:
   void convertSettings();

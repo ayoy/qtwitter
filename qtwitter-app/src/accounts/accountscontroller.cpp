@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 
+#include <qticonloader.h>
 #include "accountsmodel.h"
 #include "accountsview.h"
 #include "accountsdelegate.h"
@@ -46,8 +47,13 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   view->setColumnWidth( 0, (int)(view->width() * 0.5 ));
   view->setColumnWidth( 1, (int)(view->width() * 0.7 ));
   view->setColumnWidth( 2, (int)(view->width() * 0.8 ));
-  view->setColumnWidth( 3, (int)(view->width() * 0.7 ));
+  view->setColumnWidth( 3, (int)(view->width() * 0.8 ));
   view->setColumnWidth( 4, (int)(view->width() * 0.2 ));
+
+  //> freedesktop experiment begin
+  ui->addAccountButton->setIcon(QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")));
+  ui->deleteAccountButton->setIcon(QtIconLoader::icon("list-remove", QIcon(":/icons/cancel_48.png")));
+  //< freedesktop experiment end
 }
 
 AccountsController::~AccountsController()
@@ -68,8 +74,7 @@ void AccountsController::loadAccounts()
   for ( int i = 0; i < settings.childGroups().count(); i++ ) {
     model->insertRow(i);
     model->account(i).isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
-    // TODO: provide a static const QString for "Twitter" and "Identi.ca"
-    model->account(i).network = Account::networkFromString( settings.value( QString( "%1/service" ).arg(i), "Twitter" ).toString() );
+    model->account(i).network = (TwitterAPI::SocialNetwork) settings.value( QString( "%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_TWITTER ).toInt();
     model->account(i).login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
     model->account(i).password = settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
     model->account(i).directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
@@ -128,16 +133,9 @@ void AccountsController::updateCheckBox( const QModelIndex &index )
 void AccountsController::addAccount()
 {
   model->insertRow( model->rowCount() );
+  settings.addAccount( model->rowCount() - 1, model->getAccounts().at( model->rowCount() - 1 ) );
   view->setCurrentIndex( model->index( model->rowCount() - 1, 0 ) );
   ui->deleteAccountButton->setEnabled( true );
-  settings.beginGroup( QString( "TwitterAccounts/%1" ).arg( model->rowCount() - 1 ) );
-    settings.setValue( "enabled", true );
-    settings.setValue( "service", TwitterAPI::SOCIALNETWORK_TWITTER );
-    //: This is for newly created account - when the login isn't given yet
-    settings.setValue( "login", tr( "<empty>" ) );
-    settings.setValue( "password", "" );
-    settings.setValue( "directmsgs", false );
-  settings.endGroup();
 }
 
 void AccountsController::deleteAccount()
@@ -147,7 +145,7 @@ void AccountsController::deleteAccount()
   int row = view->selectionModel()->currentIndex().row();
   model->removeRow( row );
   settings.deleteAccount( row, model->rowCount() );
-  if ( model->rowCount() <= 1 ) {
+  if ( model->rowCount() <= 0 ) {
     ui->deleteAccountButton->setEnabled( false );
   } else {
     ui->deleteAccountButton->setEnabled( true );
@@ -163,30 +161,10 @@ void AccountsController::setAccountEnabled( bool state )
   settings.setValue( QString("TwitterAccounts/%1/enabled").arg( view->currentIndex().row() ), state );
 }
 
-void AccountsController::setAccountLogin( const QString &login )
-{
-  if ( !view->selectionModel()->currentIndex().isValid() )
-    return;
-  Account &account = model->account( view->currentIndex().row() );
-  account.login = login;
-  view->update( model->index( view->currentIndex().row(), 1, QModelIndex() ) );
-  settings.setValue( QString("TwitterAccounts/%1/login").arg( view->currentIndex().row() ), login );
-}
-
-void AccountsController::setAccountPassword( const QString &password )
-{
-  if ( !view->selectionModel()->currentIndex().isValid() )
-    return;
-  Account &account = model->account( view->currentIndex().row() );
-  account.password = password;
-  settings.setValue( QString("TwitterAccounts/%1/password").arg( view->currentIndex().row() ), settings.pwHash( password ) );
-}
-
 void AccountsController::setAccountDM( bool state )
 {
   if ( !view->selectionModel()->currentIndex().isValid() )
-    return;
-  Account &account = model->account( view->currentIndex().row() );
+    return;  Account &account = model->account( view->currentIndex().row() );
   account.directMessages = state;
   view->update( model->index( view->currentIndex().row(), 3, QModelIndex() ) );
   settings.setValue( QString("TwitterAccounts/%1/directmsgs").arg( view->currentIndex().row() ), state );

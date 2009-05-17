@@ -8,4 +8,4 @@ HEADERS += $$PWD/accountsmodel.h \
     $$PWD/accountsview.h \
     $$PWD/accountscontroller.h \
     $$PWD/accountsdelegate.h
-FORMS += $$PWD/../../ui/accounts.ui
+FORMS += $$PWD/accounts.ui

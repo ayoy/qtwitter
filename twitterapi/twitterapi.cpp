@@ -477,7 +477,10 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
   QNetworkRequest request = reply->request();
   int role = request.attribute( TwitterAPIInterface::ATTR_ROLE ).toInt();
   TwitterAPI::SocialNetwork network = (TwitterAPI::SocialNetwork)request.attribute( TwitterAPIInterface::ATTR_SOCIALNETWORK ).toInt();
+//  qDebug() << replyCode;
   QVariant login = request.attribute( TwitterAPIInterface::ATTR_LOGIN );
+//  QString ntwk = (network==TwitterAPI::SOCIALNETWORK_TWITTER) ? "Twitter" : "Identi.ca";
+//  qDebug() << ntwk << login.toString();
   QVariant password = request.attribute( TwitterAPIInterface::ATTR_PASSWORD );
   QVariant status = request.attribute( TwitterAPIInterface::ATTR_STATUS );
   QVariant inreplyto = request.attribute( TwitterAPIInterface::ATTR_INREPLYTO_ID );
@@ -584,11 +587,13 @@ void TwitterAPIInterface::slotAuthenticationRequired( QNetworkReply *reply, QAut
 {
   qDebug() << "auth required";
   QNetworkRequest request = reply->request();
-  qDebug() << request.attribute( TwitterAPIInterface::ATTR_DM_REQUESTED ).toBool();
 
   TwitterAPI::SocialNetwork network = (TwitterAPI::SocialNetwork)request.attribute( TwitterAPIInterface::ATTR_SOCIALNETWORK ).toInt();
   QString login = request.attribute( TwitterAPIInterface::ATTR_LOGIN ).toString();
   QString password = request.attribute( TwitterAPIInterface::ATTR_PASSWORD ).toString();
+
+//  QString ntwk = (network==TwitterAPI::SOCIALNETWORK_TWITTER) ? "Twitter" : "Identi.ca";
+//  qDebug() << ntwk << login;
 
   if ( request.attribute( TwitterAPIInterface::ATTR_DM_REQUESTED ).isValid() && // if this is the auth request for dm download
        connections[ network ][ login ]->friendsInProgress ) { // and we're downloading friends timeline (i.e. authorising) just now

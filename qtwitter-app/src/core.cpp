@@ -42,12 +42,12 @@ extern ConfigFile settings;
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
     authDialogOpen( false ),
-    requestCount( 0 ),
-    tempModelCount( 0 ),
-    twitpicUpload( 0 ),
+    requestCount(0),
+    tempModelCount(0),
+    twitpicUpload(0),
     accounts(0),
     accountsModel(0),
-    timer( 0 ),
+    timer(0),
     parentMainWindow( parent )
 {
   imageDownload = new ImageDownload( this );
@@ -176,8 +176,10 @@ void Core::get( TwitterAPI::SocialNetwork network, const QString &login, const Q
 
 void Core::get()
 {
+  bool started = false;
   foreach ( Account account, accountsModel->getAccounts() ) {
     if ( account.isEnabled ) {
+      started = true;
       twitterapi->friendsTimeline( account.network, account.login, account.password, settings.value("Appearance/tweet count", 20).toInt());
       emit newRequest();
       if ( account.directMessages ) {
@@ -188,10 +190,13 @@ void Core::get()
   }
 
   if ( publicTimeline ) {
+    started = true;
     twitterapi->publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA );
     emit newRequest();
   }
-  emit requestStarted();
+
+  if ( started )
+    emit requestStarted();
 }
 
 void Core::post( TwitterAPI::SocialNetwork network, const QString &login, const QString &status, int inReplyTo )
@@ -388,6 +393,13 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
 
 void Core::setupTweetModels()
 {
+  QList<Account> newAccounts = accountsModel->getAccounts();
+  foreach ( Account account, tweetModels.keys() ) {
+    if ( !newAccounts.contains( account ) ) {
+      tweetModels[ account ]->deleteLater();
+      tweetModels.remove( account );
+    }
+  }
   foreach ( Account account, accountsModel->getAccounts() ) {
     if ( account.isEnabled && !tweetModels.contains( account ) ) {
       TweetModel *model = new TweetModel( account.network, account.login, margin, listViewForModels, this );

@@ -52,8 +52,6 @@ private slots:
 
 private:
   void setAccountEnabled( bool state );
-  void setAccountLogin( const QString &login );
-  void setAccountPassword( const QString &password );
   void setAccountDM( bool state );
   AccountsModel *model;
   AccountsView *view;
