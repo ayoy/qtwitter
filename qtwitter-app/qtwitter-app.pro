@@ -64,6 +64,7 @@ else:win32 {
         $$URLSHORTENER_LIB
 }
 include(src/qticonloader/qticonloader.pri)
+include(src/accounts/accounts.pri)
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
@@ -75,10 +76,6 @@ SOURCES += src/main.cpp \
     src/twitpicview.cpp \
     src/twitpicengine.cpp \
     src/twitpicxmlparser.cpp \
-    src/accountsmodel.cpp \
-    src/accountsview.cpp \
-    src/accountscontroller.cpp \
-    src/accountsdelegate.cpp \
     src/qtwitter.cpp \
     src/aboutdialog.cpp
 HEADERS += src/mainwindow.h \
@@ -94,10 +91,6 @@ HEADERS += src/mainwindow.h \
     src/twitpicengine.h \
     src/twitpicxmlparser.h \
     src/statustextedit.h \
-    src/accountsmodel.h \
-    src/accountsview.h \
-    src/accountscontroller.h \
-    src/accountsdelegate.h \
     src/qtwitter.h \
     src/aboutdialog.h
 FORMS += ui/mainwindow.ui \
@@ -106,8 +99,7 @@ FORMS += ui/mainwindow.ui \
     ui/tweet.ui \
     ui/aboutdialog.ui \
     ui/twitpicview.ui \
-    ui/twitpicnewphoto.ui \
-    ui/accounts.ui
+    ui/twitpicnewphoto.ui
 RESOURCES += res/resources.qrc
 QT += network \
     xml
