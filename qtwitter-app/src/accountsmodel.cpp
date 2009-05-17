@@ -19,15 +19,15 @@
 
 
 #include <QStringList>
-#include "twitteraccountsmodel.h"
+#include "accountsmodel.h"
 
-TwitterAccountsModel::TwitterAccountsModel( QObject *parent ) : QAbstractItemModel( parent )
+AccountsModel::AccountsModel( QObject *parent ) : QAbstractItemModel( parent )
 {
-  accounts.append( TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) );
-  accounts.append( TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) );
+  accounts.append( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) );
+  accounts.append( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) );
 }
 
-int TwitterAccountsModel::rowCount( const QModelIndex &parent ) const
+int AccountsModel::rowCount( const QModelIndex &parent ) const
 {
   Q_UNUSED(parent);
   if ( accounts.isEmpty() )
@@ -35,24 +35,24 @@ int TwitterAccountsModel::rowCount( const QModelIndex &parent ) const
   return accounts.size();
 }
 
-int TwitterAccountsModel::columnCount(const QModelIndex &parent ) const
+int AccountsModel::columnCount(const QModelIndex &parent ) const
 {
   Q_UNUSED(parent);
   return 5;
 }
 
-QModelIndex TwitterAccountsModel::index( int row, int column, const QModelIndex &parent ) const
+QModelIndex AccountsModel::index( int row, int column, const QModelIndex &parent ) const
 {
   return hasIndex(row, column, parent) ? createIndex(row, column ) : QModelIndex();
 }
 
-QModelIndex TwitterAccountsModel::parent( const QModelIndex &index ) const
+QModelIndex AccountsModel::parent( const QModelIndex &index ) const
 {
   Q_UNUSED(index);
   return QModelIndex();
 }
 
-QVariant TwitterAccountsModel::data( const QModelIndex &index, int role ) const
+QVariant AccountsModel::data( const QModelIndex &index, int role ) const
 {
   if ( !index.isValid() )
     return QVariant();
@@ -91,7 +91,7 @@ QVariant TwitterAccountsModel::data( const QModelIndex &index, int role ) const
   return QVariant();
 }
 
-QVariant TwitterAccountsModel::headerData( int section, Qt::Orientation orientation, int role ) const
+QVariant AccountsModel::headerData( int section, Qt::Orientation orientation, int role ) const
 {
   if ( orientation != Qt::Horizontal || role != Qt::DisplayRole )
     return QVariant();
@@ -114,7 +114,7 @@ QVariant TwitterAccountsModel::headerData( int section, Qt::Orientation orientat
   }
 }
 
-bool TwitterAccountsModel::setData( const QModelIndex &index, const QVariant &value, int role )
+bool AccountsModel::setData( const QModelIndex &index, const QVariant &value, int role )
 {
   if ( !index.isValid() || role != Qt::EditRole )
     return false;
@@ -145,14 +145,14 @@ bool TwitterAccountsModel::setData( const QModelIndex &index, const QVariant &va
   return false;
 }
 
-Qt::ItemFlags TwitterAccountsModel::flags( const QModelIndex &index ) const
+Qt::ItemFlags AccountsModel::flags( const QModelIndex &index ) const
 {
   if ( index.column() != 0 && index.column() != 4 )
     return QAbstractItemModel::flags( index ) |= Qt::ItemIsEditable;
   return QAbstractItemModel::flags( index );
 }
 
-bool TwitterAccountsModel::insertRows( int row, int count, const QModelIndex &parent )
+bool AccountsModel::insertRows( int row, int count, const QModelIndex &parent )
 {
   Q_UNUSED(parent);
   if ( row > accounts.size() )
@@ -166,7 +166,7 @@ bool TwitterAccountsModel::insertRows( int row, int count, const QModelIndex &pa
   return true;
 }
 
-bool TwitterAccountsModel::removeRows( int row, int count, const QModelIndex &parent )
+bool AccountsModel::removeRows( int row, int count, const QModelIndex &parent )
 {
   Q_UNUSED(parent);
 //  if ( !parent.isValid() )
@@ -185,23 +185,23 @@ bool TwitterAccountsModel::removeRows( int row, int count, const QModelIndex &pa
   return true;
 }
 
-void TwitterAccountsModel::clear()
+void AccountsModel::clear()
 {
   if ( accounts.size() > 0 )
     removeRows( 0, accounts.size() );
 }
 
-QList<TwitterAccount>& TwitterAccountsModel::getAccounts()
+QList<Account>& AccountsModel::getAccounts()
 {
   return accounts;
 }
 
-TwitterAccount& TwitterAccountsModel::account( int index )
+Account& AccountsModel::account( int index )
 {
   return accounts[ index ];
 }
 
-TwitterAccount* TwitterAccountsModel::account( TwitterAPI::SocialNetwork network, const QString &login )
+Account* AccountsModel::account( TwitterAPI::SocialNetwork network, const QString &login )
 {
   for ( int i = 0; i < accounts.size(); i++ ) {
     if ( login == accounts[i].login && network == accounts[i].network )
@@ -210,14 +210,14 @@ TwitterAccount* TwitterAccountsModel::account( TwitterAPI::SocialNetwork network
   return 0;
 }
 
-int TwitterAccountsModel::indexOf( const TwitterAccount &account )
+int AccountsModel::indexOf( const Account &account )
 {
   return accounts.indexOf( account );
 }
 
-TwitterAccount TwitterAccountsModel::emptyAccount()
+Account AccountsModel::emptyAccount()
 {
-  TwitterAccount empty;
+  Account empty;
   empty.isEnabled = true;
   empty.network = TwitterAPI::SOCIALNETWORK_TWITTER;
   //: This is for newly created account - when the login isn't given yet

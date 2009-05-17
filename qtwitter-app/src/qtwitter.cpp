@@ -28,7 +28,7 @@
 #include "twitpicview.h"
 #include "tweet.h"
 #include "settings.h"
-#include "twitteraccountsmodel.h"
+#include "accountsmodel.h"
 
 Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
 {
@@ -41,7 +41,7 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
   connect( this, SIGNAL(post(TwitterAPI::SocialNetwork,QString,QString,int)), core, SLOT(post(TwitterAPI::SocialNetwork,QString,QString,int)) );
   connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
   connect( this, SIGNAL(shortenUrl(QString)), core, SLOT(shortenUrl(QString)));
-  connect( core, SIGNAL(twitterAccountsChanged(QList<TwitterAccount>,bool)), this, SLOT(setupTwitterAccounts(QList<TwitterAccount>,bool)) );
+  connect( core, SIGNAL(accountsUpdated(QList<Account>,bool)), this, SLOT(setupAccounts(QList<Account>,bool)) );
   connect( core, SIGNAL(urlShortened(QString)), this, SLOT(replaceUrl(QString)));
   connect( core, SIGNAL(about()), this, SLOT(about()) );
   connect( core, SIGNAL(addReplyString(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
@@ -58,6 +58,7 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
   connect( this, SIGNAL(openTwitPicDialog()), twitpic, SLOT(show()) );
   connect( core, SIGNAL(twitPicResponseReceived()), twitpic, SLOT(resetForm()) );
   connect( core, SIGNAL(twitPicDataSendProgress(int,int)), twitpic, SLOT(showUploadProgress(int,int)) );
+  connect( core, SIGNAL(accountsUpdated(QList<Account>,bool)), twitpic, SLOT(setupAccounts(QList<Account>)) );
 
   settingsDialog = new Settings( this, core, twitpic, this );
   connect( this, SIGNAL(settingsDialogRequested()), settingsDialog, SLOT( show() ) );

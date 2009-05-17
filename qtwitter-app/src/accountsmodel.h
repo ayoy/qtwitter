@@ -18,8 +18,8 @@
  ***************************************************************************/
 
 
-#ifndef TWITTERACCOUNTSMODEL_H
-#define TWITTERACCOUNTSMODEL_H
+#ifndef ACCOUNTSMODEL_H
+#define ACCOUNTSMODEL_H
 
 #include <QAbstractItemModel>
 #include <QRegExp>
@@ -27,7 +27,7 @@
 #include <QMetaType>
 #include <twitterapi/twitterapi_global.h>
 
-struct TwitterAccount
+struct Account
 {
   bool isEnabled;
   TwitterAPI::SocialNetwork network;
@@ -51,9 +51,9 @@ struct TwitterAccount
     return TwitterAPI::SOCIALNETWORK_IDENTICA;
   }
 
-  static const TwitterAccount publicTimeline( TwitterAPI::SocialNetwork network )
+  static const Account publicTimeline( TwitterAPI::SocialNetwork network )
   {
-    TwitterAccount account;
+    Account account;
     account.isEnabled = true;
     account.network = network;
     account.login = TwitterAPI::PUBLIC_TIMELINE;
@@ -76,9 +76,9 @@ struct TwitterAccount
       return "Twitter";
     }
   }
-  TwitterAccount operator=( const TwitterAccount &other )
+  Account operator=( const Account &other )
   {
-    TwitterAccount account;
+    Account account;
     account.isEnabled = other.isEnabled;
     account.network = other.network;
     account.login = other.login;
@@ -86,7 +86,7 @@ struct TwitterAccount
     account.directMessages = other.directMessages;
     return account;
   }
-  bool operator==( const TwitterAccount &other ) const
+  bool operator==( const Account &other ) const
   {
     return ( isEnabled == other.isEnabled &&
              network == other.network &&
@@ -94,7 +94,7 @@ struct TwitterAccount
              password == other.password &&
              directMessages == other.directMessages );
   }
-  bool operator<( const TwitterAccount &other ) const
+  bool operator<( const Account &other ) const
   {
     if ( network != other.network )
       return network < other.network;
@@ -103,14 +103,14 @@ struct TwitterAccount
 
 };
 
-Q_DECLARE_METATYPE(TwitterAccount)
+Q_DECLARE_METATYPE(Account)
 
-class TwitterAccountsModel : public QAbstractItemModel
+class AccountsModel : public QAbstractItemModel
 {
   Q_OBJECT
 
 public:
-  TwitterAccountsModel( QObject *parent = 0 );
+  AccountsModel( QObject *parent = 0 );
 
   int rowCount( const QModelIndex &parent = QModelIndex() ) const;
   int columnCount( const QModelIndex &parent = QModelIndex() ) const;
@@ -128,17 +128,17 @@ public:
   bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
   void clear();
 
-  QList<TwitterAccount>& getAccounts();
+  QList<Account>& getAccounts();
 
   // TODO: do we really need these two?
-  TwitterAccount& account( int index );
-  TwitterAccount* account( TwitterAPI::SocialNetwork network, const QString &login );
+  Account& account( int index );
+  Account* account( TwitterAPI::SocialNetwork network, const QString &login );
 
-  int indexOf( const TwitterAccount &account );
+  int indexOf( const Account &account );
 
 private:
-  TwitterAccount emptyAccount();
-  QList<TwitterAccount> accounts;
+  Account emptyAccount();
+  QList<Account> accounts;
 };
 
-#endif // TWITTERACCOUNTSMODEL_H
+#endif // ACCOUNTSMODEL_H

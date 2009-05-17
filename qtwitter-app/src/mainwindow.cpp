@@ -34,7 +34,7 @@
 #include "mainwindow.h"
 #include "tweet.h"
 #include "aboutdialog.h"
-#include "twitteraccountsmodel.h"
+#include "accountsmodel.h"
 #include "accountsdelegate.h"
 #include "settings.h"
 #include "qticonloader.h"
@@ -71,22 +71,13 @@ MainWindow::~MainWindow() {
 
 void MainWindow::createConnections()
 {
-  QShortcut *replyShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ), this, SLOT(tweetReplyAction()) );
-  QShortcut *retweetShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ), this, SLOT(tweetRetweetAction()) );
-  QShortcut *copylinkShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ), this, SLOT(tweetCopylinkAction()) );
-  QShortcut *deleteShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ), this, SLOT(tweetDeleteAction()) );
-  QShortcut *markallasreadShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ), this, SLOT(tweetMarkallasreadAction()) );
-  QShortcut *gototwitterpageShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ), this, SLOT(tweetGototwitterpageAction()) );
-  QShortcut *gotohomepageShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ), this, SLOT(tweetGotohomepageAction()) );
-
-  Q_UNUSED(replyShortcut);
-  Q_UNUSED(retweetShortcut);
-  Q_UNUSED(copylinkShortcut);
-  Q_UNUSED(deleteShortcut);
-  Q_UNUSED(markallasreadShortcut);
-  Q_UNUSED(gototwitterpageShortcut);
-  Q_UNUSED(gotohomepageShortcut);
-
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ), this, SLOT(tweetReplyAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ), this, SLOT(tweetRetweetAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ), this, SLOT(tweetCopylinkAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ), this, SLOT(tweetDeleteAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ), this, SLOT(tweetMarkallasreadAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ), this, SLOT(tweetGototwitterpageAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ), this, SLOT(tweetGotohomepageAction()) );
 
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
@@ -198,11 +189,11 @@ int MainWindow::getScrollBarWidth()
   return ui.statusListView->verticalScrollBar()->size().width();
 }
 
-void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bool publicTimeline )
+void MainWindow::setupAccounts( const QList<Account> &accounts, bool publicTimeline )
 {
   ui.accountsComboBox->clear();
 
-  foreach ( TwitterAccount account, accounts ) {
+  foreach ( Account account, accounts ) {
     if ( account.isEnabled )
       ui.accountsComboBox->addItem( QString( "%1 @ %2" ).arg( account.login, account.networkToString() ) );
   }
@@ -226,8 +217,8 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bo
     if ( ui.accountsComboBox->currentText() == tr( "public timeline" ) )
       emit switchToPublicTimelineModel();
     else
-      emit switchModel( TwitterAccount::fromString( ui.accountsComboBox->currentText() ).first,
-                        TwitterAccount::fromString( ui.accountsComboBox->currentText() ).second );
+      emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
+                        Account::fromString( ui.accountsComboBox->currentText() ).second );
     ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
     return;
   }
@@ -243,8 +234,8 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount> &accounts, bo
   if ( ui.accountsComboBox->currentText() == tr( "public timeline" ) )
     emit switchToPublicTimelineModel();
   else
-    emit switchModel( TwitterAccount::fromString( ui.accountsComboBox->currentText() ).first,
-                      TwitterAccount::fromString( ui.accountsComboBox->currentText() ).second );
+    emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
+                      Account::fromString( ui.accountsComboBox->currentText() ).second );
   ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
 }
 
@@ -334,7 +325,7 @@ void MainWindow::sendStatus()
     messageBox->deleteLater();
   }
   resetUiWhenFinished = true;
-  emit post( TwitterAccount::fromString( ui.accountsComboBox->currentText() ).first, TwitterAccount::fromString( ui.accountsComboBox->currentText() ).second, ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
+  emit post( Account::fromString( ui.accountsComboBox->currentText() ).first, Account::fromString( ui.accountsComboBox->currentText() ).second, ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
   showProgressIcon();
 }
 
@@ -366,8 +357,8 @@ void MainWindow::configSaveCurrentModel( int index )
       QRegExp rx( "(.+) @ (.+)" );
       if ( rx.indexIn( ui.accountsComboBox->currentText() ) == -1 )
         return;
-      emit switchModel( TwitterAccount::fromString( ui.accountsComboBox->currentText() ).first,
-                        TwitterAccount::fromString( ui.accountsComboBox->currentText() ).second );
+      emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
+                        Account::fromString( ui.accountsComboBox->currentText() ).second );
     }
   }
   ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
@@ -375,18 +366,18 @@ void MainWindow::configSaveCurrentModel( int index )
 
 void MainWindow::selectNextAccount()
 {
-  if ( ui.accountsComboBox->currentIndex() < ui.accountsComboBox->count() - 1 ) {
-    ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->currentIndex() + 1 );
-    configSaveCurrentModel( ui.accountsComboBox->currentIndex() );
-  }
+  ui.accountsComboBox->setCurrentIndex( (ui.accountsComboBox->currentIndex() + 1) % ui.accountsComboBox->count() );
+  configSaveCurrentModel( ui.accountsComboBox->currentIndex() );
 }
 
 void MainWindow::selectPrevAccount()
 {
   if ( ui.accountsComboBox->currentIndex() > 0 ) {
     ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->currentIndex() - 1 );
-    configSaveCurrentModel( ui.accountsComboBox->currentIndex() );
+  } else {
+    ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->count() - 1 );
   }
+  configSaveCurrentModel( ui.accountsComboBox->currentIndex() );
 }
 
 void MainWindow::resetStatus()

@@ -75,11 +75,12 @@ SOURCES += src/main.cpp \
     src/twitpicview.cpp \
     src/twitpicengine.cpp \
     src/twitpicxmlparser.cpp \
+    src/accountsmodel.cpp \
+    src/accountsview.cpp \
+    src/accountscontroller.cpp \
     src/accountsdelegate.cpp \
     src/qtwitter.cpp \
-    src/twitteraccountsmodel.cpp \
-    src/aboutdialog.cpp \
-    src/accountsview.cpp
+    src/aboutdialog.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/imagedownload.h \
@@ -93,18 +94,20 @@ HEADERS += src/mainwindow.h \
     src/twitpicengine.h \
     src/twitpicxmlparser.h \
     src/statustextedit.h \
+    src/accountsmodel.h \
+    src/accountsview.h \
+    src/accountscontroller.h \
     src/accountsdelegate.h \
     src/qtwitter.h \
-    src/twitteraccountsmodel.h \
-    src/aboutdialog.h \
-    src/accountsview.h
+    src/aboutdialog.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
     ui/tweet.ui \
     ui/aboutdialog.ui \
     ui/twitpicview.ui \
-    ui/twitpicnewphoto.ui
+    ui/twitpicnewphoto.ui \
+    ui/accounts.ui
 RESOURCES += res/resources.qrc
 QT += network \
     xml

@@ -32,7 +32,8 @@
 #include "twitpicengine.h"
 #include "tweetmodel.h"
 #include "tweet.h"
-#include "twitteraccountsmodel.h"
+#include "accountsmodel.h"
+#include "accountscontroller.h"
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
 
@@ -44,6 +45,8 @@ Core::Core( MainWindow *parent ) :
     requestCount( 0 ),
     tempModelCount( 0 ),
     twitpicUpload( 0 ),
+    accounts(0),
+    accountsModel(0),
     timer( 0 ),
     parentMainWindow( parent )
 {
@@ -64,12 +67,6 @@ Core::Core( MainWindow *parent ) :
   listViewForModels = parent->getListView();
   margin = parent->getScrollBarWidth();
 
-  accountsModel = new TwitterAccountsModel( this );
-  accountsModel->insertRows(0,2);
-  accountsModel->account(0) = TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER );
-  accountsModel->account(1) = TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA );
-
-
   urlShortener = new UrlShortener( this );
   connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
   connect( urlShortener, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
@@ -77,18 +74,26 @@ Core::Core( MainWindow *parent ) :
 
 Core::~Core()
 {
-  QMap<TwitterAccount,TweetModel*>::iterator i = tweetModels.begin();
+  QMap<Account,TweetModel*>::iterator i = tweetModels.begin();
   while ( i != tweetModels.end() ) {
     (*i)->deleteLater();
     i++;
   }
 }
 
+void Core::createAccounts( QWidget *view )
+{
+  accounts = new AccountsController( view, this );
+  if ( !accountsModel )
+    accountsModel = accounts->getModel();
+}
+
 void Core::applySettings()
 {
-//  setUrlShortener();
   publicTimeline = settings.value(  "TwitterAccounts/publicTimeline", false ).toBool();
+  accounts->loadAccounts();
   setupTweetModels();
+  emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
   twitterapi->resetConnections();
 
   emit resetUi();
@@ -97,7 +102,7 @@ void Core::applySettings()
   int mtc = settings.value( "Appearance/tweet count", 25 ).toInt();
   foreach ( TweetModel *model, tweetModels.values() )
     model->setMaxTweetCount( mtc );
-  foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
+  foreach ( Account account, accountsModel->getAccounts() ) {
     if ( tweetModels.contains( account ) )
       tweetModels[ account ]->slotDirectMessagesChanged( account.directMessages );
   }
@@ -136,9 +141,9 @@ void Core::setModelTheme( const ThemeData &theme )
     model->setTheme( theme );
 }
 
-QAbstractItemModel* Core::getTwitterAccountsModel()
+const AccountsModel* const Core::getAccountsModel() const
 {
-  return accountsModel;
+  return accounts->getModel();
 }
 
 TweetModel* Core::getModel( TwitterAPI::SocialNetwork network, const QString &login )
@@ -149,8 +154,8 @@ TweetModel* Core::getModel( TwitterAPI::SocialNetwork network, const QString &lo
 TweetModel* Core::getPublicTimelineModel()
 {
   // TODOTODO: enable getting both Twitter and Identi.ca public timelines
-  return tweetModels.contains( TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) )
-                               ? tweetModels.value( TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) : 0;
+  return tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) )
+                               ? tweetModels.value( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) : 0;
 }
 
 void Core::forceGet()
@@ -171,7 +176,7 @@ void Core::get( TwitterAPI::SocialNetwork network, const QString &login, const Q
 
 void Core::get()
 {
-  foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
+  foreach ( Account account, accountsModel->getAccounts() ) {
     if ( account.isEnabled ) {
       twitterapi->friendsTimeline( account.network, account.login, account.password, settings.value("Appearance/tweet count", 20).toInt());
       emit newRequest();
@@ -266,7 +271,7 @@ void Core::openBrowser( QUrl address )
 #endif
 }
 
-Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
+Core::AuthDialogState Core::authDataDialog( Account *account )
 {
   if ( authDialogOpen )
     return Core::STATE_DIALOG_OPEN;
@@ -286,14 +291,14 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
       authDialogOpen = false;
       account->isEnabled = false;
       settings.setValue( QString("TwitterAccounts/%1/enabled").arg( row ), false );
-      emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
+      emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
       delete dlg;
       return Core::STATE_DISABLE_ACCOUNT;
     } else if ( ui.removeBox->isChecked() ) {
       authDialogOpen = false;
       accountsModel->removeRow( row );
-      settings.deleteTwitterAccount( row, accountsModel->rowCount() );
-      emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
+      settings.deleteAccount( row, accountsModel->rowCount() );
+      emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
       delete dlg;
       return Core::STATE_REMOVE_ACCOUNT;
     }
@@ -303,7 +308,7 @@ Core::AuthDialogState Core::authDataDialog( TwitterAccount *account )
       tweetModels[ *accountsModel->account( account->network, ui.loginEdit->text() ) ]->setLogin( account->login );
       tweetModels.remove( *account );
       account->login = ui.loginEdit->text();
-      emit twitterAccountsChanged( accountsModel->getAccounts(), publicTimeline );
+      emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
     }
     account->password = ui.passwordEdit->text();
     settings.setValue( QString("TwitterAccounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login );
@@ -352,7 +357,7 @@ void Core::deleteEntry( TwitterAPI::SocialNetwork network, const QString &login,
 void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password )
 {
   Q_UNUSED(password);
-  TwitterAccount *account = accountsModel->account( network, login );
+  Account *account = accountsModel->account( network, login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE ) )
     return;
   requestCount--;
@@ -364,7 +369,7 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
 void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId )
 {
   Q_UNUSED(password);
-  TwitterAccount *account = accountsModel->account( network, login );
+  Account *account = accountsModel->account( network, login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE ) )
     return;
   requestCount--;
@@ -374,7 +379,7 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
 void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId )
 {
   Q_UNUSED(password);
-  TwitterAccount *account = accountsModel->account( network, login );
+  Account *account = accountsModel->account( network, login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE ) )
     return;
   requestCount--;
@@ -383,7 +388,7 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
 
 void Core::setupTweetModels()
 {
-  foreach ( TwitterAccount account, accountsModel->getAccounts() ) {
+  foreach ( Account account, accountsModel->getAccounts() ) {
     if ( account.isEnabled && !tweetModels.contains( account ) ) {
       TweetModel *model = new TweetModel( account.network, account.login, margin, listViewForModels, this );
       createConnectionsWithModel( model );
@@ -394,11 +399,11 @@ void Core::setupTweetModels()
       tweetModels.remove( account );
     }
   }
-  if ( publicTimeline && !tweetModels.contains( TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
+  if ( publicTimeline && !tweetModels.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
     // TODOTODO: enable Twitter public timeline
     TweetModel *model = new TweetModel( TwitterAPI::SOCIALNETWORK_IDENTICA, TwitterAPI::PUBLIC_TIMELINE, margin, listViewForModels, this );
     createConnectionsWithModel( model );
-    tweetModels.insert( TwitterAccount::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ), model );
+    tweetModels.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ), model );
   }
   newTweets.clear();
   requestCount = 0;
@@ -417,7 +422,7 @@ void Core::createConnectionsWithModel( TweetModel *model )
   connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
 }
 
-bool Core::retryAuthorizing( TwitterAccount *account, int role )
+bool Core::retryAuthorizing( Account *account, int role )
 {
   if ( !account )
     return false;
@@ -452,6 +457,7 @@ void Core::slotNewRequest()
 
 void Core::slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role )
 {
+  Q_UNUSED(network);
   Q_UNUSED(login);
   Q_UNUSED(role);
   requestCount--;

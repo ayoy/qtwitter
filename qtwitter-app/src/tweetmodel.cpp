@@ -208,7 +208,8 @@ void TweetModel::insertTweet( Entry *entry )
     return;
   }
   for ( int i = 0; i < rowCount(); i++ ) {
-    if ( status.entry.timestamp > statuses[i].entry.timestamp ) {
+    // switched from coparing timestamps as it didn't work for Identi.ca sometimes
+    if ( status.entry.id > statuses[i].entry.id ) {
       QStandardItemModel::insertRow( i, newItem );
       statuses.insert( i, status );
       statuses[i].tweet->setTweetData( &statuses[i].entry, &statuses[i].state );

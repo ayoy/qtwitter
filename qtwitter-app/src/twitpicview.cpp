@@ -21,6 +21,7 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QDebug>
+#include <twitterapi/twitterapi_global.h>
 #include "twitpicview.h"
 #include "ui_twitpicview.h"
 #include "settings.h"
@@ -54,11 +55,11 @@ TwitPicView::~TwitPicView()
   }
 }
 
-void TwitPicView::setupTwitterAccounts( const QList<TwitterAccount> &accounts )
+void TwitPicView::setupAccounts( const QList<Account> &accounts )
 {
   m_ui->accountsComboBox->clear();
-  foreach ( TwitterAccount account, accounts ) {
-    if ( account.isEnabled )
+  foreach ( Account account, accounts ) {
+    if ( account.isEnabled && account.network == TwitterAPI::SOCIALNETWORK_TWITTER )
       m_ui->accountsComboBox->addItem( account.login );
   }
   int index = settings.value( "TwitterAccounts/currentModel", 0 ).toInt();
