@@ -19,6 +19,7 @@
 
 
 #include <QRegExp>
+#include <QDebug> //todo: remove
 #include "xmlparser.h"
 
 const QByteArray XmlParser::USER_ID = "id";
@@ -95,6 +96,24 @@ bool XmlParser::characters( const QString &ch )
       entry.image = ch;
     } else if ( currentField == Timestamp && entry.timestamp.isNull() ) {
       entry.timestamp = toDateTime( ch );
+      qDebug() << "timestamp " << ch;
+      qDebug() << "entry.timestamp " << entry.timestamp.toLocalTime();//.toString(Qt::LocalDate);
+      qDebug() << "current: " << QDateTime::currentDateTime().toLocalTime();//toUTC();//.toString(Qt::LocalDate);
+      qDebug() << "utc: " << QDateTime::currentDateTime().toUTC();//.toString(Qt::LocalDate);
+      qDebug() << QDateTime::currentDateTime ().toTimeSpec(Qt::UTC).toTime_t();//toString(Qt::LocalDate);
+      qDebug() << QDateTime::currentDateTime ().toTimeSpec(Qt::LocalTime).toTime_t();//toString(Qt::LocalDate);
+//      int now = QDateTime::currentDateTime().toLocalTime().toTime_t();
+//      int utc = QDateTime::currentDateTime().toUTC().toTime_t();
+//     qDebug() << "diff " << now - utc;
+
+      QString now = QDateTime::currentDateTime().toString(Qt::ISODate);
+      QDateTime conv = QDateTime::fromString(now, Qt::ISODate);
+      QString utc = QDateTime::currentDateTime().toUTC().toString(Qt::ISODate);
+      QDateTime convutc = QDateTime::fromString(utc, Qt::ISODate);
+      qDebug() << "t " << conv.toString(Qt::ISODate) << " " << convutc.toString(Qt::ISODate) << "diff " << convutc.toTime_t() - conv.toTime_t();
+      int diff = conv.secsTo(convutc);
+      qDebug() << "diff sec" << diff << " " << conv.toString(Qt::ISODate) << " " << conv.addSecs(diff).toString(Qt::ISODate);
+
     } else if ( currentField == Homepage ) {
       if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
         entry.hasHomepage = true;
