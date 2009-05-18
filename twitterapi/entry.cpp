@@ -33,7 +33,8 @@ Entry::Entry( Entry::Type entryType ) :
   image( QString() ),
   homepage( QString() ),
   hasHomepage( false ),
-  timestamp( QDateTime() )
+  timestamp( QDateTime() ),
+  localTime( QDateTime() )
 {}
 
 void Entry::initialize()
@@ -48,6 +49,7 @@ void Entry::initialize()
   text = QString();
   originalText = QString();
   timestamp = QDateTime();
+  localTime = QDateTime();
 }
 
 bool Entry::checkContents()
@@ -61,7 +63,8 @@ bool Entry::checkContents()
        ( type == Status ? !image.isNull() : true ) &&
        !text.isNull() &&
        ( hasHomepage ? !homepage.isNull() : true ) &&
-       !timestamp.isNull() ) {
+       !timestamp.isNull() &&
+       !localTime.isNull() ) {
     return true;
   }
   return false;

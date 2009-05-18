@@ -44,6 +44,7 @@ XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Q
   this->network = network;
   this->login = login;
   populateTagsSet();
+  timeShift = getTimeShift();
 }
 
 XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Entry::Type entryType, QObject *parent) :
@@ -56,6 +57,7 @@ XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, E
   this->network = network;
   this->login = login;
   populateTagsSet();
+  timeShift = getTimeShift();
 }
 
 void XmlParser::populateTagsSet()
@@ -110,7 +112,10 @@ bool XmlParser::characters( const QString &ch )
     } else if ( currentTag == TAG_USER_IMAGE && entry.image.isNull() ) {
       entry.image = ch;
     } else if ( currentTag == TAG_USER_TIMESTAMP && entry.timestamp.isNull() ) {
-      entry.timestamp = toDateTime( ch );
+      entry.timestamp = toDateTime( ch ); //utc
+      /* It's better to leave UTC timestamp alone; Additional member localTime is added to store local time when
+         user's system supports timezones. */
+      entry.localTime = entry.timestamp.addSecs(timeShift); //now - utc; see getTimeShift
     } else if ( currentTag == TAG_USER_HOMEPAGE ) {
       if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
         entry.hasHomepage = true;
@@ -157,6 +162,20 @@ int XmlParser::getMonth( const QString &month )
     return 12;
   else
     return -1;
+}
+
+int XmlParser::calculateTimeShift()
+{
+  QString currentTime = QDateTime::currentDateTime().toString(Qt::ISODate);
+  QDateTime now = QDateTime::fromString(currentTime, Qt::ISODate);
+  QString currentUtcTime = QDateTime::currentDateTime().toUTC().toString(Qt::ISODate);
+  QDateTime utc = QDateTime::fromString(currentUtcTime, Qt::ISODate);
+  return utc.secsTo(now);
+}
+
+int XmlParser::getTimeShift()
+{
+  return timeShift;
 }
 
 QString XmlParser::textToHtml( QString newText )
@@ -215,6 +234,7 @@ bool XmlParserDirectMsg::characters( const QString &ch )
       entry.text = textToHtml( ch );
     } else if ( currentTag == TAG_USER_TIMESTAMP && entry.timestamp.isNull() ) {
       entry.timestamp = toDateTime( ch );
+      entry.localTime = entry.timestamp.addSecs(getTimeShift());
     }
     if ( parsingSender ) {
       if ( currentTag == TAG_USER_NAME && entry.name.isNull() ) {

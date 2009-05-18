@@ -48,6 +48,13 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image,
   applyTheme();
   m_ui->userName->setText( tweetData->name );
   m_ui->userStatus->setHtml( tweetData->text );
+
+  if( tweetData->localTime.date() >= QDateTime::currentDateTime().date()) //today
+    m_ui->timeStamp->setText( tweetData->localTime.time().toString(Qt::SystemLocaleShortDate) );
+  else  //yesterday or earlier
+    m_ui->timeStamp->setText( tweetData->localTime.toString(Qt::SystemLocaleShortDate) );
+
+
   m_ui->userImage->setPixmap( image );
   adjustSize();
   setFocusProxy( m_ui->userStatus );
@@ -270,6 +277,12 @@ void Tweet::changeEvent( QEvent *e )
   switch (e->type()) {
   case QEvent::LanguageChange:
     m_ui->retranslateUi(this);
+    //timestamp label gets cleared after retranslation, so we need to set it again:
+    if( tweetData->localTime.date() >= QDateTime::currentDateTime().date()) //today
+      m_ui->timeStamp->setText( tweetData->localTime.time().toString(Qt::SystemLocaleShortDate) );
+    else  //yesterday or earlier
+      m_ui->timeStamp->setText( tweetData->localTime.toString(Qt::SystemLocaleShortDate) );
+
     break;
   default:;
   }
