@@ -239,12 +239,14 @@ void Tweet::setTheme( const ThemeData &theme )
   currentTheme = theme;
 }
 
+// TODO: magic numbers!!!!!!!!
 void Tweet::adjustSize()
 {
   m_ui->menuButton->move( this->size().width() - m_ui->menuButton->size().width() - 6, 6);
   m_ui->userStatus->document()->setTextWidth( m_ui->userStatus->width() );
   m_ui->userStatus->resize( m_ui->userStatus->size().width(), (int)m_ui->userStatus->document()->size().height() );
-  m_ui->frame->resize( m_ui->frame->width(), ( 68 > m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + 11) ? 68 : m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + 11 );
+  m_ui->timeStamp->move( m_ui->timeStamp->x(), m_ui->userStatus->geometry().y() + m_ui->userStatus->height() );
+  m_ui->frame->resize( m_ui->frame->width(), ( (91 > m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + m_ui->timeStamp->height() + 11) ) ? 91 : m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + m_ui->timeStamp->height() + 11 );
   resize( m_ui->frame->size() );
 }
 
