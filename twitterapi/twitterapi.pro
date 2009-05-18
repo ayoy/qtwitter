@@ -1,8 +1,6 @@
 TARGET = twitterapi
-
 include(../qtwitter.pri)
 include(twitterapi.pri)
-
 TEMPLATE = lib
 QT += network \
     xml

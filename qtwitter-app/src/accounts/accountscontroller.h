@@ -18,19 +18,54 @@
  ***************************************************************************/
 
 
-#ifndef TWITTERACCOUNTSDELEGATE_H
-#define TWITTERACCOUNTSDELEGATE_H
+#ifndef ACCOUNTSCONTROLLER_H
+#define ACCOUNTSCONTROLLER_H
 
-#include <QItemDelegate>
+#include <QObject>
 
-class TwitterAccountsDelegate : public QItemDelegate
+class QWidget;
+class QModelIndex;
+class AccountsModel;
+class AccountsView;
+
+namespace Ui {
+  class Accounts;
+}
+
+class AccountsController : public QObject
 {
+  Q_OBJECT
 public:
-  TwitterAccountsDelegate( QList<int> checkBoxColumns, QObject *parent = 0 );
 
-  void paint( QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+  enum PublicTimeline {
+    PT_NONE = 0,
+    PT_TWITTER,
+    PT_IDENTICA,
+    PT_BOTH
+  };
+
+  AccountsController( QWidget *widget, QObject *parent );
+  virtual ~AccountsController();
+  AccountsModel* getModel() const;
+
+public slots:
+  void loadAccounts();
+
+private slots:
+  void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
+  void updateCheckBox( const QModelIndex &index );
+  void updatePublicTimeline( int state );
+  void togglePasswordStoring( int state );
+  void showPasswordDisclaimer();
+  void addAccount();
+  void deleteAccount();
+
 private:
-  QList<int> checkBoxColumns;
+  void setAccountEnabled( bool state );
+  void setAccountDM( bool state );
+  AccountsModel *model;
+  AccountsView *view;
+  Ui::Accounts *ui;
 };
 
-#endif // TWITTERACCOUNTSDELEGATE_H
+#endif // ACCOUNTSCONTROLLER_H

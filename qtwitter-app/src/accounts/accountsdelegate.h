@@ -18,30 +18,22 @@
  ***************************************************************************/
 
 
-#ifndef QTWITTER_H
-#define QTWITTER_H
+#ifndef ACCOUNTSDELEGATE_H
+#define ACCOUNTSDELEGATE_H
 
-#include "mainwindow.h"
+#include <QStyledItemDelegate>
 
-class Core;
-class TwitPicView;
-class Settings;
+class QItemEditorFactory;
 
-class Qtwitter : public MainWindow
+class AccountsDelegate : public QStyledItemDelegate
 {
-  Q_OBJECT
 public:
-  Qtwitter( QWidget *parent = 0 );
+  AccountsDelegate( QObject *parent = 0 );
 
-public slots:
-  void setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login );
-  void setPublicTimelineModel( TwitterAPI::SocialNetwork network );
-
-private:
-  Core *core;
-  TwitPicView *twitpic;
-  Settings *settingsDialog;
-
+  QWidget* createEditor ( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+  void setEditorData ( QWidget *editor, const QModelIndex &index ) const;
+  void updateEditorGeometry ( QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+  void setModelData ( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const;
 };
 
-#endif // QTWITTER_H
+#endif // ACCOUNTSDELEGATE_H
