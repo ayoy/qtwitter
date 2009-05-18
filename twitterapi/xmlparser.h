@@ -53,6 +53,7 @@ protected:
   QDateTime toDateTime( const QString &timestamp );
   int getMonth( const QString &month );
   QString textToHtml( QString newText );
+  inline int getTimeShift();
 
   TwitterAPI::SocialNetwork network;
   QString login;
@@ -74,6 +75,8 @@ protected:
 
 private:
   void populateTagsSet();
+  int calculateTimeShift();
+  int timeShift;
 
 };
 
