@@ -42,6 +42,10 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image,
 {
   m_ui->setupUi( this );
 
+  QFont timeStampFont = m_ui->timeStamp->font();
+  timeStampFont.setPointSize( timeStampFont.pointSize() - 1 );
+  m_ui->timeStamp->setFont( timeStampFont );
+
   connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
   connect( this, SIGNAL(selectMe(Tweet*)), tweetListModel, SLOT(selectTweet(Tweet*)) );
 

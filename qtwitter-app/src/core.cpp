@@ -144,11 +144,6 @@ void Core::setModelTheme( const ThemeData &theme )
     model->setTheme( theme );
 }
 
-const AccountsModel* const Core::getAccountsModel() const
-{
-  return accounts->getModel();
-}
-
 TweetModel* Core::getModel( TwitterAPI::SocialNetwork network, const QString &login )
 {
   return tweetModels.contains( *accountsModel->account( network, login ) ) ? tweetModels.value( *accountsModel->account( network, login ) ) : 0;

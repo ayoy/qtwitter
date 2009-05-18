@@ -66,7 +66,6 @@ public:
 #endif
 
   void setModelTheme( const ThemeData &theme );
-  const AccountsModel* const getAccountsModel() const;
   TweetModel* getModel( TwitterAPI::SocialNetwork network, const QString &login );
   TweetModel* getPublicTimelineModel( TwitterAPI::SocialNetwork network );
 
