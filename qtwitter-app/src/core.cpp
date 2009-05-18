@@ -90,8 +90,11 @@ void Core::createAccounts( QWidget *view )
 
 void Core::applySettings()
 {
+  static bool appStartup = true;
   publicTimeline = settings.value( "TwitterAccounts/publicTimeline", AccountsController::PT_NONE ).toInt();
-  accounts->loadAccounts();
+  if ( appStartup )
+    accounts->loadAccounts();
+  appStartup = false;
   setupTweetModels();
   emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
   twitterapi->resetConnections();
@@ -328,8 +331,11 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
       emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
     }
     account->password = ui.passwordEdit->text();
+
     settings.setValue( QString("TwitterAccounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login );
-    settings.setValue( QString("TwitterAccounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password ) );
+    if ( settings.value( "General/savePasswords", Qt::Unchecked ).toInt() == Qt::Checked )
+      settings.setValue( QString("TwitterAccounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password ) );
+
     authDialogOpen = false;
     emit requestStarted();
     delete dlg;

@@ -137,7 +137,7 @@ bool AccountsModel::setData( const QModelIndex &index, const QVariant &value, in
     emit dataChanged( index, index );
     return true;
   case COL_PASSWORD:
-    accounts[ index.row() ].password = ConfigFile::pwHash( value.toString() );
+    accounts[ index.row() ].password = value.toString();
     emit dataChanged( index, index );
     return true;
   case COL_DM:
