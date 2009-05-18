@@ -292,7 +292,6 @@ void Core::openBrowser( QUrl address )
 
 Core::AuthDialogState Core::authDataDialog( Account *account )
 {
-  qDebug() << account->password;
   if ( authDialogOpen )
     return Core::STATE_DIALOG_OPEN;
   emit resetUi();
@@ -332,9 +331,11 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
       emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
     }
     account->password = ui.passwordEdit->text();
+
     settings.setValue( QString("TwitterAccounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login );
-    if ( settings.value( "General/storePasswords", Qt::Unchecked ).toInt() == Qt::Checked )
+    if ( settings.value( "General/savePasswords", Qt::Unchecked ).toInt() == Qt::Checked )
       settings.setValue( QString("TwitterAccounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password ) );
+
     authDialogOpen = false;
     emit requestStarted();
     delete dlg;

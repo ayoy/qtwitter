@@ -18,6 +18,7 @@
  ***************************************************************************/
 
 
+#include <QMessageBox>
 #include <qticonloader.h>
 #include <settings.h>
 #include "accountsmodel.h"
@@ -50,6 +51,7 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   connect( ui->deleteAccountButton, SIGNAL(clicked()), this, SLOT(deleteAccount()));
   connect( ui->publicTimelineComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePublicTimeline(int)) );
   connect( ui->passwordsCheckBox, SIGNAL(stateChanged(int)), this, SLOT(togglePasswordStoring(int)) );
+  connect( ui->disclaimerButton, SIGNAL(clicked()), this, SLOT(showPasswordDisclaimer()) );
 
   view->setModel( model );
   view->setItemDelegate( new AccountsDelegate( this ) );
@@ -93,17 +95,14 @@ void AccountsController::loadAccounts()
     ui->deleteAccountButton->setEnabled( true );
   }
 }
-#include <QDebug>
 void AccountsController::updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight )
 {
-  qDebug() << topLeft.data( Qt::EditRole ).toString();
   // TODO: change config file to organise accounts in an array,
   //       i.e. "TwitterAccounts/%1/%2" with respect to view's row and column
   Q_UNUSED(bottomRight);
   if ( !topLeft.isValid() )
     return;
 //  updateAccountsOnExit = true;
-  // TODO: consider moving this to AccountsModel::setData()
   switch ( topLeft.column() ) {
   case AccountsModel::COL_ENABLED:
     settings.setValue( QString("TwitterAccounts/%1/enabled").arg( topLeft.row() ), topLeft.data() );
@@ -147,7 +146,6 @@ void AccountsController::togglePasswordStoring( int state )
 {
   if ( state == Qt::Checked ) {
     for ( int i = 0; i < model->rowCount(); ++i ) {
-      qDebug() << model->index( i, AccountsModel::COL_PASSWORD ).data( Qt::EditRole ).toString();
       settings.setValue( QString( "TwitterAccounts/%1/password" ).arg(i), ConfigFile::pwHash( model->index( i, AccountsModel::COL_PASSWORD ).data( Qt::EditRole ).toString() ) );
     }
   } else {
@@ -156,6 +154,13 @@ void AccountsController::togglePasswordStoring( int state )
     }
   }
   settings.setValue( "General/savePasswords", state );
+}
+
+void AccountsController::showPasswordDisclaimer()
+{
+  QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Password security" ), tr( "Please note:" ), QMessageBox::Ok );
+  messageBox->setInformativeText( tr( "Although passwords are stored as human unreadable data, they can be easily decoded using the application's source code, which is publicly available. You have been warned." ) );
+  messageBox->exec();
 }
 
 void AccountsController::addAccount()
