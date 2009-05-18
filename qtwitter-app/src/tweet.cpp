@@ -279,12 +279,6 @@ void Tweet::changeEvent( QEvent *e )
   switch (e->type()) {
   case QEvent::LanguageChange:
     m_ui->retranslateUi(this);
-    //timestamp label gets cleared after retranslation, so we need to set it again:
-    if( tweetData->localTime.date() >= QDateTime::currentDateTime().date()) //today
-      m_ui->timeStamp->setText( tweetData->localTime.time().toString(Qt::SystemLocaleShortDate) );
-    else  //yesterday or earlier
-      m_ui->timeStamp->setText( tweetData->localTime.toString(Qt::SystemLocaleShortDate) );
-
     break;
   default:;
   }
