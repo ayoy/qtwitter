@@ -353,6 +353,7 @@ background-color: rgba(255,255,255,0);
     </property>
     <property name="font">
      <font>
+      <pointsize>11</pointsize>
       <italic>true</italic>
      </font>
     </property>

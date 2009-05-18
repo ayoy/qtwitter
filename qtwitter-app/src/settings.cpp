@@ -436,7 +436,7 @@ void Settings::setBrowser()
 void Settings::applySettings()
 {
   setProxy();
-  core->applySettings( );
+  core->applySettings();
   // TODO: public timeline
 //  mainWindow->setupAccounts( accountsModel->getAccounts(), false );//ui.publicTimelineCheckBox->isChecked() );
 //  twitPicView->setupAccounts( accountsModel->getAccounts() );

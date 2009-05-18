@@ -55,6 +55,7 @@ private slots:
   void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
   void updateCheckBox( const QModelIndex &index );
   void updatePublicTimeline( int state );
+  void togglePasswordStoring( int state );
   void addAccount();
   void deleteAccount();
 
