@@ -34,6 +34,11 @@ const QString XmlParser::TAG_USER_TIMESTAMP = "created_at";
 const QString XmlParserDirectMsg::TAG_DIRECT_MESSAGE = "direct_message";
 const QString XmlParserDirectMsg::TAG_SENDER = "sender";
 
+const QSet<QString> XmlParser::tags = QSet<QString>() << TAG_USER_ID << TAG_USER_TEXT << TAG_USER_NAME << TAG_USER_LOGIN
+                                                << TAG_USER_IMAGE << TAG_USER_HOMEPAGE << TAG_USER_TIMESTAMP;
+
+const int XmlParser::timeShift = XmlParser::calculateTimeShift();
+
 XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent) :
     QObject( parent ),
     QXmlDefaultHandler(),
@@ -43,8 +48,6 @@ XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Q
 {
   this->network = network;
   this->login = login;
-  populateTagsSet();
-  timeShift = getTimeShift();
 }
 
 XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Entry::Type entryType, QObject *parent) :
@@ -56,14 +59,6 @@ XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, E
 {
   this->network = network;
   this->login = login;
-  populateTagsSet();
-  timeShift = getTimeShift();
-}
-
-void XmlParser::populateTagsSet()
-{
-  tags << TAG_USER_ID << TAG_USER_TEXT << TAG_USER_NAME << TAG_USER_LOGIN
-       << TAG_USER_IMAGE << TAG_USER_HOMEPAGE << TAG_USER_TIMESTAMP;
 }
 
 bool XmlParser::startDocument()
@@ -115,7 +110,7 @@ bool XmlParser::characters( const QString &ch )
       entry.timestamp = toDateTime( ch ); //utc
       /* It's better to leave UTC timestamp alone; Additional member localTime is added to store local time when
          user's system supports timezones. */
-      entry.localTime = entry.timestamp.addSecs(timeShift); //now - utc; see getTimeShift
+      entry.localTime = entry.timestamp.addSecs( timeShift ); //now - utc
     } else if ( currentTag == TAG_USER_HOMEPAGE ) {
       if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
         entry.hasHomepage = true;
@@ -128,7 +123,7 @@ bool XmlParser::characters( const QString &ch )
 
 QDateTime XmlParser::toDateTime( const QString &timestamp )
 {
-  QRegExp rx( "(\\w+) (\\w+) (\\d{2}) (\\d{2}):(\\d{2}):(\\d{2}) .+ (\\d{4})" );
+  QRegExp rx( "(\\w+) (\\w+) (\\d{2}) (\\d{1,2}):(\\d{2}):(\\d{2}) .+ (\\d{4})" );
   rx.indexIn( timestamp );
   return QDateTime( QDate( rx.cap(7).toInt(), getMonth( rx.cap(2) ), rx.cap(3).toInt() ),
                     QTime( rx.cap(4).toInt(), rx.cap(5).toInt(), rx.cap(6).toInt() ) );
@@ -173,14 +168,10 @@ int XmlParser::calculateTimeShift()
   return utc.secsTo(now);
 }
 
-int XmlParser::getTimeShift()
-{
-  return timeShift;
-}
-
 QString XmlParser::textToHtml( QString newText )
 {
   QString networkUrl = ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) ? TwitterAPI::URL_TWITTER : TwitterAPI::URL_IDENTICA;
+  // URL_IDENTICA = http://identi.ca/api
   networkUrl.replace( QRegExp( "/api$" ), "" );
   QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
   newText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
@@ -234,7 +225,7 @@ bool XmlParserDirectMsg::characters( const QString &ch )
       entry.text = textToHtml( ch );
     } else if ( currentTag == TAG_USER_TIMESTAMP && entry.timestamp.isNull() ) {
       entry.timestamp = toDateTime( ch );
-      entry.localTime = entry.timestamp.addSecs(getTimeShift());
+      entry.localTime = entry.timestamp.addSecs( timeShift );
     }
     if ( parsingSender ) {
       if ( currentTag == TAG_USER_NAME && entry.name.isNull() ) {
