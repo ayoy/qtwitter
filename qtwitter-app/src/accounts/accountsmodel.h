@@ -18,36 +18,29 @@
  ***************************************************************************/
 
 
-#ifndef TWITTERACCOUNTSMODEL_H
-#define TWITTERACCOUNTSMODEL_H
+#ifndef ACCOUNTSMODEL_H
+#define ACCOUNTSMODEL_H
 
 #include <QAbstractItemModel>
 #include <QList>
-#include <QMetaType>
+#include <twitterapi/twitterapi_global.h>
+#include "account.h"
 
-struct TwitterAccount
-{
-  bool isEnabled;
-  QString login;
-  QString password;
-  bool directMessages;
-  bool operator==( const TwitterAccount &other ) const {
-    return ( isEnabled == other.isEnabled &&
-             login == other.login &&
-             password == other.password &&
-             directMessages == other.directMessages );
-  }
-};
-
-Q_DECLARE_METATYPE(TwitterAccount)
-
-class TwitterAccountsModel : public QAbstractItemModel
+class AccountsModel : public QAbstractItemModel
 {
   Q_OBJECT
 
 public:
-  TwitterAccountsModel( QObject *parent = 0 );
-  ~TwitterAccountsModel();
+
+  enum Columns {
+    COL_ENABLED = 0,
+    COL_NETWORK,
+    COL_LOGIN,
+    COL_PASSWORD,
+    COL_DM
+  };
+
+  AccountsModel( QObject *parent = 0 );
 
   int rowCount( const QModelIndex &parent = QModelIndex() ) const;
   int columnCount( const QModelIndex &parent = QModelIndex() ) const;
@@ -55,25 +48,27 @@ public:
   QModelIndex index( int row, int column, const QModelIndex &parent = QModelIndex() ) const;
   QModelIndex parent( const QModelIndex &index ) const;
 
-  Qt::ItemFlags flags(const QModelIndex &index) const;
-
   QVariant data( const QModelIndex &index, int role = Qt::DisplayRole ) const;
-  bool setData( const QModelIndex &index, const QVariant & value, int role );
   QVariant headerData( int section, Qt::Orientation orientation, int role = Qt::DisplayRole ) const;
 
-  bool insertAccount( int row, TwitterAccount* account);
+  bool setData( const QModelIndex &index, const QVariant &value, int role = Qt::EditRole );
+  Qt::ItemFlags flags( const QModelIndex &index ) const;
+
   bool insertRows( int row, int count, const QModelIndex &parent = QModelIndex() );
   bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
   void clear();
 
-  QList<TwitterAccount*>& getAccounts();
-  TwitterAccount* account( int index );
-  TwitterAccount* account( const QString &login );
-  int indexOf( TwitterAccount* account );
+  QList<Account>& getAccounts();
+
+  // TODO: do we really need these two?
+  Account& account( int index );
+  Account* account( TwitterAPI::SocialNetwork network, const QString &login );
+
+  int indexOf( const Account &account );
 
 private:
-  TwitterAccount* emptyAccount();
-  QList<TwitterAccount*> accounts;
+  static Account emptyAccount();
+  QList<Account> accounts;
 };
 
-#endif // TWITTERACCOUNTSMODEL_H
+#endif // ACCOUNTSMODEL_H

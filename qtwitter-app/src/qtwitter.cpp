@@ -25,13 +25,14 @@
 #include <QSystemTrayIcon>
 #include <QSignalMapper>
 #include <QSettings>
+#include <twitterapi/twitterapi_global.h>
 #include "qtwitter.h"
 #include "core.h"
 #include "mainwindow.h"
 #include "twitpicview.h"
 #include "tweet.h"
 #include "settings.h"
-#include "twitteraccountsmodel.h"
+#include "account.h"
 
 extern ConfigFile settings;
 
@@ -67,6 +68,7 @@ Qtwitter::Qtwitter( QWidget *parent, Qt::WindowFlags flags)
   connect( mainwindow, SIGNAL(openTwitPicDialog()), twitpic, SLOT(show()) );
   connect( core, SIGNAL(twitPicResponseReceived()), twitpic, SLOT(resetForm()) );
   connect( core, SIGNAL(twitPicDataSendProgress(int,int)), twitpic, SLOT(showUploadProgress(int,int)) );
+  connect( core, SIGNAL(accountsUpdated(QList<Account>,int)), twitpic, SLOT(setupAccounts(QList<Account>)) );
 
   settingsDialog = new Settings( mainwindow, core, twitpic, this );
   connect( mainwindow, SIGNAL(settingsDialogRequested()), settingsDialog, SLOT( show() ) );
@@ -128,16 +130,16 @@ void Qtwitter::createMenu()
   fileMenu->addAction( quitAction );
 }
 
-void Qtwitter::setCurrentModel( const QString &login )
+void Qtwitter::setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login )
 {
-  mainwindow->setListViewModel( core->getModel( login ) );
+  mainwindow->setListViewModel( core->getModel( network, login ) );
 }
 
 //  this is to avoid relying on translation files
 //  caused by a bug in tr() method
-void Qtwitter::setPublicTimelineModel()
+void Qtwitter::setPublicTimelineModel( TwitterAPI::SocialNetwork network )
 {
-  mainwindow->setListViewModel( core->getPublicTimelineModel() );
+  mainwindow->setListViewModel( core->getPublicTimelineModel( network ) );
 }
 
 void Qtwitter::createTrayIcon()

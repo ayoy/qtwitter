@@ -25,7 +25,6 @@
 #include <QDateTime>
 #include "twitterapi_global.h"
 
-class QString;
 
 struct TWITTERAPI_EXPORT Entry
 {
@@ -50,6 +49,7 @@ struct TWITTERAPI_EXPORT Entry
   QString homepage;
   bool hasHomepage;
   QDateTime timestamp;
+  QDateTime localTime;
 };
 
 Q_DECLARE_METATYPE(Entry)

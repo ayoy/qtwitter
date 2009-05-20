@@ -18,14 +18,17 @@
  ***************************************************************************/
 
 
-#include <twitterapi/twitterapi.h>
+#include <QUrl>
+#include <QPixmap>
+#include <QDebug>
+#include "statuslist.h"
 #include "tweetmodel.h"
 #include "tweet.h"
-#include "mainwindow.h"
 #include "settings.h"
 
-TweetModel::TweetModel( const QString &login, int margin, StatusList *parentListView, QObject *parent ) :
+TweetModel::TweetModel( TwitterAPI::SocialNetwork network, const QString &login, int margin, StatusList *parentListView, QObject *parent ) :
   QStandardItemModel( 0, 0, parent ),
+  network( network ),
   login( login ),
   isVisible( false ),
   maxTweetCount( 20 ),
@@ -40,6 +43,16 @@ TweetModel::~TweetModel()
     if ( !status.tweet.isNull() )
       delete status.tweet;
   }
+}
+
+void TweetModel::setNetwork( TwitterAPI::SocialNetwork network )
+{
+  this->network = network;
+}
+
+TwitterAPI::SocialNetwork TweetModel::getNetwork() const
+{
+  return network;
 }
 
 void TweetModel::setLogin( const QString &login )
@@ -179,7 +192,6 @@ void TweetModel::insertTweet( Entry *entry )
   else
     status.tweet = new Tweet( &status.entry, &status.state, QPixmap(), this );
   status.tweet->setTweetData( &status.entry, &status.state );
-  qDebug() << login << " type: " << status.entry.type << " id:" << status.entry.id;
 
   QStandardItem *newItem = new QStandardItem;
   if ( isVisible ) {
@@ -195,7 +207,8 @@ void TweetModel::insertTweet( Entry *entry )
     return;
   }
   for ( int i = 0; i < rowCount(); i++ ) {
-    if ( status.entry.timestamp > statuses[i].entry.timestamp ) {
+    // switched from comparing timestamps as it didn't work for Identi.ca sometimes
+    if ( status.entry.id > statuses[i].entry.id ) {
       QStandardItemModel::insertRow( i, newItem );
       statuses.insert( i, status );
       statuses[i].tweet->setTweetData( &statuses[i].entry, &statuses[i].state );
@@ -228,9 +241,20 @@ void TweetModel::deleteTweet( int id )
       removeRow(i);
       Q_ASSERT(statuses[i].tweet == 0 );
       statuses.removeAt(i);
+      if ( currentIndex.row() > statuses.size() - 1 ) {
+        currentIndex = index( statuses.size() - 1, 0 );
+        selectTweet( currentIndex );
+//        selectTweet( currentIndex.sibling( statuses.size() - 1, 0 ) );
+      }
       return;
     }
   }
+}
+
+void TweetModel::sendDeleteRequest( int id )
+{
+  qDebug() << "TweetModel::sendDeleteRequest";
+  emit destroy( network, login, id );
 }
 
 void TweetModel::slotDirectMessagesChanged( bool isEnabled )

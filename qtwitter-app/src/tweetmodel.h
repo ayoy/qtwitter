@@ -22,21 +22,24 @@
 #define TWEETMODEL_H
 
 #include <QStandardItemModel>
-#include <QListView>
-#include <QUrl>
-#include <QPixmap>
 #include <QPointer>
 #include <twitterapi/twitterapi.h>
-#include "statuslist.h"
 
+class QPixmap;
+class QUrl;
 class Tweet;
 class ThemeData;
 class TweetModel;
+class StatusList;
 struct Status;
 
 class TweetModel : public QStandardItemModel
 {
+  typedef TwitterAPI::SocialNetwork SocialNetwork;
+
   Q_OBJECT
+  Q_PROPERTY( SocialNetwork network READ getNetwork WRITE setNetwork )
+  Q_PROPERTY( QString login READ getLogin WRITE setLogin )
 
 public:
 
@@ -46,12 +49,16 @@ public:
     STATE_ACTIVE
   };
 
-  TweetModel( const QString &login, int margin, StatusList *parentListView, QObject *parent = 0 );
+  TweetModel( TwitterAPI::SocialNetwork network, const QString &login, int margin, StatusList *parentListView, QObject *parent = 0 );
   ~TweetModel();
 
-  Tweet* currentTweet();
+  void setNetwork( TwitterAPI::SocialNetwork network );
+  TwitterAPI::SocialNetwork getNetwork() const;
+
   void setLogin( const QString &login );
   const QString& getLogin() const;
+
+  Tweet* currentTweet();
   void deselectCurrentIndex();
   void setTheme( const ThemeData &theme );
   void setMaxTweetCount( int count );
@@ -62,6 +69,7 @@ public:
 public slots:
   void insertTweet( Entry *entry );
   void deleteTweet( int id );
+  void sendDeleteRequest( int id );
   void slotDirectMessagesChanged( bool isEnabled );
   void selectTweet( const QModelIndex &index );
   void selectTweet( Tweet *tweet );
@@ -74,7 +82,7 @@ public slots:
 
 signals:
   void retweet( QString message );
-  void destroy( const QString &login, int id );
+  void destroy( TwitterAPI::SocialNetwork, const QString &login, int id );
   void newTweets( const QString &login, bool exists );
   void openBrowser( QUrl address );
   void reply( const QString &name, int inReplyTo );
@@ -85,6 +93,7 @@ private slots:
 
 private:
   bool stripRedundantTweets();
+  TwitterAPI::SocialNetwork network;
   QString login;
   QList<Status> statuses;
   bool isVisible;

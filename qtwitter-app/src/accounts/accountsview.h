@@ -18,19 +18,24 @@
  ***************************************************************************/
 
 
-#include <QApplication>
-#include <QDir>
-#include "qtwitter.h"
-#include "settings.h"
+#ifndef ACCOUNTSVIEW_H
+#define ACCOUNTSVIEW_H
 
-int main( int argc, char **argv )
+#include <QTreeView>
+
+class QModelIndex;
+
+class AccountsView : public QTreeView
 {
-  QApplication app( argc, argv );
+  Q_OBJECT
+public:
+  AccountsView( QWidget *parent = 0 );
 
-  qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
-  Qtwitter qtwitter;
-  QApplication::setQuitOnLastWindowClosed( false );
+signals:
+  void checkBoxClicked( const QModelIndex &index );
 
-  qtwitter.show();
-  return app.exec();
-}
+private slots:
+  void filterClick( const QModelIndex &index );
+};
+
+#endif // ACCOUNTSVIEW_H

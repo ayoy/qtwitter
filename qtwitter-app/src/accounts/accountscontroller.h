@@ -18,19 +18,54 @@
  ***************************************************************************/
 
 
-#include <QApplication>
-#include <QDir>
-#include "qtwitter.h"
-#include "settings.h"
+#ifndef ACCOUNTSCONTROLLER_H
+#define ACCOUNTSCONTROLLER_H
 
-int main( int argc, char **argv )
-{
-  QApplication app( argc, argv );
+#include <QObject>
 
-  qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
-  Qtwitter qtwitter;
-  QApplication::setQuitOnLastWindowClosed( false );
+class QWidget;
+class QModelIndex;
+class AccountsModel;
+class AccountsView;
 
-  qtwitter.show();
-  return app.exec();
+namespace Ui {
+  class Accounts;
 }
+
+class AccountsController : public QObject
+{
+  Q_OBJECT
+public:
+
+  enum PublicTimeline {
+    PT_NONE = 0,
+    PT_TWITTER,
+    PT_IDENTICA,
+    PT_BOTH
+  };
+
+  AccountsController( QWidget *widget, QObject *parent );
+  virtual ~AccountsController();
+  AccountsModel* getModel() const;
+
+public slots:
+  void loadAccounts();
+
+private slots:
+  void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
+  void updateCheckBox( const QModelIndex &index );
+  void updatePublicTimeline( int state );
+  void togglePasswordStoring( int state );
+  void showPasswordDisclaimer();
+  void addAccount();
+  void deleteAccount();
+
+private:
+  void setAccountEnabled( bool state );
+  void setAccountDM( bool state );
+  AccountsModel *model;
+  AccountsView *view;
+  Ui::Accounts *ui;
+};
+
+#endif // ACCOUNTSCONTROLLER_H

@@ -30,12 +30,12 @@ class UrlShortenerImplementation : public QObject
   Q_OBJECT
 
 public:
-  UrlShortenerImplementation( QObject *parent = 0 );
   virtual ~UrlShortenerImplementation();
   virtual UrlShortener::Shortener shorteningService() = 0;
   virtual void shorten( const QString &url ) = 0;
 
 protected:
+  UrlShortenerImplementation( QObject *parent = 0 );
   QNetworkAccessManager *connection;
   int replyStatus( QNetworkReply *reply ) const;
 

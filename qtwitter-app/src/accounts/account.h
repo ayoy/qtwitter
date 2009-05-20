@@ -18,19 +18,32 @@
  ***************************************************************************/
 
 
-#include <QApplication>
-#include <QDir>
-#include "qtwitter.h"
-#include "settings.h"
+#ifndef ACCOUNT_H
+#define ACCOUNT_H
 
-int main( int argc, char **argv )
+#include <QPair>
+#include <QMetaType>
+#include <twitterapi/twitterapi_global.h>
+
+struct Account
 {
-  QApplication app( argc, argv );
+  bool isEnabled;
+  TwitterAPI::SocialNetwork network;
+  QString login;
+  QString password;
+  bool directMessages;
 
-  qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
-  Qtwitter qtwitter;
-  QApplication::setQuitOnLastWindowClosed( false );
+  static QPair<TwitterAPI::SocialNetwork,QString> fromString( const QString &name );
+  static TwitterAPI::SocialNetwork networkFromString( const QString &name );
+  static QString networkToString( TwitterAPI::SocialNetwork network );
+  static const Account publicTimeline( TwitterAPI::SocialNetwork network );
 
-  qtwitter.show();
-  return app.exec();
-}
+  QString toString() const;
+  Account operator=( const Account &other );
+  bool operator==( const Account &other ) const;
+  bool operator<( const Account &other ) const;
+};
+
+Q_DECLARE_METATYPE(Account)
+
+#endif // ACCOUNT_H

@@ -22,12 +22,12 @@
 #define TWEET_H
 
 #include <QtGui/QWidget>
-#include <QMenu>
-#include <QSignalMapper>
-#include <QStandardItem>
-#include <twitterapi/twitterapi.h>
 #include "tweetmodel.h"
 
+class QMenu;
+class QSignalMapper;
+class TweetModel;
+class Entry;
 class ThemeData;
 
 namespace Ui {
@@ -72,7 +72,7 @@ signals:
   void retweet( QString message );
   void markAllAsRead();
   void selectMe( Tweet *tweet );
-  void deleteStatus( const QString &login, int id );
+  void deleteStatus( int id );
 
 protected:
   void changeEvent( QEvent *e );

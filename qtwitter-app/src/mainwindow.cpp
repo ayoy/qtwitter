@@ -30,11 +30,13 @@
 #include <QDesktopWidget>
 #include <QSignalMapper>
 #include <QTreeView>
+#include <twitterapi/twitterapi_global.h>
 #include "mainwindow.h"
 #include "tweet.h"
 #include "aboutdialog.h"
-#include "twitteraccountsmodel.h"
-#include "twitteraccountsdelegate.h"
+#include "account.h"
+#include "accountsdelegate.h"
+#include "accountscontroller.h"
 #include "settings.h"
 #include "qticonloader.h"
 
@@ -61,6 +63,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 
   createConnections();
   createMenu();
+  createTrayIcon();
 }
 
 MainWindow::~MainWindow() {
@@ -69,22 +72,13 @@ MainWindow::~MainWindow() {
 
 void MainWindow::createConnections()
 {
-  QShortcut *replyShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ), this, SLOT(tweetReplyAction()) );
-  QShortcut *retweetShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ), this, SLOT(tweetRetweetAction()) );
-  QShortcut *copylinkShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ), this, SLOT(tweetCopylinkAction()) );
-  QShortcut *deleteShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ), this, SLOT(tweetDeleteAction()) );
-  QShortcut *markallasreadShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ), this, SLOT(tweetMarkallasreadAction()) );
-  QShortcut *gototwitterpageShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ), this, SLOT(tweetGototwitterpageAction()) );
-  QShortcut *gotohomepageShortcut = new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ), this, SLOT(tweetGotohomepageAction()) );
-
-  Q_UNUSED(replyShortcut);
-  Q_UNUSED(retweetShortcut);
-  Q_UNUSED(copylinkShortcut);
-  Q_UNUSED(deleteShortcut);
-  Q_UNUSED(markallasreadShortcut);
-  Q_UNUSED(gototwitterpageShortcut);
-  Q_UNUSED(gotohomepageShortcut);
-
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ), this, SLOT(tweetReplyAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ), this, SLOT(tweetRetweetAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ), this, SLOT(tweetCopylinkAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ), this, SLOT(tweetDeleteAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ), this, SLOT(tweetMarkallasreadAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ), this, SLOT(tweetGototwitterpageAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ), this, SLOT(tweetGotohomepageAction()) );
 
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
@@ -157,6 +151,35 @@ void MainWindow::createMenu()
   ui.moreButton->setMenu( buttonMenu );
 }
 
+void MainWindow::createTrayIcon()
+{
+  trayIcon = new QSystemTrayIcon( this );
+  trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
+
+  connect( trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)) );
+  connect( trayIcon, SIGNAL(messageClicked()), this, SLOT(show()) );
+#ifndef Q_WS_MAC
+  QMenu *trayMenu = new QMenu( this );
+  trayMenu = new QMenu( this );
+  QAction *quitaction = new QAction( tr( "Quit" ), trayMenu);
+  QAction *settingsaction = new QAction( tr( "Settings" ), trayMenu);
+  settingsaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
+  quitaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
+
+  connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
+  connect( settingsaction, SIGNAL(triggered()), this, SIGNAL(settingsDialogRequested()) );
+  connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
+
+  trayMenu->addAction(settingsaction);
+  trayMenu->addSeparator();
+  trayMenu->addAction(quitaction);
+  trayIcon->setContextMenu( trayMenu );
+
+  trayIcon->setToolTip( "qTwitter" );
+#endif
+  trayIcon->show();
+}
+
 StatusList* MainWindow::getListView()
 {
   return ui.statusListView;
@@ -167,36 +190,54 @@ int MainWindow::getScrollBarWidth()
   return ui.statusListView->verticalScrollBar()->size().width();
 }
 
-void MainWindow::setupTwitterAccounts( const QList<TwitterAccount*> &accounts, bool publicTimeline )
+void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeline )
 {
   ui.accountsComboBox->clear();
 
-  foreach ( TwitterAccount* account, accounts ) {
-    if ( account->isEnabled )
-      ui.accountsComboBox->addItem( account->login );
+  foreach ( Account account, accounts ) {
+    if ( account.isEnabled )
+      ui.accountsComboBox->addItem( QString( "%1 @ %2" ).arg( account.login, Account::networkToString( account.network ) ) );
   }
 
-  if ( ( !publicTimeline && accounts.size() < 2 ) || accounts.isEmpty() ) {
+  if ( ( publicTimeline == AccountsController::PT_NONE && accounts.size() < 2 ) || accounts.isEmpty() ) {
     ui.accountsComboBox->setVisible( false );
-    if ( !accounts.isEmpty() )
-      emit switchModel( accounts.at(0)->login );
-    else
-      emit switchToPublicTimelineModel();
-    ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
+    if ( !accounts.isEmpty() ) {
+      ui.statusEdit->setEnabled( true );
+      emit switchModel( accounts.at(0).network, accounts.at(0).login );
+    } else if ( publicTimeline != AccountsController::PT_NONE ) {
+      ui.statusEdit->setEnabled( true );
+      if ( publicTimeline == AccountsController::PT_IDENTICA )
+        emit switchToPublicTimelineModel( TwitterAPI::SOCIALNETWORK_IDENTICA );
+      else
+        emit switchToPublicTimelineModel( TwitterAPI::SOCIALNETWORK_TWITTER );
+    }
     return;
   }
 
-  if ( publicTimeline )
-    ui.accountsComboBox->addItem( tr( "public timeline" ) );
+  switch ( publicTimeline ) {
+  case AccountsController::PT_BOTH:
+  case AccountsController::PT_TWITTER:
+    ui.accountsComboBox->addItem( QString( "%1 @ %2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_TWITTER ) ) );
+    if ( publicTimeline == AccountsController::PT_TWITTER )
+      break;
+  case AccountsController::PT_IDENTICA:
+    ui.accountsComboBox->addItem( QString( "%1 @ %2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) );
+  case AccountsController::PT_NONE:
+  default:
+    break;
+  }
 
   if ( ui.accountsComboBox->count() <= 1 ) {
     ui.accountsComboBox->setVisible( false );
 
-    if ( ui.accountsComboBox->currentText() == tr( "public timeline" ) )
-      emit switchToPublicTimelineModel();
-    else
-      emit switchModel( ui.accountsComboBox->currentText() );
-    ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
+    if ( Account::fromString( ui.accountsComboBox->currentText() ).second == tr( "public timeline" ) ) {
+      ui.statusEdit->setEnabled( false );
+      emit switchToPublicTimelineModel( Account::fromString( ui.accountsComboBox->currentText() ).first );
+    } else {
+      ui.statusEdit->setEnabled( true );
+      emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
+                        Account::fromString( ui.accountsComboBox->currentText() ).second );
+    }
     return;
   }
   ui.accountsComboBox->setVisible( true );
@@ -208,11 +249,14 @@ void MainWindow::setupTwitterAccounts( const QList<TwitterAccount*> &accounts, b
   else
     ui.accountsComboBox->setCurrentIndex( index );
 
-  if ( ui.accountsComboBox->currentText() == tr( "public timeline" ) )
-    emit switchToPublicTimelineModel();
-  else
-    emit switchModel( ui.accountsComboBox->currentText() );
-  ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
+  if ( Account::fromString( ui.accountsComboBox->currentText() ).second == tr( "public timeline" ) ) {
+    ui.statusEdit->setEnabled( false );
+    emit switchToPublicTimelineModel( Account::fromString( ui.accountsComboBox->currentText() ).first );
+  } else {
+    ui.statusEdit->setEnabled( true );
+    emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
+                      Account::fromString( ui.accountsComboBox->currentText() ).second );
+  }
 }
 
 void MainWindow::setListViewModel( TweetModel *model )
@@ -227,6 +271,23 @@ void MainWindow::setListViewModel( TweetModel *model )
   }
   ui.statusListView->setModel( model );
   model->display();
+}
+
+void MainWindow::closeEvent( QCloseEvent *e )
+{
+  if ( trayIcon->isVisible()) {
+    hide();
+    e->ignore();
+    return;
+  }
+  QWidget::closeEvent( e );
+}
+
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Qt::Key_Escape)
+        if(isVisible())
+            hide();
 }
 
 void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
@@ -284,7 +345,7 @@ void MainWindow::sendStatus()
     messageBox->deleteLater();
   }
   resetUiWhenFinished = true;
-  emit post( ui.accountsComboBox->currentText(), ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
+  emit post( Account::fromString( ui.accountsComboBox->currentText() ).first, Account::fromString( ui.accountsComboBox->currentText() ).second, ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
   showProgressIcon();
 }
 
@@ -309,28 +370,33 @@ void MainWindow::configSaveCurrentModel( int index )
 {
   if ( settings.value( "TwitterAccounts/currentModel", 0 ).toInt() != index ) {
     settings.setValue( "TwitterAccounts/currentModel", index );
-    if ( ui.accountsComboBox->currentText() == tr( "public timeline" ) )
-      emit switchModel( "public timeline" );
-    else
-      emit switchModel( ui.accountsComboBox->currentText() );
+    if ( Account::fromString( ui.accountsComboBox->currentText() ).second == tr( "public timeline" ) )
+      emit switchToPublicTimelineModel( Account::fromString( ui.accountsComboBox->currentText() ).first );
+    else {
+      QRegExp rx( "(.+) @ (.+)" );
+      if ( rx.indexIn( ui.accountsComboBox->currentText() ) == -1 )
+        return;
+      emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
+                        Account::fromString( ui.accountsComboBox->currentText() ).second );
+    }
   }
   ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
 }
 
 void MainWindow::selectNextAccount()
 {
-  if ( ui.accountsComboBox->currentIndex() < ui.accountsComboBox->count() - 1 ) {
-    ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->currentIndex() + 1 );
-    configSaveCurrentModel( ui.accountsComboBox->currentIndex() );
-  }
+  ui.accountsComboBox->setCurrentIndex( (ui.accountsComboBox->currentIndex() + 1) % ui.accountsComboBox->count() );
+  configSaveCurrentModel( ui.accountsComboBox->currentIndex() );
 }
 
 void MainWindow::selectPrevAccount()
 {
   if ( ui.accountsComboBox->currentIndex() > 0 ) {
     ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->currentIndex() - 1 );
-    configSaveCurrentModel( ui.accountsComboBox->currentIndex() );
+  } else {
+    ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->count() - 1 );
   }
+  configSaveCurrentModel( ui.accountsComboBox->currentIndex() );
 }
 
 void MainWindow::resetStatus()
@@ -343,6 +409,16 @@ void MainWindow::resetStatus()
 void MainWindow::resizeEvent( QResizeEvent *event )
 {
   emit resizeView( event->size().width(), event->oldSize().width() );
+}
+
+void MainWindow::popupMessage( QString message )
+{
+  if( settings.value( "General/notifications" ).toBool() ) {
+    //: The full sentence is e.g.: "New tweets for <user A>, <user B> and the public timeline"
+    message.replace( "public timeline", tr( "the public timeline" ) );
+    //: New tweets received (pops up in tray)
+    trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
+  }
 }
 
 void MainWindow::popupError( const QString &message )

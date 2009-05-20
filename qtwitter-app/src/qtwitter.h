@@ -28,6 +28,7 @@ class Core;
 class MainWindow;
 class QSystemTrayIcon;
 class TwitPicView;
+class Settings;
 
 class Qtwitter : public QMainWindow
 {
@@ -37,8 +38,8 @@ public:
 
 public slots:
   void popupMessage( QString message );
-  void setCurrentModel( const QString &login );
-  void setPublicTimelineModel();
+  void setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login );
+  void setPublicTimelineModel( TwitterAPI::SocialNetwork network );
 
 protected:
   void closeEvent( QCloseEvent *e );

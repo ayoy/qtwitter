@@ -22,9 +22,11 @@
 #define IMAGEDOWNLOAD_H
 
 #include <QObject>
+#include <QMap>
+#include <QCache>
 #include <QPixmap>
 #include <QNetworkAccessManager>
-#include <twitterapi/twitterapi.h>
+
 
 class ImageDownload : public QObject
 {

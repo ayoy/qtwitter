@@ -18,19 +18,22 @@
  ***************************************************************************/
 
 
-#include <QApplication>
-#include <QDir>
-#include "qtwitter.h"
-#include "settings.h"
+#ifndef ACCOUNTSDELEGATE_H
+#define ACCOUNTSDELEGATE_H
 
-int main( int argc, char **argv )
+#include <QStyledItemDelegate>
+
+class QItemEditorFactory;
+
+class AccountsDelegate : public QStyledItemDelegate
 {
-  QApplication app( argc, argv );
+public:
+  AccountsDelegate( QObject *parent = 0 );
 
-  qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
-  Qtwitter qtwitter;
-  QApplication::setQuitOnLastWindowClosed( false );
+  QWidget* createEditor ( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+  void setEditorData ( QWidget *editor, const QModelIndex &index ) const;
+  void updateEditorGeometry ( QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
+  void setModelData ( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const;
+};
 
-  qtwitter.show();
-  return app.exec();
-}
+#endif // ACCOUNTSDELEGATE_H

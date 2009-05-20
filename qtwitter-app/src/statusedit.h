@@ -25,6 +25,7 @@
 #include <QLineEdit>
 
 class QEvent;
+class QFocusEvent;
 
 class StatusFilter : public QObject
 {

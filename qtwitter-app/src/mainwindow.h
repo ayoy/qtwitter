@@ -25,11 +25,12 @@
 #include <QSystemTrayIcon>
 #include <QUrl>
 #include <QList>
+#include <twitterapi/twitterapi_global.h>
 #include "ui_mainwindow.h"
-#include "tweetmodel.h"
 
 class QMovie;
-class TwitterAccount;
+class TweetModel;
+class Account;
 
 class MainWindow : public QWidget
 {
@@ -44,8 +45,9 @@ public:
 
   
 public slots:
-  void setupTwitterAccounts( const QList<TwitterAccount*> &accounts, bool isPublicTimelineRequested );
+  void setupAccounts( const QList<Account> &accounts, int isPublicTimelineRequested );
   void changeListBackgroundColor( const QColor &newColor );
+  void popupMessage( QString message );
   void popupError( const QString &message );
   void retranslateUi();
   void resetStatusEdit();
@@ -63,21 +65,22 @@ public slots:
   void tweetGotohomepageAction();
 
 signals:
-  void setCurrentModel( const QString &login );
   void updateTweets();
   void openTwitPicDialog();
-  void post( const QString &login, QString status, int inReplyTo );
+  void post( TwitterAPI::SocialNetwork network, const QString &login, QString status, int inReplyTo );
   void openBrowser( QUrl address );
   void settingsDialogRequested();
   void addReplyString( const QString& user, int inReplyTo );
   void addRetweetString( QString message );
   void resizeView( int width, int oldWidth );
-  void switchModel( const QString &login );
-  void switchToPublicTimelineModel();
+  void switchModel( TwitterAPI::SocialNetwork network, const QString &login );
+  void switchToPublicTimelineModel( TwitterAPI::SocialNetwork network );
   void shortenUrl( const QString &url );
 
 protected:
+  void closeEvent( QCloseEvent *e );
   void resizeEvent( QResizeEvent* );
+  void keyPressEvent( QKeyEvent* );
   Ui::MainWindow ui;
 
 private slots:
@@ -93,6 +96,7 @@ private slots:
 private:
   void createConnections();
   void createMenu();
+  void createTrayIcon();
   bool resetUiWhenFinished;
   QMenu *trayMenu;
   QMenu *buttonMenu;
@@ -103,6 +107,7 @@ private:
   QAction *aboutAction;
   QAction *quitAction;
   QMovie *progressIcon;
+  QSystemTrayIcon *trayIcon;
 };
 
 #endif //MAINWINDOW_H
