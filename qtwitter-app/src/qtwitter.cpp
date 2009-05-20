@@ -78,10 +78,10 @@ Qtwitter::Qtwitter( QWidget *parent, Qt::WindowFlags flags)
   connect( qApp, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(int)), settingsDialog, SLOT(saveConfig(int)) );
 
-//#ifdef Q_WS_HILDON
+#ifdef Q_WS_HILDON
   // create menu bar only on maemo
   createMenu();
-//#endif
+#endif
   createTrayIcon();
 }
 
