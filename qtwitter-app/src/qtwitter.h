@@ -22,6 +22,7 @@
 #define QTWITTER_H
 
 #include <QMainWindow>
+#include <twitterapi/twitterapi_global.h>
 #include "settings.h"
 
 class Core;

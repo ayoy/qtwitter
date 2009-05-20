@@ -63,7 +63,6 @@ MainWindow::MainWindow( QWidget *parent ) :
 
   createConnections();
   createMenu();
-  createTrayIcon();
 }
 
 MainWindow::~MainWindow() {
@@ -149,35 +148,6 @@ void MainWindow::createMenu()
   buttonMenu->addAction( aboutAction );
   buttonMenu->addAction( quitAction );
   ui.moreButton->setMenu( buttonMenu );
-}
-
-void MainWindow::createTrayIcon()
-{
-  trayIcon = new QSystemTrayIcon( this );
-  trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
-
-  connect( trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)) );
-  connect( trayIcon, SIGNAL(messageClicked()), this, SLOT(show()) );
-#ifndef Q_WS_MAC
-  QMenu *trayMenu = new QMenu( this );
-  trayMenu = new QMenu( this );
-  QAction *quitaction = new QAction( tr( "Quit" ), trayMenu);
-  QAction *settingsaction = new QAction( tr( "Settings" ), trayMenu);
-  settingsaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
-  quitaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
-
-  connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
-  connect( settingsaction, SIGNAL(triggered()), this, SIGNAL(settingsDialogRequested()) );
-  connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
-
-  trayMenu->addAction(settingsaction);
-  trayMenu->addSeparator();
-  trayMenu->addAction(quitaction);
-  trayIcon->setContextMenu( trayMenu );
-
-  trayIcon->setToolTip( "qTwitter" );
-#endif
-  trayIcon->show();
 }
 
 StatusList* MainWindow::getListView()
@@ -271,23 +241,6 @@ void MainWindow::setListViewModel( TweetModel *model )
   }
   ui.statusListView->setModel( model );
   model->display();
-}
-
-void MainWindow::closeEvent( QCloseEvent *e )
-{
-  if ( trayIcon->isVisible()) {
-    hide();
-    e->ignore();
-    return;
-  }
-  QWidget::closeEvent( e );
-}
-
-void MainWindow::keyPressEvent(QKeyEvent *event)
-{
-    if(event->key() == Qt::Key_Escape)
-        if(isVisible())
-            hide();
 }
 
 void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
@@ -409,16 +362,6 @@ void MainWindow::resetStatus()
 void MainWindow::resizeEvent( QResizeEvent *event )
 {
   emit resizeView( event->size().width(), event->oldSize().width() );
-}
-
-void MainWindow::popupMessage( QString message )
-{
-  if( settings.value( "General/notifications" ).toBool() ) {
-    //: The full sentence is e.g.: "New tweets for <user A>, <user B> and the public timeline"
-    message.replace( "public timeline", tr( "the public timeline" ) );
-    //: New tweets received (pops up in tray)
-    trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
-  }
 }
 
 void MainWindow::popupError( const QString &message )

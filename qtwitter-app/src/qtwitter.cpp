@@ -42,16 +42,16 @@ Qtwitter::Qtwitter( QWidget *parent, Qt::WindowFlags flags)
   mainwindow = new MainWindow(this);
   setCentralWidget(mainwindow);
 
-  connect( mainwindow, SIGNAL(switchModel(QString)), SLOT(setCurrentModel(QString)) );
-  connect( mainwindow, SIGNAL(switchToPublicTimelineModel()), SLOT(setPublicTimelineModel()) );
+  connect( mainwindow, SIGNAL(switchModel(TwitterAPI::SocialNetwork,QString)), SLOT(setCurrentModel(TwitterAPI::SocialNetwork,QString)) );
+  connect( mainwindow, SIGNAL(switchToPublicTimelineModel(TwitterAPI::SocialNetwork)), SLOT(setPublicTimelineModel(TwitterAPI::SocialNetwork)) );
 
   core = new Core( mainwindow );
   connect( mainwindow, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   connect( mainwindow, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
-  connect( mainwindow, SIGNAL(post(QString,QString,int)), core, SLOT(post(QString,QString,int)) );
+  connect( mainwindow, SIGNAL(post(TwitterAPI::SocialNetwork,QString,QString,int)), core, SLOT(post(TwitterAPI::SocialNetwork,QString,QString,int)) );
   connect( mainwindow, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
   connect( mainwindow, SIGNAL(shortenUrl(QString)), core, SLOT(shortenUrl(QString)));
-  connect( core, SIGNAL(twitterAccountsChanged(QList<TwitterAccount*>,bool)), mainwindow, SLOT(setupTwitterAccounts(QList<TwitterAccount*>,bool)) );
+  connect( core, SIGNAL(accountsUpdated(QList<Account>,int)), mainwindow, SLOT(setupAccounts(QList<Account>,int)) );
   connect( core, SIGNAL(urlShortened(QString)), mainwindow, SLOT(replaceUrl(QString)));
   connect( core, SIGNAL(about()), this, SLOT(about()) );
   connect( core, SIGNAL(addReplyString(QString,int)), mainwindow, SIGNAL(addReplyString(QString,int)) );
@@ -62,7 +62,7 @@ Qtwitter::Qtwitter( QWidget *parent, Qt::WindowFlags flags)
   if ( QSystemTrayIcon::supportsMessages() )
     connect( core, SIGNAL(sendNewsReport(QString)), this, SLOT(popupMessage(QString)) );
 
-  twitpic = new TwitPicView( this );
+  twitpic = new TwitPicView( mainwindow );
   connect( twitpic, SIGNAL(uploadPhoto(QString,QString,QString)), core, SLOT(uploadPhoto(QString,QString,QString)) );
   connect( twitpic, SIGNAL(abortUpload()), core, SLOT(abortUploadPhoto()) );
   connect( mainwindow, SIGNAL(openTwitPicDialog()), twitpic, SLOT(show()) );
