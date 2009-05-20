@@ -158,8 +158,8 @@ void Qtwitter::createTrayIcon()
   quitaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
 
   connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
-  connect( settingsaction, SIGNAL(triggered()), this, SIGNAL(settingsDialogRequested()) );
-  connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
+  connect( settingsaction, SIGNAL(triggered()), mainwindow, SIGNAL(settingsDialogRequested()) );
+  connect( settingsaction, SIGNAL(triggered()), mainwindow, SLOT(show()) );
 
   trayMenu->addAction(settingsaction);
   trayMenu->addSeparator();
@@ -170,6 +170,28 @@ void Qtwitter::createTrayIcon()
 #endif
   trayIcon->show();
 }
+
+void Qtwitter::iconActivated( QSystemTrayIcon::ActivationReason reason )
+{
+  switch ( reason ) {
+    case QSystemTrayIcon::Trigger:
+#ifdef Q_WS_WIN
+    if ( !isVisible() ) {
+#else
+    if ( !isVisible() || !QApplication::activeWindow() ) {
+#endif
+      show();
+        raise();
+        activateWindow();
+      } else {
+        hide();
+      }
+      break;
+    default:
+      break;
+  }
+}
+
 
 void Qtwitter::popupMessage( QString message )
 {

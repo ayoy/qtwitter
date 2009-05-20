@@ -22,6 +22,8 @@
 #define QTWITTER_H
 
 #include <QMainWindow>
+#include <QSystemTrayIcon>
+
 #include <twitterapi/twitterapi_global.h>
 #include "settings.h"
 
@@ -41,6 +43,9 @@ public slots:
   void popupMessage( QString message );
   void setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login );
   void setPublicTimelineModel( TwitterAPI::SocialNetwork network );
+
+private slots:
+  void iconActivated( QSystemTrayIcon::ActivationReason reason );
 
 protected:
   void closeEvent( QCloseEvent *e );

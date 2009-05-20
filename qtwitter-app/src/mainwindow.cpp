@@ -243,27 +243,6 @@ void MainWindow::setListViewModel( TweetModel *model )
   model->display();
 }
 
-void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
-{
-  switch ( reason ) {
-    case QSystemTrayIcon::Trigger:
-#ifdef Q_WS_WIN
-    if ( !isVisible() ) {
-#else
-    if ( !isVisible() || !QApplication::activeWindow() ) {
-#endif
-      show();
-        raise();
-        activateWindow();
-      } else {
-        hide();
-      }
-      break;
-    default:
-      break;
-  }
-}
-
 void MainWindow::changeLabel()
 {
   QString toolTip = tr( "%n character(s) left", "", ui.statusEdit->charsLeft() );

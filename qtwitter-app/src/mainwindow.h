@@ -22,7 +22,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QSystemTrayIcon>
 #include <QUrl>
 #include <QList>
 #include <twitterapi/twitterapi_global.h>
@@ -81,7 +80,6 @@ protected:
   Ui::MainWindow ui;
 
 private slots:
-  void iconActivated( QSystemTrayIcon::ActivationReason reason );
   void emitOpenBrowser( QString address );
   void changeLabel();
   void sendStatus();
