@@ -92,7 +92,6 @@ private:
   void createConnections();
   void createMenu();
   bool resetUiWhenFinished;
-  QMenu *trayMenu;
   QMenu *buttonMenu;
   QAction *newtweetAction;
   QAction *newtwitpicAction;
