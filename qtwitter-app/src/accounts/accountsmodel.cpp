@@ -83,7 +83,11 @@ QVariant AccountsModel::data( const QModelIndex &index, int role ) const
     break;
   case COL_PASSWORD:
     if ( role == Qt::DisplayRole )
+#ifdef Q_WS_HILDON
+      return QString( accounts.at( index.row() ).password.length(), '*' );
+#else
       return QString( accounts.at( index.row() ).password.length(), QChar(0x25cf) );
+#endif
     if ( role == Qt::EditRole )
       return accounts.at( index.row() ).password;
     break;
