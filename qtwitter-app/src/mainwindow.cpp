@@ -44,10 +44,13 @@ extern ConfigFile settings;
 
 
 MainWindow::MainWindow( QWidget *parent ) :
-    QWidget( parent ),
+    QMainWindow( parent ),
     resetUiWhenFinished( false )
 {
-  ui.setupUi( this );
+  QWidget *centralWidget = new QWidget( this );
+  ui.setupUi( centralWidget );
+  setCentralWidget( centralWidget );
+
   ui.accountsComboBox->setVisible( false );
 
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
@@ -56,13 +59,19 @@ MainWindow::MainWindow( QWidget *parent ) :
   ui.statusEdit->setToolTip( ui.statusEdit->toolTip().arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
 
   //> experiment begin
-  ui.moreButton->setIcon(QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")));
-  ui.settingsButton->setIcon(QtIconLoader::icon("preferences-other", QIcon(":/icons/spanner_48.png")));
-  ui.updateButton->setIcon(QtIconLoader::icon("reload", QIcon(":icons/refresh_48.png")));
+  ui.moreButton->setIcon( QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")) );
+  ui.settingsButton->setIcon( QtIconLoader::icon("preferences-other", QIcon(":/icons/spanner_48.png")) );
+  ui.updateButton->setIcon( QtIconLoader::icon("reload", QIcon(":icons/refresh_48.png")) );
   //< experiment end
 
   createConnections();
+  createButtonMenu();
+  createTrayIcon();
+
+// create menu bar only on maemo
+#ifdef Q_WS_HILDON
   createMenu();
+#endif
 }
 
 MainWindow::~MainWindow() {
@@ -110,7 +119,45 @@ void MainWindow::createConnections()
   ui.updateButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_R ) );
 }
 
-void MainWindow::createMenu()
+#ifdef Q_WS_HILDON
+void Qtwitter::createHildonMenu()
+{
+  QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
+  fileMenu->addAction( aboutAction );
+  fileMenu->addAction( quitAction );
+}
+#endif
+
+void MainWindow::createTrayIcon()
+{
+  trayIcon = new QSystemTrayIcon( this );
+  trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
+
+  connect( trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)) );
+  connect( trayIcon, SIGNAL(messageClicked()), this, SLOT(show()) );
+#ifndef Q_WS_MAC
+  QMenu *trayMenu = new QMenu( this );
+  trayMenu = new QMenu( this );
+  QAction *quitaction = new QAction( tr( "Quit" ), trayMenu);
+  QAction *settingsaction = new QAction( tr( "Settings" ), trayMenu);
+  settingsaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
+  quitaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
+
+  connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
+  connect( settingsaction, SIGNAL(triggered()), mainwindow, SIGNAL(settingsDialogRequested()) );
+  connect( settingsaction, SIGNAL(triggered()), mainwindow, SLOT(show()) );
+
+  trayMenu->addAction(settingsaction);
+  trayMenu->addSeparator();
+  trayMenu->addAction(quitaction);
+  trayIcon->setContextMenu( trayMenu );
+
+  trayIcon->setToolTip( "qTwitter" );
+#endif
+  trayIcon->show();
+}
+
+void MainWindow::createButtonMenu()
 {
   buttonMenu = new QMenu( this );
   newtweetAction = new QAction( tr( "New tweet" ), buttonMenu );
@@ -129,6 +176,7 @@ void MainWindow::createMenu()
   gototwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_G ) );
 
   QSignalMapper *mapper = new QSignalMapper( this );
+  // TODO: Identi.ca?
   mapper->setMapping( gototwitterAction, "http://twitter.com/home" );
   mapper->setMapping( gototwitpicAction, "http://twitpic.com" );
 
@@ -338,14 +386,76 @@ void MainWindow::resetStatus()
   }
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+  if(event->key() == Qt::Key_Escape) {
+    if(isVisible())
+      hide();
+    event->accept();
+  }
+#ifdef Q_WS_HILDON
+  else if (event->key() == Qt::Key_F6) {
+    if (isFullScreen())
+      showNormal();
+    else
+      showFullScreen();
+
+    event->accept();
+  }
+#endif
+  else
+    QWidget::keyPressEvent( event);
+}
+
+void MainWindow::closeEvent( QCloseEvent *event )
+{
+  if ( trayIcon->isVisible()) {
+    hide();
+    event->ignore();
+    return;
+  }
+  QWidget::closeEvent( event );
+}
+
 void MainWindow::resizeEvent( QResizeEvent *event )
 {
   emit resizeView( event->size().width(), event->oldSize().width() );
 }
 
+void MainWindow::popupMessage( QString message )
+{
+  if( settings.value( "General/notifications" ).toBool() ) {
+    //: The full sentence is e.g.: "New tweets for <user A>, <user B> and the public timeline"
+    message.replace( "public timeline", tr( "the public timeline" ) );
+    //: New tweets received (pops up in tray)
+    trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
+  }
+}
+
 void MainWindow::popupError( const QString &message )
 {
   QMessageBox::information( this, tr("Error"), message );
+}
+
+void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
+{
+  switch ( reason ) {
+    case QSystemTrayIcon::Trigger:
+#ifdef Q_WS_WIN
+    if ( !isVisible() ) {
+#else
+    if ( !isVisible() || !QApplication::activeWindow() ) {
+#endif
+      show();
+        raise();
+        activateWindow();
+      } else {
+        hide();
+      }
+      break;
+    default:
+      break;
+  }
 }
 
 void MainWindow::emitOpenBrowser( QString address )
