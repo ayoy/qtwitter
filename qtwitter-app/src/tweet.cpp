@@ -293,12 +293,15 @@ void Tweet::enterEvent( QEvent *e )
 {
   if ( tweetData->isOwn )
     m_ui->menuButton->setIcon( QIcon( ":/icons/cancel_48.png" ) );
+  else
+    m_ui->replyButton->setIcon( QIcon( ":/icons/reply.png" ) );
   QWidget::enterEvent( e );
 }
 
 void Tweet::leaveEvent( QEvent *e )
 {
   m_ui->menuButton->setIcon( QIcon() );
+  m_ui->replyButton->setIcon( QIcon() );
   QWidget::leaveEvent( e );
 }
 
