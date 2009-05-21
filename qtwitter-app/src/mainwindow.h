@@ -22,8 +22,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QMainWindow>
 #include <QUrl>
 #include <QList>
+#include <QSystemTrayIcon>
 #include <twitterapi/twitterapi_global.h>
 #include "ui_mainwindow.h"
 
@@ -31,7 +33,7 @@ class QMovie;
 class TweetModel;
 class Account;
 
-class MainWindow : public QWidget
+class MainWindow : public QMainWindow
 {
   Q_OBJECT
 
@@ -46,6 +48,7 @@ public:
 public slots:
   void setupAccounts( const QList<Account> &accounts, int isPublicTimelineRequested );
   void changeListBackgroundColor( const QColor &newColor );
+  void popupMessage( QString message );
   void popupError( const QString &message );
   void retranslateUi();
   void resetStatusEdit();
@@ -76,10 +79,13 @@ signals:
   void shortenUrl( const QString &url );
 
 protected:
-  void resizeEvent( QResizeEvent* );
+  void resizeEvent( QResizeEvent *event );
+  void closeEvent( QCloseEvent *event );
+  void keyPressEvent ( QKeyEvent *event );
   Ui::MainWindow ui;
 
 private slots:
+  void iconActivated( QSystemTrayIcon::ActivationReason reason );
   void emitOpenBrowser( QString address );
   void changeLabel();
   void sendStatus();
@@ -90,8 +96,14 @@ private slots:
 
 private:
   void createConnections();
-  void createMenu();
+  void createButtonMenu();
+  void createTrayIcon();
+#ifdef Q_WS_HILDON
+  void createHildonMenu();
+#endif
+
   bool resetUiWhenFinished;
+
   QMenu *buttonMenu;
   QAction *newtweetAction;
   QAction *newtwitpicAction;
@@ -100,6 +112,8 @@ private:
   QAction *aboutAction;
   QAction *quitAction;
   QMovie *progressIcon;
+
+  QSystemTrayIcon *trayIcon;
 };
 
 #endif //MAINWINDOW_H
