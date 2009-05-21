@@ -21,6 +21,7 @@
 
 
 #include <QMenu>
+#include <QMenuBar>
 #include <QScrollBar>
 #include <QMessageBox>
 #include <QIcon>
@@ -70,7 +71,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 
 // create menu bar only on maemo
 #ifdef Q_WS_HILDON
-  createMenu();
+  createHildonMenu();
 #endif
 }
 
@@ -120,7 +121,7 @@ void MainWindow::createConnections()
 }
 
 #ifdef Q_WS_HILDON
-void Qtwitter::createHildonMenu()
+void MainWindow::createHildonMenu()
 {
   QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
   fileMenu->addAction( aboutAction );
@@ -144,8 +145,8 @@ void MainWindow::createTrayIcon()
   quitaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
 
   connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
-  connect( settingsaction, SIGNAL(triggered()), mainwindow, SIGNAL(settingsDialogRequested()) );
-  connect( settingsaction, SIGNAL(triggered()), mainwindow, SLOT(show()) );
+  connect( settingsaction, SIGNAL(triggered()), this, SIGNAL(settingsDialogRequested()) );
+  connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
 
   trayMenu->addAction(settingsaction);
   trayMenu->addSeparator();
