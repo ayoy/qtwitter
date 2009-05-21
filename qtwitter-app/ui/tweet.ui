@@ -360,6 +360,23 @@ background-color: rgba(255,255,255,0);
      <string notr="true">timestamp</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="replyButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../res/resources.qrc">
+      <normaloff>:/icons/reply.png</normaloff>:/icons/reply.png</iconset>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>
@@ -369,6 +386,8 @@ background-color: rgba(255,255,255,0);
    <header>tweettextbrowser.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../res/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

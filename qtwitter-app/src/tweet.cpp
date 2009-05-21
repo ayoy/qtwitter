@@ -48,6 +48,7 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image,
 
   connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
   connect( this, SIGNAL(selectMe(Tweet*)), tweetListModel, SLOT(selectTweet(Tweet*)) );
+  connect( m_ui->replyButton, SIGNAL(clicked()), this, SLOT(slotReply()));
 
   applyTheme();
   m_ui->userName->setText( tweetData->name );

@@ -13,6 +13,7 @@
         <file>accepted_48.png</file>
         <file>progress.gif</file>
         <file>warning_16.png</file>
+        <file>reply.png</file>
     </qresource>
     <qresource prefix="/translations" >
         <file>qtwitter_ca.qm</file>
