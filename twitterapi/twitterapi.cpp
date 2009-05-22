@@ -28,12 +28,14 @@
 #include <QDebug>
 #include "twitterapi.h"
 #include "xmlparser.h"
+#include "domparser.h"
 
 struct Interface
 {
   QPointer<QNetworkAccessManager> connection;
   QPointer<XmlParser> statusParser;
   QPointer<XmlParserDirectMsg> directMsgParser;
+  QPointer<DomParser> domParser;
   bool authorized;
   bool friendsInProgress;
   bool dmScheduled;
@@ -57,7 +59,7 @@ struct Interface
   needed data, like publicTimeline(), friendsTimeline() or directMessages().
 
   Once a timeline or direct messages GET or POST request completes successfully,
-  the recived XML document is parsed. The newEntry() signal is emitted with every
+  the received XML document is parsed. The newEntry() signal is emitted with every
   new status or direct message being parsed. Requests for deleting statuses are
   also sent as POST requests, but the responses aren't parsed at all. Instead,
   the HTTP reply code is read. If it's equal to 200 (OK), the deleteEntry()
@@ -139,18 +141,18 @@ struct Interface
 */
 
 /*!
-  \fn void TwitterAPIInterface::unauthorized( const QString &login, const QString &password, const QString &status, int inReplyToId )
+  \fn void TwitterAPIInterface::unauthorized( const QString &login, const QString &password, const QString &status, int inReplyToStatusId )
 
   Emitted when the given credentials are rejected by Twitter. Aborts the pending
   request immediately.
 
   Emitted for postUpdate() request, provides also details of the request,
-  like \a status and \a inReplyToId.
+  like \a status and \a inReplyToStatusId.
 
   \param login Login that was rejected.
   \param password Password that was rejected.
   \param status Status message that was requested to be sent.
-  \param inReplyToId Optional id of the message that the requested status is replying to.
+  \param inReplyToStatusId Optional id of the message that the requested status is replying to.
 
   \sa postUpdate()
 */
@@ -172,16 +174,16 @@ struct Interface
 */
 
 
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_SOCIALNETWORK      = (QNetworkRequest::Attribute) QNetworkRequest::User;
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_ROLE               = (QNetworkRequest::Attribute) (QNetworkRequest::User + 1);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_LOGIN              = (QNetworkRequest::Attribute) (QNetworkRequest::User + 2);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_PASSWORD           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 3);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_STATUS             = (QNetworkRequest::Attribute) (QNetworkRequest::User + 4);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_INREPLYTO_ID       = (QNetworkRequest::Attribute) (QNetworkRequest::User + 5);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DM_REQUESTED       = (QNetworkRequest::Attribute) (QNetworkRequest::User + 6);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DELETION_REQUESTED = (QNetworkRequest::Attribute) (QNetworkRequest::User + 7);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DELETE_ID          = (QNetworkRequest::Attribute) (QNetworkRequest::User + 8);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_MSGCOUNT           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 9);
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_SOCIALNETWORK          = (QNetworkRequest::Attribute) QNetworkRequest::User;
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_ROLE                   = (QNetworkRequest::Attribute) (QNetworkRequest::User + 1);
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_LOGIN                  = (QNetworkRequest::Attribute) (QNetworkRequest::User + 2);
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_PASSWORD               = (QNetworkRequest::Attribute) (QNetworkRequest::User + 3);
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_STATUS                 = (QNetworkRequest::Attribute) (QNetworkRequest::User + 4);
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_INREPLYTO_ID           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 5);
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DM_REQUESTED           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 6);
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DELETION_REQUESTED     = (QNetworkRequest::Attribute) (QNetworkRequest::User + 7);
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DELETE_ID              = (QNetworkRequest::Attribute) (QNetworkRequest::User + 8);
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_MSGCOUNT               = (QNetworkRequest::Attribute) (QNetworkRequest::User + 9);
 
 /*!
   Constructs a new instance with a given \a parent.
@@ -230,6 +232,7 @@ Interface* TwitterAPIInterface::createInterface( TwitterAPI::SocialNetwork netwo
   Interface *interface = new Interface;
   interface->connection = new QNetworkAccessManager( this );
   interface->statusParser = new XmlParser( network, login, this );
+  interface->domParser = new DomParser( network, login, this);
 
   interface->friendsInProgress = false;
   interface->authorized = false;
@@ -364,6 +367,7 @@ void TwitterAPIInterface::directMessages( TwitterAPI::SocialNetwork network, con
     connections[ network ][ login ]->dmScheduled = true;
 }
 
+
 /*!
   Not implemented yet.
 */
@@ -424,6 +428,19 @@ void TwitterAPIInterface::publicTimeline( TwitterAPI::SocialNetwork network )
   connections[ network ][ TwitterAPI::PUBLIC_TIMELINE ]->connection.data()->get( request );
 }
 
+void TwitterAPIInterface::userInfo( TwitterAPI::SocialNetwork network, int userId)
+{
+  QNetworkRequest request( QUrl( QString ("%1/users/show?user_id=%2" ).arg( services[ network ], userId ) ) );
+  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
+  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_USERINFO );
+  /* user info doesn't require login; using public timeline for convenience;
+     TODO: check if the request doesn't interfere with the real public timeline */
+  if (!connections[ network ].contains(  TwitterAPI::PUBLIC_TIMELINE ) )
+    createInterface( network, TwitterAPI::PUBLIC_TIMELINE );
+  qDebug() << "TwitterAPIInterface::userInfo()";
+  connections[ network ][TwitterAPI::PUBLIC_TIMELINE ]->connection.data()->get( request );
+}
+
 /*!
   Resets all connections to Twitter.
 */
@@ -459,6 +476,7 @@ void TwitterAPIInterface::parseXml( const QByteArray &data, XmlParser *parser )
   xmlReader->setContentHandler( parser );
   xmlReader->parse( source );
 }
+
 
 /*!
   Reads the reply code of a given \a reply, recognizes its type (with respect
@@ -534,6 +552,10 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
     case TwitterAPI::ROLE_DELETE_DM:
       break;
 
+    case TwitterAPI::ROLE_USERINFO:
+      connections[ network ][ login.toString() ]->domParser->setContent( reply->readAll(), 5);
+      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::ROLE_USERINFO );
+      break;
     default:;
     }
     break;

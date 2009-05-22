@@ -65,7 +65,7 @@ else:win32 {
     RC_FILE = win32/qtwitter.rc
     LIBS += -L$${TOP} \
         $$TWITTERAPI_LIB \
-        $$URLSHORTENER_LIB
+        $$URLSHORTENER_LIB \
 }
 
 SOURCES += src/main.cpp \

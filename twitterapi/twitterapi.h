@@ -34,6 +34,7 @@ class QAuthenticator;
 class QXmlSimpleReader;
 class QXmlInputSource;
 class XmlParser;
+class DomParser;
 struct Interface;
 
 class TWITTERAPI_EXPORT TwitterAPIInterface : public QObject
@@ -52,6 +53,7 @@ public:
   void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &user, const QString &data );
   void deleteDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
   void publicTimeline( TwitterAPI::SocialNetwork network );
+  void userInfo( TwitterAPI::SocialNetwork network, int userId); /* todo */
 
 public slots:
   void resetConnections();
@@ -78,6 +80,7 @@ private:
   QMap< TwitterAPI::SocialNetwork, QString > services;
   QXmlSimpleReader *xmlReader;
   QXmlInputSource *source;
+  //DomParser *domParser;
 
   static const QNetworkRequest::Attribute ATTR_SOCIALNETWORK;
   static const QNetworkRequest::Attribute ATTR_ROLE;
@@ -89,6 +92,7 @@ private:
   static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
   static const QNetworkRequest::Attribute ATTR_DELETE_ID;
   static const QNetworkRequest::Attribute ATTR_MSGCOUNT;
+  static const QNetworkRequest::Attribute ATTR_USERINFO;
 };
 
 #endif // TWITTERAPI_H

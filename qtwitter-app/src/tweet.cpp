@@ -53,10 +53,28 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image,
   m_ui->userName->setText( tweetData->name );
   m_ui->userStatus->setHtml( tweetData->text );
 
+  //display tweet's send time
   if( tweetData->localTime.date() >= QDateTime::currentDateTime().date()) //today
     m_ui->timeStamp->setText( tweetData->localTime.time().toString(Qt::SystemLocaleShortDate) );
   else  //yesterday or earlier
     m_ui->timeStamp->setText( tweetData->localTime.toString(Qt::SystemLocaleShortDate) );
+
+
+  if( entry->hasInReplyToStatusId) {
+    QString inReplyToUrl;
+    if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_TWITTER )
+//      m_ui->replyTo->setText( "<a href=\"http://twitter.com/" + tweetData->login + "/statuses/" +
+//                                        QString::number( tweetData->inReplyToStatusId ) + "\">" + tweetData->inReplyToScreenName +
+//                                        "</a>");
+    inReplyToUrl = "http://twitter.com/" + tweetData->login + "/statuses/" + QString::number( tweetData->inReplyToStatusId );
+    else if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_IDENTICA )
+//      m_ui->replyTo->setText( "<a href=\"http://identi.ca/notice/" + QString::number( tweetData->inReplyToStatusId )
+//                                        + "\">" + tweetData->inReplyToScreenName + "</a>");
+    inReplyToUrl = "http://identi.ca/notice/" + QString::number( tweetData->inReplyToStatusId );
+    m_ui->timeStamp->setText( m_ui->timeStamp->text().append( " " ).append( tr( "in reply to %1")
+                              .arg( QString( "<a href=%1>%2</a>" )
+                              .arg( inReplyToUrl, entry->inReplyToScreenName ) ) ) );
+  }
 
 
   m_ui->userImage->setPixmap( image );

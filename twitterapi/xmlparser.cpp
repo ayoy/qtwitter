@@ -30,12 +30,15 @@ const QString XmlParser::TAG_USER_LOGIN = "screen_name";
 const QString XmlParser::TAG_USER_IMAGE = "profile_image_url";
 const QString XmlParser::TAG_USER_HOMEPAGE = "url";
 const QString XmlParser::TAG_USER_TIMESTAMP = "created_at";
+const QString XmlParser::TAG_INREPLYTO_STATUS_ID = "in_reply_to_status_id";
+const QString XmlParser::TAG_INREPLYTO_SCREEN_NAME = "in_reply_to_screen_name";
 
 const QString XmlParserDirectMsg::TAG_DIRECT_MESSAGE = "direct_message";
 const QString XmlParserDirectMsg::TAG_SENDER = "sender";
 
 const QSet<QString> XmlParser::tags = QSet<QString>() << TAG_USER_ID << TAG_USER_TEXT << TAG_USER_NAME << TAG_USER_LOGIN
-                                                << TAG_USER_IMAGE << TAG_USER_HOMEPAGE << TAG_USER_TIMESTAMP;
+                                                << TAG_USER_IMAGE << TAG_USER_HOMEPAGE << TAG_USER_TIMESTAMP << TAG_INREPLYTO_STATUS_ID
+                                                << TAG_INREPLYTO_SCREEN_NAME;
 
 const int XmlParser::timeShift = XmlParser::calculateTimeShift();
 
@@ -112,9 +115,25 @@ bool XmlParser::characters( const QString &ch )
          user's system supports timezones. */
       entry.localTime = entry.timestamp.addSecs( timeShift ); //now - utc
     } else if ( currentTag == TAG_USER_HOMEPAGE ) {
-      if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
+      if ( !ch.trimmed().isEmpty() ) {
         entry.hasHomepage = true;
         entry.homepage = ch;
+      }
+    } else if ( currentTag == TAG_INREPLYTO_STATUS_ID && entry.inReplyToStatusId == -1) {
+      qDebug() << TAG_INREPLYTO_STATUS_ID;
+      if( !ch.trimmed().isEmpty() ) {
+        /* In reply to status id exists and is not empty; Hack for dealing with tags that are opened and closed
+           at the same time, e.g. <in_reply_to_screen_name/>  */
+        entry.hasInReplyToStatusId = true;
+        entry.inReplyToStatusId = ch.toInt();
+        qDebug() << entry.inReplyToStatusId;
+      }
+    } else if ( currentTag == TAG_INREPLYTO_SCREEN_NAME && entry.hasInReplyToStatusId ) {
+      /* When hasInReplyToStatusId is true, inReplyToScreenName should be present, but it won't hurt to check it again
+         just in case */
+      if( !ch.trimmed().isEmpty() ) {
+        entry.inReplyToScreenName = ch;
+        qDebug() << "screen " << ch;
       }
     }
   }
