@@ -4,12 +4,10 @@ TARGET = qtwitter
 # sets the TOP variable to the root source code dir
 include(../qtwitter.pri)
 DESTDIR = $${TOP}
-
 include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
 include(src/accounts/accounts.pri)
 include(src/qticonloader/qticonloader.pri)
-
 macx { 
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
@@ -67,7 +65,6 @@ else:win32 {
         $$TWITTERAPI_LIB \
         $$URLSHORTENER_LIB
 }
-
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
@@ -79,7 +76,8 @@ SOURCES += src/main.cpp \
     src/twitpicview.cpp \
     src/twitpicengine.cpp \
     src/qtwitter.cpp \
-    src/aboutdialog.cpp
+    src/aboutdialog.cpp \
+    src/statuslist.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/imagedownload.h \
@@ -88,12 +86,13 @@ HEADERS += src/mainwindow.h \
     src/tweet.h \
     src/tweetmodel.h \
     src/tweettextbrowser.h \
-    src/statuslist.h \
+    src/statuslistview.h \
     src/twitpicview.h \
     src/twitpicengine.h \
     src/statustextedit.h \
     src/qtwitter.h \
-    src/aboutdialog.h
+    src/aboutdialog.h \
+    src/statuslist.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \

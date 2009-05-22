@@ -34,7 +34,7 @@
     <number>0</number>
    </property>
    <item>
-    <widget class="StatusList" name="statusListView">
+    <widget class="StatusListView" name="statusListView">
      <property name="palette">
       <palette>
        <active>
@@ -309,9 +309,9 @@
    <header>statusedit.h</header>
   </customwidget>
   <customwidget>
-   <class>StatusList</class>
+   <class>StatusListView</class>
    <extends>QListView</extends>
-   <header>statuslist.h</header>
+   <header>statuslistview.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

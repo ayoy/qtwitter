@@ -26,8 +26,42 @@
 #include "tweet.h"
 #include "ui_tweet.h"
 #include "settings.h"
+#include "statuslist.h"
 
 ThemeData Tweet::currentTheme = ThemeData();
+TwitterAPI::SocialNetwork Tweet::currentNetwork = TwitterAPI::SOCIALNETWORK_TWITTER;
+QString Tweet::currentLogin = QString();
+
+Tweet::Tweet( TweetModel *parentModel, QWidget *parent ) :
+  QWidget(parent),
+  replyAction(0),
+  gotohomepageAction(0),
+  gototwitterpageAction(0),
+  deleteAction(0),
+  tweetState( TweetModel::STATE_READ ),
+  tweetListModel( parentModel ),
+  m_ui(new Ui::Tweet)
+{
+  m_ui->setupUi( this );
+
+  QFont timeStampFont = m_ui->timeStamp->font();
+  timeStampFont.setPointSize( timeStampFont.pointSize() - 1 );
+  m_ui->timeStamp->setFont( timeStampFont );
+
+  connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
+  connect( this, SIGNAL(selectMe(Tweet*)), tweetListModel, SLOT(selectTweet(Tweet*)) );
+
+  applyTheme();
+  m_ui->userName->setText( "" );
+  m_ui->userStatus->setHtml( "" );
+  m_ui->timeStamp->setText( "" );
+
+
+  adjustSize();
+  setFocusProxy( m_ui->userStatus );
+//  createMenu();
+//  m_ui->userStatus->setMenu( menu );
+}
 
 Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image, TweetModel *parentModel, QWidget *parent ) :
   QWidget(parent),
@@ -35,7 +69,7 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image,
   gotohomepageAction(0),
   gototwitterpageAction(0),
   deleteAction(0),
-  tweetState( state ),
+  tweetState( *state ),
   tweetData( entry ),
   tweetListModel( parentModel ),
   m_ui(new Ui::Tweet)
@@ -80,7 +114,7 @@ void Tweet::createMenu()
   replyAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ) );
   menu->addAction( replyAction );
   // TODO: enable replying when at least one account is configured
-  if ( tweetData->type != Entry::Status || tweetListModel->getLogin() == TwitterAPI::PUBLIC_TIMELINE ) {
+  if ( tweetData->type != Entry::Status || currentLogin == TwitterAPI::PUBLIC_TIMELINE ) {
     replyAction->setEnabled( false );
   } else {
     connect( replyAction, SIGNAL(triggered()), this, SLOT(slotReply()) );
@@ -91,7 +125,7 @@ void Tweet::createMenu()
   retweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ) );
   menu->addAction( retweetAction );
   // TODO: enable retweeting when at least one account is configured
-  if ( tweetData->type != Entry::Status || tweetListModel->getLogin() == TwitterAPI::PUBLIC_TIMELINE ) {
+  if ( tweetData->type != Entry::Status || currentLogin == TwitterAPI::PUBLIC_TIMELINE ) {
     retweetAction->setEnabled( false );
   } else {
     connect( retweetAction, SIGNAL(triggered()), this, SLOT(slotRetweet()) );
@@ -132,7 +166,7 @@ void Tweet::createMenu()
   gototwitterpageAction = new QAction( this );
   gototwitterpageAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ) );
   menu->addAction( gototwitterpageAction );
-  if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+  if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
     signalMapper->setMapping( gototwitterpageAction, "http://identi.ca/" + tweetData->login );
   } else {
@@ -172,10 +206,17 @@ const Entry& Tweet::data() const
   return *tweetData;
 }
 
-void Tweet::setTweetData( Entry *entry, TweetModel::TweetState *state )
+void Tweet::setTweetData( Status status )
 {
-  tweetData = entry;
-  tweetState = state;
+  tweetData = &status.entry;
+  tweetState = status.state;
+//  id = status.entry.id;
+//  type = status.entry.type;
+//  originalText = status.entry.originalText;
+  m_ui->userName->setText( status.entry.name );
+  m_ui->userStatus->setText( status.entry.text );
+  m_ui->userImage->setPixmap( status.image );
+  setState( status.state );
 }
 
 void Tweet::setIcon( const QPixmap &image )
@@ -185,7 +226,7 @@ void Tweet::setIcon( const QPixmap &image )
 
 void Tweet::applyTheme()
 {
-  switch ( *tweetState ) {
+  switch ( tweetState ) {
   case TweetModel::STATE_UNREAD:
     setStyleSheet( currentTheme.unread.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.unread.linkColor );
@@ -208,7 +249,7 @@ void Tweet::retranslateUi()
   deleteAction->setText( tr( "Delete tweet" ) );
   markallasreadAction->setText( tr( "Mark all as read" ) );
   gotohomepageAction->setText( tr( "Go to User's homepage" ) );
-  if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+  if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
   } else {
     gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
@@ -217,19 +258,24 @@ void Tweet::retranslateUi()
 
 bool Tweet::isRead() const
 {
-  if ( *tweetState == TweetModel::STATE_UNREAD )
+  if ( tweetState == TweetModel::STATE_UNREAD )
     return false;
   return true;
 }
 
+int Tweet::getId() const
+{
+  return tweetData->id;
+}
+
 TweetModel::TweetState Tweet::getState() const
 {
-  return *tweetState;
+  return tweetState;
 }
 
 void Tweet::setState( TweetModel::TweetState state )
 {
-  *tweetState = state;
+  tweetState = state;
   applyTheme();
 }
 
@@ -241,6 +287,16 @@ ThemeData Tweet::getTheme()
 void Tweet::setTheme( const ThemeData &theme )
 {
   currentTheme = theme;
+}
+
+void Tweet::setCurrentLogin( const QString &login )
+{
+  currentLogin = login;
+}
+
+void Tweet::setCurrentNetwork( TwitterAPI::SocialNetwork network )
+{
+  currentNetwork = network;
 }
 
 // TODO: magic numbers!!!!!!!!
@@ -272,9 +328,9 @@ void Tweet::slotRetweet()
 
 void Tweet::slotCopyLink()
 {
-  if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_TWITTER )
+  if ( currentNetwork == TwitterAPI::SOCIALNETWORK_TWITTER )
     QApplication::clipboard()->setText( "http://twitter.com/" + tweetData->login + "/statuses/" + QString::number( tweetData->id ) );
-  else if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_IDENTICA )
+  else if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
     QApplication::clipboard()->setText( "http://identi.ca/notice/" + QString::number( tweetData->id ) );
 }
 

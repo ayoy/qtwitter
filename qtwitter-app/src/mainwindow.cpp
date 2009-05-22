@@ -199,7 +199,7 @@ void MainWindow::createButtonMenu()
   ui.moreButton->setMenu( buttonMenu );
 }
 
-StatusList* MainWindow::getListView()
+StatusListView* MainWindow::getListView()
 {
   return ui.statusListView;
 }
@@ -282,14 +282,7 @@ void MainWindow::setListViewModel( TweetModel *model )
 {
   if ( !model )
     return;
-  TweetModel *currentModel = qobject_cast<TweetModel*>( ui.statusListView->model() );
-  if ( currentModel ) {
-    if ( model == currentModel )
-      return;
-    currentModel->setVisible( false );
-  }
   ui.statusListView->setModel( model );
-  model->display();
 }
 
 void MainWindow::changeLabel()
@@ -594,7 +587,7 @@ void MainWindow::tweetGotohomepageAction()
     A default destructor.
 */
 
-/*! \fn StatusList* MainWindow::getListView()
+/*! \fn StatusListView* MainWindow::getListView()
     A method for external access to the list view used for displaying Tweets.
     Used for initialization of TweetModel class's instance.
     \returns A pointer to the list view instance of MainWindow.

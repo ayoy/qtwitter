@@ -29,6 +29,7 @@ class QSignalMapper;
 class TweetModel;
 class Entry;
 class ThemeData;
+class Status;
 
 namespace Ui {
     class Tweet;
@@ -41,6 +42,7 @@ class Tweet : public QWidget
 
 public:
 
+  explicit Tweet( TweetModel *parentModel, QWidget *parent = 0 );
   explicit Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image, TweetModel *parentModel, QWidget *parent = 0 );
   virtual ~Tweet();
 
@@ -48,16 +50,20 @@ public:
   void resize( const QSize& size );
   void resize( int w, int h );
 
-  void setTweetData( Entry *entry, TweetModel::TweetState *state );
+  void setTweetData( Status status );
   void setIcon( const QPixmap &image );
   void applyTheme();
   void retranslateUi();
+
+  int getId() const;
 
   bool isRead() const;
   TweetModel::TweetState getState() const;
   void setState( TweetModel::TweetState state );
   static ThemeData getTheme();
   static void setTheme( const ThemeData &theme );
+  static void setCurrentLogin( const QString &login );
+  static void setCurrentNetwork( TwitterAPI::SocialNetwork network );
 
 public slots:
   void adjustSize();
@@ -93,10 +99,15 @@ private:
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;
-  TweetModel::TweetState *tweetState;
+  TweetModel::TweetState tweetState;
   Entry *tweetData;
+//  QString originalText;
+//  Entry::Type type;
+//  int id;
   QSignalMapper *signalMapper;
   static ThemeData currentTheme;
+  static QString currentLogin;
+  static TwitterAPI::SocialNetwork currentNetwork;
   TweetModel *tweetListModel;
   Ui::Tweet *m_ui;
 };
