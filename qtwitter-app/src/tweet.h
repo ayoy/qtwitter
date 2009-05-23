@@ -51,16 +51,20 @@ public:
   void resize( int w, int h );
 
   void setTweetData( const Status &status );
+  void setImage( const QPixmap &pixmap );
+  void setState( TweetModel::TweetState state );
+  TweetModel::TweetState getState() const;
+
+  static ThemeData getTheme();
+  static void setTheme( const ThemeData &theme );
+
   void applyTheme();
   void retranslateUi();
 
   int getId() const;
 
   bool isRead() const;
-  TweetModel::TweetState getState() const;
-  void setState( TweetModel::TweetState state );
-  static ThemeData getTheme();
-  static void setTheme( const ThemeData &theme );
+
   static void setCurrentLogin( const QString &login );
   static void setCurrentNetwork( TwitterAPI::SocialNetwork network );
 

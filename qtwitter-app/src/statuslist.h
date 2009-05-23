@@ -74,6 +74,9 @@ public:
   void setData( int index, const Status &status );
   const Status& data( int index ) const;
 
+  void setState( int index, TweetModel::TweetState state );
+  TweetModel::TweetState state( int index ) const;
+
   void setImage( int index, const QPixmap &pixmap );
 
   const QList<Status>& getData() const;
@@ -86,6 +89,8 @@ public slots:
 signals:
   void statusAdded( int index );
   void dataChanged( int index );
+  void stateChanged( int index );
+  void imageChanged( int index );
 
 private:
   StatusListPrivate * d;

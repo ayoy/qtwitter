@@ -76,15 +76,9 @@ const QString& StatusList::login() const
   return d->login;
 }
 
-void StatusList::setData( int index, const Status &status )
+void StatusList::setVisible( bool visible )
 {
-  d->data[ index ] = status;
-  emit dataChanged( index );
-}
-
-void StatusList::setImage( int index, const QPixmap &pixmap )
-{
-  d->data[ index ].image = pixmap;
+  d->visible = visible;
 }
 
 bool StatusList::isVisible() const
@@ -92,14 +86,35 @@ bool StatusList::isVisible() const
   return d->visible;
 }
 
-void StatusList::setVisible( bool visible )
+void StatusList::setData( int index, const Status &status )
 {
-  d->visible = visible;
+  d->data[ index ] = status;
+  emit dataChanged( index );
 }
 
 const Status& StatusList::data( int index ) const
 {
   return d->data.at( index );
+}
+
+void StatusList::setState( int index, TweetModel::TweetState state )
+{
+  if ( d->data[ index ].state == state )
+    return;
+
+  d->data[ index ].state = state;
+  emit stateChanged( index );
+}
+
+TweetModel::TweetState StatusList::state( int index ) const
+{
+  return d->data[ index ].state;
+}
+
+void StatusList::setImage( int index, const QPixmap &pixmap )
+{
+  d->data[ index ].image = pixmap;
+  emit imageChanged( index );
 }
 
 const QList<Status>& StatusList::getData() const

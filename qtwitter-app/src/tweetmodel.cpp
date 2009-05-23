@@ -75,6 +75,20 @@ void TweetModel::updateDisplay( int ind )
   item( ind )->setSizeHint( tweet->size() );
 }
 
+void TweetModel::updateImage( int ind )
+{
+  Tweet *tweet = static_cast<Tweet*>( view->indexWidget( index( ind, 0 ) ) );
+  Q_ASSERT(tweet);
+  tweet->setImage( statusList->data( ind ).image );
+}
+
+void TweetModel::updateState( int ind )
+{
+  Tweet *tweet = static_cast<Tweet*>( view->indexWidget( index( ind, 0 ) ) );
+  Q_ASSERT(tweet);
+  tweet->setState( statusList->data( ind ).state );
+}
+
 Tweet* TweetModel::currentTweet()
 {
   if ( !currentIndex.isValid() )
@@ -88,10 +102,10 @@ void TweetModel::deselectCurrentIndex()
   if ( currentIndex.isValid() ) {
     Tweet *tweet = static_cast<Tweet*>( view->indexWidget( currentIndex ) );
     Q_ASSERT(tweet);
-    Status status = statusList->data( currentIndex.row() );
-    if ( status.state != TweetModel::STATE_UNREAD ) {
-      status.state = TweetModel::STATE_READ;
-      statusList->setData( currentIndex.row(), status );
+    TweetModel::TweetState state = statusList->state( currentIndex.row() );
+    if ( state != TweetModel::STATE_UNREAD ) {
+      state = TweetModel::STATE_READ;
+      statusList->setState( currentIndex.row(), state );
     }
     tweet->setTweetData( statusList->data( currentIndex.row() ) );
     currentIndex = QModelIndex();
@@ -114,11 +128,15 @@ void TweetModel::setStatusList( StatusList *statusList )
   if ( this->statusList ) {
     disconnect( this->statusList, SIGNAL(statusAdded(int)), this, SLOT(updateDisplay(int)) );
     disconnect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
+    disconnect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
+    disconnect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
   }
 
   this->statusList = statusList;
   connect( this->statusList, SIGNAL(statusAdded(int)), this, SLOT(updateDisplay(int)) );
   connect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
+  connect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
+  connect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
 
   Tweet::setCurrentLogin( this->statusList->login() );
   Tweet::setCurrentNetwork( this->statusList->network() );
@@ -315,15 +333,14 @@ void TweetModel::selectTweet( const QModelIndex &index )
   if ( !index.isValid() )
     return;
 
-  Status status;
+  TweetModel::TweetState state;
   Tweet *tweet;
 
   if ( currentIndex.isValid() ) {
-    status = statusList->data( currentIndex.row() );
-
-    if ( status.state != TweetModel::STATE_UNREAD ) {
-      status.state = TweetModel::STATE_READ;
-      statusList->setData( currentIndex.row(), status );
+    state = statusList->state( currentIndex.row() );
+    if ( state != TweetModel::STATE_UNREAD ) {
+      state = TweetModel::STATE_READ;
+      statusList->setState( currentIndex.row(), state );
     }
 
     tweet = static_cast<Tweet*>( view->indexWidget( currentIndex ) );
@@ -333,9 +350,7 @@ void TweetModel::selectTweet( const QModelIndex &index )
 
   currentIndex = index;
 
-  status = statusList->data( index.row() );
-  status.state = TweetModel::STATE_ACTIVE;
-  statusList->setData( index.row(), status );
+  statusList->setState( index.row(), TweetModel::STATE_ACTIVE );
 
   tweet = static_cast<Tweet*>( view->indexWidget( currentIndex ) );
   Q_ASSERT(tweet);
@@ -347,26 +362,17 @@ void TweetModel::selectTweet( const QModelIndex &index )
 void TweetModel::selectTweet( Tweet *tweet )
 {
   Status status;
-  Tweet *currentTweet;
   if ( currentIndex.isValid() ) {
     status = statusList->data( currentIndex.row() );
-
     if ( status.state != TweetModel::STATE_UNREAD ) {
-      status.state = TweetModel::STATE_READ;
-      statusList->setData( currentIndex.row(), status );
-
-      currentTweet = static_cast<Tweet*>( view->indexWidget( currentIndex ) );
-      Q_ASSERT(currentTweet);
-      currentTweet->setTweetData( statusList->data( currentIndex.row() ) );
+      statusList->setState( currentIndex.row(), TweetModel::STATE_READ );
     }
   }
   for ( int i = 0; i < rowCount(); i++ ) {
     status = statusList->data( i );
     if ( status.entry.id == tweet->getId() ) {
-      status.state = TweetModel::STATE_ACTIVE;
       currentIndex = item(i)->index();
-      statusList->setData( currentIndex.row(), status );
-      tweet->setTweetData( statusList->data( currentIndex.row() ) );
+      statusList->setState( currentIndex.row(), TweetModel::STATE_ACTIVE );
       view->setCurrentIndex( currentIndex );
     }
   }
@@ -376,17 +382,13 @@ void TweetModel::markAllAsRead()
 {
   if ( rowCount() > 0 ) {
     Status status;
-    Tweet *tweet;
     for ( int i = 0; i < rowCount(); i++ ) {
       status = statusList->data(i);
       if ( i == currentIndex.row() )
         status.state = TweetModel::STATE_ACTIVE;
       else
         status.state = TweetModel::STATE_READ;
-      tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
-      Q_ASSERT(tweet);
-      tweet->setTweetData( status );
-      statusList->setData(i, status );
+      statusList->setState(i, status.state );
     }
   }
 }
@@ -416,9 +418,6 @@ void TweetModel::retranslateUi()
 
 void TweetModel::resizeData( int width, int oldWidth )
 {
-//  if ( !isVisible || rowCount() == 0 )
-//    return;
-
   Tweet *tweet;
   for ( int i = 0; i < rowCount(); i++ ) {
     tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );

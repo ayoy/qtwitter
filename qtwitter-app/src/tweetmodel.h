@@ -63,6 +63,9 @@ public slots:
 //  void deleteTweet( int id );
   void updateDisplay();
   void updateDisplay( int ind );
+  void updateState( int ind );
+  void updateImage( int ind );
+
   void sendDeleteRequest( int id );
   void selectTweet( const QModelIndex &index );
   void selectTweet( Tweet *tweet );

@@ -252,6 +252,32 @@ void Tweet::setTweetData( const Status &status )
   adjustSize();
 }
 
+void Tweet::setImage( const QPixmap &pixmap )
+{
+  m_ui->userImage->setPixmap( pixmap );
+}
+
+void Tweet::setState( TweetModel::TweetState state )
+{
+  tweetState = state;
+  applyTheme();
+}
+
+TweetModel::TweetState Tweet::getState() const
+{
+  return tweetState;
+}
+
+ThemeData Tweet::getTheme()
+{
+  return currentTheme;
+}
+
+void Tweet::setTheme( const ThemeData &theme )
+{
+  currentTheme = theme;
+}
+
 void Tweet::applyTheme()
 {
   switch ( tweetState ) {
@@ -294,27 +320,6 @@ bool Tweet::isRead() const
 int Tweet::getId() const
 {
   return tweetData->id;
-}
-
-TweetModel::TweetState Tweet::getState() const
-{
-  return tweetState;
-}
-
-void Tweet::setState( TweetModel::TweetState state )
-{
-  tweetState = state;
-  applyTheme();
-}
-
-ThemeData Tweet::getTheme()
-{
-  return currentTheme;
-}
-
-void Tweet::setTheme( const ThemeData &theme )
-{
-  currentTheme = theme;
 }
 
 void Tweet::setCurrentLogin( const QString &login )
