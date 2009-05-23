@@ -51,7 +51,7 @@ public:
   void deselectCurrentIndex();
   void setTheme( const ThemeData &theme );
   void setStatusList( StatusList *statusList );
-  StatusList * const getStatusList() const;
+  StatusList * getStatusList() const;
   void setMaxTweetCount( int count );
   void populate();
 //  void setVisible( bool isVisible );

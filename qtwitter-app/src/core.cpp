@@ -73,7 +73,7 @@ Core::Core( MainWindow *parent ) :
 
   tweetModel = new TweetModel( margin, listViewForModels, this );
   parent->setListViewModel( tweetModel );
-  tweetModel->populate();
+//  tweetModel->populate();
 
   connect( tweetModel, SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
   connect( tweetModel, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
@@ -111,6 +111,11 @@ void Core::applySettings()
   if ( appStartup )
     accounts->loadAccounts();
   appStartup = false;
+
+  int mtc = settings.value( "Appearance/tweet count", 25 ).toInt();
+  StatusList::setMaxCount( mtc );
+  tweetModel->setMaxTweetCount( mtc );
+
   setupStatusLists();
   emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
 
@@ -120,11 +125,6 @@ void Core::applySettings()
   emit resetUi();
   requestCount = 0;
 
-  int mtc = settings.value( "Appearance/tweet count", 25 ).toInt();
-  StatusList::setMaxCount( mtc );
-  tweetModel->setMaxTweetCount( mtc );
-//  foreach ( TweetModel *model, tweetModels.values() )
-//    model->setMaxTweetCount( mtc );
   foreach ( Account account, accountsModel->getAccounts() ) {
     if ( statusLists.contains( account ) )
       statusLists[ account ]->slotDirectMessagesChanged( account.directMessages );
@@ -360,9 +360,7 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
 
 void Core::retranslateUi()
 {
-//  foreach ( TweetModel *model, tweetModels.values() ) {
     tweetModel->retranslateUi();
-//  }
 }
 
 void Core::addEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry )
@@ -401,9 +399,9 @@ void Core::setImageForUrl( const QString& url, QPixmap *image )
     for ( int i = 0; i < statusList->size(); i++ ) {
       status = statusList->data(i);
       if ( url == status.entry.image ) {
-        status.image = *image;
+//        status.image = *image;
+        statusList->setImage( i, *image );
       }
-      statusList->setData( i, status );
     }
   }
 }

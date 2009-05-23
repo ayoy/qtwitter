@@ -30,6 +30,7 @@ TweetModel::TweetModel( int margin, StatusListView *parentListView, QObject *par
     QStandardItemModel( 0, 0, parent ),
     isVisible( false ),
     maxTweetCount( 20 ),
+    statusList(0),
     scrollBarMargin( margin ),
     currentIndex( QModelIndex() ),
     view( parentListView )
@@ -40,18 +41,22 @@ TweetModel::TweetModel( int margin, StatusListView *parentListView, QObject *par
 
 void TweetModel::populate()
 {
-  for ( int i = 0; i < maxTweetCount; ++i ) {
-    Tweet *tweet = new Tweet( this );
-    QStandardItem *newItem = new QStandardItem;
-    newItem->setSizeHint( tweet->size() );
-    appendRow( newItem );
-    view->setIndexWidget( newItem->index(), tweet );
+  if ( rowCount() < maxTweetCount ) {
+    for ( int i = rowCount(); i < maxTweetCount; ++i ) {
+      Tweet *tweet = new Tweet( this );
+      QStandardItem *newItem = new QStandardItem;
+      newItem->setSizeHint( tweet->size() );
+      appendRow( newItem );
+      view->setIndexWidget( newItem->index(), tweet );
+    }
+  } else {
+    removeRows( maxTweetCount, rowCount() - maxTweetCount );
   }
 }
 
 void TweetModel::updateDisplay()
 {
-  for ( int i = 0; i != statusList->size(); ++i ) {
+  for ( int i = 0; i < statusList->size(); ++i ) {
     updateDisplay( i );
   }
   // FIXME: Sorry, I know it sucks... :|
@@ -59,7 +64,6 @@ void TweetModel::updateDisplay()
   view->resize( view->width(), view->height() - 1 );
   view->resize( view->width(), view->height() + 1 );
   view->setUpdatesEnabled( true );
-
 }
 
 void TweetModel::updateDisplay( int ind )
@@ -67,6 +71,7 @@ void TweetModel::updateDisplay( int ind )
   Tweet *tweet = static_cast<Tweet*>( view->indexWidget( index( ind, 0 ) ) );
   Q_ASSERT(tweet);
   tweet->setTweetData( statusList->data( ind ) );
+  qDebug() << (int)item(ind) << ind;
   item( ind )->setSizeHint( tweet->size() );
 }
 
@@ -120,7 +125,7 @@ void TweetModel::setStatusList( StatusList *statusList )
   updateDisplay();
 }
 
-StatusList * const TweetModel::getStatusList() const
+StatusList * TweetModel::getStatusList() const
 {
   return statusList;
 }
@@ -128,6 +133,7 @@ StatusList * const TweetModel::getStatusList() const
 void TweetModel::setMaxTweetCount( int count )
 {
   maxTweetCount = count;
+  populate();
   stripRedundantTweets();
 }
 

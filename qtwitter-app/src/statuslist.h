@@ -74,6 +74,8 @@ public:
   void setData( int index, const Status &status );
   const Status& data( int index ) const;
 
+  void setImage( int index, const QPixmap &pixmap );
+
   const QList<Status>& getData() const;
 
   int size() const;

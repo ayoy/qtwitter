@@ -82,6 +82,11 @@ void StatusList::setData( int index, const Status &status )
   emit dataChanged( index );
 }
 
+void StatusList::setImage( int index, const QPixmap &pixmap )
+{
+  d->data[ index ].image = pixmap;
+}
+
 bool StatusList::isVisible() const
 {
   return d->visible;
