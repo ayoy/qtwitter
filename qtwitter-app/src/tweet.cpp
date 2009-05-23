@@ -206,22 +206,22 @@ const Entry& Tweet::data() const
   return *tweetData;
 }
 
-void Tweet::setTweetData( Status status )
+void Tweet::setTweetData( const Status &status )
 {
   tweetData = &status.entry;
   tweetState = status.state;
-//  id = status.entry.id;
-//  type = status.entry.type;
-//  originalText = status.entry.originalText;
-  m_ui->userName->setText( status.entry.name );
-  m_ui->userStatus->setText( status.entry.text );
-  m_ui->userImage->setPixmap( status.image );
-  setState( status.state );
-}
 
-void Tweet::setIcon( const QPixmap &image )
-{
-  m_ui->userImage->setPixmap( image );
+  m_ui->userName->setText( tweetData->name );
+  m_ui->userStatus->setText( tweetData->text );
+  m_ui->userImage->setPixmap( status.image );
+
+  if( tweetData->localTime.date() >= QDateTime::currentDateTime().date()) //today
+    m_ui->timeStamp->setText( tweetData->localTime.time().toString(Qt::SystemLocaleShortDate) );
+  else  //yesterday or earlier
+    m_ui->timeStamp->setText( tweetData->localTime.toString(Qt::SystemLocaleShortDate) );
+
+  setState( tweetState );
+  adjustSize();
 }
 
 void Tweet::applyTheme()
@@ -346,7 +346,7 @@ void Tweet::changeEvent( QEvent *e )
 
 void Tweet::enterEvent( QEvent *e )
 {
-  if ( tweetData->isOwn )
+  if ( tweetData && tweetData->isOwn )
     m_ui->menuButton->setIcon( QIcon( ":/icons/cancel_48.png" ) );
   QWidget::enterEvent( e );
 }

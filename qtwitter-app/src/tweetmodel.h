@@ -52,12 +52,6 @@ public:
 
   TweetModel( int margin, StatusListView *parentListView, QObject *parent = 0 );
   ~TweetModel();
-//
-//  void setNetwork( TwitterAPI::SocialNetwork network );
-//  TwitterAPI::SocialNetwork getNetwork() const;
-//
-//  void setLogin( const QString &login );
-//  const QString& getLogin() const;
 
   Tweet* currentTweet();
   void deselectCurrentIndex();
@@ -72,6 +66,7 @@ public:
 public slots:
 //  void insertTweet( Entry *entry );
 //  void deleteTweet( int id );
+  void updateDisplay( int ind );
   void sendDeleteRequest( int id );
   void selectTweet( const QModelIndex &index );
   void selectTweet( Tweet *tweet );

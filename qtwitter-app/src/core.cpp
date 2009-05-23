@@ -51,7 +51,7 @@ Core::Core( MainWindow *parent ) :
     parentMainWindow( parent )
 {
   imageDownload = new ImageDownload( this );
-  connect( imageDownload, SIGNAL(imageReadyForUrl(QString,QPixmap*)), this, SIGNAL(setImageForUrl(QString,QPixmap*)) );
+  connect( imageDownload, SIGNAL(imageReadyForUrl(QString,QPixmap*)), this, SLOT(setImageForUrl(QString,QPixmap*)) );
 
   twitterapi = new TwitterAPIInterface( this );
   connect( twitterapi, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)), this, SLOT(addEntry(TwitterAPI::SocialNetwork,QString,Entry)) );
@@ -81,7 +81,7 @@ Core::Core( MainWindow *parent ) :
   connect( tweetModel, SIGNAL(destroy(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(destroyTweet(TwitterAPI::SocialNetwork,QString,int)) );
   connect( tweetModel, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( tweetModel, SIGNAL(newTweets(QString,bool)), this, SLOT(storeNewTweets(QString,bool)) );
-  connect( this, SIGNAL(setImageForUrl(QString,QPixmap*)), tweetModel, SLOT(setImageForUrl(QString,QPixmap*)) );
+//  connect( this, SIGNAL(setImageForUrl(QString,QPixmap*)), tweetModel, SLOT(setImageForUrl(QString,QPixmap*)) );
   connect( this, SIGNAL(allRequestsFinished()), tweetModel, SLOT(checkForUnread()) );
   connect( this, SIGNAL(resizeData(int,int)), tweetModel, SLOT(resizeData(int,int)) );
 
@@ -113,6 +113,8 @@ void Core::applySettings()
   appStartup = false;
   setupStatusLists();
   emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
+
+  // TODO: do this only when really needed
   twitterapi->resetConnections();
 
   emit resetUi();
@@ -404,6 +406,21 @@ void Core::deleteEntry( TwitterAPI::SocialNetwork network, const QString &login,
     statusLists[ *accountsModel->account( network, login ) ]->deleteStatus( id );
 }
 
+void Core::setImageForUrl( const QString& url, QPixmap *image )
+{
+  Status status;
+  foreach ( StatusList *statusList, statusLists )
+  {
+    for ( int i = 0; i < statusList->size(); i++ ) {
+      status = statusList->data(i);
+      if ( url == status.entry.image ) {
+        status.image = *image;
+      }
+      statusList->setData( i, status );
+    }
+  }
+}
+
 void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password )
 {
   Q_UNUSED(password);
@@ -503,19 +520,6 @@ void Core::setupStatusLists()
   }
   newTweets.clear();
   requestCount = 0;
-}
-
-void Core::createConnectionsWithModel( TweetModel *model )
-{
-//  connect( model, SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
-//  connect( model, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
-//  connect( model, SIGNAL(about()), this, SIGNAL(about()) );
-//  connect( model, SIGNAL(destroy(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(destroyTweet(TwitterAPI::SocialNetwork,QString,int)) );
-//  connect( model, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
-//  connect( model, SIGNAL(newTweets(QString,bool)), this, SLOT(storeNewTweets(QString,bool)) );
-//  connect( this, SIGNAL(setImageForUrl(QString,QPixmap*)), model, SLOT(setImageForUrl(QString,QPixmap*)) );
-//  connect( this, SIGNAL(allRequestsFinished()), model, SLOT(checkForUnread()) );
-//  connect( this, SIGNAL(resizeData(int,int)), model, SLOT(resizeData(int,int)) );
 }
 
 bool Core::retryAuthorizing( Account *account, int role )

@@ -50,8 +50,7 @@ public:
   void resize( const QSize& size );
   void resize( int w, int h );
 
-  void setTweetData( Status status );
-  void setIcon( const QPixmap &image );
+  void setTweetData( const Status &status );
   void applyTheme();
   void retranslateUi();
 
@@ -100,7 +99,7 @@ private:
   QAction *gototwitterpageAction;
   QAction *deleteAction;
   TweetModel::TweetState tweetState;
-  Entry *tweetData;
+  const Entry *tweetData;
 //  QString originalText;
 //  Entry::Type type;
 //  int id;

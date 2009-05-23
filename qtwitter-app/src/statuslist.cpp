@@ -21,54 +21,98 @@
 #include <QDebug>
 #include "statuslist.h"
 
-int StatusList::maxCount = 0;
-
-StatusList::StatusList( const QString &login , TwitterAPI::SocialNetwork network ) :
-    login( login ),
-    network( network )
-{}
-
-void StatusList::setNetwork( TwitterAPI::SocialNetwork network )
+class StatusListPrivate
 {
-  this->network = network;
+public:
+  StatusListPrivate() :
+      visible( false ),
+      login( QString() ),
+      network( TwitterAPI::SOCIALNETWORK_TWITTER )
+  {}
+
+  int addStatus( Entry *entry );
+
+  QList<Status> data;
+  bool visible;
+  QString login;
+  TwitterAPI::SocialNetwork network;
+  static int maxCount;
+};
+
+
+int StatusListPrivate::maxCount = 0;
+
+StatusList::StatusList( const QString &login , TwitterAPI::SocialNetwork network, QObject *parent ) :
+    QObject( parent )
+{
+  d = new StatusListPrivate;
+  d->network = network;
+  d->login = login;
 }
 
-TwitterAPI::SocialNetwork StatusList::getNetwork() const
+StatusList::~StatusList()
 {
-  return network;
+  delete d;
+  d = 0;
+}
+
+void StatusList::setNetwork( SocialNetwork network )
+{
+  d->network = network;
+}
+
+StatusList::SocialNetwork StatusList::getNetwork() const
+{
+  return d->network;
 }
 
 void StatusList::setLogin( const QString &login )
 {
-  this->login = login;
+  d->login = login;
 }
 
 const QString& StatusList::getLogin() const
 {
-  return login;
+  return d->login;
 }
 
 void StatusList::setData( int index, const Status &status )
 {
-  _data[ index ] = status;
+  d->data[ index ] = status;
+  emit dataChanged( index );
+}
+
+bool StatusList::isVisible() const
+{
+  return d->visible;
+}
+
+void StatusList::setVisible( bool visible )
+{
+  d->visible = visible;
 }
 
 const Status& StatusList::data( int index ) const
 {
-  return _data[ index ];
+  return d->data.at( index );
 }
 
 const QList<Status>& StatusList::getData() const
 {
-  return _data;
+  return d->data;
 }
 
-bool StatusList::addStatus( Entry *entry )
+int StatusList::size() const
 {
-  for ( QList<Status>::const_iterator i = _data.begin(); i != _data.end(); ++i) {
+  return d->data.size();
+}
+
+int StatusListPrivate::addStatus( Entry *entry )
+{
+  for ( QList<Status>::const_iterator i = data.begin(); i != data.end(); ++i) {
     if ( entry->id == (*i).entry.id ) {
       qDebug() << "found existing entry of the same id";
-      return true;
+      return -1;
     }
   }
 
@@ -78,31 +122,38 @@ bool StatusList::addStatus( Entry *entry )
   if ( status.entry.type == Entry::DirectMessage )
     status.image = QPixmap( ":/icons/mail_48.png" );
 
-  if ( _data.isEmpty() ) {
-    _data.append( status );
-    return true;
+  if ( data.isEmpty() ) {
+    data.append( status );
+    return data.size() - 1;
   }
-  for ( QList<Status>::iterator i = _data.begin(); i != _data.end(); ++i ) {
+  for ( QList<Status>::iterator i = data.begin(); i != data.end(); ++i ) {
     if ( status.entry.id > (*i).entry.id ) {
       // TODO: not sure about 'before' - see doc on insert()
-      _data.insert( i, status );
-      if ( _data.size() >= maxCount && _data.takeLast() == status )
-        return false;
-      return true;
+      data.insert( i, status );
+      if ( data.size() >= maxCount && data.takeLast() == status )
+        return -1;
+      return data.indexOf( status );
     }
   }
-  if ( _data.size() < maxCount ) {
-    _data.append( status );
-    return true;
+  if ( data.size() < maxCount ) {
+    data.append( status );
+    return data.size() - 1;
   }
-  return false;
+  return -1;
+}
+
+void StatusList::addStatus( Entry *entry )
+{
+  int index = d->addStatus( entry );
+  if ( index >= 0 )
+    emit statusAdded( index );
 }
 
 bool StatusList::deleteStatus( int id )
 {
-  for ( QList<Status>::const_iterator i = _data.begin(); i != _data.end(); ++i) {
+  for ( QList<Status>::const_iterator i = d->data.begin(); i != d->data.end(); ++i) {
     if ( id == (*i).entry.id ) {
-      _data.removeOne( *i );
+      d->data.removeOne( *i );
       return true;
     }
   }
@@ -113,22 +164,17 @@ void StatusList::slotDirectMessagesChanged( bool isEnabled )
 {
   if ( isEnabled )
     return;
-//  for ( int i = 0; i < _data.rowCount(); i++ ) {
-//    if ( statuses[i].entry.type == Entry::DirectMessage ) {
-//      if ( isVisible ) {
-//        delete view->indexWidget( item(i)->index() );
-//      } else {
-//        delete statuses[i].tweet;
-//      }
-//      removeRow(i);
-//      Q_ASSERT(statuses[i].tweet == 0 );
-//      statuses.removeAt(i);
-//      i--;
-//    }
-//  }
+
+  for ( int i = 0; i < d->data.size(); i++ ) {
+    if ( d->data.at(i).entry.type == Entry::DirectMessage ) {
+      d->data.removeAt(i);
+      // TODO: not sure about it
+      i--;
+    }
+  }
 }
 
 void StatusList::setMaxCount( int maxCount )
 {
-  maxCount = maxCount;
+  StatusListPrivate::maxCount = maxCount;
 }

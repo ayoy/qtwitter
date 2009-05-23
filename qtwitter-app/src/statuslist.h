@@ -33,6 +33,7 @@ struct Status {
   QPixmap image;
   bool operator==( const Status &other )
   {
+    // FIXME: pixmap comparison?
     return ( entry == other.entry
              && state == other.state);
   }
@@ -40,37 +41,51 @@ struct Status {
 
 Q_DECLARE_METATYPE(Status)
 
+class StatusListPrivate;
+
 class StatusList : public QObject
 {
+  Q_OBJECT
+
+  typedef TwitterAPI::SocialNetwork SocialNetwork;
+
   Q_PROPERTY( SocialNetwork network READ getNetwork WRITE setNetwork )
   Q_PROPERTY( QString login READ getLogin WRITE setLogin )
+  Q_PROPERTY( bool visible READ isVisible WRITE setVisible )
 
 public:
-  void setNetwork( TwitterAPI::SocialNetwork network );
-  TwitterAPI::SocialNetwork getNetwork() const;
+  StatusList( const QString &login, TwitterAPI::SocialNetwork network, QObject *parent = 0 );
+  ~StatusList();
+
+  void addStatus( Entry *entry );
+  bool deleteStatus( int id );
+  static void setMaxCount( int maxCount );
+
+  void setNetwork( SocialNetwork network );
+  SocialNetwork getNetwork() const;
 
   void setLogin( const QString &login );
   const QString& getLogin() const;
+
+  void setVisible( bool visible );
+  bool isVisible() const;
 
   void setData( int index, const Status &status );
   const Status& data( int index ) const;
 
   const QList<Status>& getData() const;
 
-public:
-  StatusList( const QString &login, TwitterAPI::SocialNetwork network );
-  bool addStatus( Entry *entry );
-  bool deleteStatus( int id );
-  static void setMaxCount( int maxCount );
+  int size() const;
 
 public slots:
   void slotDirectMessagesChanged( bool isEnabled );
 
+signals:
+  void statusAdded( int index );
+  void dataChanged( int index );
+
 private:
-  QList<Status> _data;
-  QString login;
-  TwitterAPI::SocialNetwork network;
-  static int maxCount;
+  StatusListPrivate * d;
 };
 
 #endif // STATUSLIST_H

@@ -437,9 +437,6 @@ void Settings::applySettings()
 {
   setProxy();
   core->applySettings();
-  // TODO: public timeline
-//  mainWindow->setupAccounts( accountsModel->getAccounts(), false );//ui.publicTimelineCheckBox->isChecked() );
-//  twitPicView->setupAccounts( accountsModel->getAccounts() );
   changeTheme( ui.colorBox->currentText() );
 #ifdef Q_WS_X11
   if ( useCustomBrowserCheckBox->isChecked() ) {

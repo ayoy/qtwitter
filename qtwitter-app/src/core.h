@@ -90,7 +90,6 @@ signals:
   void errorMessage( const QString &message );
   void twitPicResponseReceived();
   void twitPicDataSendProgress(int,int);
-  void setImageForUrl( const QString& url, QPixmap *image );
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void requestStarted();
   void allRequestsFinished();
@@ -110,6 +109,7 @@ private slots:
   void createAccounts( QWidget *view );
   void addEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
   void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, int id );
+  void setImageForUrl( const QString& url, QPixmap *image );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId );
@@ -120,7 +120,6 @@ private slots:
 private:
   void sendNewsInfo();
   void setupStatusLists();
-  void createConnectionsWithModel( TweetModel *model );
   bool retryAuthorizing( Account *account, int role );
   bool authDialogOpen;
   int publicTimeline;
