@@ -18,7 +18,6 @@
  ***************************************************************************/
 
 
-#include <QUrl>
 #include <QPixmap>
 #include <QDebug>
 #include "statuslistview.h"
@@ -37,14 +36,6 @@ TweetModel::TweetModel( int margin, StatusListView *parentListView, QObject *par
 {
   connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(selectTweet(QModelIndex)) );
   connect( view, SIGNAL(moveFocus(bool)), this, SLOT(moveFocus(bool)) );
-}
-
-TweetModel::~TweetModel()
-{
-//  foreach ( Status status, statuses ) {
-//    if ( !status.tweet.isNull() )
-//      delete status.tweet;
-//  }
 }
 
 void TweetModel::populate()
@@ -74,11 +65,9 @@ void TweetModel::updateDisplay()
 void TweetModel::updateDisplay( int ind )
 {
   Tweet *tweet = static_cast<Tweet*>( view->indexWidget( index( ind, 0 ) ) );
+  Q_ASSERT(tweet);
   tweet->setTweetData( statusList->data( ind ) );
-
-//  if ( item( ind )->sizeHint() != tweet->size() ) {
   item( ind )->setSizeHint( tweet->size() );
-//  }
 }
 
 Tweet* TweetModel::currentTweet()
@@ -87,8 +76,6 @@ Tweet* TweetModel::currentTweet()
     return 0;
 
   return static_cast<Tweet*>( view->indexWidget( currentIndex ) );
-
-//  return statuses[ currentIndex.row() ].tweet;
 }
 
 void TweetModel::deselectCurrentIndex()
@@ -295,7 +282,7 @@ void TweetModel::setMaxTweetCount( int count )
 void TweetModel::sendDeleteRequest( int id )
 {
   qDebug() << "TweetModel::sendDeleteRequest";
-  emit destroy( network, login, id );
+  emit destroy( statusList->network(), statusList->login(), id );
 }
 
 //void TweetModel::slotDirectMessagesChanged( bool isEnabled )
@@ -393,6 +380,7 @@ void TweetModel::markAllAsRead()
       tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
       Q_ASSERT(tweet);
       tweet->setTweetData( status );
+      statusList->setData(i, status );
     }
   }
 }
@@ -412,10 +400,9 @@ void TweetModel::checkForUnread()
 
 void TweetModel::retranslateUi()
 {
-  if ( !isVisible )
-    return;
+  return;
   Tweet *tweet;
-  for ( int i = 0; i < rowCount(); i++ ) {
+  for ( int i = 0; i < statusList->size(); i++ ) {
     tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
     tweet->retranslateUi();
   }
@@ -439,7 +426,7 @@ void TweetModel::moveFocus( bool up )
   if ( !rowCount() )
     return;
   if ( !currentIndex.isValid() ) {
-    currentIndex = this->index( 0, 0 );
+    currentIndex = index( 0, 0 );
     selectTweet( currentIndex );
     return;
   }

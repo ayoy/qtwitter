@@ -380,8 +380,6 @@ void Core::addEntry( TwitterAPI::SocialNetwork network, const QString &login, En
   if ( entry.type == Entry::Status ) {
     if ( imageDownload->contains( entry.image ) ) {
       if ( !imageDownload->imageFromUrl( entry.image )->isNull() )
-//        qDebug() << "image download in progress";
-//      else
         emit setImageForUrl( entry.image, imageDownload->imageFromUrl( entry.image ) );
     } else {
       imageDownload->imageGet( entry.image );

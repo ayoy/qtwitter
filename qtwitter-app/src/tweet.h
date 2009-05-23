@@ -66,7 +66,6 @@ public:
 
 public slots:
   void adjustSize();
-  void menuRequested();
   void slotReply();
   void slotRetweet();
   void slotCopyLink();
@@ -90,6 +89,7 @@ private slots:
 
 private:
   void createMenu();
+  void setupMenu();
   QMenu *menu;
   QAction *replyAction;
   QAction *retweetAction;

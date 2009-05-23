@@ -31,7 +31,7 @@
 #include <QDesktopWidget>
 #include <QSignalMapper>
 #include <QTreeView>
-#include <twitterapi/twitterapi_global.h>
+#include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
 #include "tweet.h"
 #include "aboutdialog.h"

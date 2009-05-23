@@ -115,6 +115,7 @@ int StatusListPrivate::addStatus( Entry *entry )
       return -1;
     }
   }
+  qDebug() << "adding new entry";
 
   Status status;
   status.state = TweetModel::STATE_UNREAD;

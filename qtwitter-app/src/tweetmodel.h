@@ -22,11 +22,10 @@
 #define TWEETMODEL_H
 
 #include <QStandardItemModel>
-#include <QPointer>
-#include <twitterapi/twitterapi.h>
+#include <QUrl>
+#include <twitterapi/twitterapi_global.h>
 
 class QPixmap;
-class QUrl;
 class Tweet;
 class ThemeData;
 class TweetModel;
@@ -36,11 +35,7 @@ struct Status;
 
 class TweetModel : public QStandardItemModel
 {
-//  typedef TwitterAPI::SocialNetwork SocialNetwork;
-
   Q_OBJECT
-//  Q_PROPERTY( SocialNetwork network READ getNetwork WRITE setNetwork )
-//  Q_PROPERTY( QString login READ getLogin WRITE setLogin )
 
 public:
 
@@ -51,7 +46,6 @@ public:
   };
 
   TweetModel( int margin, StatusListView *parentListView, QObject *parent = 0 );
-  ~TweetModel();
 
   Tweet* currentTweet();
   void deselectCurrentIndex();

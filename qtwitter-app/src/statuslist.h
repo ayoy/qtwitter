@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QList>
 #include <QPixmap>
+#include <twitterapi/twitterapi.h>
 #include "tweetmodel.h"
 #include "tweet.h"
 

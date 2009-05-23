@@ -66,19 +66,23 @@ struct ThemeElement
 
 struct ThemeData
 {
+  ThemeElement disabled;
   ThemeElement unread;
   ThemeElement active;
   ThemeElement read;
   ThemeData() :
+      disabled(),
       unread(),
       active(),
       read()
   {}
 
-  ThemeData( const ThemeElement &_unread, const ThemeElement &_active, const ThemeElement &_read ) :
-      unread( _unread ),
-      active( _active ),
-      read( _read )
+  ThemeData( const ThemeElement &disabled, const ThemeElement &unread,
+             const ThemeElement &active, const ThemeElement &read ) :
+      disabled( disabled ),
+      unread( unread ),
+      active( active ),
+      read( read )
   {}
 };
 
