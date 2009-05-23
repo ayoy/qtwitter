@@ -61,7 +61,7 @@ void StatusList::setNetwork( SocialNetwork network )
   d->network = network;
 }
 
-StatusList::SocialNetwork StatusList::getNetwork() const
+StatusList::SocialNetwork StatusList::network() const
 {
   return d->network;
 }
@@ -71,7 +71,7 @@ void StatusList::setLogin( const QString &login )
   d->login = login;
 }
 
-const QString& StatusList::getLogin() const
+const QString& StatusList::login() const
 {
   return d->login;
 }

@@ -58,22 +58,27 @@ void TweetModel::populate()
   }
 }
 
+void TweetModel::updateDisplay()
+{
+  for ( int i = 0; i != statusList->size(); ++i ) {
+    updateDisplay( i );
+  }
+  // FIXME: Sorry, I know it sucks... :|
+  view->setUpdatesEnabled( false );
+  view->resize( view->width(), view->height() - 1 );
+  view->resize( view->width(), view->height() + 1 );
+  view->setUpdatesEnabled( true );
+
+}
+
 void TweetModel::updateDisplay( int ind )
 {
-  Tweet *tweet = qobject_cast<Tweet*>( view->indexWidget( index( ind, 0 ) ) );
+  Tweet *tweet = static_cast<Tweet*>( view->indexWidget( index( ind, 0 ) ) );
   tweet->setTweetData( statusList->data( ind ) );
 
+//  if ( item( ind )->sizeHint() != tweet->size() ) {
   item( ind )->setSizeHint( tweet->size() );
-
-//  view->update();
-//  view->updateGeometry();
-
-//  view->adjustSize();
-
-//  view->setUpdatesEnabled( false );
-//  view->adjustSize();
-//  view->setUpdatesEnabled( true );
-//  view->setIndexWidget( index( 1, 0 ), view->indexWidget( index( 1, 0 ) ) );
+//  }
 }
 
 Tweet* TweetModel::currentTweet()
@@ -81,7 +86,7 @@ Tweet* TweetModel::currentTweet()
   if ( !currentIndex.isValid() )
     return 0;
 
-  return qobject_cast<Tweet*>( view->indexWidget( currentIndex ) );
+  return static_cast<Tweet*>( view->indexWidget( currentIndex ) );
 
 //  return statuses[ currentIndex.row() ].tweet;
 }
@@ -89,15 +94,13 @@ Tweet* TweetModel::currentTweet()
 void TweetModel::deselectCurrentIndex()
 {
   if ( currentIndex.isValid() ) {
-    Tweet *tweet = qobject_cast<Tweet*>( view->indexWidget( currentIndex ) );
+    Tweet *tweet = static_cast<Tweet*>( view->indexWidget( currentIndex ) );
     Q_ASSERT(tweet);
     Status status = statusList->data( currentIndex.row() );
     if ( status.state != TweetModel::STATE_UNREAD ) {
       status.state = TweetModel::STATE_READ;
       statusList->setData( currentIndex.row(), status );
     }
-//    if ( isVisible )
-//      status.tweet->applyTheme();
     tweet->setTweetData( statusList->data( currentIndex.row() ) );
     currentIndex = QModelIndex();
   }
@@ -108,7 +111,7 @@ void TweetModel::setTheme( const ThemeData &theme )
   Tweet::setTheme( theme );
   Tweet *tweet;
   for ( int i = 0; i < rowCount(); i++ ) {
-    tweet = qobject_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
+    tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
     Q_ASSERT(tweet);
     tweet->applyTheme();
   }
@@ -125,16 +128,14 @@ void TweetModel::setStatusList( StatusList *statusList )
   connect( this->statusList, SIGNAL(statusAdded(int)), this, SLOT(updateDisplay(int)) );
   connect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
 
-  Tweet *tweet;
-  Tweet::setCurrentLogin( this->statusList->getLogin() );
-  Tweet::setCurrentNetwork( this->statusList->getNetwork() );
-  int k = 0;
-  for ( QList<Status>::const_iterator i = this->statusList->getData().begin(); i != this->statusList->getData().end(); ++i, ++k ) {
-    tweet = qobject_cast<Tweet*>( view->indexWidget( index( k, 0 ) ) );
-    Q_ASSERT(tweet);
-    tweet->setTweetData( *i );
-    item( k, 0 )->setSizeHint( tweet->size() );
-  }
+  Tweet::setCurrentLogin( this->statusList->login() );
+  Tweet::setCurrentNetwork( this->statusList->network() );
+  updateDisplay();
+}
+
+StatusList * const TweetModel::getStatusList() const
+{
+  return statusList;
 }
 
 void TweetModel::setMaxTweetCount( int count )
@@ -332,7 +333,7 @@ void TweetModel::selectTweet( const QModelIndex &index )
       statusList->setData( currentIndex.row(), status );
     }
 
-    tweet = qobject_cast<Tweet*>( view->indexWidget( currentIndex ) );
+    tweet = static_cast<Tweet*>( view->indexWidget( currentIndex ) );
     Q_ASSERT(tweet);
     tweet->setTweetData( statusList->data( currentIndex.row() ) );
   }
@@ -343,7 +344,7 @@ void TweetModel::selectTweet( const QModelIndex &index )
   status.state = TweetModel::STATE_ACTIVE;
   statusList->setData( index.row(), status );
 
-  tweet = qobject_cast<Tweet*>( view->indexWidget( currentIndex ) );
+  tweet = static_cast<Tweet*>( view->indexWidget( currentIndex ) );
   Q_ASSERT(tweet);
   tweet->setTweetData( statusList->data( currentIndex.row() ) );
 
@@ -361,7 +362,7 @@ void TweetModel::selectTweet( Tweet *tweet )
       status.state = TweetModel::STATE_READ;
       statusList->setData( currentIndex.row(), status );
 
-      currentTweet = qobject_cast<Tweet*>( view->indexWidget( currentIndex ) );
+      currentTweet = static_cast<Tweet*>( view->indexWidget( currentIndex ) );
       Q_ASSERT(currentTweet);
       currentTweet->setTweetData( statusList->data( currentIndex.row() ) );
     }
@@ -389,7 +390,7 @@ void TweetModel::markAllAsRead()
         status.state = TweetModel::STATE_ACTIVE;
       else
         status.state = TweetModel::STATE_READ;
-      tweet = qobject_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
+      tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
       Q_ASSERT(tweet);
       tweet->setTweetData( status );
     }
@@ -415,7 +416,7 @@ void TweetModel::retranslateUi()
     return;
   Tweet *tweet;
   for ( int i = 0; i < rowCount(); i++ ) {
-    tweet = qobject_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
+    tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
     tweet->retranslateUi();
   }
 }
@@ -427,7 +428,7 @@ void TweetModel::resizeData( int width, int oldWidth )
 
   Tweet *tweet;
   for ( int i = 0; i < rowCount(); i++ ) {
-    tweet = qobject_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
+    tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
     tweet->resize( width - scrollBarMargin, tweet->size().height() );
     item(i)->setSizeHint( tweet->size() );
   }
@@ -457,13 +458,12 @@ void TweetModel::setImageForUrl( const QString& url, QPixmap *image )
 {
   Status status;
   Tweet *tweet;
-  for ( int i = 0; i < statusList->getData().size()/*rowCount()*/; i++ ) {
+  for ( int i = 0; i < statusList->size(); i++ ) {
     status = statusList->data(i);
     if ( url == status.entry.image ) {
       status.image = *image;
-      tweet = qobject_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
+      tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
       tweet->setTweetData( status );
-//      item( i, 0 )->setSizeHint( tweet->size() );
     }
   }
 }

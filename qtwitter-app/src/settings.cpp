@@ -390,7 +390,7 @@ void Settings::changeTheme( const QString &theme )
 void Settings::retranslateUi()
 {
 //  ui.retranslateUi( this );
-  this->setWindowTitle( tr("Settings") );
+  setWindowTitle( tr("Settings") );
   ui.tabs->setTabText( 0, tr( "General" ) );
   ui.refreshLabel->setText( tr("Refresh every (mins):") );
   ui.languageLabel->setText( tr("Language:") );

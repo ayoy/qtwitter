@@ -161,26 +161,15 @@ void Core::setBrowserPath( const QString &path )
 void Core::setModelTheme( const ThemeData &theme )
 {
   tweetModel->setTheme( theme );
-//  foreach ( TweetModel *model, tweetModels.values() )
-//    model->setTheme( theme );
 }
-
-TweetModel* Core::getModel()
-{
-  return tweetModel;
-//  tweetModels.contains( *accountsModel->account( network, login ) ) ? tweetModels.value( *accountsModel->account( network, login ) ) : 0;
-}
-
-//TweetModel* Core::getPublicTimelineModel( TwitterAPI::SocialNetwork network )
-//{
-//  return tweetModels.contains( Account::publicTimeline( network ) )
-//                               ? tweetModels.value( Account::publicTimeline( network ) ) : 0;
-//}
 
 void Core::setData( TwitterAPI::SocialNetwork network, const QString &login )
 {
   //TODO: debug, warning, etc.
-  tweetModel->setStatusList( statusLists[ *accountsModel->account( network, login ) ] );
+  if ( login == TwitterAPI::PUBLIC_TIMELINE )
+    tweetModel->setStatusList( statusLists[ Account::publicTimeline( network ) ] );
+  else
+    tweetModel->setStatusList( statusLists[ *accountsModel->account( network, login ) ] );
 }
 
 void Core::forceGet()
@@ -221,7 +210,7 @@ void Core::get()
     started = true;
     emit newRequest();
     if ( publicTimeline == AccountsController::PT_TWITTER )
-      return;
+      break;
   case AccountsController::PT_IDENTICA:
     twitterapi->publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA );
     started = true;
@@ -390,9 +379,9 @@ void Core::addEntry( TwitterAPI::SocialNetwork network, const QString &login, En
 
   if ( entry.type == Entry::Status ) {
     if ( imageDownload->contains( entry.image ) ) {
-      if ( imageDownload->imageFromUrl( entry.image )->isNull() )
-        qDebug() << "image download in progress";
-      else
+      if ( !imageDownload->imageFromUrl( entry.image )->isNull() )
+//        qDebug() << "image download in progress";
+//      else
         emit setImageForUrl( entry.image, imageDownload->imageFromUrl( entry.image ) );
     } else {
       imageDownload->imageGet( entry.image );
@@ -557,9 +546,12 @@ void Core::slotNewRequest()
 
 void Core::slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role )
 {
-  Q_UNUSED(network);
-  Q_UNUSED(login);
   Q_UNUSED(role);
+  StatusList *statusList = tweetModel->getStatusList();
+  if ( statusList->network() == network
+       && statusList->login() == login ){
+    tweetModel->updateDisplay();
+  }
   requestCount--;
   qDebug() << requestCount;
   if ( requestCount == 0 ) {

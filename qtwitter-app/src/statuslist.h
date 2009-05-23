@@ -49,8 +49,8 @@ class StatusList : public QObject
 
   typedef TwitterAPI::SocialNetwork SocialNetwork;
 
-  Q_PROPERTY( SocialNetwork network READ getNetwork WRITE setNetwork )
-  Q_PROPERTY( QString login READ getLogin WRITE setLogin )
+  Q_PROPERTY( SocialNetwork network READ network WRITE setNetwork )
+  Q_PROPERTY( QString login READ login WRITE setLogin )
   Q_PROPERTY( bool visible READ isVisible WRITE setVisible )
 
 public:
@@ -62,10 +62,10 @@ public:
   static void setMaxCount( int maxCount );
 
   void setNetwork( SocialNetwork network );
-  SocialNetwork getNetwork() const;
+  SocialNetwork network() const;
 
   void setLogin( const QString &login );
-  const QString& getLogin() const;
+  const QString& login() const;
 
   void setVisible( bool visible );
   bool isVisible() const;

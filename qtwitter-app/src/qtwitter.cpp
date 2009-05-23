@@ -43,7 +43,6 @@ Qtwitter::Qtwitter( QWidget *parent )
   connect( this, SIGNAL(switchToPublicTimelineModel(TwitterAPI::SocialNetwork)), SLOT(setPublicTimelineModel(TwitterAPI::SocialNetwork)) );
 
   core = new Core( this );
-//  setListViewModel( core->getModel() );
 
   connect( this, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
@@ -81,7 +80,6 @@ Qtwitter::Qtwitter( QWidget *parent )
 void Qtwitter::setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login )
 {
   core->setData( network, login );
-//  setListViewModel( core->getModel( network, login ) );
 }
 
 //  this is to avoid relying on translation files
@@ -89,6 +87,6 @@ void Qtwitter::setCurrentModel( TwitterAPI::SocialNetwork network, const QString
 void Qtwitter::setPublicTimelineModel( TwitterAPI::SocialNetwork network )
 {
   // TODO: probably won't work
+  // UPDATE: works! :)
   core->setData( network, TwitterAPI::PUBLIC_TIMELINE );
-//  setListViewModel( core->getPublicTimelineModel( network ) );
 }

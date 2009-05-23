@@ -64,8 +64,6 @@ public:
 #endif
 
   void setModelTheme( const ThemeData &theme );
-  TweetModel* getModel();
-//  TweetModel* getPublicTimelineModel( TwitterAPI::SocialNetwork network );
   void setData( TwitterAPI::SocialNetwork network, const QString &login );
 
 public slots:

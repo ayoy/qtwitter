@@ -57,6 +57,7 @@ public:
   void deselectCurrentIndex();
   void setTheme( const ThemeData &theme );
   void setStatusList( StatusList *statusList );
+  StatusList * const getStatusList() const;
   void setMaxTweetCount( int count );
   void populate();
 //  void setVisible( bool isVisible );
@@ -66,6 +67,7 @@ public:
 public slots:
 //  void insertTweet( Entry *entry );
 //  void deleteTweet( int id );
+  void updateDisplay();
   void updateDisplay( int ind );
   void sendDeleteRequest( int id );
   void selectTweet( const QModelIndex &index );
