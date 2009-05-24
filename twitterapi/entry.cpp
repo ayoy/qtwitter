@@ -95,7 +95,10 @@ bool Entry::operator== (const Entry &other )
            && homepage == other.homepage
            && hasHomepage == other.hasHomepage
            && timestamp == other.timestamp
-           && localTime == other.localTime );
+           && localTime == other.localTime
+           && hasInReplyToStatusId == other.hasInReplyToStatusId
+           && inReplyToStatusId == other.inReplyToStatusId
+           && inReplyToScreenName == other.inReplyToScreenName );
 }
 
 

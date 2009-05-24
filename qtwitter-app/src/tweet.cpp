@@ -272,9 +272,11 @@ void Tweet::setTweetData( const Status &status )
       //for identica it works as is
       inReplyToUrl = "http://identi.ca/notice/" + QString::number( tweetData->inReplyToStatusId );
 
-    m_ui->timeStamp->setText( m_ui->timeStamp->text().append( " " ).append( tr( "in reply to %1")
-                                                                            .arg( QString( "<a href=%1>%2</a>" )
-                                                                                  .arg( inReplyToUrl, tweetData->inReplyToScreenName ) ) ) );
+    m_ui->timeStamp->setText( m_ui->timeStamp->text().append( " " )
+                              .append( tr( "in reply to %1")
+                                       // TODO: links theming
+                                       .arg( QString( "<a style=\"color:rgb(255, 248, 140)\" href=%1>%2</a>" )
+                                             .arg( inReplyToUrl, tweetData->inReplyToScreenName ) ) ) );
   }
 
 
@@ -315,6 +317,14 @@ void Tweet::applyTheme()
   case TweetModel::STATE_UNREAD:
     setStyleSheet( currentTheme.unread.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.unread.linkColor );
+//    TODO: links theming
+//    if ( m_ui->timeStamp->text().contains( "<a style=\"color:" ) ) {
+//      QString text = m_ui->timeStamp->text();
+//      QRegExp rx( "color: ?rgb\\((.+)\\)", Qt::CaseInsensitive );
+//      if ( rx.indexIn( currentTheme.unread.linkColor ) != -1 ) {
+//        text.replace( rx, rx.cap(1) );
+//      }
+//    }
     break;
   case TweetModel::STATE_ACTIVE:
     setStyleSheet( currentTheme.active.styleSheet );
@@ -403,12 +413,6 @@ void Tweet::changeEvent( QEvent *e )
   switch (e->type()) {
   case QEvent::LanguageChange:
     m_ui->retranslateUi(this);
-    //timestamp label gets cleared after retranslation, so we need to set it again:
-    if( tweetData->localTime.date() >= QDateTime::currentDateTime().date()) //today
-      m_ui->timeStamp->setText( tweetData->localTime.time().toString(Qt::SystemLocaleShortDate) );
-    else  //yesterday or earlier
-      m_ui->timeStamp->setText( tweetData->localTime.toString(Qt::SystemLocaleShortDate) );
-
     break;
   default:;
   }
