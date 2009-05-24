@@ -120,20 +120,17 @@ bool XmlParser::characters( const QString &ch )
         entry.homepage = ch;
       }
     } else if ( currentTag == TAG_INREPLYTO_STATUS_ID && entry.inReplyToStatusId == -1) {
-      qDebug() << TAG_INREPLYTO_STATUS_ID;
       if( !ch.trimmed().isEmpty() ) {
         /* In reply to status id exists and is not empty; Hack for dealing with tags that are opened and closed
            at the same time, e.g. <in_reply_to_screen_name/>  */
         entry.hasInReplyToStatusId = true;
         entry.inReplyToStatusId = ch.toInt();
-        qDebug() << entry.inReplyToStatusId;
       }
     } else if ( currentTag == TAG_INREPLYTO_SCREEN_NAME && entry.hasInReplyToStatusId ) {
       /* When hasInReplyToStatusId is true, inReplyToScreenName should be present, but it won't hurt to check it again
          just in case */
       if( !ch.trimmed().isEmpty() ) {
         entry.inReplyToScreenName = ch;
-        qDebug() << "screen " << ch;
       }
     }
   }

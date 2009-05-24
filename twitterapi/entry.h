@@ -46,8 +46,8 @@ struct TWITTERAPI_EXPORT Entry
   QString text;
   QString originalText;
   //TODO: login should be 'name' and 'name' actually is 'screen name' in twitter api
-  QString name;
-  QString login;
+  QString name;   //twitter real name
+  QString login;  //twitter screen name
   QString image;
   QString homepage;
   bool hasHomepage;

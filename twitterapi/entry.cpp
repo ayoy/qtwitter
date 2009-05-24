@@ -157,11 +157,11 @@ bool Entry::operator== (const Entry &other )
 */
 
 /*! \var QString Entry::name
-    Stores the status owner's screen name.
+    Stores the status owner's real name.
 */
 
 /*! \var QString Entry::login
-    Stores the status owner's login.
+    Stores the status owner's login/screen name.
 */
 
 /*! \var QString Entry::image
