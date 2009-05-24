@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 200AccountsDelegate-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
  *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -29,6 +29,7 @@
 #include <QCache>
 #include <twitterapi/twitterapi.h>
 #include "accountsmodel.h"
+#include "statuslist.h"
 
 class QAbstractItemModel;
 class MainWindow;
@@ -36,10 +37,7 @@ class ImageDownload;
 class TwitPicEngine;
 class TweetModel;
 class ThemeData;
-// TODO: put Account in a separate header file
-//class Account;
-//class AccountsModel;
-class StatusList;
+class StatusListView;
 class UrlShortener;
 class AccountsController;
 
@@ -66,8 +64,7 @@ public:
 #endif
 
   void setModelTheme( const ThemeData &theme );
-  TweetModel* getModel( TwitterAPI::SocialNetwork network, const QString &login );
-  TweetModel* getPublicTimelineModel( TwitterAPI::SocialNetwork network );
+  void setModelData( TwitterAPI::SocialNetwork network, const QString &login );
 
 public slots:
   void forceGet();
@@ -91,7 +88,6 @@ signals:
   void errorMessage( const QString &message );
   void twitPicResponseReceived();
   void twitPicDataSendProgress(int,int);
-  void setImageForUrl( const QString& url, QPixmap *image );
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void requestStarted();
   void allRequestsFinished();
@@ -111,6 +107,7 @@ private slots:
   void createAccounts( QWidget *view );
   void addEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
   void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, int id );
+  void setImageForUrl( const QString& url, QPixmap *image );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId );
@@ -120,14 +117,15 @@ private slots:
 
 private:
   void sendNewsInfo();
-  void setupTweetModels();
-  void createConnectionsWithModel( TweetModel *model );
+  void setupStatusLists();
   bool retryAuthorizing( Account *account, int role );
   bool authDialogOpen;
   int publicTimeline;
   int requestCount;
   int tempModelCount;
   QStringList newTweets;
+
+  TwitterAPIInterface *twitterapi;
 
   TwitPicEngine *twitpicUpload;
   UrlShortener *urlShortener;
@@ -136,13 +134,14 @@ private:
 
   AccountsController *accounts;
   AccountsModel *accountsModel;
-  TwitterAPIInterface *twitterapi;
-  QMap<Account,TweetModel*> tweetModels;
-  QTimer *timer;
 
-  StatusList *listViewForModels;
+  TweetModel *tweetModel;
+  StatusListView *listViewForModels;
+
+  QMap<Account,StatusList*> statusLists;
+
+  QTimer *timer;
   MainWindow *parentMainWindow;
-  int margin;
 
 #ifdef Q_WS_X11
   QString browserPath;

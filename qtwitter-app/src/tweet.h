@@ -29,6 +29,7 @@ class QSignalMapper;
 class TweetModel;
 class Entry;
 class ThemeData;
+class Status;
 
 namespace Ui {
     class Tweet;
@@ -41,6 +42,7 @@ class Tweet : public QWidget
 
 public:
 
+  explicit Tweet( TweetModel *parentModel, QWidget *parent = 0 );
   explicit Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image, TweetModel *parentModel, QWidget *parent = 0 );
   virtual ~Tweet();
 
@@ -48,20 +50,27 @@ public:
   void resize( const QSize& size );
   void resize( int w, int h );
 
-  void setTweetData( Entry *entry, TweetModel::TweetState *state );
-  void setIcon( const QPixmap &image );
-  void applyTheme();
-  void retranslateUi();
-
-  bool isRead() const;
-  TweetModel::TweetState getState() const;
+  void initialize();
+  void setTweetData( const Status &status );
+  void setImage( const QPixmap &pixmap );
   void setState( TweetModel::TweetState state );
+  TweetModel::TweetState getState() const;
+
   static ThemeData getTheme();
   static void setTheme( const ThemeData &theme );
 
+  void applyTheme();
+  void retranslateUi();
+
+  int getId() const;
+
+  static void setScrollBarWidth( int width );
+  static void setCurrentWidth( int width );
+  static void setCurrentLogin( const QString &login );
+  static void setCurrentNetwork( TwitterAPI::SocialNetwork network );
+
 public slots:
   void adjustSize();
-  void menuRequested();
   void slotReply();
   void slotRetweet();
   void slotCopyLink();
@@ -85,6 +94,7 @@ private slots:
 
 private:
   void createMenu();
+  void setupMenu();
   QMenu *menu;
   QAction *replyAction;
   QAction *retweetAction;
@@ -93,10 +103,17 @@ private:
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;
-  TweetModel::TweetState *tweetState;
-  Entry *tweetData;
+  TweetModel::TweetState tweetState;
+  const Entry *tweetData;
+//  QString originalText;
+//  Entry::Type type;
+//  int id;
   QSignalMapper *signalMapper;
+  static int scrollBarWidth;
+  static int currentWidth;
   static ThemeData currentTheme;
+  static QString currentLogin;
+  static TwitterAPI::SocialNetwork currentNetwork;
   TweetModel *tweetListModel;
   Ui::Tweet *m_ui;
 };

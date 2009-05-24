@@ -363,6 +363,29 @@ background-color: rgba(255,255,255,0);
      <bool>true</bool>
     </property>
    </widget>
+   <widget class="QPushButton" name="replyButton">
+    <property name="geometry">
+     <rect>
+      <x>6</x>
+      <y>60</y>
+      <width>20</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string>QPushButton {
+border: 1px;
+background-color: rgba(255,255,255,0);
+}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+   </widget>
   </widget>
  </widget>
  <customwidgets>

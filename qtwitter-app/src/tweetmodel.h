@@ -22,55 +22,52 @@
 #define TWEETMODEL_H
 
 #include <QStandardItemModel>
-#include <QPointer>
-#include <twitterapi/twitterapi.h>
+#include <QUrl>
+#include <twitterapi/twitterapi_global.h>
 
 class QPixmap;
-class QUrl;
 class Tweet;
 class ThemeData;
 class TweetModel;
+class StatusListView;
 class StatusList;
 struct Status;
 
 class TweetModel : public QStandardItemModel
 {
-  typedef TwitterAPI::SocialNetwork SocialNetwork;
-
   Q_OBJECT
-  Q_PROPERTY( SocialNetwork network READ getNetwork WRITE setNetwork )
-  Q_PROPERTY( QString login READ getLogin WRITE setLogin )
 
 public:
 
   enum TweetState {
+    STATE_DISABLED,
     STATE_UNREAD,
     STATE_READ,
     STATE_ACTIVE
   };
 
-  TweetModel( TwitterAPI::SocialNetwork network, const QString &login, int margin, StatusList *parentListView, QObject *parent = 0 );
-  ~TweetModel();
-
-  void setNetwork( TwitterAPI::SocialNetwork network );
-  TwitterAPI::SocialNetwork getNetwork() const;
-
-  void setLogin( const QString &login );
-  const QString& getLogin() const;
+  TweetModel( StatusListView *parentListView, QObject *parent = 0 );
 
   Tweet* currentTweet();
   void deselectCurrentIndex();
   void setTheme( const ThemeData &theme );
+  void setStatusList( StatusList *statusList );
+  StatusList * getStatusList() const;
   void setMaxTweetCount( int count );
-  void setVisible( bool isVisible );
-  void display();
+  void populate();
+//  void setVisible( bool isVisible );
+//  void display();
   void clear();
 
 public slots:
-  void insertTweet( Entry *entry );
-  void deleteTweet( int id );
+//  void insertTweet( Entry *entry );
+//  void deleteTweet( int id );
+  void updateDisplay();
+  void updateDisplay( int ind );
+  void updateState( int ind );
+  void updateImage( int ind );
+
   void sendDeleteRequest( int id );
-  void slotDirectMessagesChanged( bool isEnabled );
   void selectTweet( const QModelIndex &index );
   void selectTweet( Tweet *tweet );
   void markAllAsRead();
@@ -92,24 +89,13 @@ private slots:
   void emitOpenBrowser( QString address );
 
 private:
-  bool stripRedundantTweets();
   TwitterAPI::SocialNetwork network;
   QString login;
-  QList<Status> statuses;
+  StatusList *statusList;
   bool isVisible;
   int maxTweetCount;
-  int scrollBarMargin;
   QModelIndex currentIndex;
-  StatusList *view;
+  StatusListView *view;
 };
-
-struct Status {
-  Entry entry;
-  TweetModel::TweetState state;
-  QPointer<Tweet> tweet;
-  QPixmap image;
-};
-
-Q_DECLARE_METATYPE(Status)
 
 #endif // TWEETMODEL_H

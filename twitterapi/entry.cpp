@@ -82,6 +82,23 @@ bool Entry::checkContents()
   return false;
 }
 
+bool Entry::operator== (const Entry &other )
+{
+  return ( type == other.type
+           && isOwn == other.isOwn
+           && id == other.id
+           && text == other.text
+           && originalText == other.originalText
+           && name == other.name
+           && login == other.login
+           && image == other.image
+           && homepage == other.homepage
+           && hasHomepage == other.hasHomepage
+           && timestamp == other.timestamp
+           && localTime == other.localTime );
+}
+
+
 /*! \struct Entry
     \brief A struct containing Tweet data.
 

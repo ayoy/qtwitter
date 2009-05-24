@@ -21,6 +21,7 @@
 
 
 #include <QMenu>
+#include <QMenuBar>
 #include <QScrollBar>
 #include <QMessageBox>
 #include <QIcon>
@@ -30,7 +31,7 @@
 #include <QDesktopWidget>
 #include <QSignalMapper>
 #include <QTreeView>
-#include <twitterapi/twitterapi_global.h>
+#include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
 #include "tweet.h"
 #include "aboutdialog.h"
@@ -44,10 +45,15 @@ extern ConfigFile settings;
 
 
 MainWindow::MainWindow( QWidget *parent ) :
-    QWidget( parent ),
+    QMainWindow( parent ),
     resetUiWhenFinished( false )
 {
-  ui.setupUi( this );
+  QWidget *centralWidget = new QWidget( this );
+  ui.setupUi( centralWidget );
+  setCentralWidget( centralWidget );
+
+  Tweet::setScrollBarWidth( ui.statusListView->verticalScrollBar()->width() );
+
   ui.accountsComboBox->setVisible( false );
 
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
@@ -56,14 +62,19 @@ MainWindow::MainWindow( QWidget *parent ) :
   ui.statusEdit->setToolTip( ui.statusEdit->toolTip().arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
 
   //> experiment begin
-  ui.moreButton->setIcon(QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")));
-  ui.settingsButton->setIcon(QtIconLoader::icon("preferences-other", QIcon(":/icons/spanner_48.png")));
-  ui.updateButton->setIcon(QtIconLoader::icon("reload", QIcon(":icons/refresh_48.png")));
+  ui.moreButton->setIcon( QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")) );
+  ui.settingsButton->setIcon( QtIconLoader::icon("preferences-other", QIcon(":/icons/spanner_48.png")) );
+  ui.updateButton->setIcon( QtIconLoader::icon("reload", QIcon(":icons/refresh_48.png")) );
   //< experiment end
 
   createConnections();
-  createMenu();
+  createButtonMenu();
   createTrayIcon();
+
+// create menu bar only on maemo
+#ifdef Q_WS_HILDON
+  createHildonMenu();
+#endif
 }
 
 MainWindow::~MainWindow() {
@@ -111,45 +122,14 @@ void MainWindow::createConnections()
   ui.updateButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_R ) );
 }
 
-void MainWindow::createMenu()
+#ifdef Q_WS_HILDON
+void MainWindow::createHildonMenu()
 {
-  buttonMenu = new QMenu( this );
-  newtweetAction = new QAction( tr( "New tweet" ), buttonMenu );
-  newtwitpicAction = new QAction( tr( "Upload a photo to TwitPic" ), buttonMenu );
-  gototwitterAction = new QAction( tr( "Go to Twitter" ), buttonMenu );
-  gototwitpicAction = new QAction( tr( "Go to TwitPic" ), buttonMenu );
-  aboutAction = new QAction( tr( "About qTwitter..." ), buttonMenu );
-  quitAction = new QAction( tr( "Quit" ), buttonMenu );
-  quitAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
-  quitAction->setShortcutContext( Qt::ApplicationShortcut );
-  connect( quitAction, SIGNAL(triggered()), qApp, SLOT(quit()) );
-
-  newtweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ) );
-  newtwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_N ) );
-  gototwitterAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
-  gototwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_G ) );
-
-  QSignalMapper *mapper = new QSignalMapper( this );
-  mapper->setMapping( gototwitterAction, "http://twitter.com/home" );
-  mapper->setMapping( gototwitpicAction, "http://twitpic.com" );
-
-  connect( newtweetAction, SIGNAL(triggered()), ui.statusEdit, SLOT(setFocus()) );
-  connect( newtwitpicAction, SIGNAL(triggered()), this, SIGNAL(openTwitPicDialog()) );
-  connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
-  connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
-  connect( mapper, SIGNAL(mapped(QString)), this, SLOT(emitOpenBrowser(QString)) );
-  connect( aboutAction, SIGNAL(triggered()), this, SLOT(about()) );
-
-  buttonMenu->addAction( newtweetAction );
-  buttonMenu->addAction( newtwitpicAction );
-  buttonMenu->addSeparator();
-  buttonMenu->addAction( gototwitterAction );
-  buttonMenu->addAction( gototwitpicAction );
-  buttonMenu->addSeparator();
-  buttonMenu->addAction( aboutAction );
-  buttonMenu->addAction( quitAction );
-  ui.moreButton->setMenu( buttonMenu );
+  QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
+  fileMenu->addAction( aboutAction );
+  fileMenu->addAction( quitAction );
 }
+#endif
 
 void MainWindow::createTrayIcon()
 {
@@ -180,7 +160,48 @@ void MainWindow::createTrayIcon()
   trayIcon->show();
 }
 
-StatusList* MainWindow::getListView()
+void MainWindow::createButtonMenu()
+{
+  buttonMenu = new QMenu( this );
+  newtweetAction = new QAction( tr( "New tweet" ), buttonMenu );
+  newtwitpicAction = new QAction( tr( "Upload a photo to TwitPic" ), buttonMenu );
+  gototwitterAction = new QAction( tr( "Go to Twitter" ), buttonMenu );
+  gototwitpicAction = new QAction( tr( "Go to TwitPic" ), buttonMenu );
+  aboutAction = new QAction( tr( "About qTwitter..." ), buttonMenu );
+  quitAction = new QAction( tr( "Quit" ), buttonMenu );
+  quitAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
+  quitAction->setShortcutContext( Qt::ApplicationShortcut );
+  connect( quitAction, SIGNAL(triggered()), qApp, SLOT(quit()) );
+
+  newtweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ) );
+  newtwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_N ) );
+  gototwitterAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
+  gototwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_G ) );
+
+  QSignalMapper *mapper = new QSignalMapper( this );
+  // TODO: Identi.ca?
+  mapper->setMapping( gototwitterAction, "http://twitter.com/home" );
+  mapper->setMapping( gototwitpicAction, "http://twitpic.com" );
+
+  connect( newtweetAction, SIGNAL(triggered()), ui.statusEdit, SLOT(setFocus()) );
+  connect( newtwitpicAction, SIGNAL(triggered()), this, SIGNAL(openTwitPicDialog()) );
+  connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
+  connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
+  connect( mapper, SIGNAL(mapped(QString)), this, SLOT(emitOpenBrowser(QString)) );
+  connect( aboutAction, SIGNAL(triggered()), this, SLOT(about()) );
+
+  buttonMenu->addAction( newtweetAction );
+  buttonMenu->addAction( newtwitpicAction );
+  buttonMenu->addSeparator();
+  buttonMenu->addAction( gototwitterAction );
+  buttonMenu->addAction( gototwitpicAction );
+  buttonMenu->addSeparator();
+  buttonMenu->addAction( aboutAction );
+  buttonMenu->addAction( quitAction );
+  ui.moreButton->setMenu( buttonMenu );
+}
+
+StatusListView* MainWindow::getListView()
 {
   return ui.statusListView;
 }
@@ -263,52 +284,7 @@ void MainWindow::setListViewModel( TweetModel *model )
 {
   if ( !model )
     return;
-  TweetModel *currentModel = qobject_cast<TweetModel*>( ui.statusListView->model() );
-  if ( currentModel ) {
-    if ( model == currentModel )
-      return;
-    currentModel->setVisible( false );
-  }
   ui.statusListView->setModel( model );
-  model->display();
-}
-
-void MainWindow::closeEvent( QCloseEvent *e )
-{
-  if ( trayIcon->isVisible()) {
-    hide();
-    e->ignore();
-    return;
-  }
-  QWidget::closeEvent( e );
-}
-
-void MainWindow::keyPressEvent(QKeyEvent *event)
-{
-    if(event->key() == Qt::Key_Escape)
-        if(isVisible())
-            hide();
-}
-
-void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
-{
-  switch ( reason ) {
-    case QSystemTrayIcon::Trigger:
-#ifdef Q_WS_WIN
-    if ( !isVisible() ) {
-#else
-    if ( !isVisible() || !QApplication::activeWindow() ) {
-#endif
-      show();
-        raise();
-        activateWindow();
-      } else {
-        hide();
-      }
-      break;
-    default:
-      break;
-  }
 }
 
 void MainWindow::changeLabel()
@@ -406,8 +382,40 @@ void MainWindow::resetStatus()
   }
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+  if(event->key() == Qt::Key_Escape) {
+    if(isVisible())
+      hide();
+    event->accept();
+  }
+#ifdef Q_WS_HILDON
+  else if (event->key() == Qt::Key_F6) {
+    if (isFullScreen())
+      showNormal();
+    else
+      showFullScreen();
+
+    event->accept();
+  }
+#endif
+  else
+    QWidget::keyPressEvent( event);
+}
+
+void MainWindow::closeEvent( QCloseEvent *event )
+{
+  if ( trayIcon->isVisible()) {
+    hide();
+    event->ignore();
+    return;
+  }
+  QWidget::closeEvent( event );
+}
+
 void MainWindow::resizeEvent( QResizeEvent *event )
 {
+  Tweet::setCurrentWidth( width() );
   emit resizeView( event->size().width(), event->oldSize().width() );
 }
 
@@ -424,6 +432,27 @@ void MainWindow::popupMessage( QString message )
 void MainWindow::popupError( const QString &message )
 {
   QMessageBox::information( this, tr("Error"), message );
+}
+
+void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
+{
+  switch ( reason ) {
+    case QSystemTrayIcon::Trigger:
+#ifdef Q_WS_WIN
+    if ( !isVisible() ) {
+#else
+    if ( !isVisible() || !QApplication::activeWindow() ) {
+#endif
+      show();
+        raise();
+        activateWindow();
+      } else {
+        hide();
+      }
+      break;
+    default:
+      break;
+  }
 }
 
 void MainWindow::emitOpenBrowser( QString address )
@@ -561,7 +590,7 @@ void MainWindow::tweetGotohomepageAction()
     A default destructor.
 */
 
-/*! \fn StatusList* MainWindow::getListView()
+/*! \fn StatusListView* MainWindow::getListView()
     A method for external access to the list view used for displaying Tweets.
     Used for initialization of TweetModel class's instance.
     \returns A pointer to the list view instance of MainWindow.

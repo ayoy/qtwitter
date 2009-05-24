@@ -22,9 +22,10 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QSystemTrayIcon>
+#include <QMainWindow>
 #include <QUrl>
 #include <QList>
+#include <QSystemTrayIcon>
 #include <twitterapi/twitterapi_global.h>
 #include "ui_mainwindow.h"
 
@@ -32,7 +33,7 @@ class QMovie;
 class TweetModel;
 class Account;
 
-class MainWindow : public QWidget
+class MainWindow : public QMainWindow
 {
   Q_OBJECT
 
@@ -40,7 +41,7 @@ public:
   MainWindow( QWidget *parent = 0 );
   virtual ~MainWindow();
 
-  StatusList* getListView();
+  StatusListView* getListView();
   int getScrollBarWidth();
 
   
@@ -78,9 +79,9 @@ signals:
   void shortenUrl( const QString &url );
 
 protected:
-  void closeEvent( QCloseEvent *e );
-  void resizeEvent( QResizeEvent* );
-  void keyPressEvent( QKeyEvent* );
+  void resizeEvent( QResizeEvent *event );
+  void closeEvent( QCloseEvent *event );
+  void keyPressEvent ( QKeyEvent *event );
   Ui::MainWindow ui;
 
 private slots:
@@ -95,10 +96,14 @@ private slots:
 
 private:
   void createConnections();
-  void createMenu();
+  void createButtonMenu();
   void createTrayIcon();
+#ifdef Q_WS_HILDON
+  void createHildonMenu();
+#endif
+
   bool resetUiWhenFinished;
-  QMenu *trayMenu;
+
   QMenu *buttonMenu;
   QAction *newtweetAction;
   QAction *newtwitpicAction;
@@ -107,6 +112,7 @@ private:
   QAction *aboutAction;
   QAction *quitAction;
   QMovie *progressIcon;
+
   QSystemTrayIcon *trayIcon;
 };
 

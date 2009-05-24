@@ -18,32 +18,58 @@
  ***************************************************************************/
 
 
-#ifndef QTWITTER_H
-#define QTWITTER_H
+#ifndef STATUSLISTVIEW_H
+#define STATUSLISTVIEW_H
 
-#include "mainwindow.h"
-#include <twitterapi/twitterapi_global.h>
-#include "settings.h"
+#include <QListView>
+#include <QKeyEvent>
 
-class Core;
-class TwitPicView;
-class Settings;
-
-class Qtwitter : public MainWindow
+class StatusListView : public QListView
 {
   Q_OBJECT
+
 public:
-  Qtwitter( QWidget *parent = 0 );
+  StatusListView( QWidget *parent = 0 ) : QListView( parent ) {}
 
-public slots:
-  void setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login );
-  void setPublicTimelineModel( TwitterAPI::SocialNetwork network );
+  void keyPressEvent( QKeyEvent *e ) {
+    switch ( e->key() ) {
+    case Qt::Key_Up:
+      emit moveFocus( true );
+      break;
+    case Qt::Key_Down:
+      emit moveFocus( false );
+    default:;
+    }
+    QListView::keyPressEvent( e );
+  }
 
-private:
-  Core *core;
-  TwitPicView *twitpic;
-  Settings *settingsDialog;
+signals:
+  void moveFocus( bool up );
 
 };
 
-#endif // QTWITTER_H
+#endif // STATUSLISTVIEW_H
+
+/*! \class StatusListView
+    \brief A customized QListView class.
+
+    This widget class provides a signal notification when scrolling items using
+    keboard's arrow keys. It allows a TweetModel class instance to catch the list's
+    key press event and change appropriate Tweets' state accordingly.
+*/
+
+/*! \fn StatusListView::StatusListView( QWidget *parent = 0 )
+    Creates a new list view with a given \a parent.
+*/
+
+/*! \fn void StatusListView::keyPressEvent( QKeyEvent *e )
+    This event handler emits moveFocus() when an up or down arrow key was pressed.
+    \param e A QKeyEvent event's representation.
+    \sa moveFocus()
+*/
+
+/*! \fn void StatusListView::moveFocus( bool up )
+    Emitted when an up or down arrow key was pressed.
+    \param up True when up arrow key was pressed, false when it was down arrow key.
+    \sa keyPressEvent()
+*/

@@ -26,8 +26,46 @@
 #include "tweet.h"
 #include "ui_tweet.h"
 #include "settings.h"
+#include "statuslist.h"
 
+int Tweet::scrollBarWidth = 0;
+int Tweet::currentWidth = 0;
 ThemeData Tweet::currentTheme = ThemeData();
+TwitterAPI::SocialNetwork Tweet::currentNetwork = TwitterAPI::SOCIALNETWORK_TWITTER;
+QString Tweet::currentLogin = QString();
+
+Tweet::Tweet( TweetModel *parentModel, QWidget *parent ) :
+  QWidget(parent),
+  replyAction(0),
+  gotohomepageAction(0),
+  gototwitterpageAction(0),
+  deleteAction(0),
+  tweetState( TweetModel::STATE_DISABLED ),
+  tweetData(0),
+  tweetListModel( parentModel ),
+  m_ui(new Ui::Tweet)
+{
+  m_ui->setupUi( this );
+
+  QFont timeStampFont = m_ui->timeStamp->font();
+  timeStampFont.setPointSize( timeStampFont.pointSize() - 1 );
+  m_ui->timeStamp->setFont( timeStampFont );
+
+  connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
+  connect( this, SIGNAL(selectMe(Tweet*)), tweetListModel, SLOT(selectTweet(Tweet*)) );
+  connect( m_ui->replyButton, SIGNAL(clicked()), this, SLOT(slotReply()));
+
+  applyTheme();
+  m_ui->userName->setText( "" );
+  m_ui->userStatus->setHtml( "" );
+  m_ui->timeStamp->setText( "" );
+
+  resize( currentWidth, height() );
+  adjustSize();
+  setFocusProxy( m_ui->userStatus );
+  createMenu();
+  m_ui->userStatus->setMenu( menu );
+}
 
 Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image, TweetModel *parentModel, QWidget *parent ) :
   QWidget(parent),
@@ -35,7 +73,7 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image,
   gotohomepageAction(0),
   gototwitterpageAction(0),
   deleteAction(0),
-  tweetState( state ),
+  tweetState( *state ),
   tweetData( entry ),
   tweetListModel( parentModel ),
   m_ui(new Ui::Tweet)
@@ -48,6 +86,7 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image,
 
   connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
   connect( this, SIGNAL(selectMe(Tweet*)), tweetListModel, SLOT(selectTweet(Tweet*)) );
+  connect( m_ui->replyButton, SIGNAL(clicked()), this, SLOT(slotReply()));
 
   applyTheme();
   m_ui->userName->setText( tweetData->name );
@@ -94,51 +133,32 @@ void Tweet::createMenu()
   menu = new QMenu( this );
   signalMapper = new QSignalMapper( this );
 
-  replyAction = new QAction( tr("Reply to %1" ).arg( tweetData->login ), this);
+  replyAction = new QAction( this );
   replyAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ) );
   menu->addAction( replyAction );
-  // TODO: enable replying when at least one account is configured
-  if ( tweetData->type != Entry::Status || tweetListModel->getLogin() == TwitterAPI::PUBLIC_TIMELINE ) {
-    replyAction->setEnabled( false );
-  } else {
-    connect( replyAction, SIGNAL(triggered()), this, SLOT(slotReply()) );
-    connect( this, SIGNAL(reply(QString,int)), tweetListModel, SIGNAL(reply(QString,int)) );
-  }
+  connect( replyAction, SIGNAL(triggered()), this, SLOT(slotReply()) );
+  connect( this, SIGNAL(reply(QString,int)), tweetListModel, SIGNAL(reply(QString,int)) );
+
 
   retweetAction = new QAction( tr( "Retweet" ), this );
   retweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ) );
   menu->addAction( retweetAction );
-  // TODO: enable retweeting when at least one account is configured
-  if ( tweetData->type != Entry::Status || tweetListModel->getLogin() == TwitterAPI::PUBLIC_TIMELINE ) {
-    retweetAction->setEnabled( false );
-  } else {
-    connect( retweetAction, SIGNAL(triggered()), this, SLOT(slotRetweet()) );
-    connect( this, SIGNAL(retweet(QString)), tweetListModel, SIGNAL(retweet(QString)) );
-  }
+  connect( retweetAction, SIGNAL(triggered()), this, SLOT(slotRetweet()) );
+  connect( this, SIGNAL(retweet(QString)), tweetListModel, SIGNAL(retweet(QString)) );
 
   menu->addSeparator();
 
   copylinkAction = new QAction( tr( "Copy link to this tweet" ), this );
   copylinkAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ) );
   menu->addAction( copylinkAction );
-  if ( tweetData->type != Entry::Status ) {
-    copylinkAction->setEnabled( false );
-  } else {
-    connect( copylinkAction, SIGNAL(triggered()), this, SLOT(slotCopyLink()) );
-  }
+  connect( copylinkAction, SIGNAL(triggered()), this, SLOT(slotCopyLink()) );
 
   deleteAction = new QAction( tr( "Delete tweet" ), this );
   deleteAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ) );
   menu->addAction( deleteAction );
-  if ( !tweetData->isOwn ) {
-    deleteAction->setEnabled( false );
-  } else {
-    signalMapper->setMapping( deleteAction, tweetData->id );
-    signalMapper->setMapping( m_ui->menuButton, tweetData->id );
-    connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-    connect( m_ui->menuButton, SIGNAL(clicked()), signalMapper, SLOT(map()) );
-    connect( signalMapper, SIGNAL(mapped(int)), tweetListModel, SLOT(sendDeleteRequest(int)) );
-  }
+  connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+  connect( m_ui->menuButton, SIGNAL(clicked()), signalMapper, SLOT(map()) );
+  connect( signalMapper, SIGNAL(mapped(int)), tweetListModel, SLOT(sendDeleteRequest(int)) );
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
   markallasreadAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ) );
@@ -150,24 +170,69 @@ void Tweet::createMenu()
   gototwitterpageAction = new QAction( this );
   gototwitterpageAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ) );
   menu->addAction( gototwitterpageAction );
-  if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
-    signalMapper->setMapping( gototwitterpageAction, "http://identi.ca/" + tweetData->login );
-  } else {
-    gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
-    signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + tweetData->login );
-  }
   connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   connect( signalMapper, SIGNAL(mapped(QString)), tweetListModel, SLOT(emitOpenBrowser(QString)) );
 
   gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
   gotohomepageAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ) );
   menu->addAction( gotohomepageAction );
+  connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+}
+
+void Tweet::setupMenu()
+{
+  if ( !menu || !signalMapper )
+    return;
+
+  replyAction->setText( tr("Reply to %1" ).arg( tweetData->login ) );
+  // TODO: enable replying when at least one account is configured
+  if ( tweetData->type != Entry::Status || currentLogin == TwitterAPI::PUBLIC_TIMELINE ) {
+    replyAction->setEnabled( false );
+  } else {
+    replyAction->setEnabled( true );
+  }
+
+  // TODO: enable retweeting when at least one account is configured
+  if ( tweetData->type != Entry::Status || currentLogin == TwitterAPI::PUBLIC_TIMELINE ) {
+    retweetAction->setEnabled( false );
+  } else {
+    retweetAction->setEnabled( true );
+  }
+
+  menu->addSeparator();
+
+  if ( tweetData->type != Entry::Status ) {
+    copylinkAction->setEnabled( false );
+  } else {
+    copylinkAction->setEnabled( true );
+  }
+
+  signalMapper->removeMappings( deleteAction );
+  if ( !tweetData->isOwn ) {
+    deleteAction->setEnabled( false );
+  } else {
+    deleteAction->setEnabled( true );
+    signalMapper->setMapping( deleteAction, tweetData->id );
+    signalMapper->setMapping( m_ui->menuButton, tweetData->id );
+  }
+
+  menu->addSeparator();
+
+  signalMapper->removeMappings( gototwitterpageAction );
+  if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+    gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
+    signalMapper->setMapping( gototwitterpageAction, "http://identi.ca/" + tweetData->login );
+  } else {
+    gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
+    signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + tweetData->login );
+  }
+
+  signalMapper->removeMappings( gotohomepageAction );
   if ( !tweetData->homepage.compare("") ) {
     gotohomepageAction->setEnabled( false );
   } else {
+    gotohomepageAction->setEnabled( true );
     signalMapper->setMapping( gotohomepageAction, tweetData->homepage );
-    connect( gotohomepageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
   }
 }
 
@@ -179,6 +244,7 @@ void Tweet::resize( const QSize &s )
 
 void Tweet::resize( int w, int h )
 {
+  w -= Tweet::scrollBarWidth;
   QWidget::resize( w, h );
   m_ui->frame->resize( w, h );
   m_ui->userStatus->resize( size().width() - m_ui->userStatus->geometry().x() - 18, m_ui->userStatus->size().height() );
@@ -190,65 +256,51 @@ const Entry& Tweet::data() const
   return *tweetData;
 }
 
-void Tweet::setTweetData( Entry *entry, TweetModel::TweetState *state )
+void Tweet::initialize()
 {
-  tweetData = entry;
-  tweetState = state;
+  tweetData = 0;
+
+  m_ui->userName->clear();
+  m_ui->userStatus->clear();
+  m_ui->userImage->clear();
+  m_ui->timeStamp->clear();
+
+  setState( TweetModel::STATE_DISABLED );
+  adjustSize();
 }
 
-void Tweet::setIcon( const QPixmap &image )
+void Tweet::setTweetData( const Status &status )
 {
-  m_ui->userImage->setPixmap( image );
+  tweetData = &status.entry;
+
+  m_ui->userName->setText( tweetData->name );
+  m_ui->userStatus->setText( tweetData->text );
+  m_ui->userImage->setPixmap( status.image );
+
+  if( tweetData->localTime.date() >= QDateTime::currentDateTime().date()) //today
+    m_ui->timeStamp->setText( tweetData->localTime.time().toString(Qt::SystemLocaleShortDate) );
+  else  //yesterday or earlier
+    m_ui->timeStamp->setText( tweetData->localTime.toString(Qt::SystemLocaleShortDate) );
+
+  setState( status.state );
+  setupMenu();
+  adjustSize();
 }
 
-void Tweet::applyTheme()
+void Tweet::setImage( const QPixmap &pixmap )
 {
-  switch ( *tweetState ) {
-  case TweetModel::STATE_UNREAD:
-    setStyleSheet( currentTheme.unread.styleSheet );
-    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.unread.linkColor );
-    break;
-  case TweetModel::STATE_ACTIVE:
-    setStyleSheet( currentTheme.active.styleSheet );
-    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.active.linkColor );
-    break;
-  case TweetModel::STATE_READ:
-    setStyleSheet( currentTheme.read.styleSheet );
-    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.read.linkColor );
-  }
-}
-
-void Tweet::retranslateUi()
-{
-  replyAction->setText( tr( "Reply to %1" ).arg( tweetData->login ) );
-  retweetAction->setText( tr( "Retweet" ) );
-  copylinkAction->setText( tr( "Copy link to this tweet" ) );
-  deleteAction->setText( tr( "Delete tweet" ) );
-  markallasreadAction->setText( tr( "Mark all as read" ) );
-  gotohomepageAction->setText( tr( "Go to User's homepage" ) );
-  if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
-  } else {
-    gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
-  }
-}
-
-bool Tweet::isRead() const
-{
-  if ( *tweetState == TweetModel::STATE_UNREAD )
-    return false;
-  return true;
-}
-
-TweetModel::TweetState Tweet::getState() const
-{
-  return *tweetState;
+  m_ui->userImage->setPixmap( pixmap );
 }
 
 void Tweet::setState( TweetModel::TweetState state )
 {
-  *tweetState = state;
+  tweetState = state;
   applyTheme();
+}
+
+TweetModel::TweetState Tweet::getState() const
+{
+  return tweetState;
 }
 
 ThemeData Tweet::getTheme()
@@ -261,6 +313,66 @@ void Tweet::setTheme( const ThemeData &theme )
   currentTheme = theme;
 }
 
+void Tweet::applyTheme()
+{
+  switch ( tweetState ) {
+  case TweetModel::STATE_UNREAD:
+    setStyleSheet( currentTheme.unread.styleSheet );
+    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.unread.linkColor );
+    break;
+  case TweetModel::STATE_ACTIVE:
+    setStyleSheet( currentTheme.active.styleSheet );
+    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.active.linkColor );
+    break;
+  case TweetModel::STATE_READ:
+    setStyleSheet( currentTheme.read.styleSheet );
+    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.read.linkColor );
+    break;
+  case TweetModel::STATE_DISABLED:
+    setStyleSheet( currentTheme.disabled.styleSheet );
+    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.disabled.linkColor );
+  }
+}
+
+void Tweet::retranslateUi()
+{
+  replyAction->setText( tr( "Reply to %1" ).arg( tweetData->login ) );
+  retweetAction->setText( tr( "Retweet" ) );
+  copylinkAction->setText( tr( "Copy link to this tweet" ) );
+  deleteAction->setText( tr( "Delete tweet" ) );
+  markallasreadAction->setText( tr( "Mark all as read" ) );
+  gotohomepageAction->setText( tr( "Go to User's homepage" ) );
+  if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+    gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
+  } else {
+    gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
+  }
+}
+
+int Tweet::getId() const
+{
+  return tweetData->id;
+}
+
+// static
+void Tweet::setScrollBarWidth( int width )
+{
+  scrollBarWidth = width;
+}
+void Tweet::setCurrentWidth( int width )
+{
+  currentWidth = width;
+}
+void Tweet::setCurrentLogin( const QString &login )
+{
+  currentLogin = login;
+}
+void Tweet::setCurrentNetwork( TwitterAPI::SocialNetwork network )
+{
+  currentNetwork = network;
+}
+// static_end
+
 // TODO: magic numbers!!!!!!!!
 void Tweet::adjustSize()
 {
@@ -268,18 +380,13 @@ void Tweet::adjustSize()
   m_ui->userStatus->document()->setTextWidth( m_ui->userStatus->width() );
   m_ui->userStatus->resize( m_ui->userStatus->size().width(), (int)m_ui->userStatus->document()->size().height() );
   m_ui->timeStamp->move( m_ui->timeStamp->x(), m_ui->userStatus->geometry().y() + m_ui->userStatus->height() );
-  m_ui->frame->resize( m_ui->frame->width(), ( (91 > m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + m_ui->timeStamp->height() + 11) ) ? 91 : m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + m_ui->timeStamp->height() + 11 );
+  m_ui->frame->resize( m_ui->frame->width(), qMax(91, m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + m_ui->timeStamp->height() + 11) );
   resize( m_ui->frame->size() );
-}
-
-void Tweet::menuRequested()
-{
-  emit focusRequest();
-  menu->exec( QCursor::pos() );
 }
 
 void Tweet::slotReply()
 {
+  qDebug() << "Tweet::slotReply()";
   emit reply( tweetData->login, tweetData->id );
 }
 
@@ -290,9 +397,9 @@ void Tweet::slotRetweet()
 
 void Tweet::slotCopyLink()
 {
-  if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_TWITTER )
+  if ( currentNetwork == TwitterAPI::SOCIALNETWORK_TWITTER )
     QApplication::clipboard()->setText( "http://twitter.com/" + tweetData->login + "/statuses/" + QString::number( tweetData->id ) );
-  else if ( tweetListModel->getNetwork() == TwitterAPI::SOCIALNETWORK_IDENTICA )
+  else if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
     QApplication::clipboard()->setText( "http://identi.ca/notice/" + QString::number( tweetData->id ) );
 }
 
@@ -314,21 +421,27 @@ void Tweet::changeEvent( QEvent *e )
 
 void Tweet::enterEvent( QEvent *e )
 {
-  if ( tweetData->isOwn )
-    m_ui->menuButton->setIcon( QIcon( ":/icons/cancel_48.png" ) );
+  if ( tweetData ) {
+    if ( tweetData->isOwn )
+      m_ui->menuButton->setIcon( QIcon( ":/icons/cancel_48.png" ) );
+    // TODO: enable replying to public timeline statuses
+    else if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE )
+      m_ui->replyButton->setIcon( QIcon( ":/icons/reply.png" ) );
+  }
   QWidget::enterEvent( e );
 }
 
 void Tweet::leaveEvent( QEvent *e )
 {
   m_ui->menuButton->setIcon( QIcon() );
+  m_ui->replyButton->setIcon( QIcon() );
   QWidget::leaveEvent( e );
 }
 
 void Tweet::mousePressEvent( QMouseEvent *e )
 {
   emit focusRequest();
-  if ( e->button() == Qt::RightButton ) {
+  if ( e->button() == Qt::RightButton && tweetData ) {
     menu->exec( QCursor::pos() );
   }
 }
