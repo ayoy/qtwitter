@@ -53,6 +53,7 @@ Tweet::Tweet( TweetModel *parentModel, QWidget *parent ) :
 
   connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
   connect( this, SIGNAL(selectMe(Tweet*)), tweetListModel, SLOT(selectTweet(Tweet*)) );
+  connect( m_ui->replyButton, SIGNAL(clicked()), this, SLOT(slotReply()));
 
   applyTheme();
   m_ui->userName->setText( "" );
@@ -367,6 +368,7 @@ void Tweet::adjustSize()
 
 void Tweet::slotReply()
 {
+  qDebug() << "Tweet::slotReply()";
   emit reply( tweetData->login, tweetData->id );
 }
 
@@ -395,10 +397,13 @@ void Tweet::changeEvent( QEvent *e )
 
 void Tweet::enterEvent( QEvent *e )
 {
-  if ( tweetData && tweetData->isOwn )
-    m_ui->menuButton->setIcon( QIcon( ":/icons/cancel_48.png" ) );
-  else
-    m_ui->replyButton->setIcon( QIcon( ":/icons/reply.png" ) );
+  if ( tweetData ) {
+    if ( tweetData->isOwn )
+      m_ui->menuButton->setIcon( QIcon( ":/icons/cancel_48.png" ) );
+    // TODO: enable replying to public timeline statuses
+    else if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE )
+      m_ui->replyButton->setIcon( QIcon( ":/icons/reply.png" ) );
+  }
   QWidget::enterEvent( e );
 }
 

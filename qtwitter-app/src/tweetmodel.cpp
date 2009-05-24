@@ -80,7 +80,6 @@ void TweetModel::updateDisplay( int ind )
   Q_ASSERT(tweet);
   if ( statusList )
     tweet->setTweetData( statusList->data( ind ) );
-  qDebug() << (int)item(ind) << ind;
   item( ind )->setSizeHint( tweet->size() );
 }
 
