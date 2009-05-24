@@ -34,7 +34,10 @@ Entry::Entry( Entry::Type entryType ) :
   homepage( QString() ),
   hasHomepage( false ),
   timestamp( QDateTime() ),
-  localTime( QDateTime() )
+  localTime( QDateTime() ),
+  hasInReplyToStatusId( false ),
+  inReplyToStatusId( -1 ),
+  inReplyToScreenName( QString() )
 {}
 
 void Entry::initialize()
@@ -50,12 +53,19 @@ void Entry::initialize()
   originalText = QString();
   timestamp = QDateTime();
   localTime = QDateTime();
+  hasInReplyToStatusId = false;
+  inReplyToStatusId = -1;
+  inReplyToScreenName = QString();
 }
 
 bool Entry::checkContents()
 {
   if ( !hasHomepage ) {
     homepage = QString();
+  }
+  if ( !hasInReplyToStatusId ) {
+    inReplyToStatusId = -1;
+    inReplyToScreenName = QString();
   }
   if ( ( id != -1 ) &&
        !name.isNull() &&
@@ -64,7 +74,9 @@ bool Entry::checkContents()
        !text.isNull() &&
        ( hasHomepage ? !homepage.isNull() : true ) &&
        !timestamp.isNull() &&
-       !localTime.isNull() ) {
+       !localTime.isNull()  &&
+       ( hasInReplyToStatusId ? inReplyToStatusId != -1 : true ) &&
+       ( hasInReplyToStatusId ? !inReplyToScreenName.isNull() : true ) ) {
     return true;
   }
   return false;
@@ -145,11 +157,11 @@ bool Entry::operator== (const Entry &other )
 */
 
 /*! \var QString Entry::name
-    Stores the status owner's screen name.
+    Stores the status owner's real name.
 */
 
 /*! \var QString Entry::login
-    Stores the status owner's login.
+    Stores the status owner's login/screen name.
 */
 
 /*! \var QString Entry::image

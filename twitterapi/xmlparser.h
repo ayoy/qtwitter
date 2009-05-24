@@ -73,6 +73,8 @@ protected:
   static const QString TAG_USER_IMAGE;
   static const QString TAG_USER_HOMEPAGE;
   static const QString TAG_USER_TIMESTAMP;
+  static const QString TAG_INREPLYTO_STATUS_ID;
+  static const QString TAG_INREPLYTO_SCREEN_NAME;
 
 private:
 //  static void populateTagsSet();

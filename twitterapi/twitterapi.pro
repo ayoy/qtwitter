@@ -32,11 +32,13 @@ else:win32 {
 }
 SOURCES += xmlparser.cpp \
     twitterapi.cpp \
-    entry.cpp
+    entry.cpp \
+    domparser.cpp
 HEADERS += twitterapi_global.h \
     xmlparser.h \
     twitterapi.h \
-    entry.h
+    entry.h \
+    domparser.h
 MOC_DIR = tmp
 OBJECTS_DIR = tmp
 INCLUDEPATH += tmp

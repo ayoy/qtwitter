@@ -45,7 +45,8 @@ namespace TwitterAPI {
     ROLE_POST_UPDATE,
     ROLE_DELETE_UPDATE,
     ROLE_POST_DM,
-    ROLE_DELETE_DM
+    ROLE_DELETE_DM,
+    ROLE_USERINFO
   };
 
   /*!

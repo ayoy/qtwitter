@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -91,12 +92,6 @@ Tweet::Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image,
   applyTheme();
   m_ui->userName->setText( tweetData->name );
   m_ui->userStatus->setHtml( tweetData->text );
-
-  if( tweetData->localTime.date() >= QDateTime::currentDateTime().date()) //today
-    m_ui->timeStamp->setText( tweetData->localTime.time().toString(Qt::SystemLocaleShortDate) );
-  else  //yesterday or earlier
-    m_ui->timeStamp->setText( tweetData->localTime.toString(Qt::SystemLocaleShortDate) );
-
 
   m_ui->userImage->setPixmap( image );
   adjustSize();
@@ -261,10 +256,27 @@ void Tweet::setTweetData( const Status &status )
   m_ui->userStatus->setText( tweetData->text );
   m_ui->userImage->setPixmap( status.image );
 
+  //display tweet's send time
   if( tweetData->localTime.date() >= QDateTime::currentDateTime().date()) //today
     m_ui->timeStamp->setText( tweetData->localTime.time().toString(Qt::SystemLocaleShortDate) );
   else  //yesterday or earlier
     m_ui->timeStamp->setText( tweetData->localTime.toString(Qt::SystemLocaleShortDate) );
+
+  //display in_reply_to link
+  if( tweetData->hasInReplyToStatusId) {
+    QString inReplyToUrl;
+    if ( this->currentNetwork == TwitterAPI::SOCIALNETWORK_TWITTER ) {
+      inReplyToUrl = "http://twitter.com/" + tweetData->inReplyToScreenName + "/statuses/" + QString::number( tweetData->inReplyToStatusId );
+    }
+    else if ( this->currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
+      //for identica it works as is
+      inReplyToUrl = "http://identi.ca/notice/" + QString::number( tweetData->inReplyToStatusId );
+
+    m_ui->timeStamp->setText( m_ui->timeStamp->text().append( " " ).append( tr( "in reply to %1")
+                                                                            .arg( QString( "<a href=%1>%2</a>" )
+                                                                                  .arg( inReplyToUrl, tweetData->inReplyToScreenName ) ) ) );
+  }
+
 
   setState( status.state );
   setupMenu();
@@ -391,6 +403,12 @@ void Tweet::changeEvent( QEvent *e )
   switch (e->type()) {
   case QEvent::LanguageChange:
     m_ui->retranslateUi(this);
+    //timestamp label gets cleared after retranslation, so we need to set it again:
+    if( tweetData->localTime.date() >= QDateTime::currentDateTime().date()) //today
+      m_ui->timeStamp->setText( tweetData->localTime.time().toString(Qt::SystemLocaleShortDate) );
+    else  //yesterday or earlier
+      m_ui->timeStamp->setText( tweetData->localTime.toString(Qt::SystemLocaleShortDate) );
+
     break;
   default:;
   }

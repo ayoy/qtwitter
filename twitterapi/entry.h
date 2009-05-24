@@ -45,13 +45,17 @@ struct TWITTERAPI_EXPORT Entry
   int id;
   QString text;
   QString originalText;
-  QString name;
-  QString login;
+  //TODO: login should be 'name' and 'name' actually is 'screen name' in twitter api
+  QString name;   //twitter real name
+  QString login;  //twitter screen name
   QString image;
   QString homepage;
   bool hasHomepage;
   QDateTime timestamp;
   QDateTime localTime;
+  bool hasInReplyToStatusId;
+  int inReplyToStatusId;
+  QString inReplyToScreenName;
 };
 
 Q_DECLARE_METATYPE(Entry)

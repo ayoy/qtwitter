@@ -82,6 +82,7 @@ signals:
   void markAllAsRead();
   void selectMe( Tweet *tweet );
   void deleteStatus( int id );
+  void getUserInfo( int userId);
 
 protected:
   void changeEvent( QEvent *e );
