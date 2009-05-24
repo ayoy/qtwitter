@@ -229,7 +229,9 @@ void Tweet::resize( int w, int h )
   w -= Tweet::scrollBarWidth;
   QWidget::resize( w, h );
   m_ui->frame->resize( w, h );
-  m_ui->userStatus->resize( size().width() - m_ui->userStatus->geometry().x() - 18, m_ui->userStatus->size().height() );
+  m_ui->userStatus->resize( size().width() - m_ui->userStatus->geometry().x() - 12, m_ui->userStatus->size().height() );
+  m_ui->userName->resize( m_ui->userStatus->width(), m_ui->userName->height() );
+  m_ui->timeStamp->resize( m_ui->userStatus->width(), m_ui->timeStamp->height() );
   adjustSize();
 }
 

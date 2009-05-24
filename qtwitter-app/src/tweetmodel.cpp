@@ -29,7 +29,6 @@
 TweetModel::TweetModel( StatusListView *parentListView, QObject *parent ) :
     QStandardItemModel( 0, 0, parent ),
     statusList(0),
-    isVisible( false ),
     maxTweetCount( 20 ),
     currentIndex( QModelIndex() ),
     view( parentListView )
@@ -146,6 +145,18 @@ void TweetModel::setStatusList( StatusList *statusList )
   connect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
   connect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
 
+  // for cleaning up the list when switching to public timeline that could have
+  // less statuses than requested maximum
+  Tweet *tweet;
+  if ( statusList->size() < maxTweetCount ) {
+    for ( int i = statusList->size(); i < maxTweetCount; ++i ) {
+      tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
+      Q_ASSERT(tweet);
+      tweet->initialize();
+      item( i )->setSizeHint( tweet->size() );
+    }
+  }
+
   int active = statusList->active();
   if ( active == -1 ) {
     currentIndex = QModelIndex();
@@ -198,29 +209,17 @@ void TweetModel::sendDeleteRequest( int id )
   emit destroy( statusList->network(), statusList->login(), id );
 }
 
-//void TweetModel::slotDirectMessagesChanged( bool isEnabled )
-//{
-//  if ( isEnabled )
-//    return;
-//  for ( int i = 0; i < rowCount(); i++ ) {
-//    if ( statuses[i].entry.type == Entry::DirectMessage ) {
-//      if ( isVisible ) {
-//        delete view->indexWidget( item(i)->index() );
-//      } else {
-//        delete statuses[i].tweet;
-//      }
-//      removeRow(i);
-//      Q_ASSERT(statuses[i].tweet == 0 );
-//      statuses.removeAt(i);
-//      i--;
-//    }
-//  }
-//}
-
 void TweetModel::selectTweet( const QModelIndex &index )
 {
   if ( !statusList || !index.isValid() )
     return;
+
+  // workaround for scrolling public timeline (limited to 20 statuses per call )
+  // with maximum status count set to >20
+  if ( index.row() >= statusList->size() ) {
+    view->setCurrentIndex( index );
+    return;
+  }
 
   TweetModel::TweetState state;
   Tweet *tweet;
@@ -272,9 +271,11 @@ void TweetModel::selectTweet( Tweet *tweet )
 
 void TweetModel::markAllAsRead()
 {
-  if ( rowCount() > 0 ) {
+  int count = qMin( statusList->size(), rowCount() );
+
+  if ( count > 0 ) {
     Status status;
-    for ( int i = 0; i < rowCount(); i++ ) {
+    for ( int i = 0; i < count; i++ ) {
       status = statusList->data(i);
       if ( i == currentIndex.row() )
         status.state = TweetModel::STATE_ACTIVE;

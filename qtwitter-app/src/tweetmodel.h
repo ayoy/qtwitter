@@ -55,13 +55,9 @@ public:
   StatusList * getStatusList() const;
   void setMaxTweetCount( int count );
   void populate();
-//  void setVisible( bool isVisible );
-//  void display();
   void clear();
 
 public slots:
-//  void insertTweet( Entry *entry );
-//  void deleteTweet( int id );
   void updateDisplay();
   void updateDisplay( int ind );
   void updateState( int ind );
@@ -92,7 +88,6 @@ private:
   TwitterAPI::SocialNetwork network;
   QString login;
   StatusList *statusList;
-  bool isVisible;
   int maxTweetCount;
   QModelIndex currentIndex;
   StatusListView *view;

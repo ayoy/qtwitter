@@ -40,9 +40,10 @@ public:
   TwitterAPI::SocialNetwork network;
   int active;
   static int maxCount;
+  static const int publicMaxCount;
 };
 
-
+const int StatusListPrivate::publicMaxCount = 20;
 int StatusListPrivate::maxCount = 0;
 
 StatusList::StatusList( const QString &login , TwitterAPI::SocialNetwork network, QObject *parent ) :

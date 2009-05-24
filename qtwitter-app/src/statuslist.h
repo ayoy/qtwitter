@@ -37,7 +37,8 @@ struct Status {
   {
     // FIXME: pixmap comparison?
     return ( entry == other.entry
-             && state == other.state);
+             && state == other.state
+             && image.cacheKey() == other.image.cacheKey() );
   }
 };
 
