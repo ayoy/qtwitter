@@ -58,7 +58,7 @@ public:
   bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
   void clear();
 
-  QList<Account>& getAccounts();
+  QList<Account> getAccounts();
 
   // TODO: do we really need these two?
   Account& account( int index );

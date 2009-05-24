@@ -56,6 +56,7 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   view->setModel( model );
   view->setItemDelegate( new AccountsDelegate( this ) );
 
+  // TODO: WTF?
   view->setColumnWidth( 0, (int)(view->width() * 0.5 ));
   view->setColumnWidth( 1, (int)(view->width() * 0.7 ));
   view->setColumnWidth( 2, (int)(view->width() * 0.8 ));

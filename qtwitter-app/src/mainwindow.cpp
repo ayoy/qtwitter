@@ -31,7 +31,7 @@
 #include <QDesktopWidget>
 #include <QSignalMapper>
 #include <QTreeView>
-#include <twitterapi/twitterapi_global.h>
+#include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
 #include "tweet.h"
 #include "aboutdialog.h"
@@ -51,6 +51,8 @@ MainWindow::MainWindow( QWidget *parent ) :
   QWidget *centralWidget = new QWidget( this );
   ui.setupUi( centralWidget );
   setCentralWidget( centralWidget );
+
+  Tweet::setScrollBarWidth( ui.statusListView->verticalScrollBar()->width() );
 
   ui.accountsComboBox->setVisible( false );
 
@@ -199,7 +201,7 @@ void MainWindow::createButtonMenu()
   ui.moreButton->setMenu( buttonMenu );
 }
 
-StatusList* MainWindow::getListView()
+StatusListView* MainWindow::getListView()
 {
   return ui.statusListView;
 }
@@ -282,14 +284,7 @@ void MainWindow::setListViewModel( TweetModel *model )
 {
   if ( !model )
     return;
-  TweetModel *currentModel = qobject_cast<TweetModel*>( ui.statusListView->model() );
-  if ( currentModel ) {
-    if ( model == currentModel )
-      return;
-    currentModel->setVisible( false );
-  }
   ui.statusListView->setModel( model );
-  model->display();
 }
 
 void MainWindow::changeLabel()
@@ -420,6 +415,7 @@ void MainWindow::closeEvent( QCloseEvent *event )
 
 void MainWindow::resizeEvent( QResizeEvent *event )
 {
+  Tweet::setCurrentWidth( width() );
   emit resizeView( event->size().width(), event->oldSize().width() );
 }
 
@@ -594,7 +590,7 @@ void MainWindow::tweetGotohomepageAction()
     A default destructor.
 */
 
-/*! \fn StatusList* MainWindow::getListView()
+/*! \fn StatusListView* MainWindow::getListView()
     A method for external access to the list view used for displaying Tweets.
     Used for initialization of TweetModel class's instance.
     \returns A pointer to the list view instance of MainWindow.

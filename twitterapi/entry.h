@@ -38,6 +38,8 @@ struct TWITTERAPI_EXPORT Entry
   void initialize();
   bool checkContents();
 
+  bool operator== (const Entry &other );
+
   Type type;
   bool isOwn;
   int id;

@@ -43,6 +43,7 @@ Qtwitter::Qtwitter( QWidget *parent )
   connect( this, SIGNAL(switchToPublicTimelineModel(TwitterAPI::SocialNetwork)), SLOT(setPublicTimelineModel(TwitterAPI::SocialNetwork)) );
 
   core = new Core( this );
+
   connect( this, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
   connect( this, SIGNAL(post(TwitterAPI::SocialNetwork,QString,QString,int)), core, SLOT(post(TwitterAPI::SocialNetwork,QString,QString,int)) );
@@ -78,12 +79,14 @@ Qtwitter::Qtwitter( QWidget *parent )
 
 void Qtwitter::setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login )
 {
-  setListViewModel( core->getModel( network, login ) );
+  core->setModelData( network, login );
 }
 
 //  this is to avoid relying on translation files
 //  caused by a bug in tr() method
 void Qtwitter::setPublicTimelineModel( TwitterAPI::SocialNetwork network )
 {
-  setListViewModel( core->getPublicTimelineModel( network ) );
+  // TODO: probably won't work
+  // UPDATE: works! :)
+  core->setModelData( network, TwitterAPI::PUBLIC_TIMELINE );
 }

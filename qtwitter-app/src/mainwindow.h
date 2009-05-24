@@ -41,7 +41,7 @@ public:
   MainWindow( QWidget *parent = 0 );
   virtual ~MainWindow();
 
-  StatusList* getListView();
+  StatusListView* getListView();
   int getScrollBarWidth();
 
   

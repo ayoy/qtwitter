@@ -21,55 +21,80 @@
 #ifndef STATUSLIST_H
 #define STATUSLIST_H
 
-#include <QListView>
-#include <QKeyEvent>
+#include <QObject>
+#include <QList>
+#include <QPixmap>
+#include <twitterapi/twitterapi.h>
+#include "tweetmodel.h"
+#include "tweet.h"
 
-class StatusList : public QListView
+struct Status {
+  Entry entry;
+  TweetModel::TweetState state;
+  QPixmap image;
+  bool operator==( const Status &other )
+  {
+    // FIXME: pixmap comparison?
+    return ( entry == other.entry
+             && state == other.state);
+  }
+};
+
+Q_DECLARE_METATYPE(Status)
+
+class StatusListPrivate;
+
+class StatusList : public QObject
 {
   Q_OBJECT
 
-public:
-  StatusList( QWidget *parent = 0 ) : QListView( parent ) {}
+  typedef TwitterAPI::SocialNetwork SocialNetwork;
 
-  void keyPressEvent( QKeyEvent *e ) {
-    switch ( e->key() ) {
-    case Qt::Key_Up:
-      emit moveFocus( true );
-      break;
-    case Qt::Key_Down:
-      emit moveFocus( false );
-    default:;
-    }
-    QListView::keyPressEvent( e );
-  }
+  Q_PROPERTY( SocialNetwork network READ network WRITE setNetwork )
+  Q_PROPERTY( QString login READ login WRITE setLogin )
+  Q_PROPERTY( bool visible READ isVisible WRITE setVisible )
+
+public:
+  StatusList( const QString &login, TwitterAPI::SocialNetwork network, QObject *parent = 0 );
+  ~StatusList();
+
+  void addStatus( Entry *entry );
+  bool deleteStatus( int id );
+  bool remove( int from, int count );
+  static void setMaxCount( int maxCount );
+
+  void setNetwork( SocialNetwork network );
+  SocialNetwork network() const;
+
+  void setLogin( const QString &login );
+  const QString& login() const;
+
+  void setVisible( bool visible );
+  bool isVisible() const;
+
+  void setData( int index, const Status &status );
+  const Status& data( int index ) const;
+
+  void setState( int index, TweetModel::TweetState state );
+  TweetModel::TweetState state( int index ) const;
+
+  void setImage( int index, const QPixmap &pixmap );
+
+  const QList<Status>& getData() const;
+
+  int size() const;
+
+public slots:
+  void slotDirectMessagesChanged( bool isEnabled );
 
 signals:
-  void moveFocus( bool up );
+  void statusAdded( int index );
+  void dataChanged( int index );
+  void stateChanged( int index );
+  void imageChanged( int index );
 
+private:
+  StatusListPrivate * d;
 };
 
 #endif // STATUSLIST_H
-
-/*! \class StatusList
-    \brief A customized QListView class.
-
-    This widget class provides a signal notification when scrolling items using
-    keboard's arrow keys. It allows a TweetModel class instance to catch the list's
-    key press event and change appropriate Tweets' state accordingly.
-*/
-
-/*! \fn StatusList::StatusList( QWidget *parent = 0 )
-    Creates a new list view with a given \a parent.
-*/
-
-/*! \fn void StatusList::keyPressEvent( QKeyEvent *e )
-    This event handler emits moveFocus() when an up or down arrow key was pressed.
-    \param e A QKeyEvent event's representation.
-    \sa moveFocus()
-*/
-
-/*! \fn void StatusList::moveFocus( bool up )
-    Emitted when an up or down arrow key was pressed.
-    \param up True when up arrow key was pressed, false when it was down arrow key.
-    \sa keyPressEvent()
-*/
