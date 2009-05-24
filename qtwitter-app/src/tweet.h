@@ -50,6 +50,7 @@ public:
   void resize( const QSize& size );
   void resize( int w, int h );
 
+  void initialize();
   void setTweetData( const Status &status );
   void setImage( const QPixmap &pixmap );
   void setState( TweetModel::TweetState state );
@@ -63,8 +64,8 @@ public:
 
   int getId() const;
 
-  bool isRead() const;
-
+  static void setScrollBarWidth( int width );
+  static void setCurrentWidth( int width );
   static void setCurrentLogin( const QString &login );
   static void setCurrentNetwork( TwitterAPI::SocialNetwork network );
 
@@ -108,6 +109,8 @@ private:
 //  Entry::Type type;
 //  int id;
   QSignalMapper *signalMapper;
+  static int scrollBarWidth;
+  static int currentWidth;
   static ThemeData currentTheme;
   static QString currentLogin;
   static TwitterAPI::SocialNetwork currentNetwork;

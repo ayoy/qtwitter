@@ -131,11 +131,11 @@ int StatusListPrivate::addStatus( Entry *entry )
 {
   for ( QList<Status>::const_iterator i = data.begin(); i != data.end(); ++i) {
     if ( entry->id == (*i).entry.id ) {
-      qDebug() << "found existing entry of the same id";
+//      qDebug() << "found existing entry of the same id";
       return -1;
     }
   }
-  qDebug() << "adding new entry";
+//  qDebug() << "adding new entry";
 
   Status status;
   status.state = TweetModel::STATE_UNREAD;
@@ -149,7 +149,6 @@ int StatusListPrivate::addStatus( Entry *entry )
   }
   for ( QList<Status>::iterator i = data.begin(); i != data.end(); ++i ) {
     if ( status.entry.id > (*i).entry.id ) {
-      // TODO: not sure about 'before' - see doc on insert()
       data.insert( i, status );
       if ( data.size() >= maxCount && data.takeLast() == status )
         return -1;
@@ -179,6 +178,16 @@ bool StatusList::deleteStatus( int id )
     }
   }
   return false;
+}
+
+bool StatusList::remove( int from, int count )
+{
+  if ( d->data.size() < from + count )
+    return false;
+
+  for ( int i = count - 1; i >= 0; --i )
+    d->data.removeAt( from + i );
+  return true;
 }
 
 void StatusList::slotDirectMessagesChanged( bool isEnabled )

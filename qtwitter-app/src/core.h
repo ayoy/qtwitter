@@ -64,7 +64,7 @@ public:
 #endif
 
   void setModelTheme( const ThemeData &theme );
-  void setData( TwitterAPI::SocialNetwork network, const QString &login );
+  void setModelData( TwitterAPI::SocialNetwork network, const QString &login );
 
 public slots:
   void forceGet();
@@ -142,7 +142,6 @@ private:
 
   QTimer *timer;
   MainWindow *parentMainWindow;
-  int margin;
 
 #ifdef Q_WS_X11
   QString browserPath;

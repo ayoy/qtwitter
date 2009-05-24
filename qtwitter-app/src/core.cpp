@@ -65,13 +65,12 @@ Core::Core( MainWindow *parent ) :
   connect( twitterapi, SIGNAL(requestDone(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(slotRequestDone(TwitterAPI::SocialNetwork,QString,int)) );
 
   listViewForModels = parent->getListView();
-  margin = parent->getScrollBarWidth();
 
   urlShortener = new UrlShortener( this );
   connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
   connect( urlShortener, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
 
-  tweetModel = new TweetModel( margin, listViewForModels, this );
+  tweetModel = new TweetModel( listViewForModels, this );
   parent->setListViewModel( tweetModel );
 //  tweetModel->populate();
 
@@ -163,10 +162,12 @@ void Core::setModelTheme( const ThemeData &theme )
   tweetModel->setTheme( theme );
 }
 
-void Core::setData( TwitterAPI::SocialNetwork network, const QString &login )
+void Core::setModelData( TwitterAPI::SocialNetwork network, const QString &login )
 {
   //TODO: debug, warning, etc.
-  if ( login == TwitterAPI::PUBLIC_TIMELINE )
+  if ( login.isNull() )
+    tweetModel->clear();
+  else if ( login == TwitterAPI::PUBLIC_TIMELINE )
     tweetModel->setStatusList( statusLists[ Account::publicTimeline( network ) ] );
   else
     tweetModel->setStatusList( statusLists[ *accountsModel->account( network, login ) ] );

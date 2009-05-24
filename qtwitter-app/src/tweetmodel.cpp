@@ -26,12 +26,11 @@
 #include "tweet.h"
 #include "settings.h"
 
-TweetModel::TweetModel( int margin, StatusListView *parentListView, QObject *parent ) :
+TweetModel::TweetModel( StatusListView *parentListView, QObject *parent ) :
     QStandardItemModel( 0, 0, parent ),
     isVisible( false ),
     maxTweetCount( 20 ),
     statusList(0),
-    scrollBarMargin( margin ),
     currentIndex( QModelIndex() ),
     view( parentListView )
 {
@@ -56,10 +55,19 @@ void TweetModel::populate()
 
 void TweetModel::updateDisplay()
 {
-  for ( int i = 0; i < statusList->size(); ++i ) {
-    updateDisplay( i );
+  // statusList is meant to be the same size as model ( rowCount() ),
+  // but at the beginning we do have the statusList, but it's empty,
+  // so rowCount() would fail
+  if ( statusList ) {
+    for ( int i = 0; i < statusList->size(); ++i ) {
+      updateDisplay( i );
+    }
+  } else {
+    for ( int i = 0; i < rowCount(); ++i ) {
+      updateDisplay( i );
+    }
   }
-  // FIXME: Sorry, I know it sucks... :|
+  // FIXME: Sorry, I know that it sucks... :|
   view->setUpdatesEnabled( false );
   view->resize( view->width(), view->height() - 1 );
   view->resize( view->width(), view->height() + 1 );
@@ -70,7 +78,8 @@ void TweetModel::updateDisplay( int ind )
 {
   Tweet *tweet = static_cast<Tweet*>( view->indexWidget( index( ind, 0 ) ) );
   Q_ASSERT(tweet);
-  tweet->setTweetData( statusList->data( ind ) );
+  if ( statusList )
+    tweet->setTweetData( statusList->data( ind ) );
   qDebug() << (int)item(ind) << ind;
   item( ind )->setSizeHint( tweet->size() );
 }
@@ -150,158 +159,28 @@ StatusList * TweetModel::getStatusList() const
 
 void TweetModel::setMaxTweetCount( int count )
 {
+  if ( statusList && count < maxTweetCount )
+    statusList->remove( count, maxTweetCount - count );
   maxTweetCount = count;
   populate();
-  stripRedundantTweets();
 }
 
-//void TweetModel::setVisible( bool isVisible )
-//{
-//  if ( this->isVisible == isVisible )
-//    return;
-//
-//  this->isVisible = isVisible;
-//  if ( this->isVisible ) {
-//    connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(selectTweet(QModelIndex)) );
-//    connect( view, SIGNAL(moveFocus(bool)), this, SLOT(moveFocus(bool)) );
-//  } else {
-//    disconnect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(selectTweet(QModelIndex)) );
-//    disconnect( view, SIGNAL(moveFocus(bool)), this, SLOT(moveFocus(bool)) );
-//    for (int i = 0; i < rowCount(); i++ ) {
-//      Q_ASSERT( statuses[i].tweet == view->indexWidget( item(i)->index() ) );
-//      delete view->indexWidget( item(i)->index() );
-//      Q_ASSERT( statuses[i].tweet == 0 );
-//    }
-//  }
-//}
+void TweetModel::clear()
+{
+  if ( !statusList )
+    return;
 
-//void TweetModel::display()
-//{
-//  if ( isVisible )
-//    return;
-//
-//  view->setUpdatesEnabled( false );
-//  setVisible( true );
-//  Status *status;
-//  for (int i = 0; i < rowCount(); i++ ) {
-//    status = &statuses[i];
-//    if ( status->tweet ) {
-//      delete status->tweet;
-//    }
-//    Q_ASSERT( status->tweet == 0 );
-//    if ( status->entry.type == Entry::DirectMessage )
-//      status->tweet = new Tweet( &status->entry, &status->state, QPixmap( ":/icons/mail_48.png" ), this );
-//    else
-//      status->tweet = new Tweet( &status->entry, &status->state, status->image, this );
-//    status->tweet->setTweetData( &status->entry, &status->state );
-//    status->tweet->applyTheme();
-//    status->tweet->resize( view->width() - scrollBarMargin, status->tweet->height() );
-//    item(i)->setSizeHint( status->tweet->size() );
-//    if ( i == rowCount() - 1 )
-//      resizeData( view->width(), view->width() - 1 );
-//  }
-//  for (int i = 0; i < rowCount(); i++ ) {
-//    view->setIndexWidget( item(i)->index(), statuses[i].tweet );
-//    Q_ASSERT( statuses[i].tweet == view->indexWidget( item(i)->index() ) );
-//    QApplication::processEvents( QEventLoop::ExcludeUserInputEvents );
-//  }
-//  if ( currentIndex.isValid() ) {
-//    statuses[ currentIndex.row() ].state = TweetModel::STATE_ACTIVE;
-//    statuses[ currentIndex.row() ].tweet->applyTheme();
-//    view->scrollTo( currentIndex );
-//  }
-//  view->setUpdatesEnabled( true );
-//}
+  statusList = 0;
 
-//void TweetModel::clear()
-//{
-//  int rc = rowCount();
-//  if ( rc == 0 )
-//    return;
-//
-//  if ( isVisible )
-//    for ( int i = rc - 1; i >= 0; i-- ) {
-//        delete view->indexWidget( item(i)->index() );
-//    }
-//  QStandardItemModel::clear();
-//  statuses.clear();
-//}
-
-//void TweetModel::insertTweet( Entry *entry )
-//{
-//  for ( int i = 0; i < rowCount(); ++i ) {
-//    if ( entry->id == statuses[i].entry.id ) {
-//      qDebug() << "found existing entry of the same id";
-//      return;
-//    }
-//  }
-//
-//  Status status;
-//  status.state = TweetModel::STATE_UNREAD;
-//  status.entry = *entry;
-//  if ( status.entry.type == Entry::DirectMessage )
-//    status.tweet = new Tweet( &status.entry, &status.state, QPixmap( ":/icons/mail_48.png" ), this );
-//  else
-//    status.tweet = new Tweet( &status.entry, &status.state, QPixmap(), this );
-//  status.tweet->setTweetData( &status.entry, &status.state );
-//
-//  QStandardItem *newItem = new QStandardItem;
-//  if ( isVisible ) {
-//    status.tweet->resize( view->width() - scrollBarMargin, status.tweet->size().height() );
-//    newItem->setSizeHint( status.tweet->size() );
-//  }
-//  if ( rowCount() == 0 ) {
-//    QStandardItemModel::appendRow( newItem );
-//    statuses.append( status );
-//    statuses.last().tweet->setTweetData( &statuses.last().entry, &statuses.last().state );
-//    if ( isVisible )
-//      view->setIndexWidget( newItem->index(), status.tweet );
-//    return;
-//  }
-//  for ( int i = 0; i < rowCount(); i++ ) {
-//    // switched from comparing timestamps as it didn't work for Identi.ca sometimes
-//    if ( status.entry.id > statuses[i].entry.id ) {
-//      QStandardItemModel::insertRow( i, newItem );
-//      statuses.insert( i, status );
-//      statuses[i].tweet->setTweetData( &statuses[i].entry, &statuses[i].state );
-//      if ( isVisible )
-//        view->setIndexWidget( newItem->index(), status.tweet );
-//      if ( currentIndex.isValid() && currentIndex.row() >= i && currentIndex.row() < (maxTweetCount - 1) )
-//        selectTweet( currentIndex.sibling( currentIndex.row() + 1, 0 ) );
-//      stripRedundantTweets();
-//      return;
-//    }
-//  }
-//  if ( stripRedundantTweets() ) {
-//    delete status.tweet;
-//    delete newItem;
-//    return;
-//  }
-//  QStandardItemModel::appendRow( newItem );
-//  statuses.append( status );
-//  statuses.last().tweet->setTweetData( &statuses.last().entry, &statuses.last().state );
-//  if ( isVisible )
-//    view->setIndexWidget( newItem->index(), status.tweet );
-//}
-//
-//void TweetModel::deleteTweet( int id )
-//{
-//  for ( int i = 0; i < rowCount(); i++ ) {
-//    if ( id == statuses[i].entry.id  ) {
-//      if ( isVisible )
-//        delete view->indexWidget( item(i)->index() );
-//      removeRow(i);
-//      Q_ASSERT(statuses[i].tweet == 0 );
-//      statuses.removeAt(i);
-//      if ( currentIndex.row() > statuses.size() - 1 ) {
-//        currentIndex = index( statuses.size() - 1, 0 );
-//        selectTweet( currentIndex );
-////        selectTweet( currentIndex.sibling( statuses.size() - 1, 0 ) );
-//      }
-//      return;
-//    }
-//  }
-//}
+  Tweet *tweet;
+  for ( int i = 0; i < rowCount(); ++i )
+  {
+    tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
+    Q_ASSERT(tweet);
+    tweet->initialize();
+  }
+  updateDisplay();
+}
 
 void TweetModel::sendDeleteRequest( int id )
 {
@@ -330,7 +209,7 @@ void TweetModel::sendDeleteRequest( int id )
 
 void TweetModel::selectTweet( const QModelIndex &index )
 {
-  if ( !index.isValid() )
+  if ( !statusList || !index.isValid() )
     return;
 
   TweetModel::TweetState state;
@@ -361,14 +240,17 @@ void TweetModel::selectTweet( const QModelIndex &index )
 
 void TweetModel::selectTweet( Tweet *tweet )
 {
+  if ( !statusList || tweet->getState() == TweetModel::STATE_DISABLED )
+    return;
+
   Status status;
-  if ( currentIndex.isValid() ) {
+  if ( currentIndex.isValid() && currentIndex.row() < statusList->size() ) {
     status = statusList->data( currentIndex.row() );
     if ( status.state != TweetModel::STATE_UNREAD ) {
       statusList->setState( currentIndex.row(), TweetModel::STATE_READ );
     }
   }
-  for ( int i = 0; i < rowCount(); i++ ) {
+  for ( int i = 0; i < statusList->size(); i++ ) {
     status = statusList->data( i );
     if ( status.entry.id == tweet->getId() ) {
       currentIndex = item(i)->index();
@@ -421,7 +303,7 @@ void TweetModel::resizeData( int width, int oldWidth )
   Tweet *tweet;
   for ( int i = 0; i < rowCount(); i++ ) {
     tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );
-    tweet->resize( width - scrollBarMargin, tweet->size().height() );
+    tweet->resize( width, tweet->size().height() );
     item(i)->setSizeHint( tweet->size() );
   }
 }
@@ -458,28 +340,6 @@ void TweetModel::setImageForUrl( const QString& url, QPixmap *image )
       tweet->setTweetData( status );
     }
   }
-}
-
-bool TweetModel::stripRedundantTweets()
-{
-//  if ( rowCount() >= maxTweetCount ) {
-//    if ( currentIndex.row() > maxTweetCount - 1 ) {
-//      selectTweet( currentIndex.sibling( maxTweetCount - 1, 0 ) );
-//    }
-//    int currentRowCount = rowCount();
-//    for (int i = currentRowCount - 1; i >= maxTweetCount; i-- ) {
-//      if ( isVisible ) {
-//        delete view->indexWidget( item(i)->index() );
-//      } else {
-//        delete statuses[i].tweet;
-//      }
-//      Q_ASSERT(statuses[i].tweet == 0 );
-//      statuses.removeAt(i);
-//      QStandardItemModel::removeRow(i);
-//    }
-//    return true;
-//  }
-//  return false;
 }
 
 void TweetModel::emitOpenBrowser( QString address )

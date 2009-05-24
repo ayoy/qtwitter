@@ -60,6 +60,7 @@ public:
 
   void addStatus( Entry *entry );
   bool deleteStatus( int id );
+  bool remove( int from, int count );
   static void setMaxCount( int maxCount );
 
   void setNetwork( SocialNetwork network );

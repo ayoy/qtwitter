@@ -40,12 +40,13 @@ class TweetModel : public QStandardItemModel
 public:
 
   enum TweetState {
+    STATE_DISABLED,
     STATE_UNREAD,
     STATE_READ,
     STATE_ACTIVE
   };
 
-  TweetModel( int margin, StatusListView *parentListView, QObject *parent = 0 );
+  TweetModel( StatusListView *parentListView, QObject *parent = 0 );
 
   Tweet* currentTweet();
   void deselectCurrentIndex();
@@ -56,7 +57,7 @@ public:
   void populate();
 //  void setVisible( bool isVisible );
 //  void display();
-//  void clear();
+  void clear();
 
 public slots:
 //  void insertTweet( Entry *entry );
@@ -88,13 +89,11 @@ private slots:
   void emitOpenBrowser( QString address );
 
 private:
-  bool stripRedundantTweets();
   TwitterAPI::SocialNetwork network;
   QString login;
   StatusList *statusList;
   bool isVisible;
   int maxTweetCount;
-  int scrollBarMargin;
   QModelIndex currentIndex;
   StatusListView *view;
 };

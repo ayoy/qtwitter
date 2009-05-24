@@ -199,7 +199,7 @@ void AccountsModel::clear()
     removeRows( 0, accounts.size() );
 }
 
-QList<Account>& AccountsModel::getAccounts()
+QList<Account> AccountsModel::getAccounts()
 {
   return accounts;
 }

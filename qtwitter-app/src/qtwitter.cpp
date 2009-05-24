@@ -79,7 +79,7 @@ Qtwitter::Qtwitter( QWidget *parent )
 
 void Qtwitter::setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login )
 {
-  core->setData( network, login );
+  core->setModelData( network, login );
 }
 
 //  this is to avoid relying on translation files
@@ -88,5 +88,5 @@ void Qtwitter::setPublicTimelineModel( TwitterAPI::SocialNetwork network )
 {
   // TODO: probably won't work
   // UPDATE: works! :)
-  core->setData( network, TwitterAPI::PUBLIC_TIMELINE );
+  core->setModelData( network, TwitterAPI::PUBLIC_TIMELINE );
 }

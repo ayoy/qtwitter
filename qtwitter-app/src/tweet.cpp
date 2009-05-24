@@ -28,6 +28,8 @@
 #include "settings.h"
 #include "statuslist.h"
 
+int Tweet::scrollBarWidth = 0;
+int Tweet::currentWidth = 0;
 ThemeData Tweet::currentTheme = ThemeData();
 TwitterAPI::SocialNetwork Tweet::currentNetwork = TwitterAPI::SOCIALNETWORK_TWITTER;
 QString Tweet::currentLogin = QString();
@@ -38,7 +40,7 @@ Tweet::Tweet( TweetModel *parentModel, QWidget *parent ) :
   gotohomepageAction(0),
   gototwitterpageAction(0),
   deleteAction(0),
-  tweetState( TweetModel::STATE_READ ),
+  tweetState( TweetModel::STATE_DISABLED ),
   tweetData(0),
   tweetListModel( parentModel ),
   m_ui(new Ui::Tweet)
@@ -57,7 +59,7 @@ Tweet::Tweet( TweetModel *parentModel, QWidget *parent ) :
   m_ui->userStatus->setHtml( "" );
   m_ui->timeStamp->setText( "" );
 
-
+  resize( currentWidth, height() );
   adjustSize();
   setFocusProxy( m_ui->userStatus );
   createMenu();
@@ -222,6 +224,7 @@ void Tweet::resize( const QSize &s )
 
 void Tweet::resize( int w, int h )
 {
+  w -= Tweet::scrollBarWidth;
   QWidget::resize( w, h );
   m_ui->frame->resize( w, h );
   m_ui->userStatus->resize( size().width() - m_ui->userStatus->geometry().x() - 18, m_ui->userStatus->size().height() );
@@ -233,10 +236,22 @@ const Entry& Tweet::data() const
   return *tweetData;
 }
 
+void Tweet::initialize()
+{
+  tweetData = 0;
+
+  m_ui->userName->clear();
+  m_ui->userStatus->clear();
+  m_ui->userImage->clear();
+  m_ui->timeStamp->clear();
+
+  setState( TweetModel::STATE_DISABLED );
+  adjustSize();
+}
+
 void Tweet::setTweetData( const Status &status )
 {
   tweetData = &status.entry;
-  tweetState = status.state;
 
   m_ui->userName->setText( tweetData->name );
   m_ui->userStatus->setText( tweetData->text );
@@ -247,7 +262,7 @@ void Tweet::setTweetData( const Status &status )
   else  //yesterday or earlier
     m_ui->timeStamp->setText( tweetData->localTime.toString(Qt::SystemLocaleShortDate) );
 
-  setState( tweetState );
+  setState( status.state );
   setupMenu();
   adjustSize();
 }
@@ -292,6 +307,10 @@ void Tweet::applyTheme()
   case TweetModel::STATE_READ:
     setStyleSheet( currentTheme.read.styleSheet );
     m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.read.linkColor );
+    break;
+  case TweetModel::STATE_DISABLED:
+    setStyleSheet( currentTheme.disabled.styleSheet );
+    m_ui->userStatus->document()->setDefaultStyleSheet( currentTheme.disabled.linkColor );
   }
 }
 
@@ -310,27 +329,29 @@ void Tweet::retranslateUi()
   }
 }
 
-bool Tweet::isRead() const
-{
-  if ( tweetState == TweetModel::STATE_UNREAD )
-    return false;
-  return true;
-}
-
 int Tweet::getId() const
 {
   return tweetData->id;
 }
 
+// static
+void Tweet::setScrollBarWidth( int width )
+{
+  scrollBarWidth = width;
+}
+void Tweet::setCurrentWidth( int width )
+{
+  currentWidth = width;
+}
 void Tweet::setCurrentLogin( const QString &login )
 {
   currentLogin = login;
 }
-
 void Tweet::setCurrentNetwork( TwitterAPI::SocialNetwork network )
 {
   currentNetwork = network;
 }
+// static_end
 
 // TODO: magic numbers!!!!!!!!
 void Tweet::adjustSize()
@@ -339,7 +360,7 @@ void Tweet::adjustSize()
   m_ui->userStatus->document()->setTextWidth( m_ui->userStatus->width() );
   m_ui->userStatus->resize( m_ui->userStatus->size().width(), (int)m_ui->userStatus->document()->size().height() );
   m_ui->timeStamp->move( m_ui->timeStamp->x(), m_ui->userStatus->geometry().y() + m_ui->userStatus->height() );
-  m_ui->frame->resize( m_ui->frame->width(), ( (91 > m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + m_ui->timeStamp->height() + 11) ) ? 91 : m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + m_ui->timeStamp->height() + 11 );
+  m_ui->frame->resize( m_ui->frame->width(), qMax(91, m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + m_ui->timeStamp->height() + 11) );
   resize( m_ui->frame->size() );
 }
 

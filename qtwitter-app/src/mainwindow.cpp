@@ -52,6 +52,8 @@ MainWindow::MainWindow( QWidget *parent ) :
   ui.setupUi( centralWidget );
   setCentralWidget( centralWidget );
 
+  Tweet::setScrollBarWidth( ui.statusListView->verticalScrollBar()->width() );
+
   ui.accountsComboBox->setVisible( false );
 
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
@@ -413,6 +415,7 @@ void MainWindow::closeEvent( QCloseEvent *event )
 
 void MainWindow::resizeEvent( QResizeEvent *event )
 {
+  Tweet::setCurrentWidth( width() );
   emit resizeView( event->size().width(), event->oldSize().width() );
 }
 
