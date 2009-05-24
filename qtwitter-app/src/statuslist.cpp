@@ -19,6 +19,7 @@
 
 
 #include <QDebug>
+#include <QPixmap>
 #include "statuslist.h"
 
 class StatusListPrivate
@@ -27,7 +28,8 @@ public:
   StatusListPrivate() :
       visible( false ),
       login( QString() ),
-      network( TwitterAPI::SOCIALNETWORK_TWITTER )
+      network( TwitterAPI::SOCIALNETWORK_TWITTER ),
+      active(-1)
   {}
 
   int addStatus( Entry *entry );
@@ -36,6 +38,7 @@ public:
   bool visible;
   QString login;
   TwitterAPI::SocialNetwork network;
+  int active;
   static int maxCount;
 };
 
@@ -103,6 +106,10 @@ void StatusList::setState( int index, TweetModel::TweetState state )
     return;
 
   d->data[ index ].state = state;
+
+  if ( state == TweetModel::STATE_ACTIVE )
+    d->active = index;
+
   emit stateChanged( index );
 }
 
@@ -120,6 +127,11 @@ void StatusList::setImage( int index, const QPixmap &pixmap )
 const QList<Status>& StatusList::getData() const
 {
   return d->data;
+}
+
+int StatusList::active() const
+{
+  return d->active;
 }
 
 int StatusList::size() const
@@ -148,7 +160,7 @@ int StatusListPrivate::addStatus( Entry *entry )
     return data.size() - 1;
   }
   for ( QList<Status>::iterator i = data.begin(); i != data.end(); ++i ) {
-    if ( status.entry.id > (*i).entry.id ) {
+    if ( status.entry.timestamp > (*i).entry.timestamp ) {
       data.insert( i, status );
       if ( data.size() >= maxCount && data.takeLast() == status )
         return -1;

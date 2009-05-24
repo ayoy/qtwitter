@@ -368,7 +368,6 @@ void Tweet::adjustSize()
 
 void Tweet::slotReply()
 {
-  qDebug() << "Tweet::slotReply()";
   emit reply( tweetData->login, tweetData->id );
 }
 

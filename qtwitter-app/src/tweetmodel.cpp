@@ -22,15 +22,15 @@
 #include <QDebug>
 #include "statuslistview.h"
 #include "statuslist.h"
-#include "tweetmodel.h"
 #include "tweet.h"
 #include "settings.h"
+#include "tweetmodel.h"
 
 TweetModel::TweetModel( StatusListView *parentListView, QObject *parent ) :
     QStandardItemModel( 0, 0, parent ),
+    statusList(0),
     isVisible( false ),
     maxTweetCount( 20 ),
-    statusList(0),
     currentIndex( QModelIndex() ),
     view( parentListView )
 {
@@ -145,6 +145,17 @@ void TweetModel::setStatusList( StatusList *statusList )
   connect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
   connect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
   connect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
+
+  int active = statusList->active();
+  if ( active == -1 ) {
+    currentIndex = QModelIndex();
+    view->setCurrentIndex( index( 0, 0 ) );
+    view->scrollTo( index( 0, 0 ) );
+  } else {
+    selectTweet( index( active, 0 ) );
+    view->setCurrentIndex( currentIndex );
+    view->scrollTo( currentIndex );
+  }
 
   Tweet::setCurrentLogin( this->statusList->login() );
   Tweet::setCurrentNetwork( this->statusList->network() );
@@ -299,6 +310,8 @@ void TweetModel::retranslateUi()
 
 void TweetModel::resizeData( int width, int oldWidth )
 {
+  Q_UNUSED(oldWidth);
+
   Tweet *tweet;
   for ( int i = 0; i < rowCount(); i++ ) {
     tweet = static_cast<Tweet*>( view->indexWidget( index( i, 0 ) ) );

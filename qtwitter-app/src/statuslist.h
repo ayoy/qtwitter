@@ -23,10 +23,11 @@
 
 #include <QObject>
 #include <QList>
-#include <QPixmap>
 #include <twitterapi/twitterapi.h>
 #include "tweetmodel.h"
 #include "tweet.h"
+
+class QPixmap;
 
 struct Status {
   Entry entry;
@@ -53,6 +54,7 @@ class StatusList : public QObject
   Q_PROPERTY( SocialNetwork network READ network WRITE setNetwork )
   Q_PROPERTY( QString login READ login WRITE setLogin )
   Q_PROPERTY( bool visible READ isVisible WRITE setVisible )
+  Q_PROPERTY( int active READ active )
 
 public:
   StatusList( const QString &login, TwitterAPI::SocialNetwork network, QObject *parent = 0 );
@@ -82,6 +84,7 @@ public:
 
   const QList<Status>& getData() const;
 
+  int active() const;
   int size() const;
 
 public slots:
