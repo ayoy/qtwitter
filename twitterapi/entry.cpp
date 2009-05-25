@@ -29,7 +29,7 @@ Entry::Entry( Entry::Type entryType ) :
   text( QString() ),
   originalText( QString() ),
   name( QString() ),
-  login( QString() ),
+  screenName( QString() ),
   image( QString() ),
   homepage( QString() ),
   hasHomepage( false ),
@@ -45,7 +45,7 @@ void Entry::initialize()
   isOwn = false;
   id = -1;
   name = QString();
-  login = QString();
+  screenName = QString();
   homepage = QString();
   hasHomepage = false;
   image = QString();
@@ -69,7 +69,7 @@ bool Entry::checkContents()
   }
   if ( ( id != -1 ) &&
        !name.isNull() &&
-       !login.isNull() &&
+       !screenName.isNull() &&
        ( type == Status ? !image.isNull() : true ) &&
        !text.isNull() &&
        ( hasHomepage ? !homepage.isNull() : true ) &&
@@ -90,7 +90,7 @@ bool Entry::operator== (const Entry &other )
            && text == other.text
            && originalText == other.originalText
            && name == other.name
-           && login == other.login
+           && screenName == other.screenName
            && image == other.image
            && homepage == other.homepage
            && hasHomepage == other.hasHomepage
@@ -163,7 +163,7 @@ bool Entry::operator== (const Entry &other )
     Stores the status owner's real name.
 */
 
-/*! \var QString Entry::login
+/*! \var QString Entry::screenName
     Stores the status owner's login/screen name.
 */
 

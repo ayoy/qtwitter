@@ -100,9 +100,9 @@ bool XmlParser::characters( const QString &ch )
       entry.id = ch.toInt();
     } else if ( currentTag == TAG_USER_NAME && entry.name.isNull() ) {
       entry.name = ch;
-    } else if ( currentTag == TAG_USER_LOGIN && entry.login.isNull() ) {
-      entry.login = ch;
-      if ( entry.login == login )
+    } else if ( currentTag == TAG_USER_LOGIN && entry.screenName.isNull() ) {
+      entry.screenName = ch;
+      if ( entry.screenName == login )
         entry.isOwn = true;
     } else if ( currentTag == TAG_USER_TEXT && entry.text.isNull() ) {
       entry.originalText = ch;
@@ -246,8 +246,8 @@ bool XmlParserDirectMsg::characters( const QString &ch )
     if ( parsingSender ) {
       if ( currentTag == TAG_USER_NAME && entry.name.isNull() ) {
         entry.name = ch;
-      } else if ( currentTag == TAG_USER_LOGIN && entry.login.isNull() ) {
-        entry.login = ch;
+      } else if ( currentTag == TAG_USER_LOGIN && entry.screenName.isNull() ) {
+        entry.screenName = ch;
       } else if ( currentTag == TAG_USER_HOMEPAGE ) {
         if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
           entry.hasHomepage = true;

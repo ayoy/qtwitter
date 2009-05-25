@@ -38,7 +38,7 @@ struct TWITTERAPI_EXPORT Entry
   void initialize();
   bool checkContents();
 
-  bool operator== (const Entry &other );
+  bool operator == ( const Entry &other );
 
   Type type;
   bool isOwn;
@@ -47,7 +47,7 @@ struct TWITTERAPI_EXPORT Entry
   QString originalText;
   //TODO: login should be 'name' and 'name' actually is 'screen name' in twitter api
   QString name;   //twitter real name
-  QString login;  //twitter screen name
+  QString screenName;  //twitter screen name, used as a login
   QString image;
   QString homepage;
   bool hasHomepage;

@@ -129,7 +129,7 @@ void StatusWidget::setupMenu()
   if ( !menu || !signalMapper )
     return;
 
-  replyAction->setText( tr("Reply to %1" ).arg( statusData->login ) );
+  replyAction->setText( tr("Reply to %1" ).arg( statusData->screenName ) );
   // TODO: enable replying when at least one account is configured
   if ( statusData->type != Entry::Status || currentLogin == TwitterAPI::PUBLIC_TIMELINE ) {
     replyAction->setEnabled( false );
@@ -166,10 +166,10 @@ void StatusWidget::setupMenu()
   signalMapper->removeMappings( gototwitterpageAction );
   if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
-    signalMapper->setMapping( gototwitterpageAction, "http://identi.ca/" + statusData->login );
+    signalMapper->setMapping( gototwitterpageAction, "http://identi.ca/" + statusData->screenName );
   } else {
     gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
-    signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + statusData->login );
+    signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + statusData->screenName );
   }
 
   signalMapper->removeMappings( gotohomepageAction );
@@ -326,7 +326,7 @@ void StatusWidget::applyTheme()
 
 void StatusWidget::retranslateUi()
 {
-  replyAction->setText( tr( "Reply to %1" ).arg( statusData->login ) );
+  replyAction->setText( tr( "Reply to %1" ).arg( statusData->screenName ) );
   retweetAction->setText( tr( "Retweet" ) );
   copylinkAction->setText( tr( "Copy link to this statuswidget" ) );
   deleteAction->setText( tr( "Delete statuswidget" ) );
@@ -376,18 +376,18 @@ void StatusWidget::adjustSize()
 
 void StatusWidget::slotReply()
 {
-  emit reply( statusData->login, statusData->id );
+  emit reply( statusData->screenName, statusData->id );
 }
 
 void StatusWidget::slotRetweet()
 {
-  emit retweet( QString("RT @" + statusData->login + ": " + statusData->originalText ) );
+  emit retweet( QString("RT @" + statusData->screenName + ": " + statusData->originalText ) );
 }
 
 void StatusWidget::slotCopyLink()
 {
   if ( currentNetwork == TwitterAPI::SOCIALNETWORK_TWITTER )
-    QApplication::clipboard()->setText( "http://twitter.com/" + statusData->login + "/statuses/" + QString::number( statusData->id ) );
+    QApplication::clipboard()->setText( "http://twitter.com/" + statusData->screenName + "/statuses/" + QString::number( statusData->id ) );
   else if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
     QApplication::clipboard()->setText( "http://identi.ca/notice/" + QString::number( statusData->id ) );
 }
