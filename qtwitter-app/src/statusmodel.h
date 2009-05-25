@@ -18,42 +18,42 @@
  ***************************************************************************/
 
 
-#ifndef TWEETMODEL_H
-#define TWEETMODEL_H
+#ifndef STATUSMODEL_H
+#define STATUSMODEL_H
 
 #include <QStandardItemModel>
 #include <QUrl>
 #include <twitterapi/twitterapi_global.h>
 
 class QPixmap;
-class Tweet;
+class StatusWidget;
 class ThemeData;
-class TweetModel;
+class StatusModel;
 class StatusListView;
 class StatusList;
 struct Status;
 
-class TweetModel : public QStandardItemModel
+class StatusModel : public QStandardItemModel
 {
   Q_OBJECT
 
 public:
 
-  enum TweetState {
+  enum StatusState {
     STATE_DISABLED,
     STATE_UNREAD,
     STATE_READ,
     STATE_ACTIVE
   };
 
-  TweetModel( StatusListView *parentListView, QObject *parent = 0 );
+  StatusModel( StatusListView *parentListView, QObject *parent = 0 );
 
-  Tweet* currentTweet();
+  StatusWidget* currentStatus();
   void deselectCurrentIndex();
   void setTheme( const ThemeData &theme );
   void setStatusList( StatusList *statusList );
   StatusList * getStatusList() const;
-  void setMaxTweetCount( int count );
+  void setMaxStatusCount( int count );
   void populate();
   void clear();
 
@@ -64,8 +64,8 @@ public slots:
   void updateImage( int ind );
 
   void sendDeleteRequest( int id );
-  void selectTweet( const QModelIndex &index );
-  void selectTweet( Tweet *tweet );
+  void selectStatus( const QModelIndex &index );
+  void selectStatus( StatusWidget *status );
   void markAllAsRead();
   void checkForUnread();
   void retranslateUi();
@@ -76,7 +76,7 @@ public slots:
 signals:
   void retweet( QString message );
   void destroy( TwitterAPI::SocialNetwork, const QString &login, int id );
-  void newTweets( const QString &login, bool exists );
+  void newStatuses( const QString &login, bool exists );
   void openBrowser( QUrl address );
   void reply( const QString &name, int inReplyTo );
   void about();
@@ -88,9 +88,9 @@ private:
   TwitterAPI::SocialNetwork network;
   QString login;
   StatusList *statusList;
-  int maxTweetCount;
+  int maxStatusCount;
   QModelIndex currentIndex;
   StatusListView *view;
 };
 
-#endif // TWEETMODEL_H
+#endif // STATUSMODEL_H

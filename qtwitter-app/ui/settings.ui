@@ -29,7 +29,7 @@
    <item>
     <widget class="QTabWidget" name="tabs">
      <property name="currentIndex">
-      <number>1</number>
+      <number>3</number>
      </property>
      <property name="usesScrollButtons">
       <bool>false</bool>
@@ -266,12 +266,12 @@
        <item row="0" column="0">
         <widget class="QLabel" name="tweetCountLabel">
          <property name="text">
-          <string>Tweet count:</string>
+          <string>Status count:</string>
          </property>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QSpinBox" name="tweetCountBox">
+        <widget class="QSpinBox" name="statusCountBox">
          <property name="maximumSize">
           <size>
            <width>63</width>
@@ -330,7 +330,7 @@
   <tabstop>proxyBox</tabstop>
   <tabstop>hostEdit</tabstop>
   <tabstop>portEdit</tabstop>
-  <tabstop>tweetCountBox</tabstop>
+  <tabstop>statusCountBox</tabstop>
   <tabstop>colorBox</tabstop>
  </tabstops>
  <resources/>

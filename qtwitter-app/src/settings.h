@@ -33,7 +33,7 @@ class QLineEdit;
 class QPushButton;
 class QModelIndex;
 class TwitPicView;
-class TweetModel;
+class StatusModel;
 class MainWindow;
 class Core;
 class Account;

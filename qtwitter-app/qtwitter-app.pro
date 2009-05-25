@@ -71,8 +71,8 @@ SOURCES += src/main.cpp \
     src/imagedownload.cpp \
     src/core.cpp \
     src/settings.cpp \
-    src/tweet.cpp \
-    src/tweetmodel.cpp \
+    src/statuswidget.cpp \
+    src/statusmodel.cpp \
     src/twitpicview.cpp \
     src/twitpicengine.cpp \
     src/qtwitter.cpp \
@@ -83,20 +83,20 @@ HEADERS += src/mainwindow.h \
     src/imagedownload.h \
     src/core.h \
     src/settings.h \
-    src/tweet.h \
-    src/tweetmodel.h \
-    src/tweettextbrowser.h \
+    src/statuswidget.h \
+    src/statusmodel.h \
+    src/statustextbrowser.h \
     src/statuslistview.h \
     src/twitpicview.h \
     src/twitpicengine.h \
-    src/statustextedit.h \
+    src/twitpictextedit.h \
     src/qtwitter.h \
     src/aboutdialog.h \
     src/statuslist.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
-    ui/tweet.ui \
+    ui/statuswidget.ui \
     ui/aboutdialog.ui \
     ui/twitpicview.ui \
     ui/twitpicnewphoto.ui

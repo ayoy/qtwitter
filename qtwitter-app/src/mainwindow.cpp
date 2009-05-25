@@ -33,7 +33,7 @@
 #include <QTreeView>
 #include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
-#include "tweet.h"
+#include "statuswidget.h"
 #include "aboutdialog.h"
 #include "account.h"
 #include "accountsdelegate.h"
@@ -52,7 +52,7 @@ MainWindow::MainWindow( QWidget *parent ) :
   ui.setupUi( centralWidget );
   setCentralWidget( centralWidget );
 
-  Tweet::setScrollBarWidth( ui.statusListView->verticalScrollBar()->width() );
+  StatusWidget::setScrollBarWidth( ui.statusListView->verticalScrollBar()->width() );
 
   ui.accountsComboBox->setVisible( false );
 
@@ -83,18 +83,18 @@ MainWindow::~MainWindow() {
 
 void MainWindow::createConnections()
 {
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ), this, SLOT(tweetReplyAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ), this, SLOT(tweetRetweetAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ), this, SLOT(tweetCopylinkAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ), this, SLOT(tweetDeleteAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ), this, SLOT(tweetMarkallasreadAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ), this, SLOT(tweetGototwitterpageAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ), this, SLOT(tweetGotohomepageAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ), this, SLOT(statusReplyAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ), this, SLOT(statusRetweetAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ), this, SLOT(statusCopylinkAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ), this, SLOT(statusDeleteAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ), this, SLOT(statusMarkallasreadAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ), this, SLOT(statusGototwitterpageAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ), this, SLOT(statusGotohomepageAction()) );
 
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
 
-  connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateTweets() ) );
+  connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateStatuses() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( editingFinished() ), this, SLOT( resetStatus() ) );
@@ -163,7 +163,7 @@ void MainWindow::createTrayIcon()
 void MainWindow::createButtonMenu()
 {
   buttonMenu = new QMenu( this );
-  newtweetAction = new QAction( tr( "New tweet" ), buttonMenu );
+  newstatusAction = new QAction( tr( "New tweet" ), buttonMenu );
   newtwitpicAction = new QAction( tr( "Upload a photo to TwitPic" ), buttonMenu );
   gototwitterAction = new QAction( tr( "Go to Twitter" ), buttonMenu );
   gototwitpicAction = new QAction( tr( "Go to TwitPic" ), buttonMenu );
@@ -173,7 +173,7 @@ void MainWindow::createButtonMenu()
   quitAction->setShortcutContext( Qt::ApplicationShortcut );
   connect( quitAction, SIGNAL(triggered()), qApp, SLOT(quit()) );
 
-  newtweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ) );
+  newstatusAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ) );
   newtwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_N ) );
   gototwitterAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
   gototwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_G ) );
@@ -183,14 +183,14 @@ void MainWindow::createButtonMenu()
   mapper->setMapping( gototwitterAction, "http://twitter.com/home" );
   mapper->setMapping( gototwitpicAction, "http://twitpic.com" );
 
-  connect( newtweetAction, SIGNAL(triggered()), ui.statusEdit, SLOT(setFocus()) );
+  connect( newstatusAction, SIGNAL(triggered()), ui.statusEdit, SLOT(setFocus()) );
   connect( newtwitpicAction, SIGNAL(triggered()), this, SIGNAL(openTwitPicDialog()) );
   connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(QString)), this, SLOT(emitOpenBrowser(QString)) );
   connect( aboutAction, SIGNAL(triggered()), this, SLOT(about()) );
 
-  buttonMenu->addAction( newtweetAction );
+  buttonMenu->addAction( newstatusAction );
   buttonMenu->addAction( newtwitpicAction );
   buttonMenu->addSeparator();
   buttonMenu->addAction( gototwitterAction );
@@ -280,7 +280,7 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeli
   }
 }
 
-void MainWindow::setListViewModel( TweetModel *model )
+void MainWindow::setListViewModel( StatusModel *model )
 {
   if ( !model )
     return;
@@ -415,7 +415,7 @@ void MainWindow::closeEvent( QCloseEvent *event )
 
 void MainWindow::resizeEvent( QResizeEvent *event )
 {
-  Tweet::setCurrentWidth( width() );
+  StatusWidget::setCurrentWidth( width() );
   emit resizeView( event->size().width(), event->oldSize().width() );
 }
 
@@ -491,7 +491,7 @@ void MainWindow::retranslateUi()
     ui.statusEdit->initialize();
   }
   ui.statusEdit->setText( tr( "What are you doing?" ) );
-  newtweetAction->setText( tr( "New tweet" ) );
+  newstatusAction->setText( tr( "New tweet" ) );
   newtwitpicAction->setText( tr( "Upload a photo to TwitPic" ) );
   gototwitterAction->setText( tr( "Go to Twitter" ) );
   gototwitpicAction->setText( tr( "Go to TwitPic" ) );
@@ -507,70 +507,70 @@ void MainWindow::replaceUrl( const QString &url )
     ui.statusEdit->setCursorPosition( text.indexOf( url ) + url.length() );
 }
 
-void MainWindow::tweetReplyAction()
+void MainWindow::statusReplyAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      model->currentTweet()->slotReply();
+      model->currentStatus()->slotReply();
     }
 }
 
-void MainWindow::tweetRetweetAction()
+void MainWindow::statusRetweetAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      model->currentTweet()->slotRetweet();
+      model->currentStatus()->slotRetweet();
     }
 }
 
-void MainWindow::tweetCopylinkAction()
+void MainWindow::statusCopylinkAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      model->currentTweet()->slotCopyLink();
+      model->currentStatus()->slotCopyLink();
     }
 }
 
-void MainWindow::tweetDeleteAction()
+void MainWindow::statusDeleteAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      model->currentTweet()->slotDelete();
+      model->currentStatus()->slotDelete();
     }
 }
 
-void MainWindow::tweetMarkallasreadAction()
+void MainWindow::statusMarkallasreadAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
     model->markAllAsRead();
 }
 
-void MainWindow::tweetGototwitterpageAction()
+void MainWindow::statusGototwitterpageAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      emitOpenBrowser( "http://twitter.com/" + model->currentTweet()->data().login );
+      emitOpenBrowser( "http://twitter.com/" + model->currentStatus()->data().login );
     }
 }
 
-void MainWindow::tweetGotohomepageAction()
+void MainWindow::statusGotohomepageAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      emitOpenBrowser( model->currentTweet()->data().homepage );
+      emitOpenBrowser( model->currentStatus()->data().homepage );
     }
 }
 
@@ -578,7 +578,7 @@ void MainWindow::tweetGotohomepageAction()
     \brief A class defining the main window of the application.
 
     This class contains all the GUI elements of the main application window.
-    It receives signals from Core and TweetModel classes and provides means
+    It receives signals from Core and StatusModel classes and provides means
     of visualization for them.
 */
 
@@ -591,18 +591,18 @@ void MainWindow::tweetGotohomepageAction()
 */
 
 /*! \fn StatusListView* MainWindow::getListView()
-    A method for external access to the list view used for displaying Tweets.
-    Used for initialization of TweetModel class's instance.
+    A method for external access to the list view used for displaying Statuses.
+    Used for initialization of StatusModel class's instance.
     \returns A pointer to the list view instance of MainWindow.
 */
 
 /*! \fn int MainWindow::getScrollBarWidth()
     A method for accessing the list view scrollbar's width, needed for computing width
-    of Tweet class instances.
+    of StatusWidget class instances.
     \returns List view scrollbar's width.
 */
 
-/*! \fn void MainWindow::setListViewModel( TweetModel *model )
+/*! \fn void MainWindow::setListViewModel( StatusModel *model )
     Assigns the \a model to be a list view model.
     \param model The model for the list view.
 */
@@ -614,7 +614,7 @@ void MainWindow::tweetGotohomepageAction()
 
 /*! \fn void MainWindow::popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages )
     Pops up a tray icon notification message containing information about
-    new Tweets and direct messages (if any). Displays total messages count and
+    new Statuses and direct messages (if any). Displays total messages count and
     their authors' names for status updates and direct messages separately.
     \param statusesCount The amount of new status updates.
     \param namesForStatuses List of statuses senders' names.
@@ -646,7 +646,7 @@ void MainWindow::tweetGotohomepageAction()
     Pops up a small dialog with credits and short info on the application and its author.
 */
 
-/*! \fn void MainWindow::updateTweets()
+/*! \fn void MainWindow::updateStatuses()
     Emitted to force timeline update, assigned to pressing the update button.
 */
 
@@ -671,20 +671,20 @@ void MainWindow::tweetGotohomepageAction()
 */
 
 /*! \fn void MainWindow::addReplyString( const QString& user, int inReplyTo )
-    Works as a proxy between Tweet class instance and status edit field. Passes the request
+    Works as a proxy between StatusWidget class instance and status edit field. Passes the request
     to initiate editing a reply.
     \param user Login of a User to whom the current User replies.
     \param inReplyTo Id of the existing status to which the reply is posted.
 */
 
 /*! \fn void MainWindow::addRetweetString( QString message )
-    Works as a proxy between Tweet class instance and status edit field. Passes the request
+    Works as a proxy between StatusWidget class instance and status edit field. Passes the request
     to initiate editing a retweet.
     \param message A retweet message
 */
 
 /*! \fn void MainWindow::resizeView( int width, int oldWidth )
-    Emitted when resizing a window, to inform all the Tweets about the size change.
+    Emitted when resizing a window, to inform all the Statuses about the size change.
     \param width The width after resizing.
     \param oldWidth The width before resizing.
 */

@@ -30,7 +30,7 @@
 #include "ui_mainwindow.h"
 
 class QMovie;
-class TweetModel;
+class StatusModel;
 class Account;
 
 class MainWindow : public QMainWindow
@@ -54,19 +54,19 @@ public slots:
   void resetStatusEdit();
   void showProgressIcon();
   void about();
-  void setListViewModel( TweetModel *model );
+  void setListViewModel( StatusModel *model );
   void replaceUrl( const QString &url );
 
-  void tweetReplyAction();
-  void tweetRetweetAction();
-  void tweetCopylinkAction();
-  void tweetDeleteAction();
-  void tweetMarkallasreadAction();
-  void tweetGototwitterpageAction();
-  void tweetGotohomepageAction();
+  void statusReplyAction();
+  void statusRetweetAction();
+  void statusCopylinkAction();
+  void statusDeleteAction();
+  void statusMarkallasreadAction();
+  void statusGototwitterpageAction();
+  void statusGotohomepageAction();
 
 signals:
-  void updateTweets();
+  void updateStatuses();
   void openTwitPicDialog();
   void post( TwitterAPI::SocialNetwork network, const QString &login, QString status, int inReplyTo );
   void openBrowser( QUrl address );
@@ -105,7 +105,7 @@ private:
   bool resetUiWhenFinished;
 
   QMenu *buttonMenu;
-  QAction *newtweetAction;
+  QAction *newstatusAction;
   QAction *newtwitpicAction;
   QAction *gototwitterAction;
   QAction *gototwitpicAction;

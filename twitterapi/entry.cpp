@@ -103,7 +103,7 @@ bool Entry::operator== (const Entry &other )
 
 
 /*! \struct Entry
-    \brief A struct containing Tweet data.
+    \brief A struct containing status data.
 
     This struct contains all the parameters for each status or direct message
     extracted by an XML parser.

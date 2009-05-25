@@ -30,7 +30,7 @@
 #include "core.h"
 #include "mainwindow.h"
 #include "twitpicview.h"
-#include "tweet.h"
+#include "statuswidget.h"
 #include "settings.h"
 #include "account.h"
 
@@ -44,7 +44,7 @@ Qtwitter::Qtwitter( QWidget *parent )
 
   core = new Core( this );
 
-  connect( this, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
+  connect( this, SIGNAL(updateStatuses()), core, SLOT(forceGet()) );
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
   connect( this, SIGNAL(post(TwitterAPI::SocialNetwork,QString,QString,int)), core, SLOT(post(TwitterAPI::SocialNetwork,QString,QString,int)) );
   connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));

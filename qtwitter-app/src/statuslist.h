@@ -24,14 +24,14 @@
 #include <QObject>
 #include <QList>
 #include <twitterapi/twitterapi.h>
-#include "tweetmodel.h"
-#include "tweet.h"
+#include "statusmodel.h"
+#include "statuswidget.h"
 
 class QPixmap;
 
 struct Status {
   Entry entry;
-  TweetModel::TweetState state;
+  StatusModel::StatusState state;
   QPixmap image;
   bool operator==( const Status &other )
   {
@@ -78,8 +78,8 @@ public:
   void setData( int index, const Status &status );
   const Status& data( int index ) const;
 
-  void setState( int index, TweetModel::TweetState state );
-  TweetModel::TweetState state( int index ) const;
+  void setState( int index, StatusModel::StatusState state );
+  StatusModel::StatusState state( int index ) const;
 
   void setImage( int index, const QPixmap &pixmap );
 

@@ -130,7 +130,7 @@
         </widget>
        </item>
        <item>
-        <widget class="StatusTextEdit" name="statusEdit">
+        <widget class="TwitPicTextEdit" name="statusEdit">
          <property name="enabled">
           <bool>false</bool>
          </property>
@@ -187,9 +187,9 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>StatusTextEdit</class>
+   <class>TwitPicTextEdit</class>
    <extends>QPlainTextEdit</extends>
-   <header>statustextedit.h</header>
+   <header>twitpictextedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

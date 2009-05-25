@@ -54,8 +54,8 @@ signals:
     \brief A customized QListView class.
 
     This widget class provides a signal notification when scrolling items using
-    keboard's arrow keys. It allows a TweetModel class instance to catch the list's
-    key press event and change appropriate Tweets' state accordingly.
+    keboard's arrow keys. It allows a StatusModel class instance to catch the list's
+    key press event and change appropriate Statuses' state accordingly.
 */
 
 /*! \fn StatusListView::StatusListView( QWidget *parent = 0 )

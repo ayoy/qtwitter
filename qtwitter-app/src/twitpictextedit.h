@@ -18,16 +18,16 @@
  ***************************************************************************/
 
 
-#ifndef STATUSTEXTEDIT_H
-#define STATUSTEXTEDIT_H
+#ifndef TWITPICTEXTEDIT_H
+#define TWITPICTEXTEDIT_H
 
 #include <QPlainTextEdit>
 
-class StatusTextEdit : public QPlainTextEdit
+class TwitPicTextEdit : public QPlainTextEdit
 {
   Q_OBJECT
 public:
-  StatusTextEdit( QWidget *parent = 0 ) : QPlainTextEdit( parent ) {}
+  TwitPicTextEdit( QWidget *parent = 0 ) : QPlainTextEdit( parent ) {}
 
 signals:
   void enterPressed();
@@ -48,10 +48,10 @@ protected:
 
 };
 
-#endif // STATUSTEXTEDIT_H
+#endif // TWITPICTEXTEDIT_H
 
 
-/*! \class StatusTextEdit
+/*! \class TwitPicTextEdit
     \brief A customized QPlainTextEdit class.
 
     This class is used by TwitPicView to handle input of the user's message
@@ -59,11 +59,11 @@ protected:
     keyPressEvent in order to provide focus switching with Tab and Backtab.
 */
 
-/*! \fn StatusTextEdit::StatusTextEdit( QWidget *parent = 0 )
+/*! \fn TwitPicTextEdit::TwitPicTextEdit( QWidget *parent = 0 )
     Creates a text edit with a given \a parent.
 */
 
-/*! \fn void StatusTextEdit::keyPressEvent( QKeyEvent *e )
+/*! \fn void TwitPicTextEdit::keyPressEvent( QKeyEvent *e )
     Reimplemented from QPlainTextEdit to enable switching focus using Tab
     and Backtab keys.
 */

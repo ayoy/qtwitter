@@ -101,20 +101,20 @@ const Status& StatusList::data( int index ) const
   return d->data.at( index );
 }
 
-void StatusList::setState( int index, TweetModel::TweetState state )
+void StatusList::setState( int index, StatusModel::StatusState state )
 {
   if ( d->data[ index ].state == state )
     return;
 
   d->data[ index ].state = state;
 
-  if ( state == TweetModel::STATE_ACTIVE )
+  if ( state == StatusModel::STATE_ACTIVE )
     d->active = index;
 
   emit stateChanged( index );
 }
 
-TweetModel::TweetState StatusList::state( int index ) const
+StatusModel::StatusState StatusList::state( int index ) const
 {
   return d->data[ index ].state;
 }
@@ -151,7 +151,7 @@ int StatusListPrivate::addStatus( Entry *entry )
 //  qDebug() << "adding new entry";
 
   Status status;
-  status.state = TweetModel::STATE_UNREAD;
+  status.state = StatusModel::STATE_UNREAD;
   status.entry = *entry;
   if ( status.entry.type == Entry::DirectMessage )
     status.image = QPixmap( ":/icons/mail_48.png" );

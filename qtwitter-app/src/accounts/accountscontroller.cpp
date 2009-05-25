@@ -159,9 +159,9 @@ void AccountsController::togglePasswordStoring( int state )
 
 void AccountsController::showPasswordDisclaimer()
 {
-  QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Password security" ), tr( "Please note:" ), QMessageBox::Ok );
-  messageBox->setInformativeText( tr( "Although passwords are stored as human unreadable data, they can be easily decoded using the application's source code, which is publicly available. You have been warned." ) );
-  messageBox->exec();
+  QMessageBox messageBox( QMessageBox::Warning, tr( "Password security" ), tr( "Please note:" ), QMessageBox::Ok );
+  messageBox.setInformativeText( tr( "Although passwords are stored as human unreadable data, they can be easily decoded using the application's source code, which is publicly available. You have been warned." ) );
+  messageBox.exec();
 }
 
 void AccountsController::addAccount()

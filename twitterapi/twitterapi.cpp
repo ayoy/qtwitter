@@ -316,13 +316,13 @@ void TwitterAPIInterface::deleteUpdate( TwitterAPI::SocialNetwork network, const
 */
 void TwitterAPIInterface::friendsTimeline( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int msgCount )
 {
-  QString tweetCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
-  QNetworkRequest request( QUrl( QString( "%1/statuses/friends_timeline.xml?count=%2" ).arg( services[ network ], tweetCount ) ) );
+  QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
+  QNetworkRequest request( QUrl( QString( "%1/statuses/friends_timeline.xml?count=%2" ).arg( services[ network ], statusCount ) ) );
   request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
   request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_FRIENDS_TIMELINE );
   request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
   request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
-  request.setAttribute( TwitterAPIInterface::ATTR_MSGCOUNT, tweetCount );
+  request.setAttribute( TwitterAPIInterface::ATTR_MSGCOUNT, statusCount );
   qDebug() << "TwitterAPIInterface::friendsTimeline(" + login + ")";
   if ( !connections[ network ].contains( login ) )
     createInterface( network, login );
@@ -347,8 +347,8 @@ void TwitterAPIInterface::directMessages( TwitterAPI::SocialNetwork network, con
   /* When directMessages is called from requestFinished, msgCount argument shouldn't be out of bounds,
      but we can check if the value is correct anyway
   */
-  QString tweetCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
-  QNetworkRequest request( QUrl( QString( "%1/direct_messages.xml?count=%2" ).arg( services[ network ], tweetCount ) ) );
+  QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
+  QNetworkRequest request( QUrl( QString( "%1/direct_messages.xml?count=%2" ).arg( services[ network ], statusCount ) ) );
   request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
   request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_DIRECT_MESSAGES );
   request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );

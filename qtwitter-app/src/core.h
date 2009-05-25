@@ -35,7 +35,7 @@ class QAbstractItemModel;
 class MainWindow;
 class ImageDownload;
 class TwitPicEngine;
-class TweetModel;
+class StatusModel;
 class ThemeData;
 class StatusListView;
 class UrlShortener;
@@ -71,7 +71,7 @@ public slots:
   void get();
   void get( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void post( TwitterAPI::SocialNetwork network, const QString &login, const QString &status, int inReplyTo );
-  void destroyTweet( TwitterAPI::SocialNetwork network, const QString &login, int id );
+  void destroyStatus( TwitterAPI::SocialNetwork network, const QString &login, int id );
 
   void uploadPhoto( const QString &login, QString photoPath, QString status );
   void abortUploadPhoto();
@@ -94,7 +94,7 @@ signals:
   void resetUi();
   void timelineUpdated();
   void directMessagesSyncChanged( bool b );
-  void modelChanged( TweetModel *model );
+  void modelChanged( StatusModel *model );
   void addReplyString( const QString &user, int id );
   void addRetweetString( QString message );
   void about();
@@ -113,7 +113,7 @@ private slots:
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId );
   void slotNewRequest();
   void slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );
-  void storeNewTweets( const QString &login, bool exists );
+  void storeNewStatuses( const QString &login, bool exists );
 
 private:
   void sendNewsInfo();
@@ -123,7 +123,7 @@ private:
   int publicTimeline;
   int requestCount;
   int tempModelCount;
-  QStringList newTweets;
+  QStringList newStatuses;
 
   TwitterAPIInterface *twitterapi;
 
@@ -135,7 +135,7 @@ private:
   AccountsController *accounts;
   AccountsModel *accountsModel;
 
-  TweetModel *tweetModel;
+  StatusModel *statusModel;
   StatusListView *listViewForModels;
 
   QMap<Account,StatusList*> statusLists;

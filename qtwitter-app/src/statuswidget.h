@@ -18,43 +18,42 @@
  ***************************************************************************/
 
 
-#ifndef TWEET_H
-#define TWEET_H
+#ifndef STATUSWIDGET_H
+#define STATUSWIDGET_H
 
 #include <QtGui/QWidget>
-#include "tweetmodel.h"
+#include "statusmodel.h"
 
 class QMenu;
 class QSignalMapper;
-class TweetModel;
+class StatusModel;
 class Entry;
 class ThemeData;
 class Status;
 
 namespace Ui {
-    class Tweet;
+    class StatusWidget;
 }
 
-class Tweet : public QWidget
+class StatusWidget : public QWidget
 {
   Q_OBJECT
-  Q_DISABLE_COPY( Tweet )
+  Q_DISABLE_COPY( StatusWidget )
 
 public:
 
-  explicit Tweet( TweetModel *parentModel, QWidget *parent = 0 );
-  explicit Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image, TweetModel *parentModel, QWidget *parent = 0 );
-  virtual ~Tweet();
+  explicit StatusWidget( StatusModel *parentModel, QWidget *parent = 0 );
+  virtual ~StatusWidget();
 
   const Entry& data() const;
   void resize( const QSize& size );
   void resize( int w, int h );
 
   void initialize();
-  void setTweetData( const Status &status );
+  void setStatusData( const Status &status );
   void setImage( const QPixmap &pixmap );
-  void setState( TweetModel::TweetState state );
-  TweetModel::TweetState getState() const;
+  void setState( StatusModel::StatusState state );
+  StatusModel::StatusState getState() const;
 
   static ThemeData getTheme();
   static void setTheme( const ThemeData &theme );
@@ -80,7 +79,7 @@ signals:
   void reply( const QString &name, int inReplyTo );
   void retweet( QString message );
   void markAllAsRead();
-  void selectMe( Tweet *tweet );
+  void selectMe( StatusWidget *status );
   void deleteStatus( int id );
   void getUserInfo( int userId);
 
@@ -104,19 +103,16 @@ private:
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;
-  TweetModel::TweetState tweetState;
-  const Entry *tweetData;
-//  QString originalText;
-//  Entry::Type type;
-//  int id;
+  StatusModel::StatusState statusState;
+  const Entry *statusData;
   QSignalMapper *signalMapper;
   static int scrollBarWidth;
   static int currentWidth;
   static ThemeData currentTheme;
   static QString currentLogin;
   static TwitterAPI::SocialNetwork currentNetwork;
-  TweetModel *tweetListModel;
-  Ui::Tweet *m_ui;
+  StatusModel *statusListModel;
+  Ui::StatusWidget *m_ui;
 };
 
-#endif // TWEET_H
+#endif // STATUSWIDGET_H
