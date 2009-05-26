@@ -553,7 +553,7 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
       break;
 
     case TwitterAPI::ROLE_USERINFO:
-      connections[ network ][ login.toString() ]->domParser->setContent( reply->readAll(), 5);
+      connections[ network ][ login.toString() ]->domParser->setContent( reply->readAll(), TwitterAPI::ROLE_USERINFO);
       emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::ROLE_USERINFO );
       break;
     default:;

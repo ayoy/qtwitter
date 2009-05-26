@@ -23,7 +23,7 @@
 
 #include <QObject>
 #include <QDomDocument>
-#include "entry.h"
+#include "userinfo.h"
 #include "twitterapi.h"
 
 class DomParser : public QObject
@@ -35,8 +35,31 @@ public:
   void parse();
   void setContent(const QByteArray &data, int role);
 
+signals:
+  void userInfoCompleted( TwitterAPI::SocialNetwork network, const QString &login, UserInfo userinfo );
+
 protected:
   void parseUserInfo();
+  void parseStatusMsg();
+
+  static const QString TAG_STATUS;
+  static const QString TAG_USER_ID;
+  static const QString TAG_USER_NAME;
+  static const QString TAG_USER_SCREENNAME;
+  static const QString TAG_LOCATION;
+  static const QString TAG_DESCRIPTION;
+  static const QString TAG_USER_IMAGEURL;
+  static const QString TAG_USER_HOMEPAGE;
+  static const QString TAG_PROFILE_PROTECTED;
+  static const QString TAG_FRIENDS_COUNT;
+  static const QString TAG_FOLLOWERS_COUNT;
+  static const QString TAG_PROFILE_TIMESTAMP;
+  static const QString TAG_UTC_OFFSET;
+  static const QString TAG_TIMEZONE;
+  static const QString TAG_STATUS_COUNT;
+  static const QString TAG_NOTIFICATIONS;
+  static const QString TAG_FOLLOWING;
+  static const QString TAG_USER_STATUSTEXT;
 
 //signals:
 //  void newEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
@@ -45,7 +68,7 @@ private:
   QDomDocument reply;
   TwitterAPI::SocialNetwork network;
   QString login;
-  Entry entry;
+  UserInfo userInfo;
   int role;
 };
 

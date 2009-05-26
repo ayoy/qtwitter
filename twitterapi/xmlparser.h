@@ -46,13 +46,14 @@ public:
                            const QString &qName );
   virtual bool characters( const QString &ch );
 
+  static QString textToHtml( QString newText, TwitterAPI::SocialNetwork network );
+
 signals:
   void newEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
 
 protected:
   QDateTime toDateTime( const QString &timestamp );
   int getMonth( const QString &month );
-  QString textToHtml( QString newText );
   static inline int getTimeShift();
 
   TwitterAPI::SocialNetwork network;

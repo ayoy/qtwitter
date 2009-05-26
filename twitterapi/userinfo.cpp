@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This library is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -18,45 +18,30 @@
  ***************************************************************************/
 
 
-#ifndef ENTRY_H
-#define ENTRY_H
-
-#include <QMetaType>
-#include <QDateTime>
-#include "twitterapi_global.h"
 
 
-struct TWITTERAPI_EXPORT Entry
+#include "userinfo.h"
+
+
+
+UserInfo::UserInfo() :
+    id(0),
+    name(QString()),
+    screenName(QString()),
+    location(QString()),
+    description(QString()),
+    homepage(QString()),
+    profileProtected(false),
+    followersCount(0),
+    friendsCount(0),
+    createdAt(QDateTime()),
+    utcOffset(0),
+    timeZone(QString()),
+    statusesCount(0),
+    notifications(false),
+    following(false),
+    currentStatus(QString())
 {
-  enum Type {
-    Status,
-    DirectMessage
-  };
+}
 
-  Entry( Entry::Type entryType = Entry::Status );
 
-  void initialize();
-  bool checkContents();
-
-  bool operator == ( const Entry &other );
-
-  Type type;
-  bool isOwn;
-  int id;
-  QString text;
-  QString originalText;
-  QString name;   //twitter real name
-  QString screenName;  //twitter screen name, used as a login
-  QString image;
-  QString homepage;
-  bool hasHomepage;
-  QDateTime timestamp;
-  QDateTime localTime;
-  bool hasInReplyToStatusId;
-  int inReplyToStatusId;
-  QString inReplyToScreenName;
-};
-
-Q_DECLARE_METATYPE(Entry)
-
-#endif //ENTRY_H

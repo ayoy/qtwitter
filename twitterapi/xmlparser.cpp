@@ -106,7 +106,7 @@ bool XmlParser::characters( const QString &ch )
         entry.isOwn = true;
     } else if ( currentTag == TAG_USER_TEXT && entry.text.isNull() ) {
       entry.originalText = ch;
-      entry.text = textToHtml( ch );
+      entry.text = textToHtml( ch, network );
     } else if ( currentTag == TAG_USER_IMAGE && entry.image.isNull() ) {
       entry.image = ch;
     } else if ( currentTag == TAG_USER_TIMESTAMP && entry.timestamp.isNull() ) {
@@ -184,7 +184,7 @@ int XmlParser::calculateTimeShift()
   return utc.secsTo(now);
 }
 
-QString XmlParser::textToHtml( QString newText )
+QString XmlParser::textToHtml( QString newText, TwitterAPI::SocialNetwork network)
 {
   QString networkUrl = ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) ? TwitterAPI::URL_TWITTER : TwitterAPI::URL_IDENTICA;
   // URL_IDENTICA = http://identi.ca/api
@@ -238,7 +238,7 @@ bool XmlParserDirectMsg::characters( const QString &ch )
       entry.id = ch.toInt();
     } else if ( currentTag == TAG_USER_TEXT && entry.text.isNull() ) {
       entry.originalText = ch;
-      entry.text = textToHtml( ch );
+      entry.text = textToHtml( ch, network );
     } else if ( currentTag == TAG_USER_TIMESTAMP && entry.timestamp.isNull() ) {
       entry.timestamp = toDateTime( ch );
       entry.localTime = entry.timestamp.addSecs( timeShift );
