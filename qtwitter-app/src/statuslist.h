@@ -61,7 +61,7 @@ public:
   StatusList( const QString &login, TwitterAPI::SocialNetwork network, QObject *parent = 0 );
   ~StatusList();
 
-  void addStatus( Entry *entry );
+  void addStatus( Entry entry );
   bool deleteStatus( int id );
   bool remove( int from, int count );
   static void setMaxCount( int maxCount );

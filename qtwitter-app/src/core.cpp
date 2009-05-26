@@ -72,7 +72,6 @@ Core::Core( MainWindow *parent ) :
 
   statusModel = new StatusModel( listViewForModels, this );
   parent->setListViewModel( statusModel );
-//  statusModel->populate();
 
   connect( statusModel, SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
   connect( statusModel, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
@@ -80,7 +79,6 @@ Core::Core( MainWindow *parent ) :
   connect( statusModel, SIGNAL(destroy(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(destroyStatus(TwitterAPI::SocialNetwork,QString,int)) );
   connect( statusModel, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( statusModel, SIGNAL(newStatuses(QString,bool)), this, SLOT(storeNewStatuses(QString,bool)) );
-//  connect( this, SIGNAL(setImageForUrl(QString,QPixmap*)), statusModel, SLOT(setImageForUrl(QString,QPixmap*)) );
   connect( this, SIGNAL(allRequestsFinished()), statusModel, SLOT(checkForUnread()) );
   connect( this, SIGNAL(resizeData(int,int)), statusModel, SLOT(resizeData(int,int)) );
 
@@ -88,12 +86,6 @@ Core::Core( MainWindow *parent ) :
 
 Core::~Core()
 {
-  QMap<Account,StatusList*>::iterator i = statusLists.begin();
-  while ( i != statusLists.end() ) {
-    // TODO
-//    (*i)->deleteLater();
-    i++;
-  }
 }
 
 void Core::createAccounts( QWidget *view )
@@ -369,11 +361,11 @@ void Core::addEntry( TwitterAPI::SocialNetwork network, const QString &login, En
   if ( login == TwitterAPI::PUBLIC_TIMELINE ) {
     if ( !statusLists.contains( Account::publicTimeline( network ) ) )
       return;
-    statusLists[ Account::publicTimeline( network ) ]->addStatus( &entry );
+    statusLists[ Account::publicTimeline( network ) ]->addStatus( entry );
   } else {
     if ( !statusLists.contains( *accountsModel->account( network, login ) ) )
       return;
-    statusLists[ *accountsModel->account( network, login ) ]->addStatus( &entry );
+    statusLists[ *accountsModel->account( network, login ) ]->addStatus( entry );
   }
 
   if ( entry.type == Entry::Status ) {
@@ -451,7 +443,7 @@ void Core::setupStatusLists()
 
   foreach ( Account account, accountsModel->getAccounts() ) {
     if ( account.isEnabled && !statusLists.contains( account ) ) {
-      StatusList *statusList = new StatusList( account.login, account.network );
+      StatusList *statusList = new StatusList( account.login, account.network, this );
       statusLists.insert( account, statusList );
 //      model = new StatusModel( account.network, account.login, margin, listViewForModels, this );
 //      createConnectionsWithModel( model );
@@ -476,7 +468,7 @@ void Core::setupStatusLists()
     break;
   case AccountsController::PT_TWITTER:
     if ( !statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ) ) {
-      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_TWITTER );
+      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_TWITTER, this );
       statusLists.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ), statusList );
     }
     if ( statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
@@ -486,7 +478,7 @@ void Core::setupStatusLists()
     break;
   case AccountsController::PT_IDENTICA:
     if ( !statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
-      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_IDENTICA );
+      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_IDENTICA, this );
       statusLists.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ), statusList );
     }
     if ( statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ) ) {
@@ -496,11 +488,11 @@ void Core::setupStatusLists()
     break;
   case AccountsController::PT_BOTH:
     if ( !statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ) ) {
-      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_TWITTER );
+      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_TWITTER, this );
       statusLists.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ), statusList );
     }
     if ( !statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
-      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_IDENTICA );
+      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_IDENTICA, this );
       statusLists.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ), statusList );
     }
   }
