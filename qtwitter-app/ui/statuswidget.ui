@@ -304,11 +304,11 @@ p, li { white-space: pre-wrap; }
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="menuButton">
+   <widget class="QPushButton" name="replyDeleteButton">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>6</y>
+      <x>26</x>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -339,7 +339,14 @@ background-color: rgba(255,255,255,0);
 </string>
     </property>
     <property name="text">
-     <string/>
+     <string notr="true"/>
+    </property>
+    <property name="icon">
+     <iconset resource="../res/resources.qrc">
+      <normaloff>:/icons/cross_16.png</normaloff>:/icons/cross_16.png</iconset>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="timeStamp">
@@ -363,13 +370,43 @@ background-color: rgba(255,255,255,0);
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="replyButton">
+   <widget class="QPushButton" name="infoButton">
     <property name="geometry">
      <rect>
-      <x>6</x>
+      <x>42</x>
       <y>60</y>
-      <width>20</width>
-      <height>20</height>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string>QPushButton {
+border: 1px;
+background-color: rgba(255,255,255,0);
+}
+</string>
+    </property>
+    <property name="text">
+     <string notr="true"/>
+    </property>
+    <property name="icon">
+     <iconset resource="../res/resources.qrc">
+      <normaloff>:/icons/questionmark_16.png</normaloff>:/icons/questionmark_16.png</iconset>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="favoriteButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>60</y>
+      <width>16</width>
+      <height>16</height>
      </rect>
     </property>
     <property name="autoFillBackground">
@@ -385,6 +422,13 @@ background-color: rgba(255,255,255,0);
     <property name="text">
      <string/>
     </property>
+    <property name="icon">
+     <iconset resource="../res/resources.qrc">
+      <normaloff>:/icons/star_off_16.png</normaloff>:/icons/star_off_16.png</iconset>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
   </widget>
  </widget>
@@ -395,6 +439,8 @@ background-color: rgba(255,255,255,0);
    <header>statustextbrowser.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../res/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

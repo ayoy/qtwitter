@@ -91,6 +91,7 @@ protected:
 
 private slots:
   void focusRequest();
+  void handleReplyDeleteButton();
 
 private:
   void createMenu();
