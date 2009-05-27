@@ -308,7 +308,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>26</x>
-      <y>60</y>
+      <y>65</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -370,11 +370,11 @@ background-color: rgba(255,255,255,0);
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="infoButton">
+   <widget class="UserInfoButton" name="infoButton">
     <property name="geometry">
      <rect>
       <x>42</x>
-      <y>60</y>
+      <y>65</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -404,7 +404,7 @@ background-color: rgba(255,255,255,0);
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>60</y>
+      <y>65</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -437,6 +437,11 @@ background-color: rgba(255,255,255,0);
    <class>StatusTextBrowser</class>
    <extends>QTextBrowser</extends>
    <header>statustextbrowser.h</header>
+  </customwidget>
+  <customwidget>
+   <class>UserInfoButton</class>
+   <extends>QPushButton</extends>
+   <header>userinfobutton.h</header>
   </customwidget>
  </customwidgets>
  <resources>

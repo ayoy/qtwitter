@@ -28,6 +28,7 @@
 #include "ui_statuswidget.h"
 #include "settings.h"
 #include "statuslist.h"
+#include "ui_userinfo.h"
 
 int StatusWidget::scrollBarWidth = 0;
 int StatusWidget::currentWidth = 0;
@@ -402,17 +403,21 @@ void StatusWidget::changeEvent( QEvent *e )
 
 void StatusWidget::enterEvent( QEvent *e )
 {
+//  if ( m_ui->infoButton->isPopupActive() )
+//    return;
+
   if ( statusState != StatusModel::STATE_DISABLED ) {
 
-    if ( statusData ) {      
+    if ( statusData ) {
       if ( statusData->isOwn ) {
         m_ui->replyDeleteButton->setIcon( QIcon(":/icons/cross_16.png") );
-      } else if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE ) {
+      } else {
         m_ui->replyDeleteButton->setIcon( QIcon(":/icons/reply_16.png") );
       }
     }
 
-    m_ui->replyDeleteButton->show();
+    if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE )
+      m_ui->replyDeleteButton->show();
     m_ui->favoriteButton->show();
     m_ui->infoButton->show();
   }
@@ -421,6 +426,9 @@ void StatusWidget::enterEvent( QEvent *e )
 
 void StatusWidget::leaveEvent( QEvent *e )
 {
+//  if ( m_ui->infoButton->isPopupActive() )
+//    return;
+
   m_ui->favoriteButton->hide();
   m_ui->replyDeleteButton->hide();
   m_ui->infoButton->hide();
