@@ -30,14 +30,18 @@
 struct TWITTERAPI_EXPORT UserInfo
 {
     UserInfo();
+    void initialize();
+    bool checkContents();
 
+    //todo: userId instead of id
     int id;                           //!< User ID
     QString name;                     //!< User's real name
     QString screenName;               //!< User's screen name/login
     QString location;                 //!< User's location
     QString description;              //!< User's profile description
-    QString imageUrl;                //!< Profile image url/link to user's avatar
+    QString imageUrl;                 //!< Profile image url/link to user's avatar
     QString homepage;                 //!< User's homepage url
+    bool hasHomepage;
     bool profileProtected;            //!< Indicates whether user's statuses are protected or publicly viewable
     int followersCount;               //!< Number of followers
     int friendsCount;                 //!< Number of friends
@@ -46,11 +50,11 @@ struct TWITTERAPI_EXPORT UserInfo
     //favourites count
     int utcOffset;                    //!< User's local time's offset from UTC
     //TODO: check how/if Qt handles timezones
-    QString timeZone;                 //!< User's timezone
+//    QString timeZone;                 //!< User's timezone
     int statusesCount;                //!< Number of statuses
     //TODO: check below fields
-    bool notifications;
-    bool following;
+//    bool notifications;
+//    bool following;
     QString currentStatus;            //!< User's current status
 };
 

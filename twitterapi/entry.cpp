@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This library is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -28,27 +29,28 @@ Entry::Entry( Entry::Type entryType ) :
   id( -1 ),
   text( QString() ),
   originalText( QString() ),
-  name( QString() ),
-  screenName( QString() ),
-  image( QString() ),
-  homepage( QString() ),
-  hasHomepage( false ),
+//  name( QString() ),
+//  screenName( QString() ),
+//  image( QString() ),
+//  homepage( QString() ),
+//  hasHomepage( false ),
   timestamp( QDateTime() ),
   localTime( QDateTime() ),
   hasInReplyToStatusId( false ),
   inReplyToStatusId( -1 ),
-  inReplyToScreenName( QString() )
+  inReplyToScreenName( QString() ),
+  userInfo( UserInfo() )
 {}
 
 void Entry::initialize()
 {
   isOwn = false;
   id = -1;
-  name = QString();
-  screenName = QString();
-  homepage = QString();
-  hasHomepage = false;
-  image = QString();
+//  name = QString();
+//  screenName = QString();
+//  homepage = QString();
+//  hasHomepage = false;
+//  image = QString();
   text = QString();
   originalText = QString();
   timestamp = QDateTime();
@@ -56,30 +58,27 @@ void Entry::initialize()
   hasInReplyToStatusId = false;
   inReplyToStatusId = -1;
   inReplyToScreenName = QString();
+  userInfo.initialize();
 }
 
 bool Entry::checkContents()
 {
-  if ( !hasHomepage ) {
-    homepage = QString();
-  }
   if ( !hasInReplyToStatusId ) {
     inReplyToStatusId = -1;
     inReplyToScreenName = QString();
   }
-  if ( ( id != -1 ) &&
-       !name.isNull() &&
-       !screenName.isNull() &&
-       ( type == Status ? !image.isNull() : true ) &&
-       !text.isNull() &&
-       ( hasHomepage ? !homepage.isNull() : true ) &&
-       !timestamp.isNull() &&
-       !localTime.isNull()  &&
-       ( hasInReplyToStatusId ? inReplyToStatusId != -1 : true ) &&
-       ( hasInReplyToStatusId ? !inReplyToScreenName.isNull() : true ) ) {
-    return true;
+  if ( userInfo.checkContents() ) {
+    if ( ( id != -1 ) &&
+         ( type == Status ? !userInfo.imageUrl.isNull() : true ) &&  //todo: reference to userinfo here is lame
+         !text.isNull() &&
+         !timestamp.isNull() &&
+         !localTime.isNull()  &&
+         ( hasInReplyToStatusId ? inReplyToStatusId != -1 : true ) &&
+         ( hasInReplyToStatusId ? !inReplyToScreenName.isNull() : true ) ) {
+      return true;
+    }
   }
-  return false;
+    return false;
 }
 
 bool Entry::operator== (const Entry &other )
@@ -89,11 +88,11 @@ bool Entry::operator== (const Entry &other )
            && id == other.id
            && text == other.text
            && originalText == other.originalText
-           && name == other.name
-           && screenName == other.screenName
-           && image == other.image
-           && homepage == other.homepage
-           && hasHomepage == other.hasHomepage
+           && userInfo.name == other.userInfo.name
+           && userInfo.screenName == other.userInfo.screenName
+           && userInfo.imageUrl == other.userInfo.imageUrl
+           && userInfo.homepage == other.userInfo.homepage
+           && userInfo.hasHomepage == other.userInfo.hasHomepage
            && timestamp == other.timestamp
            && localTime == other.localTime
            && hasInReplyToStatusId == other.hasInReplyToStatusId

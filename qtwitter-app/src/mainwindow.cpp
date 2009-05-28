@@ -560,7 +560,7 @@ void MainWindow::statusGototwitterpageAction()
   if ( model )
     if ( model->currentStatus() )
     {
-      emitOpenBrowser( "http://twitter.com/" + model->currentStatus()->data().screenName );
+      emitOpenBrowser( "http://twitter.com/" + model->currentStatus()->data().userInfo.screenName );
     }
 }
 
@@ -570,7 +570,7 @@ void MainWindow::statusGotohomepageAction()
   if ( model )
     if ( model->currentStatus() )
     {
-      emitOpenBrowser( model->currentStatus()->data().homepage );
+      emitOpenBrowser( model->currentStatus()->data().userInfo.homepage );
     }
 }
 

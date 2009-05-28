@@ -377,11 +377,11 @@ void Core::addEntry( TwitterAPI::SocialNetwork network, const QString &login, En
   }
 
   if ( entry.type == Entry::Status ) {
-    if ( imageDownload->contains( entry.image ) ) {
-      if ( !imageDownload->imageFromUrl( entry.image )->isNull() )
-        emit setImageForUrl( entry.image, imageDownload->imageFromUrl( entry.image ) );
+    if ( imageDownload->contains( entry.userInfo.imageUrl ) ) {
+      if ( !imageDownload->imageFromUrl( entry.userInfo.imageUrl )->isNull() )
+        emit setImageForUrl( entry.userInfo.imageUrl, imageDownload->imageFromUrl( entry.userInfo.imageUrl ) );
     } else {
-      imageDownload->imageGet( entry.image );
+      imageDownload->imageGet( entry.userInfo.imageUrl );
     }
   }
 }
@@ -399,7 +399,7 @@ void Core::setImageForUrl( const QString& url, QPixmap *image )
   {
     for ( int i = 0; i < statusList->size(); i++ ) {
       status = statusList->data(i);
-      if ( url == status.entry.image ) {
+      if ( url == status.entry.userInfo.imageUrl ) {
 //        status.image = *image;
         statusList->setImage( i, *image );
       }

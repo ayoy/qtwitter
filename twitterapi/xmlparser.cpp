@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This library is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -23,22 +24,31 @@
 #include "xmlparser.h"
 
 const QString XmlParser::TAG_STATUS = "status";
-const QString XmlParser::TAG_USER_ID = "id";
+const QString XmlParser::TAG_STATUS_ID = "id";
 const QString XmlParser::TAG_USER_TEXT = "text";
+const QString XmlParser::TAG_USER_ID = "id";
 const QString XmlParser::TAG_USER_NAME = "name";
-const QString XmlParser::TAG_USER_LOGIN = "screen_name";
+const QString XmlParser::TAG_USER_SCREENNAME = "screen_name";
 const QString XmlParser::TAG_USER_IMAGE = "profile_image_url";
 const QString XmlParser::TAG_USER_HOMEPAGE = "url";
 const QString XmlParser::TAG_USER_TIMESTAMP = "created_at";
 const QString XmlParser::TAG_INREPLYTO_STATUS_ID = "in_reply_to_status_id";
 const QString XmlParser::TAG_INREPLYTO_SCREEN_NAME = "in_reply_to_screen_name";
+const QString XmlParser::TAG_LOCATION = "location";
+const QString XmlParser::TAG_DESCRIPTION = "description";
+const QString XmlParser::TAG_FOLLOWERS_COUNT = "followers_count";
+const QString XmlParser::TAG_FRIENDS_COUNT = "friends_count";
+const QString XmlParser::TAG_PROFILE_TIMESTAMP = "created_at";
+const QString XmlParser::TAG_UTC_OFFSET = "utc_offset";
+const QString XmlParser::TAG_STATUS_COUNT = "statuses_count";
 
 const QString XmlParserDirectMsg::TAG_DIRECT_MESSAGE = "direct_message";
 const QString XmlParserDirectMsg::TAG_SENDER = "sender";
 
-const QSet<QString> XmlParser::tags = QSet<QString>() << TAG_USER_ID << TAG_USER_TEXT << TAG_USER_NAME << TAG_USER_LOGIN
+const QSet<QString> XmlParser::tags = QSet<QString>() << TAG_STATUS_ID << TAG_USER_TEXT << TAG_USER_NAME << TAG_USER_SCREENNAME
                                                 << TAG_USER_IMAGE << TAG_USER_HOMEPAGE << TAG_USER_TIMESTAMP << TAG_INREPLYTO_STATUS_ID
-                                                << TAG_INREPLYTO_SCREEN_NAME;
+                                                << TAG_INREPLYTO_SCREEN_NAME << TAG_USER_ID << TAG_LOCATION << TAG_DESCRIPTION
+                                                << TAG_FOLLOWERS_COUNT << TAG_FRIENDS_COUNT << TAG_STATUS_COUNT;
 
 const int XmlParser::timeShift = XmlParser::calculateTimeShift();
 
@@ -79,6 +89,9 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
   if ( qName == TAG_STATUS ) {
     entry.initialize();
   }
+  if( qName == TAG_USER ) {
+    parsingUser == true;
+  }
   important = tags.contains( qName );
   if ( important )
     currentTag = qName;
@@ -96,19 +109,19 @@ bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & 
 bool XmlParser::characters( const QString &ch )
 {
   if ( important ) {
-    if ( currentTag == TAG_USER_ID && entry.id == -1 ) {
+    if ( currentTag == TAG_STATUS_ID && entry.id == -1 ) {
       entry.id = ch.toInt();
-    } else if ( currentTag == TAG_USER_NAME && entry.name.isNull() ) {
-      entry.name = ch;
-    } else if ( currentTag == TAG_USER_LOGIN && entry.screenName.isNull() ) {
-      entry.screenName = ch;
-      if ( entry.screenName == login )
+    } else if ( currentTag == TAG_USER_NAME && entry.userInfo.name.isNull() ) {
+      entry.userInfo.name = ch;
+    } else if ( currentTag == TAG_USER_SCREENNAME && entry.userInfo.screenName.isNull() ) {
+      entry.userInfo.screenName = ch;
+      if ( entry.userInfo.screenName == login )
         entry.isOwn = true;
     } else if ( currentTag == TAG_USER_TEXT && entry.text.isNull() ) {
       entry.originalText = ch;
       entry.text = textToHtml( ch, network );
-    } else if ( currentTag == TAG_USER_IMAGE && entry.image.isNull() ) {
-      entry.image = ch;
+    } else if ( currentTag == TAG_USER_IMAGE && entry.userInfo.imageUrl.isNull() ) {
+      entry.userInfo.imageUrl = ch;
     } else if ( currentTag == TAG_USER_TIMESTAMP && entry.timestamp.isNull() ) {
       entry.timestamp = toDateTime( ch ); //utc
       /* It's better to leave UTC timestamp alone; Additional member localTime is added to store local time when
@@ -116,8 +129,8 @@ bool XmlParser::characters( const QString &ch )
       entry.localTime = entry.timestamp.addSecs( timeShift ); //now - utc
     } else if ( currentTag == TAG_USER_HOMEPAGE ) {
       if ( !ch.trimmed().isEmpty() ) {
-        entry.hasHomepage = true;
-        entry.homepage = ch;
+        entry.userInfo.hasHomepage = true;
+        entry.userInfo.homepage = ch;
       }
     } else if ( currentTag == TAG_INREPLYTO_STATUS_ID && entry.inReplyToStatusId == -1) {
       if( !ch.trimmed().isEmpty() ) {
@@ -234,7 +247,7 @@ bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const Q
 bool XmlParserDirectMsg::characters( const QString &ch )
 {
   if ( important ) {
-    if ( currentTag == TAG_USER_ID && entry.id == -1 ) {
+    if ( currentTag == TAG_STATUS_ID && entry.id == -1 ) {
       entry.id = ch.toInt();
     } else if ( currentTag == TAG_USER_TEXT && entry.text.isNull() ) {
       entry.originalText = ch;
@@ -244,14 +257,14 @@ bool XmlParserDirectMsg::characters( const QString &ch )
       entry.localTime = entry.timestamp.addSecs( timeShift );
     }
     if ( parsingSender ) {
-      if ( currentTag == TAG_USER_NAME && entry.name.isNull() ) {
-        entry.name = ch;
-      } else if ( currentTag == TAG_USER_LOGIN && entry.screenName.isNull() ) {
-        entry.screenName = ch;
+      if ( currentTag == TAG_USER_NAME && entry.userInfo.name.isNull() ) {
+        entry.userInfo.name = ch;
+      } else if ( currentTag == TAG_USER_SCREENNAME && entry.userInfo.screenName.isNull() ) {
+        entry.userInfo.screenName = ch;
       } else if ( currentTag == TAG_USER_HOMEPAGE ) {
         if ( !QRegExp( "\\s*" ).exactMatch( ch ) ) {
-          entry.hasHomepage = true;
-          entry.homepage = ch;
+          entry.userInfo.hasHomepage = true;
+          entry.userInfo.homepage = ch;
         }
       }
     }

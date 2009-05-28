@@ -353,7 +353,7 @@ void StatusModel::setImageForUrl( const QString& url, QPixmap *image )
   StatusWidget *statusWidget;
   for ( int i = 0; i < statusList->size(); i++ ) {
     status = statusList->data(i);
-    if ( url == status.entry.image ) {
+    if ( url == status.entry.userInfo.imageUrl ) {
       status.image = *image;
       statusWidget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
       statusWidget->setImage( *image );

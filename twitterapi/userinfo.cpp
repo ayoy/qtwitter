@@ -25,12 +25,13 @@
 
 
 UserInfo::UserInfo() :
-    id(0),
+    id(-1),
     name(QString()),
     screenName(QString()),
     location(QString()),
     description(QString()),
     homepage(QString()),
+    hasHomepage(false),
     profileProtected(false),
     followersCount(0),
     friendsCount(0),
@@ -38,10 +39,37 @@ UserInfo::UserInfo() :
     utcOffset(0),
     timeZone(QString()),
     statusesCount(0),
-    notifications(false),
-    following(false),
+    //notifications(false),
+    //following(false),
     currentStatus(QString())
 {
 }
 
+
+void UserInfo::initialize()
+{
+  //TODO: init remaining fields
+  id = -1;
+  name = QString();
+  screenName = QString();
+  homepage = QString();
+  hasHomepage = false;
+  imageUrl = QString();
+  location = QString();
+  description = QString();
+}
+
+bool UserInfo::checkContents()
+{
+  if( !hasHomepage)
+    homepage = QString();
+
+  if( /*(id != -1) && */
+      !name.isNull() &&
+      !screenName.isNull() &&
+      hasHomepage ? !homepage.isNull() : true)
+    return true;
+
+  return false;
+}
 

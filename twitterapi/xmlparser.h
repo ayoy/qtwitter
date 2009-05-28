@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This library is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -62,20 +63,35 @@ protected:
   QString currentTag;
   Entry entry;
   bool important;
+  bool parsingUser;
 
   static const int timeShift;
   static const QSet<QString> tags;
 
   static const QString TAG_STATUS;
-  static const QString TAG_USER_ID;
+  static const QString TAG_STATUS_ID;
   static const QString TAG_USER_TEXT;
+  static const QString TAG_USER_ID;
   static const QString TAG_USER_NAME;
-  static const QString TAG_USER_LOGIN;
+  static const QString TAG_USER_SCREENNAME;
   static const QString TAG_USER_IMAGE;
   static const QString TAG_USER_HOMEPAGE;
   static const QString TAG_USER_TIMESTAMP;
   static const QString TAG_INREPLYTO_STATUS_ID;
   static const QString TAG_INREPLYTO_SCREEN_NAME;
+  static const QString TAG_LOCATION;
+  static const QString TAG_DESCRIPTION;
+  static const QString TAG_PROFILE_PROTECTED;
+  static const QString TAG_FRIENDS_COUNT;
+  static const QString TAG_FOLLOWERS_COUNT;
+  static const QString TAG_PROFILE_TIMESTAMP;
+  static const QString TAG_UTC_OFFSET;
+  static const QString TAG_TIMEZONE;
+  static const QString TAG_STATUS_COUNT;
+//  static const QString TAG_NOTIFICATIONS;
+//  static const QString TAG_FOLLOWING;
+
+
 
 private:
 //  static void populateTagsSet();
