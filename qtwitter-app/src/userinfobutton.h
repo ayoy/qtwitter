@@ -22,6 +22,7 @@
 #define USERINFOBUTTON_H
 
 #include <QPushButton>
+class Status;
 
 class QWidget;
 
@@ -36,6 +37,7 @@ class UserInfoButton : public QPushButton
 public:
   UserInfoButton( QWidget *parent = 0 );
   bool isPopupActive() const;
+  void setData(const Status *status);
 
 protected:
   void enterEvent( QEvent *event );
@@ -49,6 +51,7 @@ private:
   UserInfoPopup *userInfo;
   QTimer *timer;
   bool active;
+  const Status *status;
 
 };
 

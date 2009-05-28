@@ -23,6 +23,7 @@
 #include <QTimer>
 #include "userinfobutton.h"
 #include "userinfopopup.h"
+#include "userinfo.h"
 
 UserInfoButton::UserInfoButton( QWidget *parent ) :
     QPushButton( parent ),
@@ -57,7 +58,7 @@ void UserInfoButton::showPopup()
     destroyPopup();
 
   if ( !UserInfoPopup::instance() )
-    UserInfoPopup::instantiate( this, Qt::Popup );
+    UserInfoPopup::instantiate( this, Qt::Popup, status );
 
   if ( UserInfoPopup::instance() ) {
     connect( UserInfoPopup::instance(), SIGNAL(closed()), this, SLOT(destroyPopup()) );
@@ -72,4 +73,9 @@ void UserInfoButton::destroyPopup()
     UserInfoPopup::instance()->deleteLater();
     active = false;
   }
+}
+
+void UserInfoButton::setData( const Status *status )
+{
+  this->status = status;
 }

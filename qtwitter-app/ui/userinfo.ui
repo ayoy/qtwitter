@@ -147,7 +147,7 @@ border-radius: 0px}</string>
         <item>
          <layout class="QVBoxLayout" name="verticalLayout_2">
           <item>
-           <widget class="QLabel" name="nameLabel">
+           <widget class="QLabel" name="name">
             <property name="font">
              <font>
               <weight>75</weight>

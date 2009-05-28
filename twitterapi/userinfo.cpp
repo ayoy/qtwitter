@@ -1,5 +1,4 @@
 /***************************************************************************
- *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
  *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This library is free software; you can redistribute it and/or modify  *
@@ -19,48 +18,63 @@
  ***************************************************************************/
 
 
-#ifndef ENTRY_H
-#define ENTRY_H
 
-#include <QMetaType>
-#include <QDateTime>
-#include "twitterapi_global.h"
+
 #include "userinfo.h"
 
 
-struct TWITTERAPI_EXPORT Entry
+
+UserInfo::UserInfo() :
+    id(-1),
+    name(QString()),
+    screenName(QString()),
+    location(QString()),
+    description(QString()),
+    homepage(QString()),
+    hasHomepage(false),
+    profileProtected(false),
+    followersCount(-1),
+    friendsCount(-1),
+ //   createdAt(QDateTime()),
+    utcOffset(-1),
+    statusesCount(-1)
+    //notifications(false),
+    //following(false),
 {
-  enum Type {
-    Status,
-    DirectMessage
-  };
+}
 
-  Entry( Entry::Type entryType = Entry::Status );
 
-  void initialize();
-  bool checkContents();
+void UserInfo::initialize()
+{
+  id = -1;
+  name = QString();
+  screenName = QString();
+  homepage = QString();
+  hasHomepage = false;
+  profileProtected = false;
+  imageUrl = QString();
+  location = QString();
+  description = QString();
+  followersCount = -1;
+  friendsCount = -1;
+  utcOffset = -1;
+  statusesCount = -1;
+}
 
-  bool operator == ( const Entry &other );
+bool UserInfo::checkContents()
+{
+  if( !hasHomepage)
+    homepage = QString();
 
-  Type type;
-  bool isOwn;
-  int id;
-  QString text;
-  QString originalText;
-//  QString name;   //twitter real name
-//  QString screenName;  //twitter screen name, used as a login
-//  QString image;
-//  QString homepage;
-//  bool hasHomepage;
-  QDateTime timestamp;
-  QDateTime localTime;
-  bool hasInReplyToStatusId;
-  int inReplyToStatusId;
-  QString inReplyToScreenName;
-  bool favorited;
-  UserInfo userInfo;
-};
+  if( (id != -1) &&
+      !name.isNull() &&
+      !screenName.isNull() &&
+      hasHomepage ? !homepage.isNull() : true &&
+      friendsCount != -1 &&
+      followersCount != -1 &&
+      utcOffset != -1)
+    return true;
 
-Q_DECLARE_METATYPE(Entry)
+  return false;
+}
 
-#endif //ENTRY_H

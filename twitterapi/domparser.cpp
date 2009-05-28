@@ -24,8 +24,27 @@
 #include "entry.h"
 
 
+const QString DomParser::TAG_USER_ID = "id";
+const QString DomParser::TAG_USER_NAME = "name";
+const QString DomParser::TAG_USER_SCREENNAME = "screen_name";
+const QString DomParser::TAG_LOCATION = "location";
+const QString DomParser::TAG_DESCRIPTION = "description";
+const QString DomParser::TAG_USER_IMAGEURL = "profile_image_url";
+const QString DomParser::TAG_USER_HOMEPAGE = "url";
+const QString DomParser::TAG_PROFILE_PROTECTED = "protected";
+const QString DomParser::TAG_FRIENDS_COUNT = "friends_count";
+const QString DomParser::TAG_FOLLOWERS_COUNT = "followers_count";
+const QString DomParser::TAG_PROFILE_TIMESTAMP = "created_at";
+const QString DomParser::TAG_UTC_OFFSET = "utc_offset";
+const QString DomParser::TAG_TIMEZONE = "time_zone";
+const QString DomParser::TAG_STATUS_COUNT = "statuses_count";
+const QString DomParser::TAG_NOTIFICATIONS = "notifications";
+const QString DomParser::TAG_FOLLOWING = "following";
+const QString DomParser::TAG_USER_STATUSTEXT = "text";
+
+
 DomParser::DomParser(TwitterAPI::SocialNetwork network, const QString &login, QObject *parent) :
-    QObject( parent ), entry()
+    QObject( parent ), userInfo()
 {
   this->network = network;
   this->login = login;
@@ -56,69 +75,43 @@ void DomParser::parseUserInfo()
     QDomElement e = n.toElement();
     if ( !e.isNull() ) {
       qDebug() << qPrintable( e.tagName() );
-      if(e.tagName() == "id")
-        entry.id = e.text().toInt();
-      else if(e.tagName() == "screen_name")
-        entry.name = e.text();
+      if(e.tagName() == TAG_USER_ID)           //user id
+        userInfo.id = e.text().toInt();
+      else if (e.tagName() == TAG_USER_NAME)  //user real name
+        userInfo.name = e.text();
+      else if(e.tagName() == TAG_USER_SCREENNAME)
+        userInfo.screenName = e.text();        //user screen name
+      else if(e.tagName() == TAG_LOCATION) {
+        qDebug() << qPrintable( e.tagName() );
+        userInfo.location = e.text();}
+      else if(e.tagName() == TAG_DESCRIPTION) {
+        qDebug() << qPrintable( e.tagName() );
+        userInfo.description == e.text();}
+      else if(e.tagName() == TAG_USER_IMAGEURL)
+        userInfo.imageUrl = e.text();
+      else if(e.tagName() == TAG_USER_HOMEPAGE)
+        userInfo.homepage == e.text();
+      else if(e.tagName() == TAG_PROFILE_PROTECTED) {
+        qDebug() << qPrintable( e.tagName() );
+        userInfo.profileProtected = true; }
+      else if(e.tagName() == TAG_FRIENDS_COUNT)
+        userInfo.friendsCount = e.text().toInt();
+      else if(e.tagName() == TAG_FOLLOWERS_COUNT)
+        userInfo.followersCount = e.text().toInt();
+      else if(e.tagName() == TAG_USER_STATUSTEXT && !userInfo.profileProtected) { //todo: subf
+        QDomNode statusTag = e.firstChild();
+        while ( !statusTag.isNull() ) {
+          QDomElement e = statusTag.toElement();
+          if(!e.isNull() ) {
+//            if(e.tagName() == TAG_USER_STATUSTEXT)
+//              userInfo.currentStatus = e.text(); //todo: text to html
+          }
+          statusTag = statusTag.nextSibling();
+        }
+      }
     }
     n = n.nextSibling();
   }
-//  emit completed(true, url, userId);
-//  emit newEntry(network, login, entry);
+  emit userInfoCompleted(network, login, userInfo);
 }
 
-/* void TwitPicEngine::parseReply(QByteArray &reply)
-{
-  QString url;
-  bool userId = false;
-  QDomDocument doc;
-
-  doc.setContent(reply, false);
-  QDomElement docElem = doc.documentElement();
-
-  if ( docElem.hasAttribute("stat") && (docElem.attribute("stat") == "fail") ) {
-
-    //failures have only att. "stat"
-    QDomElement error = docElem.firstChild().toElement();
-    qDebug() << error.tagName();
-    if (!error.isNull()) {
-      int errCode = error.attribute("code").toInt();
-      QString errMsg;
-
-      switch (errCode) {
-      case ErrInvalidLogin:
-        errMsg = tr( "Invalid twitter username or password");
-        break;
-      case ErrImageNotFound:
-        errMsg = tr( "Image not found" );
-        break;
-      case ErrInvalidType:
-        errMsg = tr( "Invalid image type" );
-        break;
-      case ErrOversized:
-        errMsg = tr( "Image larger than 4MB" );
-        break;
-      default:
-        errMsg = tr( "We're sorry, but due to some mysterious error your image failed to upload" );
-      }
-      emit completed(false, "\n" + errMsg, false);
-      return;
-    }
-
-    //status ok:
-    QDomNode n = docElem.firstChild();
-    while ( !n.isNull() ) {
-      QDomElement e = n.toElement();
-      if ( !e.isNull() ) {
-        qDebug() << qPrintable( e.tagName() );
-        if(e.tagName() == "userid")
-          userId = true;
-        else if(e.tagName() == "mediaurl")
-          url = e.text();
-      }
-      n = n.nextSibling();
-    }
-    emit completed(true, url, userId);
-  }
-}
-*/
