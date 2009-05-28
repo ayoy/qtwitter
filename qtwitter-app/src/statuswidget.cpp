@@ -28,12 +28,14 @@
 #include "ui_statuswidget.h"
 #include "settings.h"
 #include "statuslist.h"
+#include "ui_userinfo.h"
 
 int StatusWidget::scrollBarWidth = 0;
 int StatusWidget::currentWidth = 0;
 ThemeData StatusWidget::currentTheme = ThemeData();
 TwitterAPI::SocialNetwork StatusWidget::currentNetwork = TwitterAPI::SOCIALNETWORK_TWITTER;
 QString StatusWidget::currentLogin = QString();
+StatusWidget* StatusWidget::activeStatus = 0;
 
 StatusWidget::StatusWidget( StatusModel *parentModel, QWidget *parent ) :
   QWidget(parent),
@@ -47,14 +49,17 @@ StatusWidget::StatusWidget( StatusModel *parentModel, QWidget *parent ) :
   m_ui(new Ui::StatusWidget)
 {
   m_ui->setupUi( this );
+  m_ui->favoriteButton->hide();
+  m_ui->infoButton->hide();
+  m_ui->replyDeleteButton->hide();
 
   QFont timeStampFont = m_ui->timeStamp->font();
   timeStampFont.setPointSize( timeStampFont.pointSize() - 1 );
   m_ui->timeStamp->setFont( timeStampFont );
 
+  connect( m_ui->replyDeleteButton, SIGNAL(clicked()), this, SLOT(handleReplyDeleteButton()));
   connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
   connect( this, SIGNAL(selectMe(StatusWidget*)), statusListModel, SLOT(selectStatus(StatusWidget*)) );
-  connect( m_ui->replyButton, SIGNAL(clicked()), this, SLOT(slotReply()));
 
   applyTheme();
   m_ui->userName->setText( "" );
@@ -93,17 +98,15 @@ void StatusWidget::createMenu()
 
   menu->addSeparator();
 
-  copylinkAction = new QAction( tr( "Copy link to this statuswidget" ), this );
+  copylinkAction = new QAction( tr( "Copy link to this status" ), this );
   copylinkAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ) );
   menu->addAction( copylinkAction );
   connect( copylinkAction, SIGNAL(triggered()), this, SLOT(slotCopyLink()) );
 
-  deleteAction = new QAction( tr( "Delete statuswidget" ), this );
+  deleteAction = new QAction( tr( "Delete status" ), this );
   deleteAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ) );
   menu->addAction( deleteAction );
   connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-  connect( m_ui->menuButton, SIGNAL(clicked()), signalMapper, SLOT(map()) );
-  connect( signalMapper, SIGNAL(mapped(int)), statusListModel, SLOT(sendDeleteRequest(int)) );
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
   markallasreadAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ) );
@@ -158,7 +161,6 @@ void StatusWidget::setupMenu()
   } else {
     deleteAction->setEnabled( true );
     signalMapper->setMapping( deleteAction, statusData->id );
-    signalMapper->setMapping( m_ui->menuButton, statusData->id );
   }
 
   menu->addSeparator();
@@ -246,7 +248,6 @@ void StatusWidget::setStatusData( const Status &status )
                                        .arg( QString( "<a style=\"color:rgb(255, 248, 140)\" href=%1>%2</a>" )
                                              .arg( inReplyToUrl, statusData->inReplyToScreenName ) ) ) );
   }
-
 
   setState( status.state );
   setupMenu();
@@ -366,7 +367,6 @@ void StatusWidget::setCurrentNetwork( TwitterAPI::SocialNetwork network )
 // TODO: magic numbers!!!!!!!!
 void StatusWidget::adjustSize()
 {
-  m_ui->menuButton->move( this->size().width() - m_ui->menuButton->size().width() - 6, 6);
   m_ui->userStatus->document()->setTextWidth( m_ui->userStatus->width() );
   m_ui->userStatus->resize( m_ui->userStatus->size().width(), (int)m_ui->userStatus->document()->size().height() );
   m_ui->timeStamp->move( m_ui->timeStamp->x(), m_ui->userStatus->geometry().y() + m_ui->userStatus->height() );
@@ -404,20 +404,29 @@ void StatusWidget::changeEvent( QEvent *e )
 
 void StatusWidget::enterEvent( QEvent *e )
 {
-  if ( statusData ) {
-    if ( statusData->isOwn )
-      m_ui->menuButton->setIcon( QIcon( ":/icons/cancel_48.png" ) );
-    // TODO: enable replying to public timeline statuses
-    else if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE )
-      m_ui->replyButton->setIcon( QIcon( ":/icons/reply.png" ) );
+  if ( statusState != StatusModel::STATE_DISABLED ) {
+
+
+    if ( statusData ) {
+      if ( statusData->isOwn ) {
+        m_ui->replyDeleteButton->setIcon( QIcon(":/icons/cross_16.png") );
+      } else {
+        m_ui->replyDeleteButton->setIcon( QIcon(":/icons/reply_16.png") );
+      }
+    }
+
+    if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE )
+      m_ui->replyDeleteButton->show();
+    m_ui->favoriteButton->show();
+    m_ui->infoButton->show();
   }
-  QWidget::enterEvent( e );
 }
 
 void StatusWidget::leaveEvent( QEvent *e )
 {
-  m_ui->menuButton->setIcon( QIcon() );
-  m_ui->replyButton->setIcon( QIcon() );
+  m_ui->favoriteButton->hide();
+  m_ui->replyDeleteButton->hide();
+  m_ui->infoButton->hide();
   QWidget::leaveEvent( e );
 }
 
@@ -439,6 +448,13 @@ void StatusWidget::slotDelete()
   statusListModel->sendDeleteRequest( statusData->id );
 }
 
+void StatusWidget::handleReplyDeleteButton()
+{
+  if ( statusData->isOwn )
+    slotDelete();
+  else
+    slotReply();
+}
 
 /*! \class StatusWidget
     \brief A widget representation of an Entry class.

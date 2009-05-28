@@ -96,6 +96,22 @@ void StatusModel::updateState( int ind )
   status->setState( statusList->data( ind ).state );
 }
 
+void StatusModel::removeStatus( int ind )
+{
+  if ( ind == rowCount() - 1 )
+    return;
+
+  StatusWidget *status;
+
+  for ( int i = ind; i < statusList->size() - 1; ++i ) {
+    status = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
+    status->setStatusData( statusList->data(i + 1) );
+  }
+  status = static_cast<StatusWidget*>( view->indexWidget( index( statusList->size() - 1, 0 ) ) );
+  Q_ASSERT(status);
+  status->initialize();
+}
+
 StatusWidget* StatusModel::currentStatus()
 {
   if ( !currentIndex.isValid() )
@@ -135,6 +151,7 @@ void StatusModel::setStatusList( StatusList *statusList )
   if ( this->statusList ) {
     disconnect( this->statusList, SIGNAL(statusAdded(int)), this, SLOT(updateDisplay(int)) );
     disconnect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
+    disconnect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );
     disconnect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
     disconnect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
   }
@@ -142,6 +159,7 @@ void StatusModel::setStatusList( StatusList *statusList )
   this->statusList = statusList;
   connect( this->statusList, SIGNAL(statusAdded(int)), this, SLOT(updateDisplay(int)) );
   connect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
+  connect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );
   connect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
   connect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
 
@@ -295,7 +313,7 @@ void StatusModel::markAllAsRead()
 void StatusModel::checkForUnread()
 {
   qDebug() << "StatusModel::checkForUnread(" << login << ");";
-  for ( int i = 0; i < rowCount(); ++i ) {
+  for ( int i = 0; i < statusList->size(); ++i ) {
     if ( statusList->data(i).state == StatusModel::STATE_UNREAD ) {
       emit newStatuses( login, true );
       return;

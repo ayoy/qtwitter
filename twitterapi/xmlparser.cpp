@@ -204,7 +204,7 @@ QString XmlParser::textToHtml( QString newText, TwitterAPI::SocialNetwork networ
   networkUrl.replace( QRegExp( "/api$" ), "" );
   QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
   newText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
-  newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([^ @.,!:;]+)" ), QString( "\\1<a href=%1/\\2>@\\2</a>").arg( networkUrl ) );
+  newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([\\w\\d]+)" ), QString( "\\1<a href=%1/\\2>@\\2</a>").arg( networkUrl ) );
   ahref.setPattern( "(<a href=[^ ]+)/>" );
   ahref.setMinimal( true );
   newText.replace( ahref, "\\1>" );

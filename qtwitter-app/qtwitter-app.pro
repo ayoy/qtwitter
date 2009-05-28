@@ -77,7 +77,9 @@ SOURCES += src/main.cpp \
     src/twitpicengine.cpp \
     src/qtwitter.cpp \
     src/aboutdialog.cpp \
-    src/statuslist.cpp
+    src/statuslist.cpp \
+    src/userinfobutton.cpp \
+    src/userinfopopup.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/imagedownload.h \
@@ -92,14 +94,17 @@ HEADERS += src/mainwindow.h \
     src/twitpictextedit.h \
     src/qtwitter.h \
     src/aboutdialog.h \
-    src/statuslist.h
+    src/statuslist.h \
+    src/userinfobutton.h \
+    src/userinfopopup.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
     ui/statuswidget.ui \
     ui/aboutdialog.ui \
     ui/twitpicview.ui \
-    ui/twitpicnewphoto.ui
+    ui/twitpicnewphoto.ui \
+    ui/userinfo.ui
 RESOURCES += res/resources.qrc
 QT += network \
     xml

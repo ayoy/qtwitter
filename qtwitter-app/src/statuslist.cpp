@@ -32,7 +32,7 @@ public:
       active(-1)
   {}
 
-  int addStatus( Entry *entry );
+  int addStatus( Entry entry );
 
   QList<Status> data;
   bool visible;
@@ -140,10 +140,10 @@ int StatusList::size() const
   return d->data.size();
 }
 
-int StatusListPrivate::addStatus( Entry *entry )
+int StatusListPrivate::addStatus( Entry entry )
 {
   for ( QList<Status>::const_iterator i = data.begin(); i != data.end(); ++i) {
-    if ( entry->id == (*i).entry.id ) {
+    if ( entry.id == (*i).entry.id ) {
 //      qDebug() << "found existing entry of the same id";
       return -1;
     }
@@ -152,7 +152,7 @@ int StatusListPrivate::addStatus( Entry *entry )
 
   Status status;
   status.state = StatusModel::STATE_UNREAD;
-  status.entry = *entry;
+  status.entry = entry;
   if ( status.entry.type == Entry::DirectMessage )
     status.image = QPixmap( ":/icons/mail_48.png" );
 
@@ -175,7 +175,7 @@ int StatusListPrivate::addStatus( Entry *entry )
   return -1;
 }
 
-void StatusList::addStatus( Entry *entry )
+void StatusList::addStatus( Entry entry )
 {
   int index = d->addStatus( entry );
   if ( index >= 0 )
@@ -186,7 +186,9 @@ bool StatusList::deleteStatus( int id )
 {
   for ( QList<Status>::const_iterator i = d->data.begin(); i != d->data.end(); ++i) {
     if ( id == (*i).entry.id ) {
-      d->data.removeOne( *i );
+      int index = d->data.indexOf(*i);
+      d->data.removeOne(*i);
+      emit statusDeleted( index );
       return true;
     }
   }
