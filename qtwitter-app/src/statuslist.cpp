@@ -186,7 +186,9 @@ bool StatusList::deleteStatus( int id )
 {
   for ( QList<Status>::const_iterator i = d->data.begin(); i != d->data.end(); ++i) {
     if ( id == (*i).entry.id ) {
-      d->data.removeOne( *i );
+      int index = d->data.indexOf(*i);
+      d->data.removeOne(*i);
+      emit statusDeleted( index );
       return true;
     }
   }

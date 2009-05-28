@@ -52,6 +52,7 @@ public:
   void directMessages( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int msgCount = 20 );
   void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &user, const QString &data );
   void deleteDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
+  void createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
   void publicTimeline( TwitterAPI::SocialNetwork network );
   void userInfo( TwitterAPI::SocialNetwork network, int userId); /* todo */
 
@@ -87,10 +88,9 @@ private:
   static const QNetworkRequest::Attribute ATTR_LOGIN;
   static const QNetworkRequest::Attribute ATTR_PASSWORD;
   static const QNetworkRequest::Attribute ATTR_STATUS;
-  static const QNetworkRequest::Attribute ATTR_INREPLYTO_ID;
+  static const QNetworkRequest::Attribute ATTR_STATUS_ID;
   static const QNetworkRequest::Attribute ATTR_DM_REQUESTED;
   static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
-  static const QNetworkRequest::Attribute ATTR_DELETE_ID;
   static const QNetworkRequest::Attribute ATTR_MSGCOUNT;
   static const QNetworkRequest::Attribute ATTR_USERINFO;
 };

@@ -25,6 +25,7 @@
 #include "ui_userinfo.h"
 
 class QEvent;
+class QShowEvent;
 
 class UserInfoPopup : public QWidget
 {
@@ -33,22 +34,23 @@ class UserInfoPopup : public QWidget
 public:
   virtual ~UserInfoPopup();
 
-  static UserInfoPopup* instantiate( QObject *parent = 0, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+  static UserInfoPopup* instantiate( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
   static UserInfoPopup* instance();
 
-  QObject * const origin() const;
+public slots:
+  void close();
 
 signals:
   void closed();
 
 protected:
-  UserInfoPopup( QObject *origin, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+  UserInfoPopup( QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
   void leaveEvent( QEvent *event );
+  void showEvent( QShowEvent *event );
 
 private:
   static UserInfoPopup *_instance;
-  QObject *_origin;
   Ui::UserInfo *ui;
 };
 

@@ -93,6 +93,7 @@ public slots:
 
 signals:
   void statusAdded( int index );
+  void statusDeleted( int index );
   void dataChanged( int index );
   void stateChanged( int index );
   void imageChanged( int index );

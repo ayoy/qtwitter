@@ -179,11 +179,10 @@ const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_ROLE                 
 const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_LOGIN                  = (QNetworkRequest::Attribute) (QNetworkRequest::User + 2);
 const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_PASSWORD               = (QNetworkRequest::Attribute) (QNetworkRequest::User + 3);
 const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_STATUS                 = (QNetworkRequest::Attribute) (QNetworkRequest::User + 4);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_INREPLYTO_ID           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 5);
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_STATUS_ID              = (QNetworkRequest::Attribute) (QNetworkRequest::User + 5);
 const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DM_REQUESTED           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 6);
 const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DELETION_REQUESTED     = (QNetworkRequest::Attribute) (QNetworkRequest::User + 7);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DELETE_ID              = (QNetworkRequest::Attribute) (QNetworkRequest::User + 8);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_MSGCOUNT               = (QNetworkRequest::Attribute) (QNetworkRequest::User + 9);
+const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_MSGCOUNT               = (QNetworkRequest::Attribute) (QNetworkRequest::User + 8);
 
 /*!
   Constructs a new instance with a given \a parent.
@@ -270,7 +269,7 @@ void TwitterAPIInterface::postUpdate( TwitterAPI::SocialNetwork network, const Q
   request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
   request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
   request.setAttribute( TwitterAPIInterface::ATTR_STATUS, data );
-  request.setAttribute( TwitterAPIInterface::ATTR_INREPLYTO_ID, inReplyTo );
+  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, inReplyTo );
   if ( !connections[ network ].contains( login ) )
     createInterface( network, login );
   qDebug() << "TwitterAPIInterface::postUpdate(" + login + ")";
@@ -295,7 +294,7 @@ void TwitterAPIInterface::deleteUpdate( TwitterAPI::SocialNetwork network, const
   request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
   request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
   request.setAttribute( TwitterAPIInterface::ATTR_DELETION_REQUESTED, true );
-  request.setAttribute( TwitterAPIInterface::ATTR_DELETE_ID, id );
+  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, id );
   if ( !connections[ network ].contains( login ) )
     createInterface( network, login );
   qDebug() << "TwitterAPIInterface::deleteUpdate(" + login + ")";
@@ -404,7 +403,7 @@ void TwitterAPIInterface::deleteDM( TwitterAPI::SocialNetwork network, const QSt
 //  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
 //  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
 //  request.setAttribute( TwitterAPIInterface::ATTR_DELETION_REQUESTED, true );
-//  request.setAttribute( TwitterAPIInterface::ATTR_DELETE_ID, id );
+//  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, id );
 //  if ( !connections[ network ].contains( login ) )
 //    createInterface( network, login );
 //  qDebug() << "TwitterAPIInterface::deleteDM(" + login + ")";
@@ -501,10 +500,9 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
 //  qDebug() << ntwk << login.toString();
   QVariant password = request.attribute( TwitterAPIInterface::ATTR_PASSWORD );
   QVariant status = request.attribute( TwitterAPIInterface::ATTR_STATUS );
-  QVariant inreplyto = request.attribute( TwitterAPIInterface::ATTR_INREPLYTO_ID );
+  QVariant id = request.attribute( TwitterAPIInterface::ATTR_STATUS_ID );
   QVariant dm = request.attribute( TwitterAPIInterface::ATTR_DM_REQUESTED );
   QVariant del = request.attribute( TwitterAPIInterface::ATTR_DELETION_REQUESTED );
-  QVariant delId = request.attribute( TwitterAPIInterface::ATTR_DELETE_ID );
   switch ( replyCode ) {
   case 200: // Ok
     if ( role && role != TwitterAPI::ROLE_PUBLIC_TIMELINE )
@@ -542,7 +540,7 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
       break;
 
     case TwitterAPI::ROLE_DELETE_UPDATE:
-      emit deleteEntry( network, login.toString(), delId.toInt() );
+      emit deleteEntry( network, login.toString(), id.toInt() );
       emit requestDone( network, login.toString(), TwitterAPI::ROLE_DELETE_UPDATE );
       break;
 
@@ -627,14 +625,13 @@ void TwitterAPIInterface::slotAuthenticationRequired( QNetworkReply *reply, QAut
     authenticator->setPassword( password );
   } else {
     QVariant status = request.attribute( TwitterAPIInterface::ATTR_STATUS );
-    QVariant inreplyto = request.attribute( TwitterAPIInterface::ATTR_INREPLYTO_ID );
+    QVariant id = request.attribute( TwitterAPIInterface::ATTR_STATUS_ID );
     QVariant del = request.attribute( TwitterAPIInterface::ATTR_DELETION_REQUESTED );
-    QVariant delId = request.attribute( TwitterAPIInterface::ATTR_DELETE_ID );
 
     if ( del.isValid() && del.toBool() ) {
-      emit unauthorized( network, login, password, delId.toInt() );
+      emit unauthorized( network, login, password, id.toInt() );
     } else if ( status.isValid() ) {
-      emit unauthorized( network, login, password, status.toString(), inreplyto.toBool() );
+      emit unauthorized( network, login, password, status.toString(), id.toInt() );
     } else {
       emit unauthorized( network, login, password );
     }

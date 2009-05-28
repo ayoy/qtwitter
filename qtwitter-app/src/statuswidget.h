@@ -112,6 +112,7 @@ private:
   static ThemeData currentTheme;
   static QString currentLogin;
   static TwitterAPI::SocialNetwork currentNetwork;
+  static StatusWidget *activeStatus;
   StatusModel *statusListModel;
   Ui::StatusWidget *m_ui;
 };

@@ -20,6 +20,7 @@
 
 #include <QWidget>
 #include <QCursor>
+#include <QTimer>
 #include "userinfobutton.h"
 #include "userinfopopup.h"
 
@@ -28,6 +29,9 @@ UserInfoButton::UserInfoButton( QWidget *parent ) :
     userInfo(0)
 {
   active = false;
+  timer = new QTimer( this );
+  timer->setSingleShot( true );
+  connect( timer, SIGNAL(timeout()), this, SLOT(showPopup()) );
 }
 
 bool UserInfoButton::isPopupActive() const
@@ -37,19 +41,29 @@ bool UserInfoButton::isPopupActive() const
 
 void UserInfoButton::enterEvent( QEvent *event )
 {
+  Q_UNUSED(event);
+  timer->start( 500 );
+}
+
+void UserInfoButton::leaveEvent( QEvent *event )
+{
+  Q_UNUSED(event);
+  timer->stop();
+}
+
+void UserInfoButton::showPopup()
+{
   if ( UserInfoPopup::instance() && UserInfoPopup::instance()->parent() != this )
     destroyPopup();
 
   if ( !UserInfoPopup::instance() )
-    UserInfoPopup::instantiate( this, this, Qt::Popup );
+    UserInfoPopup::instantiate( this, Qt::Popup );
 
   if ( UserInfoPopup::instance() ) {
     connect( UserInfoPopup::instance(), SIGNAL(closed()), this, SLOT(destroyPopup()) );
     UserInfoPopup::instance()->move( QCursor::pos() );
     UserInfoPopup::instance()->show();
-    event->accept();
   }
-  QPushButton::enterEvent( event );
 }
 
 void UserInfoButton::destroyPopup()

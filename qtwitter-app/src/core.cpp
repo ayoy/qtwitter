@@ -380,8 +380,11 @@ void Core::addEntry( TwitterAPI::SocialNetwork network, const QString &login, En
 
 void Core::deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, int id )
 {
-  if ( statusLists.contains( *accountsModel->account( network, login ) ) )
-    statusLists[ *accountsModel->account( network, login ) ]->deleteStatus( id );
+  Account *account = accountsModel->account( network, login );
+  if ( statusLists.contains( *account ) ) {
+    statusLists[ *account ]->deleteStatus( id );
+    get( network, login, account->password );
+  }
 }
 
 void Core::setImageForUrl( const QString& url, QPixmap *image )

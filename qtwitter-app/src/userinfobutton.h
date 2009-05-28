@@ -39,12 +39,15 @@ public:
 
 protected:
   void enterEvent( QEvent *event );
+  void leaveEvent( QEvent *event );
 
 private slots:
   void destroyPopup();
+  void showPopup();
 
 private:
   UserInfoPopup *userInfo;
+  QTimer *timer;
   bool active;
 
 };

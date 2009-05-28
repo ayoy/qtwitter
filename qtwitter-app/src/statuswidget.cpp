@@ -35,6 +35,7 @@ int StatusWidget::currentWidth = 0;
 ThemeData StatusWidget::currentTheme = ThemeData();
 TwitterAPI::SocialNetwork StatusWidget::currentNetwork = TwitterAPI::SOCIALNETWORK_TWITTER;
 QString StatusWidget::currentLogin = QString();
+StatusWidget* StatusWidget::activeStatus = 0;
 
 StatusWidget::StatusWidget( StatusModel *parentModel, QWidget *parent ) :
   QWidget(parent),
@@ -403,10 +404,8 @@ void StatusWidget::changeEvent( QEvent *e )
 
 void StatusWidget::enterEvent( QEvent *e )
 {
-//  if ( m_ui->infoButton->isPopupActive() )
-//    return;
-
   if ( statusState != StatusModel::STATE_DISABLED ) {
+
 
     if ( statusData ) {
       if ( statusData->isOwn ) {
@@ -421,14 +420,10 @@ void StatusWidget::enterEvent( QEvent *e )
     m_ui->favoriteButton->show();
     m_ui->infoButton->show();
   }
-  QWidget::enterEvent( e );
 }
 
 void StatusWidget::leaveEvent( QEvent *e )
 {
-//  if ( m_ui->infoButton->isPopupActive() )
-//    return;
-
   m_ui->favoriteButton->hide();
   m_ui->replyDeleteButton->hide();
   m_ui->infoButton->hide();

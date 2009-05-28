@@ -19,16 +19,17 @@
 
 
 #include "userinfopopup.h"
+#include <QTimer>
 
 UserInfoPopup* UserInfoPopup::_instance = 0;
 
-UserInfoPopup* UserInfoPopup::instantiate( QObject *origin, QWidget *parent, Qt::WindowFlags flags )
+UserInfoPopup* UserInfoPopup::instantiate( QWidget *parent, Qt::WindowFlags flags )
 {
   if ( !_instance )
-    _instance = new UserInfoPopup( origin, parent, flags );
-  else if ( _instance->_origin != origin ) {
+    _instance = new UserInfoPopup( parent, flags );
+  else if ( _instance->parent() != parent ) {
     _instance->deleteLater();
-    _instance = new UserInfoPopup( origin, parent, flags );
+    _instance = new UserInfoPopup( parent, flags );
   }
 
   return _instance;
@@ -39,14 +40,8 @@ UserInfoPopup* UserInfoPopup::instance()
   return _instance;
 }
 
-QObject * const UserInfoPopup::origin() const
-{
-  return _origin;
-}
-
-UserInfoPopup::UserInfoPopup( QObject *origin, QWidget *parent, Qt::WindowFlags flags ) :
+UserInfoPopup::UserInfoPopup( QWidget *parent, Qt::WindowFlags flags ) :
     QWidget( parent, flags ),
-    _origin( origin ),
     ui( new Ui::UserInfo )
 {
   ui->setupUi( this );
@@ -59,9 +54,20 @@ UserInfoPopup::~UserInfoPopup()
   _instance = 0;
 }
 
+void UserInfoPopup::close()
+{
+  emit closed();
+  QWidget::close();
+}
+
 void UserInfoPopup::leaveEvent( QEvent *event )
 {
   Q_UNUSED(event);
-  close();
-  emit closed();
+  QTimer::singleShot( 500, this, SLOT(close()) );
+}
+
+void UserInfoPopup::showEvent( QShowEvent *event )
+{
+  Q_UNUSED(event);
+  QTimer::singleShot( 10000, this, SLOT(close()) );
 }
