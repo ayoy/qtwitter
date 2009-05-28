@@ -61,8 +61,6 @@ protected:
   static const QString TAG_FOLLOWING;
   static const QString TAG_USER_STATUSTEXT;
 
-//signals:
-//  void newEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
 
 private:
   QDomDocument reply;

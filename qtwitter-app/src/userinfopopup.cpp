@@ -52,6 +52,7 @@ UserInfoPopup::UserInfoPopup( QWidget *parent, Qt::WindowFlags flags, const Stat
   ui->url->setText(status->entry.userInfo.homepage);
   ui->userImage->setPixmap(status->image);
   ui->screenName->setText(status->entry.userInfo.screenName);
+  ui->nameLabel->setText(status->entry.userInfo.name);
 }
 
 UserInfoPopup::~UserInfoPopup()

@@ -47,11 +47,6 @@ struct TWITTERAPI_EXPORT Entry
   int id;
   QString text;
   QString originalText;
-//  QString name;   //twitter real name
-//  QString screenName;  //twitter screen name, used as a login
-//  QString image;
-//  QString homepage;
-//  bool hasHomepage;
   QDateTime timestamp;
   QDateTime localTime;
   bool hasInReplyToStatusId;
