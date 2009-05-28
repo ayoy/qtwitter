@@ -52,7 +52,6 @@ public:
   void initialize();
   void setStatusData( const Status &status );
   void setImage( const QPixmap &pixmap );
-  void setFavorite();
   void setState( StatusModel::StatusState state );
   StatusModel::StatusState getState() const;
 

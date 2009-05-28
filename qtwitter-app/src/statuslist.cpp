@@ -195,11 +195,11 @@ bool StatusList::deleteStatus( int id )
   return false;
 }
 
-void StatusList::setFavorite( int id, bool favorite )
+void StatusList::setFavorited( int id, bool favorited )
 {
-  for ( QList<Status>::const_iterator i = d->data.begin(); i != d->data.end(); ++i) {
+  for ( QList<Status>::iterator i = d->data.begin(); i != d->data.end(); ++i) {
     if ( id == (*i).entry.id ) {
-//      (*i).entry.favorite = favorite;
+      (*i).entry.favorited = favorited;
       emit favoriteChanged( d->data.indexOf(*i) );
     }
   }

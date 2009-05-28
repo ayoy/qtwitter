@@ -89,13 +89,6 @@ void StatusModel::updateImage( int ind )
   status->setImage( statusList->data( ind ).image );
 }
 
-void StatusModel::updateFavorite( int ind )
-{
-  StatusWidget *status = static_cast<StatusWidget*>( view->indexWidget( index( ind, 0 ) ) );
-  Q_ASSERT(status);
-//  status->setFavorite( statusList->data( ind ).entry.favorite );
-}
-
 void StatusModel::updateState( int ind )
 {
   StatusWidget *status = static_cast<StatusWidget*>( view->indexWidget( index( ind, 0 ) ) );
@@ -160,7 +153,7 @@ void StatusModel::setStatusList( StatusList *statusList )
     disconnect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
     disconnect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );
     disconnect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
-    disconnect( this->statusList, SIGNAL(favoriteChanged(int)), this, SLOT(updateFavorite(int)) );
+    disconnect( this->statusList, SIGNAL(favoriteChanged(int)), this, SLOT(updateDisplay(int)) );
     disconnect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
   }
 
@@ -169,7 +162,7 @@ void StatusModel::setStatusList( StatusList *statusList )
   connect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
   connect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );
   connect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
-  connect( this->statusList, SIGNAL(favoriteChanged(int)), this, SLOT(updateFavorite(int)) );
+  connect( this->statusList, SIGNAL(favoriteChanged(int)), this, SLOT(updateDisplay(int)) );
   connect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
 
   // for cleaning up the list when switching to public timeline that could have

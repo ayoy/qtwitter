@@ -25,9 +25,9 @@
 #include <QSignalMapper>
 #include <twitterapi/twitterapi_global.h>
 #include "statuswidget.h"
-#include "ui_statuswidget.h"
 #include "settings.h"
 #include "statuslist.h"
+#include "ui_statuswidget.h"
 #include "ui_userinfo.h"
 
 int StatusWidget::scrollBarWidth = 0;
@@ -103,6 +103,7 @@ void StatusWidget::createMenu()
 
   favoriteAction = new QAction( tr( "Add to Favorites" ), this );
   favoriteAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_F ) );
+  menu->addAction( favoriteAction );
   connect( favoriteAction, SIGNAL(triggered()), this, SLOT(slotFavorite()) );
 
   copylinkAction = new QAction( tr( "Copy link to this status" ), this );
@@ -244,6 +245,20 @@ void StatusWidget::setStatusData( const Status &status )
     m_ui->replyDeleteButton->setToolTip( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
   }
 
+  if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE ) {
+    if ( statusData->favorited ) {
+      m_ui->favoriteButton->setIcon( QIcon( ":/icons/star_on_16.png" ) );
+      m_ui->favoriteButton->setToolTip( tr( "Remove from Favorites" ) );
+    } else {
+      m_ui->favoriteButton->setIcon( QIcon( ":/icons/star_off_16.png" ) );
+      m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
+    }
+    favoriteAction->setText( m_ui->favoriteButton->toolTip() );
+    favoriteAction->setEnabled( true );
+  } else {
+    favoriteAction->setEnabled( false );
+  }
+
   //display status's send time
   if( statusData->localTime.date() >= QDateTime::currentDateTime().date()) //today
     m_ui->timeStamp->setText( statusData->localTime.time().toString(Qt::SystemLocaleShortDate) );
@@ -278,12 +293,6 @@ void StatusWidget::setStatusData( const Status &status )
 void StatusWidget::setImage( const QPixmap &pixmap )
 {
   m_ui->userImage->setPixmap( pixmap );
-}
-
-void StatusWidget::setFavorite()
-{
-//  statusData->favorite = true;
-  m_ui->favoriteButton->setIcon( QIcon( ":/icons/star_on_16.png" ) );
 }
 
 void StatusWidget::setState( StatusModel::StatusState state )
@@ -355,7 +364,13 @@ void StatusWidget::applyTheme()
 void StatusWidget::retranslateUi()
 {
   if ( statusData ) {
-    m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
+    if ( statusData->favorited ) {
+      m_ui->favoriteButton->setToolTip( tr( "Remove from Favorites" ) );
+    } else {
+      m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
+    }
+    favoriteAction->setText( m_ui->favoriteButton->toolTip() );
+
     m_ui->infoButton->setToolTip( tr( "About %1" ).arg( statusData->userInfo.screenName ) );
     replyAction->setText( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
     if ( statusData->isOwn )
@@ -452,9 +467,10 @@ void StatusWidget::changeEvent( QEvent *e )
 void StatusWidget::enterEvent( QEvent *e )
 {
   if ( statusState != StatusModel::STATE_DISABLED ) {
-    if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE )
+    if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE ) {
       m_ui->replyDeleteButton->show();
-    m_ui->favoriteButton->show();
+      m_ui->favoriteButton->show();
+    }
     m_ui->infoButton->show();
     e->accept();
   }

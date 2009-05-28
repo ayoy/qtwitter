@@ -56,7 +56,7 @@ Core::Core( MainWindow *parent ) :
   twitterapi = new TwitterAPIInterface( this );
   connect( twitterapi, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)), this, SLOT(addEntry(TwitterAPI::SocialNetwork,QString,Entry)) );
   connect( twitterapi, SIGNAL(deleteEntry(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,int)) );
-  connect( twitterapi, SIGNAL(favoriteStatus(TwitterAPI::SocialNetwork,QString,int,bool)), this, SLOT(setFavorite(TwitterAPI::SocialNetwork,QString,int,bool)) );
+  connect( twitterapi, SIGNAL(favoriteStatus(TwitterAPI::SocialNetwork,QString,int,bool)), this, SLOT(setFavorited(TwitterAPI::SocialNetwork,QString,int,bool)) );
   connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString)) );
   connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,int)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,int)) );
@@ -398,11 +398,11 @@ void Core::deleteEntry( TwitterAPI::SocialNetwork network, const QString &login,
   }
 }
 
-void Core::setFavorite( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorite )
+void Core::setFavorited( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited )
 {
   Account *account = accountsModel->account( network, login );
   if ( statusLists.contains( *account ) ) {
-    statusLists[ *account ]->setFavorite( id, favorite );
+    statusLists[ *account ]->setFavorited( id, favorited );
   }
 }
 

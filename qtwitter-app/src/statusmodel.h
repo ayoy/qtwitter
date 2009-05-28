@@ -62,7 +62,6 @@ public slots:
   void updateDisplay( int ind );
   void updateState( int ind );
   void updateImage( int ind );
-  void updateFavorite( int ind );
   void removeStatus( int ind );
 
   void sendDeleteRequest( int id );

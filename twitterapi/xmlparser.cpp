@@ -91,6 +91,7 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
 {
   if ( qName == TAG_STATUS ) {
     entry.initialize();
+    favoritedSet = false;
   }
   if( qName == TAG_USER ) {
     parsingUser = true;
@@ -141,11 +142,12 @@ bool XmlParser::characters( const QString &ch )
         if( !ch.trimmed().isEmpty() ) {
           entry.inReplyToScreenName = ch;
         }
-      } else if ( currentTag == TAG_FAVORITED ) {
+      } else if ( currentTag == TAG_FAVORITED && !favoritedSet ) {
         if ( ch.compare("false") == 0 )
           entry.favorited = false;
         else
           entry.favorited = true;
+        favoritedSet = true;
       }
     }
   }
