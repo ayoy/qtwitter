@@ -53,10 +53,13 @@ StatusWidget::StatusWidget( StatusModel *parentModel, QWidget *parent ) :
   m_ui->infoButton->hide();
   m_ui->replyDeleteButton->hide();
 
+  m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
+
   QFont timeStampFont = m_ui->timeStamp->font();
   timeStampFont.setPointSize( timeStampFont.pointSize() - 1 );
   m_ui->timeStamp->setFont( timeStampFont );
 
+  connect( m_ui->favoriteButton, SIGNAL(clicked()), this, SLOT(slotFavorite()) );
   connect( m_ui->replyDeleteButton, SIGNAL(clicked()), this, SLOT(handleReplyDeleteButton()));
   connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
   connect( this, SIGNAL(selectMe(StatusWidget*)), statusListModel, SLOT(selectStatus(StatusWidget*)) );
@@ -98,6 +101,10 @@ void StatusWidget::createMenu()
 
   menu->addSeparator();
 
+  favoriteAction = new QAction( tr( "Add to Favorites" ), this );
+  favoriteAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_F ) );
+  connect( favoriteAction, SIGNAL(triggered()), this, SLOT(slotFavorite()) );
+
   copylinkAction = new QAction( tr( "Copy link to this status" ), this );
   copylinkAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ) );
   menu->addAction( copylinkAction );
@@ -107,6 +114,7 @@ void StatusWidget::createMenu()
   deleteAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ) );
   menu->addAction( deleteAction );
   connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
+  connect( signalMapper, SIGNAL(mapped(int)), statusListModel, SLOT(sendDeleteRequest(int)) );
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
   markallasreadAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ) );
@@ -226,6 +234,16 @@ void StatusWidget::setStatusData( const Status &status )
   m_ui->userStatus->setText( statusData->text );
   m_ui->userImage->setPixmap( status.image );
 
+
+  //adjust tooltip for reply/delete button
+  if ( statusData->isOwn ) {
+    m_ui->replyDeleteButton->setIcon( QIcon(":/icons/cross_16.png") );
+    m_ui->replyDeleteButton->setToolTip( tr( "Delete status" ) );
+  } else {
+    m_ui->replyDeleteButton->setIcon( QIcon(":/icons/reply_16.png") );
+    m_ui->replyDeleteButton->setToolTip( tr( "Reply to %1" ).arg( statusData->login ) );
+  }
+
   //display status's send time
   if( statusData->localTime.date() >= QDateTime::currentDateTime().date()) //today
     m_ui->timeStamp->setText( statusData->localTime.time().toString(Qt::SystemLocaleShortDate) );
@@ -243,7 +261,7 @@ void StatusWidget::setStatusData( const Status &status )
       inReplyToUrl = "http://identi.ca/notice/" + QString::number( statusData->inReplyToStatusId );
 
     m_ui->timeStamp->setText( m_ui->timeStamp->text().append( " " )
-                              .append( tr( "in reply to %1")
+                              .append( tr( "in reply to %1" )
                                        // TODO: links theming
                                        .arg( QString( "<a style=\"color:rgb(255, 248, 140)\" href=%1>%2</a>" )
                                              .arg( inReplyToUrl, statusData->inReplyToScreenName ) ) ) );
@@ -257,6 +275,12 @@ void StatusWidget::setStatusData( const Status &status )
 void StatusWidget::setImage( const QPixmap &pixmap )
 {
   m_ui->userImage->setPixmap( pixmap );
+}
+
+void StatusWidget::setFavorite()
+{
+//  statusData->favorite = true;
+  m_ui->favoriteButton->setIcon( QIcon( ":/icons/star_on_16.png" ) );
 }
 
 void StatusWidget::setState( StatusModel::StatusState state )
@@ -327,16 +351,26 @@ void StatusWidget::applyTheme()
 
 void StatusWidget::retranslateUi()
 {
-  replyAction->setText( tr( "Reply to %1" ).arg( statusData->login ) );
-  retweetAction->setText( tr( "Retweet" ) );
-  copylinkAction->setText( tr( "Copy link to this statuswidget" ) );
-  deleteAction->setText( tr( "Delete statuswidget" ) );
-  markallasreadAction->setText( tr( "Mark all as read" ) );
-  gotohomepageAction->setText( tr( "Go to User's homepage" ) );
-  if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
-  } else {
-    gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
+  if ( statusData ) {
+    m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
+    m_ui->infoButton->setToolTip( tr( "About %1" ).arg( statusData->login ) );
+    replyAction->setText( tr( "Reply to %1" ).arg( statusData->login ) );
+    if ( statusData->isOwn )
+      m_ui->replyDeleteButton->setToolTip( tr( "Delete status" ) );
+    else
+      m_ui->replyDeleteButton->setToolTip( replyAction->text() );
+
+    retweetAction->setText( tr( "Retweet" ) );
+    copylinkAction->setText( tr( "Copy link to this status" ) );
+    deleteAction->setText( tr( "Delete status" ) );
+    markallasreadAction->setText( tr( "Mark all as read" ) );
+    gotohomepageAction->setText( tr( "Go to User's homepage" ) );
+
+    if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+      gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
+    } else {
+      gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
+    }
   }
 }
 
@@ -392,6 +426,16 @@ void StatusWidget::slotCopyLink()
     QApplication::clipboard()->setText( "http://identi.ca/notice/" + QString::number( statusData->id ) );
 }
 
+void StatusWidget::slotDelete()
+{
+  statusListModel->sendDeleteRequest( statusData->id );
+}
+
+void StatusWidget::slotFavorite()
+{
+  statusListModel->sendFavoriteRequest( statusData->id/*, statusData->favorite*/ );
+}
+
 void StatusWidget::changeEvent( QEvent *e )
 {
   switch (e->type()) {
@@ -405,20 +449,11 @@ void StatusWidget::changeEvent( QEvent *e )
 void StatusWidget::enterEvent( QEvent *e )
 {
   if ( statusState != StatusModel::STATE_DISABLED ) {
-
-
-    if ( statusData ) {
-      if ( statusData->isOwn ) {
-        m_ui->replyDeleteButton->setIcon( QIcon(":/icons/cross_16.png") );
-      } else {
-        m_ui->replyDeleteButton->setIcon( QIcon(":/icons/reply_16.png") );
-      }
-    }
-
     if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE )
       m_ui->replyDeleteButton->show();
     m_ui->favoriteButton->show();
     m_ui->infoButton->show();
+    e->accept();
   }
 }
 
@@ -441,11 +476,6 @@ void StatusWidget::mousePressEvent( QMouseEvent *e )
 void StatusWidget::focusRequest()
 {
   emit selectMe( this );
-}
-
-void StatusWidget::slotDelete()
-{
-  statusListModel->sendDeleteRequest( statusData->id );
 }
 
 void StatusWidget::handleReplyDeleteButton()

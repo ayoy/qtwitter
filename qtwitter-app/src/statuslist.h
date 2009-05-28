@@ -63,6 +63,8 @@ public:
 
   void addStatus( Entry entry );
   bool deleteStatus( int id );
+  void setFavorite( int index, bool favorite = true );
+
   bool remove( int from, int count );
   static void setMaxCount( int maxCount );
 
@@ -96,6 +98,7 @@ signals:
   void statusDeleted( int index );
   void dataChanged( int index );
   void stateChanged( int index );
+  void favoriteChanged( int index );
   void imageChanged( int index );
 
 private:

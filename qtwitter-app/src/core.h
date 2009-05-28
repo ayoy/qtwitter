@@ -72,6 +72,7 @@ public slots:
   void get( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void post( TwitterAPI::SocialNetwork network, const QString &login, const QString &status, int inReplyTo );
   void destroyStatus( TwitterAPI::SocialNetwork network, const QString &login, int id );
+  void favoriteRequest( TwitterAPI::SocialNetwork network, const QString &login, int id );
 
   void uploadPhoto( const QString &login, QString photoPath, QString status );
   void abortUploadPhoto();
@@ -107,6 +108,8 @@ private slots:
   void createAccounts( QWidget *view );
   void addEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
   void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, int id );
+  void setFavorite( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorite = true );
+
   void setImageForUrl( const QString& url, QPixmap *image );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId );

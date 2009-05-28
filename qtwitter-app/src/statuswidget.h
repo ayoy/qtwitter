@@ -52,6 +52,7 @@ public:
   void initialize();
   void setStatusData( const Status &status );
   void setImage( const QPixmap &pixmap );
+  void setFavorite();
   void setState( StatusModel::StatusState state );
   StatusModel::StatusState getState() const;
 
@@ -69,11 +70,12 @@ public:
   static void setCurrentNetwork( TwitterAPI::SocialNetwork network );
 
 public slots:
-  void adjustSize();
   void slotReply();
   void slotRetweet();
   void slotCopyLink();
   void slotDelete();
+  void slotFavorite();
+  void adjustSize();
 
 signals:
   void reply( const QString &name, int inReplyTo );
@@ -97,6 +99,7 @@ private:
   void createMenu();
   void setupMenu();
   QMenu *menu;
+
   QAction *replyAction;
   QAction *retweetAction;
   QAction *copylinkAction;
@@ -104,15 +107,19 @@ private:
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;
+  QAction *favoriteAction;
+
   StatusModel::StatusState statusState;
   const Entry *statusData;
-  QSignalMapper *signalMapper;
+
   static int scrollBarWidth;
   static int currentWidth;
   static ThemeData currentTheme;
   static QString currentLogin;
   static TwitterAPI::SocialNetwork currentNetwork;
   static StatusWidget *activeStatus;
+
+  QSignalMapper *signalMapper;
   StatusModel *statusListModel;
   Ui::StatusWidget *m_ui;
 };
