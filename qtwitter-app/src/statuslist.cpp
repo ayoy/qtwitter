@@ -195,6 +195,16 @@ bool StatusList::deleteStatus( int id )
   return false;
 }
 
+void StatusList::setFavorited( int id, bool favorited )
+{
+  for ( QList<Status>::iterator i = d->data.begin(); i != d->data.end(); ++i) {
+    if ( id == (*i).entry.id ) {
+      (*i).entry.favorited = favorited;
+      emit favoriteChanged( d->data.indexOf(*i) );
+    }
+  }
+}
+
 bool StatusList::remove( int from, int count )
 {
   if ( d->data.size() < from + count )

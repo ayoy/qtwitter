@@ -46,13 +46,13 @@ UserInfoPopup::UserInfoPopup( QWidget *parent, Qt::WindowFlags flags, const Stat
     ui( new Ui::UserInfo )
 {
   ui->setupUi( this );
-  ui->description->setText(status->entry.userInfo.description);
-  ui->friends->setText(QString::number(status->entry.userInfo.friendsCount));
-  ui->location->setText(status->entry.userInfo.location);
-  ui->url->setText(status->entry.userInfo.homepage);
-  ui->userImage->setPixmap(status->image);
-  ui->screenName->setText(status->entry.userInfo.screenName);
-  ui->nameLabel->setText(status->entry.userInfo.name);
+  ui->name->setText( status->entry.userInfo.name );
+  ui->description->setText( status->entry.userInfo.description );
+  ui->friends->setText( QString::number(status->entry.userInfo.friendsCount) );
+  ui->location->setText( status->entry.userInfo.location );
+  ui->url->setText( status->entry.userInfo.homepage );
+  ui->userImage->setPixmap( status->image );
+  ui->screenName->setText( status->entry.userInfo.screenName );
 }
 
 UserInfoPopup::~UserInfoPopup()

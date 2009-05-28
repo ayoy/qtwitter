@@ -153,6 +153,7 @@ void StatusModel::setStatusList( StatusList *statusList )
     disconnect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
     disconnect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );
     disconnect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
+    disconnect( this->statusList, SIGNAL(favoriteChanged(int)), this, SLOT(updateDisplay(int)) );
     disconnect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
   }
 
@@ -161,6 +162,7 @@ void StatusModel::setStatusList( StatusList *statusList )
   connect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
   connect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );
   connect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
+  connect( this->statusList, SIGNAL(favoriteChanged(int)), this, SLOT(updateDisplay(int)) );
   connect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
 
   // for cleaning up the list when switching to public timeline that could have
@@ -225,6 +227,12 @@ void StatusModel::sendDeleteRequest( int id )
 {
   qDebug() << "StatusModel::sendDeleteRequest";
   emit destroy( statusList->network(), statusList->login(), id );
+}
+
+void StatusModel::sendFavoriteRequest( int id )
+{
+  qDebug() << "StatusModel::sendFavoriteRequest";
+  emit favorite( statusList->network(), statusList->login(), id );
 }
 
 void StatusModel::selectStatus( const QModelIndex &index )

@@ -411,6 +411,49 @@ void TwitterAPIInterface::deleteDM( TwitterAPI::SocialNetwork network, const QSt
 }
 
 /*!
+  Sends a request for setting the status specified by \a id as a favorite.
+
+  \param login User's login.
+  \param password User's password.
+  \param id An id of the status to be favorited.
+
+*/
+void TwitterAPIInterface::createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id )
+{
+  QNetworkRequest request( QUrl( QString("%1/favorites/create/%2.xml").arg( services[ network ], QString::number(id) ) ) );
+  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_FAVORITES_CREATE );
+  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
+  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
+  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, id );
+  if ( !connections[ network ].contains( login ) )
+    createInterface( network, login );
+  qDebug() << "TwitterAPIInterface::createFavorite(" << login << ")";
+  connections[ network ][ login ]->connection.data()->post( request, QByteArray() );
+}
+
+/*!
+  Sends a request for removing the status specified by \a id from favorites.
+
+  \param login User's login.
+  \param password User's password.
+  \param id An id of the status to be removed from favorites.
+
+*/
+void TwitterAPIInterface::destroyFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id )
+{
+  QNetworkRequest request( QUrl( QString("%1/favorites/destroy/%2.xml").arg( services[ network ], QString::number(id) ) ) );
+  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_FAVORITES_DESTROY );
+  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
+  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
+  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, id );
+  if ( !connections[ network ].contains( login ) )
+    createInterface( network, login );
+  qDebug() << "TwitterAPIInterface::destroyFavorite(" << login << ")";
+  connections[ network ][ login ]->connection.data()->post( request, QByteArray() );
+}
+
+
+/*!
   Sends a request for getting public timeline. Length of the timeline is fixed
   by Twitter API to 20 messages.
 
@@ -550,6 +593,16 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
     case TwitterAPI::ROLE_DELETE_DM:
       break;
 
+    case TwitterAPI::ROLE_FAVORITES_CREATE:
+      emit favoriteStatus( network, login.toString(), id.toInt(), true );
+      emit requestDone( network, login.toString(), TwitterAPI::ROLE_FAVORITES_CREATE );
+      break;
+
+    case TwitterAPI::ROLE_FAVORITES_DESTROY:
+      emit favoriteStatus( network, login.toString(), id.toInt(), false );
+      emit requestDone( network, login.toString(), TwitterAPI::ROLE_FAVORITES_DESTROY );
+      break;
+
     case TwitterAPI::ROLE_USERINFO:
       connections[ network ][ login.toString() ]->domParser->setContent( reply->readAll(), TwitterAPI::ROLE_USERINFO);
       emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::ROLE_USERINFO );
@@ -628,7 +681,8 @@ void TwitterAPIInterface::slotAuthenticationRequired( QNetworkReply *reply, QAut
     QVariant id = request.attribute( TwitterAPIInterface::ATTR_STATUS_ID );
     QVariant del = request.attribute( TwitterAPIInterface::ATTR_DELETION_REQUESTED );
 
-    if ( del.isValid() && del.toBool() ) {
+    // TODO: check if ATTR_DELETION_REQUESTED is needed
+    if ( /*del.isValid() && del.toBool()*/ id.isValid() ) {
       emit unauthorized( network, login, password, id.toInt() );
     } else if ( status.isValid() ) {
       emit unauthorized( network, login, password, status.toString(), id.toInt() );

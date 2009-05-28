@@ -56,6 +56,7 @@ Core::Core( MainWindow *parent ) :
   twitterapi = new TwitterAPIInterface( this );
   connect( twitterapi, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)), this, SLOT(addEntry(TwitterAPI::SocialNetwork,QString,Entry)) );
   connect( twitterapi, SIGNAL(deleteEntry(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,int)) );
+  connect( twitterapi, SIGNAL(favoriteStatus(TwitterAPI::SocialNetwork,QString,int,bool)), this, SLOT(setFavorited(TwitterAPI::SocialNetwork,QString,int,bool)) );
   connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString)) );
   connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,int)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,int)) );
@@ -77,6 +78,7 @@ Core::Core( MainWindow *parent ) :
   connect( statusModel, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
   connect( statusModel, SIGNAL(about()), this, SIGNAL(about()) );
   connect( statusModel, SIGNAL(destroy(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(destroyStatus(TwitterAPI::SocialNetwork,QString,int)) );
+  connect( statusModel, SIGNAL(favorite(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(favoriteRequest(TwitterAPI::SocialNetwork,QString,int)) );
   connect( statusModel, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( statusModel, SIGNAL(newStatuses(QString,bool)), this, SLOT(storeNewStatuses(QString,bool)) );
   connect( this, SIGNAL(allRequestsFinished()), statusModel, SLOT(checkForUnread()) );
@@ -243,6 +245,15 @@ void Core::destroyStatus( TwitterAPI::SocialNetwork network, const QString &logi
   emit requestStarted();
 }
 
+void Core::favoriteRequest( TwitterAPI::SocialNetwork network, const QString &login, int id )
+{
+  qDebug() << "Core::favoriteRequest()";
+  twitterapi->createFavorite( network, login, accountsModel->account( network, login )->password, id );
+  emit newRequest();
+  emit requestStarted();
+}
+
+
 void Core::uploadPhoto( const QString &login, QString photoPath, QString status )
 {
   twitpicUpload = new TwitPicEngine( this );
@@ -384,6 +395,14 @@ void Core::deleteEntry( TwitterAPI::SocialNetwork network, const QString &login,
   if ( statusLists.contains( *account ) ) {
     statusLists[ *account ]->deleteStatus( id );
     get( network, login, account->password );
+  }
+}
+
+void Core::setFavorited( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited )
+{
+  Account *account = accountsModel->account( network, login );
+  if ( statusLists.contains( *account ) ) {
+    statusLists[ *account ]->setFavorited( id, favorited );
   }
 }
 

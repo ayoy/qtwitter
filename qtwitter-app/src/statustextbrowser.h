@@ -45,7 +45,7 @@ public:
   {
     Q_UNUSED(e);
 
-    if ( toHtml().isEmpty() )
+    if ( toPlainText().isEmpty() )
       return;
 
     QMenu *menu = createStandardContextMenu( QCursor::pos() );

@@ -65,6 +65,7 @@ protected:
   Entry entry;
   bool important;
   bool parsingUser;
+  bool favoritedSet;
 
   static const int timeShift;
   static const QSet<QString> tags;

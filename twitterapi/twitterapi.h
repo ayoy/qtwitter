@@ -53,6 +53,7 @@ public:
   void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &user, const QString &data );
   void deleteDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
   void createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
+  void destroyFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
   void publicTimeline( TwitterAPI::SocialNetwork network );
   void userInfo( TwitterAPI::SocialNetwork network, int userId); /* todo */
 
@@ -63,6 +64,8 @@ signals:
   void requestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );
   void newEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
   void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, int id );
+  void favoriteStatus( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorite );
+
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId );
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId );
