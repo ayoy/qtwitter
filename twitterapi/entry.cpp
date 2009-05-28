@@ -39,6 +39,7 @@ Entry::Entry( Entry::Type entryType ) :
   hasInReplyToStatusId( false ),
   inReplyToStatusId( -1 ),
   inReplyToScreenName( QString() ),
+  favorited( false ),
   userInfo( UserInfo() )
 {}
 
@@ -58,6 +59,7 @@ void Entry::initialize()
   hasInReplyToStatusId = false;
   inReplyToStatusId = -1;
   inReplyToScreenName = QString();
+  favorited = false;
   userInfo.initialize();
 }
 
@@ -97,7 +99,8 @@ bool Entry::operator== (const Entry &other )
            && localTime == other.localTime
            && hasInReplyToStatusId == other.hasInReplyToStatusId
            && inReplyToStatusId == other.inReplyToStatusId
-           && inReplyToScreenName == other.inReplyToScreenName );
+           && inReplyToScreenName == other.inReplyToScreenName
+           && favorited == other.favorited );
 }
 
 

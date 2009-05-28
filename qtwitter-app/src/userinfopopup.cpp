@@ -19,17 +19,18 @@
 
 
 #include "userinfopopup.h"
+#include "userinfo.h"
 #include <QTimer>
 
 UserInfoPopup* UserInfoPopup::_instance = 0;
 
-UserInfoPopup* UserInfoPopup::instantiate( QWidget *parent, Qt::WindowFlags flags )
+UserInfoPopup* UserInfoPopup::instantiate( QWidget *parent, Qt::WindowFlags flags,const Status *status )
 {
   if ( !_instance )
-    _instance = new UserInfoPopup( parent, flags );
+    _instance = new UserInfoPopup( parent, flags, status );
   else if ( _instance->parent() != parent ) {
     _instance->deleteLater();
-    _instance = new UserInfoPopup( parent, flags );
+    _instance = new UserInfoPopup( parent, flags, status );
   }
 
   return _instance;
@@ -40,11 +41,17 @@ UserInfoPopup* UserInfoPopup::instance()
   return _instance;
 }
 
-UserInfoPopup::UserInfoPopup( QWidget *parent, Qt::WindowFlags flags ) :
+UserInfoPopup::UserInfoPopup( QWidget *parent, Qt::WindowFlags flags, const Status *status ) :
     QWidget( parent, flags ),
     ui( new Ui::UserInfo )
 {
   ui->setupUi( this );
+  ui->description->setText(status->entry.userInfo.description);
+  ui->friends->setText(QString::number(status->entry.userInfo.friendsCount));
+  ui->location->setText(status->entry.userInfo.location);
+  ui->url->setText(status->entry.userInfo.homepage);
+  ui->userImage->setPixmap(status->image);
+  ui->screenName->setText(status->entry.userInfo.screenName);
 }
 
 UserInfoPopup::~UserInfoPopup()

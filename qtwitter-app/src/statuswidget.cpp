@@ -249,6 +249,9 @@ void StatusWidget::setStatusData( const Status &status )
                                              .arg( inReplyToUrl, statusData->inReplyToScreenName ) ) ) );
   }
 
+  m_ui->infoButton->setData( &status );
+
+
   setState( status.state );
   setupMenu();
   adjustSize();

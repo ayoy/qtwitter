@@ -55,6 +55,7 @@ signals:
 protected:
   QDateTime toDateTime( const QString &timestamp );
   int getMonth( const QString &month );
+  void parseUserInfo(const QString &ch);
   static inline int getTimeShift();
 
   TwitterAPI::SocialNetwork network;
@@ -69,6 +70,7 @@ protected:
   static const QSet<QString> tags;
 
   static const QString TAG_STATUS;
+  static const QString TAG_USER;
   static const QString TAG_STATUS_ID;
   static const QString TAG_USER_TEXT;
   static const QString TAG_USER_ID;
@@ -79,6 +81,7 @@ protected:
   static const QString TAG_USER_TIMESTAMP;
   static const QString TAG_INREPLYTO_STATUS_ID;
   static const QString TAG_INREPLYTO_SCREEN_NAME;
+  static const QString TAG_FAVORITED;
   static const QString TAG_LOCATION;
   static const QString TAG_DESCRIPTION;
   static const QString TAG_PROFILE_PROTECTED;

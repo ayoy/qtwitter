@@ -57,6 +57,7 @@ struct TWITTERAPI_EXPORT Entry
   bool hasInReplyToStatusId;
   int inReplyToStatusId;
   QString inReplyToScreenName;
+  bool favorited;
   UserInfo userInfo;
 };
 

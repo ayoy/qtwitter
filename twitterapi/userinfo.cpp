@@ -33,30 +33,32 @@ UserInfo::UserInfo() :
     homepage(QString()),
     hasHomepage(false),
     profileProtected(false),
-    followersCount(0),
-    friendsCount(0),
-    createdAt(QDateTime()),
-    utcOffset(0),
-    timeZone(QString()),
-    statusesCount(0),
+    followersCount(-1),
+    friendsCount(-1),
+ //   createdAt(QDateTime()),
+    utcOffset(-1),
+    statusesCount(-1)
     //notifications(false),
     //following(false),
-    currentStatus(QString())
 {
 }
 
 
 void UserInfo::initialize()
 {
-  //TODO: init remaining fields
   id = -1;
   name = QString();
   screenName = QString();
   homepage = QString();
   hasHomepage = false;
+  profileProtected = false;
   imageUrl = QString();
   location = QString();
   description = QString();
+  followersCount = -1;
+  friendsCount = -1;
+  utcOffset = -1;
+  statusesCount = -1;
 }
 
 bool UserInfo::checkContents()
@@ -64,10 +66,13 @@ bool UserInfo::checkContents()
   if( !hasHomepage)
     homepage = QString();
 
-  if( /*(id != -1) && */
+  if( (id != -1) &&
       !name.isNull() &&
       !screenName.isNull() &&
-      hasHomepage ? !homepage.isNull() : true)
+      hasHomepage ? !homepage.isNull() : true &&
+      friendsCount != -1 &&
+      followersCount != -1 &&
+      utcOffset != -1)
     return true;
 
   return false;

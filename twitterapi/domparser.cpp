@@ -103,8 +103,8 @@ void DomParser::parseUserInfo()
         while ( !statusTag.isNull() ) {
           QDomElement e = statusTag.toElement();
           if(!e.isNull() ) {
-            if(e.tagName() == TAG_USER_STATUSTEXT)
-              userInfo.currentStatus = e.text(); //todo: text to html
+//            if(e.tagName() == TAG_USER_STATUSTEXT)
+//              userInfo.currentStatus = e.text(); //todo: text to html
           }
           statusTag = statusTag.nextSibling();
         }

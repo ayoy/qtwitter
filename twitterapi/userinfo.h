@@ -45,8 +45,8 @@ struct TWITTERAPI_EXPORT UserInfo
     bool profileProtected;            //!< Indicates whether user's statuses are protected or publicly viewable
     int followersCount;               //!< Number of followers
     int friendsCount;                 //!< Number of friends
-    //TODO: check if createdAt really means what is written here
-    QDateTime createdAt;              //!< Profile/account creation date
+    //TODO: check if createdAt really means what is written here//
+//    QDateTime createdAt;              //!< Profile/account creation date
     //favourites count
     int utcOffset;                    //!< User's local time's offset from UTC
     //TODO: check how/if Qt handles timezones
@@ -55,7 +55,7 @@ struct TWITTERAPI_EXPORT UserInfo
     //TODO: check below fields
 //    bool notifications;
 //    bool following;
-    QString currentStatus;            //!< User's current status
+//    QString currentStatus;            //!< User's current status
 };
 
 
