@@ -248,7 +248,10 @@ void StatusWidget::setStatusData( const Status &status )
   if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE ) {
     if ( statusData->favorited ) {
       m_ui->favoriteButton->setIcon( QIcon( ":/icons/star_on_16.png" ) );
-      m_ui->favoriteButton->setToolTip( tr( "Remove from Favorites" ) );
+      if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
+        m_ui->favoriteButton->setToolTip( QString() );
+      else
+        m_ui->favoriteButton->setToolTip( tr( "Remove from Favorites" ) );
     } else {
       m_ui->favoriteButton->setIcon( QIcon( ":/icons/star_off_16.png" ) );
       m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
@@ -365,7 +368,10 @@ void StatusWidget::retranslateUi()
 {
   if ( statusData ) {
     if ( statusData->favorited ) {
-      m_ui->favoriteButton->setToolTip( tr( "Remove from Favorites" ) );
+      if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
+        m_ui->favoriteButton->setToolTip( QString() );
+      else
+        m_ui->favoriteButton->setToolTip( tr( "Remove from Favorites" ) );
     } else {
       m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
     }
@@ -451,7 +457,12 @@ void StatusWidget::slotDelete()
 
 void StatusWidget::slotFavorite()
 {
-  statusListModel->sendFavoriteRequest( statusData->id/*, statusData->favorite*/ );
+  bool setFavorited = !statusData->favorited;
+
+  if ( !setFavorited && currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
+    return;
+
+  statusListModel->sendFavoriteRequest( statusData->id, !setFavorited );
 }
 
 void StatusWidget::changeEvent( QEvent *e )

@@ -229,10 +229,10 @@ void StatusModel::sendDeleteRequest( int id )
   emit destroy( statusList->network(), statusList->login(), id );
 }
 
-void StatusModel::sendFavoriteRequest( int id )
+void StatusModel::sendFavoriteRequest( int id, bool favorited )
 {
   qDebug() << "StatusModel::sendFavoriteRequest";
-  emit favorite( statusList->network(), statusList->login(), id );
+  emit favorite( statusList->network(), statusList->login(), id, favorited );
 }
 
 void StatusModel::selectStatus( const QModelIndex &index )
