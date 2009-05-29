@@ -35,7 +35,7 @@ class UserInfoPopup : public QWidget
 public:
   virtual ~UserInfoPopup();
 
-  static UserInfoPopup* instantiate( QWidget *parent = 0, Qt::WindowFlags flags = 0, const Status *status = 0);
+  static UserInfoPopup* instantiate( const Status *status, QWidget *parent = 0, Qt::WindowFlags flags = 0);
   static UserInfoPopup* instance();
 
 public slots:
@@ -45,7 +45,7 @@ signals:
   void closed();
 
 protected:
-  UserInfoPopup( QWidget *parent = 0, Qt::WindowFlags flags = 0, const Status *status = 0);
+  UserInfoPopup( const Status *status, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
   void leaveEvent( QEvent *event );
   void showEvent( QShowEvent *event );

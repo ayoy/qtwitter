@@ -37,7 +37,7 @@ class UserInfoButton : public QPushButton
 public:
   UserInfoButton( QWidget *parent = 0 );
   bool isPopupActive() const;
-  void setData(const Status *status);
+  void setData( const Status *status );
 
 protected:
   void enterEvent( QEvent *event );
