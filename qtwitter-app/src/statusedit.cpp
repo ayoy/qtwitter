@@ -48,6 +48,7 @@ bool StatusFilter::eventFilter( QObject *dist, QEvent *event )
   return QObject::eventFilter(dist, event);
 }
 
+
 const int StatusEdit::STATUS_MAX_LENGTH = 140;
 
 StatusEdit::StatusEdit( QWidget * parent ) :

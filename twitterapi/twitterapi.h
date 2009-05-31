@@ -50,7 +50,7 @@ public:
   void deleteUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
   void friendsTimeline( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int msgCount = 20 );
   void directMessages( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int msgCount = 20 );
-  void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &user, const QString &data );
+  void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text );
   void deleteDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
   void createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
   void destroyFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
@@ -65,9 +65,11 @@ signals:
   void newEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
   void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, int id );
   void favoriteStatus( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited );
+  void postDMDone( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
 
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId );
+  void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text );
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId );
   void errorMessage( const QString &message );
 
@@ -79,12 +81,12 @@ private:
   void parseXml( const QByteArray &data, XmlParser *parser );
   Interface* createInterface( TwitterAPI::SocialNetwork network, const QString &login );
   QByteArray prepareRequest( const QString &data, int inReplyTo );
+  QByteArray prepareRequest( const QString &screenName, const QString & );
 
   QMap< TwitterAPI::SocialNetwork, QMap<QString,Interface*> > connections;
   QMap< TwitterAPI::SocialNetwork, QString > services;
   QXmlSimpleReader *xmlReader;
   QXmlInputSource *source;
-  //DomParser *domParser;
 
   static const QNetworkRequest::Attribute ATTR_SOCIALNETWORK;
   static const QNetworkRequest::Attribute ATTR_ROLE;
@@ -93,6 +95,7 @@ private:
   static const QNetworkRequest::Attribute ATTR_STATUS;
   static const QNetworkRequest::Attribute ATTR_STATUS_ID;
   static const QNetworkRequest::Attribute ATTR_DM_REQUESTED;
+  static const QNetworkRequest::Attribute ATTR_DM_RECIPIENT;
   static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
   static const QNetworkRequest::Attribute ATTR_MSGCOUNT;
   static const QNetworkRequest::Attribute ATTR_USERINFO;

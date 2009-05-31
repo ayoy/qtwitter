@@ -71,6 +71,7 @@ public:
 public slots:
   void slotReply();
   void slotRetweet();
+  void slotDM();
   void slotCopyLink();
   void slotDelete();
   void slotFavorite();
@@ -101,6 +102,7 @@ private:
 
   QAction *replyAction;
   QAction *retweetAction;
+  QAction *dmAction;
   QAction *copylinkAction;
   QAction *markallasreadAction;
   QAction *gotohomepageAction;

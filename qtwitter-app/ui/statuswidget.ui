@@ -75,7 +75,8 @@ border-style: normal;
     <property name="styleSheet">
      <string notr="true">QLabel { border-style: outset;
 border-width: 0px;
-border-radius: 0px}</string>
+border-radius: 0px}
+</string>
     </property>
     <property name="text">
      <string notr="true"/>

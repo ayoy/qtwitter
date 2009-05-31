@@ -28,6 +28,7 @@
 #include "core.h"
 #include "mainwindow.h"
 #include "imagedownload.h"
+#include "dmdialog.h"
 #include "settings.h"
 #include "twitpicengine.h"
 #include "statusmodel.h"
@@ -57,6 +58,7 @@ Core::Core( MainWindow *parent ) :
   connect( twitterapi, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)), this, SLOT(addEntry(TwitterAPI::SocialNetwork,QString,Entry)) );
   connect( twitterapi, SIGNAL(deleteEntry(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,int)) );
   connect( twitterapi, SIGNAL(favoriteStatus(TwitterAPI::SocialNetwork,QString,int,bool)), this, SLOT(setFavorited(TwitterAPI::SocialNetwork,QString,int,bool)) );
+  connect( twitterapi, SIGNAL(postDMDone(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)), this, SIGNAL(confirmDMSent(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)) );
   connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString)) );
   connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,int)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,int)) );
@@ -79,6 +81,7 @@ Core::Core( MainWindow *parent ) :
   connect( statusModel, SIGNAL(about()), this, SIGNAL(about()) );
   connect( statusModel, SIGNAL(destroy(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(destroyStatus(TwitterAPI::SocialNetwork,QString,int)) );
   connect( statusModel, SIGNAL(favorite(TwitterAPI::SocialNetwork,QString,int,bool)), this, SLOT(favoriteRequest(TwitterAPI::SocialNetwork,QString,int,bool)) );
+  connect( statusModel, SIGNAL(postDM(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(postDMDialog(TwitterAPI::SocialNetwork,QString,QString)) );
   connect( statusModel, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( statusModel, SIGNAL(newStatuses(QString,bool)), this, SLOT(storeNewStatuses(QString,bool)) );
   connect( this, SIGNAL(allRequestsFinished()), statusModel, SLOT(checkForUnread()) );
@@ -257,6 +260,11 @@ void Core::favoriteRequest( TwitterAPI::SocialNetwork network, const QString &lo
   emit requestStarted();
 }
 
+void Core::postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName, const QString &text )
+{
+  qDebug() << "Core::sendDM()";
+  twitterapi->postDM( network, login, accountsModel->account( network, login )->password, screenName, text );
+}
 
 void Core::uploadPhoto( const QString &login, QString photoPath, QString status )
 {
@@ -308,6 +316,16 @@ void Core::openBrowser( QUrl address )
   }
   browser->start( browserPath + " " + address.toString() );
 #endif
+}
+
+void Core::postDMDialog( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName )
+{
+  DMDialog *dlg = new DMDialog( network, login, screenName, parentMainWindow );
+  connect( dlg, SIGNAL(dmRequest(TwitterAPI::SocialNetwork,QString,QString,QString)), this, SLOT(postDM(TwitterAPI::SocialNetwork,QString,QString,QString)) );
+  connect( this, SIGNAL(confirmDMSent(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)), dlg, SLOT(showResult(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)) );
+
+  dlg->exec();
+  dlg->deleteLater();
 }
 
 Core::AuthDialogState Core::authDataDialog( Account *account )
@@ -410,6 +428,14 @@ void Core::setFavorited( TwitterAPI::SocialNetwork network, const QString &login
   }
 }
 
+//void Core::confirmDMSent( TwitterAPI::SocialNetwork network, const QString &login )
+//{
+//  Account *account = accountsModel->account( network, login );
+//  if ( statusLists.contains( *account ) ) {
+//    statusLists[ *account ]->setFavorited( id, favorited );
+//  }
+//}
+
 void Core::setImageForUrl( const QString& url, QPixmap *image )
 {
   Status status;
@@ -417,8 +443,7 @@ void Core::setImageForUrl( const QString& url, QPixmap *image )
   {
     for ( int i = 0; i < statusList->size(); i++ ) {
       status = statusList->data(i);
-      if ( url == status.entry.userInfo.imageUrl ) {
-//        status.image = *image;
+      if ( status.entry.type == Entry::Status && url == status.entry.userInfo.imageUrl ) {
         statusList->setImage( i, *image );
       }
     }
@@ -445,6 +470,16 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
     return;
   requestCount--;
   post( network, account->login, status, inReplyToId );
+}
+
+void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text )
+{
+  Q_UNUSED(password);
+  Account *account = accountsModel->account( network, login );
+  if ( !retryAuthorizing( account, TwitterAPI::ROLE_POST_DM ) )
+    return;
+  requestCount--;
+  postDM( network, account->login, screenName, text );
 }
 
 void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId )
@@ -538,12 +573,20 @@ bool Core::retryAuthorizing( Account *account, int role )
     switch ( role ) {
     case TwitterAPI::ROLE_POST_UPDATE:
       emit errorMessage( tr( "Authentication is required to post updates." ) );
+      break;
+    case TwitterAPI::ROLE_POST_DM:
+      emit errorMessage( tr( "Authentication is required to send direct messages." ) );
+      break;
     case TwitterAPI::ROLE_DELETE_UPDATE:
       emit errorMessage( tr( "Authentication is required to delete updates." ) );
+      break;
     case TwitterAPI::ROLE_FRIENDS_TIMELINE:
+      break;
     case TwitterAPI::ROLE_DIRECT_MESSAGES:
+      break;
     case TwitterAPI::ROLE_PUBLIC_TIMELINE:
       emit errorMessage( tr( "Authentication is required to get your friends' updates." ) );
+      break;
     }
   case Core::STATE_DIALOG_OPEN:
   case Core::STATE_REMOVE_ACCOUNT:

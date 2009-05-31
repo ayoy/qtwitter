@@ -79,7 +79,8 @@ SOURCES += src/main.cpp \
     src/aboutdialog.cpp \
     src/statuslist.cpp \
     src/userinfobutton.cpp \
-    src/userinfopopup.cpp
+    src/userinfopopup.cpp \
+    src/dmdialog.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/imagedownload.h \
@@ -96,7 +97,8 @@ HEADERS += src/mainwindow.h \
     src/aboutdialog.h \
     src/statuslist.h \
     src/userinfobutton.h \
-    src/userinfopopup.h
+    src/userinfopopup.h \
+    src/dmdialog.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
@@ -104,7 +106,8 @@ FORMS += ui/mainwindow.ui \
     ui/aboutdialog.ui \
     ui/twitpicview.ui \
     ui/twitpicnewphoto.ui \
-    ui/userinfo.ui
+    ui/userinfo.ui \
+    ui/dmdialog.ui
 RESOURCES += res/resources.qrc
 QT += network \
     xml

@@ -235,6 +235,12 @@ void StatusModel::sendFavoriteRequest( int id, bool favorited )
   emit favorite( statusList->network(), statusList->login(), id, favorited );
 }
 
+void StatusModel::sendDMRequest( const QString &screenName )
+{
+  qDebug() << "StatusModel::sendDMRequest";
+  emit postDM( statusList->network(), statusList->login(), screenName );
+}
+
 void StatusModel::selectStatus( const QModelIndex &index )
 {
   if ( !statusList || !index.isValid() )
