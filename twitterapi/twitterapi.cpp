@@ -28,14 +28,12 @@
 #include <QDebug>
 #include "twitterapi.h"
 #include "xmlparser.h"
-#include "domparser.h"
 
 struct Interface
 {
   QPointer<QNetworkAccessManager> connection;
   QPointer<XmlParser> statusParser;
   QPointer<XmlParserDirectMsg> directMsgParser;
-  QPointer<DomParser> domParser;
   bool authorized;
   bool friendsInProgress;
   bool dmScheduled;
@@ -231,7 +229,6 @@ Interface* TwitterAPIInterface::createInterface( TwitterAPI::SocialNetwork netwo
   Interface *interface = new Interface;
   interface->connection = new QNetworkAccessManager( this );
   interface->statusParser = new XmlParser( network, login, this );
-  interface->domParser = new DomParser( network, login, this);
 
   interface->friendsInProgress = false;
   interface->authorized = false;
@@ -472,18 +469,6 @@ void TwitterAPIInterface::publicTimeline( TwitterAPI::SocialNetwork network )
   connections[ network ][ TwitterAPI::PUBLIC_TIMELINE ]->connection.data()->get( request );
 }
 
-void TwitterAPIInterface::userInfo( TwitterAPI::SocialNetwork network, int userId)
-{
-  QNetworkRequest request( QUrl( QString ("%1/users/show?user_id=%2" ).arg( services[ network ], userId ) ) );
-  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
-  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_USERINFO );
-  /* user info doesn't require login; using public timeline for convenience;
-     TODO: check if the request doesn't interfere with the real public timeline */
-  if (!connections[ network ].contains(  TwitterAPI::PUBLIC_TIMELINE ) )
-    createInterface( network, TwitterAPI::PUBLIC_TIMELINE );
-  qDebug() << "TwitterAPIInterface::userInfo()";
-  connections[ network ][TwitterAPI::PUBLIC_TIMELINE ]->connection.data()->get( request );
-}
 
 /*!
   Resets all connections to Twitter.
@@ -605,10 +590,6 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
       emit requestDone( network, login.toString(), role );
       break;
 
-    case TwitterAPI::ROLE_USERINFO:
-      connections[ network ][ login.toString() ]->domParser->setContent( reply->readAll(), TwitterAPI::ROLE_USERINFO);
-      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, role );
-      break;
     default:;
     }
     break;
