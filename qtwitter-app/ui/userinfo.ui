@@ -195,7 +195,7 @@ border-radius: 0px}</string>
              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
             </property>
             <property name="horizontalSpacing">
-             <number>-1</number>
+             <number>6</number>
             </property>
             <property name="verticalSpacing">
              <number>0</number>
@@ -231,7 +231,7 @@ border-radius: 0px}</string>
             <item row="2" column="0">
              <widget class="QLabel" name="timezoneLabel">
               <property name="text">
-               <string>Timezone:</string>
+               <string>Local time:</string>
               </property>
              </widget>
             </item>

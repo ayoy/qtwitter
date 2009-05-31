@@ -34,7 +34,6 @@ class QAuthenticator;
 class QXmlSimpleReader;
 class QXmlInputSource;
 class XmlParser;
-class DomParser;
 struct Interface;
 
 class TWITTERAPI_EXPORT TwitterAPIInterface : public QObject
@@ -55,7 +54,6 @@ public:
   void createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
   void destroyFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
   void publicTimeline( TwitterAPI::SocialNetwork network );
-  void userInfo( TwitterAPI::SocialNetwork network, int userId); /* todo */
 
 public slots:
   void resetConnections();
@@ -99,7 +97,7 @@ private:
   static const QNetworkRequest::Attribute ATTR_DM_RECIPIENT;
   static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
   static const QNetworkRequest::Attribute ATTR_MSGCOUNT;
-  static const QNetworkRequest::Attribute ATTR_USERINFO;
+
 };
 
 #endif // TWITTERAPI_H

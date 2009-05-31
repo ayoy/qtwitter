@@ -29,11 +29,6 @@ Entry::Entry( Entry::Type entryType ) :
   id( -1 ),
   text( QString() ),
   originalText( QString() ),
-//  name( QString() ),
-//  screenName( QString() ),
-//  image( QString() ),
-//  homepage( QString() ),
-//  hasHomepage( false ),
   timestamp( QDateTime() ),
   localTime( QDateTime() ),
   hasInReplyToStatusId( false ),
@@ -47,11 +42,6 @@ void Entry::initialize()
 {
   isOwn = false;
   id = -1;
-//  name = QString();
-//  screenName = QString();
-//  homepage = QString();
-//  hasHomepage = false;
-//  image = QString();
   text = QString();
   originalText = QString();
   timestamp = QDateTime();

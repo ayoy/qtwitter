@@ -48,7 +48,6 @@ namespace TwitterAPI {
     ROLE_DELETE_DM,
     ROLE_FAVORITES_CREATE,
     ROLE_FAVORITES_DESTROY,
-    ROLE_USERINFO
   };
 
   enum ErrorCode {

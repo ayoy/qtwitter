@@ -35,11 +35,8 @@ UserInfo::UserInfo() :
     profileProtected(false),
     followersCount(-1),
     friendsCount(-1),
- //   createdAt(QDateTime()),
-    utcOffset(-1),
+     utcOffset(-1),
     statusesCount(-1)
-    //notifications(false),
-    //following(false),
 {
 }
 

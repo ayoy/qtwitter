@@ -49,8 +49,6 @@ struct TWITTERAPI_EXPORT UserInfo
 //    QDateTime createdAt;              //!< Profile/account creation date
     //favourites count
     int utcOffset;                    //!< User's local time's offset from UTC
-    //TODO: check how/if Qt handles timezones
-//    QString timeZone;                 //!< User's timezone
     int statusesCount;                //!< Number of statuses
     //TODO: check below fields
 //    bool notifications;

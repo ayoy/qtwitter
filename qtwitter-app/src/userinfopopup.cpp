@@ -60,6 +60,9 @@ UserInfoPopup::UserInfoPopup( const Status *status, QWidget *parent, Qt::WindowF
   ui->url->setText( QString( "<a style=\"color: white\" href=%1>%1</a>").arg( status->entry.userInfo.homepage ) );
   ui->userImage->setPixmap( status->image );
   ui->screenName->setText( status->entry.userInfo.screenName );
+  QString currentUtcTime = QDateTime::currentDateTime().toUTC().toString(Qt::ISODate);
+  QDateTime userTime = QDateTime::fromString(currentUtcTime, Qt::ISODate).addSecs(status->entry.userInfo.utcOffset);
+  ui->timezone->setText(userTime.toString(Qt::SystemLocaleShortDate));
   adjustSize();
 }
 
