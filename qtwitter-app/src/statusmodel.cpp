@@ -223,10 +223,10 @@ void StatusModel::clear()
   updateDisplay();
 }
 
-void StatusModel::sendDeleteRequest( int id )
+void StatusModel::sendDeleteRequest( int id, Entry::Type type )
 {
   qDebug() << "StatusModel::sendDeleteRequest";
-  emit destroy( statusList->network(), statusList->login(), id );
+  emit destroy( statusList->network(), statusList->login(), id, type );
 }
 
 void StatusModel::sendFavoriteRequest( int id, bool favorited )

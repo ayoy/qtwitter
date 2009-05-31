@@ -393,20 +393,18 @@ void TwitterAPIInterface::postDM( TwitterAPI::SocialNetwork network, const QStri
 */
 void TwitterAPIInterface::deleteDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id )
 {
-  Q_UNUSED(network);
-  Q_UNUSED(login);
-  Q_UNUSED(password);
-  Q_UNUSED(id);
-//  QNetworkRequest request( QUrl( QString("http://twitter.com/statuses/destroy/%1.xml").arg( QString::number(id) ) ) );
-//  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_DELETE_DM );
-//  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
-//  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
-//  request.setAttribute( TwitterAPIInterface::ATTR_DELETION_REQUESTED, true );
-//  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, id );
-//  if ( !connections[ network ].contains( login ) )
-//    createInterface( network, login );
-//  qDebug() << "TwitterAPIInterface::deleteDM(" + login + ")";
-//  connections[ network ][ login ]->connection.data()->post( request, QByteArray() );
+  QNetworkRequest request( QUrl( QString( "%1/direct_messages/destroy/%2.xml" ).arg( services[ network ], QString::number(id) ) ) );
+
+  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
+  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_DELETE_DM );
+  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
+  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
+  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, id );
+
+  if ( !connections[ network ].contains( login ) )
+    createInterface( network, login );
+  qDebug() << "TwitterAPIInterface::deleteDM(" << login << ")";
+  connections[ network ][ login ]->connection.data()->post( request, QByteArray() );
 }
 
 /*!
@@ -593,6 +591,8 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
       break;
 
     case TwitterAPI::ROLE_DELETE_DM:
+      emit deleteDMDone( network, login.toString(), id.toInt(), TwitterAPI::ERROR_NO_ERROR );
+      emit requestDone( network, login.toString(), role );
       break;
 
     case TwitterAPI::ROLE_FAVORITES_CREATE:
@@ -740,7 +740,15 @@ void TwitterAPIInterface::slotAuthenticationRequired( QNetworkReply *reply, QAut
       default:;
       }
     } else if ( /*del.isValid() && del.toBool()*/ id.isValid() ) {
-      emit unauthorized( network, login, password, id.toInt() );
+      switch ( role ) {
+      case TwitterAPI::ROLE_DELETE_UPDATE:
+        emit unauthorized( network, login, password, id.toInt(), Entry::Status );
+        break;
+      case TwitterAPI::ROLE_DELETE_DM:
+        emit unauthorized( network, login, password, id.toInt(), Entry::DirectMessage );
+        break;
+      default:;
+      }
     } else {
       emit unauthorized( network, login, password );
     }

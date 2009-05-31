@@ -115,11 +115,10 @@ void StatusWidget::createMenu()
   menu->addAction( copylinkAction );
   connect( copylinkAction, SIGNAL(triggered()), this, SLOT(slotCopyLink()) );
 
-  deleteAction = new QAction( tr( "Delete status" ), this );
+  deleteAction = new QAction( this );
   deleteAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ) );
   menu->addAction( deleteAction );
-  connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-  connect( signalMapper, SIGNAL(mapped(int)), statusListModel, SLOT(sendDeleteRequest(int)) );
+  connect( deleteAction, SIGNAL(triggered()), this, SLOT(slotDelete()) );
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
   markallasreadAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ) );
@@ -160,6 +159,9 @@ void StatusWidget::setupMenu()
     retweetAction->setEnabled( true );
   }
 
+  dmAction->setText( tr( "Direct message %1" ).arg( statusData->userInfo.screenName ) );
+  dmAction->setEnabled( !(currentLogin == TwitterAPI::PUBLIC_TIMELINE) && !statusData->isOwn );
+
   menu->addSeparator();
 
   if ( statusData->type != Entry::Status ) {
@@ -168,12 +170,10 @@ void StatusWidget::setupMenu()
     copylinkAction->setEnabled( true );
   }
 
-  signalMapper->removeMappings( deleteAction );
-  if ( !statusData->isOwn ) {
-    deleteAction->setEnabled( false );
-  } else {
+  if ( statusData->isOwn || statusData->type == Entry::DirectMessage ) {
     deleteAction->setEnabled( true );
-    signalMapper->setMapping( deleteAction, statusData->id );
+  } else {
+    deleteAction->setEnabled( false );
   }
 
   menu->addSeparator();
@@ -249,8 +249,10 @@ void StatusWidget::setStatusData( const Status &status )
     m_ui->replyDeleteButton->setToolTip( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
   }
 
-  dmAction->setText( tr( "Direct message %1" ).arg( statusData->userInfo.screenName ) );
-  dmAction->setEnabled( !(currentLogin == TwitterAPI::PUBLIC_TIMELINE) && !statusData->isOwn );
+  if ( statusData->type == Entry::Status )
+    deleteAction->setText( tr( "Delete status" ) );
+  else
+    deleteAction->setText( tr( "Delete message" ) );
 
   if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE ) {
     if ( statusData->favorited ) {
@@ -381,6 +383,7 @@ void StatusWidget::retranslateUi()
   if ( statusData ) {
     dmAction->setText( tr( "Direct message %1" ).arg( statusData->userInfo.screenName ) );
     dmAction->setEnabled( !(currentLogin == TwitterAPI::PUBLIC_TIMELINE) && !statusData->isOwn );
+
     if ( statusData->favorited ) {
       if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
         m_ui->favoriteButton->setToolTip( QString() );
@@ -397,8 +400,14 @@ void StatusWidget::retranslateUi()
 
     m_ui->infoButton->setToolTip( tr( "About %1" ).arg( statusData->userInfo.screenName ) );
     replyAction->setText( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
+
+    if ( statusData->type == Entry::Status )
+      deleteAction->setText( tr( "Delete status" ) );
+    else
+      deleteAction->setText( tr( "Delete message" ) );
+
     if ( statusData->isOwn )
-      m_ui->replyDeleteButton->setToolTip( tr( "Delete status" ) );
+      m_ui->replyDeleteButton->setToolTip( deleteAction->text() );
     else
       m_ui->replyDeleteButton->setToolTip( replyAction->text() );
 
@@ -463,11 +472,6 @@ void StatusWidget::slotRetweet()
 void StatusWidget::slotDM()
 {
   statusListModel->sendDMRequest( statusData->userInfo.screenName );
-//  DMDialog *dlg = new DMDialog( statusData->userInfo.screenName );
-//  connect( dlg, SIGNAL(dmRequest(QString)), statusListModel, SLOT(sendDMRequest(QString,QString)) );
-//
-//  dlg->exec();
-//  dlg->deleteLater();
 }
 
 void StatusWidget::slotCopyLink()
@@ -480,7 +484,7 @@ void StatusWidget::slotCopyLink()
 
 void StatusWidget::slotDelete()
 {
-  statusListModel->sendDeleteRequest( statusData->id );
+  statusListModel->sendDeleteRequest( statusData->id, statusData->type );
 }
 
 void StatusWidget::slotFavorite()

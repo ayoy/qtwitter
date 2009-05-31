@@ -23,7 +23,7 @@
 
 #include <QStandardItemModel>
 #include <QUrl>
-#include <twitterapi/twitterapi_global.h>
+#include <twitterapi/twitterapi.h>
 
 class QPixmap;
 class StatusWidget;
@@ -64,7 +64,7 @@ public slots:
   void updateImage( int ind );
   void removeStatus( int ind );
 
-  void sendDeleteRequest( int id );
+  void sendDeleteRequest( int id, Entry::Type type );
   void sendFavoriteRequest( int id, bool favorited );
   void sendDMRequest( const QString &screenName );
   void selectStatus( const QModelIndex &index );
@@ -78,7 +78,7 @@ public slots:
 
 signals:
   void retweet( QString message );
-  void destroy( TwitterAPI::SocialNetwork network, const QString &login, int id );
+  void destroy( TwitterAPI::SocialNetwork network, const QString &login, int id, Entry::Type type );
   void favorite( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited );
   void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName );
   void newStatuses( const QString &login, bool exists );

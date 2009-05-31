@@ -59,10 +59,11 @@ Core::Core( MainWindow *parent ) :
   connect( twitterapi, SIGNAL(deleteEntry(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,int)) );
   connect( twitterapi, SIGNAL(favoriteStatus(TwitterAPI::SocialNetwork,QString,int,bool)), this, SLOT(setFavorited(TwitterAPI::SocialNetwork,QString,int,bool)) );
   connect( twitterapi, SIGNAL(postDMDone(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)), this, SIGNAL(confirmDMSent(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)) );
+  connect( twitterapi, SIGNAL(deleteDMDone(TwitterAPI::SocialNetwork,QString,int,TwitterAPI::ErrorCode)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,int)) );
   connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
   connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString)) );
   connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,int)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,int)) );
-  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,int)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,int)) );
+  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,int,Entry::Type)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,int,Entry::Type)) );
 
   connect( this, SIGNAL(newRequest()), SLOT(slotNewRequest()) );
   connect( twitterapi, SIGNAL(requestDone(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(slotRequestDone(TwitterAPI::SocialNetwork,QString,int)) );
@@ -79,7 +80,7 @@ Core::Core( MainWindow *parent ) :
   connect( statusModel, SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
   connect( statusModel, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
   connect( statusModel, SIGNAL(about()), this, SIGNAL(about()) );
-  connect( statusModel, SIGNAL(destroy(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(destroyStatus(TwitterAPI::SocialNetwork,QString,int)) );
+  connect( statusModel, SIGNAL(destroy(TwitterAPI::SocialNetwork,QString,int,Entry::Type)), this, SLOT(destroy(TwitterAPI::SocialNetwork,QString,int,Entry::Type)) );
   connect( statusModel, SIGNAL(favorite(TwitterAPI::SocialNetwork,QString,int,bool)), this, SLOT(favoriteRequest(TwitterAPI::SocialNetwork,QString,int,bool)) );
   connect( statusModel, SIGNAL(postDM(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(postDMDialog(TwitterAPI::SocialNetwork,QString,QString)) );
   connect( statusModel, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
@@ -229,7 +230,7 @@ void Core::post( TwitterAPI::SocialNetwork network, const QString &login, const 
   emit requestStarted();
 }
 
-void Core::destroyStatus( TwitterAPI::SocialNetwork network, const QString &login, int id )
+void Core::destroy( TwitterAPI::SocialNetwork network, const QString &login, int id, Entry::Type type )
 {
   if ( settings.value( "General/confirmTweetDeletion", true ).toBool() ) {
     QMessageBox *confirm = new QMessageBox( QMessageBox::Warning,
@@ -243,9 +244,16 @@ void Core::destroyStatus( TwitterAPI::SocialNetwork network, const QString &logi
     if ( result == QMessageBox::Cancel )
       return;
   }
-  twitterapi->deleteUpdate( network, login, accountsModel->account( network, login )->password, id );
-  emit newRequest();
-  emit requestStarted();
+
+  if ( type == Entry::Status ) {
+    twitterapi->deleteUpdate( network, login, accountsModel->account( network, login )->password, id );
+    emit newRequest();
+    emit requestStarted();
+  } else if ( type == Entry::DirectMessage ) {
+    twitterapi->deleteDM( network, login, accountsModel->account( network, login )->password, id );
+    emit newRequest();
+    emit requestStarted();
+  }
 }
 
 void Core::favoriteRequest( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited )
@@ -482,14 +490,14 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
   postDM( network, account->login, screenName, text );
 }
 
-void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId )
+void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId, Entry::Type type )
 {
   Q_UNUSED(password);
   Account *account = accountsModel->account( network, login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE ) )
     return;
   requestCount--;
-  destroyStatus( network, account->login, destroyId );
+  destroy( network, account->login, destroyId, type );
 }
 
 void Core::setupStatusLists()
