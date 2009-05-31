@@ -21,16 +21,18 @@
 #include "userinfopopup.h"
 #include "userinfo.h"
 #include <QTimer>
+#include <QPalette>
+#include <QColor>
 
 UserInfoPopup* UserInfoPopup::_instance = 0;
 
-UserInfoPopup* UserInfoPopup::instantiate( QWidget *parent, Qt::WindowFlags flags,const Status *status )
+UserInfoPopup* UserInfoPopup::instantiate( const Status *status, QWidget *parent, Qt::WindowFlags flags )
 {
   if ( !_instance )
-    _instance = new UserInfoPopup( parent, flags, status );
+    _instance = new UserInfoPopup( status, parent, flags );
   else if ( _instance->parent() != parent ) {
     _instance->deleteLater();
-    _instance = new UserInfoPopup( parent, flags, status );
+    _instance = new UserInfoPopup( status, parent, flags);
   }
 
   return _instance;
@@ -41,18 +43,24 @@ UserInfoPopup* UserInfoPopup::instance()
   return _instance;
 }
 
-UserInfoPopup::UserInfoPopup( QWidget *parent, Qt::WindowFlags flags, const Status *status ) :
+UserInfoPopup::UserInfoPopup( const Status *status, QWidget *parent, Qt::WindowFlags flags ) :
     QWidget( parent, flags ),
     ui( new Ui::UserInfo )
 {
   ui->setupUi( this );
   ui->name->setText( status->entry.userInfo.name );
   ui->description->setText( status->entry.userInfo.description );
-  ui->friends->setText( QString::number(status->entry.userInfo.friendsCount) );
+  if ( status->entry.userInfo.friendsCount > 0 ) {
+    ui->friends->setText( QString::number(status->entry.userInfo.friendsCount) );
+  } else {
+    ui->friends->hide();
+    ui->friendsLabel->hide();
+  }
   ui->location->setText( status->entry.userInfo.location );
-  ui->url->setText( status->entry.userInfo.homepage );
+  ui->url->setText( QString( "<a style=\"color: white\" href=%1>%1</a>").arg( status->entry.userInfo.homepage ) );
   ui->userImage->setPixmap( status->image );
   ui->screenName->setText( status->entry.userInfo.screenName );
+  adjustSize();
 }
 
 UserInfoPopup::~UserInfoPopup()

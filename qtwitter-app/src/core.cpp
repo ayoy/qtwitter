@@ -78,7 +78,7 @@ Core::Core( MainWindow *parent ) :
   connect( statusModel, SIGNAL(reply(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
   connect( statusModel, SIGNAL(about()), this, SIGNAL(about()) );
   connect( statusModel, SIGNAL(destroy(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(destroyStatus(TwitterAPI::SocialNetwork,QString,int)) );
-  connect( statusModel, SIGNAL(favorite(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(favoriteRequest(TwitterAPI::SocialNetwork,QString,int)) );
+  connect( statusModel, SIGNAL(favorite(TwitterAPI::SocialNetwork,QString,int,bool)), this, SLOT(favoriteRequest(TwitterAPI::SocialNetwork,QString,int,bool)) );
   connect( statusModel, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( statusModel, SIGNAL(newStatuses(QString,bool)), this, SLOT(storeNewStatuses(QString,bool)) );
   connect( this, SIGNAL(allRequestsFinished()), statusModel, SLOT(checkForUnread()) );
@@ -245,10 +245,14 @@ void Core::destroyStatus( TwitterAPI::SocialNetwork network, const QString &logi
   emit requestStarted();
 }
 
-void Core::favoriteRequest( TwitterAPI::SocialNetwork network, const QString &login, int id )
+void Core::favoriteRequest( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited )
 {
   qDebug() << "Core::favoriteRequest()";
-  twitterapi->createFavorite( network, login, accountsModel->account( network, login )->password, id );
+  if ( favorited )
+    twitterapi->createFavorite( network, login, accountsModel->account( network, login )->password, id );
+  else
+    twitterapi->destroyFavorite( network, login, accountsModel->account( network, login )->password, id );
+
   emit newRequest();
   emit requestStarted();
 }

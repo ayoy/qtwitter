@@ -64,7 +64,7 @@ signals:
   void requestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );
   void newEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
   void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, int id );
-  void favoriteStatus( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorite );
+  void favoriteStatus( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited );
 
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId );

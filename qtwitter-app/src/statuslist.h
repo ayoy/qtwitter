@@ -63,7 +63,7 @@ public:
 
   void addStatus( Entry entry );
   bool deleteStatus( int id );
-  void setFavorited( int index, bool favorite = true );
+  void setFavorited( int index, bool favorited = true );
 
   bool remove( int from, int count );
   static void setMaxCount( int maxCount );

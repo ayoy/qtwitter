@@ -58,7 +58,7 @@ void UserInfoButton::showPopup()
     destroyPopup();
 
   if ( !UserInfoPopup::instance() )
-    UserInfoPopup::instantiate( this, Qt::Popup, status );
+    UserInfoPopup::instantiate( status, this, Qt::Popup );
 
   if ( UserInfoPopup::instance() ) {
     connect( UserInfoPopup::instance(), SIGNAL(closed()), this, SLOT(destroyPopup()) );

@@ -123,7 +123,9 @@ bool XmlParser::characters( const QString &ch )
         entry.id = ch.toInt();
       } else if ( currentTag == TAG_USER_TEXT && entry.text.isNull() ) {
         entry.originalText = ch;
-        entry.text = textToHtml( ch, network );
+        entry.originalText.replace( "&lt;", "<" );
+        entry.originalText.replace( "&gt;", ">" );
+        entry.text = textToHtml( entry.originalText, network );
       } else if ( currentTag == TAG_USER_TIMESTAMP && entry.timestamp.isNull() ) {
         entry.timestamp = toDateTime( ch ); //utc
         /* It's better to leave UTC timestamp alone; Additional member localTime is added to store local time when
@@ -171,6 +173,8 @@ void XmlParser::parseUserInfo(const QString &ch)
     if ( !ch.trimmed().isEmpty() ) {
       entry.userInfo.hasHomepage = true;
       entry.userInfo.homepage = ch;
+      if ( entry.userInfo.homepage.endsWith( '/' ) )
+        entry.userInfo.homepage.chop(1);
     }
   } else if ( currentTag == TAG_USER_IMAGE && entry.userInfo.imageUrl.isNull() ) {
     entry.userInfo.imageUrl = ch;

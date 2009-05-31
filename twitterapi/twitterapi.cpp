@@ -421,6 +421,7 @@ void TwitterAPIInterface::deleteDM( TwitterAPI::SocialNetwork network, const QSt
 void TwitterAPIInterface::createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id )
 {
   QNetworkRequest request( QUrl( QString("%1/favorites/create/%2.xml").arg( services[ network ], QString::number(id) ) ) );
+  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
   request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_FAVORITES_CREATE );
   request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
   request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
@@ -442,6 +443,7 @@ void TwitterAPIInterface::createFavorite( TwitterAPI::SocialNetwork network, con
 void TwitterAPIInterface::destroyFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id )
 {
   QNetworkRequest request( QUrl( QString("%1/favorites/destroy/%2.xml").arg( services[ network ], QString::number(id) ) ) );
+  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
   request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_FAVORITES_DESTROY );
   request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
   request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
@@ -556,7 +558,7 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
     case TwitterAPI::ROLE_PUBLIC_TIMELINE:
       qDebug() << "TwitterAPIInterface::requestFinished()" << "parsing public timeline";
       parseXml( reply->readAll(), connections[ network ][ TwitterAPI::PUBLIC_TIMELINE ]->statusParser );
-      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::ROLE_PUBLIC_TIMELINE );
+      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, role );
       break;
 
     case TwitterAPI::ROLE_FRIENDS_TIMELINE:
@@ -568,23 +570,23 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
           directMessages( network, login.toString(), password.toString() , msgCount);
       }
       parseXml( reply->readAll(), connections[ network ][ login.toString() ]->statusParser );
-      emit requestDone( network, login.toString(), TwitterAPI::ROLE_FRIENDS_TIMELINE );
+      emit requestDone( network, login.toString(), role );
       break;
 
     case TwitterAPI::ROLE_DIRECT_MESSAGES:
       qDebug() << "TwitterAPIInterface::requestFinished()" << "parsing direct messages";
       parseXml( reply->readAll(), connections[ network ][ login.toString() ]->directMsgParser );
-      emit requestDone( network, login.toString(), TwitterAPI::ROLE_DIRECT_MESSAGES );
+      emit requestDone( network, login.toString(), role );
       break;
 
     case TwitterAPI::ROLE_POST_UPDATE:
       parseXml( reply->readAll(), connections[ network ][ login.toString() ]->statusParser );
-      emit requestDone( network, login.toString(), TwitterAPI::ROLE_POST_UPDATE );
+      emit requestDone( network, login.toString(), role );
       break;
 
     case TwitterAPI::ROLE_DELETE_UPDATE:
       emit deleteEntry( network, login.toString(), id.toInt() );
-      emit requestDone( network, login.toString(), TwitterAPI::ROLE_DELETE_UPDATE );
+      emit requestDone( network, login.toString(), role );
       break;
 
     case TwitterAPI::ROLE_POST_DM:
@@ -595,23 +597,37 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
 
     case TwitterAPI::ROLE_FAVORITES_CREATE:
       emit favoriteStatus( network, login.toString(), id.toInt(), true );
-      emit requestDone( network, login.toString(), TwitterAPI::ROLE_FAVORITES_CREATE );
+      emit requestDone( network, login.toString(), role );
       break;
 
     case TwitterAPI::ROLE_FAVORITES_DESTROY:
       emit favoriteStatus( network, login.toString(), id.toInt(), false );
-      emit requestDone( network, login.toString(), TwitterAPI::ROLE_FAVORITES_DESTROY );
+      emit requestDone( network, login.toString(), role );
       break;
 
     case TwitterAPI::ROLE_USERINFO:
       connections[ network ][ login.toString() ]->domParser->setContent( reply->readAll(), TwitterAPI::ROLE_USERINFO);
-      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::ROLE_USERINFO );
+      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, role );
       break;
     default:;
     }
     break;
+  case 403:
+    switch ( role ) {
+    case TwitterAPI::ROLE_FAVORITES_CREATE:
+      // status is already favorite, TODO: emit a signal here in a future
+      qDebug() << "[TwitterAPI] favorites/create: status already favorited";
+      break;
+    default:;
+    }
+    if ( login.isValid() )
+      emit requestDone( network, login.toString(), role );
+    else
+      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, role );
+    break;
   case 404: // Not Found
-    emit errorMessage( "Not found" );
+    qDebug() << "[TwitterAPI] error:" << replyCode;
+    emit requestDone( network, login.toString(), role );
     break;
   case 502:
     if ( reply->operation() == QNetworkAccessManager::GetOperation ) {
@@ -620,7 +636,13 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
       else
         connections[ network ][ TwitterAPI::PUBLIC_TIMELINE ]->connection.data()->get( request );
     }
-  default:;
+    break;
+  default:
+    qDebug() << "[TwitterAPI] error:" << replyCode;
+    if ( login.isValid() )
+      emit requestDone( network, login.toString(), role );
+    else
+      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, role );
   }
   reply->close();
 }
