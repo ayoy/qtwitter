@@ -73,13 +73,13 @@ public slots:
   void post( TwitterAPI::SocialNetwork network, const QString &login, const QString &status, int inReplyTo );
   void destroyStatus( TwitterAPI::SocialNetwork network, const QString &login, int id );
   void favoriteRequest( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited );
+  void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName, const QString &text );
 
   void uploadPhoto( const QString &login, QString photoPath, QString status );
   void abortUploadPhoto();
   void twitPicResponse( bool responseStatus, QString message, bool newStatus );
 
   void openBrowser( QUrl address );
-  AuthDialogState authDataDialog( Account *account );
   void shortenUrl( const QString &url );
 
   void retranslateUi();
@@ -98,6 +98,7 @@ signals:
   void modelChanged( StatusModel *model );
   void addReplyString( const QString &user, int id );
   void addRetweetString( QString message );
+  void confirmDMSent( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
   void about();
   void sendNewsReport( QString message );
   void resizeData( int width, int oldWidth );
@@ -110,9 +111,13 @@ private slots:
   void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, int id );
   void setFavorited( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited = true );
 
+  void postDMDialog( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName );
+  AuthDialogState authDataDialog( Account *account );
+
   void setImageForUrl( const QString& url, QPixmap *image );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId );
+  void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId );
   void slotNewRequest();
   void slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );

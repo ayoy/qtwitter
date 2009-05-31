@@ -92,12 +92,16 @@ void StatusWidget::createMenu()
   connect( replyAction, SIGNAL(triggered()), this, SLOT(slotReply()) );
   connect( this, SIGNAL(reply(QString,int)), statusListModel, SIGNAL(reply(QString,int)) );
 
-
   retweetAction = new QAction( tr( "Retweet" ), this );
   retweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ) );
   menu->addAction( retweetAction );
   connect( retweetAction, SIGNAL(triggered()), this, SLOT(slotRetweet()) );
   connect( this, SIGNAL(retweet(QString)), statusListModel, SIGNAL(retweet(QString)) );
+
+  dmAction = new QAction( this );
+  dmAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_D ) );
+  menu->addAction( dmAction );
+  connect( dmAction, SIGNAL(triggered()), this, SLOT(slotDM()) );
 
   menu->addSeparator();
 
@@ -245,19 +249,27 @@ void StatusWidget::setStatusData( const Status &status )
     m_ui->replyDeleteButton->setToolTip( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
   }
 
+  dmAction->setText( tr( "Direct message %1" ).arg( statusData->userInfo.screenName ) );
+  dmAction->setEnabled( !(currentLogin == TwitterAPI::PUBLIC_TIMELINE) && !statusData->isOwn );
+
   if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE ) {
     if ( statusData->favorited ) {
       m_ui->favoriteButton->setIcon( QIcon( ":/icons/star_on_16.png" ) );
-      if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
+      if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
         m_ui->favoriteButton->setToolTip( QString() );
-      else
+        favoriteAction->setText( tr( "Remove from Favorites" ) );
+        favoriteAction->setEnabled( false );
+      } else {
         m_ui->favoriteButton->setToolTip( tr( "Remove from Favorites" ) );
-    } else {
+        favoriteAction->setText( m_ui->favoriteButton->toolTip() );
+        favoriteAction->setEnabled( true );
+      }
+     } else {
       m_ui->favoriteButton->setIcon( QIcon( ":/icons/star_off_16.png" ) );
       m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
+      favoriteAction->setText( m_ui->favoriteButton->toolTip() );
+      favoriteAction->setEnabled( true );
     }
-    favoriteAction->setText( m_ui->favoriteButton->toolTip() );
-    favoriteAction->setEnabled( true );
   } else {
     favoriteAction->setEnabled( false );
   }
@@ -367,15 +379,21 @@ void StatusWidget::applyTheme()
 void StatusWidget::retranslateUi()
 {
   if ( statusData ) {
+    dmAction->setText( tr( "Direct message %1" ).arg( statusData->userInfo.screenName ) );
+    dmAction->setEnabled( !(currentLogin == TwitterAPI::PUBLIC_TIMELINE) && !statusData->isOwn );
     if ( statusData->favorited ) {
-      if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
+      if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
         m_ui->favoriteButton->setToolTip( QString() );
-      else
+        favoriteAction->setText( tr( "Remove from Favorites" ) );
+        favoriteAction->setEnabled( false );
+      } else {
         m_ui->favoriteButton->setToolTip( tr( "Remove from Favorites" ) );
+        favoriteAction->setText( m_ui->favoriteButton->toolTip() );
+        favoriteAction->setEnabled( true );
+      }
     } else {
       m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
     }
-    favoriteAction->setText( m_ui->favoriteButton->toolTip() );
 
     m_ui->infoButton->setToolTip( tr( "About %1" ).arg( statusData->userInfo.screenName ) );
     replyAction->setText( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
@@ -442,6 +460,16 @@ void StatusWidget::slotRetweet()
   emit retweet( QString("RT @" + statusData->userInfo.screenName + ": " + statusData->originalText ) );
 }
 
+void StatusWidget::slotDM()
+{
+  statusListModel->sendDMRequest( statusData->userInfo.screenName );
+//  DMDialog *dlg = new DMDialog( statusData->userInfo.screenName );
+//  connect( dlg, SIGNAL(dmRequest(QString)), statusListModel, SLOT(sendDMRequest(QString,QString)) );
+//
+//  dlg->exec();
+//  dlg->deleteLater();
+}
+
 void StatusWidget::slotCopyLink()
 {
   if ( currentNetwork == TwitterAPI::SOCIALNETWORK_TWITTER )
@@ -457,12 +485,13 @@ void StatusWidget::slotDelete()
 
 void StatusWidget::slotFavorite()
 {
+  //if a status already is favorited, send a request to disfavor it
   bool setFavorited = !statusData->favorited;
 
   if ( !setFavorited && currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
     return;
 
-  statusListModel->sendFavoriteRequest( statusData->id, !setFavorited );
+  statusListModel->sendFavoriteRequest( statusData->id, setFavorited );
 }
 
 void StatusWidget::changeEvent( QEvent *e )

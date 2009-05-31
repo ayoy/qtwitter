@@ -50,6 +50,12 @@ namespace TwitterAPI {
     ROLE_FAVORITES_DESTROY,
   };
 
+  enum ErrorCode {
+    ERROR_NO_ERROR = 0,
+    ERROR_DM_NOT_ALLOWED,
+    ERROR_DM_USER_NOT_FOUND
+  };
+
   /*!
     A constant used as a "login" for public timeline requests.
   */

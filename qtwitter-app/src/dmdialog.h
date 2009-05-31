@@ -18,60 +18,47 @@
  ***************************************************************************/
 
 
-#ifndef TWITPICTEXTEDIT_H
-#define TWITPICTEXTEDIT_H
+#ifndef DMDIALOG_H
+#define DMDIALOG_H
 
-#include <QPlainTextEdit>
+#include <QDialog>
+#include <twitterapi/twitterapi.h>
 
-class TwitPicTextEdit : public QPlainTextEdit
-{
+class QMovie;
+
+namespace Ui {
+  class DMDialog;
+}
+
+class DMDialog : public QDialog {
   Q_OBJECT
+  Q_DISABLE_COPY(DMDialog)
+
 public:
-  TwitPicTextEdit( QWidget *parent = 0 ) :
-      QPlainTextEdit( parent ),
-      allowEnters( true )
-  {}
+  explicit DMDialog( TwitterAPI::SocialNetwork network, const QString &login, const QString &recipient, QWidget *parent = 0);
+  virtual ~DMDialog();
 
-  void setAllowEnters( bool allow ) { allowEnters = allow; }
-
-signals:
-  void enterPressed();
+public slots:
+  void showResult( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
 
 protected:
-  void keyPressEvent( QKeyEvent *e )
-  {
-    if ( e->key() == Qt::Key_Tab || e->key() == Qt::Key_Backtab ) {
-      clearFocus();
-      return;
-    }
-    if ( !allowEnters && (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) ) {
-      emit enterPressed();
-      return;
-    }
-    QPlainTextEdit::keyPressEvent( e );
-  }
+  virtual void changeEvent( QEvent *e );
+
+signals:
+  void dmRequest( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName, const QString &text );
+
+private slots:
+  void sendDM();
+  void updateCharsLeft();
+  void resetDisplay();
 
 private:
-  bool allowEnters;
-
+  int charsLeft();
+  QMovie *progress;
+  TwitterAPI::SocialNetwork network;
+  QString login;
+  QString screenName;
+  Ui::DMDialog *m_ui;
 };
 
-#endif // TWITPICTEXTEDIT_H
-
-
-/*! \class TwitPicTextEdit
-    \brief A customized QPlainTextEdit class.
-
-    This class is used by TwitPicView to handle input of the user's message
-    added to the uploaded photo. Derives from QPlainTextEdit and reimplements
-    keyPressEvent in order to provide focus switching with Tab and Backtab.
-*/
-
-/*! \fn TwitPicTextEdit::TwitPicTextEdit( QWidget *parent = 0 )
-    Creates a text edit with a given \a parent.
-*/
-
-/*! \fn void TwitPicTextEdit::keyPressEvent( QKeyEvent *e )
-    Reimplemented from QPlainTextEdit to enable switching focus using Tab
-    and Backtab keys.
-*/
+#endif // DMDIALOG_H

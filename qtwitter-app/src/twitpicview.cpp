@@ -33,8 +33,9 @@ TwitPicView::TwitPicView(QWidget *parent) :
     pixmap( 0 ),
     m_ui(new Ui::TwitPicView)
 {
-  m_ui->setupUi(this);
-  m_ui->uploadProgressBar->setVisible(false);
+  m_ui->setupUi( this );
+  m_ui->uploadProgressBar->setVisible( false );
+  m_ui->statusEdit->setAllowEnters( false );
   connect( m_ui->uploadButton, SIGNAL(clicked()), this, SLOT(sendUploadRequest()) );
   connect( m_ui->statusEdit, SIGNAL(enterPressed()), this, SLOT(sendUploadRequest()) );
   connect( m_ui->imagePathEdit, SIGNAL(textChanged(QString)), this, SLOT(setImagePreview(QString)) );
