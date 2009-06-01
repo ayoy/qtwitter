@@ -121,11 +121,10 @@ private slots:
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId, Entry::Type type );
   void slotNewRequest();
   void slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );
-  void storeNewStatuses( const QString &login, bool exists );
 
 private:
-  void sendNewsInfo();
   void setupStatusLists();
+  void checkUnreadStatuses();
   bool retryAuthorizing( Account *account, int role );
   bool authDialogOpen;
   int publicTimeline;

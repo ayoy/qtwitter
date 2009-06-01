@@ -85,7 +85,6 @@ Core::Core( MainWindow *parent ) :
   connect( statusModel, SIGNAL(postDM(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(postDMDialog(TwitterAPI::SocialNetwork,QString,QString)) );
   connect( statusModel, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( statusModel, SIGNAL(newStatuses(QString,bool)), this, SLOT(storeNewStatuses(QString,bool)) );
-  connect( this, SIGNAL(allRequestsFinished()), statusModel, SLOT(checkForUnread()) );
   connect( this, SIGNAL(resizeData(int,int)), statusModel, SLOT(resizeData(int,int)) );
 
 }
@@ -105,9 +104,10 @@ void Core::applySettings()
 {
   static bool appStartup = true;
   publicTimeline = settings.value( "TwitterAccounts/publicTimeline", AccountsController::PT_NONE ).toInt();
-  if ( appStartup )
+  if ( appStartup ) {
     accounts->loadAccounts();
-  appStartup = false;
+    appStartup = false;
+  }
 
   int mtc = settings.value( "Appearance/tweet count", 25 ).toInt();
   StatusList::setMaxCount( mtc );
@@ -121,11 +121,6 @@ void Core::applySettings()
 
   emit resetUi();
   requestCount = 0;
-
-  foreach ( Account account, accountsModel->getAccounts() ) {
-    if ( statusLists.contains( account ) )
-      statusLists[ account ]->slotDirectMessagesChanged( account.directMessages );
-  }
 
   setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
   get();
@@ -510,7 +505,7 @@ void Core::setupStatusLists()
     }
   }
 
-  foreach ( Account account, accountsModel->getAccounts() ) {
+  foreach ( Account account, newAccounts ) {
     if ( account.isEnabled && !statusLists.contains( account ) ) {
       StatusList *statusList = new StatusList( account.login, account.network, this );
       statusLists.insert( account, statusList );
@@ -522,6 +517,11 @@ void Core::setupStatusLists()
       statusLists[ account ]->deleteLater();
       statusLists.remove( account );
     }
+  }
+
+  foreach ( Account account, newAccounts ) {
+    if ( statusLists.contains( account ) )
+      statusLists[ account ]->slotDirectMessagesChanged( account.directMessages );
   }
 
   switch ( publicTimeline ) {
@@ -565,7 +565,6 @@ void Core::setupStatusLists()
       statusLists.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ), statusList );
     }
   }
-  newStatuses.clear();
   requestCount = 0;
 }
 
@@ -623,34 +622,27 @@ void Core::slotRequestDone( TwitterAPI::SocialNetwork network, const QString &lo
   if ( requestCount == 0 ) {
     tempModelCount = statusLists.count();
     emit resetUi();
-    emit allRequestsFinished();
+//    emit allRequestsFinished();
+    checkUnreadStatuses();
   }
 }
 
-void Core::storeNewStatuses( const QString &login, bool exists )
+void Core::checkUnreadStatuses()
 {
-  if ( !tempModelCount )
-    return;
-  qDebug() << "Core::storeNewStatuses( " + login + ", " + exists + " )";
-  if ( exists )
-    newStatuses << login;
-  if ( --tempModelCount == 0 && newStatuses.size() > 0 )
-    sendNewsInfo();
-}
-
-void Core::sendNewsInfo()
-{
+  QStringList unread;
   QString message;
-  if ( newStatuses.count() == 1 ) {
-    message.append( newStatuses.at(0) );
-    emit sendNewsReport( message );
-    newStatuses.clear();
-    return;
+  foreach ( Account account, statusLists.keys() ) {
+    if ( statusLists[ account ]->hasUnread() ) {
+      unread.append( QString( "%1@%2" ).arg( account.login, Account::networkToString( account.network ) ) );
+    }
   }
-  message.append( newStatuses.join( ", " ) );
-  message.replace( message.lastIndexOf( ", " ), 2, QString( " %1 " ).arg( tr( "and" ) ) );
+  if ( unread.count() == 1 ) {
+    message.append( unread.at(0) );
+  } else {
+    message.append( unread.join( ", " ) );
+    message.replace( message.lastIndexOf( ", " ), 2, QString( " %1 " ).arg( tr( "and" ) ) );
+  }
   emit sendNewsReport( tr( "For %1" ).arg(message) );
-  newStatuses.clear();
 }
 
 void Core::shortenUrl( const QString &url )

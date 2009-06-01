@@ -323,25 +323,12 @@ void StatusModel::markAllAsRead()
   }
 }
 
-// TODO: consider moving to StatusList
-void StatusModel::checkForUnread()
-{
-  qDebug() << "StatusModel::checkForUnread(" << login << ");";
-  for ( int i = 0; i < statusList->size(); ++i ) {
-    if ( statusList->data(i).state == StatusModel::STATE_UNREAD ) {
-      emit newStatuses( login, true );
-      return;
-    }
-  }
-  emit newStatuses( login, false );
-}
-
 void StatusModel::retranslateUi()
 {
   // TODO :)
-  return;
+//  return;
   StatusWidget *status;
-  for ( int i = 0; i < statusList->size(); i++ ) {
+  for ( int i = 0; i < rowCount(); i++ ) {
     status = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
     status->retranslateUi();
   }

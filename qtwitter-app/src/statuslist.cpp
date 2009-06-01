@@ -60,6 +60,16 @@ StatusList::~StatusList()
   d = 0;
 }
 
+bool StatusList::hasUnread()
+{
+  for ( QList<Status>::iterator i = d->data.begin(); i != d->data.end(); ++i ) {
+    if ( (*i).state == StatusModel::STATE_UNREAD ) {
+      return true;
+    }
+  }
+  return false;
+}
+
 void StatusList::setNetwork( SocialNetwork network )
 {
   d->network = network;

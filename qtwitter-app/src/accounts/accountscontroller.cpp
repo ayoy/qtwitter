@@ -96,6 +96,7 @@ void AccountsController::loadAccounts()
     ui->deleteAccountButton->setEnabled( true );
   }
 }
+
 void AccountsController::updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight )
 {
   // TODO: change config file to organise accounts in an array,
@@ -160,7 +161,9 @@ void AccountsController::togglePasswordStoring( int state )
 void AccountsController::showPasswordDisclaimer()
 {
   QMessageBox messageBox( QMessageBox::Warning, tr( "Password security" ), tr( "Please note:" ), QMessageBox::Ok );
-  messageBox.setInformativeText( tr( "Although passwords are stored as human unreadable data, they can be easily decoded using the application's source code, which is publicly available. You have been warned." ) );
+  messageBox.setInformativeText( tr( "Although passwords are stored as human unreadable data, "
+                                     "they can be easily decoded using the application's source code, "
+                                     "which is publicly available. You have been warned." ) );
   messageBox.exec();
 }
 

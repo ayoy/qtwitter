@@ -70,7 +70,6 @@ public slots:
   void selectStatus( const QModelIndex &index );
   void selectStatus( StatusWidget *status );
   void markAllAsRead();
-  void checkForUnread();
   void retranslateUi();
   void resizeData( int width, int oldWidth );
   void moveFocus( bool up );
