@@ -18,11 +18,5 @@
         <file>icons/twitter_48.png</file>
         <file>icons/warning_16.png</file>
         <file>icons/warning_48.png</file>
-        <file>loc/qtwitter_ca.qm</file>
-        <file>loc/qtwitter_de.qm</file>
-        <file>loc/qtwitter_es.qm</file>
-        <file>loc/qtwitter_fr.qm</file>
-        <file>loc/qtwitter_jp.qm</file>
-        <file>loc/qtwitter_pl.qm</file>
     </qresource>
 </RCC>

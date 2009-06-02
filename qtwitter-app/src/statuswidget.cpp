@@ -360,7 +360,7 @@ void StatusWidget::applyTheme()
   rx.setMinimal( true );
 
   if ( statusData ) {
-    if ( inreply = statusData->hasInReplyToStatusId ) {
+    if ( (inreply = statusData->hasInReplyToStatusId) ) {
       inReplyString = m_ui->timeStamp->text();
       inReplyString.replace( rx, "rgb(%1)" );
     }

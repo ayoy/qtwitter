@@ -8,63 +8,10 @@ include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
 include(src/accounts/accounts.pri)
 include(src/qticonloader/qticonloader.pri)
-macx { 
-    ICON = macx/qtwitter.icns
-    QMAKE_INFO_PLIST = macx/Info.plist
-    QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
-    LIBS += -framework \
-        twitterapi \
-        -framework \
-        urlshortener
-}
-else:unix { 
-    LIBS += -L$${TOP} \
-        $$TWITTERAPI_LIB \
-        $$URLSHORTENER_LIB \
-        -Wl,-rpath,$${TOP}
-    isEmpty( PREFIX ):INSTALL_PREFIX = /usr
-    else:INSTALL_PREFIX = $${PREFIX}
-    target.path = $${INSTALL_PREFIX}/bin
-    doc.path = $${INSTALL_PREFIX}/share/doc/$${TARGET}
-    doc.files = ../CHANGELOG \
-        ../README \
-        ../LICENSE
-    icons.path = $${INSTALL_PREFIX}/share/icons/scalable/apps
-    icons.files = x11/icons/scalable/qtwitter.svg
-    icons16.path = $${INSTALL_PREFIX}/share/icons/hicolor/16x16/apps
-    icons16.files = x11/icons/16x16/qtwitter.png
-    icons22.path = $${INSTALL_PREFIX}/share/icons/hicolor/22x22/apps
-    icons22.files = x11/icons/22x22/qtwitter.png
-    icons32.path = $${INSTALL_PREFIX}/share/icons/hicolor/32x32/apps
-    icons32.files = x11/icons/32x32/qtwitter.png
-    icons48.path = $${INSTALL_PREFIX}/share/icons/hicolor/48x48/apps
-    icons48.files = x11/icons/48x48/qtwitter.png
-    icons64.path = $${INSTALL_PREFIX}/share/icons/hicolor/64x64/apps
-    icons64.files = x11/icons/64x64/qtwitter.png
-    icons128.path = $${INSTALL_PREFIX}/share/icons/hicolor/128x128/apps
-    icons128.files = x11/icons/128x128/qtwitter.png
-    icons256.path = $${INSTALL_PREFIX}/share/icons/hicolor/256x256/apps
-    icons256.files = x11/icons/256x256/qtwitter.png
-    desktop.path = $${INSTALL_PREFIX}/share/applications
-    desktop.files = x11/qtwitter.desktop
-    INSTALLS += target \
-        doc \
-        icons \
-        icons16 \
-        icons22 \
-        icons32 \
-        icons48 \
-        icons64 \
-        icons128 \
-        icons256 \
-        desktop
-}
-else:win32 { 
-    RC_FILE = win32/qtwitter.rc
-    LIBS += -L$${TOP} \
-        $$TWITTERAPI_LIB \
-        $$URLSHORTENER_LIB
-}
+
+QT += network \
+    xml
+
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
@@ -108,9 +55,10 @@ FORMS += ui/mainwindow.ui \
     ui/twitpicnewphoto.ui \
     ui/userinfo.ui \
     ui/dmdialog.ui
-RESOURCES += res/resources.qrc
-QT += network \
-    xml
+
+linux-*: RESOURCES = res/resources_x11.qrc
+else:  RESOURCES = res/resources.qrc
+
 TRANSLATIONS += loc/qtwitter_pl.ts \
     loc/qtwitter_ca.ts \
     loc/qtwitter_de.ts \
@@ -124,3 +72,76 @@ OBJECTS_DIR = tmp
 INCLUDEPATH += $${TOP} \
     src \
     tmp
+
+macx {
+    ICON = macx/qtwitter.icns
+    QMAKE_INFO_PLIST = macx/Info.plist
+    QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
+    LIBS += -framework \
+        twitterapi \
+        -framework \
+        urlshortener
+}
+else:unix {
+    LIBS += -L$${TOP} \
+        $$TWITTERAPI_LIB \
+        $$URLSHORTENER_LIB \
+        -Wl,-rpath,$${TOP}
+    isEmpty( PREFIX ):INSTALL_PREFIX = /usr
+    else:INSTALL_PREFIX = $${PREFIX}
+
+    target.path = $${INSTALL_PREFIX}/bin
+
+    doc.path = $${INSTALL_PREFIX}/share/doc/$${TARGET}
+    doc.files = ../CHANGELOG \
+        ../README \
+        ../LICENSE
+
+    SHARE_DIR = $${INSTALL_PREFIX}/share/$${TARGET}
+
+    DEFINES += SHARE_DIR=\"\\\"$${SHARE_DIR}\\\"\"
+
+    translations.path = $${SHARE_DIR}/loc
+    translations.files = $${TRANSLATIONS}
+    translations.files ~= s/\.ts/.qm/g
+    translations.files ~= s!^loc!res/loc!g
+
+    icons.path = $${INSTALL_PREFIX}/share/icons/scalable/apps
+    icons.files = x11/icons/scalable/qtwitter.svg
+    icons16.path = $${INSTALL_PREFIX}/share/icons/hicolor/16x16/apps
+    icons16.files = x11/icons/16x16/qtwitter.png
+    icons22.path = $${INSTALL_PREFIX}/share/icons/hicolor/22x22/apps
+    icons22.files = x11/icons/22x22/qtwitter.png
+    icons32.path = $${INSTALL_PREFIX}/share/icons/hicolor/32x32/apps
+    icons32.files = x11/icons/32x32/qtwitter.png
+    icons48.path = $${INSTALL_PREFIX}/share/icons/hicolor/48x48/apps
+    icons48.files = x11/icons/48x48/qtwitter.png
+    icons64.path = $${INSTALL_PREFIX}/share/icons/hicolor/64x64/apps
+    icons64.files = x11/icons/64x64/qtwitter.png
+    icons128.path = $${INSTALL_PREFIX}/share/icons/hicolor/128x128/apps
+    icons128.files = x11/icons/128x128/qtwitter.png
+    icons256.path = $${INSTALL_PREFIX}/share/icons/hicolor/256x256/apps
+    icons256.files = x11/icons/256x256/qtwitter.png
+
+    desktop.path = $${INSTALL_PREFIX}/share/applications
+    desktop.files = x11/qtwitter.desktop
+
+    INSTALLS += target \
+        doc \
+        translations \
+        icons \
+        icons16 \
+        icons22 \
+        icons32 \
+        icons48 \
+        icons64 \
+        icons128 \
+        icons256 \
+        desktop
+}
+else:win32 {
+    RC_FILE = win32/qtwitter.rc
+    LIBS += -L$${TOP} \
+        $$TWITTERAPI_LIB \
+        $$URLSHORTENER_LIB
+}
