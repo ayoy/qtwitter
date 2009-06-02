@@ -131,7 +131,6 @@ signals:
   void createAccounts( QWidget *view );
 
 private slots:
-  void setPublicTimelineEnabled( bool state );
   void changeTheme( const QString& );
   void retranslateUi();
 #ifdef Q_WS_X11

@@ -125,16 +125,17 @@ void Core::applySettings()
     appStartup = false;
   }
 
-  int mtc = settings.value( "Appearance/tweet count", 25 ).toInt();
-  StatusList::setMaxCount( mtc );
-  statusModel->setMaxStatusCount( mtc );
-  setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
-
-
-  setupStatusLists();
-  emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
-
   if ( !waitForAccounts ) {
+
+    int mtc = settings.value( "Appearance/tweet count", 20 ).toInt();
+    StatusList::setMaxCount( mtc );
+    statusModel->setMaxStatusCount( mtc );
+    setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
+
+
+    setupStatusLists();
+    emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
+
     // TODO: do this only when really needed
     twitterapi->resetConnections();
 
@@ -193,6 +194,7 @@ void Core::forceGet()
 
 void Core::get( TwitterAPI::SocialNetwork network, const QString &login, const QString &password )
 {
+  requestCount = 0;
   twitterapi->friendsTimeline( network, login, password, settings.value("Appearance/tweet count", 20).toInt() );
   emit newRequest();
   if ( accountsModel->account( network, login )->directMessages ) {
@@ -628,18 +630,22 @@ void Core::resetRequestsCount()
 
 void Core::slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role )
 {
-  Q_UNUSED(role);
   StatusList *statusList = statusModel->getStatusList();
   if ( statusList->network() == network
        && statusList->login() == login ){
     statusModel->updateDisplay();
   }
-  requestCount--;
+  if ( role != TwitterAPI::ROLE_POST_DM ) {
+    requestCount--;
+  }
   qDebug() << requestCount;
   if ( requestCount == 0 ) {
     tempModelCount = statusLists.count();
     emit resetUi();
-    checkUnreadStatuses();
+    if ( role == TwitterAPI::ROLE_FRIENDS_TIMELINE ||
+         role == TwitterAPI::ROLE_PUBLIC_TIMELINE ||
+         role == TwitterAPI::ROLE_DIRECT_MESSAGES )
+      checkUnreadStatuses();
   }
 }
 
@@ -652,6 +658,10 @@ void Core::checkUnreadStatuses()
       unread.append( QString( "%1@%2" ).arg( account.login, Account::networkToString( account.network ) ) );
     }
   }
+
+  if ( unread.isEmpty() )
+    return;
+
   if ( unread.count() == 1 ) {
     message.append( unread.at(0) );
   } else {

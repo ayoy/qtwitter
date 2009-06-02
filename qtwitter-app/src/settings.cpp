@@ -274,7 +274,7 @@ void Settings::loadConfig( bool dialogRejected )
 #endif
   settings.endGroup();
   settings.beginGroup( "Appearance" );
-    ui.statusCountBox->setValue( settings.value( "tweet count", 25 ).toInt() );
+    ui.statusCountBox->setValue( settings.value( "tweet count", 20 ).toInt() );
     ui.colorBox->setCurrentIndex( settings.value( "color scheme", 3 ).toInt() );
   settings.endGroup();
 
@@ -384,11 +384,6 @@ void Settings::reject()
   QDialog::reject();
 }
 
-void Settings::setPublicTimelineEnabled( bool state )
-{
-  settings.setValue( "TwitterAccounts/publicTimeline", state );
-}
-
 void Settings::changeTheme( const QString &theme )
 {
   mainWindow->changeListBackgroundColor( themes.value( theme ).unread.listBackgroundColor );
@@ -418,7 +413,7 @@ void Settings::retranslateUi()
   selectBrowserButton->setText( tr( "Browse" ) );
 #endif
   ui.buttonBox->clear();
-  ui.buttonBox->addButton("OK", QDialogButtonBox::AcceptRole)->setText( "OK" );
+  ui.buttonBox->addButton("OK", QDialogButtonBox::AcceptRole)->setText( tr( "OK" ) );
   ui.buttonBox->addButton("Apply", QDialogButtonBox::ApplyRole)->setText( tr( "Apply" ) );
   ui.buttonBox->addButton("Cancel", QDialogButtonBox::RejectRole)->setText( tr( "Cancel" ) );
   update();
@@ -469,19 +464,20 @@ void Settings::createLanguageMenu()
 
     QTranslator translator;
     translator.load(fileNames[i], qmDir.absolutePath());
+    //: Please translate "English" to YOUR LANGUAGE NAME in your own language, e.g. "Deutsch", "Francais", "Suomi", etc.
     QString language = translator.translate("Settings", "English");
-    qDebug() << "adding language" << language << ", locale" << locale;
+//    qDebug() << "adding language" << language << ", locale" << locale;
     ui.languageCombo->addItem( language, locale );
   }
   QString systemLocale = QLocale::system().name();
-  systemLocale.chop(3);
+  ui.languageCombo->insertItem(0, tr( "Default" ), systemLocale );
+//  systemLocale.chop(3);
   qDebug() << systemLocale << ui.languageCombo->findData( systemLocale );
   ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
 }
 
 void Settings::switchLanguage( int index )
 {
-  QString locale = ui.languageCombo->itemData( index ).toString();
 #if defined Q_WS_X11
   QDir qmDir( SHARE_DIR );
 #else
@@ -492,10 +488,14 @@ void Settings::switchLanguage( int index )
     qmDir.cd( "qtwitter-app/res/loc" );
   }
   QString qmPath( qmDir.absolutePath() );
-  qDebug() << "switching language to" << locale << "from" << qmPath;
+
+  QString locale = ui.languageCombo->itemData( index ).toString();
+
   QTranslator translator;
+//  qDebug() << "switching language to" << locale << "from" << qmPath;
   translator.load( "qtwitter_" + locale, qmPath );
   qApp->installTranslator( &translator );
+
   retranslateUi();
   mainWindow->retranslateUi();
   core->retranslateUi();
