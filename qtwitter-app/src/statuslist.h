@@ -61,6 +61,7 @@ public:
   StatusList( const QString &login, TwitterAPI::SocialNetwork network, QObject *parent = 0 );
   ~StatusList();
 
+  bool hasUnread();
   void addStatus( Entry entry );
   bool deleteStatus( int id );
   void setFavorited( int index, bool favorited = true );

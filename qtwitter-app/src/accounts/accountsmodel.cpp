@@ -199,6 +199,33 @@ void AccountsModel::clear()
     removeRows( 0, accounts.size() );
 }
 
+void AccountsModel::cleanUp()
+{
+  bool nextMeansDoubled;
+  foreach ( Account account, accounts ) {
+    nextMeansDoubled = false;
+
+    foreach ( Account otherAccount, accounts ) {
+      if ( account.network == otherAccount.network &&
+           account.login == otherAccount.login ) {
+
+        if ( nextMeansDoubled ) {
+          if ( !account.isEnabled && otherAccount.isEnabled ) {
+            account.isEnabled = true;
+            removeRow( accounts.indexOf( otherAccount ) );
+          } else {
+            removeRow( accounts.indexOf( otherAccount ) );
+          } //if
+        } else {
+          nextMeansDoubled = true;
+        } //if
+
+      } //if
+    } //foreach
+
+  } //foreach
+}
+
 QList<Account> AccountsModel::getAccounts()
 {
   return accounts;

@@ -32,6 +32,7 @@
 #include <QDesktopServices>
 #include <QProcess>
 #include <QSettings>
+#include <QApplication>
 #include <urlshortener/urlshortener.h>
 #include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
@@ -361,6 +362,7 @@ void Settings::saveConfig( int quitting )
 void Settings::show()
 {
   updateAccountsOnExit = true;
+  core->setSettingsOpen( true );
   ui.tabs->setCurrentIndex( 0 );
   QDialog::show();
   adjustSize();
@@ -369,29 +371,17 @@ void Settings::show()
 void Settings::accept()
 {
   saveConfig( !updateAccountsOnExit );
+
+  core->setSettingsOpen( false );
   QDialog::accept();
 }
 
 void Settings::reject()
 {
   loadConfig( true );
-  QDialog::reject();
-}
 
-void Settings::switchLanguage( int index )
-{
-  QString locale = ui.languageCombo->itemData( index ).toString();
-  QString qmPath( ":/translations" );
-  qDebug() << "switching language to" << locale << "from" << qmPath;
-  QTranslator translator;
-  translator.load( "qtwitter_" + locale, qmPath );
-  qApp->installTranslator( &translator );
-  retranslateUi();
-//  ui.retranslateUi(this);
-  mainWindow->retranslateUi();
-  core->retranslateUi();
- // ui.tabs->adjustSize();
-  adjustSize();
+  core->setSettingsOpen( false );
+  QDialog::reject();
 }
 
 void Settings::setPublicTimelineEnabled( bool state )
@@ -462,7 +452,15 @@ void Settings::applySettings()
 
 void Settings::createLanguageMenu()
 {
-  QDir qmDir( ":/translations" );
+#if defined Q_WS_X11
+  QDir qmDir( SHARE_DIR );
+#else
+  QDir qmDir( ":" );
+#endif
+  if ( !qmDir.cd( "loc" ) ) {
+    qmDir.cd( QApplication::applicationDirPath() );
+    qmDir.cd( "qtwitter-app/res/loc" );
+  }
   QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
   for (int i = 0; i < fileNames.size(); ++i) {
     QString locale = fileNames[i];
@@ -479,6 +477,29 @@ void Settings::createLanguageMenu()
   systemLocale.chop(3);
   qDebug() << systemLocale << ui.languageCombo->findData( systemLocale );
   ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
+}
+
+void Settings::switchLanguage( int index )
+{
+  QString locale = ui.languageCombo->itemData( index ).toString();
+#if defined Q_WS_X11
+  QDir qmDir( SHARE_DIR );
+#else
+  QDir qmDir( ":" );
+#endif
+  if ( !qmDir.cd( "loc" ) ) {
+    qmDir.cd( QApplication::applicationDirPath() );
+    qmDir.cd( "qtwitter-app/res/loc" );
+  }
+  QString qmPath( qmDir.absolutePath() );
+  qDebug() << "switching language to" << locale << "from" << qmPath;
+  QTranslator translator;
+  translator.load( "qtwitter_" + locale, qmPath );
+  qApp->installTranslator( &translator );
+  retranslateUi();
+  mainWindow->retranslateUi();
+  core->retranslateUi();
+  adjustSize();
 }
 
 void Settings::createUrlShortenerMenu()

@@ -52,6 +52,7 @@ public slots:
   void popupError( const QString &message );
   void retranslateUi();
   void resetStatusEdit();
+  void pauseIcon();
   void showProgressIcon();
   void about();
   void setListViewModel( StatusModel *model );
@@ -77,6 +78,7 @@ signals:
   void switchModel( TwitterAPI::SocialNetwork network, const QString &login );
   void switchToPublicTimelineModel( TwitterAPI::SocialNetwork network );
   void shortenUrl( const QString &url );
+  void iconStopped();
 
 protected:
   void resizeEvent( QResizeEvent *event );
@@ -112,6 +114,8 @@ private:
   QAction *aboutAction;
   QAction *quitAction;
   QMovie *progressIcon;
+
+  QTimer *timer;
 
   QSystemTrayIcon *trayIcon;
 };

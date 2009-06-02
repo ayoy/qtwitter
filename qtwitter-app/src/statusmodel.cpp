@@ -223,10 +223,10 @@ void StatusModel::clear()
   updateDisplay();
 }
 
-void StatusModel::sendDeleteRequest( int id )
+void StatusModel::sendDeleteRequest( int id, Entry::Type type )
 {
   qDebug() << "StatusModel::sendDeleteRequest";
-  emit destroy( statusList->network(), statusList->login(), id );
+  emit destroy( statusList->network(), statusList->login(), id, type );
 }
 
 void StatusModel::sendFavoriteRequest( int id, bool favorited )
@@ -323,25 +323,12 @@ void StatusModel::markAllAsRead()
   }
 }
 
-// TODO: consider moving to StatusList
-void StatusModel::checkForUnread()
-{
-  qDebug() << "StatusModel::checkForUnread(" << login << ");";
-  for ( int i = 0; i < statusList->size(); ++i ) {
-    if ( statusList->data(i).state == StatusModel::STATE_UNREAD ) {
-      emit newStatuses( login, true );
-      return;
-    }
-  }
-  emit newStatuses( login, false );
-}
-
 void StatusModel::retranslateUi()
 {
   // TODO :)
-  return;
+//  return;
   StatusWidget *status;
-  for ( int i = 0; i < statusList->size(); i++ ) {
+  for ( int i = 0; i < rowCount(); i++ ) {
     status = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
     status->retranslateUi();
   }

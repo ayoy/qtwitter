@@ -51,6 +51,9 @@ public:
 public slots:
   void loadAccounts();
 
+signals:
+  void comboActive( bool isActive );
+
 private slots:
   void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
   void updateCheckBox( const QModelIndex &index );
@@ -63,9 +66,12 @@ private slots:
 private:
   void setAccountEnabled( bool state );
   void setAccountDM( bool state );
+
   AccountsModel *model;
   AccountsView *view;
   Ui::Accounts *ui;
+
+  friend class AccountsDelegate;
 };
 
 #endif // ACCOUNTSCONTROLLER_H

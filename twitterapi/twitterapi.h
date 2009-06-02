@@ -64,11 +64,12 @@ signals:
   void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, int id );
   void favoriteStatus( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited );
   void postDMDone( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
+  void deleteDMDone( TwitterAPI::SocialNetwork network, const QString &login, int id, TwitterAPI::ErrorCode error );
 
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId );
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text );
-  void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId );
+  void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId, Entry::Type type );
   void errorMessage( const QString &message );
 
 private slots:

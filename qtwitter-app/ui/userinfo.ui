@@ -23,7 +23,8 @@
    <item>
     <widget class="QFrame" name="frame">
      <property name="styleSheet">
-      <string notr="true">QFrame { border-radius: 0; border-width: 0}</string>
+      <string notr="true">QFrame { border-radius: 0; border-width: 1}
+QLabel { border-width: 0 }</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::NoFrame</enum>

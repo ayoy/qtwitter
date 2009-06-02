@@ -22,10 +22,16 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <QDebug>
+#include "accountscontroller.h"
 #include "accountsmodel.h"
 #include "accountsdelegate.h"
 
-AccountsDelegate::AccountsDelegate( QObject *parent ) : QStyledItemDelegate( parent ) {}
+AccountsDelegate::AccountsDelegate( QObject *parent ) :
+    QStyledItemDelegate( parent )
+{
+  controller = static_cast<AccountsController*>(parent);
+  Q_ASSERT(controller);
+}
 
 QWidget* AccountsDelegate::createEditor( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
@@ -38,6 +44,7 @@ QWidget* AccountsDelegate::createEditor( QWidget *parent, const QStyleOptionView
   case AccountsModel::COL_NETWORK:
     comboBox = new QComboBox( parent );
     comboBox->addItems( QStringList() << "Twitter" << "Identi.ca" );
+    emit controller->comboActive( true );
     editor = comboBox;
     break;
   case AccountsModel::COL_LOGIN:
@@ -91,6 +98,7 @@ void AccountsDelegate::setModelData( QWidget *editor, QAbstractItemModel *model,
   case AccountsModel::COL_NETWORK:
     comboBox = static_cast<QComboBox*>(editor);
     model->setData( index, comboBox->currentIndex(), Qt::EditRole );
+    emit controller->comboActive( false );
     break;
   case AccountsModel::COL_LOGIN:
   case AccountsModel::COL_PASSWORD:

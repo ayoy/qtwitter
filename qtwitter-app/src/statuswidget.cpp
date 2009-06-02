@@ -49,17 +49,16 @@ StatusWidget::StatusWidget( StatusModel *parentModel, QWidget *parent ) :
   m_ui(new Ui::StatusWidget)
 {
   m_ui->setupUi( this );
-  m_ui->favoriteButton->hide();
+  m_ui->favoriteReplyButton->hide();
   m_ui->infoButton->hide();
   m_ui->replyDeleteButton->hide();
 
-  m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
+  m_ui->favoriteReplyButton->setToolTip( tr( "Add to Favorites" ) );
 
   QFont timeStampFont = m_ui->timeStamp->font();
   timeStampFont.setPointSize( timeStampFont.pointSize() - 1 );
   m_ui->timeStamp->setFont( timeStampFont );
 
-  connect( m_ui->favoriteButton, SIGNAL(clicked()), this, SLOT(slotFavorite()) );
   connect( m_ui->replyDeleteButton, SIGNAL(clicked()), this, SLOT(handleReplyDeleteButton()));
   connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
   connect( this, SIGNAL(selectMe(StatusWidget*)), statusListModel, SLOT(selectStatus(StatusWidget*)) );
@@ -115,11 +114,10 @@ void StatusWidget::createMenu()
   menu->addAction( copylinkAction );
   connect( copylinkAction, SIGNAL(triggered()), this, SLOT(slotCopyLink()) );
 
-  deleteAction = new QAction( tr( "Delete status" ), this );
+  deleteAction = new QAction( this );
   deleteAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ) );
   menu->addAction( deleteAction );
-  connect( deleteAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-  connect( signalMapper, SIGNAL(mapped(int)), statusListModel, SLOT(sendDeleteRequest(int)) );
+  connect( deleteAction, SIGNAL(triggered()), this, SLOT(slotDelete()) );
 
   markallasreadAction = new QAction( tr( "Mark all as read" ), this );
   markallasreadAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ) );
@@ -160,6 +158,9 @@ void StatusWidget::setupMenu()
     retweetAction->setEnabled( true );
   }
 
+  dmAction->setText( tr( "Direct message %1" ).arg( statusData->userInfo.screenName ) );
+  dmAction->setEnabled( !(currentLogin == TwitterAPI::PUBLIC_TIMELINE) && !statusData->isOwn );
+
   menu->addSeparator();
 
   if ( statusData->type != Entry::Status ) {
@@ -168,12 +169,10 @@ void StatusWidget::setupMenu()
     copylinkAction->setEnabled( true );
   }
 
-  signalMapper->removeMappings( deleteAction );
-  if ( !statusData->isOwn ) {
-    deleteAction->setEnabled( false );
-  } else {
+  if ( statusData->isOwn || statusData->type == Entry::DirectMessage ) {
     deleteAction->setEnabled( true );
-    signalMapper->setMapping( deleteAction, statusData->id );
+  } else {
+    deleteAction->setEnabled( false );
   }
 
   menu->addSeparator();
@@ -234,6 +233,7 @@ void StatusWidget::initialize()
 void StatusWidget::setStatusData( const Status &status )
 {
   statusData = &status.entry;
+  m_ui->favoriteReplyButton->disconnect();
 
   m_ui->userName->setText( statusData->userInfo.name );
   m_ui->userStatus->setText( statusData->text );
@@ -241,35 +241,55 @@ void StatusWidget::setStatusData( const Status &status )
 
 
   //adjust tooltip for reply/delete button
-  if ( statusData->isOwn ) {
-    m_ui->replyDeleteButton->setIcon( QIcon(":/icons/cross_16.png") );
-    m_ui->replyDeleteButton->setToolTip( tr( "Delete status" ) );
+  if ( statusData->type == Entry::Status ) {
+    if ( statusData->isOwn ) {
+      m_ui->replyDeleteButton->setIcon( QIcon(":/icons/cross_16.png") );
+      m_ui->replyDeleteButton->setToolTip( tr( "Delete status" ) );
+    } else {
+      m_ui->replyDeleteButton->setIcon( QIcon(":/icons/reply_16.png") );
+      m_ui->replyDeleteButton->setToolTip( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
+    }
   } else {
-    m_ui->replyDeleteButton->setIcon( QIcon(":/icons/reply_16.png") );
-    m_ui->replyDeleteButton->setToolTip( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
+    m_ui->replyDeleteButton->setIcon( QIcon(":/icons/cross_16.png") );
+    m_ui->replyDeleteButton->setToolTip( tr( "Delete message" ) );
   }
 
-  dmAction->setText( tr( "Direct message %1" ).arg( statusData->userInfo.screenName ) );
-  dmAction->setEnabled( !(currentLogin == TwitterAPI::PUBLIC_TIMELINE) && !statusData->isOwn );
+  if ( statusData->type == Entry::Status )
+    deleteAction->setText( tr( "Delete status" ) );
+  else
+    deleteAction->setText( tr( "Delete message" ) );
 
   if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE ) {
-    if ( statusData->favorited ) {
-      m_ui->favoriteButton->setIcon( QIcon( ":/icons/star_on_16.png" ) );
-      if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-        m_ui->favoriteButton->setToolTip( QString() );
-        favoriteAction->setText( tr( "Remove from Favorites" ) );
-        favoriteAction->setEnabled( false );
+
+    if ( statusData->type == Entry::DirectMessage ) {
+
+      m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/reply_16.png" ) );
+      m_ui->favoriteReplyButton->setToolTip( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
+      connect( m_ui->favoriteReplyButton, SIGNAL(clicked()), this, SLOT(slotDM()) );
+
+    } else {
+
+      if ( statusData->favorited ) {
+        m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/star_on_16.png" ) );
+        if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+          m_ui->favoriteReplyButton->setToolTip( QString() );
+          favoriteAction->setText( tr( "Remove from Favorites" ) );
+          favoriteAction->setEnabled( false );
+        } else {
+          m_ui->favoriteReplyButton->setToolTip( tr( "Remove from Favorites" ) );
+          favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
+          favoriteAction->setEnabled( true );
+        }
       } else {
-        m_ui->favoriteButton->setToolTip( tr( "Remove from Favorites" ) );
-        favoriteAction->setText( m_ui->favoriteButton->toolTip() );
+        m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/star_off_16.png" ) );
+        m_ui->favoriteReplyButton->setToolTip( tr( "Add to Favorites" ) );
+        favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
         favoriteAction->setEnabled( true );
       }
-     } else {
-      m_ui->favoriteButton->setIcon( QIcon( ":/icons/star_off_16.png" ) );
-      m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
-      favoriteAction->setText( m_ui->favoriteButton->toolTip() );
-      favoriteAction->setEnabled( true );
+      connect( m_ui->favoriteReplyButton, SIGNAL(clicked()), this, SLOT(slotFavorite()) );
+
     }
+
   } else {
     favoriteAction->setEnabled( false );
   }
@@ -340,7 +360,7 @@ void StatusWidget::applyTheme()
   rx.setMinimal( true );
 
   if ( statusData ) {
-    if ( inreply = statusData->hasInReplyToStatusId ) {
+    if ( (inreply = statusData->hasInReplyToStatusId) ) {
       inReplyString = m_ui->timeStamp->text();
       inReplyString.replace( rx, "rgb(%1)" );
     }
@@ -381,24 +401,31 @@ void StatusWidget::retranslateUi()
   if ( statusData ) {
     dmAction->setText( tr( "Direct message %1" ).arg( statusData->userInfo.screenName ) );
     dmAction->setEnabled( !(currentLogin == TwitterAPI::PUBLIC_TIMELINE) && !statusData->isOwn );
+
     if ( statusData->favorited ) {
       if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-        m_ui->favoriteButton->setToolTip( QString() );
+        m_ui->favoriteReplyButton->setToolTip( QString() );
         favoriteAction->setText( tr( "Remove from Favorites" ) );
         favoriteAction->setEnabled( false );
       } else {
-        m_ui->favoriteButton->setToolTip( tr( "Remove from Favorites" ) );
-        favoriteAction->setText( m_ui->favoriteButton->toolTip() );
+        m_ui->favoriteReplyButton->setToolTip( tr( "Remove from Favorites" ) );
+        favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
         favoriteAction->setEnabled( true );
       }
     } else {
-      m_ui->favoriteButton->setToolTip( tr( "Add to Favorites" ) );
+      m_ui->favoriteReplyButton->setToolTip( tr( "Add to Favorites" ) );
     }
 
     m_ui->infoButton->setToolTip( tr( "About %1" ).arg( statusData->userInfo.screenName ) );
     replyAction->setText( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
+
+    if ( statusData->type == Entry::Status )
+      deleteAction->setText( tr( "Delete status" ) );
+    else
+      deleteAction->setText( tr( "Delete message" ) );
+
     if ( statusData->isOwn )
-      m_ui->replyDeleteButton->setToolTip( tr( "Delete status" ) );
+      m_ui->replyDeleteButton->setToolTip( deleteAction->text() );
     else
       m_ui->replyDeleteButton->setToolTip( replyAction->text() );
 
@@ -463,11 +490,6 @@ void StatusWidget::slotRetweet()
 void StatusWidget::slotDM()
 {
   statusListModel->sendDMRequest( statusData->userInfo.screenName );
-//  DMDialog *dlg = new DMDialog( statusData->userInfo.screenName );
-//  connect( dlg, SIGNAL(dmRequest(QString)), statusListModel, SLOT(sendDMRequest(QString,QString)) );
-//
-//  dlg->exec();
-//  dlg->deleteLater();
 }
 
 void StatusWidget::slotCopyLink()
@@ -480,7 +502,7 @@ void StatusWidget::slotCopyLink()
 
 void StatusWidget::slotDelete()
 {
-  statusListModel->sendDeleteRequest( statusData->id );
+  statusListModel->sendDeleteRequest( statusData->id, statusData->type );
 }
 
 void StatusWidget::slotFavorite()
@@ -509,7 +531,7 @@ void StatusWidget::enterEvent( QEvent *e )
   if ( statusState != StatusModel::STATE_DISABLED ) {
     if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE ) {
       m_ui->replyDeleteButton->show();
-      m_ui->favoriteButton->show();
+      m_ui->favoriteReplyButton->show();
     }
     m_ui->infoButton->show();
     e->accept();
@@ -518,7 +540,7 @@ void StatusWidget::enterEvent( QEvent *e )
 
 void StatusWidget::leaveEvent( QEvent *e )
 {
-  m_ui->favoriteButton->hide();
+  m_ui->favoriteReplyButton->hide();
   m_ui->replyDeleteButton->hide();
   m_ui->infoButton->hide();
   QWidget::leaveEvent( e );
@@ -539,7 +561,7 @@ void StatusWidget::focusRequest()
 
 void StatusWidget::handleReplyDeleteButton()
 {
-  if ( statusData->isOwn )
+  if ( statusData->isOwn || statusData->type == Entry::DirectMessage )
     slotDelete();
   else
     slotReply();

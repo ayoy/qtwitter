@@ -22,8 +22,6 @@
 #ifndef CORE_H
 #define CORE_H
 
-#include <QStandardItemModel>
-#include <QAuthenticator>
 #include <QTimer>
 #include <QMap>
 #include <QCache>
@@ -66,12 +64,14 @@ public:
   void setModelTheme( const ThemeData &theme );
   void setModelData( TwitterAPI::SocialNetwork network, const QString &login );
 
+  void setSettingsOpen( bool open );
+
 public slots:
   void forceGet();
   void get();
   void get( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void post( TwitterAPI::SocialNetwork network, const QString &login, const QString &status, int inReplyTo );
-  void destroyStatus( TwitterAPI::SocialNetwork network, const QString &login, int id );
+  void destroy( TwitterAPI::SocialNetwork network, const QString &login, int id, Entry::Type type );
   void favoriteRequest( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited );
   void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName, const QString &text );
 
@@ -81,6 +81,8 @@ public slots:
 
   void openBrowser( QUrl address );
   void shortenUrl( const QString &url );
+  void resetRequestsCount();
+
 
   void retranslateUi();
 
@@ -91,8 +93,8 @@ signals:
   void twitPicDataSendProgress(int,int);
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void requestStarted();
-  void allRequestsFinished();
   void resetUi();
+  void pauseIcon();
   void timelineUpdated();
   void directMessagesSyncChanged( bool b );
   void modelChanged( StatusModel *model );
@@ -118,20 +120,23 @@ private slots:
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text );
-  void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId );
+  void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId, Entry::Type type );
   void slotNewRequest();
   void slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );
-  void storeNewStatuses( const QString &login, bool exists );
+
+  void setWaitForAccounts( bool wait );
 
 private:
-  void sendNewsInfo();
   void setupStatusLists();
+  void checkUnreadStatuses();
   bool retryAuthorizing( Account *account, int role );
   bool authDialogOpen;
   int publicTimeline;
   int requestCount;
   int tempModelCount;
-  QStringList newStatuses;
+
+  bool waitForAccounts;
+  bool settingsOpen;
 
   TwitterAPIInterface *twitterapi;
 
