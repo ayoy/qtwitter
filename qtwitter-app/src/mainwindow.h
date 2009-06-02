@@ -77,6 +77,7 @@ signals:
   void switchModel( TwitterAPI::SocialNetwork network, const QString &login );
   void switchToPublicTimelineModel( TwitterAPI::SocialNetwork network );
   void shortenUrl( const QString &url );
+  void iconStopped();
 
 protected:
   void resizeEvent( QResizeEvent *event );

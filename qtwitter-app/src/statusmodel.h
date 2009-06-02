@@ -80,7 +80,6 @@ signals:
   void destroy( TwitterAPI::SocialNetwork network, const QString &login, int id, Entry::Type type );
   void favorite( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited );
   void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName );
-  void newStatuses( const QString &login, bool exists );
   void openBrowser( QUrl address );
   void reply( const QString &name, int inReplyTo );
   void about();

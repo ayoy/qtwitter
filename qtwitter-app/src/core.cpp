@@ -86,7 +86,6 @@ Core::Core( MainWindow *parent ) :
   connect( statusModel, SIGNAL(favorite(TwitterAPI::SocialNetwork,QString,int,bool)), this, SLOT(favoriteRequest(TwitterAPI::SocialNetwork,QString,int,bool)) );
   connect( statusModel, SIGNAL(postDM(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(postDMDialog(TwitterAPI::SocialNetwork,QString,QString)) );
   connect( statusModel, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
-  connect( statusModel, SIGNAL(newStatuses(QString,bool)), this, SLOT(storeNewStatuses(QString,bool)) );
   connect( this, SIGNAL(resizeData(int,int)), statusModel, SLOT(resizeData(int,int)) );
 
 }
@@ -451,14 +450,6 @@ void Core::setFavorited( TwitterAPI::SocialNetwork network, const QString &login
   }
 }
 
-//void Core::confirmDMSent( TwitterAPI::SocialNetwork network, const QString &login )
-//{
-//  Account *account = accountsModel->account( network, login );
-//  if ( statusLists.contains( *account ) ) {
-//    statusLists[ *account ]->setFavorited( id, favorited );
-//  }
-//}
-
 void Core::setImageForUrl( const QString& url, QPixmap *image )
 {
   Status status;
@@ -630,6 +621,14 @@ void Core::slotNewRequest()
   qDebug() << requestCount;
 }
 
+void Core::resetRequestsCount()
+{
+  if ( requestCount != 0 ) {
+    requestCount = 0;
+    qDebug() << "warning: some requests may failed...";
+  }
+}
+
 void Core::slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role )
 {
   Q_UNUSED(role);
@@ -643,7 +642,6 @@ void Core::slotRequestDone( TwitterAPI::SocialNetwork network, const QString &lo
   if ( requestCount == 0 ) {
     tempModelCount = statusLists.count();
     emit resetUi();
-//    emit allRequestsFinished();
     checkUnreadStatuses();
   }
 }

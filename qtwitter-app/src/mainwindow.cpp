@@ -31,6 +31,8 @@
 #include <QDesktopWidget>
 #include <QSignalMapper>
 #include <QTreeView>
+#include <QTimer>
+#include <qticonloader.h>
 #include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
 #include "statuswidget.h"
@@ -39,7 +41,6 @@
 #include "accountsdelegate.h"
 #include "accountscontroller.h"
 #include "settings.h"
-#include "qticonloader.h"
 
 extern ConfigFile settings;
 
@@ -332,6 +333,7 @@ void MainWindow::resetStatusEdit()
     ui.statusEdit->cancelEditing();
   }
   progressIcon->stop();
+  emit iconStopped();
   changeLabel();
 }
 
@@ -340,6 +342,7 @@ void MainWindow::showProgressIcon()
   ui.countdownLabel->clear();
   ui.countdownLabel->setMovie( progressIcon );
   progressIcon->start();
+  QTimer::singleShot( 30000, this, SLOT(resetStatusEdit()) );
 }
 
 void MainWindow::configSaveCurrentModel( int index )

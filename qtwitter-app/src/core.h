@@ -81,6 +81,7 @@ public slots:
 
   void openBrowser( QUrl address );
   void shortenUrl( const QString &url );
+  void resetRequestsCount();
 
 
   void retranslateUi();
@@ -92,7 +93,6 @@ signals:
   void twitPicDataSendProgress(int,int);
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void requestStarted();
-  void allRequestsFinished();
   void resetUi();
   void timelineUpdated();
   void directMessagesSyncChanged( bool b );
