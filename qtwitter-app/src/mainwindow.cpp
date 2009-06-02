@@ -57,6 +57,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 
   ui.accountsComboBox->setVisible( false );
 
+  timer = new QTimer( this );
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
   ui.countdownLabel->setMovie( progressIcon );
   ui.countdownLabel->setToolTip( tr( "%n character(s) left", "", ui.countdownLabel->text().toInt() ) );
@@ -337,12 +338,19 @@ void MainWindow::resetStatusEdit()
   changeLabel();
 }
 
+void MainWindow::pauseIcon()
+{
+  progressIcon->stop();
+  changeLabel();
+}
+
 void MainWindow::showProgressIcon()
 {
   ui.countdownLabel->clear();
   ui.countdownLabel->setMovie( progressIcon );
   progressIcon->start();
-  QTimer::singleShot( 30000, this, SLOT(resetStatusEdit()) );
+  if ( !timer->isActive() )
+    timer->singleShot( 60000, this, SLOT(resetStatusEdit()) );
 }
 
 void MainWindow::configSaveCurrentModel( int index )

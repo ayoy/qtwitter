@@ -94,6 +94,7 @@ signals:
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void requestStarted();
   void resetUi();
+  void pauseIcon();
   void timelineUpdated();
   void directMessagesSyncChanged( bool b );
   void modelChanged( StatusModel *model );

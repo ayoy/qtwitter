@@ -50,6 +50,7 @@ Qtwitter::Qtwitter( QWidget *parent )
   connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
   connect( this, SIGNAL(shortenUrl(QString)), core, SLOT(shortenUrl(QString)));
   connect( this, SIGNAL(iconStopped()), core, SLOT(resetRequestsCount()) );
+  connect( core, SIGNAL(pauseIcon()), this, SLOT(pauseIcon()) );
   connect( core, SIGNAL(accountsUpdated(QList<Account>,int)), this, SLOT(setupAccounts(QList<Account>,int)) );
   connect( core, SIGNAL(urlShortened(QString)), this, SLOT(replaceUrl(QString)));
   connect( core, SIGNAL(about()), this, SLOT(about()) );

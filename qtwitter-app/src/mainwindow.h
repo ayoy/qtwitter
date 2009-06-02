@@ -52,6 +52,7 @@ public slots:
   void popupError( const QString &message );
   void retranslateUi();
   void resetStatusEdit();
+  void pauseIcon();
   void showProgressIcon();
   void about();
   void setListViewModel( StatusModel *model );
@@ -113,6 +114,8 @@ private:
   QAction *aboutAction;
   QAction *quitAction;
   QMovie *progressIcon;
+
+  QTimer *timer;
 
   QSystemTrayIcon *trayIcon;
 };

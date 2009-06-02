@@ -354,7 +354,7 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
 {
   if ( authDialogOpen )
     return Core::STATE_DIALOG_OPEN;
-  emit resetUi();
+  emit pauseIcon();
   QDialog *dlg = new QDialog( parentMainWindow );
   Ui::AuthDialog ui;
   ui.setupUi( dlg );
@@ -470,7 +470,6 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
   Account *account = accountsModel->account( network, login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE ) )
     return;
-  requestCount--;
   if ( account->directMessages )
     requestCount--;
   get( network, account->login, account->password );
@@ -482,7 +481,6 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
   Account *account = accountsModel->account( network, login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE ) )
     return;
-  requestCount--;
   post( network, account->login, status, inReplyToId );
 }
 
@@ -492,7 +490,6 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
   Account *account = accountsModel->account( network, login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_POST_DM ) )
     return;
-  requestCount--;
   postDM( network, account->login, screenName, text );
 }
 
@@ -502,7 +499,6 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
   Account *account = accountsModel->account( network, login );
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE ) )
     return;
-  requestCount--;
   destroy( network, account->login, destroyId, type );
 }
 
@@ -521,9 +517,6 @@ void Core::setupStatusLists()
     if ( account.isEnabled && !statusLists.contains( account ) ) {
       StatusList *statusList = new StatusList( account.login, account.network, this );
       statusLists.insert( account, statusList );
-//      model = new StatusModel( account.network, account.login, margin, listViewForModels, this );
-//      createConnectionsWithModel( model );
-//      statusModels.insert( account, model );
     }
     if ( !account.isEnabled && statusLists.contains( account ) ) {
       statusLists[ account ]->deleteLater();
@@ -623,8 +616,12 @@ void Core::slotNewRequest()
 
 void Core::resetRequestsCount()
 {
-  if ( requestCount != 0 ) {
+  if ( requestCount > 0 ) {
     requestCount = 0;
+    QMessageBox::warning( parentMainWindow, tr( "Warning" ),
+                          tr( "One or more requests didn't complete. "
+                              "Check your connection and/or accounts settings." ),
+                          QMessageBox::Ok );
     qDebug() << "warning: some requests may failed...";
   }
 }
