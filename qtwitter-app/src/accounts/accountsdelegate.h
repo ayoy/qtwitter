@@ -23,7 +23,7 @@
 
 #include <QStyledItemDelegate>
 
-class QItemEditorFactory;
+class AccountsController;
 
 class AccountsDelegate : public QStyledItemDelegate
 {
@@ -34,6 +34,9 @@ public:
   void setEditorData ( QWidget *editor, const QModelIndex &index ) const;
   void updateEditorGeometry ( QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index ) const;
   void setModelData ( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const;
+
+private:
+  AccountsController *controller;
 };
 
 #endif // ACCOUNTSDELEGATE_H

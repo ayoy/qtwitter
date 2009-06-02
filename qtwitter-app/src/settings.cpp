@@ -361,6 +361,7 @@ void Settings::saveConfig( int quitting )
 void Settings::show()
 {
   updateAccountsOnExit = true;
+  core->setSettingsOpen( true );
   ui.tabs->setCurrentIndex( 0 );
   QDialog::show();
   adjustSize();
@@ -369,12 +370,16 @@ void Settings::show()
 void Settings::accept()
 {
   saveConfig( !updateAccountsOnExit );
+
+  core->setSettingsOpen( false );
   QDialog::accept();
 }
 
 void Settings::reject()
 {
   loadConfig( true );
+
+  core->setSettingsOpen( false );
   QDialog::reject();
 }
 

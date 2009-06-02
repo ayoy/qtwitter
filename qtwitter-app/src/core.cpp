@@ -45,6 +45,8 @@ Core::Core( MainWindow *parent ) :
     authDialogOpen( false ),
     requestCount(0),
     tempModelCount(0),
+    waitForAccounts( false ),
+    settingsOpen( false ),
     twitpicUpload(0),
     accounts(0),
     accountsModel(0),
@@ -96,8 +98,23 @@ Core::~Core()
 void Core::createAccounts( QWidget *view )
 {
   accounts = new AccountsController( view, this );
+  connect( accounts, SIGNAL(comboActive(bool)), this, SLOT(setWaitForAccounts(bool)) );
   if ( !accountsModel )
     accountsModel = accounts->getModel();
+}
+
+void Core::setWaitForAccounts( bool wait )
+{
+  if ( !settingsOpen && waitForAccounts && !wait ) {
+    applySettings();
+    get();
+  }
+  waitForAccounts = wait;
+}
+
+void Core::setSettingsOpen( bool open )
+{
+  settingsOpen = open;
 }
 
 void Core::applySettings()
@@ -112,18 +129,21 @@ void Core::applySettings()
   int mtc = settings.value( "Appearance/tweet count", 25 ).toInt();
   StatusList::setMaxCount( mtc );
   statusModel->setMaxStatusCount( mtc );
+  setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
+
 
   setupStatusLists();
   emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
 
-  // TODO: do this only when really needed
-  twitterapi->resetConnections();
+  if ( !waitForAccounts ) {
+    // TODO: do this only when really needed
+    twitterapi->resetConnections();
 
-  emit resetUi();
-  requestCount = 0;
+    emit resetUi();
+    requestCount = 0;
 
-  setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
-  get();
+    get();
+  }
 }
 
 bool Core::setTimerInterval( int msecs )
@@ -231,7 +251,7 @@ void Core::destroy( TwitterAPI::SocialNetwork network, const QString &login, int
     QMessageBox *confirm = new QMessageBox( QMessageBox::Warning,
                                             //: Are you sure to delete your message
                                             tr( "Are you sure?" ),
-                                            tr( "Are you sure to delete this tweet?" ),
+                                            tr( "Are you sure to delete this status?" ),
                                             QMessageBox::Yes | QMessageBox::Cancel,
                                             parentMainWindow );
     int result = confirm->exec();
@@ -497,6 +517,7 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
 
 void Core::setupStatusLists()
 {
+  accountsModel->cleanUp();
   QList<Account> newAccounts = accountsModel->getAccounts();
   foreach ( Account account, statusLists.keys() ) {
     if ( account.login != TwitterAPI::PUBLIC_TIMELINE && !newAccounts.contains( account ) ) {

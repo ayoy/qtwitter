@@ -22,8 +22,6 @@
 #ifndef CORE_H
 #define CORE_H
 
-#include <QStandardItemModel>
-#include <QAuthenticator>
 #include <QTimer>
 #include <QMap>
 #include <QCache>
@@ -66,6 +64,8 @@ public:
   void setModelTheme( const ThemeData &theme );
   void setModelData( TwitterAPI::SocialNetwork network, const QString &login );
 
+  void setSettingsOpen( bool open );
+
 public slots:
   void forceGet();
   void get();
@@ -81,6 +81,7 @@ public slots:
 
   void openBrowser( QUrl address );
   void shortenUrl( const QString &url );
+
 
   void retranslateUi();
 
@@ -122,6 +123,8 @@ private slots:
   void slotNewRequest();
   void slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );
 
+  void setWaitForAccounts( bool wait );
+
 private:
   void setupStatusLists();
   void checkUnreadStatuses();
@@ -130,7 +133,9 @@ private:
   int publicTimeline;
   int requestCount;
   int tempModelCount;
-  QStringList newStatuses;
+
+  bool waitForAccounts;
+  bool settingsOpen;
 
   TwitterAPIInterface *twitterapi;
 

@@ -73,7 +73,7 @@
         <widget class="QComboBox" name="publicTimelineComboBox">
          <item>
           <property name="text">
-           <string>No</string>
+           <string>None</string>
           </property>
          </item>
          <item>

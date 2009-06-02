@@ -57,8 +57,10 @@ public:
   bool insertRows( int row, int count, const QModelIndex &parent = QModelIndex() );
   bool removeRows( int row, int count, const QModelIndex &parent = QModelIndex() );
   void clear();
+  void cleanUp();
 
   QList<Account> getAccounts();
+
 
   // TODO: do we really need these two?
   Account& account( int index );
