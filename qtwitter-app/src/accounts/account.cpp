@@ -23,7 +23,7 @@
 
 QPair<TwitterAPI::SocialNetwork,QString> Account::fromString( const QString &name )
 {
-  QRegExp rx( "(.+) @ (.+)" );
+  QRegExp rx( "(.+) @(.+)" );
   if ( rx.indexIn( name ) == -1 )
     return QPair<TwitterAPI::SocialNetwork,QString>();
   return QPair<TwitterAPI::SocialNetwork,QString>( networkFromString(rx.cap(2)), rx.cap(1) );

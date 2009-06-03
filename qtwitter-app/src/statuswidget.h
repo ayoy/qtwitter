@@ -105,6 +105,7 @@ private:
   QAction *dmAction;
   QAction *copylinkAction;
   QAction *markallasreadAction;
+  QAction *markeverythingasreadAction;
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;

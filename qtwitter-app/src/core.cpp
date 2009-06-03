@@ -29,7 +29,7 @@
 #include "mainwindow.h"
 #include "imagedownload.h"
 #include "dmdialog.h"
-#include "settings.h"
+#include "configfile.h"
 #include "twitpicengine.h"
 #include "statusmodel.h"
 #include "statuswidget.h"
@@ -47,6 +47,7 @@ Core::Core( MainWindow *parent ) :
     tempModelCount(0),
     waitForAccounts( false ),
     settingsOpen( false ),
+    checkForNew( true ),
     twitpicUpload(0),
     accounts(0),
     accountsModel(0),
@@ -86,6 +87,7 @@ Core::Core( MainWindow *parent ) :
   connect( statusModel, SIGNAL(favorite(TwitterAPI::SocialNetwork,QString,int,bool)), this, SLOT(favoriteRequest(TwitterAPI::SocialNetwork,QString,int,bool)) );
   connect( statusModel, SIGNAL(postDM(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(postDMDialog(TwitterAPI::SocialNetwork,QString,QString)) );
   connect( statusModel, SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
+  connect( statusModel, SIGNAL(markEverythingAsRead()), this, SLOT(markEverythingAsRead()) );
   connect( this, SIGNAL(resizeData(int,int)), statusModel, SLOT(resizeData(int,int)) );
 
 }
@@ -105,10 +107,19 @@ void Core::createAccounts( QWidget *view )
 void Core::setWaitForAccounts( bool wait )
 {
   if ( !settingsOpen && waitForAccounts && !wait ) {
+    waitForAccounts = wait;
     applySettings();
     get();
+    return;
   }
   waitForAccounts = wait;
+}
+
+void Core::markEverythingAsRead()
+{
+  foreach ( StatusList *statusList, statusLists.values() ) {
+    statusList->markAllAsRead();
+  }
 }
 
 void Core::setSettingsOpen( bool open )
@@ -119,7 +130,7 @@ void Core::setSettingsOpen( bool open )
 void Core::applySettings()
 {
   static bool appStartup = true;
-  publicTimeline = settings.value( "TwitterAccounts/publicTimeline", AccountsController::PT_NONE ).toInt();
+  publicTimeline = settings.value( "Accounts/publicTimeline", AccountsController::PT_NONE ).toInt();
   if ( appStartup ) {
     accounts->loadAccounts();
     appStartup = false;
@@ -244,6 +255,7 @@ void Core::post( TwitterAPI::SocialNetwork network, const QString &login, const 
   twitterapi->postUpdate( network, login, accountsModel->account( network, login )->password, status, inReplyTo );
   emit newRequest();
   emit requestStarted();
+  checkForNew = false;
 }
 
 void Core::destroy( TwitterAPI::SocialNetwork network, const QString &login, int id, Entry::Type type )
@@ -261,15 +273,14 @@ void Core::destroy( TwitterAPI::SocialNetwork network, const QString &login, int
       return;
   }
 
+  checkForNew = false;
   if ( type == Entry::Status ) {
     twitterapi->deleteUpdate( network, login, accountsModel->account( network, login )->password, id );
-    emit newRequest();
-    emit requestStarted();
   } else if ( type == Entry::DirectMessage ) {
     twitterapi->deleteDM( network, login, accountsModel->account( network, login )->password, id );
-    emit newRequest();
-    emit requestStarted();
   }
+  emit newRequest();
+  emit requestStarted();
 }
 
 void Core::favoriteRequest( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited )
@@ -280,6 +291,7 @@ void Core::favoriteRequest( TwitterAPI::SocialNetwork network, const QString &lo
   else
     twitterapi->destroyFavorite( network, login, accountsModel->account( network, login )->password, id );
 
+  checkForNew = false;
   emit newRequest();
   emit requestStarted();
 }
@@ -371,7 +383,7 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
     if ( ui.disableBox->isChecked() ) {
       authDialogOpen = false;
       account->isEnabled = false;
-      settings.setValue( QString("TwitterAccounts/%1/enabled").arg( row ), false );
+      settings.setValue( QString("Accounts/%1/enabled").arg( row ), false );
       emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
       delete dlg;
       return Core::STATE_DISABLE_ACCOUNT;
@@ -394,9 +406,9 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
     }
     account->password = ui.passwordEdit->text();
 
-    settings.setValue( QString("TwitterAccounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login );
+    settings.setValue( QString("Accounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login );
     if ( settings.value( "General/savePasswords", Qt::Unchecked ).toInt() == Qt::Checked )
-      settings.setValue( QString("TwitterAccounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password ) );
+      settings.setValue( QString("Accounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password ) );
 
     authDialogOpen = false;
     emit requestStarted();
@@ -411,6 +423,8 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
 void Core::retranslateUi()
 {
     statusModel->retranslateUi();
+    if ( accounts )
+      accounts->retranslateUi();
 }
 
 void Core::addEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry )
@@ -641,12 +655,11 @@ void Core::slotRequestDone( TwitterAPI::SocialNetwork network, const QString &lo
   qDebug() << requestCount;
   if ( requestCount == 0 ) {
     tempModelCount = statusLists.count();
-    emit resetUi();
-    if ( role == TwitterAPI::ROLE_FRIENDS_TIMELINE ||
-         role == TwitterAPI::ROLE_PUBLIC_TIMELINE ||
-         role == TwitterAPI::ROLE_DIRECT_MESSAGES )
+    if ( checkForNew )
       checkUnreadStatuses();
+    emit resetUi();
   }
+  checkForNew = true;
 }
 
 void Core::checkUnreadStatuses()
@@ -655,7 +668,7 @@ void Core::checkUnreadStatuses()
   QString message;
   foreach ( Account account, statusLists.keys() ) {
     if ( statusLists[ account ]->hasUnread() ) {
-      unread.append( QString( "%1@%2" ).arg( account.login, Account::networkToString( account.network ) ) );
+      unread.append( QString( "%1 @%2" ).arg( account.login, Account::networkToString( account.network ) ) );
     }
   }
 
@@ -664,11 +677,13 @@ void Core::checkUnreadStatuses()
 
   if ( unread.count() == 1 ) {
     message.append( unread.at(0) );
+    //: "For <user_name>"
+    emit sendNewsReport( tr( "For %1" ).arg(message) );
   } else {
-    message.append( unread.join( ", " ) );
-    message.replace( message.lastIndexOf( ", " ), 2, QString( " %1 " ).arg( tr( "and" ) ) );
+    message.append( unread.join( "\n" ) );
+    //: There goes "For", a colon, a new line, and a list of users that heave unread statuses.
+    emit sendNewsReport( tr( "For:\n%1" ).arg(message) );
   }
-  emit sendNewsReport( tr( "For %1" ).arg(message) );
 }
 
 void Core::shortenUrl( const QString &url )

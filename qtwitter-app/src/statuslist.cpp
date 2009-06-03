@@ -70,6 +70,14 @@ bool StatusList::hasUnread()
   return false;
 }
 
+void StatusList::markAllAsRead()
+{
+  for ( int i = 0; i < d->data.size(); ++i ) {
+    d->data[i].state = StatusModel::STATE_READ;
+    emit stateChanged(i);
+  }
+}
+
 void StatusList::setNetwork( SocialNetwork network )
 {
   d->network = network;

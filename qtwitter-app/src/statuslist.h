@@ -62,6 +62,8 @@ public:
   ~StatusList();
 
   bool hasUnread();
+  void markAllAsRead();
+
   void addStatus( Entry entry );
   bool deleteStatus( int id );
   void setFavorited( int index, bool favorited = true );

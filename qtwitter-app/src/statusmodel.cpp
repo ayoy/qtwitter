@@ -23,7 +23,7 @@
 #include "statuslistview.h"
 #include "statuslist.h"
 #include "statuswidget.h"
-#include "settings.h"
+#include "configfile.h"
 #include "statusmodel.h"
 
 StatusModel::StatusModel( StatusListView *parentListView, QObject *parent ) :

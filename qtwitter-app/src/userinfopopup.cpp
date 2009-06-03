@@ -23,6 +23,7 @@
 #include <QTimer>
 #include <QPalette>
 #include <QColor>
+#include <QRegExp>
 
 UserInfoPopup* UserInfoPopup::_instance = 0;
 
@@ -45,17 +46,27 @@ UserInfoPopup* UserInfoPopup::instance()
 
 UserInfoPopup::UserInfoPopup( const Status *status, QWidget *parent, Qt::WindowFlags flags ) :
     QWidget( parent, flags ),
-    ui( new Ui::UserInfo )
+    ui( new Ui::UserInfoPopup )
 {
   ui->setupUi( this );
   ui->name->setText( status->entry.userInfo.name );
   ui->description->setText( status->entry.userInfo.description );
-  if ( status->entry.userInfo.friendsCount > 0 ) {
-    ui->friends->setText( QString::number(status->entry.userInfo.friendsCount) );
+
+  int friends = status->entry.userInfo.friendsCount;
+  if ( friends > 0 ) {
+    ui->friends->setText( QString::number(friends) );
+    //: This makes in context something like "2 friends" or "300 friends".
+    //: Ignore the Linguist warning, cause in this particular case everything is ok
+    QString label = (friends == 1 ) ? tr( "friend", "", friends ) :
+    //: This makes in context something like "2 friends" or "300 friends".
+    //: Ignore the Linguist warning, cause in this particular case everything is ok
+                                      tr( "friends", "", friends );
+    ui->friendsLabel->setText( label );
   } else {
     ui->friends->hide();
     ui->friendsLabel->hide();
   }
+
   ui->location->setText( status->entry.userInfo.location );
   ui->url->setText( QString( "<a style=\"color: white\" href=%1>%1</a>").arg( status->entry.userInfo.homepage ) );
   ui->userImage->setPixmap( status->image );

@@ -50,6 +50,7 @@ public:
 
 public slots:
   void loadAccounts();
+  void retranslateUi();
 
 signals:
   void comboActive( bool isActive );
@@ -70,6 +71,8 @@ private:
   AccountsModel *model;
   AccountsView *view;
   Ui::Accounts *ui;
+
+  QWidget *widget;
 
   friend class AccountsDelegate;
 };

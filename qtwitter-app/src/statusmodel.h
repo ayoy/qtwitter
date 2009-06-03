@@ -63,13 +63,13 @@ public slots:
   void updateState( int ind );
   void updateImage( int ind );
   void removeStatus( int ind );
+  void markAllAsRead();
 
   void sendDeleteRequest( int id, Entry::Type type );
   void sendFavoriteRequest( int id, bool favorited );
   void sendDMRequest( const QString &screenName );
   void selectStatus( const QModelIndex &index );
   void selectStatus( StatusWidget *status );
-  void markAllAsRead();
   void retranslateUi();
   void resizeData( int width, int oldWidth );
   void moveFocus( bool up );
@@ -83,6 +83,7 @@ signals:
   void openBrowser( QUrl address );
   void reply( const QString &name, int inReplyTo );
   void about();
+  void markEverythingAsRead();
 
 private slots:
   void emitOpenBrowser( QString address );

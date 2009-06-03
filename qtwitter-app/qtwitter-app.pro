@@ -8,10 +8,8 @@ include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
 include(src/accounts/accounts.pri)
 include(src/qticonloader/qticonloader.pri)
-
 QT += network \
     xml
-
 SOURCES += src/main.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
@@ -27,7 +25,8 @@ SOURCES += src/main.cpp \
     src/statuslist.cpp \
     src/userinfobutton.cpp \
     src/userinfopopup.cpp \
-    src/dmdialog.cpp
+    src/dmdialog.cpp \
+    src/configfile.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/imagedownload.h \
@@ -45,7 +44,8 @@ HEADERS += src/mainwindow.h \
     src/statuslist.h \
     src/userinfobutton.h \
     src/userinfopopup.h \
-    src/dmdialog.h
+    src/dmdialog.h \
+    src/configfile.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
@@ -53,12 +53,10 @@ FORMS += ui/mainwindow.ui \
     ui/aboutdialog.ui \
     ui/twitpicview.ui \
     ui/twitpicnewphoto.ui \
-    ui/userinfo.ui \
+    ui/userinfopopup.ui \
     ui/dmdialog.ui
-
-linux-*: RESOURCES = res/resources_x11.qrc
-else:  RESOURCES = res/resources.qrc
-
+linux-*:RESOURCES = res/resources_x11.qrc
+else:RESOURCES = res/resources.qrc
 TRANSLATIONS += loc/qtwitter_pl.ts \
     loc/qtwitter_ca.ts \
     loc/qtwitter_de.ts \
@@ -72,8 +70,7 @@ OBJECTS_DIR = tmp
 INCLUDEPATH += $${TOP} \
     src \
     tmp
-
-macx {
+macx { 
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
     QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
@@ -82,30 +79,24 @@ macx {
         -framework \
         urlshortener
 }
-else:unix {
+else:unix { 
     LIBS += -L$${TOP} \
         $$TWITTERAPI_LIB \
         $$URLSHORTENER_LIB \
         -Wl,-rpath,$${TOP}
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
-
     target.path = $${INSTALL_PREFIX}/bin
-
     doc.path = $${INSTALL_PREFIX}/share/doc/$${TARGET}
     doc.files = ../CHANGELOG \
         ../README \
         ../LICENSE
-
     SHARE_DIR = $${INSTALL_PREFIX}/share/$${TARGET}
-
     DEFINES += SHARE_DIR=\"\\\"$${SHARE_DIR}\\\"\"
-
     translations.path = $${SHARE_DIR}/loc
     translations.files = $${TRANSLATIONS}
     translations.files ~= s/\.ts/.qm/g
     translations.files ~= s!^loc!res/loc!g
-
     icons.path = $${INSTALL_PREFIX}/share/icons/scalable/apps
     icons.files = x11/icons/scalable/qtwitter.svg
     icons16.path = $${INSTALL_PREFIX}/share/icons/hicolor/16x16/apps
@@ -122,10 +113,8 @@ else:unix {
     icons128.files = x11/icons/128x128/qtwitter.png
     icons256.path = $${INSTALL_PREFIX}/share/icons/hicolor/256x256/apps
     icons256.files = x11/icons/256x256/qtwitter.png
-
     desktop.path = $${INSTALL_PREFIX}/share/applications
     desktop.files = x11/qtwitter.desktop
-
     INSTALLS += target \
         doc \
         translations \
@@ -139,7 +128,7 @@ else:unix {
         icons256 \
         desktop
 }
-else:win32 {
+else:win32 { 
     RC_FILE = win32/qtwitter.rc
     LIBS += -L$${TOP} \
         $$TWITTERAPI_LIB \
