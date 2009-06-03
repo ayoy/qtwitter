@@ -19,8 +19,10 @@
 
 
 #include <QStringList>
+#include <configfile.h>
 #include "accountsmodel.h"
-#include "settings.h"
+
+extern ConfigFile settings;
 
 AccountsModel::AccountsModel( QObject *parent ) : QAbstractItemModel( parent )
 {
@@ -202,28 +204,24 @@ void AccountsModel::clear()
 void AccountsModel::cleanUp()
 {
   bool nextMeansDoubled;
-  foreach ( Account account, accounts ) {
+  for ( int i = 0; i < accounts.size(); ++i ) {
     nextMeansDoubled = false;
 
-    foreach ( Account otherAccount, accounts ) {
-      if ( account.network == otherAccount.network &&
-           account.login == otherAccount.login ) {
+    for ( int j = i + 1; j < accounts.size(); ) {
+      if ( accounts.at(i).network == accounts.at(j).network &&
+           accounts.at(i).login == accounts.at(j).login ) {
 
-        if ( nextMeansDoubled ) {
-          if ( !account.isEnabled && otherAccount.isEnabled ) {
-            account.isEnabled = true;
-            removeRow( accounts.indexOf( otherAccount ) );
-          } else {
-            removeRow( accounts.indexOf( otherAccount ) );
-          } //if
-        } else {
-          nextMeansDoubled = true;
-        } //if
+        if ( accounts.at(j).isEnabled || accounts.at(i).isEnabled ) {
+          accounts[i].isEnabled = true;
+        }
+        removeRow( j );
+        settings.deleteAccount( j, rowCount() );
 
-      } //if
-    } //foreach
-
-  } //foreach
+      } else {
+        j++;
+      }
+    } //for
+  } //for
 }
 
 QList<Account> AccountsModel::getAccounts()

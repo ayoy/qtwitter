@@ -60,7 +60,8 @@ XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Q
     QXmlDefaultHandler(),
     currentTag( QString() ),
     entry(),
-    important( false )
+    important( false ),
+    parsingUser( false )
 {
   this->network = network;
   this->login = login;
@@ -257,6 +258,10 @@ QString XmlParser::textToHtml( QString newText, TwitterAPI::SocialNetwork networ
   newText.replace( ahref, "\\1>" );
   QRegExp mailto( "([a-z0-9\\._%-]+@[a-z0-9\\.-]+\\.[a-z]{2,4})", Qt::CaseInsensitive );
   newText.replace( mailto, "<a href='mailto:\\1'>\\1</a>" );
+  QRegExp tag( "#([\\w\\d]+)( ?)", Qt::CaseInsensitive );
+  newText.replace( tag, network == TwitterAPI::SOCIALNETWORK_TWITTER ?
+                   "<a href='http://search.twitter.com/search?q=\\1'>#\\1</a>\\2" :
+                   "<a href='http://identi.ca/tag/\\1'>#\\1</a>\\2" );
   return newText;
 }
 

@@ -23,6 +23,7 @@
 
 #include <QDialog>
 #include <QSettings>
+#include <QTranslator>
 #include "ui_settings.h"
 
 class QFile;
@@ -88,18 +89,6 @@ struct ThemeData
 
 typedef QPair<QString,ThemeData> ThemeInfo;
 
-class ConfigFile : public QSettings
-{
-public:
-  static const QString APP_VERSION;
-  ConfigFile();
-  static QString pwHash( const QString &text );
-  void addAccount( int id, const Account &account );
-  void deleteAccount( int id, int rowCount );
-private:
-  void convertSettings();
-};
-
 class Settings : public QDialog
 {
   Q_OBJECT
@@ -131,7 +120,6 @@ signals:
   void createAccounts( QWidget *view );
 
 private slots:
-  void setPublicTimelineEnabled( bool state );
   void changeTheme( const QString& );
   void retranslateUi();
 #ifdef Q_WS_X11
@@ -148,6 +136,7 @@ private:
   TwitPicView *twitPicView;
   QMap<QString,ThemeData> themes;
   Ui::Settings ui;
+  QTranslator translator;
 #ifdef Q_WS_X11
   QCheckBox *useCustomBrowserCheckBox;
   QLineEdit *selectBrowserEdit;

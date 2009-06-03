@@ -24,7 +24,7 @@
 #include <twitterapi/twitterapi_global.h>
 #include "twitpicview.h"
 #include "ui_twitpicview.h"
-#include "settings.h"
+#include "configfile.h"
 
 extern ConfigFile settings;
 
@@ -63,7 +63,7 @@ void TwitPicView::setupAccounts( const QList<Account> &accounts )
     if ( account.isEnabled && account.network == TwitterAPI::SOCIALNETWORK_TWITTER )
       m_ui->accountsComboBox->addItem( account.login );
   }
-  int index = settings.value( "TwitterAccounts/currentModel", 0 ).toInt();
+  int index = settings.value( "Accounts/visibleAccount", 0 ).toInt();
   if ( index >= m_ui->accountsComboBox->count() )
     m_ui->accountsComboBox->setCurrentIndex( m_ui->accountsComboBox->count() - 1 );
   else

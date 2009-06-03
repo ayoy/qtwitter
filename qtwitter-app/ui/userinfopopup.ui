@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>UserInfo</class>
- <widget class="QWidget" name="UserInfo">
+ <class>UserInfoPopup</class>
+ <widget class="QWidget" name="UserInfoPopup">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -9,6 +9,9 @@
     <width>259</width>
     <height>199</height>
    </rect>
+  </property>
+  <property name="windowTitle">
+   <string notr="true"/>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -136,7 +139,7 @@ border-radius: 0px}</string>
                  </font>
                 </property>
                 <property name="text">
-                 <string>friends</string>
+                 <string notr="true">friends</string>
                 </property>
                </widget>
               </item>

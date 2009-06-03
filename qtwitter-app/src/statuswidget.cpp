@@ -28,7 +28,6 @@
 #include "settings.h"
 #include "statuslist.h"
 #include "ui_statuswidget.h"
-#include "ui_userinfo.h"
 
 int StatusWidget::scrollBarWidth = 0;
 int StatusWidget::currentWidth = 0;
@@ -119,10 +118,15 @@ void StatusWidget::createMenu()
   menu->addAction( deleteAction );
   connect( deleteAction, SIGNAL(triggered()), this, SLOT(slotDelete()) );
 
-  markallasreadAction = new QAction( tr( "Mark all as read" ), this );
+  markallasreadAction = new QAction( tr( "Mark list as read" ), this );
   markallasreadAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ) );
   menu->addAction( markallasreadAction );
   connect( markallasreadAction, SIGNAL(triggered()), statusListModel, SLOT(markAllAsRead()) );
+
+  markeverythingasreadAction = new QAction( tr( "Mark everything as read" ), this );
+  markeverythingasreadAction->setShortcut( QKeySequence( Qt::CTRL + Qt::ALT + Qt::Key_A ) );
+  menu->addAction( markeverythingasreadAction );
+  connect( markeverythingasreadAction, SIGNAL(triggered()), statusListModel, SIGNAL(markEverythingAsRead()) );
 
   menu->addSeparator();
 
@@ -233,6 +237,7 @@ void StatusWidget::initialize()
 void StatusWidget::setStatusData( const Status &status )
 {
   statusData = &status.entry;
+  retranslateUi();
   m_ui->favoriteReplyButton->disconnect();
 
   m_ui->userName->setText( statusData->userInfo.name );
@@ -432,7 +437,8 @@ void StatusWidget::retranslateUi()
     retweetAction->setText( tr( "Retweet" ) );
     copylinkAction->setText( tr( "Copy link to this status" ) );
     deleteAction->setText( tr( "Delete status" ) );
-    markallasreadAction->setText( tr( "Mark all as read" ) );
+    markallasreadAction->setText( tr( "Mark list as read" ) );
+    markeverythingasreadAction->setText( tr( "Mark everything as read" ) );
     gotohomepageAction->setText( tr( "Go to User's homepage" ) );
 
     if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {

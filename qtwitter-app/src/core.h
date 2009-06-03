@@ -125,6 +125,7 @@ private slots:
   void slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );
 
   void setWaitForAccounts( bool wait );
+  void markEverythingAsRead();
 
 private:
   void setupStatusLists();
@@ -137,6 +138,7 @@ private:
 
   bool waitForAccounts;
   bool settingsOpen;
+  bool checkForNew;
 
   TwitterAPIInterface *twitterapi;
 

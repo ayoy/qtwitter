@@ -80,6 +80,8 @@ signals:
   void shortenUrl( const QString &url );
   void iconStopped();
 
+  void statusMarkeverythingasreadAction();
+
 protected:
   void resizeEvent( QResizeEvent *event );
   void closeEvent( QCloseEvent *event );
@@ -110,6 +112,7 @@ private:
   QAction *newstatusAction;
   QAction *newtwitpicAction;
   QAction *gototwitterAction;
+  QAction *gotoidenticaAction;
   QAction *gototwitpicAction;
   QAction *aboutAction;
   QAction *quitAction;

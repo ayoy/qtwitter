@@ -18,41 +18,27 @@
  ***************************************************************************/
 
 
-#ifndef USERINFOPOPUP_H
-#define USERINFOPOPUP_H
+#ifndef CONFIGFILE_H
+#define CONFIGFILE_H
 
-#include <QWidget>
-#include "ui_userinfopopup.h"
-#include "statuslist.h"
+#include <QSettings>
 
-class QEvent;
-class QShowEvent;
+class Account;
 
-class UserInfoPopup : public QWidget
+class ConfigFile : public QSettings
 {
-  Q_OBJECT
-
 public:
-  virtual ~UserInfoPopup();
+  ConfigFile();
 
-  static UserInfoPopup* instantiate( const Status *status, QWidget *parent = 0, Qt::WindowFlags flags = 0);
-  static UserInfoPopup* instance();
+  static const QString APP_VERSION;
 
-public slots:
-  void close();
-
-signals:
-  void closed();
-
-protected:
-  UserInfoPopup( const Status *status, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
-  void leaveEvent( QEvent *event );
-  void showEvent( QShowEvent *event );
+  static QString pwHash( const QString &text );
+  void addAccount( int id, const Account &account );
+  void deleteAccount( int id, int rowCount );
 
 private:
-  static UserInfoPopup *_instance;
-  Ui::UserInfoPopup *ui;
+  void convertSettingsToZeroSix();
+  void convertSettingsToZeroSeven();
 };
 
-#endif // USERINFOPOPUP_H
+#endif // CONFIGFILE_H

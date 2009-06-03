@@ -19,7 +19,7 @@
 
 
 #include "aboutdialog.h"
-#include "settings.h"
+#include "configfile.h"
 
 AboutDialog::AboutDialog( QWidget *parent ) :
     QDialog( parent ),
@@ -57,8 +57,9 @@ void AboutDialog::populateAuthors()
                                "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Development team as for 0.6.0:" ) ) );
 
   authorsHtml.append( addContributor( "Dominik Kapusta", "d@ayoy.net", tr( "Application concept and main development" ) ) );
+  authorsHtml.append( addContributor( "Anna Nowak", "wiorka@gmail.com", tr( "API library improvements and themes revisiting" ) ) );
   authorsHtml.append( addContributor( "Mariusz Pietrzyk", "wijet@wijet.pl", tr( "URL shortening services support" ) ) );
-  authorsHtml.append( addContributor( "Anna Nowak", "wiorka@gmail.com", tr( "Visual aspects of internationalization" ) ) );
+  authorsHtml.append( addContributor( "Flavio Castelli", "flavio@castelli.name", tr( "Porting to Maemo platform" ) ) );
 
   authorsHtml.append( QString( "<br/><p><b>%1</b></p>"
                                "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Translations:" ) ) );

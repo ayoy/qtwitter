@@ -23,7 +23,7 @@
 #include "statuslistview.h"
 #include "statuslist.h"
 #include "statuswidget.h"
-#include "settings.h"
+#include "configfile.h"
 #include "statusmodel.h"
 
 StatusModel::StatusModel( StatusListView *parentListView, QObject *parent ) :
@@ -58,7 +58,7 @@ void StatusModel::updateDisplay()
   // but at the beginning we do have the statusList, but it's empty,
   // so rowCount() would fail
   if ( statusList ) {
-    for ( int i = 0; i < statusList->size(); ++i ) {
+    for ( int i = 0; i <  qMin(maxStatusCount, statusList->size() ); ++i ) {
       updateDisplay( i );
     }
   } else {

@@ -37,84 +37,12 @@
 #include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
 #include "settings.h"
+#include "configfile.h"
 #include "core.h"
 #include "mainwindow.h"
 #include "twitpicview.h"
 
-
-const QString ConfigFile::APP_VERSION = "0.6.0";
-
-ConfigFile settings;
-
-ConfigFile::ConfigFile():
-#if defined Q_WS_MAC
-QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy.net", "qTwitter" )
-#elif defined Q_WS_WIN
-QSettings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" )
-#else
-QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
-#endif
-{
-  if ( value( "General/version", QString() ).toString().isNull() )
-    convertSettings();
-}
-
-QString ConfigFile::pwHash( const QString &text )
-{
-  QString newText = text;
-  for (unsigned int i = 0, textLength = text.length(); i < textLength; ++i)
-    newText[i] = QChar(text[i].unicode() ^ i ^ 1);
-  return newText;
-}
-
-void ConfigFile::addAccount( int id, const Account &account )
-{
-  settings.beginGroup( QString( "TwitterAccounts/%1" ).arg( id ) );
-  settings.setValue( "enabled", account.isEnabled );
-  settings.setValue( "service", account.network );
-  //: This is for newly created account - when the login isn't given yet
-  settings.setValue( "login", account.login );
-  settings.setValue( "password", account.password );
-  settings.setValue( "directmsgs", account.directMessages );
-  settings.endGroup();
-}
-
-void ConfigFile::deleteAccount( int id, int rowCount )
-{
-  beginGroup( "TwitterAccounts" );
-  if ( id < rowCount ) {
-    for (int i = id; i < rowCount; i++ ) {
-      setValue( QString( "%1/enabled" ).arg(i), value( QString( "%1/enabled" ).arg(i+1) ) );
-      setValue( QString( "%1/service" ).arg(i), value( QString( "%1/service" ).arg(i+1) ) );
-      setValue( QString( "%1/login" ).arg(i), value( QString( "%1/login" ).arg(i+1) ) );
-      setValue( QString( "%1/password" ).arg(i), value( QString( "%1/password" ).arg(i+1) ) );
-      setValue( QString( "%1/directmsgs" ).arg(i), value( QString( "%1/directmsgs" ).arg(i+1) ) );
-    }
-  }
-  remove( QString::number( rowCount ) );
-  endGroup();
-}
-
-void ConfigFile::convertSettings()
-{
-  setValue( "General/version", ConfigFile::APP_VERSION );
-  if ( contains( "General/username" ) ) {
-    setValue( "TwitterAccounts/0/enabled", true );
-    setValue( "TwitterAccounts/0/service", TwitterAPI::SOCIALNETWORK_TWITTER );
-    setValue( "TwitterAccounts/0/login", value( "General/username", "<empty>" ).toString() );
-    setValue( "TwitterAccounts/0/password", value( "General/password", "" ).toString() );
-    setValue( "TwitterAccounts/0/directmsgs", value( "General/directMessages", false ).toBool() );
-  }
-  setValue( "TwitterAccounts/publicTimeline", true );
-  if ( value( "General/timeline", false ).toBool() ) {
-    setValue( "TwitterAccounts/currentModel", 1 );
-  }
-  setValue( "General/language", "en" );
-  remove( "General/username" );
-  remove( "General/password" );
-  remove( "General/directMessages" );
-  remove( "General/timeline" );
-}
+extern ConfigFile settings;
 
 const ThemeInfo Settings::STYLESHEET_CARAMEL =  ThemeInfo( QString( "Caramel" ),
                                                            ThemeData( ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(23, 14, 40, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(219, 204, 56); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" ),
@@ -281,7 +209,7 @@ void Settings::loadConfig( bool dialogRejected )
 {
   settings.beginGroup( "General" );
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh-index", 3 ).toInt() );
-    ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( settings.value( "language", QLocale::system().name().left( 2 ) ) ) );
+    ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( settings.value( "language", QLocale::system().name() ) ) );
     ui.urlShortenerCombo->setCurrentIndex( ui.urlShortenerCombo->findData( settings.value( "url-shortener", UrlShortener::SHORTENER_ISGD ).toInt() ) );
     ui.confirmDeletionBox->setChecked( settings.value( "confirmTweetDeletion", true ).toBool() );
     ui.notificationsBox->setChecked( settings.value( "notifications", true ).toBool() );
@@ -298,7 +226,7 @@ void Settings::loadConfig( bool dialogRejected )
 #endif
   settings.endGroup();
   settings.beginGroup( "Appearance" );
-    ui.statusCountBox->setValue( settings.value( "tweet count", 25 ).toInt() );
+    ui.statusCountBox->setValue( settings.value( "tweet count", 20 ).toInt() );
     ui.colorBox->setCurrentIndex( settings.value( "color scheme", 3 ).toInt() );
   settings.endGroup();
 
@@ -307,8 +235,8 @@ void Settings::loadConfig( bool dialogRejected )
 
   if ( !dialogRejected ) {
     settings.beginGroup( "MainWindow" );
-    mainWindow->resize( settings.value( "size", QSize(300, 400) ).toSize() );
-    QPoint offset( settings.value( "pos", QPoint(500,500) ).toPoint() );
+    mainWindow->resize( settings.value( "size", QSize(350,450) ).toSize() );
+    QPoint offset( settings.value( "pos", QPoint(500,200) ).toPoint() );
     if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
       offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
     }
@@ -317,7 +245,7 @@ void Settings::loadConfig( bool dialogRejected )
     }
     mainWindow->move( offset );
     settings.endGroup();
-    offset = settings.value( "SettingsWindow/pos", QPoint(500,500) ).toPoint();
+    offset = settings.value( "SettingsWindow/pos", QPoint(350,200) ).toPoint();
     if ( QApplication::desktop()->width() < offset.x() + size().width() ) {
       offset.setX( QApplication::desktop()->width() - size().width() );
     }
@@ -408,11 +336,6 @@ void Settings::reject()
   QDialog::reject();
 }
 
-void Settings::setPublicTimelineEnabled( bool state )
-{
-  settings.setValue( "TwitterAccounts/publicTimeline", state );
-}
-
 void Settings::changeTheme( const QString &theme )
 {
   mainWindow->changeListBackgroundColor( themes.value( theme ).unread.listBackgroundColor );
@@ -442,7 +365,7 @@ void Settings::retranslateUi()
   selectBrowserButton->setText( tr( "Browse" ) );
 #endif
   ui.buttonBox->clear();
-  ui.buttonBox->addButton("OK", QDialogButtonBox::AcceptRole)->setText( "OK" );
+  ui.buttonBox->addButton("OK", QDialogButtonBox::AcceptRole)->setText( tr( "OK" ) );
   ui.buttonBox->addButton("Apply", QDialogButtonBox::ApplyRole)->setText( tr( "Apply" ) );
   ui.buttonBox->addButton("Cancel", QDialogButtonBox::RejectRole)->setText( tr( "Cancel" ) );
   update();
@@ -486,26 +409,28 @@ void Settings::createLanguageMenu()
     qmDir.cd( "qtwitter-app/res/loc" );
   }
   QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
+//  QTranslator translator;
   for (int i = 0; i < fileNames.size(); ++i) {
     QString locale = fileNames[i];
     locale.remove(0, locale.indexOf('_') + 1);
     locale.chop(3);
 
-    QTranslator translator;
     translator.load(fileNames[i], qmDir.absolutePath());
-    QString language = translator.translate("Settings", "English");
-    qDebug() << "adding language" << language << ", locale" << locale;
+    //: Please translate "English" to YOUR LANGUAGE NAME in your own language, e.g. "Deutsch", "Francais", "Suomi", etc.
+    QString language = translator.translate( "Settings", "English" );
+//    qDebug() << "adding language" << language << ", locale" << locale;
     ui.languageCombo->addItem( language, locale );
   }
   QString systemLocale = QLocale::system().name();
-  systemLocale.chop(3);
+  QString def = translator.translate( "Settings", "Default" );
+  ui.languageCombo->insertItem(0, def, systemLocale );
+//  systemLocale.chop(3);
   qDebug() << systemLocale << ui.languageCombo->findData( systemLocale );
   ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
 }
 
 void Settings::switchLanguage( int index )
 {
-  QString locale = ui.languageCombo->itemData( index ).toString();
 #if defined Q_WS_X11
   QDir qmDir( SHARE_DIR );
 #else
@@ -516,10 +441,14 @@ void Settings::switchLanguage( int index )
     qmDir.cd( "qtwitter-app/res/loc" );
   }
   QString qmPath( qmDir.absolutePath() );
+
+  QString locale = ui.languageCombo->itemData( index ).toString();
+
+//  QTranslator translator;
   qDebug() << "switching language to" << locale << "from" << qmPath;
-  QTranslator translator;
   translator.load( "qtwitter_" + locale, qmPath );
   qApp->installTranslator( &translator );
+
   retranslateUi();
   mainWindow->retranslateUi();
   core->retranslateUi();
