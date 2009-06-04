@@ -81,9 +81,10 @@ macx {
 }
 else:unix { 
     LIBS += -L$${TOP} \
+        -Wl,-rpath,$${TOP} \
         $$TWITTERAPI_LIB \
-        $$URLSHORTENER_LIB \
-        -Wl,-rpath,$${TOP}
+        $$URLSHORTENER_LIB
+        
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
