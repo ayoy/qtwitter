@@ -9,42 +9,41 @@
         <translation>キｭｰトゥウィータに関して</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui"/>
+        <location/>
         <source>About</source>
         <translation>このプログラムについて</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui"/>
+        <location/>
         <source>Authors</source>
         <translation>創造者</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui"/>
+        <location/>
         <source>Credits</source>
         <translation>クレジットタイトル</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui"/>
+        <location/>
         <source>Close</source>
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="57"/>
         <source>Development team as for 0.6.0:</source>
-        <translation>0.6.0バージョンの開発チーム:</translation>
+        <translation type="obsolete">0.6.0バージョンの開発チーム:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="59"/>
+        <location filename="../src/aboutdialog.cpp" line="+59"/>
         <source>Application concept and main development</source>
         <translation>アプリケーションの着想と主要開発</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="60"/>
+        <location line="+1"/>
         <source>API library improvements and themes revisiting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="61"/>
+        <location line="+1"/>
         <source>URL shortening services support</source>
         <translation>URLを短縮するサービスのサポート</translation>
     </message>
@@ -53,59 +52,64 @@
         <translation type="obsolete">国際化によるビジュアル問題の解決</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="62"/>
+        <location line="-4"/>
+        <source>Development team as for 0.7.0:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
         <source>Porting to Maemo platform</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="65"/>
+        <location line="+3"/>
         <source>Translations:</source>
         <translation>翻訳:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="68"/>
+        <location line="+3"/>
         <source>French translation</source>
         <translation>フランス語への翻訳</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="69"/>
+        <location line="+1"/>
         <source>German translation</source>
         <translation>ドイツ語への翻訳</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="70"/>
+        <location line="+1"/>
         <source>Japanese translation</source>
         <translation>日本語への翻訳</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="71"/>
+        <location line="+1"/>
         <source>Polish, Spanish and Catalan translation</source>
         <translation>ポーランド語、スペイン語、カタルーニャ語への翻訳</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="89"/>
+        <location line="+18"/>
         <source>qTwitter icon design by %1</source>
         <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
         <translation>キｭｰトゥウィータのアイコンのデザインは%1により作られました</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="92"/>
+        <location line="+3"/>
         <source>Other icons by %1</source>
         <extracomment>Other icons by wefunction.com</extracomment>
         <translation>他のアイコンは%1により作られました</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="95"/>
+        <location line="+3"/>
         <source>Testing:</source>
         <translation>テスト:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="100"/>
+        <location line="+5"/>
         <source>Releasing:</source>
         <translation>リリース:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="115"/>
+        <location line="+15"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;ｷｭｰトゥウィータ - Qtによるトゥウィータクライアント&lt;/p&gt;&lt;p&gt;バージョン %1&lt;/p&gt;&lt;p&gt;著作権 &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;バージョン2.1以上のLGPLのライセンスにより配布されています&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -118,27 +122,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/accounts/accounts.ui"/>
+        <location/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/accounts/accounts.ui"/>
+        <location/>
         <source>Twitter</source>
         <translation type="unfinished">トゥウィータ</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accounts.ui"/>
+        <location/>
         <source>Identi.ca</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/accounts/accounts.ui"/>
+        <location/>
         <source>Both</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/accounts/accounts.ui"/>
+        <location/>
         <source>store passwords on disk</source>
         <translation type="unfinished"></translation>
     </message>
@@ -146,17 +150,17 @@
 <context>
     <name>AccountsController</name>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="164"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="+164"/>
         <source>Password security</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="164"/>
+        <location line="+0"/>
         <source>Please note:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="165"/>
+        <location line="+1"/>
         <source>Although passwords are stored as human unreadable data, they can be easily decoded using the application&apos;s source code, which is publicly available. You have been warned.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -164,34 +168,34 @@
 <context>
     <name>AccountsModel</name>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="111"/>
+        <location filename="../src/accounts/accountsmodel.cpp" line="+111"/>
         <source>Enabled</source>
         <translation type="unfinished">使用可能</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="114"/>
+        <location line="+3"/>
         <source>Service</source>
         <extracomment>&quot;Service&quot;, i.e. Twitter or Identi.ca</extracomment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="116"/>
+        <location line="+2"/>
         <source>Login</source>
         <translation type="unfinished">ログイン</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="118"/>
+        <location line="+2"/>
         <source>Password</source>
         <translation type="unfinished">パスワード</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="121"/>
+        <location line="+3"/>
         <source>Direct msgs</source>
         <extracomment>This should be as short as possible (e.g. PW in Polish)</extracomment>
         <translation type="unfinished">直接なメッセージ</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="257"/>
+        <location line="+136"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation type="unfinished">&lt;空&gt;</translation>
@@ -205,37 +209,37 @@
         <translation>ユーザー認証が必要です</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui"/>
+        <location/>
         <source>The credentials you provided are incorrect</source>
         <translation>ご提供の信用証明書は不正確です</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui"/>
+        <location/>
         <source>Username:</source>
         <translation>ユーザー名:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui"/>
+        <location/>
         <source>Password:</source>
         <translation>パスワード:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui"/>
+        <location/>
         <source>or</source>
         <translation>あるいは</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui"/>
+        <location/>
         <source>disable account</source>
         <translation>アカウントを無効にする</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui"/>
+        <location/>
         <source>buttonGroup</source>
         <translation>ボタングループ</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui"/>
+        <location/>
         <source>remove account</source>
         <translation>アカウントを削除する</translation>
     </message>
@@ -243,17 +247,17 @@
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="616"/>
+        <location filename="../src/core.cpp" line="+616"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>ご友人の更新情報をお読みになるには、ユーザー認証が必要です。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="603"/>
+        <location line="-13"/>
         <source>Authentication is required to post updates.</source>
         <translation>最新情報を掲示するには、ユーザー認証が必要となります。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="266"/>
+        <location line="-337"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
         <translation>よろしいですか?</translation>
@@ -263,54 +267,54 @@
         <translation type="obsolete">このトゥウィートを削除してよろしいですか?</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="267"/>
+        <location line="+1"/>
         <source>Are you sure to delete this status?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="326"/>
+        <location line="+59"/>
         <source>There was a problem uploading your photo:</source>
         <translation>写真をアップロードするときに、問題が発生しました:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="337"/>
+        <location line="+11"/>
         <source>Photo available at:</source>
         <translation>写真が次のところから入手できます:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="376"/>
+        <location line="+39"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;空&gt;</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="606"/>
+        <location line="+230"/>
         <source>Authentication is required to send direct messages.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="609"/>
+        <location line="+3"/>
         <source>Authentication is required to delete updates.</source>
         <translation>更新情報を削除するには、ユーザー認証が必要です。</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="637"/>
+        <location line="+28"/>
         <source>Warning</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="638"/>
+        <location line="+1"/>
         <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="681"/>
+        <location line="+43"/>
         <source>For %1</source>
         <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
         <translation>%1に</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="685"/>
+        <location line="+4"/>
         <source>For:
 %1</source>
         <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
@@ -324,75 +328,76 @@
 <context>
     <name>DMDialog</name>
     <message>
-        <location filename="../src/dmdialog.cpp" line="52"/>
+        <location filename="../src/dmdialog.cpp" line="+53"/>
         <source>Direct message %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/dmdialog.cpp" line="87"/>
+        <location line="+35"/>
         <source>%n character over the limit</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/dmdialog.cpp" line="89"/>
+        <location line="+2"/>
         <source>%n characters over the limit</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/dmdialog.cpp" line="93"/>
+        <location line="+4"/>
         <source>%n character left</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/dmdialog.cpp" line="95"/>
+        <location line="-46"/>
+        <location line="+48"/>
         <source>%n characters left</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="105"/>
+        <location line="+10"/>
         <source>Message too long</source>
         <translation type="unfinished">メッセージは長すぎます</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="105"/>
+        <location line="+0"/>
         <source>Your message is too long.</source>
         <translation type="unfinished">メッセージは長すぎます。</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="106"/>
+        <location line="+1"/>
         <source>Cool</source>
         <translation type="unfinished">かっこいい</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="107"/>
+        <location line="+1"/>
         <source>Oops...</source>
         <translation type="unfinished">あらら...</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="108"/>
+        <location line="+1"/>
         <source>You can still post it like this, but it will be truncated.</source>
         <translation type="unfinished">そのままご送信なさっても構いませんが、メッセージが切り詰められてしまいます。</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="120"/>
+        <location line="+12"/>
         <source>Sending...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="138"/>
+        <location line="+18"/>
         <source>Message sent!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="141"/>
+        <location line="+3"/>
         <source>Message sending failed. Note that you cannot send a message to a user that doesn&apos;t follow you.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -402,22 +407,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/dmdialog.ui"/>
+        <location/>
         <source>Write your message:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/dmdialog.ui"/>
+        <location/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/dmdialog.ui"/>
+        <location/>
         <source>Close</source>
         <translation type="unfinished">終了</translation>
     </message>
     <message>
-        <location filename="../ui/dmdialog.ui"/>
+        <location/>
         <source>Send</source>
         <translation type="unfinished"></translation>
     </message>
@@ -463,37 +468,37 @@
 <context>
     <name>IsgdShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="62"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+62"/>
         <source>The URL entered was not valid.</source>
         <translation type="unfinished">ご入力のURLは正しくありません。</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="64"/>
+        <location line="+2"/>
         <source>The URL entered was too long.</source>
         <translation type="unfinished">ご入力のURLは長すぎます。</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="66"/>
+        <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
         <translation type="unfinished">この要請を送られたアドレスは、スパムハウス(SBL/XBL)またはスパムコプによりブラックリストに載せられています。</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="68"/>
+        <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
         <translation type="unfinished">ご入力のURLは迷惑メールサイトの可能性があり、SURBLまたはURIBLのブラックリストに載せられています。</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="70"/>
+        <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
         <translation type="unfinished">ご入力のURLはis.gdのブラックリストに載せられています(悪用を避けるために、URLアドレスを短縮するサイトへのリンクは使用不可能になっております)。</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="72"/>
+        <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
         <translation type="unfinished">要請を送られたアドレスは、is.gdによりブロックされています(たいていの原因は使用条件の違反行為です)。</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="77"/>
+        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation type="unfinished">URLを短執する際に未知のエラーが発生しました。</translation>
     </message>
@@ -501,74 +506,74 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="169"/>
-        <location filename="../src/mainwindow.cpp" line="514"/>
+        <location filename="../src/mainwindow.cpp" line="+169"/>
+        <location line="+345"/>
         <source>New tweet</source>
         <translation>新着トゥウィート</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="170"/>
-        <location filename="../src/mainwindow.cpp" line="515"/>
+        <location line="-344"/>
+        <location line="+345"/>
         <source>Upload a photo to TwitPic</source>
         <translation>トゥウィートピックに写真をアップロードする</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="171"/>
-        <location filename="../src/mainwindow.cpp" line="516"/>
+        <location line="-344"/>
+        <location line="+345"/>
         <source>Go to Twitter</source>
         <translation>トゥウィータにアクセスする</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="172"/>
-        <location filename="../src/mainwindow.cpp" line="517"/>
+        <location line="-344"/>
+        <location line="+345"/>
         <source>Go to Identi.ca</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="173"/>
-        <location filename="../src/mainwindow.cpp" line="518"/>
+        <location line="-344"/>
+        <location line="+345"/>
         <source>Go to TwitPic</source>
         <translation>トゥウィートピックにアクセスする</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="147"/>
-        <location filename="../src/mainwindow.cpp" line="175"/>
-        <location filename="../src/mainwindow.cpp" line="520"/>
+        <location line="-371"/>
+        <location line="+28"/>
+        <location line="+345"/>
         <source>Quit</source>
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="131"/>
+        <location line="-389"/>
         <source>&amp;File</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="148"/>
-        <location filename="../src/mainwindow.cpp" line="501"/>
+        <location line="+17"/>
+        <location line="+353"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="248"/>
-        <location filename="../src/mainwindow.cpp" line="252"/>
-        <location filename="../src/mainwindow.cpp" line="261"/>
-        <location filename="../src/mainwindow.cpp" line="280"/>
-        <location filename="../src/mainwindow.cpp" line="370"/>
-        <location filename="../src/mainwindow.cpp" line="380"/>
-        <location filename="../src/mainwindow.cpp" line="446"/>
+        <location line="-253"/>
+        <location line="+4"/>
+        <location line="+9"/>
+        <location line="+19"/>
+        <location line="+90"/>
+        <location line="+10"/>
+        <location line="+66"/>
         <source>public timeline</source>
         <translation>公共の年表</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="63"/>
+        <location line="-383"/>
         <source>%n character(s) left</source>
         <translation>
             <numerusform>残りの文字数：%n</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="174"/>
-        <location filename="../src/mainwindow.cpp" line="519"/>
+        <location line="+111"/>
+        <location line="+345"/>
         <source>About qTwitter...</source>
         <translation>キｭｰトゥウィータに関して...</translation>
     </message>
@@ -579,27 +584,27 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="324"/>
+        <location line="-195"/>
         <source>Your message is too long.</source>
         <translation>メッセージは長すぎます。</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="324"/>
+        <location line="+0"/>
         <source>Message too long</source>
         <translation>メッセージは長すぎます</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="325"/>
+        <location line="+1"/>
         <source>Cool</source>
         <translation>かっこいい</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="326"/>
+        <location line="+1"/>
         <source>Oops...</source>
         <translation>あらら...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="327"/>
+        <location line="+1"/>
         <source>You can still post it like this, but it will be truncated.</source>
         <translation>そのままご送信なさっても構いませんが、メッセージが切り詰められてしまいます。</translation>
     </message>
@@ -609,62 +614,62 @@
         <translation type="obsolete">公共の年表</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="448"/>
+        <location line="+121"/>
         <source>New tweets</source>
         <extracomment>New tweets received (this pops up in tray)</extracomment>
         <translation>新着トゥウィート</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="454"/>
+        <location line="+6"/>
         <source>Error</source>
         <translation>エラー</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="509"/>
+        <location line="+55"/>
         <location filename="../ui/mainwindow.ui"/>
         <source>More...</source>
         <translation>詳細...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="500"/>
+        <location line="-9"/>
         <source>Update tweets</source>
         <translation>トゥウィートの更新</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="303"/>
+        <location line="-197"/>
         <source>%n character left</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="304"/>
+        <location line="+1"/>
         <source>%n characters left</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="309"/>
+        <location line="+5"/>
         <source>%n character over the limit</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="310"/>
+        <location line="+1"/>
         <source>%n characters over the limit</source>
         <translation type="unfinished">
             <numerusform></numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="504"/>
+        <location line="+194"/>
         <source>Navigate using %1 and %2</source>
         <translation>%1あるいは%2を使用してナビゲートする</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="513"/>
+        <location line="+9"/>
         <location filename="../ui/mainwindow.ui"/>
         <source>What are you doing?</source>
         <translation>何をしているのですか?</translation>
@@ -675,7 +680,7 @@
         <translation>キｭｰトゥウィータ</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui"/>
+        <location/>
         <source>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</source>
         <translation>&lt;span style=&quot;color: black&quot;&gt;リンクを短縮するには &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; をご使用ください&lt;/span&gt;</translation>
     </message>
@@ -690,7 +695,7 @@
 <context>
     <name>MetamarkShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="129"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+52"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation type="unfinished">URLを短執する際に未知のエラーが発生しました。</translation>
     </message>
@@ -698,14 +703,14 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="154"/>
-        <location filename="../src/settings.cpp" line="340"/>
+        <location filename="../src/settings.cpp" line="+154"/>
+        <location line="+186"/>
         <source>Use custom web browser</source>
         <translation>カスタムのブラウザーを使用する</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="156"/>
-        <location filename="../src/settings.cpp" line="341"/>
+        <location line="-184"/>
+        <location line="+185"/>
         <source>Browse</source>
         <translation>閲覧</translation>
     </message>
@@ -715,13 +720,13 @@
         <translation type="obsolete">&lt;空&gt;</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="324"/>
+        <location line="-17"/>
         <location filename="../ui/settings.ui"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="325"/>
+        <location line="+1"/>
         <location filename="../ui/settings.ui"/>
         <source>General</source>
         <translation>一般</translation>
@@ -740,38 +745,38 @@
         <translation type="obsolete">パスワード</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui"/>
+        <location/>
         <source>Refresh every (mins)</source>
         <translation>次の時間ごとに更新する（分）：</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui"/>
+        <location/>
         <source>Shorten links via</source>
         <translation>次の文字列を使ってリンクを短縮する：</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="326"/>
+        <location filename="../src/settings.cpp" line="+1"/>
         <source>Refresh every (mins):</source>
         <translation>次の時間ごとに更新する（分）:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="327"/>
+        <location line="+1"/>
         <source>Language:</source>
         <translation>言語:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="328"/>
+        <location line="+1"/>
         <source>Shorten links via:</source>
         <translation>次の文字列を使ってリンクを短縮する:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="329"/>
+        <location line="+1"/>
         <location filename="../ui/settings.ui"/>
         <source>Show tray notifications</source>
         <translation>トレーの通知を表示する</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="330"/>
+        <location line="+1"/>
         <location filename="../ui/settings.ui"/>
         <source>Confirm messages deletion</source>
         <translation>メッセージの削除を確認する</translation>
@@ -805,31 +810,31 @@
         <translation type="obsolete">公共の年表を含む</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="332"/>
+        <location line="+2"/>
         <location filename="../ui/settings.ui"/>
         <source>Network</source>
         <translation>ネットワーク</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="333"/>
+        <location line="+1"/>
         <location filename="../ui/settings.ui"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>&amp;HTTPプロクシを使用する</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="334"/>
+        <location line="+1"/>
         <location filename="../ui/settings.ui"/>
         <source>Host:</source>
         <translation>ホスト:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="335"/>
+        <location line="+1"/>
         <location filename="../ui/settings.ui"/>
         <source>Port:</source>
         <translation>ポート:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="336"/>
+        <location line="+1"/>
         <location filename="../ui/settings.ui"/>
         <source>Appearance</source>
         <translation>外見</translation>
@@ -839,57 +844,57 @@
         <translation type="obsolete">トゥウィート数:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="338"/>
+        <location line="+2"/>
         <location filename="../ui/settings.ui"/>
         <source>Color scheme:</source>
         <translation>カラー図式:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="345"/>
+        <location line="+7"/>
         <source>Apply</source>
         <translation>適用</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="346"/>
+        <location line="+1"/>
         <source>Cancel</source>
         <translation>取り消し</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="344"/>
+        <location line="-2"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="331"/>
+        <location line="-13"/>
         <location filename="../ui/settings.ui"/>
         <source>Accounts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="337"/>
+        <location line="+6"/>
         <location filename="../ui/settings.ui"/>
         <source>Status count:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="356"/>
+        <location line="+19"/>
         <source>Select your browser executable</source>
         <translation>ご使用のブラウザーの実行ファイルをご指摘ください</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="356"/>
+        <location line="+0"/>
         <source>All files (*)</source>
         <translation>すべてのファイル (*)</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="396"/>
+        <location line="+40"/>
         <location filename="../ui/settings.ui"/>
         <source>English</source>
         <extracomment>Please translate &quot;English&quot; to YOUR LANGUAGE NAME in your own language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc.</extracomment>
         <translation>日本語</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="401"/>
+        <location line="+5"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
@@ -897,7 +902,7 @@
 <context>
     <name>StatusEdit</name>
     <message>
-        <location filename="../src/statusedit.cpp" line="80"/>
+        <location filename="../src/statusedit.cpp" line="+80"/>
         <source>What are you doing?</source>
         <translation>何をしているのですか?</translation>
     </message>
@@ -905,99 +910,99 @@
 <context>
     <name>StatusWidget</name>
     <message>
-        <location filename="../src/statuswidget.cpp" line="55"/>
-        <location filename="../src/statuswidget.cpp" line="106"/>
-        <location filename="../src/statuswidget.cpp" line="290"/>
-        <location filename="../src/statuswidget.cpp" line="421"/>
+        <location filename="../src/statuswidget.cpp" line="+55"/>
+        <location line="+51"/>
+        <location line="+184"/>
+        <location line="+131"/>
         <source>Add to Favorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="93"/>
-        <location filename="../src/statuswidget.cpp" line="437"/>
+        <location line="-328"/>
+        <location line="+344"/>
         <source>Retweet</source>
         <translation type="unfinished">再トゥウィートする</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="111"/>
-        <location filename="../src/statuswidget.cpp" line="438"/>
+        <location line="-326"/>
+        <location line="+327"/>
         <source>Copy link to this status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="121"/>
-        <location filename="../src/statuswidget.cpp" line="440"/>
+        <location line="-317"/>
+        <location line="+319"/>
         <source>Mark list as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="126"/>
-        <location filename="../src/statuswidget.cpp" line="441"/>
+        <location line="-314"/>
+        <location line="+315"/>
         <source>Mark everything as read</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="139"/>
-        <location filename="../src/statuswidget.cpp" line="442"/>
+        <location line="-302"/>
+        <location line="+303"/>
         <source>Go to User&apos;s homepage</source>
         <translation type="unfinished">このユーザーのホームページにアクセスする</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="150"/>
-        <location filename="../src/statuswidget.cpp" line="255"/>
-        <location filename="../src/statuswidget.cpp" line="272"/>
-        <location filename="../src/statuswidget.cpp" line="425"/>
+        <location line="-292"/>
+        <location line="+105"/>
+        <location line="+17"/>
+        <location line="+153"/>
         <source>Reply to %1</source>
         <translation type="unfinished">%1に返信する</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="165"/>
-        <location filename="../src/statuswidget.cpp" line="407"/>
+        <location line="-260"/>
+        <location line="+242"/>
         <source>Direct message %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="186"/>
-        <location filename="../src/statuswidget.cpp" line="445"/>
+        <location line="-221"/>
+        <location line="+259"/>
         <source>Go to User&apos;s Identi.ca page</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="189"/>
-        <location filename="../src/statuswidget.cpp" line="447"/>
+        <location line="-256"/>
+        <location line="+258"/>
         <source>Go to User&apos;s Twitter page</source>
         <translation type="unfinished">このユーザーのトゥウィータページにアクセスする</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="252"/>
-        <location filename="../src/statuswidget.cpp" line="263"/>
-        <location filename="../src/statuswidget.cpp" line="428"/>
-        <location filename="../src/statuswidget.cpp" line="439"/>
+        <location line="-195"/>
+        <location line="+11"/>
+        <location line="+165"/>
+        <location line="+11"/>
         <source>Delete status</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="259"/>
-        <location filename="../src/statuswidget.cpp" line="265"/>
-        <location filename="../src/statuswidget.cpp" line="430"/>
+        <location line="-180"/>
+        <location line="+6"/>
+        <location line="+165"/>
         <source>Delete message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="281"/>
-        <location filename="../src/statuswidget.cpp" line="284"/>
-        <location filename="../src/statuswidget.cpp" line="413"/>
-        <location filename="../src/statuswidget.cpp" line="416"/>
+        <location line="-149"/>
+        <location line="+3"/>
+        <location line="+129"/>
+        <location line="+3"/>
         <source>Remove from Favorites</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="319"/>
+        <location line="-97"/>
         <source>in reply to %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="424"/>
+        <location line="+105"/>
         <source>About %1</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1021,7 +1026,7 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TinyarrowsShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="175"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+46"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation type="unfinished">URLを短執する際に未知のエラーが発生しました。</translation>
     </message>
@@ -1029,7 +1034,7 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TinyurlShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="152"/>
+        <location line="-23"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation type="unfinished">URLを短執する際に未知のエラーが発生しました。</translation>
     </message>
@@ -1048,12 +1053,12 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TrimShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="100"/>
+        <location line="-52"/>
         <source>The URL has been rejected by the tr.im</source>
         <translation type="unfinished">URLはtr.imにより拒絶されました</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="106"/>
+        <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation type="unfinished">URLを短執する際に未知のエラーが発生しました。</translation>
     </message>
@@ -1096,27 +1101,27 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicEngine</name>
     <message>
-        <location filename="../src/twitpicengine.cpp" line="163"/>
+        <location filename="../src/twitpicengine.cpp" line="+163"/>
         <source>Invalid twitter username or password</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/twitpicengine.cpp" line="166"/>
+        <location line="+3"/>
         <source>Image not found</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/twitpicengine.cpp" line="169"/>
+        <location line="+3"/>
         <source>Invalid image type</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/twitpicengine.cpp" line="172"/>
+        <location line="+3"/>
         <source>Image larger than 4MB</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/twitpicengine.cpp" line="175"/>
+        <location line="+3"/>
         <source>We&apos;re sorry, but due to some mysterious error your image failed to upload</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1132,33 +1137,33 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicView</name>
     <message>
-        <location filename="../src/twitpicview.cpp" line="82"/>
-        <location filename="../src/twitpicview.cpp" line="121"/>
-        <location filename="../src/twitpicview.cpp" line="131"/>
+        <location filename="../src/twitpicview.cpp" line="+82"/>
+        <location line="+39"/>
+        <location line="+10"/>
         <location filename="../ui/twitpicview.ui"/>
         <source>Upload</source>
         <translation>アップロード</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="127"/>
-        <location filename="../src/twitpicview.cpp" line="129"/>
+        <location line="-4"/>
+        <location line="+2"/>
         <source>Abort</source>
         <translation>アボート</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="140"/>
+        <location line="+11"/>
         <source>Select photo to upload</source>
         <translation>アップロードする写真をお選びください</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="142"/>
+        <location line="+2"/>
         <source>Image files</source>
         <translation>画像ファイル</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="148"/>
-        <location filename="../src/twitpicview.cpp" line="153"/>
-        <location filename="../src/twitpicview.cpp" line="165"/>
+        <location line="+6"/>
+        <location line="+5"/>
+        <location line="+12"/>
         <location filename="../ui/twitpicview.ui"/>
         <source>Select a photo to upload</source>
         <translation>アップロードする写真をお選びください</translation>
@@ -1169,17 +1174,17 @@ background-color: rgba(255,255,255,0);
         <translation>トゥウィートピックに写真をアップロードする</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui"/>
+        <location/>
         <source>Choose a photo:</source>
         <translation>写真をお選びください:</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui"/>
+        <location/>
         <source>Browse</source>
         <translation>閲覧</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui"/>
+        <location/>
         <source>post a status</source>
         <translation>ステータスを掲示する</translation>
     </message>
@@ -1208,12 +1213,12 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UnuShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="198"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+92"/>
         <source>Your URL has been rejected by u.nu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="202"/>
+        <location line="+4"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation type="unfinished">URLを短執する際に未知のエラーが発生しました。</translation>
     </message>
@@ -1221,7 +1226,7 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UserInfoPopup</name>
     <message numerus="yes">
-        <location filename="../src/userinfopopup.cpp" line="60"/>
+        <location filename="../src/userinfopopup.cpp" line="+60"/>
         <source>friend</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
         <translation type="unfinished">
@@ -1229,7 +1234,7 @@ background-color: rgba(255,255,255,0);
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/userinfopopup.cpp" line="63"/>
+        <location line="+3"/>
         <source>friends</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
         <translation type="unfinished">
@@ -1242,22 +1247,22 @@ background-color: rgba(255,255,255,0);
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/userinfopopup.ui"/>
+        <location/>
         <source>Location:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/userinfopopup.ui"/>
+        <location/>
         <source>Local time:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/userinfopopup.ui"/>
+        <location/>
         <source>Homepage:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/userinfopopup.ui"/>
+        <location/>
         <source>Bio:</source>
         <translation type="unfinished"></translation>
     </message>
