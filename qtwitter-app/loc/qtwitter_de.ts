@@ -40,7 +40,7 @@
     <message>
         <location line="+1"/>
         <source>API library improvements and themes revisiting</source>
-        <translation type="unfinished"></translation>
+        <translation>API Bibliothek- und Theme-Verbesserungen</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -96,17 +96,17 @@
     <message>
         <location line="-20"/>
         <source>Testing:</source>
-        <translation></translation>
+        <translation>Tests:</translation>
     </message>
     <message>
         <location line="-38"/>
         <source>Development team as for 0.7.0:</source>
-        <translation type="unfinished"></translation>
+        <translation>Entwicklerteam für 0.7.0:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Porting to Maemo platform</source>
-        <translation type="unfinished"></translation>
+        <translation>Portierungen auf Maemo Plattform</translation>
     </message>
     <message>
         <location line="+38"/>
@@ -119,32 +119,32 @@
     <message>
         <location filename="../src/accounts/accounts.ui"/>
         <source>public timeline:</source>
-        <translation type="unfinished"></translation>
+        <translation>Öffentliche Zeitleiste:</translation>
     </message>
     <message>
         <location/>
         <source>None</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine</translation>
     </message>
     <message>
         <location/>
         <source>Twitter</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location/>
         <source>Identi.ca</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location/>
         <source>Both</source>
-        <translation type="unfinished"></translation>
+        <translation>Beide</translation>
     </message>
     <message>
         <location/>
         <source>store passwords on disk</source>
-        <translation type="unfinished"></translation>
+        <translation>speichere Passwort auf Festplatte</translation>
     </message>
 </context>
 <context>
@@ -152,17 +152,17 @@
     <message>
         <location filename="../src/accounts/accountscontroller.cpp" line="+164"/>
         <source>Password security</source>
-        <translation type="unfinished"></translation>
+        <translation>Passwortsicherheit</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Please note:</source>
-        <translation type="unfinished"></translation>
+        <translation>Beachten Sie:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Although passwords are stored as human unreadable data, they can be easily decoded using the application&apos;s source code, which is publicly available. You have been warned.</source>
-        <translation type="unfinished"></translation>
+        <translation>Obwohl die Passwörter für Menschen unlesbar gespeicherwerden, können siie dennoch leicht mit Hilfe des öffentlich zugänglichen Quellcode entschlüsselt werden. Sie wurden gewarnt.</translation>
     </message>
 </context>
 <context>
@@ -170,35 +170,35 @@
     <message>
         <location filename="../src/accounts/accountsmodel.cpp" line="+111"/>
         <source>Enabled</source>
-        <translation type="unfinished">Aktiviert</translation>
+        <translation>Aktiviert</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Service</source>
         <extracomment>&quot;Service&quot;, i.e. Twitter or Identi.ca</extracomment>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Login</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Password</source>
-        <translation type="unfinished">Passwort</translation>
+        <translation>Passwort</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Direct msgs</source>
         <extracomment>This should be as short as possible (e.g. PW in Polish)</extracomment>
-        <translation type="unfinished">Direkt-Nachricht</translation>
+        <translation>Direkt-Nachricht</translation>
     </message>
     <message>
         <location line="+136"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation type="unfinished">&lt;leer&gt;</translation>
+        <translation>&lt;leer&gt;</translation>
     </message>
 </context>
 <context>
@@ -249,7 +249,7 @@
     <message>
         <location filename="../src/core.cpp" line="+267"/>
         <source>Are you sure to delete this status?</source>
-        <translation type="unfinished"></translation>
+        <translation>Wollen Sie diesen Status wirklich löschen?</translation>
     </message>
     <message>
         <location line="+109"/>
@@ -260,7 +260,7 @@
     <message>
         <location line="+230"/>
         <source>Authentication is required to send direct messages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Authentifikation erforderlich, um Direkt-Nachrichten zu senden.</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -277,7 +277,8 @@
         <source>For:
 %1</source>
         <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Für:
+%1</translation>
     </message>
     <message>
         <source>and</source>
@@ -311,12 +312,12 @@
     <message>
         <location line="+300"/>
         <source>Warning</source>
-        <translation type="unfinished"></translation>
+        <translation>Warnung</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine oder mehrere Anfragen konnten nicht fertig gestellt werden. Überprüfen Sie ihre Verbindung und/oder Kontoeinstellungen.</translation>
     </message>
     <message>
         <location line="+43"/>
@@ -330,105 +331,105 @@
     <message>
         <location filename="../src/dmdialog.cpp" line="+53"/>
         <source>Direct message %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Direkt-Nachricht %1</translation>
     </message>
     <message numerus="yes">
         <location line="+35"/>
         <source>%n character over the limit</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
         <source>%n characters over the limit</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n character left</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeichen übrig</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="-46"/>
         <location line="+48"/>
         <source>%n characters left</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeichen übrig</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
         </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Message too long</source>
-        <translation type="unfinished">Nachricht zu lang</translation>
+        <translation>Nachricht zu lang</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Your message is too long.</source>
-        <translation type="unfinished">Die Nachricht ist zu lang.</translation>
+        <translation>Die Nachricht ist zu lang.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cool</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Oops...</source>
-        <translation type="unfinished">Ups...</translation>
+        <translation>Ups...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You can still post it like this, but it will be truncated.</source>
-        <translation type="unfinished">Es kann so gesendet werden, wird jedoch abgeschnitten.</translation>
+        <translation>Es kann so gesendet werden, wird jedoch abgeschnitten.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Sending...</source>
-        <translation type="unfinished"></translation>
+        <translation>Sende...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Message sent!</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachricht versendet!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Message sending failed. Note that you cannot send a message to a user that doesn&apos;t follow you.</source>
-        <translation type="unfinished"></translation>
+        <translation>Senden fehlgeschlagen. Beachten Sie, dass keine Nachrichten an Benutzer gesendet werden können, die Ihnen nicht folgen.</translation>
     </message>
     <message>
         <location filename="../ui/dmdialog.ui"/>
         <source>Direct Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Direkt-Nachricht</translation>
     </message>
     <message>
         <location/>
         <source>Write your message:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachricht schreiben:</translation>
     </message>
     <message>
         <location/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location/>
         <source>Close</source>
-        <translation type="unfinished">Schließen</translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <location/>
         <source>Send</source>
-        <translation type="unfinished"></translation>
+        <translation>Senden</translation>
     </message>
 </context>
 <context>
@@ -474,37 +475,37 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+62"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">Die eingegebene URL ist nicht korrekt.</translation>
+        <translation>Die eingegebene URL ist nicht korrekt.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL entered was too long.</source>
-        <translation type="unfinished">Die eingegebene URL ist zu lang.</translation>
+        <translation>Die eingegebene URL ist zu lang.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="unfinished">Die Anfrage dieser Adresse wurde gesperrt durch Spamhaus (SBL/XBL) oder Spamcop.</translation>
+        <translation>Die Anfrage dieser Adresse wurde gesperrt durch Spamhaus (SBL/XBL) oder Spamcop.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="unfinished">Die eingegebene URL ist eine potenzielle Spamseite und ist entweder bei SURBL oder URIBL aufgelistet.</translation>
+        <translation>Die eingegebene URL ist eine potenzielle Spamseite und ist entweder bei SURBL oder URIBL aufgelistet.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="unfinished">Die eingegebene URL ist auf gd&apos;s schwarzer Liste (Links zu verkürzten Seiten oder zu gd wurden deaktiviert, um Missbrauch zu vermeiden.</translation>
+        <translation>Die eingegebene URL ist auf gd&apos;s schwarzer Liste (Links zu verkürzten Seiten oder zu gd wurden deaktiviert, um Missbrauch zu vermeiden.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="unfinished">Die Anfrage dieser Adresse wurde geblockt durch is.gd (wahrscheinlich aufgrund einer Verletzung ihrer Nutzungsbedingungen).</translation>
+        <translation>Die Anfrage dieser Adresse wurde geblockt durch is.gd (wahrscheinlich aufgrund einer Verletzung ihrer Nutzungsbedingungen).</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzer der URL.</translation>
     </message>
 </context>
 <context>
@@ -636,7 +637,7 @@
     <message>
         <location line="+68"/>
         <source>&amp;File</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Datei</translation>
     </message>
     <message>
         <location line="+39"/>
@@ -654,7 +655,7 @@
         <location line="-344"/>
         <location line="+345"/>
         <source>Go to Identi.ca</source>
-        <translation type="unfinished"></translation>
+        <translation>Gehe zu Identi.ca</translation>
     </message>
     <message>
         <location line="-344"/>
@@ -665,33 +666,33 @@
     <message numerus="yes">
         <location line="-215"/>
         <source>%n character left</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeichen übrig</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n characters left</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeichen übrig</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+5"/>
         <source>%n character over the limit</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n characters over the limit</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
         </translation>
     </message>
 </context>
@@ -707,7 +708,7 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+52"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzer der URL.</translation>
     </message>
 </context>
 <context>
@@ -809,12 +810,12 @@
         <location line="+2"/>
         <location filename="../ui/settings.ui"/>
         <source>Status count:</source>
-        <translation type="unfinished"></translation>
+        <translation>Statusanzahl:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Apply</source>
-        <translation>Übernehmen</translation>
+        <translation>Anwenden</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -824,12 +825,12 @@
     <message>
         <location line="+55"/>
         <source>Default</source>
-        <translation type="unfinished"></translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location line="-57"/>
         <source>OK</source>
-        <translation>Bé</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Username</source>
@@ -896,7 +897,7 @@
         <location line="+3"/>
         <location filename="../ui/settings.ui"/>
         <source>Accounts</source>
-        <translation type="unfinished"></translation>
+        <translation>Konten</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -921,37 +922,37 @@
         <location line="+184"/>
         <location line="+131"/>
         <source>Add to Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <location line="-328"/>
         <location line="+344"/>
         <source>Retweet</source>
-        <translation type="unfinished">Retweet</translation>
+        <translation>Retweet</translation>
     </message>
     <message>
         <location line="-326"/>
         <location line="+327"/>
         <source>Copy link to this status</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopiere Link zu dieser Nachricht</translation>
     </message>
     <message>
         <location line="-317"/>
         <location line="+319"/>
         <source>Mark list as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Markiere Liste als gelesen</translation>
     </message>
     <message>
         <location line="-314"/>
         <location line="+315"/>
         <source>Mark everything as read</source>
-        <translation type="unfinished"></translation>
+        <translation>Alles als gelesen markieren</translation>
     </message>
     <message>
         <location line="-302"/>
         <location line="+303"/>
         <source>Go to User&apos;s homepage</source>
-        <translation type="unfinished">Zur Homepage des Benutzers</translation>
+        <translation>Zur Homepage des Benutzers</translation>
     </message>
     <message>
         <location line="-292"/>
@@ -959,25 +960,25 @@
         <location line="+17"/>
         <location line="+153"/>
         <source>Reply to %1</source>
-        <translation type="unfinished">Antworte auf %1</translation>
+        <translation>Antworte auf %1</translation>
     </message>
     <message>
         <location line="-260"/>
         <location line="+242"/>
         <source>Direct message %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Direkt Nachricht %1</translation>
     </message>
     <message>
         <location line="-221"/>
         <location line="+259"/>
         <source>Go to User&apos;s Identi.ca page</source>
-        <translation type="unfinished"></translation>
+        <translation>Zur Identi.ca Seite des Benutzers</translation>
     </message>
     <message>
         <location line="-256"/>
         <location line="+258"/>
         <source>Go to User&apos;s Twitter page</source>
-        <translation type="unfinished">Zur Twitter-Seite des Benutzers</translation>
+        <translation>Zur Twitter-Seite des Benutzers</translation>
     </message>
     <message>
         <location line="-195"/>
@@ -985,14 +986,14 @@
         <location line="+165"/>
         <location line="+11"/>
         <source>Delete status</source>
-        <translation type="unfinished"></translation>
+        <translation>Status löschen</translation>
     </message>
     <message>
         <location line="-180"/>
         <location line="+6"/>
         <location line="+165"/>
         <source>Delete message</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachricht löschen</translation>
     </message>
     <message>
         <location line="-149"/>
@@ -1000,17 +1001,17 @@
         <location line="+129"/>
         <location line="+3"/>
         <source>Remove from Favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Aus Favoriten entfernen</translation>
     </message>
     <message>
         <location line="-97"/>
         <source>in reply to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Antwort auf %1</translation>
     </message>
     <message>
         <location line="+105"/>
         <source>About %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Über %1</translation>
     </message>
     <message>
         <location filename="../ui/statuswidget.ui"/>
@@ -1019,7 +1020,7 @@ border: 1px;
 background-color: rgba(255,255,255,0);
 }
 </source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1034,7 +1035,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+46"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzer der URL.</translation>
     </message>
 </context>
 <context>
@@ -1042,7 +1043,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-23"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzer der URL.</translation>
     </message>
 </context>
 <context>
@@ -1061,12 +1062,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-52"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="unfinished">Die URL wurde durch tr.im zurückgewiesen</translation>
+        <translation>Die URL wurde durch tr.im zurückgewiesen</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzer der URL.</translation>
     </message>
 </context>
 <context>
@@ -1105,27 +1106,27 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../src/twitpicengine.cpp" line="+163"/>
         <source>Invalid twitter username or password</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungültiger Twitter Benutzername oder Passwort</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Image not found</source>
-        <translation type="unfinished"></translation>
+        <translation>Bild nicht gefunden</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Invalid image type</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungültiges Bildformat</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Image larger than 4MB</source>
-        <translation type="unfinished"></translation>
+        <translation>Bild größer als 4MB</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>We&apos;re sorry, but due to some mysterious error your image failed to upload</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschuldigung, es kam zu einem unbekannten Fehler beim Upload</translation>
     </message>
 </context>
 <context>
@@ -1213,12 +1214,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+92"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation type="unfinished"></translation>
+        <translation>Die URL wurde durch u.nu zurückgewiesen</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
@@ -1227,44 +1228,44 @@ background-color: rgba(255,255,255,0);
         <location filename="../src/userinfopopup.cpp" line="+60"/>
         <source>friend</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Freund</numerusform>
+            <numerusform>Freunde</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+3"/>
         <source>friends</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>Freund</numerusform>
+            <numerusform>Freunde</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../ui/userinfopopup.ui"/>
         <source>Login:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location/>
         <source>Location:</source>
-        <translation type="unfinished"></translation>
+        <translation>Standort:</translation>
     </message>
     <message>
         <location/>
         <source>Local time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Lokale Uhrzeit:</translation>
     </message>
     <message>
         <location/>
         <source>Homepage:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location/>
         <source>Bio:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 </TS>
