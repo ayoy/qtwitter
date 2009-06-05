@@ -21,6 +21,7 @@
 
 
 #include <QMenu>
+#include <QMenuBar>
 #include <QScrollBar>
 #include <QMessageBox>
 #include <QIcon>
@@ -30,60 +31,73 @@
 #include <QDesktopWidget>
 #include <QSignalMapper>
 #include <QTreeView>
-#include <twitterapi/twitterapi_global.h>
+#include <QTimer>
+#include <qticonloader.h>
+#include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
-#include "tweet.h"
+#include "statuswidget.h"
 #include "aboutdialog.h"
 #include "account.h"
 #include "accountsdelegate.h"
 #include "accountscontroller.h"
-#include "settings.h"
-#include "qticonloader.h"
+#include "configfile.h"
 
 extern ConfigFile settings;
 
 
 MainWindow::MainWindow( QWidget *parent ) :
-    QWidget( parent ),
+    QMainWindow( parent ),
     resetUiWhenFinished( false )
 {
-  ui.setupUi( this );
+  QWidget *centralWidget = new QWidget( this );
+  ui.setupUi( centralWidget );
+  setCentralWidget( centralWidget );
+
+  StatusWidget::setScrollBarWidth( ui.statusListView->verticalScrollBar()->width() );
+
   ui.accountsComboBox->setVisible( false );
 
+  timer = new QTimer( this );
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
   ui.countdownLabel->setMovie( progressIcon );
   ui.countdownLabel->setToolTip( tr( "%n character(s) left", "", ui.countdownLabel->text().toInt() ) );
   ui.statusEdit->setToolTip( ui.statusEdit->toolTip().arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
 
   //> experiment begin
-  ui.moreButton->setIcon(QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")));
-  ui.settingsButton->setIcon(QtIconLoader::icon("preferences-other", QIcon(":/icons/spanner_48.png")));
-  ui.updateButton->setIcon(QtIconLoader::icon("reload", QIcon(":icons/refresh_48.png")));
+  ui.moreButton->setIcon( QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")) );
+  ui.settingsButton->setIcon( QtIconLoader::icon("preferences-other", QIcon(":/icons/spanner_48.png")) );
+  ui.updateButton->setIcon( QtIconLoader::icon("reload", QIcon(":icons/refresh_48.png")) );
   //< experiment end
 
   createConnections();
-  createMenu();
+  createButtonMenu();
   createTrayIcon();
+
+// create menu bar only on maemo
+#ifdef Q_WS_HILDON
+  createHildonMenu();
+#endif
 }
 
 MainWindow::~MainWindow() {
-  settings.setValue( "TwitterAccounts/currentModel", ui.accountsComboBox->currentIndex() );
+  settings.setValue( "Accounts/visibleAccount", ui.accountsComboBox->currentIndex() );
 }
 
 void MainWindow::createConnections()
 {
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ), this, SLOT(tweetReplyAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ), this, SLOT(tweetRetweetAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ), this, SLOT(tweetCopylinkAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ), this, SLOT(tweetDeleteAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ), this, SLOT(tweetMarkallasreadAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ), this, SLOT(tweetGototwitterpageAction()) );
-  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ), this, SLOT(tweetGotohomepageAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ), this, SLOT(statusReplyAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ), this, SLOT(statusRetweetAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_C ), this, SLOT(statusCopylinkAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_Backspace ), this, SLOT(statusDeleteAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ), this, SLOT(statusMarkallasreadAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::ALT + Qt::Key_A ), this, SIGNAL(statusMarkeverythingasreadAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ), this, SLOT(statusGototwitterpageAction()) );
+  new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ), this, SLOT(statusGotohomepageAction()) );
 
   StatusFilter *filter = new StatusFilter( this );
   ui.statusEdit->installEventFilter( filter );
 
-  connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateTweets() ) );
+  connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateStatuses() ) );
   connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( editingFinished() ), this, SLOT( resetStatus() ) );
@@ -111,45 +125,14 @@ void MainWindow::createConnections()
   ui.updateButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_R ) );
 }
 
-void MainWindow::createMenu()
+#ifdef Q_WS_HILDON
+void MainWindow::createHildonMenu()
 {
-  buttonMenu = new QMenu( this );
-  newtweetAction = new QAction( tr( "New tweet" ), buttonMenu );
-  newtwitpicAction = new QAction( tr( "Upload a photo to TwitPic" ), buttonMenu );
-  gototwitterAction = new QAction( tr( "Go to Twitter" ), buttonMenu );
-  gototwitpicAction = new QAction( tr( "Go to TwitPic" ), buttonMenu );
-  aboutAction = new QAction( tr( "About qTwitter..." ), buttonMenu );
-  quitAction = new QAction( tr( "Quit" ), buttonMenu );
-  quitAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
-  quitAction->setShortcutContext( Qt::ApplicationShortcut );
-  connect( quitAction, SIGNAL(triggered()), qApp, SLOT(quit()) );
-
-  newtweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ) );
-  newtwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_N ) );
-  gototwitterAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
-  gototwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_G ) );
-
-  QSignalMapper *mapper = new QSignalMapper( this );
-  mapper->setMapping( gototwitterAction, "http://twitter.com/home" );
-  mapper->setMapping( gototwitpicAction, "http://twitpic.com" );
-
-  connect( newtweetAction, SIGNAL(triggered()), ui.statusEdit, SLOT(setFocus()) );
-  connect( newtwitpicAction, SIGNAL(triggered()), this, SIGNAL(openTwitPicDialog()) );
-  connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
-  connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
-  connect( mapper, SIGNAL(mapped(QString)), this, SLOT(emitOpenBrowser(QString)) );
-  connect( aboutAction, SIGNAL(triggered()), this, SLOT(about()) );
-
-  buttonMenu->addAction( newtweetAction );
-  buttonMenu->addAction( newtwitpicAction );
-  buttonMenu->addSeparator();
-  buttonMenu->addAction( gototwitterAction );
-  buttonMenu->addAction( gototwitpicAction );
-  buttonMenu->addSeparator();
-  buttonMenu->addAction( aboutAction );
-  buttonMenu->addAction( quitAction );
-  ui.moreButton->setMenu( buttonMenu );
+  QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
+  fileMenu->addAction( aboutAction );
+  fileMenu->addAction( quitAction );
 }
+#endif
 
 void MainWindow::createTrayIcon()
 {
@@ -180,7 +163,52 @@ void MainWindow::createTrayIcon()
   trayIcon->show();
 }
 
-StatusList* MainWindow::getListView()
+void MainWindow::createButtonMenu()
+{
+  buttonMenu = new QMenu( this );
+  newstatusAction = new QAction( tr( "New tweet" ), buttonMenu );
+  newtwitpicAction = new QAction( tr( "Upload a photo to TwitPic" ), buttonMenu );
+  gototwitterAction = new QAction( tr( "Go to Twitter" ), buttonMenu );
+  gotoidenticaAction = new QAction( tr( "Go to Identi.ca" ), buttonMenu );
+  gototwitpicAction = new QAction( tr( "Go to TwitPic" ), buttonMenu );
+  aboutAction = new QAction( tr( "About qTwitter..." ), buttonMenu );
+  quitAction = new QAction( tr( "Quit" ), buttonMenu );
+  quitAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
+  quitAction->setShortcutContext( Qt::ApplicationShortcut );
+  connect( quitAction, SIGNAL(triggered()), qApp, SLOT(quit()) );
+
+  newstatusAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_N ) );
+  newtwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_N ) );
+  gototwitterAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_G ) );
+  gotoidenticaAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_G ) );
+  gototwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::ALT + Qt::Key_G ) );
+
+  QSignalMapper *mapper = new QSignalMapper( this );
+  // TODO: Identi.ca?
+  mapper->setMapping( gototwitterAction, "http://twitter.com/home" );
+  mapper->setMapping( gototwitterAction, "http://identi.ca" );
+  mapper->setMapping( gototwitpicAction, "http://twitpic.com" );
+
+  connect( newstatusAction, SIGNAL(triggered()), ui.statusEdit, SLOT(setFocus()) );
+  connect( newtwitpicAction, SIGNAL(triggered()), this, SIGNAL(openTwitPicDialog()) );
+  connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
+  connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
+  connect( mapper, SIGNAL(mapped(QString)), this, SLOT(emitOpenBrowser(QString)) );
+  connect( aboutAction, SIGNAL(triggered()), this, SLOT(about()) );
+
+  buttonMenu->addAction( newstatusAction );
+  buttonMenu->addAction( newtwitpicAction );
+  buttonMenu->addSeparator();
+  buttonMenu->addAction( gototwitterAction );
+  buttonMenu->addAction( gotoidenticaAction );
+  buttonMenu->addAction( gototwitpicAction );
+  buttonMenu->addSeparator();
+  buttonMenu->addAction( aboutAction );
+  buttonMenu->addAction( quitAction );
+  ui.moreButton->setMenu( buttonMenu );
+}
+
+StatusListView* MainWindow::getListView()
 {
   return ui.statusListView;
 }
@@ -196,7 +224,7 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeli
 
   foreach ( Account account, accounts ) {
     if ( account.isEnabled )
-      ui.accountsComboBox->addItem( QString( "%1 @ %2" ).arg( account.login, Account::networkToString( account.network ) ) );
+      ui.accountsComboBox->addItem( QString( "%1 @%2" ).arg( account.login, Account::networkToString( account.network ) ) );
   }
 
   if ( ( publicTimeline == AccountsController::PT_NONE && accounts.size() < 2 ) || accounts.isEmpty() ) {
@@ -217,11 +245,11 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeli
   switch ( publicTimeline ) {
   case AccountsController::PT_BOTH:
   case AccountsController::PT_TWITTER:
-    ui.accountsComboBox->addItem( QString( "%1 @ %2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_TWITTER ) ) );
+    ui.accountsComboBox->addItem( QString( "%1 @%2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_TWITTER ) ) );
     if ( publicTimeline == AccountsController::PT_TWITTER )
       break;
   case AccountsController::PT_IDENTICA:
-    ui.accountsComboBox->addItem( QString( "%1 @ %2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) );
+    ui.accountsComboBox->addItem( QString( "%1 @%2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) );
   case AccountsController::PT_NONE:
   default:
     break;
@@ -242,7 +270,7 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeli
   }
   ui.accountsComboBox->setVisible( true );
 
-  int index = settings.value( "TwitterAccounts/currentModel", 0 ).toInt();
+  int index = settings.value( "Accounts/visibleAccount", 0 ).toInt();
 
   if ( index < 0 || index >= ui.accountsComboBox->count() )
     ui.accountsComboBox->setCurrentIndex( ui.accountsComboBox->count() - 1 );
@@ -259,67 +287,27 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeli
   }
 }
 
-void MainWindow::setListViewModel( TweetModel *model )
+void MainWindow::setListViewModel( StatusModel *model )
 {
   if ( !model )
     return;
-  TweetModel *currentModel = qobject_cast<TweetModel*>( ui.statusListView->model() );
-  if ( currentModel ) {
-    if ( model == currentModel )
-      return;
-    currentModel->setVisible( false );
-  }
   ui.statusListView->setModel( model );
-  model->display();
-}
-
-void MainWindow::closeEvent( QCloseEvent *e )
-{
-  if ( trayIcon->isVisible()) {
-    hide();
-    e->ignore();
-    return;
-  }
-  QWidget::closeEvent( e );
-}
-
-void MainWindow::keyPressEvent(QKeyEvent *event)
-{
-    if(event->key() == Qt::Key_Escape)
-        if(isVisible())
-            hide();
-}
-
-void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
-{
-  switch ( reason ) {
-    case QSystemTrayIcon::Trigger:
-#ifdef Q_WS_WIN
-    if ( !isVisible() ) {
-#else
-    if ( !isVisible() || !QApplication::activeWindow() ) {
-#endif
-      show();
-        raise();
-        activateWindow();
-      } else {
-        hide();
-      }
-      break;
-    default:
-      break;
-  }
 }
 
 void MainWindow::changeLabel()
 {
-  QString toolTip = tr( "%n character(s) left", "", ui.statusEdit->charsLeft() );
   QPalette palette( ui.countdownLabel->palette() );
+
+  int chars = ui.statusEdit->charsLeft();
+
+  QString toolTip = (chars == 1) ? tr(  "%n character left", "", chars ) :
+                                   tr( "%n characters left", "", chars );
 
   if( !ui.statusEdit->isStatusClean() ) {
     if ( ui.statusEdit->charsLeft() < 0 ) {
       palette.setColor( QPalette::Foreground, Qt::red );
-      toolTip = tr( "%n character(s) over the limit", "", ui.statusEdit->charsLeft() * -1 );
+      toolTip = (chars == -1) ? tr( "%n character over the limit", "", chars * -1 ) :
+                                tr( "%n characters over the limit", "", chars * -1 );
     } else {
       palette.setColor( QPalette::Foreground, Qt::black );
     }
@@ -356,6 +344,13 @@ void MainWindow::resetStatusEdit()
     ui.statusEdit->cancelEditing();
   }
   progressIcon->stop();
+  emit iconStopped();
+  changeLabel();
+}
+
+void MainWindow::pauseIcon()
+{
+  progressIcon->stop();
   changeLabel();
 }
 
@@ -364,16 +359,18 @@ void MainWindow::showProgressIcon()
   ui.countdownLabel->clear();
   ui.countdownLabel->setMovie( progressIcon );
   progressIcon->start();
+  if ( !timer->isActive() )
+    timer->singleShot( 60000, this, SLOT(resetStatusEdit()) );
 }
 
 void MainWindow::configSaveCurrentModel( int index )
 {
-  if ( settings.value( "TwitterAccounts/currentModel", 0 ).toInt() != index ) {
-    settings.setValue( "TwitterAccounts/currentModel", index );
+  if ( settings.value( "Accounts/visibleAccount", 0 ).toInt() != index ) {
+    settings.setValue( "Accounts/visibleAccount", index );
     if ( Account::fromString( ui.accountsComboBox->currentText() ).second == tr( "public timeline" ) )
       emit switchToPublicTimelineModel( Account::fromString( ui.accountsComboBox->currentText() ).first );
     else {
-      QRegExp rx( "(.+) @ (.+)" );
+      QRegExp rx( "(.+) @(.+)" );
       if ( rx.indexIn( ui.accountsComboBox->currentText() ) == -1 )
         return;
       emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
@@ -406,17 +403,48 @@ void MainWindow::resetStatus()
   }
 }
 
+void MainWindow::keyPressEvent(QKeyEvent *event)
+{
+  if(event->key() == Qt::Key_Escape) {
+    if(isVisible())
+      hide();
+    event->accept();
+  }
+#ifdef Q_WS_HILDON
+  else if (event->key() == Qt::Key_F6) {
+    if (isFullScreen())
+      showNormal();
+    else
+      showFullScreen();
+
+    event->accept();
+  }
+#endif
+  else
+    QWidget::keyPressEvent( event);
+}
+
+void MainWindow::closeEvent( QCloseEvent *event )
+{
+  if ( trayIcon->isVisible()) {
+    hide();
+    event->ignore();
+    return;
+  }
+  QWidget::closeEvent( event );
+}
+
 void MainWindow::resizeEvent( QResizeEvent *event )
 {
+  StatusWidget::setCurrentWidth( width() );
   emit resizeView( event->size().width(), event->oldSize().width() );
 }
 
 void MainWindow::popupMessage( QString message )
 {
   if( settings.value( "General/notifications" ).toBool() ) {
-    //: The full sentence is e.g.: "New tweets for <user A>, <user B> and the public timeline"
-    message.replace( "public timeline", tr( "the public timeline" ) );
-    //: New tweets received (pops up in tray)
+    message.replace( "public timeline", tr( "public timeline" ) );
+    //: New tweets received (this pops up in tray)
     trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
   }
 }
@@ -424,6 +452,27 @@ void MainWindow::popupMessage( QString message )
 void MainWindow::popupError( const QString &message )
 {
   QMessageBox::information( this, tr("Error"), message );
+}
+
+void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
+{
+  switch ( reason ) {
+    case QSystemTrayIcon::Trigger:
+#ifdef Q_WS_WIN
+    if ( !isVisible() ) {
+#else
+    if ( !isVisible() || !QApplication::activeWindow() ) {
+#endif
+      show();
+        raise();
+        activateWindow();
+      } else {
+        hide();
+      }
+      break;
+    default:
+      break;
+  }
 }
 
 void MainWindow::emitOpenBrowser( QString address )
@@ -462,9 +511,10 @@ void MainWindow::retranslateUi()
     ui.statusEdit->initialize();
   }
   ui.statusEdit->setText( tr( "What are you doing?" ) );
-  newtweetAction->setText( tr( "New tweet" ) );
+  newstatusAction->setText( tr( "New tweet" ) );
   newtwitpicAction->setText( tr( "Upload a photo to TwitPic" ) );
   gototwitterAction->setText( tr( "Go to Twitter" ) );
+  gotoidenticaAction->setText( tr( "Go to Identi.ca" ) );
   gototwitpicAction->setText( tr( "Go to TwitPic" ) );
   aboutAction->setText( tr( "About qTwitter..." ) );
   quitAction->setText( tr( "Quit" ) );
@@ -478,70 +528,70 @@ void MainWindow::replaceUrl( const QString &url )
     ui.statusEdit->setCursorPosition( text.indexOf( url ) + url.length() );
 }
 
-void MainWindow::tweetReplyAction()
+void MainWindow::statusReplyAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      model->currentTweet()->slotReply();
+      model->currentStatus()->slotReply();
     }
 }
 
-void MainWindow::tweetRetweetAction()
+void MainWindow::statusRetweetAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      model->currentTweet()->slotRetweet();
+      model->currentStatus()->slotRetweet();
     }
 }
 
-void MainWindow::tweetCopylinkAction()
+void MainWindow::statusCopylinkAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      model->currentTweet()->slotCopyLink();
+      model->currentStatus()->slotCopyLink();
     }
 }
 
-void MainWindow::tweetDeleteAction()
+void MainWindow::statusDeleteAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      model->currentTweet()->slotDelete();
+      model->currentStatus()->slotDelete();
     }
 }
 
-void MainWindow::tweetMarkallasreadAction()
+void MainWindow::statusMarkallasreadAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
     model->markAllAsRead();
 }
 
-void MainWindow::tweetGototwitterpageAction()
+void MainWindow::statusGototwitterpageAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      emitOpenBrowser( "http://twitter.com/" + model->currentTweet()->data().login );
+      emitOpenBrowser( "http://twitter.com/" + model->currentStatus()->data().userInfo.screenName );
     }
 }
 
-void MainWindow::tweetGotohomepageAction()
+void MainWindow::statusGotohomepageAction()
 {
-  TweetModel *model = qobject_cast<TweetModel*>( ui.statusListView->model() );
+  StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
   if ( model )
-    if ( model->currentTweet() )
+    if ( model->currentStatus() )
     {
-      emitOpenBrowser( model->currentTweet()->data().homepage );
+      emitOpenBrowser( model->currentStatus()->data().userInfo.homepage );
     }
 }
 
@@ -549,7 +599,7 @@ void MainWindow::tweetGotohomepageAction()
     \brief A class defining the main window of the application.
 
     This class contains all the GUI elements of the main application window.
-    It receives signals from Core and TweetModel classes and provides means
+    It receives signals from Core and StatusModel classes and provides means
     of visualization for them.
 */
 
@@ -561,19 +611,19 @@ void MainWindow::tweetGotohomepageAction()
     A default destructor.
 */
 
-/*! \fn StatusList* MainWindow::getListView()
-    A method for external access to the list view used for displaying Tweets.
-    Used for initialization of TweetModel class's instance.
+/*! \fn StatusListView* MainWindow::getListView()
+    A method for external access to the list view used for displaying Statuses.
+    Used for initialization of StatusModel class's instance.
     \returns A pointer to the list view instance of MainWindow.
 */
 
 /*! \fn int MainWindow::getScrollBarWidth()
     A method for accessing the list view scrollbar's width, needed for computing width
-    of Tweet class instances.
+    of StatusWidget class instances.
     \returns List view scrollbar's width.
 */
 
-/*! \fn void MainWindow::setListViewModel( TweetModel *model )
+/*! \fn void MainWindow::setListViewModel( StatusModel *model )
     Assigns the \a model to be a list view model.
     \param model The model for the list view.
 */
@@ -585,7 +635,7 @@ void MainWindow::tweetGotohomepageAction()
 
 /*! \fn void MainWindow::popupMessage( int statusesCount, QStringList namesForStatuses, int messagesCount, QStringList namesForMessages )
     Pops up a tray icon notification message containing information about
-    new Tweets and direct messages (if any). Displays total messages count and
+    new Statuses and direct messages (if any). Displays total messages count and
     their authors' names for status updates and direct messages separately.
     \param statusesCount The amount of new status updates.
     \param namesForStatuses List of statuses senders' names.
@@ -617,7 +667,7 @@ void MainWindow::tweetGotohomepageAction()
     Pops up a small dialog with credits and short info on the application and its author.
 */
 
-/*! \fn void MainWindow::updateTweets()
+/*! \fn void MainWindow::updateStatuses()
     Emitted to force timeline update, assigned to pressing the update button.
 */
 
@@ -642,20 +692,20 @@ void MainWindow::tweetGotohomepageAction()
 */
 
 /*! \fn void MainWindow::addReplyString( const QString& user, int inReplyTo )
-    Works as a proxy between Tweet class instance and status edit field. Passes the request
+    Works as a proxy between StatusWidget class instance and status edit field. Passes the request
     to initiate editing a reply.
     \param user Login of a User to whom the current User replies.
     \param inReplyTo Id of the existing status to which the reply is posted.
 */
 
 /*! \fn void MainWindow::addRetweetString( QString message )
-    Works as a proxy between Tweet class instance and status edit field. Passes the request
+    Works as a proxy between StatusWidget class instance and status edit field. Passes the request
     to initiate editing a retweet.
     \param message A retweet message
 */
 
 /*! \fn void MainWindow::resizeView( int width, int oldWidth )
-    Emitted when resizing a window, to inform all the Tweets about the size change.
+    Emitted when resizing a window, to inform all the Statuses about the size change.
     \param width The width after resizing.
     \param oldWidth The width before resizing.
 */

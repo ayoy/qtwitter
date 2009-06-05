@@ -73,10 +73,10 @@ void ImageDownload::requestFinished( QNetworkReply *reply )
 
 
 /*! \class ImageDownload
-    \brief A class for downlading images for Tweets.
+    \brief A class for downlading images for Statuses.
 
     This is a class that provides interface for downloading user profile images
-    for Tweets.
+    for Statuses.
 */
 
 /*! \fn ImageDownload::ImageDownload()

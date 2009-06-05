@@ -22,6 +22,8 @@
 #define QTWITTER_H
 
 #include "mainwindow.h"
+#include <twitterapi/twitterapi_global.h>
+#include "settings.h"
 
 class Core;
 class TwitPicView;

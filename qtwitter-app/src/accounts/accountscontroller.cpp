@@ -20,7 +20,7 @@
 
 #include <QMessageBox>
 #include <qticonloader.h>
-#include <settings.h>
+#include <configfile.h>
 #include "accountsmodel.h"
 #include "accountsview.h"
 #include "accountsdelegate.h"
@@ -32,7 +32,8 @@ extern ConfigFile settings;
 AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
     QObject( parent ),
     model( new AccountsModel( this ) ),
-    ui( new Ui::Accounts )
+    ui( new Ui::Accounts ),
+    widget( widget )
 {
   ui->setupUi( widget );
   view = ui->accountsView;
@@ -42,7 +43,7 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   ui->deleteAccountButton->setIcon(QtIconLoader::icon("list-remove", QIcon(":/icons/cancel_48.png")));
   //< freedesktop experiment end
 
-  ui->publicTimelineComboBox->setCurrentIndex( settings.value( "TwitterAccounts/publicTimeline", PT_NONE ).toInt() );
+  ui->publicTimelineComboBox->setCurrentIndex( settings.value( "Accounts/publicTimeline", PT_NONE ).toInt() );
   ui->passwordsCheckBox->setChecked( settings.value( "General/savePasswords", Qt::Unchecked ).toInt() );
 
   connect( view, SIGNAL(checkBoxClicked(QModelIndex)), this, SLOT(updateCheckBox(QModelIndex)) );
@@ -56,6 +57,7 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   view->setModel( model );
   view->setItemDelegate( new AccountsDelegate( this ) );
 
+  // TODO: WTF?
   view->setColumnWidth( 0, (int)(view->width() * 0.5 ));
   view->setColumnWidth( 1, (int)(view->width() * 0.7 ));
   view->setColumnWidth( 2, (int)(view->width() * 0.8 ));
@@ -77,7 +79,7 @@ AccountsModel* AccountsController::getModel() const
 void AccountsController::loadAccounts()
 {
   model->clear();
-  settings.beginGroup( "TwitterAccounts" );
+  settings.beginGroup( "Accounts" );
   for ( int i = 0; i < settings.childGroups().count(); i++ ) {
     model->insertRow(i);
     model->account(i).isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
@@ -95,30 +97,31 @@ void AccountsController::loadAccounts()
     ui->deleteAccountButton->setEnabled( true );
   }
 }
+
 void AccountsController::updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight )
 {
   // TODO: change config file to organise accounts in an array,
-  //       i.e. "TwitterAccounts/%1/%2" with respect to view's row and column
+  //       i.e. "Accounts/%1/%2" with respect to view's row and column
   Q_UNUSED(bottomRight);
   if ( !topLeft.isValid() )
     return;
 //  updateAccountsOnExit = true;
   switch ( topLeft.column() ) {
   case AccountsModel::COL_ENABLED:
-    settings.setValue( QString("TwitterAccounts/%1/enabled").arg( topLeft.row() ), topLeft.data() );
+    settings.setValue( QString("Accounts/%1/enabled").arg( topLeft.row() ), topLeft.data() );
     return;
   case AccountsModel::COL_NETWORK:
-    settings.setValue( QString("TwitterAccounts/%1/service").arg( topLeft.row() ), topLeft.data( Qt::EditRole ) );
+    settings.setValue( QString("Accounts/%1/service").arg( topLeft.row() ), topLeft.data( Qt::EditRole ) );
     return;
   case AccountsModel::COL_LOGIN:
-    settings.setValue( QString("TwitterAccounts/%1/login").arg( topLeft.row() ), topLeft.data() );
+    settings.setValue( QString("Accounts/%1/login").arg( topLeft.row() ), topLeft.data() );
     return;
   case AccountsModel::COL_PASSWORD:
     if ( ui->passwordsCheckBox->isChecked() )
-      settings.setValue( QString("TwitterAccounts/%1/password").arg( topLeft.row() ), ConfigFile::pwHash( topLeft.data( Qt::EditRole ).toString() ) );
+      settings.setValue( QString("Accounts/%1/password").arg( topLeft.row() ), ConfigFile::pwHash( topLeft.data( Qt::EditRole ).toString() ) );
     return;
   case AccountsModel::COL_DM:
-    settings.setValue( QString("TwitterAccounts/%1/directMessages").arg( topLeft.row() ), topLeft.data() );
+    settings.setValue( QString("Accounts/%1/directMessages").arg( topLeft.row() ), topLeft.data() );
   default:
     return;
   }
@@ -139,18 +142,18 @@ void AccountsController::updateCheckBox( const QModelIndex &index )
 
 void AccountsController::updatePublicTimeline( int state )
 {
-  settings.setValue( "TwitterAccounts/publicTimeline", state );
+  settings.setValue( "Accounts/publicTimeline", state );
 }
 
 void AccountsController::togglePasswordStoring( int state )
 {
   if ( state == Qt::Checked ) {
     for ( int i = 0; i < model->rowCount(); ++i ) {
-      settings.setValue( QString( "TwitterAccounts/%1/password" ).arg(i), ConfigFile::pwHash( model->index( i, AccountsModel::COL_PASSWORD ).data( Qt::EditRole ).toString() ) );
+      settings.setValue( QString( "Accounts/%1/password" ).arg(i), ConfigFile::pwHash( model->index( i, AccountsModel::COL_PASSWORD ).data( Qt::EditRole ).toString() ) );
     }
   } else {
     for ( int i = 0; i < model->rowCount(); ++i ) {
-      settings.remove( QString( "TwitterAccounts/%1/password" ).arg(i) );
+      settings.remove( QString( "Accounts/%1/password" ).arg(i) );
     }
   }
   settings.setValue( "General/savePasswords", state );
@@ -158,9 +161,11 @@ void AccountsController::togglePasswordStoring( int state )
 
 void AccountsController::showPasswordDisclaimer()
 {
-  QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Password security" ), tr( "Please note:" ), QMessageBox::Ok );
-  messageBox->setInformativeText( tr( "Although passwords are stored as human unreadable data, they can be easily decoded using the application's source code, which is publicly available. You have been warned." ) );
-  messageBox->exec();
+  QMessageBox messageBox( QMessageBox::Warning, tr( "Password security" ), tr( "Please note:" ), QMessageBox::Ok );
+  messageBox.setInformativeText( tr( "Although passwords are stored as human unreadable data, "
+                                     "they can be easily decoded using the application's source code, "
+                                     "which is publicly available. You have been warned." ) );
+  messageBox.exec();
 }
 
 void AccountsController::addAccount()
@@ -190,7 +195,7 @@ void AccountsController::setAccountEnabled( bool state )
   if ( !view->selectionModel()->currentIndex().isValid() )
     return;
   model->account( view->currentIndex().row() ).isEnabled = state;
-  settings.setValue( QString("TwitterAccounts/%1/enabled").arg( view->currentIndex().row() ), state );
+  settings.setValue( QString("Accounts/%1/enabled").arg( view->currentIndex().row() ), state );
 }
 
 void AccountsController::setAccountDM( bool state )
@@ -198,5 +203,12 @@ void AccountsController::setAccountDM( bool state )
   if ( !view->selectionModel()->currentIndex().isValid() )
     return;
   model->account( view->currentIndex().row() ).directMessages = state;
-  settings.setValue( QString("TwitterAccounts/%1/directmsgs").arg( view->currentIndex().row() ), state );
+  settings.setValue( QString("Accounts/%1/directmsgs").arg( view->currentIndex().row() ), state );
+}
+
+void AccountsController::retranslateUi()
+{
+  if ( widget ) {
+    ui->retranslateUi( widget );
+  }
 }

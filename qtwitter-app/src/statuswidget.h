@@ -18,61 +18,72 @@
  ***************************************************************************/
 
 
-#ifndef TWEET_H
-#define TWEET_H
+#ifndef STATUSWIDGET_H
+#define STATUSWIDGET_H
 
 #include <QtGui/QWidget>
-#include "tweetmodel.h"
+#include "statusmodel.h"
 
 class QMenu;
 class QSignalMapper;
-class TweetModel;
+class StatusModel;
 class Entry;
 class ThemeData;
+class Status;
 
 namespace Ui {
-    class Tweet;
+    class StatusWidget;
 }
 
-class Tweet : public QWidget
+class StatusWidget : public QWidget
 {
   Q_OBJECT
-  Q_DISABLE_COPY( Tweet )
+  Q_DISABLE_COPY( StatusWidget )
 
 public:
 
-  explicit Tweet( Entry *entry, TweetModel::TweetState *state, const QPixmap &image, TweetModel *parentModel, QWidget *parent = 0 );
-  virtual ~Tweet();
+  explicit StatusWidget( StatusModel *parentModel, QWidget *parent = 0 );
+  virtual ~StatusWidget();
 
   const Entry& data() const;
   void resize( const QSize& size );
   void resize( int w, int h );
 
-  void setTweetData( Entry *entry, TweetModel::TweetState *state );
-  void setIcon( const QPixmap &image );
-  void applyTheme();
-  void retranslateUi();
+  void initialize();
+  void setStatusData( const Status &status );
+  void setImage( const QPixmap &pixmap );
+  void setState( StatusModel::StatusState state );
+  StatusModel::StatusState getState() const;
 
-  bool isRead() const;
-  TweetModel::TweetState getState() const;
-  void setState( TweetModel::TweetState state );
   static ThemeData getTheme();
   static void setTheme( const ThemeData &theme );
 
+  void applyTheme();
+  void retranslateUi();
+
+  int getId() const;
+
+  static void setScrollBarWidth( int width );
+  static void setCurrentWidth( int width );
+  static void setCurrentLogin( const QString &login );
+  static void setCurrentNetwork( TwitterAPI::SocialNetwork network );
+
 public slots:
-  void adjustSize();
-  void menuRequested();
   void slotReply();
   void slotRetweet();
+  void slotDM();
   void slotCopyLink();
   void slotDelete();
+  void slotFavorite();
+  void adjustSize();
 
 signals:
   void reply( const QString &name, int inReplyTo );
   void retweet( QString message );
   void markAllAsRead();
-  void selectMe( Tweet *tweet );
+  void selectMe( StatusWidget *status );
   void deleteStatus( int id );
+  void getUserInfo( int userId);
 
 protected:
   void changeEvent( QEvent *e );
@@ -82,23 +93,37 @@ protected:
 
 private slots:
   void focusRequest();
+  void handleReplyDeleteButton();
 
 private:
   void createMenu();
+  void setupMenu();
   QMenu *menu;
+
   QAction *replyAction;
   QAction *retweetAction;
+  QAction *dmAction;
   QAction *copylinkAction;
   QAction *markallasreadAction;
+  QAction *markeverythingasreadAction;
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;
-  TweetModel::TweetState *tweetState;
-  Entry *tweetData;
-  QSignalMapper *signalMapper;
+  QAction *favoriteAction;
+
+  StatusModel::StatusState statusState;
+  const Entry *statusData;
+
+  static int scrollBarWidth;
+  static int currentWidth;
   static ThemeData currentTheme;
-  TweetModel *tweetListModel;
-  Ui::Tweet *m_ui;
+  static QString currentLogin;
+  static TwitterAPI::SocialNetwork currentNetwork;
+  static StatusWidget *activeStatus;
+
+  QSignalMapper *signalMapper;
+  StatusModel *statusListModel;
+  Ui::StatusWidget *m_ui;
 };
 
-#endif // TWEET_H
+#endif // STATUSWIDGET_H

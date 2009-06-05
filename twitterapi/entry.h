@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This library is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -24,6 +25,7 @@
 #include <QMetaType>
 #include <QDateTime>
 #include "twitterapi_global.h"
+#include "userinfo.h"
 
 
 struct TWITTERAPI_EXPORT Entry
@@ -38,18 +40,20 @@ struct TWITTERAPI_EXPORT Entry
   void initialize();
   bool checkContents();
 
+  bool operator == ( const Entry &other );
+
   Type type;
   bool isOwn;
   int id;
   QString text;
   QString originalText;
-  QString name;
-  QString login;
-  QString image;
-  QString homepage;
-  bool hasHomepage;
   QDateTime timestamp;
   QDateTime localTime;
+  bool hasInReplyToStatusId;
+  int inReplyToStatusId;
+  QString inReplyToScreenName;
+  bool favorited;
+  UserInfo userInfo;
 };
 
 Q_DECLARE_METATYPE(Entry)

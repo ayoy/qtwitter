@@ -18,52 +18,41 @@
  ***************************************************************************/
 
 
-#ifndef STATUSTEXTEDIT_H
-#define STATUSTEXTEDIT_H
+#ifndef USERINFOBUTTON_H
+#define USERINFOBUTTON_H
 
-#include <QPlainTextEdit>
+#include <QPushButton>
+class Status;
 
-class StatusTextEdit : public QPlainTextEdit
+class QWidget;
+
+class UserInfoPopup;
+
+class UserInfoButton : public QPushButton
 {
   Q_OBJECT
-public:
-  StatusTextEdit( QWidget *parent = 0 ) : QPlainTextEdit( parent ) {}
 
-signals:
-  void enterPressed();
+  Q_PROPERTY( bool popupActive READ isPopupActive )
+
+public:
+  UserInfoButton( QWidget *parent = 0 );
+  bool isPopupActive() const;
+  void setData( const Status *status );
 
 protected:
-  void keyPressEvent( QKeyEvent *e )
-  {
-    if ( e->key() == Qt::Key_Tab || e->key() == Qt::Key_Backtab ) {
-      clearFocus();
-      return;
-    }
-    if ( e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return ) {
-      emit enterPressed();
-      return;
-    }
-    QPlainTextEdit::keyPressEvent( e );
-  }
+  void enterEvent( QEvent *event );
+  void leaveEvent( QEvent *event );
+
+private slots:
+  void destroyPopup();
+  void showPopup();
+
+private:
+  UserInfoPopup *userInfo;
+  QTimer *timer;
+  bool active;
+  const Status *status;
 
 };
 
-#endif // STATUSTEXTEDIT_H
-
-
-/*! \class StatusTextEdit
-    \brief A customized QPlainTextEdit class.
-
-    This class is used by TwitPicView to handle input of the user's message
-    added to the uploaded photo. Derives from QPlainTextEdit and reimplements
-    keyPressEvent in order to provide focus switching with Tab and Backtab.
-*/
-
-/*! \fn StatusTextEdit::StatusTextEdit( QWidget *parent = 0 )
-    Creates a text edit with a given \a parent.
-*/
-
-/*! \fn void StatusTextEdit::keyPressEvent( QKeyEvent *e )
-    Reimplemented from QPlainTextEdit to enable switching focus using Tab
-    and Backtab keys.
-*/
+#endif // USERINFOBUTTON_H

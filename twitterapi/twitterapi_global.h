@@ -45,7 +45,15 @@ namespace TwitterAPI {
     ROLE_POST_UPDATE,
     ROLE_DELETE_UPDATE,
     ROLE_POST_DM,
-    ROLE_DELETE_DM
+    ROLE_DELETE_DM,
+    ROLE_FAVORITES_CREATE,
+    ROLE_FAVORITES_DESTROY
+  };
+
+  enum ErrorCode {
+    ERROR_NO_ERROR = 0,
+    ERROR_DM_NOT_ALLOWED,
+    ERROR_DM_USER_NOT_FOUND
   };
 
   /*!

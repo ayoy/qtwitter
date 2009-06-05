@@ -19,9 +19,7 @@
 
 
 #include <QApplication>
-#include <QDir>
 #include "qtwitter.h"
-#include "settings.h"
 
 int main( int argc, char **argv )
 {

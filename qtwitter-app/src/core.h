@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 200AccountsDelegate-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
  *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -22,24 +22,20 @@
 #ifndef CORE_H
 #define CORE_H
 
-#include <QStandardItemModel>
-#include <QAuthenticator>
 #include <QTimer>
 #include <QMap>
 #include <QCache>
 #include <twitterapi/twitterapi.h>
 #include "accountsmodel.h"
+#include "statuslist.h"
 
 class QAbstractItemModel;
 class MainWindow;
 class ImageDownload;
 class TwitPicEngine;
-class TweetModel;
+class StatusModel;
 class ThemeData;
-// TODO: put Account in a separate header file
-//class Account;
-//class AccountsModel;
-class StatusList;
+class StatusListView;
 class UrlShortener;
 class AccountsController;
 
@@ -66,23 +62,27 @@ public:
 #endif
 
   void setModelTheme( const ThemeData &theme );
-  TweetModel* getModel( TwitterAPI::SocialNetwork network, const QString &login );
-  TweetModel* getPublicTimelineModel( TwitterAPI::SocialNetwork network );
+  void setModelData( TwitterAPI::SocialNetwork network, const QString &login );
+
+  void setSettingsOpen( bool open );
 
 public slots:
   void forceGet();
   void get();
   void get( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void post( TwitterAPI::SocialNetwork network, const QString &login, const QString &status, int inReplyTo );
-  void destroyTweet( TwitterAPI::SocialNetwork network, const QString &login, int id );
+  void destroy( TwitterAPI::SocialNetwork network, const QString &login, int id, Entry::Type type );
+  void favoriteRequest( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited );
+  void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName, const QString &text );
 
   void uploadPhoto( const QString &login, QString photoPath, QString status );
   void abortUploadPhoto();
   void twitPicResponse( bool responseStatus, QString message, bool newStatus );
 
   void openBrowser( QUrl address );
-  AuthDialogState authDataDialog( Account *account );
   void shortenUrl( const QString &url );
+  void resetRequestsCount();
+
 
   void retranslateUi();
 
@@ -91,16 +91,16 @@ signals:
   void errorMessage( const QString &message );
   void twitPicResponseReceived();
   void twitPicDataSendProgress(int,int);
-  void setImageForUrl( const QString& url, QPixmap *image );
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void requestStarted();
-  void allRequestsFinished();
   void resetUi();
+  void pauseIcon();
   void timelineUpdated();
   void directMessagesSyncChanged( bool b );
-  void modelChanged( TweetModel *model );
+  void modelChanged( StatusModel *model );
   void addReplyString( const QString &user, int id );
   void addRetweetString( QString message );
+  void confirmDMSent( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
   void about();
   void sendNewsReport( QString message );
   void resizeData( int width, int oldWidth );
@@ -111,23 +111,36 @@ private slots:
   void createAccounts( QWidget *view );
   void addEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
   void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, int id );
+  void setFavorited( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited = true );
+
+  void postDMDialog( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName );
+  AuthDialogState authDataDialog( Account *account );
+
+  void setImageForUrl( const QString& url, QPixmap *image );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
   void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId );
-  void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId );
+  void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text );
+  void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId, Entry::Type type );
   void slotNewRequest();
   void slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );
-  void storeNewTweets( const QString &login, bool exists );
+
+  void setWaitForAccounts( bool wait );
+  void markEverythingAsRead();
 
 private:
-  void sendNewsInfo();
-  void setupTweetModels();
-  void createConnectionsWithModel( TweetModel *model );
+  void setupStatusLists();
+  void checkUnreadStatuses();
   bool retryAuthorizing( Account *account, int role );
   bool authDialogOpen;
   int publicTimeline;
   int requestCount;
   int tempModelCount;
-  QStringList newTweets;
+
+  bool waitForAccounts;
+  bool settingsOpen;
+  bool checkForNew;
+
+  TwitterAPIInterface *twitterapi;
 
   TwitPicEngine *twitpicUpload;
   UrlShortener *urlShortener;
@@ -136,13 +149,14 @@ private:
 
   AccountsController *accounts;
   AccountsModel *accountsModel;
-  TwitterAPIInterface *twitterapi;
-  QMap<Account,TweetModel*> tweetModels;
-  QTimer *timer;
 
-  StatusList *listViewForModels;
+  StatusModel *statusModel;
+  StatusListView *listViewForModels;
+
+  QMap<Account,StatusList*> statusLists;
+
+  QTimer *timer;
   MainWindow *parentMainWindow;
-  int margin;
 
 #ifdef Q_WS_X11
   QString browserPath;

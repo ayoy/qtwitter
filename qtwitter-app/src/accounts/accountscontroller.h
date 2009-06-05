@@ -50,6 +50,10 @@ public:
 
 public slots:
   void loadAccounts();
+  void retranslateUi();
+
+signals:
+  void comboActive( bool isActive );
 
 private slots:
   void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
@@ -63,9 +67,14 @@ private slots:
 private:
   void setAccountEnabled( bool state );
   void setAccountDM( bool state );
+
   AccountsModel *model;
   AccountsView *view;
   Ui::Accounts *ui;
+
+  QWidget *widget;
+
+  friend class AccountsDelegate;
 };
 
 #endif // ACCOUNTSCONTROLLER_H

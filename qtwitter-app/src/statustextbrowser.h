@@ -18,19 +18,19 @@
  ***************************************************************************/
 
 
-#ifndef TWEETTEXTBROWSER_H
-#define TWEETTEXTBROWSER_H
+#ifndef STATUSTEXTBROWSER_H
+#define STATUSTEXTBROWSER_H
 
 #include <QTextBrowser>
 #include <QMenu>
 #include <QKeyEvent>
 
 
-class TweetTextBrowser : public QTextBrowser
+class StatusTextBrowser : public QTextBrowser
 {
   Q_OBJECT
 public:
-  TweetTextBrowser( QWidget *parent = 0 ) :
+  StatusTextBrowser( QWidget *parent = 0 ) :
       QTextBrowser( parent )
   {}
 
@@ -44,9 +44,13 @@ public:
   void contextMenuEvent( QContextMenuEvent *e )
   {
     Q_UNUSED(e);
+
+    if ( toPlainText().isEmpty() )
+      return;
+
     QMenu *menu = createStandardContextMenu( QCursor::pos() );
     menu->addSeparator();
-    menu->addActions( tweetMenu->actions() );
+    menu->addActions( statusMenu->actions() );
     menu->exec( QCursor::pos() );
     delete menu;
   }
@@ -57,46 +61,46 @@ public:
     e->ignore();
   }
 
-  void setMenu( QMenu *tweetMenu )
+  void setMenu( QMenu *statusMenu )
   {
-    this->tweetMenu = tweetMenu;
+    this->statusMenu = statusMenu;
   }
 
 signals:
   void mousePressed();
 
 private:
-  QMenu *tweetMenu;
+  QMenu *statusMenu;
 
 };
 
-#endif // TWEETTEXTBROWSER_H
+#endif // STATUSTEXTBROWSER_H
 
-/*! \class TweetTextBrowser
+/*! \class StatusTextBrowser
     \brief A customized QTextBrowser class.
 
     This class inherits QTextBrowser and provides signalling for mouse press events
     and ignoring key press events.
 */
 
-/*! \fn TweetTextBrowser::TweetTextBrowser( QWidget *parent = 0 )
+/*! \fn StatusTextBrowser::StatusTextBrowser( QWidget *parent = 0 )
     Creates a new text browser widget with a given \a parent.
     \param parent The widget's parent.
 */
 
-/*! \fn void TweetTextBrowser::mousePressEvent ( QMouseEvent * e )
+/*! \fn void StatusTextBrowser::mousePressEvent ( QMouseEvent * e )
     Customized to emit \ref mousePressed() on every mouse press event.
     \param e A QMouseEvent event's representation.
     \sa mousePressed()
 */
 
-/*! \fn void TweetTextBrowser::keyPressEvent( QKeyEvent *e )
+/*! \fn void StatusTextBrowser::keyPressEvent( QKeyEvent *e )
     Customized to ignore all the key press events, so that they could be
     passed on to the parent widget.
     \param e A QKeyEvent event's representation.
 */
 
-/*! \fn void TweetTextBrowser::mousePressed()
+/*! \fn void StatusTextBrowser::mousePressed()
     Emitted when a widget receives a mouse press event.
     \sa mousePressEvent()
 */

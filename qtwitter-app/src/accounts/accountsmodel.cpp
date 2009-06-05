@@ -19,8 +19,10 @@
 
 
 #include <QStringList>
+#include <configfile.h>
 #include "accountsmodel.h"
-#include "settings.h"
+
+extern ConfigFile settings;
 
 AccountsModel::AccountsModel( QObject *parent ) : QAbstractItemModel( parent )
 {
@@ -83,7 +85,11 @@ QVariant AccountsModel::data( const QModelIndex &index, int role ) const
     break;
   case COL_PASSWORD:
     if ( role == Qt::DisplayRole )
+#ifdef Q_WS_HILDON
+      return QString( accounts.at( index.row() ).password.length(), '*' );
+#else
       return QString( accounts.at( index.row() ).password.length(), QChar(0x25cf) );
+#endif
     if ( role == Qt::EditRole )
       return accounts.at( index.row() ).password;
     break;
@@ -195,7 +201,30 @@ void AccountsModel::clear()
     removeRows( 0, accounts.size() );
 }
 
-QList<Account>& AccountsModel::getAccounts()
+void AccountsModel::cleanUp()
+{
+  bool nextMeansDoubled;
+  for ( int i = 0; i < accounts.size(); ++i ) {
+    nextMeansDoubled = false;
+
+    for ( int j = i + 1; j < accounts.size(); ) {
+      if ( accounts.at(i).network == accounts.at(j).network &&
+           accounts.at(i).login == accounts.at(j).login ) {
+
+        if ( accounts.at(j).isEnabled || accounts.at(i).isEnabled ) {
+          accounts[i].isEnabled = true;
+        }
+        removeRow( j );
+        settings.deleteAccount( j, rowCount() );
+
+      } else {
+        j++;
+      }
+    } //for
+  } //for
+}
+
+QList<Account> AccountsModel::getAccounts()
 {
   return accounts;
 }

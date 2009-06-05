@@ -4,12 +4,72 @@ TARGET = qtwitter
 # sets the TOP variable to the root source code dir
 include(../qtwitter.pri)
 DESTDIR = $${TOP}
-
 include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
 include(src/accounts/accounts.pri)
 include(src/qticonloader/qticonloader.pri)
-
+QT += network \
+    xml
+SOURCES += src/main.cpp \
+    src/mainwindow.cpp \
+    src/statusedit.cpp \
+    src/imagedownload.cpp \
+    src/core.cpp \
+    src/settings.cpp \
+    src/statuswidget.cpp \
+    src/statusmodel.cpp \
+    src/twitpicview.cpp \
+    src/twitpicengine.cpp \
+    src/qtwitter.cpp \
+    src/aboutdialog.cpp \
+    src/statuslist.cpp \
+    src/userinfobutton.cpp \
+    src/userinfopopup.cpp \
+    src/dmdialog.cpp \
+    src/configfile.cpp
+HEADERS += src/mainwindow.h \
+    src/statusedit.h \
+    src/imagedownload.h \
+    src/core.h \
+    src/settings.h \
+    src/statuswidget.h \
+    src/statusmodel.h \
+    src/statustextbrowser.h \
+    src/statuslistview.h \
+    src/twitpicview.h \
+    src/twitpicengine.h \
+    src/twitpictextedit.h \
+    src/qtwitter.h \
+    src/aboutdialog.h \
+    src/statuslist.h \
+    src/userinfobutton.h \
+    src/userinfopopup.h \
+    src/dmdialog.h \
+    src/configfile.h
+FORMS += ui/mainwindow.ui \
+    ui/authdialog.ui \
+    ui/settings.ui \
+    ui/statuswidget.ui \
+    ui/aboutdialog.ui \
+    ui/twitpicview.ui \
+    ui/twitpicnewphoto.ui \
+    ui/userinfopopup.ui \
+    ui/dmdialog.ui
+linux-*:RESOURCES = res/resources_x11.qrc
+else:RESOURCES = res/resources.qrc
+TRANSLATIONS += loc/qtwitter_pl.ts \
+    loc/qtwitter_ca.ts \
+    loc/qtwitter_de.ts \
+    loc/qtwitter_es.ts \
+    loc/qtwitter_jp.ts \
+    loc/qtwitter_fr.ts
+UI_DIR = tmp
+MOC_DIR = tmp
+RCC_DIR = tmp
+OBJECTS_DIR = tmp
+INCLUDEPATH += $${TOP} \
+    src \
+    tmp
 macx { 
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
@@ -21,9 +81,10 @@ macx {
 }
 else:unix { 
     LIBS += -L$${TOP} \
+        -Wl,-rpath,$${TOP} \
         $$TWITTERAPI_LIB \
-        $$URLSHORTENER_LIB \
-        -Wl,-rpath,$${TOP}
+        $$URLSHORTENER_LIB
+        
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
@@ -31,6 +92,12 @@ else:unix {
     doc.files = ../CHANGELOG \
         ../README \
         ../LICENSE
+    SHARE_DIR = $${INSTALL_PREFIX}/share/$${TARGET}
+    DEFINES += SHARE_DIR=\"\\\"$${SHARE_DIR}\\\"\"
+    translations.path = $${SHARE_DIR}/loc
+    translations.files = $${TRANSLATIONS}
+    translations.files ~= s/\.ts/.qm/g
+    translations.files ~= s!^loc!res/loc!g
     icons.path = $${INSTALL_PREFIX}/share/icons/scalable/apps
     icons.files = x11/icons/scalable/qtwitter.svg
     icons16.path = $${INSTALL_PREFIX}/share/icons/hicolor/16x16/apps
@@ -51,6 +118,7 @@ else:unix {
     desktop.files = x11/qtwitter.desktop
     INSTALLS += target \
         doc \
+        translations \
         icons \
         icons16 \
         icons22 \
@@ -67,53 +135,3 @@ else:win32 {
         $$TWITTERAPI_LIB \
         $$URLSHORTENER_LIB
 }
-
-SOURCES += src/main.cpp \
-    src/mainwindow.cpp \
-    src/statusedit.cpp \
-    src/imagedownload.cpp \
-    src/core.cpp \
-    src/settings.cpp \
-    src/tweet.cpp \
-    src/tweetmodel.cpp \
-    src/twitpicview.cpp \
-    src/twitpicengine.cpp \
-    src/qtwitter.cpp \
-    src/aboutdialog.cpp
-HEADERS += src/mainwindow.h \
-    src/statusedit.h \
-    src/imagedownload.h \
-    src/core.h \
-    src/settings.h \
-    src/tweet.h \
-    src/tweetmodel.h \
-    src/tweettextbrowser.h \
-    src/statuslist.h \
-    src/twitpicview.h \
-    src/twitpicengine.h \
-    src/statustextedit.h \
-    src/qtwitter.h \
-    src/aboutdialog.h
-FORMS += ui/mainwindow.ui \
-    ui/authdialog.ui \
-    ui/settings.ui \
-    ui/tweet.ui \
-    ui/aboutdialog.ui \
-    ui/twitpicview.ui \
-    ui/twitpicnewphoto.ui
-RESOURCES += res/resources.qrc
-QT += network \
-    xml
-TRANSLATIONS += loc/qtwitter_pl.ts \
-    loc/qtwitter_ca.ts \
-    loc/qtwitter_de.ts \
-    loc/qtwitter_es.ts \
-    loc/qtwitter_jp.ts \
-    loc/qtwitter_fr.ts
-UI_DIR = tmp
-MOC_DIR = tmp
-RCC_DIR = tmp
-OBJECTS_DIR = tmp
-INCLUDEPATH += $${TOP} \
-    src \
-    tmp

@@ -1,147 +1,245 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.0" language="ca">
-<defaultcodec></defaultcodec>
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="26"/>
+        <location filename="../ui/aboutdialog.ui"/>
         <source>About qTwitter</source>
         <translation>Sobre qTwitter</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="97"/>
+        <location/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="181"/>
+        <location/>
         <source>Authors</source>
         <translation>Autors</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="265"/>
+        <location/>
         <source>Credits</source>
         <translation>Crèdits</translation>
     </message>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="367"/>
+        <location/>
         <source>Close</source>
-        <translation>Tanca</translation>
+        <translation>Tancar</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="57"/>
         <source>Development team as for 0.6.0:</source>
-        <translation>Equip de desenvolupament de 0.6.0:</translation>
+        <translation type="obsolete">Equip de desenvolupament de 0.6.0:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="59"/>
+        <location filename="../src/aboutdialog.cpp" line="+59"/>
         <source>Application concept and main development</source>
         <translation>La idea d&apos;aplicació i desenvolupament principal</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="60"/>
+        <location line="+1"/>
+        <source>API library improvements and themes revisiting</source>
+        <translation>Milloraments en la biblioteca de API i actualització de temes</translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>URL shortening services support</source>
         <translation>Suport per escurçament d&apos;enllaços</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="61"/>
         <source>Visual aspects of internationalization</source>
-        <translation>Ajuda per visualització de textos traduïts</translation>
+        <translation type="obsolete">Ajuda per visualització de textos traduïts</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="64"/>
+        <location line="+4"/>
         <source>Translations:</source>
         <translation>Traduccions:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="67"/>
+        <location line="+3"/>
         <source>French translation</source>
         <translation>Traducció francesa</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="68"/>
+        <location line="+1"/>
         <source>German translation</source>
         <translation>Traducció alemana</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="69"/>
+        <location line="+1"/>
         <source>Japanese translation</source>
         <translation>Traducció japonesa</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="70"/>
+        <location line="+1"/>
         <source>Polish, Spanish and Catalan translation</source>
         <translation>Traducció polonesa, espanyola i catalana</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="88"/>
+        <location line="+18"/>
         <source>qTwitter icon design by %1</source>
         <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
         <translation>La icona de qTwitter per %1</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="91"/>
+        <location line="+3"/>
         <source>Other icons by %1</source>
         <extracomment>Other icons by wefunction.com</extracomment>
         <translation>Altres icones per %1</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="114"/>
+        <location line="+23"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - el client Qt de Twitter&lt;/p&gt;&lt;p&gt;versió %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distribuint sota la llicència LGPL&lt;/p&gt;&lt;p&gt;versió 2.1 o posteriores&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="94"/>
+        <location line="-20"/>
         <source>Testing:</source>
         <translation>Evaluació:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="99"/>
+        <location line="-38"/>
+        <source>Development team as for 0.7.0:</source>
+        <translation>Equip de desenvolupament de 0.7.0:</translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>Porting to Maemo platform</source>
+        <translation>Porting a la plataforma Maemo</translation>
+    </message>
+    <message>
+        <location line="+38"/>
         <source>Releasing:</source>
         <translation>Llançament:</translation>
     </message>
 </context>
 <context>
+    <name>Accounts</name>
+    <message>
+        <location filename="../src/accounts/accounts.ui"/>
+        <source>public timeline:</source>
+        <translation>llista pública:</translation>
+    </message>
+    <message>
+        <location/>
+        <source>None</source>
+        <translation>Cap</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Twitter</source>
+        <translation>Twitter</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Identi.ca</source>
+        <translation>Identi.ca</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Both</source>
+        <translation>Dues</translation>
+    </message>
+    <message>
+        <location/>
+        <source>store passwords on disk</source>
+        <translation>desar les contrasenyes al disc</translation>
+    </message>
+</context>
+<context>
+    <name>AccountsController</name>
+    <message>
+        <location filename="../src/accounts/accountscontroller.cpp" line="+164"/>
+        <source>Password security</source>
+        <translation>Nota de seguretat</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Please note:</source>
+        <translation>Tingui en compte:</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Although passwords are stored as human unreadable data, they can be easily decoded using the application&apos;s source code, which is publicly available. You have been warned.</source>
+        <translation>Encara que les contrasenyes són desades com a dades il legibles per als humans, es pot decodificar-les fàcilment usant el codi font de l&apos;aplicació, que està obert i disponible públicament. Vostè ha estat advertit.</translation>
+    </message>
+</context>
+<context>
+    <name>AccountsModel</name>
+    <message>
+        <location filename="../src/accounts/accountsmodel.cpp" line="+111"/>
+        <source>Enabled</source>
+        <translation>Habilitat</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Service</source>
+        <extracomment>&quot;Service&quot;, i.e. Twitter or Identi.ca</extracomment>
+        <translation>Servei</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Login</source>
+        <translation>Usuari</translation>
+    </message>
+    <message>
+        <location line="+2"/>
+        <source>Password</source>
+        <translation>Contrasenya</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Direct msgs</source>
+        <extracomment>This should be as short as possible (e.g. PW in Polish)</extracomment>
+        <translation>Missatges privats</translation>
+    </message>
+    <message>
+        <location line="+136"/>
+        <source>&lt;empty&gt;</source>
+        <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
+        <translation>&lt;buit&gt;</translation>
+    </message>
+</context>
+<context>
     <name>AuthDialog</name>
     <message>
-        <location filename="../ui/authdialog.ui" line="32"/>
+        <location filename="../ui/authdialog.ui"/>
         <source>Authentication required</source>
         <translation>Autenticació necessitada</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="65"/>
+        <location/>
         <source>The credentials you provided are incorrect</source>
-        <translation>Les dades d&apos;autenticació son incorrectes</translation>
+        <translation>Les dades d&apos;autenticació són incorrectes</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="78"/>
+        <location/>
         <source>Username:</source>
         <translation>Nom d&apos;usuari:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="108"/>
+        <location/>
         <source>Password:</source>
         <translation>Contrasenya:</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="154"/>
+        <location/>
         <source>disable account</source>
         <translation>desactivar el compte</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="157"/>
-        <location filename="../ui/authdialog.ui" line="167"/>
+        <location/>
         <source>buttonGroup</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="164"/>
+        <location/>
         <source>remove account</source>
         <translation>suprimir el compte</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="144"/>
+        <location/>
         <source>or</source>
         <translation>o</translation>
     </message>
@@ -149,100 +247,263 @@
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="309"/>
+        <location filename="../src/core.cpp" line="+267"/>
+        <source>Are you sure to delete this status?</source>
+        <translation>Esteu segur de suprimir aquest missatge?</translation>
+    </message>
+    <message>
+        <location line="+109"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;buit&gt;</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="468"/>
+        <location line="+230"/>
+        <source>Authentication is required to send direct messages.</source>
+        <translation>Verificació és requerida per a enviar missatges.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <source>Authentication is required to delete updates.</source>
         <translation>Verificació és requerida per a suprimir les seves actualitzacions.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="472"/>
+        <location line="+7"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>Autenticació és requerida per a obtenir les actualitzacions dels teus amics.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="522"/>
-        <source>and</source>
-        <translation>i</translation>
+        <location line="+69"/>
+        <source>For:
+%1</source>
+        <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
+        <translation>Per a:
+%1</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="466"/>
+        <source>and</source>
+        <translation type="obsolete">i</translation>
+    </message>
+    <message>
+        <location line="-82"/>
         <source>Authentication is required to post updates.</source>
         <translation>Es requereix autenticació per a publicar les seves actualitzacions.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="217"/>
+        <location line="-337"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation>Estàs segur?</translation>
+        <translation>Esteu segur?</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="218"/>
         <source>Are you sure to delete this tweet?</source>
-        <translation>Estàs segur de suprimir aquesta missatge?</translation>
+        <translation type="obsolete">Estàs segur de suprimir aquesta missatge?</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="251"/>
+        <location line="+60"/>
         <source>There was a problem uploading your photo:</source>
-        <translation>Ha estat un problema de carregament el teu foto:</translation>
+        <translation>Ha estat un problema de carregament el seu foto:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="262"/>
+        <location line="+11"/>
         <source>Photo available at:</source>
         <translation>Foto disponible a:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="523"/>
+        <location line="+300"/>
+        <source>Warning</source>
+        <translation>Atenció</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
+        <translation>Una o més peticions no s&apos;ha completat. Comproveu la seva connexió i/o configuració dels comptes.</translation>
+    </message>
+    <message>
+        <location line="+43"/>
         <source>For %1</source>
+        <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
         <translation>Per a %1</translation>
+    </message>
+</context>
+<context>
+    <name>DMDialog</name>
+    <message>
+        <location filename="../src/dmdialog.cpp" line="+53"/>
+        <source>Direct message %1</source>
+        <translation>Escriu un missatge a %1</translation>
+    </message>
+    <message numerus="yes">
+        <location line="+35"/>
+        <source>%n character over the limit</source>
+        <translation>
+            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
+            <numerusform>Hi ha %n caràcters més enllà del limit</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+2"/>
+        <source>%n characters over the limit</source>
+        <translation>
+            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
+            <numerusform>Hi ha%n caràcters més enllà del limit</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+4"/>
+        <source>%n character left</source>
+        <translation>
+            <numerusform>%n caràcter disponible</numerusform>
+            <numerusform>%n caràcters disponibles</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="-46"/>
+        <location line="+48"/>
+        <source>%n characters left</source>
+        <translation>
+            <numerusform>%n caràcter disponible</numerusform>
+            <numerusform>%n caràcters disponibles</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Message too long</source>
+        <translation>El missatge és massa llarg</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Your message is too long.</source>
+        <translation>El seu missatge és massa llarg.</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Cool</source>
+        <translation>Bé</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Oops...</source>
+        <translation>Ai!</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>You can still post it like this, but it will be truncated.</source>
+        <translation>Seguiu podent pujar-lo com aixi, però el serà truncat.</translation>
+    </message>
+    <message>
+        <location line="+12"/>
+        <source>Sending...</source>
+        <translation>Enviant...</translation>
+    </message>
+    <message>
+        <location line="+18"/>
+        <source>Message sent!</source>
+        <translation>S&apos;ha enviat el missatge!</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Message sending failed. Note that you cannot send a message to a user that doesn&apos;t follow you.</source>
+        <translation>No és pot enviar el missatge. Recordeu que no és pot enviar els missatges als usuaris que no són els seus amics.</translation>
+    </message>
+    <message>
+        <location filename="../ui/dmdialog.ui"/>
+        <source>Direct Message</source>
+        <translation>El missatge privat</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Write your message:</source>
+        <translation>Escriu un missatge:</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Reset</source>
+        <translation>De nou</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Close</source>
+        <translation>Tancar</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Send</source>
+        <translation>Enviar</translation>
     </message>
 </context>
 <context>
     <name>ImageDownload</name>
     <message>
-        <location filename="../src/imagedownload.cpp" line="91"/>
         <source>Download failed:</source>
-        <translation>Error de baixada:</translation>
+        <translation type="obsolete">Error de baixada:</translation>
     </message>
 </context>
 <context>
     <name>IsGdShortener</name>
     <message>
-        <location filename="../src/urlshortener.cpp" line="63"/>
+        <source>The URL entered was not valid.</source>
+        <translation type="obsolete">La URL introduida no és vàlida.</translation>
+    </message>
+    <message>
+        <source>The URL entered was too long.</source>
+        <translation type="obsolete">La URL introduïda és massa llarga.</translation>
+    </message>
+    <message>
+        <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
+        <translation type="obsolete">La seva adreça IP és a la llista negre de Spamhaus (SBL/XBL) o Spamcop.</translation>
+    </message>
+    <message>
+        <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
+        <translation type="obsolete">La URL introduïda semble una pàgina web de spam i és a la llista negre de SURBL o URIBL.</translation>
+    </message>
+    <message>
+        <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
+        <translation type="obsolete">La URL introduïda és a la llista negre de is.gd (enllaços a serveis d&apos;escurçament de URLs o a is.gd en si mateix són deshabilitats).</translation>
+    </message>
+    <message>
+        <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
+        <translation type="obsolete">La seva adreça IP és barrada per is.gd (normalment això és una conseqüencia de violació de les seves condicions d&apos;us).</translation>
+    </message>
+    <message>
+        <source>An unknown error occurred when shortening your URL.</source>
+        <translation type="obsolete">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+    </message>
+</context>
+<context>
+    <name>IsgdShortener</name>
+    <message>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+62"/>
         <source>The URL entered was not valid.</source>
         <translation>La URL introduida no és vàlida.</translation>
     </message>
     <message>
-        <location filename="../src/urlshortener.cpp" line="65"/>
+        <location line="+2"/>
         <source>The URL entered was too long.</source>
         <translation>La URL introduïda és massa llarga.</translation>
     </message>
     <message>
-        <location filename="../src/urlshortener.cpp" line="67"/>
+        <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
         <translation>La seva adreça IP és a la llista negre de Spamhaus (SBL/XBL) o Spamcop.</translation>
     </message>
     <message>
-        <location filename="../src/urlshortener.cpp" line="69"/>
+        <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
         <translation>La URL introduïda semble una pàgina web de spam i és a la llista negre de SURBL o URIBL.</translation>
     </message>
     <message>
-        <location filename="../src/urlshortener.cpp" line="71"/>
+        <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
         <translation>La URL introduïda és a la llista negre de is.gd (enllaços a serveis d&apos;escurçament de URLs o a is.gd en si mateix són deshabilitats).</translation>
     </message>
     <message>
-        <location filename="../src/urlshortener.cpp" line="73"/>
+        <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
         <translation>La seva adreça IP és barrada per is.gd (normalment això és una conseqüencia de violació de les seves condicions d&apos;us).</translation>
     </message>
     <message>
-        <location filename="../src/urlshortener.cpp" line="78"/>
+        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
@@ -250,127 +511,123 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="392"/>
+        <location filename="../src/mainwindow.cpp" line="+454"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="20"/>
+        <location filename="../ui/mainwindow.ui"/>
         <source>qTwitter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="245"/>
+        <location/>
         <source>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</source>
-        <translation>&lt;span style=&quot;color: black&quot;&gt;Utilitza &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; per a escurçar enllaços&lt;/span&gt;</translation>
+        <translation>&lt;span style=&quot;color: black&quot;&gt;Utilitzeu &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; per a escurçar enllaços&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="430"/>
-        <location filename="../ui/mainwindow.ui" line="251"/>
+        <location filename="../src/mainwindow.cpp" line="+59"/>
+        <location filename="../ui/mainwindow.ui"/>
         <source>What are you doing?</source>
         <translation>Què estàs fent ara?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="164"/>
-        <location filename="../src/mainwindow.cpp" line="418"/>
+        <location line="-365"/>
+        <location line="+353"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="120"/>
-        <location filename="../src/mainwindow.cpp" line="435"/>
+        <location line="-327"/>
+        <location line="+345"/>
         <source>About qTwitter...</source>
         <translation>Sobre qTwitter...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="207"/>
-        <location filename="../src/mainwindow.cpp" line="212"/>
-        <location filename="../src/mainwindow.cpp" line="217"/>
-        <location filename="../src/mainwindow.cpp" line="221"/>
-        <location filename="../src/mainwindow.cpp" line="233"/>
-        <location filename="../src/mainwindow.cpp" line="237"/>
-        <location filename="../src/mainwindow.cpp" line="344"/>
-        <location filename="../src/mainwindow.cpp" line="349"/>
+        <location line="-271"/>
+        <location line="+4"/>
+        <location line="+9"/>
+        <location line="+19"/>
+        <location line="+90"/>
+        <location line="+10"/>
+        <location line="+66"/>
         <source>public timeline</source>
         <translation>llista pública</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="293"/>
         <source>%n character(s) over the limit</source>
-        <translation>
+        <translation type="obsolete">
             <numerusform>%n caràcter més enllà del limit</numerusform>
             <numerusform>%n caràcters més enllà del limit</numerusform>
         </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="307"/>
+        <location line="-122"/>
         <source>Your message is too long.</source>
         <translation>El seu missatge és massa llarg.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="307"/>
+        <location line="+0"/>
         <source>Message too long</source>
         <translation>El missatge massa llarg</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="308"/>
+        <location line="+1"/>
         <source>Cool</source>
         <translation>Bé</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="309"/>
+        <location line="+1"/>
         <source>Oops...</source>
         <translation>Ai!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="310"/>
+        <location line="+1"/>
         <source>You can still post it like this, but it will be truncated.</source>
-        <translation>Segueix podent pujar-lo com aixi, però el serà truncat.</translation>
+        <translation>Seguiu podent pujar-lo com aixi, però el serà truncat.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="384"/>
         <source>the public timeline</source>
         <extracomment>The full sentence is e.g.: &quot;New tweets for &lt;user A&gt;, &lt;user B&gt; and the public timeline&quot;</extracomment>
-        <translation>la llista pública</translation>
+        <translation type="obsolete">la llista pública</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="386"/>
+        <location line="+121"/>
         <source>New tweets</source>
-        <extracomment>New tweets received (pops up in tray)</extracomment>
+        <extracomment>New tweets received (this pops up in tray)</extracomment>
         <translation>Hi ha missatges nous</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="421"/>
+        <location line="+56"/>
         <source>Navigate using %1 and %2</source>
         <translation>Navegui usant %1 i %2</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="426"/>
-        <location filename="../ui/mainwindow.ui" line="179"/>
+        <location line="+5"/>
+        <location filename="../ui/mainwindow.ui"/>
         <source>More...</source>
         <translation>Més....</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="417"/>
+        <location line="-9"/>
         <source>Update tweets</source>
         <translation>Actualitzar missatges</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="121"/>
-        <location filename="../src/mainwindow.cpp" line="163"/>
-        <location filename="../src/mainwindow.cpp" line="436"/>
+        <location line="-353"/>
+        <location line="+28"/>
+        <location line="+345"/>
         <source>Quit</source>
-        <translation>Surt</translation>
+        <translation>Sortir</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="116"/>
-        <location filename="../src/mainwindow.cpp" line="431"/>
+        <location line="-351"/>
+        <location line="+345"/>
         <source>New tweet</source>
         <translation>Nou missatge</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="51"/>
-        <location filename="../src/mainwindow.cpp" line="287"/>
+        <location line="-451"/>
         <source>%n character(s) left</source>
         <translation>
             <numerusform>%n caràcter queda</numerusform>
@@ -378,28 +635,78 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="117"/>
-        <location filename="../src/mainwindow.cpp" line="432"/>
-        <source>Upload a photo to TwitPic</source>
-        <translation>Puja el foto a TwitPic</translation>
+        <location line="+68"/>
+        <source>&amp;File</source>
+        <translation>&amp;Arxiu</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="118"/>
-        <location filename="../src/mainwindow.cpp" line="433"/>
+        <location line="+39"/>
+        <location line="+345"/>
+        <source>Upload a photo to TwitPic</source>
+        <translation>Pujeu el foto a TwitPic</translation>
+    </message>
+    <message>
+        <location line="-344"/>
+        <location line="+345"/>
         <source>Go to Twitter</source>
         <translation>Anar a Twitter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="119"/>
-        <location filename="../src/mainwindow.cpp" line="434"/>
+        <location line="-344"/>
+        <location line="+345"/>
+        <source>Go to Identi.ca</source>
+        <translation>Anar a Identi.ca</translation>
+    </message>
+    <message>
+        <location line="-344"/>
+        <location line="+345"/>
         <source>Go to TwitPic</source>
         <translation>Anar a TwitPic</translation>
+    </message>
+    <message numerus="yes">
+        <location line="-215"/>
+        <source>%n character left</source>
+        <translation>
+            <numerusform>%n caràcter disponible</numerusform>
+            <numerusform>%n caràcters disponibles</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+1"/>
+        <source>%n characters left</source>
+        <translation>
+            <numerusform>%n caràcter disponible</numerusform>
+            <numerusform>%n caràcters disponibles</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+5"/>
+        <source>%n character over the limit</source>
+        <translation>
+            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
+            <numerusform>Hi ha %n caràcters més enllà del limit</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+1"/>
+        <source>%n characters over the limit</source>
+        <translation>
+            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
+            <numerusform>Hi ha %n caràcters més enllà del limit</numerusform>
+        </translation>
     </message>
 </context>
 <context>
     <name>MetaMarkShortener</name>
     <message>
-        <location filename="../src/urlshortener.cpp" line="128"/>
+        <source>An unknown error occurred when shortening your URL.</source>
+        <translation type="obsolete">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+    </message>
+</context>
+<context>
+    <name>MetamarkShortener</name>
+    <message>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+52"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
@@ -407,197 +714,194 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="492"/>
-        <location filename="../ui/settings.ui" line="26"/>
+        <location filename="../src/settings.cpp" line="+324"/>
+        <location filename="../ui/settings.ui"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="493"/>
-        <location filename="../ui/settings.ui" line="39"/>
+        <location line="+1"/>
+        <location filename="../ui/settings.ui"/>
         <source>General</source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="96"/>
+        <location filename="../ui/settings.ui"/>
         <source>Language</source>
         <translation>Llengua</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="564"/>
-        <location filename="../ui/settings.ui" line="113"/>
+        <location filename="../src/settings.cpp" line="+71"/>
+        <location filename="../ui/settings.ui"/>
         <source>English</source>
+        <extracomment>Please translate &quot;English&quot; to YOUR LANGUAGE NAME in your own language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc.</extracomment>
         <translation>Català</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="506"/>
-        <location filename="../ui/settings.ui" line="322"/>
+        <location line="-64"/>
+        <location filename="../ui/settings.ui"/>
         <source>Network</source>
         <translation>Xarxa</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="421"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation>&lt;buit&gt;</translation>
+        <translation type="obsolete">&lt;buit&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="47"/>
+        <location filename="../ui/settings.ui"/>
         <source>Refresh every (mins)</source>
-        <translation>Actualitza cada (min)</translation>
+        <translation>Actualitzar cada (min)</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="121"/>
+        <location/>
         <source>Shorten links via</source>
         <translation>Escurçar enllaços amb</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="497"/>
-        <location filename="../ui/settings.ui" line="149"/>
+        <location filename="../src/settings.cpp" line="-3"/>
+        <location filename="../ui/settings.ui"/>
         <source>Show tray notifications</source>
         <translation>Mostrar les notificacions a la safata de sistema</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="498"/>
-        <location filename="../ui/settings.ui" line="136"/>
+        <location line="+1"/>
+        <location filename="../ui/settings.ui"/>
         <source>Confirm messages deletion</source>
         <translation>Confirmar la supresió de missatges</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="499"/>
-        <location filename="../ui/settings.ui" line="173"/>
-        <source>Twitter</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/settings.cpp" line="500"/>
-        <location filename="../ui/settings.ui" line="244"/>
         <source>Account</source>
-        <translation>Compte</translation>
+        <translation type="obsolete">Compte</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="501"/>
-        <location filename="../ui/settings.ui" line="253"/>
         <source>Enabled</source>
-        <translation>Habilitat</translation>
+        <translation type="obsolete">Habilitat</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="502"/>
         <source>Username:</source>
-        <translation>Nom d&apos;usuari:</translation>
+        <translation type="obsolete">Nom d&apos;usuari:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="503"/>
         <source>Password:</source>
-        <translation>Contrasenya:</translation>
+        <translation type="obsolete">Contrasenya:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="504"/>
-        <location filename="../ui/settings.ui" line="304"/>
         <source>download direct messages</source>
-        <translation>pujar els missatges privats</translation>
+        <translation type="obsolete">pujar els missatges privats</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="505"/>
-        <location filename="../ui/settings.ui" line="314"/>
         <source>include public timeline</source>
-        <translation>incluir la llista pública</translation>
+        <translation type="obsolete">incluir la llista pública</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="507"/>
-        <location filename="../ui/settings.ui" line="328"/>
+        <location line="+3"/>
+        <location filename="../ui/settings.ui"/>
         <source>Use HTTP &amp;proxy</source>
-        <translation>Utilitza el &amp;proxy HTTP</translation>
+        <translation>Utilitzar el &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="508"/>
-        <location filename="../ui/settings.ui" line="337"/>
+        <location line="+1"/>
+        <location filename="../ui/settings.ui"/>
         <source>Host:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="509"/>
-        <location filename="../ui/settings.ui" line="357"/>
+        <location line="+1"/>
+        <location filename="../ui/settings.ui"/>
         <source>Port:</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="517"/>
+        <location line="+2"/>
+        <location filename="../ui/settings.ui"/>
+        <source>Status count:</source>
+        <translation>Quantitat de estatuts</translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Apply</source>
-        <translation>Aplica</translation>
+        <translation>Aplicar</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="518"/>
+        <location line="+1"/>
         <source>Cancel</source>
-        <translation>Anul·la</translation>
+        <translation>Anul·lar</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="519"/>
+        <location line="+55"/>
+        <source>Default</source>
+        <translation>Per defecte</translation>
+    </message>
+    <message>
+        <location line="-57"/>
         <source>OK</source>
         <translation>Bé</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="265"/>
         <source>Username</source>
-        <translation>Nom d&apos;usuari</translation>
+        <translation type="obsolete">Nom d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="203"/>
-        <location filename="../src/settings.cpp" line="514"/>
+        <location line="-190"/>
+        <location line="+186"/>
         <source>Use custom web browser</source>
-        <translation>Utilitza un altre navegador web</translation>
+        <translation>Utilitzar un altre navegador web</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="282"/>
         <source>Password</source>
-        <translation>Contrasenya</translation>
+        <translation type="obsolete">Contrasenya</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="205"/>
-        <location filename="../src/settings.cpp" line="515"/>
+        <location line="-184"/>
+        <location line="+185"/>
         <source>Browse</source>
-        <translation>Navega</translation>
+        <translation>Navegar</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="494"/>
+        <location line="-15"/>
         <source>Refresh every (mins):</source>
-        <translation>Actualitza cada (min):</translation>
+        <translation>Actualitzar cada (min):</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="495"/>
+        <location line="+1"/>
         <source>Language:</source>
         <translation>Llengua:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="511"/>
-        <location filename="../ui/settings.ui" line="408"/>
         <source>Tweet count:</source>
-        <translation>Quantitat de Tweets:</translation>
+        <translation type="obsolete">Quantitat de Tweets:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="531"/>
+        <location line="+29"/>
         <source>Select your browser executable</source>
-        <translation>Escull l&apos;arxiu del teu navegador</translation>
+        <translation>Escolliu l&apos;arxiu del seu navegador</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="531"/>
+        <location line="+0"/>
         <source>All files (*)</source>
         <translation>Tots arxius (*)</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="510"/>
-        <location filename="../ui/settings.ui" line="399"/>
+        <location line="-20"/>
+        <location filename="../ui/settings.ui"/>
         <source>Appearance</source>
         <translation>Aparença</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="496"/>
+        <location line="-8"/>
         <source>Shorten links via:</source>
         <translation>Escurçar enllaços amb:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="512"/>
-        <location filename="../ui/settings.ui" line="434"/>
+        <location line="+3"/>
+        <location filename="../ui/settings.ui"/>
+        <source>Accounts</source>
+        <translation>Comptes</translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <location filename="../ui/settings.ui"/>
         <source>Color scheme:</source>
         <translation>Esquema de color:</translation>
     </message>
@@ -605,15 +909,139 @@
 <context>
     <name>StatusEdit</name>
     <message>
-        <location filename="../src/statusedit.cpp" line="79"/>
+        <location filename="../src/statusedit.cpp" line="+80"/>
         <source>What are you doing?</source>
         <translation>Què estàs fent ara?</translation>
     </message>
 </context>
 <context>
+    <name>StatusWidget</name>
+    <message>
+        <location filename="../src/statuswidget.cpp" line="+55"/>
+        <location line="+51"/>
+        <location line="+184"/>
+        <location line="+131"/>
+        <source>Add to Favorites</source>
+        <translation>Afegir als favorits</translation>
+    </message>
+    <message>
+        <location line="-328"/>
+        <location line="+344"/>
+        <source>Retweet</source>
+        <translation>Reenviar</translation>
+    </message>
+    <message>
+        <location line="-326"/>
+        <location line="+327"/>
+        <source>Copy link to this status</source>
+        <translation>Copiar l&apos;enllaç a aquest missatge</translation>
+    </message>
+    <message>
+        <location line="-317"/>
+        <location line="+319"/>
+        <source>Mark list as read</source>
+        <translation>Marcar la llista com a llegida</translation>
+    </message>
+    <message>
+        <location line="-314"/>
+        <location line="+315"/>
+        <source>Mark everything as read</source>
+        <translation>Marcar tot com a llegit</translation>
+    </message>
+    <message>
+        <location line="-302"/>
+        <location line="+303"/>
+        <source>Go to User&apos;s homepage</source>
+        <translation>Anar-hi a la pàgina principal d&apos;usuari</translation>
+    </message>
+    <message>
+        <location line="-292"/>
+        <location line="+105"/>
+        <location line="+17"/>
+        <location line="+153"/>
+        <source>Reply to %1</source>
+        <translation>Respondre a %1</translation>
+    </message>
+    <message>
+        <location line="-260"/>
+        <location line="+242"/>
+        <source>Direct message %1</source>
+        <translation>Escrivir un missatge a %1</translation>
+    </message>
+    <message>
+        <location line="-221"/>
+        <location line="+259"/>
+        <source>Go to User&apos;s Identi.ca page</source>
+        <translation>Anar-hi a la pàgina de Identi.ca d&apos;usuari</translation>
+    </message>
+    <message>
+        <location line="-256"/>
+        <location line="+258"/>
+        <source>Go to User&apos;s Twitter page</source>
+        <translation>Anar-hi a la pàgina de Twitter d&apos;usuari</translation>
+    </message>
+    <message>
+        <location line="-195"/>
+        <location line="+11"/>
+        <location line="+165"/>
+        <location line="+11"/>
+        <source>Delete status</source>
+        <translation>Suprimir el estatut</translation>
+    </message>
+    <message>
+        <location line="-180"/>
+        <location line="+6"/>
+        <location line="+165"/>
+        <source>Delete message</source>
+        <translation>Suprimir el missatge</translation>
+    </message>
+    <message>
+        <location line="-149"/>
+        <location line="+3"/>
+        <location line="+129"/>
+        <location line="+3"/>
+        <source>Remove from Favorites</source>
+        <translation>Suprimir-lo dels favorits</translation>
+    </message>
+    <message>
+        <location line="-97"/>
+        <source>in reply to %1</source>
+        <translation>en reposta a %1</translation>
+    </message>
+    <message>
+        <location line="+105"/>
+        <source>About %1</source>
+        <translation>Sobre %1</translation>
+    </message>
+    <message>
+        <location filename="../ui/statuswidget.ui"/>
+        <source>QPushButton {
+border: 1px;
+background-color: rgba(255,255,255,0);
+}
+</source>
+        <translation></translation>
+    </message>
+</context>
+<context>
     <name>TinyUrlShortener</name>
     <message>
-        <location filename="../src/urlshortener.cpp" line="150"/>
+        <source>An unknown error occurred when shortening your URL.</source>
+        <translation type="obsolete">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+    </message>
+</context>
+<context>
+    <name>TinyarrowsShortener</name>
+    <message>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+46"/>
+        <source>An unknown error occurred when shortening your URL.</source>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+    </message>
+</context>
+<context>
+    <name>TinyurlShortener</name>
+    <message>
+        <location line="-23"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
@@ -621,12 +1049,23 @@
 <context>
     <name>TrImShortener</name>
     <message>
-        <location filename="../src/urlshortener.cpp" line="100"/>
+        <source>The URL has been rejected by the tr.im</source>
+        <translation type="obsolete">La URL ha estat rebutjat per tr.im</translation>
+    </message>
+    <message>
+        <source>An unknown error occurred when shortening your URL.</source>
+        <translation type="obsolete">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+    </message>
+</context>
+<context>
+    <name>TrimShortener</name>
+    <message>
+        <location line="-52"/>
         <source>The URL has been rejected by the tr.im</source>
         <translation>La URL ha estat rebutjat per tr.im</translation>
     </message>
     <message>
-        <location filename="../src/urlshortener.cpp" line="106"/>
+        <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
@@ -634,57 +1073,66 @@
 <context>
     <name>Tweet</name>
     <message>
-        <location filename="../ui/tweet.ui" line="20"/>
-        <source>Form</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../src/tweet.cpp" line="118"/>
-        <location filename="../src/tweet.cpp" line="191"/>
         <source>Go to User&apos;s Twitter page</source>
-        <translation>Vés-hi a la pàgina Twitter d&apos;usuari</translation>
+        <translation type="obsolete">Vés-hi a la pàgina Twitter d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="125"/>
-        <location filename="../src/tweet.cpp" line="190"/>
         <source>Go to User&apos;s homepage</source>
-        <translation>Vés-hi a la pàgina principal d&apos;usuari</translation>
+        <translation type="obsolete">Vés-hi a la pàgina principal d&apos;usuari</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="100"/>
-        <location filename="../src/tweet.cpp" line="188"/>
         <source>Delete tweet</source>
-        <translation>Suprimeix el missatge</translation>
+        <translation type="obsolete">Suprimeix el missatge</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="111"/>
-        <location filename="../src/tweet.cpp" line="189"/>
         <source>Mark all as read</source>
-        <translation>Marca&apos;ls tots com a llegits</translation>
+        <translation type="obsolete">Marca&apos;ls tots com a llegits</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="67"/>
-        <location filename="../src/tweet.cpp" line="185"/>
         <source>Reply to %1</source>
-        <translation>Respon a %1</translation>
+        <translation type="obsolete">Respon a %1</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="78"/>
-        <location filename="../src/tweet.cpp" line="186"/>
         <source>Retweet</source>
-        <translation>Reenvia</translation>
+        <translation type="obsolete">Reenvia</translation>
     </message>
     <message>
-        <location filename="../src/tweet.cpp" line="91"/>
-        <location filename="../src/tweet.cpp" line="187"/>
         <source>Copy link to this tweet</source>
-        <translation>Copiar l&apos;enllaç a aquest missatge</translation>
+        <translation type="obsolete">Copiar l&apos;enllaç a aquest missatge</translation>
+    </message>
+</context>
+<context>
+    <name>TwitPicEngine</name>
+    <message>
+        <location filename="../src/twitpicengine.cpp" line="+163"/>
+        <source>Invalid twitter username or password</source>
+        <translation>Nom d&apos;usuari i/o contrasenya són incorrectes</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Image not found</source>
+        <translation>No s&apos;ha trobat la imatge</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Invalid image type</source>
+        <translation>Incorrecte fromat de la imatge</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Image larger than 4MB</source>
+        <translation>Imatge més gran que 4MB</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>We&apos;re sorry, but due to some mysterious error your image failed to upload</source>
+        <translation>Ho sentim, peró degut a algun error la imatge no ha estat pujat</translation>
     </message>
 </context>
 <context>
     <name>TwitPicNewPhoto</name>
     <message>
-        <location filename="../ui/twitpicnewphoto.ui" line="26"/>
+        <location filename="../ui/twitpicnewphoto.ui"/>
         <source>Upload completed</source>
         <translation>El carregament s&apos;ha acabat</translation>
     </message>
@@ -692,54 +1140,54 @@
 <context>
     <name>TwitPicView</name>
     <message>
-        <location filename="../src/twitpicview.cpp" line="80"/>
-        <location filename="../src/twitpicview.cpp" line="119"/>
-        <location filename="../src/twitpicview.cpp" line="129"/>
-        <location filename="../ui/twitpicview.ui" line="151"/>
+        <location filename="../src/twitpicview.cpp" line="+82"/>
+        <location line="+39"/>
+        <location line="+10"/>
+        <location filename="../ui/twitpicview.ui"/>
         <source>Upload</source>
-        <translation>Carregar</translation>
+        <translation>Pujar</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="125"/>
-        <location filename="../src/twitpicview.cpp" line="127"/>
+        <location line="-4"/>
+        <location line="+2"/>
         <source>Abort</source>
         <translation>Anul·lar</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="137"/>
+        <location line="+11"/>
         <source>Select photo to upload</source>
-        <translation>Selecciona el foto</translation>
+        <translation>Seleccioneu el foto</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="137"/>
+        <location line="+2"/>
         <source>Image files</source>
         <translation>Imatges</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="143"/>
-        <location filename="../src/twitpicview.cpp" line="148"/>
-        <location filename="../src/twitpicview.cpp" line="160"/>
-        <location filename="../ui/twitpicview.ui" line="110"/>
+        <location line="+6"/>
+        <location line="+5"/>
+        <location line="+12"/>
+        <location filename="../ui/twitpicview.ui"/>
         <source>Select a photo to upload</source>
-        <translation>Selecciona el foto per a carregar</translation>
+        <translation>Seleccioneu el foto per a carregar</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="20"/>
+        <location filename="../ui/twitpicview.ui"/>
         <source>Upload a photo to Twitpic</source>
-        <translation>Carrega el foto a TwitPic</translation>
+        <translation>Carregeu el foto a TwitPic</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="28"/>
+        <location/>
         <source>Choose a photo:</source>
-        <translation>Selecciona el foto:</translation>
+        <translation>Seleccioneu el foto:</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="38"/>
+        <location/>
         <source>Browse</source>
-        <translation>Navega</translation>
+        <translation>Navegar</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="128"/>
+        <location/>
         <source>post a status</source>
         <translation>afegir el missatge</translation>
     </message>
@@ -747,26 +1195,81 @@
 <context>
     <name>TwitterAccountsModel</name>
     <message>
-        <location filename="../src/twitteraccountsmodel.cpp" line="77"/>
         <source>Enabled</source>
-        <translation>Habilitat</translation>
+        <translation type="obsolete">Habilitat</translation>
     </message>
     <message>
-        <location filename="../src/twitteraccountsmodel.cpp" line="79"/>
         <source>Login</source>
-        <translation>Usuari</translation>
+        <translation type="obsolete">Usuari</translation>
     </message>
     <message>
-        <location filename="../src/twitteraccountsmodel.cpp" line="82"/>
         <source>Direct msgs</source>
         <extracomment>This should be as short as possible (e.g. PW in Polish)</extracomment>
-        <translation>Missatges privats</translation>
+        <translation type="obsolete">Missatges privats</translation>
     </message>
     <message>
-        <location filename="../src/twitteraccountsmodel.cpp" line="156"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation>&lt;buit&gt;</translation>
+        <translation type="obsolete">&lt;buit&gt;</translation>
+    </message>
+</context>
+<context>
+    <name>UnuShortener</name>
+    <message>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+92"/>
+        <source>Your URL has been rejected by u.nu</source>
+        <translation>La URL ha estat rebutjat per u.nu</translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>An unknown error occurred when shortening your URL.</source>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+    </message>
+</context>
+<context>
+    <name>UserInfoPopup</name>
+    <message numerus="yes">
+        <location filename="../src/userinfopopup.cpp" line="+60"/>
+        <source>friend</source>
+        <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
+        <translation>
+            <numerusform>amic</numerusform>
+            <numerusform>amics</numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location line="+3"/>
+        <source>friends</source>
+        <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
+        <translation>
+            <numerusform>amic</numerusform>
+            <numerusform>amics</numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../ui/userinfopopup.ui"/>
+        <source>Login:</source>
+        <translation>Nom d&apos;usuari:</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Location:</source>
+        <translation>Ubicació:</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Local time:</source>
+        <translation>Hora local:</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Homepage:</source>
+        <translation>Pàgina principal:</translation>
+    </message>
+    <message>
+        <location/>
+        <source>Bio:</source>
+        <translation>Sobre:</translation>
     </message>
 </context>
 </TS>

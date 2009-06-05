@@ -18,29 +18,40 @@
  *   51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA          *
  ***************************************************************************/
 
-
+#include <QAction>
+#include <QDebug>
+#include <QMenu>
+#include <QMenuBar>
 #include <QSystemTrayIcon>
 #include <QSignalMapper>
 #include <QSettings>
 #include <twitterapi/twitterapi_global.h>
 #include "qtwitter.h"
 #include "core.h"
+#include "mainwindow.h"
 #include "twitpicview.h"
-#include "tweet.h"
+#include "statuswidget.h"
 #include "settings.h"
 #include "account.h"
 
-Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
+//extern ConfigFile settings;
+
+Qtwitter::Qtwitter( QWidget *parent )
+  : MainWindow( parent )
 {
   connect( this, SIGNAL(switchModel(TwitterAPI::SocialNetwork,QString)), SLOT(setCurrentModel(TwitterAPI::SocialNetwork,QString)) );
   connect( this, SIGNAL(switchToPublicTimelineModel(TwitterAPI::SocialNetwork)), SLOT(setPublicTimelineModel(TwitterAPI::SocialNetwork)) );
 
   core = new Core( this );
-  connect( this, SIGNAL(updateTweets()), core, SLOT(forceGet()) );
+
+  connect( this, SIGNAL(updateStatuses()), core, SLOT(forceGet()) );
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
   connect( this, SIGNAL(post(TwitterAPI::SocialNetwork,QString,QString,int)), core, SLOT(post(TwitterAPI::SocialNetwork,QString,QString,int)) );
   connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
   connect( this, SIGNAL(shortenUrl(QString)), core, SLOT(shortenUrl(QString)));
+  connect( this, SIGNAL(iconStopped()), core, SLOT(resetRequestsCount()) );
+  connect( this, SIGNAL(statusMarkeverythingasreadAction()), core, SLOT(markEverythingAsRead()) );
+  connect( core, SIGNAL(pauseIcon()), this, SLOT(pauseIcon()) );
   connect( core, SIGNAL(accountsUpdated(QList<Account>,int)), this, SLOT(setupAccounts(QList<Account>,int)) );
   connect( core, SIGNAL(urlShortened(QString)), this, SLOT(replaceUrl(QString)));
   connect( core, SIGNAL(about()), this, SLOT(about()) );
@@ -71,12 +82,14 @@ Qtwitter::Qtwitter( QWidget *parent ) : MainWindow( parent )
 
 void Qtwitter::setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login )
 {
-  setListViewModel( core->getModel( network, login ) );
+  core->setModelData( network, login );
 }
 
 //  this is to avoid relying on translation files
 //  caused by a bug in tr() method
 void Qtwitter::setPublicTimelineModel( TwitterAPI::SocialNetwork network )
 {
-  setListViewModel( core->getPublicTimelineModel( network ) );
+  // TODO: probably won't work
+  // UPDATE: works! :)
+  core->setModelData( network, TwitterAPI::PUBLIC_TIMELINE );
 }

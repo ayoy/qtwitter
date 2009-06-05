@@ -22,17 +22,18 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QSystemTrayIcon>
+#include <QMainWindow>
 #include <QUrl>
 #include <QList>
+#include <QSystemTrayIcon>
 #include <twitterapi/twitterapi_global.h>
 #include "ui_mainwindow.h"
 
 class QMovie;
-class TweetModel;
+class StatusModel;
 class Account;
 
-class MainWindow : public QWidget
+class MainWindow : public QMainWindow
 {
   Q_OBJECT
 
@@ -40,7 +41,7 @@ public:
   MainWindow( QWidget *parent = 0 );
   virtual ~MainWindow();
 
-  StatusList* getListView();
+  StatusListView* getListView();
   int getScrollBarWidth();
 
   
@@ -51,21 +52,22 @@ public slots:
   void popupError( const QString &message );
   void retranslateUi();
   void resetStatusEdit();
+  void pauseIcon();
   void showProgressIcon();
   void about();
-  void setListViewModel( TweetModel *model );
+  void setListViewModel( StatusModel *model );
   void replaceUrl( const QString &url );
 
-  void tweetReplyAction();
-  void tweetRetweetAction();
-  void tweetCopylinkAction();
-  void tweetDeleteAction();
-  void tweetMarkallasreadAction();
-  void tweetGototwitterpageAction();
-  void tweetGotohomepageAction();
+  void statusReplyAction();
+  void statusRetweetAction();
+  void statusCopylinkAction();
+  void statusDeleteAction();
+  void statusMarkallasreadAction();
+  void statusGototwitterpageAction();
+  void statusGotohomepageAction();
 
 signals:
-  void updateTweets();
+  void updateStatuses();
   void openTwitPicDialog();
   void post( TwitterAPI::SocialNetwork network, const QString &login, QString status, int inReplyTo );
   void openBrowser( QUrl address );
@@ -76,11 +78,14 @@ signals:
   void switchModel( TwitterAPI::SocialNetwork network, const QString &login );
   void switchToPublicTimelineModel( TwitterAPI::SocialNetwork network );
   void shortenUrl( const QString &url );
+  void iconStopped();
+
+  void statusMarkeverythingasreadAction();
 
 protected:
-  void closeEvent( QCloseEvent *e );
-  void resizeEvent( QResizeEvent* );
-  void keyPressEvent( QKeyEvent* );
+  void resizeEvent( QResizeEvent *event );
+  void closeEvent( QCloseEvent *event );
+  void keyPressEvent ( QKeyEvent *event );
   Ui::MainWindow ui;
 
 private slots:
@@ -95,18 +100,26 @@ private slots:
 
 private:
   void createConnections();
-  void createMenu();
+  void createButtonMenu();
   void createTrayIcon();
+#ifdef Q_WS_HILDON
+  void createHildonMenu();
+#endif
+
   bool resetUiWhenFinished;
-  QMenu *trayMenu;
+
   QMenu *buttonMenu;
-  QAction *newtweetAction;
+  QAction *newstatusAction;
   QAction *newtwitpicAction;
   QAction *gototwitterAction;
+  QAction *gotoidenticaAction;
   QAction *gototwitpicAction;
   QAction *aboutAction;
   QAction *quitAction;
   QMovie *progressIcon;
+
+  QTimer *timer;
+
   QSystemTrayIcon *trayIcon;
 };
 

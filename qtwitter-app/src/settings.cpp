@@ -32,148 +32,95 @@
 #include <QDesktopServices>
 #include <QProcess>
 #include <QSettings>
+#include <QApplication>
 #include <urlshortener/urlshortener.h>
 #include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
 #include "settings.h"
+#include "configfile.h"
 #include "core.h"
 #include "mainwindow.h"
 #include "twitpicview.h"
 
-
-const QString ConfigFile::APP_VERSION = "0.6.0";
-
-ConfigFile settings;
-
-ConfigFile::ConfigFile():
-#if defined Q_WS_MAC
-QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy.net", "qTwitter" )
-#elif defined Q_WS_WIN
-QSettings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" )
-#else
-QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
-#endif
-{
-  if ( value( "General/version", QString() ).toString().isNull() )
-    convertSettings();
-}
-
-QString ConfigFile::pwHash( const QString &text )
-{
-  QString newText = text;
-  for (unsigned int i = 0, textLength = text.length(); i < textLength; ++i)
-    newText[i] = QChar(text[i].unicode() ^ i ^ 1);
-  return newText;
-}
-
-void ConfigFile::addAccount( int id, const Account &account )
-{
-  settings.beginGroup( QString( "TwitterAccounts/%1" ).arg( id ) );
-  settings.setValue( "enabled", account.isEnabled );
-  settings.setValue( "service", account.network );
-  //: This is for newly created account - when the login isn't given yet
-  settings.setValue( "login", account.login );
-  settings.setValue( "password", account.password );
-  settings.setValue( "directmsgs", account.directMessages );
-  settings.endGroup();
-}
-
-void ConfigFile::deleteAccount( int id, int rowCount )
-{
-  beginGroup( "TwitterAccounts" );
-  if ( id < rowCount ) {
-    for (int i = id; i < rowCount; i++ ) {
-      setValue( QString( "%1/enabled" ).arg(i), value( QString( "%1/enabled" ).arg(i+1) ) );
-      setValue( QString( "%1/service" ).arg(i), value( QString( "%1/service" ).arg(i+1) ) );
-      setValue( QString( "%1/login" ).arg(i), value( QString( "%1/login" ).arg(i+1) ) );
-      setValue( QString( "%1/password" ).arg(i), value( QString( "%1/password" ).arg(i+1) ) );
-      setValue( QString( "%1/directmsgs" ).arg(i), value( QString( "%1/directmsgs" ).arg(i+1) ) );
-    }
-  }
-  remove( QString::number( rowCount ) );
-  endGroup();
-}
-
-void ConfigFile::convertSettings()
-{
-  setValue( "General/version", ConfigFile::APP_VERSION );
-  if ( contains( "General/username" ) ) {
-    setValue( "TwitterAccounts/0/enabled", true );
-    setValue( "TwitterAccounts/0/service", TwitterAPI::SOCIALNETWORK_TWITTER );
-    setValue( "TwitterAccounts/0/login", value( "General/username", "<empty>" ).toString() );
-    setValue( "TwitterAccounts/0/password", value( "General/password", "" ).toString() );
-    setValue( "TwitterAccounts/0/directmsgs", value( "General/directMessages", false ).toBool() );
-  }
-  setValue( "TwitterAccounts/publicTimeline", true );
-  if ( value( "General/timeline", false ).toBool() ) {
-    setValue( "TwitterAccounts/currentModel", 1 );
-  }
-  setValue( "General/language", "en" );
-  remove( "General/username" );
-  remove( "General/password" );
-  remove( "General/directMessages" );
-  remove( "General/timeline" );
-}
+extern ConfigFile settings;
 
 const ThemeInfo Settings::STYLESHEET_CARAMEL =  ThemeInfo( QString( "Caramel" ),
                                                            ThemeData( ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(23, 14, 40, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(219, 204, 56); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" ),
-                                                                                    QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                                    QString( "a:link { color: rgb(255, 248, 140); } a:visited { color: rgb(255, 248, 140); }" ),
                                                                                     QColor( 51, 51, 51 ) ),
                                                                       ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(23, 14, 40, 255), stop:0.2 rgba(67, 67, 38, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(255, 255, 158); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal}" ),
-                                                                                    QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                                    QString( "a:link { color: rgb(255, 248, 140); } a:visited { color: rgb(255, 248, 140); }" ),
                                                                                     QColor( 51, 51, 51 ) ),
                                                                       ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(23, 14, 40, 255), stop:0.8 rgba(67, 67, 38, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(119, 102, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-style: normal}" ),
-                                                                                    QString( "a { color: rgb(153, 146, 38); }" ),
+                                                                                    QString( "a:link { color: rgb(153, 146, 38); } a:visited { color: rgb(153, 146, 38); }" ),
+                                                                                    QColor( 51, 51, 51 ) ),
+                                                                      ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(23, 14, 40, 255), stop:0.8 rgba(67, 67, 38, 255), stop:1 rgba(112, 99, 37, 255)); border-width: 3px; border-style: outset; border-color: rgb(119, 102, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-style: normal}" ),
+                                                                                    QString( "a:link { color: rgb(153, 146, 38); } a:visited { color: rgb(153, 146, 38); }" ),
                                                                                     QColor( 51, 51, 51 ) ) ) );
 const ThemeInfo Settings::STYLESHEET_COCOA   = ThemeInfo( QString( "Cocoa" ),
                                                           ThemeData( ThemeElement( QString( "QFrame { background-color: rgb(204, 153, 102); border-width: 3px; border-style: outset; border-color: rgb(51, 51, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(51, 51, 0); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(51, 51, 0); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(255, 248, 40); }" ),
+                                                                                   QString( "a:link { color: rgb(255, 248, 40); } a:visited { color: rgb(255, 248, 40); }" ),
                                                                                    QColor( 51, 51, 51 ) ),
                                                                      ThemeElement( QString( "QFrame { background-color: rgb(234, 183, 132); border-width: 3px; border-style: outset; border-color: rgb(102, 102, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(71, 71, 20); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(71, 71, 0); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(255, 248, 40); }" ),
+                                                                                   QString( "a:link { color: rgb(255, 248, 40); } a:visited { color: rgb(255, 248, 40); }" ),
                                                                                    QColor( 51, 51, 51 ) ),
                                                                      ThemeElement( QString( "QFrame { background-color: rgb(153, 102, 51); border-width: 3px; border-style: outset; border-color: rgb(20, 20, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(31, 31, 0); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(31, 31, 0); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(215, 208, 0); }" ),
+                                                                                   QString( "a:link { color: rgb(215, 208, 0); } a:visited { color: rgb(215, 208, 0); }" ),
+                                                                                   QColor( 51, 51, 51 ) ),
+                                                                     ThemeElement( QString( "QFrame { background-color: rgb(153, 102, 51); border-width: 3px; border-style: outset; border-color: rgb(20, 20, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(31, 31, 0); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(31, 31, 0); border-width: 0px; border-style: normal; }" ),
+                                                                                   QString( "a:link { color: rgb(215, 208, 0); } a:visited { color: rgb(215, 208, 0); }" ),
                                                                                    QColor( 51, 51, 51 ) ) ) );
 const ThemeInfo Settings::STYLESHEET_GRAY    = ThemeInfo( QString( "Gray" ),
                                                           ThemeData( ThemeElement( QString( "QFrame { background-color: rgb(102, 102, 102); border-width: 3px; border-style: outset; border-color: rgb(0, 0, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                                   QString( "a:link { color: rgb(255, 248, 140); } a:visited { color: rgb(255, 248, 140); }" ),
                                                                                    QColor( 51, 51, 51 ) ),
                                                                      ThemeElement( QString( "QFrame { background-color: rgb(133, 133, 133); border-width: 3px; border-style: outset; border-color: rgb(204, 204, 204); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                                   QString( "a:link { color: rgb(255, 248, 140); } a:visited { color: rgb(255, 248, 140); }" ),
                                                                                    QColor( 51, 51, 51 ) ),
                                                                      ThemeElement( QString( "QFrame { background-color: rgb(51, 51, 51); border-width: 3px; border-style: outset; border-color: rgb(0, 0, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(215, 208, 100); }" ),
+                                                                                   QString( "a:link { color: rgb(215, 208, 100); } a:visited { color: rgb(215, 208, 100); }" ),
+                                                                                   QColor( 51, 51, 51 ) ),
+                                                                     ThemeElement( QString( "QFrame { background-color: rgb(51, 51, 51); border-width: 3px; border-style: outset; border-color: rgb(0, 0, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-style: normal; }" ),
+                                                                                   QString( "a:link { color: rgb(215, 208, 100); } a:visited { color: rgb(215, 208, 100); }" ),
                                                                                    QColor( 51, 51, 51 ) ) ) );
 const ThemeInfo Settings::STYLESHEET_GREEN   = ThemeInfo( QString( "Green" ),
                                                           ThemeData( ThemeElement( QString( "QFrame { background-color: rgb(102, 153, 0); border-width: 3px; border-style: outset; border-color: rgb(0, 72, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                                   QString( "a:link { color: rgb(255, 248, 140); } a:visited { color: rgb(255, 248, 140); }" ),
                                                                                    QColor( 51, 51, 51 ) ),
                                                                      ThemeElement( QString( "QFrame { background-color: rgb(132, 183, 30); border-width: 3px; border-style: outset; border-color: rgb(0, 92, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(255, 255, 255); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                                   QString( "a:link { color: rgb(255, 248, 140); } a:visited { color: rgb(255, 248, 140); }" ),
                                                                                    QColor( 51, 51, 51 ) ),
                                                                      ThemeElement( QString( "QFrame { background-color: rgb(51, 102, 0); border-width: 3px; border-style: outset; border-color: rgb(0, 32, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(153, 146, 38); }" ),
+                                                                                   QString( "a:link { color: rgb(153, 146, 38); } a:visited { color: rgb(153, 146, 38); }" ),
+                                                                                   QColor( 51, 51, 51 ) ),
+                                                                     ThemeElement( QString( "QFrame { background-color: rgb(0, 51, 0); border-width: 3px; border-style: outset; border-color: rgb(0, 0, 0); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(153, 153, 153); border-width: 0px; border-style: normal; }" ),
+                                                                                   QString( "a:link { color: rgb(153, 146, 38); } a:visited { color: rgb(153, 146, 38); }" ),
                                                                                    QColor( 51, 51, 51 ) ) ) );
 const ThemeInfo Settings::STYLESHEET_PURPLE  = ThemeInfo( QString( "Purple" ),
                                                           ThemeData( ThemeElement( QString( "QFrame { background-color: rgb(153, 102, 204); border-width: 3px; border-style: outset; border-color: rgb(153, 153, 204); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(153, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(153, 255, 255); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                                   QString( "a:link { color: rgb(255, 248, 140); } a:visited { color: rgb(255, 248, 140); }" ),
                                                                                    QColor( 62, 21, 113 ) ),
                                                                      ThemeElement( QString( "QFrame { background-color: rgb(183, 132, 234); border-width: 3px; border-style: outset; border-color: rgb(173, 173, 224); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(173, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(173, 255, 255); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(255, 248, 140); }" ),
+                                                                                   QString( "a:link { color: rgb(255, 248, 140); } a:visited { color: rgb(255, 248, 140); }" ),
                                                                                    QColor( 62, 21, 113 ) ),
                                                                      ThemeElement( QString( "QFrame { background-color: rgb(102, 51, 153); border-width: 3px; border-style: outset; border-color: rgb(113, 113, 164); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(102, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(102, 255, 255); border-width: 0px; border-style: normal; }" ),
-                                                                                   QString( "a { color: rgb(153, 146, 38); }" ),
+                                                                                   QString( "a:link { color: rgb(153, 146, 38); } a:visited { color: rgb(153, 146, 38); }" ),
+                                                                                   QColor( 62, 21, 113 ) ),
+                                                                     ThemeElement( QString( "QFrame { background-color: rgb(102, 51, 153); border-width: 3px; border-style: outset; border-color: rgb(113, 113, 164); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(102, 255, 255); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(102, 255, 255); border-width: 0px; border-style: normal; }" ),
+                                                                                   QString( "a:link { color: rgb(153, 146, 38); } a:visited { color: rgb(153, 146, 38); }" ),
                                                                                    QColor( 62, 21, 113 ) ) ) );
 const ThemeInfo Settings::STYLESHEET_SKY     = ThemeInfo( QString( "Sky" ),
                                                           ThemeData( ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(139, 187, 218, 255), stop:0.5 rgba(180, 209, 236, 255), stop:1 rgba(222, 231, 255, 255)); border-width: 3px; border-style: outset; border-color: rgb(163, 199, 215); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(0, 60, 196); border-width: 0px; border-style: normal }" ),
-                                                                                   QString( "a { color: rgb(0, 0, 204); }" ),
+                                                                                   QString( "a:link { color: rgb(0, 0, 204); } a:visited { color: rgb(0, 0, 204); }" ),
                                                                                    QColor( 184, 202, 215 ) ),
                                                                      ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(139, 187, 218, 255), stop:0.2 rgba(180, 209, 236, 255), stop:1 rgba(222, 231, 255, 255)); border-width: 3px; border-style: outset; border-color: rgb(255, 255, 255); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(0, 90, 226); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(0, 90, 226); border-width: 0px; border-style: normal }" ),
-                                                                                   QString( "a { color: rgb(0, 0, 255); }" ),
+                                                                                   QString( "a:link { color: rgb(0, 0, 255); } a:visited { color: rgb(0, 0, 255); }" ),
                                                                                    QColor( 184, 202, 215 ) ),
                                                                      ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 137, 168, 255), stop:0.8 rgba(180, 209, 236, 255), stop:1 rgba(222, 231, 255, 255)); border-width: 3px; border-style: outset; border-color: rgb(102, 137, 153); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(0, 20, 156); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(0, 20, 156); border-width: 0px; border-style: normal }" ),
-                                                                                   QString( "a { color: rgb(0, 0, 153); }" ),
+                                                                                   QString( "a:link { color: rgb(0, 0, 153); } a:visited { color: rgb(0, 0, 153); }" ),
+                                                                                   QColor( 184, 202, 215 ) ),
+                                                                     ThemeElement( QString( "QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(89, 137, 168, 255), stop:0.8 rgba(180, 209, 236, 255), stop:1 rgba(222, 231, 255, 255)); border-width: 3px; border-style: outset; border-color: rgb(102, 137, 153); border-radius: 12px} QLabel { background-color: rgba(255, 255, 255, 0); color: rgb(0, 20, 156); border-width: 0px; border-radius: 0px } QTextBrowser { background-color: rgba(255, 255, 255, 0); color: rgb(0, 20, 156); border-width: 0px; border-style: normal }" ),
+                                                                                   QString( "a:link { color: rgb(0, 0, 153); } a:visited { color: rgb(0, 0, 153); }" ),
                                                                                    QColor( 184, 202, 215 ) ) ) );
 
 Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView *twitpicviewSettings, QWidget *parent ) :
@@ -238,7 +185,7 @@ void Settings::loadConfig( bool dialogRejected )
 {
   settings.beginGroup( "General" );
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh-index", 3 ).toInt() );
-    ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( settings.value( "language", QLocale::system().name().left( 2 ) ) ) );
+    ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( settings.value( "language", QLocale::system().name() ) ) );
     ui.urlShortenerCombo->setCurrentIndex( ui.urlShortenerCombo->findData( settings.value( "url-shortener", UrlShortener::SHORTENER_ISGD ).toInt() ) );
     ui.confirmDeletionBox->setChecked( settings.value( "confirmTweetDeletion", true ).toBool() );
     ui.notificationsBox->setChecked( settings.value( "notifications", true ).toBool() );
@@ -255,7 +202,7 @@ void Settings::loadConfig( bool dialogRejected )
 #endif
   settings.endGroup();
   settings.beginGroup( "Appearance" );
-    ui.tweetCountBox->setValue( settings.value( "tweet count", 25 ).toInt() );
+    ui.statusCountBox->setValue( settings.value( "tweet count", 20 ).toInt() );
     ui.colorBox->setCurrentIndex( settings.value( "color scheme", 3 ).toInt() );
   settings.endGroup();
 
@@ -264,8 +211,8 @@ void Settings::loadConfig( bool dialogRejected )
 
   if ( !dialogRejected ) {
     settings.beginGroup( "MainWindow" );
-    mainWindow->resize( settings.value( "size", QSize(300, 400) ).toSize() );
-    QPoint offset( settings.value( "pos", QPoint(500,500) ).toPoint() );
+    mainWindow->resize( settings.value( "size", QSize(350,450) ).toSize() );
+    QPoint offset( settings.value( "pos", QPoint(500,200) ).toPoint() );
     if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
       offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
     }
@@ -274,7 +221,7 @@ void Settings::loadConfig( bool dialogRejected )
     }
     mainWindow->move( offset );
     settings.endGroup();
-    offset = settings.value( "SettingsWindow/pos", QPoint(500,500) ).toPoint();
+    offset = settings.value( "SettingsWindow/pos", QPoint(350,200) ).toPoint();
     if ( QApplication::desktop()->width() < offset.x() + size().width() ) {
       offset.setX( QApplication::desktop()->width() - size().width() );
     }
@@ -330,7 +277,7 @@ void Settings::saveConfig( int quitting )
 #endif
   settings.endGroup();
   settings.beginGroup( "Appearance" );
-    settings.setValue( "tweet count", ui.tweetCountBox->value() );
+    settings.setValue( "tweet count", ui.statusCountBox->value() );
     settings.setValue( "color scheme", ui.colorBox->currentIndex() );
   settings.endGroup();
 
@@ -343,6 +290,7 @@ void Settings::saveConfig( int quitting )
 void Settings::show()
 {
   updateAccountsOnExit = true;
+  core->setSettingsOpen( true );
   ui.tabs->setCurrentIndex( 0 );
   QDialog::show();
   adjustSize();
@@ -351,34 +299,17 @@ void Settings::show()
 void Settings::accept()
 {
   saveConfig( !updateAccountsOnExit );
+
+  core->setSettingsOpen( false );
   QDialog::accept();
 }
 
 void Settings::reject()
 {
   loadConfig( true );
+
+  core->setSettingsOpen( false );
   QDialog::reject();
-}
-
-void Settings::switchLanguage( int index )
-{
-  QString locale = ui.languageCombo->itemData( index ).toString();
-  QString qmPath( ":/translations" );
-  qDebug() << "switching language to" << locale << "from" << qmPath;
-  QTranslator translator;
-  translator.load( "qtwitter_" + locale, qmPath );
-  qApp->installTranslator( &translator );
-  retranslateUi();
-//  ui.retranslateUi(this);
-  mainWindow->retranslateUi();
-  core->retranslateUi();
- // ui.tabs->adjustSize();
-  adjustSize();
-}
-
-void Settings::setPublicTimelineEnabled( bool state )
-{
-  settings.setValue( "TwitterAccounts/publicTimeline", state );
 }
 
 void Settings::changeTheme( const QString &theme )
@@ -390,7 +321,7 @@ void Settings::changeTheme( const QString &theme )
 void Settings::retranslateUi()
 {
 //  ui.retranslateUi( this );
-  this->setWindowTitle( tr("Settings") );
+  setWindowTitle( tr("Settings") );
   ui.tabs->setTabText( 0, tr( "General" ) );
   ui.refreshLabel->setText( tr("Refresh every (mins):") );
   ui.languageLabel->setText( tr("Language:") );
@@ -398,26 +329,19 @@ void Settings::retranslateUi()
   ui.notificationsBox->setText( tr("Show tray notifications") );
   ui.confirmDeletionBox->setText( tr("Confirm messages deletion") );
   ui.tabs->setTabText( 1, tr( "Accounts" ) );
-//  ui.accountGroupBox->setTitle( tr( "Account" ) );
-//  ui.accountEnabledCheckBox->setText( tr( "Enabled" ) );
-//  ui.accountLoginLabel->setText( tr( "Username:" ) );
-//  ui.accountPasswordLabel->setText( tr( "Password:" ) );
-//  ui.accountDMCheckBox->setText( tr( "download direct messages" ) );
-//  ui.publicTimelineCheckBox->setText( tr( "include public timeline" ) );
-//  ui.publicTimelineLabel->setText( tr( "public timeline:" ) );
   ui.tabs->setTabText( 2, tr( "Network" ) );
   ui.proxyBox->setText( tr( "Use HTTP &proxy" ) );
   ui.hostLabel->setText( tr( "Host:" ) );
   ui.portLabel->setText( tr( "Port:" ) );
   ui.tabs->setTabText( 3, tr( "Appearance" ) );
-  ui.tweetCountLabel->setText( tr( "Tweet count:" ) );
+  ui.tweetCountLabel->setText( tr( "Status count:" ) );
   ui.colorLabel->setText( tr( "Color scheme:" ) );
 #ifdef Q_WS_X11
   useCustomBrowserCheckBox->setText( tr( "Use custom web browser" ) );
   selectBrowserButton->setText( tr( "Browse" ) );
 #endif
   ui.buttonBox->clear();
-  ui.buttonBox->addButton("OK", QDialogButtonBox::AcceptRole)->setText( "OK" );
+  ui.buttonBox->addButton("OK", QDialogButtonBox::AcceptRole)->setText( tr( "OK" ) );
   ui.buttonBox->addButton("Apply", QDialogButtonBox::ApplyRole)->setText( tr( "Apply" ) );
   ui.buttonBox->addButton("Cancel", QDialogButtonBox::RejectRole)->setText( tr( "Cancel" ) );
   update();
@@ -437,9 +361,6 @@ void Settings::applySettings()
 {
   setProxy();
   core->applySettings();
-  // TODO: public timeline
-//  mainWindow->setupAccounts( accountsModel->getAccounts(), false );//ui.publicTimelineCheckBox->isChecked() );
-//  twitPicView->setupAccounts( accountsModel->getAccounts() );
   changeTheme( ui.colorBox->currentText() );
 #ifdef Q_WS_X11
   if ( useCustomBrowserCheckBox->isChecked() ) {
@@ -454,23 +375,60 @@ void Settings::applySettings()
 
 void Settings::createLanguageMenu()
 {
-  QDir qmDir( ":/translations" );
+#if defined Q_WS_X11
+  QDir qmDir( SHARE_DIR );
+#else
+  QDir qmDir( ":" );
+#endif
+  if ( !qmDir.cd( "loc" ) ) {
+    qmDir.cd( QApplication::applicationDirPath() );
+    qmDir.cd( "qtwitter-app/res/loc" );
+  }
   QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
+//  QTranslator translator;
   for (int i = 0; i < fileNames.size(); ++i) {
     QString locale = fileNames[i];
     locale.remove(0, locale.indexOf('_') + 1);
     locale.chop(3);
 
-    QTranslator translator;
     translator.load(fileNames[i], qmDir.absolutePath());
-    QString language = translator.translate("Settings", "English");
-    qDebug() << "adding language" << language << ", locale" << locale;
+    //: Please translate "English" to YOUR LANGUAGE NAME in your own language, e.g. "Deutsch", "Francais", "Suomi", etc.
+    QString language = translator.translate( "Settings", "English" );
+//    qDebug() << "adding language" << language << ", locale" << locale;
     ui.languageCombo->addItem( language, locale );
   }
   QString systemLocale = QLocale::system().name();
-  systemLocale.chop(3);
+  QString def = translator.translate( "Settings", "Default" );
+  ui.languageCombo->insertItem(0, def, systemLocale );
+//  systemLocale.chop(3);
   qDebug() << systemLocale << ui.languageCombo->findData( systemLocale );
   ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
+}
+
+void Settings::switchLanguage( int index )
+{
+#if defined Q_WS_X11
+  QDir qmDir( SHARE_DIR );
+#else
+  QDir qmDir( ":" );
+#endif
+  if ( !qmDir.cd( "loc" ) ) {
+    qmDir.cd( QApplication::applicationDirPath() );
+    qmDir.cd( "qtwitter-app/res/loc" );
+  }
+  QString qmPath( qmDir.absolutePath() );
+
+  QString locale = ui.languageCombo->itemData( index ).toString();
+
+//  QTranslator translator;
+  qDebug() << "switching language to" << locale << "from" << qmPath;
+  translator.load( "qtwitter_" + locale, qmPath );
+  qApp->installTranslator( &translator );
+
+  retranslateUi();
+  mainWindow->retranslateUi();
+  core->retranslateUi();
+  adjustSize();
 }
 
 void Settings::createUrlShortenerMenu()
@@ -493,11 +451,11 @@ void Settings::createUrlShortenerMenu()
 */
 
 /*! \var QString ThemeElement::styleSheet
-    Tweet class stylesheet.
+    StatusWidget class stylesheet.
 */
 
 /*! \var QString ThemeElement::linkColor
-    A color for links in status text field in Tweet class.
+    A color for links in status text field in StatusWidget class.
 */
 
 /*! \var QColor ThemeElement::listBackgroundColor
@@ -520,7 +478,7 @@ void Settings::createUrlShortenerMenu()
     \brief A struct holding complete theme settings.
 
     This struct consists of three ThemeElement members, for three states of
-    a Tweet (Unread, Active and Read).
+    a Status (Unread, Active and Read).
 */
 
 /*! \var ThemeElement ThemeData::unread
@@ -579,10 +537,10 @@ void Settings::createUrlShortenerMenu()
     Sky theme info.
 */
 
-/*! \fn Settings::Settings( TweetModel *tweetModel, MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent = 0 )
+/*! \fn Settings::Settings( StatusModel *statusModel, MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent = 0 )
     A default constructor. Creates the Settings class instance with the
     given \a parent and sets its values according to given parameters.
-    \param tweetModel A pointer to TweetModel class instance, for applying its settings.
+    \param statusModel A pointer to StatusModel class instance, for applying its settings.
     \param mainwinSettings A pointer to MainWindow class instance, for applying its settings.
     \param coreSettings A pointer to Core class instance, for applying its settings.
     \param parent A class instance's parent.

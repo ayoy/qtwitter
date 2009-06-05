@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Tweet</class>
- <widget class="QWidget" name="Tweet">
+ <class>StatusWidget</class>
+ <widget class="QWidget" name="StatusWidget">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string notr="true">Form</string>
   </property>
   <property name="styleSheet">
    <string notr="true">QFrame { background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:1, y2:1, stop:0 rgba(101, 93, 86, 255), stop:0.0150754 rgba(23, 14, 40, 255), stop:1 rgba(112, 99, 37, 255));
@@ -75,7 +75,8 @@ border-style: normal;
     <property name="styleSheet">
      <string notr="true">QLabel { border-style: outset;
 border-width: 0px;
-border-radius: 0px}</string>
+border-radius: 0px}
+</string>
     </property>
     <property name="text">
      <string notr="true"/>
@@ -100,7 +101,7 @@ border-radius: 0px}</string>
      <set>Qt::LinksAccessibleByMouse</set>
     </property>
    </widget>
-   <widget class="TweetTextBrowser" name="userStatus">
+   <widget class="StatusTextBrowser" name="userStatus">
     <property name="geometry">
      <rect>
       <x>69</x>
@@ -294,8 +295,8 @@ border-radius: 0px}</string>
      <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'DejaVu Sans'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Lucida Grande'; font-size:13pt;&quot;&gt;Status will appear here&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Lucida Grande'; font-size:13pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Status will appear here&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
     </property>
     <property name="textInteractionFlags">
      <set>Qt::LinksAccessibleByMouse|Qt::TextSelectableByMouse</set>
@@ -304,11 +305,11 @@ p, li { white-space: pre-wrap; }
      <bool>true</bool>
     </property>
    </widget>
-   <widget class="QPushButton" name="menuButton">
+   <widget class="QPushButton" name="replyDeleteButton">
     <property name="geometry">
      <rect>
-      <x>270</x>
-      <y>6</y>
+      <x>26</x>
+      <y>65</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -339,7 +340,14 @@ background-color: rgba(255,255,255,0);
 </string>
     </property>
     <property name="text">
-     <string/>
+     <string notr="true"/>
+    </property>
+    <property name="icon">
+     <iconset resource="../res/resources.qrc">
+      <normaloff>:/icons/cross_16.png</normaloff>:/icons/cross_16.png</iconset>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
     </property>
    </widget>
    <widget class="QLabel" name="timeStamp">
@@ -359,16 +367,86 @@ background-color: rgba(255,255,255,0);
     <property name="text">
      <string notr="true">timestamp</string>
     </property>
+    <property name="openExternalLinks">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="UserInfoButton" name="infoButton">
+    <property name="geometry">
+     <rect>
+      <x>42</x>
+      <y>65</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string>QPushButton {
+border: 1px;
+background-color: rgba(255,255,255,0);
+}
+</string>
+    </property>
+    <property name="text">
+     <string notr="true"/>
+    </property>
+    <property name="icon">
+     <iconset resource="../res/resources.qrc">
+      <normaloff>:/icons/questionmark_16.png</normaloff>:/icons/questionmark_16.png</iconset>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="favoriteReplyButton">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>65</y>
+      <width>16</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="autoFillBackground">
+     <bool>false</bool>
+    </property>
+    <property name="styleSheet">
+     <string>QPushButton {
+border: 1px;
+background-color: rgba(255,255,255,0);
+}
+</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="icon">
+     <iconset resource="../res/resources.qrc">
+      <normaloff>:/icons/star_off_16.png</normaloff>:/icons/star_off_16.png</iconset>
+    </property>
+    <property name="flat">
+     <bool>true</bool>
+    </property>
    </widget>
   </widget>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>TweetTextBrowser</class>
+   <class>StatusTextBrowser</class>
    <extends>QTextBrowser</extends>
-   <header>tweettextbrowser.h</header>
+   <header>statustextbrowser.h</header>
+  </customwidget>
+  <customwidget>
+   <class>UserInfoButton</class>
+   <extends>QPushButton</extends>
+   <header>userinfobutton.h</header>
   </customwidget>
  </customwidgets>
- <resources/>
+ <resources>
+  <include location="../res/resources.qrc"/>
+ </resources>
  <connections/>
 </ui>

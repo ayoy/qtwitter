@@ -23,6 +23,7 @@
 
 #include <QDialog>
 #include <QSettings>
+#include <QTranslator>
 #include "ui_settings.h"
 
 class QFile;
@@ -33,7 +34,7 @@ class QLineEdit;
 class QPushButton;
 class QModelIndex;
 class TwitPicView;
-class TweetModel;
+class StatusModel;
 class MainWindow;
 class Core;
 class Account;
@@ -69,32 +70,24 @@ struct ThemeData
   ThemeElement unread;
   ThemeElement active;
   ThemeElement read;
+  ThemeElement disabled;
   ThemeData() :
       unread(),
       active(),
-      read()
+      read(),
+      disabled()
   {}
 
-  ThemeData( const ThemeElement &_unread, const ThemeElement &_active, const ThemeElement &_read ) :
-      unread( _unread ),
-      active( _active ),
-      read( _read )
+  ThemeData( const ThemeElement &unread, const ThemeElement &active,
+             const ThemeElement &read, const ThemeElement &disabled ) :
+      unread( unread ),
+      active( active ),
+      read( read ),
+      disabled( disabled )
   {}
 };
 
 typedef QPair<QString,ThemeData> ThemeInfo;
-
-class ConfigFile : public QSettings
-{
-public:
-  static const QString APP_VERSION;
-  ConfigFile();
-  static QString pwHash( const QString &text );
-  void addAccount( int id, const Account &account );
-  void deleteAccount( int id, int rowCount );
-private:
-  void convertSettings();
-};
 
 class Settings : public QDialog
 {
@@ -127,12 +120,6 @@ signals:
   void createAccounts( QWidget *view );
 
 private slots:
-//  void fillAccountEditor( const QModelIndex &current, const QModelIndex &previous );
-//  void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
-//  void updateCheckBox( const QModelIndex &index );
-//  void addAccount();
-//  void deleteAccount();
-  void setPublicTimelineEnabled( bool state );
   void changeTheme( const QString& );
   void retranslateUi();
 #ifdef Q_WS_X11
@@ -149,6 +136,7 @@ private:
   TwitPicView *twitPicView;
   QMap<QString,ThemeData> themes;
   Ui::Settings ui;
+  QTranslator translator;
 #ifdef Q_WS_X11
   QCheckBox *useCustomBrowserCheckBox;
   QLineEdit *selectBrowserEdit;

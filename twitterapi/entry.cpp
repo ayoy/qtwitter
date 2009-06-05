@@ -1,5 +1,6 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
+ *   Copyright (C) 2009 by Anna Nowak           <wiorka@gmail.com>         *
  *                                                                         *
  *   This library is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -28,50 +29,73 @@ Entry::Entry( Entry::Type entryType ) :
   id( -1 ),
   text( QString() ),
   originalText( QString() ),
-  name( QString() ),
-  login( QString() ),
-  image( QString() ),
-  homepage( QString() ),
-  hasHomepage( false ),
   timestamp( QDateTime() ),
-  localTime( QDateTime() )
+  localTime( QDateTime() ),
+  hasInReplyToStatusId( false ),
+  inReplyToStatusId( -1 ),
+  inReplyToScreenName( QString() ),
+  favorited( false ),
+  userInfo( UserInfo() )
 {}
 
 void Entry::initialize()
 {
   isOwn = false;
   id = -1;
-  name = QString();
-  login = QString();
-  homepage = QString();
-  hasHomepage = false;
-  image = QString();
   text = QString();
   originalText = QString();
   timestamp = QDateTime();
   localTime = QDateTime();
+  hasInReplyToStatusId = false;
+  inReplyToStatusId = -1;
+  inReplyToScreenName = QString();
+  favorited = false;
+  userInfo.initialize();
 }
 
 bool Entry::checkContents()
 {
-  if ( !hasHomepage ) {
-    homepage = QString();
+  if ( !hasInReplyToStatusId ) {
+    inReplyToStatusId = -1;
+    inReplyToScreenName = QString();
   }
-  if ( ( id != -1 ) &&
-       !name.isNull() &&
-       !login.isNull() &&
-       ( type == Status ? !image.isNull() : true ) &&
-       !text.isNull() &&
-       ( hasHomepage ? !homepage.isNull() : true ) &&
-       !timestamp.isNull() &&
-       !localTime.isNull() ) {
-    return true;
+  if ( userInfo.checkContents() ) {
+    if ( ( id != -1 ) &&
+         ( type == Status ? !userInfo.imageUrl.isNull() : true ) &&  //todo: reference to userinfo here is lame
+         !text.isNull() &&
+         !timestamp.isNull() &&
+         !localTime.isNull()  &&
+         ( hasInReplyToStatusId ? inReplyToStatusId != -1 : true ) &&
+         ( hasInReplyToStatusId ? !inReplyToScreenName.isNull() : true ) ) {
+      return true;
+    }
   }
-  return false;
+    return false;
 }
 
+bool Entry::operator== (const Entry &other )
+{
+  return ( type == other.type
+           && isOwn == other.isOwn
+           && id == other.id
+           && text == other.text
+           && originalText == other.originalText
+           && userInfo.name == other.userInfo.name
+           && userInfo.screenName == other.userInfo.screenName
+           && userInfo.imageUrl == other.userInfo.imageUrl
+           && userInfo.homepage == other.userInfo.homepage
+           && userInfo.hasHomepage == other.userInfo.hasHomepage
+           && timestamp == other.timestamp
+           && localTime == other.localTime
+           && hasInReplyToStatusId == other.hasInReplyToStatusId
+           && inReplyToStatusId == other.inReplyToStatusId
+           && inReplyToScreenName == other.inReplyToScreenName
+           && favorited == other.favorited );
+}
+
+
 /*! \struct Entry
-    \brief A struct containing Tweet data.
+    \brief A struct containing status data.
 
     This struct contains all the parameters for each status or direct message
     extracted by an XML parser.
@@ -128,11 +152,11 @@ bool Entry::checkContents()
 */
 
 /*! \var QString Entry::name
-    Stores the status owner's screen name.
+    Stores the status owner's real name.
 */
 
-/*! \var QString Entry::login
-    Stores the status owner's login.
+/*! \var QString Entry::screenName
+    Stores the status owner's login/screen name.
 */
 
 /*! \var QString Entry::image
