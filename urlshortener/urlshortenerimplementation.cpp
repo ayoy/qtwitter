@@ -22,6 +22,11 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QRegExp>
+#include <QBuffer>
+#include <QFile>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QDebug>
 
 #include "urlshortenerimplementation.h"
 
@@ -196,6 +201,48 @@ void UnuShortener::replyFinished( QNetworkReply *reply )
         emit shortened( response );
       } else {
         emit errorMessage( tr( "Your URL has been rejected by u.nu" ) );
+      }
+      break;
+    default: case 500:
+      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  }
+}
+
+BitlyShortener::BitlyShortener( QObject *parent ) : UrlShortenerImplementation( parent ) {}
+
+void BitlyShortener::shorten( const QString &url )
+{
+  QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
+
+  if( QRegExp( "http://bit.ly" ).indexIn( url ) == -1 ) {
+    connection->get( QNetworkRequest( QUrl( "http://api.bit.ly/shorten?version=2.0.1&login=bitlyapidemo&format=xml&apiKey=R_0da49e0a9118ff35f52f629d2d71bf07&longUrl=" + newUrl ) ) );
+  }
+}
+
+void BitlyShortener::replyFinished( QNetworkReply *reply )
+{
+  QString response = reply->readLine();
+
+  switch( replyStatus( reply ) ) {
+    case 200:
+      {
+        QDomDocument doc;
+        doc.setContent( response, false );
+        QDomElement nodeKeyVal = doc.firstChildElement( "bitly" ).firstChildElement( "results" ).firstChildElement( "nodeKeyVal" );
+        int errorCode = nodeKeyVal.firstChildElement( "errorCode" ).text().toInt();
+        switch( errorCode ) {
+          case 0:
+              shortened( nodeKeyVal.firstChildElement( "shortUrl" ).text() );
+              break;
+          case 101:
+            errorMessage( tr( "Unknown error." ) );
+            break;
+          case 503:
+            errorMessage( tr( "Service unavailable." ) );
+            break;
+          case 1206:
+            errorMessage( tr( "URL you tried to shorten was invalid." ) );
+        }
       }
       break;
     default: case 500:

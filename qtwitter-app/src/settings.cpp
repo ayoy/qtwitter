@@ -475,6 +475,7 @@ void Settings::createLanguageMenu()
 
 void Settings::createUrlShortenerMenu()
 {
+  ui.urlShortenerCombo->addItem( "bit.ly", UrlShortener::SHORTENER_BITLY );
   ui.urlShortenerCombo->addItem( "is.gd", UrlShortener::SHORTENER_ISGD );
   ui.urlShortenerCombo->addItem( "MetaMark", UrlShortener::SHORTENER_METAMARK );
   ui.urlShortenerCombo->addItem( "tinyarro.ws", UrlShortener::SHORTENER_TINYARROWS );

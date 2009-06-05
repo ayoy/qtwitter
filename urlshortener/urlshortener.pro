@@ -4,7 +4,7 @@ include(../qtwitter.pri)
 include(urlshortener.pri)
 
 TEMPLATE = lib
-QT += network
+QT += network xml
 QT -= gui
 CONFIG += dll
 DEFINES += URLSHORTENER
