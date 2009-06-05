@@ -20,7 +20,7 @@
 
 #include <QMessageBox>
 #include <qticonloader.h>
-#include <settings.h>
+#include <configfile.h>
 #include "accountsmodel.h"
 #include "accountsview.h"
 #include "accountsdelegate.h"

@@ -19,7 +19,6 @@
 
 
 #include <QApplication>
-#include <QDir>
 #include "qtwitter.h"
 
 int main( int argc, char **argv )

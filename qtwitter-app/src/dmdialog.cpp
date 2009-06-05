@@ -45,6 +45,7 @@ DMDialog::DMDialog( TwitterAPI::SocialNetwork network, const QString &login, con
   m_ui->sendingLabel->setFont( charsLeftFont );
   m_ui->progressLabel->resize( m_ui->progressLabel->width(), m_ui->sendingLabel->height() );
 
+  m_ui->charsLeftLabel->setText( tr( "%n characters left", "", charsLeft() ) );
   m_ui->sendingLabel->hide();
   m_ui->progressLabel->hide();
   m_ui->progressLabel->setMovie( progress );

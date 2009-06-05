@@ -1,24 +1,29 @@
-qTwitter is a simple application interacting with twitter.com social network. It was originally inspired by Twitterrific, known very well to Mac OS X users. It's being developed in Qt framework for C++.
+qTwitter is an application interacting with Twitter and Identi.ca social networks. Originally inspired by Twitterrific, known very well to Mac OS X users, aims to be as compact as possible still providing outstanding usability. It's being developed using Qt framework for C++.
 
-Features' summary as for v0.6.0:
-  - posting updates to Twitter and downloading friends or public timeline,
-  - support for multiple accounts,
-  - support for deleting messages, replying, retweeting and copying Tweets' permalinks to clipboard,
-  - support for downloading direct messages,
-  - integrated support for shortening URLs,
+Features' summary as for v0.7.0:
+  - support for Twitter and Identi.ca for:
+    * friends and public timeline,
+    * posting, replying, retweeting, deleting and (dis)favoring statuses,
+    * downloading, sending and deleting direct messages,
+  - support for working with multiple accounts at the same time,
+  - integrated support for shortening URLs via 7 different services,
   - full interaction with TwitPic API, allowing for easy one-click image uploading and posting updates,
   - system tray notifications (via knotify and Growl),
-  - customizable Tweet list length and look (via the use of themes),
-  - in-session password storing,
+  - customizable statuses list length and look (via the use of themes),
+  - in-session passwords storing (can be disabled),
   - HTTP proxy support,
   - being recognized as a source of updates,
-  - translation to 7 languages in the run-time (sorry for my poor Catalan/Spanish, I appreciate any help here :) ).
+  - translation to 7 languages in the run-time (sorry for my poor Catalan, I appreciate any help here :) ).
 
 See CHANGELOG for details.
 
-If you wish to report an issue, request a feature or just give any kind of feedback concerning qTwitter, don't hesitate to contact me either via e-mail (d AT ayoy DOT net) or at Twitter (http://twitter.com/ayoy).
+If you wish to report an issue, request a feature, provide a translation (yay!) or just give any kind of feedback concerning qTwitter, the easiest way is to visit its bug tracking system site at:
 
-Thanks for your time reading this and trying qTwitter!
+http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all
+
+If you wish, you can also contact me either via e-mail (d AT ayoy DOT net) or at Twitter (http://twitter.com/ayoy).
+
+Happy tweeting!
 
 ayoy
 

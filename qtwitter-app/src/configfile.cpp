@@ -21,10 +21,10 @@
 #include <account.h>
 #include "configfile.h"
 
-ConfigFile settings;
-
-
 const QString ConfigFile::APP_VERSION = "0.7.0";
+
+
+ConfigFile settings;
 
 
 ConfigFile::ConfigFile():
