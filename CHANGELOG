@@ -1,3 +1,17 @@
+v0.7.0 (2009/06/08):
+- PROVIDED SUPPORT FOR IDENTI.CA using Twitter-compatible API,
+- added support for sending and deleting direct messages,
+- added support for favoring and disfavoring statuses,
+- added timestamp and 'in-reply-to' information to statuses,
+- added user info popups,
+- provided 3 context-switchable icons for common operations with statuses,
+- support for URL shortening extended by tinyarro.ws, u.nu and bit.ly,
+- provided variable length of statuses lists being downloaded,
+- huge performance and memory management improvements,
+- added basic support for freedesktop icons on X11,
+- provided an option to disable password storing,
+- accounts settings page reorganized and made more user-friendly,
+- fixed lots of minor bugs.
 v0.6.0 (2009/04/27):
 - added support for working with multiple accounts at the same time,
 - added support for shortening URLs using tr.im, is.gd, tinyurl.com and MetaMark.com,
