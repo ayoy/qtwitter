@@ -90,6 +90,7 @@ void AccountsController::loadAccounts()
     }
     model->account(i).directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
   }
+  ui->publicTimelineComboBox->setCurrentIndex( settings.value( "publicTimeline", PT_NONE ).toInt() );
   settings.endGroup();
   if ( view->model()->rowCount() <= 0 ) {
     ui->deleteAccountButton->setEnabled( false );
@@ -208,7 +209,9 @@ void AccountsController::setAccountDM( bool state )
 
 void AccountsController::retranslateUi()
 {
+  int currentIndex = ui->publicTimelineComboBox->currentIndex();
   if ( widget ) {
     ui->retranslateUi( widget );
   }
+  ui->publicTimelineComboBox->setCurrentIndex( currentIndex );
 }
