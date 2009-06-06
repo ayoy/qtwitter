@@ -72,7 +72,8 @@ XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, E
     QXmlDefaultHandler(),
     currentTag( QString() ),
     entry( entryType ),
-    important( false )
+    important( false ),
+    parsingUser( false )
 {
   this->network = network;
   this->login = login;

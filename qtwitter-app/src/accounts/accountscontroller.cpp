@@ -67,6 +67,7 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
 
 AccountsController::~AccountsController()
 {
+  updatePublicTimeline( ui->publicTimelineComboBox->currentIndex() );
   delete ui;
   ui = 0;
 }

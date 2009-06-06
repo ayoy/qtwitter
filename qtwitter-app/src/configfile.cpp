@@ -18,8 +18,10 @@
  ***************************************************************************/
 
 
-#include <account.h>
 #include "configfile.h"
+
+#include <account.h>
+#include <QFileInfo>
 
 const QString ConfigFile::APP_VERSION = "0.7.0";
 
@@ -36,11 +38,16 @@ QSettings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" )
 QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
 #endif
 {
-  if ( value( "General/version", QString() ).toString() == "0.6.0" ) {
-    convertSettingsToZeroSeven();
-  } else if ( value( "General/version", QString() ).toString().isNull() ) {
-    convertSettingsToZeroSix();
-    convertSettingsToZeroSeven();
+  if ( QFileInfo( fileName() ).exists() ) {
+    if ( value( "General/version", QString() ).toString() == "0.6.0" ) {
+      convertSettingsToZeroSeven();
+    } else if ( value( "General/version", QString() ).toString().isNull() ) {
+      convertSettingsToZeroSix();
+      convertSettingsToZeroSeven();
+    }
+  } else {
+    setValue( "General/version", ConfigFile::APP_VERSION );
+    setValue( "Accounts/publicTimeline", true );
   }
 }
 
@@ -93,7 +100,6 @@ void ConfigFile::convertSettingsToZeroSix()
   if ( value( "General/timeline", false ).toBool() ) {
     setValue( "TwitterAccounts/currentModel", 1 );
   }
-  setValue( "General/language", "en" );
   remove( "General/username" );
   remove( "General/password" );
   remove( "General/directMessages" );

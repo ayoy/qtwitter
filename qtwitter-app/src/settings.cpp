@@ -135,7 +135,6 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   connect( this, SIGNAL(createAccounts(QWidget*)), core, SLOT(createAccounts(QWidget*)) );
 
   ui.setupUi( this );
-  ui.languageCombo->setItemData( 0, "en" );
 
   themes.insert( STYLESHEET_CARAMEL.first, STYLESHEET_CARAMEL.second);
   themes.insert( STYLESHEET_COCOA.first,   STYLESHEET_COCOA.second);
@@ -163,6 +162,9 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   selectBrowserEdit->setEnabled( false );
   selectBrowserButton->setEnabled( false );
 
+  createLanguageMenu();
+  createUrlShortenerMenu();
+
   connect( useCustomBrowserCheckBox, SIGNAL(toggled(bool)), selectBrowserEdit, SLOT(setEnabled(bool)) );
   connect( useCustomBrowserCheckBox, SIGNAL(toggled(bool)), selectBrowserButton, SLOT(setEnabled(bool)) );
   connect( selectBrowserButton, SIGNAL(clicked()), this, SLOT(setBrowser()) );
@@ -171,8 +173,6 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   connect( ui.buttonBox->button( QDialogButtonBox::Apply ), SIGNAL(clicked()), this, SLOT(saveConfig()) );
   connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
   connect( ui.colorBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeTheme(QString)) );
-  createLanguageMenu();
-  createUrlShortenerMenu();
   ui.portEdit->setValidator( new QIntValidator( 1, 65535, this ) );
 
   emit createAccounts( ui.widget );
@@ -185,7 +185,12 @@ void Settings::loadConfig( bool dialogRejected )
 {
   settings.beginGroup( "General" );
     ui.refreshCombo->setCurrentIndex( settings.value( "refresh-index", 3 ).toInt() );
-    ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( settings.value( "language", QLocale::system().name() ) ) );
+
+    int lang = ui.languageCombo->findData( settings.value( "language", QLocale::system().name() ).toString() );
+    if ( lang == -1 )
+      lang = 0;
+    ui.languageCombo->setCurrentIndex( lang );
+
     ui.urlShortenerCombo->setCurrentIndex( ui.urlShortenerCombo->findData( settings.value( "url-shortener", UrlShortener::SHORTENER_ISGD ).toInt() ) );
     ui.confirmDeletionBox->setChecked( settings.value( "confirmTweetDeletion", true ).toBool() );
     ui.notificationsBox->setChecked( settings.value( "notifications", true ).toBool() );
@@ -320,6 +325,8 @@ void Settings::changeTheme( const QString &theme )
 
 void Settings::retranslateUi()
 {
+  ui.languageCombo->setItemText( 0, tr( "Default" ) );
+
 //  ui.retranslateUi( this );
   setWindowTitle( tr("Settings") );
   ui.tabs->setTabText( 0, tr( "General" ) );
@@ -365,9 +372,13 @@ void Settings::applySettings()
 #ifdef Q_WS_X11
   if ( useCustomBrowserCheckBox->isChecked() ) {
     QDesktopServices::setUrlHandler( "http", core, "openBrowser");
+    QDesktopServices::setUrlHandler( "https", core, "openBrowser");
+    QDesktopServices::setUrlHandler( "ftp", core, "openBrowser");
     core->setBrowserPath( this->selectBrowserEdit->text() );
   } else {
     QDesktopServices::unsetUrlHandler( "http" );
+    QDesktopServices::unsetUrlHandler( "https" );
+    QDesktopServices::unsetUrlHandler( "ftp" );
     core->setBrowserPath( QString() );
   }
 #endif
@@ -385,23 +396,26 @@ void Settings::createLanguageMenu()
     qmDir.cd( "qtwitter-app/res/loc" );
   }
   QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
+  fileNames.append( "qtwitter_en.qm" );
+  fileNames.sort();
   for (int i = 0; i < fileNames.size(); ++i) {
     QString locale = fileNames[i];
     locale.remove(0, locale.indexOf('_') + 1);
     locale.chop(3);
 
     translator.load(fileNames[i], qmDir.absolutePath());
-    //: Please put here your translation's langugae, e.g. "Deutsch", "Francais", "Suomi", etc.
+    //: Please put here your translation's language, e.g. "Deutsch", "Francais", "Suomi", etc.
     //: DON'T TRANSLATE "English" TO YOUR LANGUAGE
     QString language = translator.translate( "Settings", "English" );
+    if ( language.isEmpty() )
+      language = "English";
     ui.languageCombo->addItem( language, locale );
   }
   QString systemLocale = QLocale::system().name();
-  QString def = translator.translate( "Settings", "Default" );
-  ui.languageCombo->insertItem(0, def, systemLocale );
+  ui.languageCombo->insertItem(0, tr( "Default" ), systemLocale );
 //  systemLocale.chop(3);
   qDebug() << systemLocale << ui.languageCombo->findData( systemLocale );
-  ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
+//  ui.languageCombo->setCurrentIndex( ui.languageCombo->findData( systemLocale ) );
 }
 
 void Settings::switchLanguage( int index )
@@ -419,7 +433,6 @@ void Settings::switchLanguage( int index )
 
   QString locale = ui.languageCombo->itemData( index ).toString();
 
-//  QTranslator translator;
   qDebug() << "switching language to" << locale << "from" << qmPath;
   translator.load( "qtwitter_" + locale, qmPath );
   qApp->installTranslator( &translator );
