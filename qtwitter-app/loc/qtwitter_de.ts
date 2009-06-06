@@ -4,27 +4,27 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../ui/aboutdialog.ui"/>
+        <location filename="../ui/aboutdialog.ui" line="+26"/>
         <source>About qTwitter</source>
         <translation>Über qTwitter</translation>
     </message>
     <message>
-        <location/>
+        <location line="+71"/>
         <source>About</source>
         <translation>Über</translation>
     </message>
     <message>
-        <location/>
+        <location line="+84"/>
         <source>Authors</source>
         <translation>Autoren</translation>
     </message>
     <message>
-        <location/>
+        <location line="+84"/>
         <source>Credits</source>
         <translation></translation>
     </message>
     <message>
-        <location/>
+        <location line="+102"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
@@ -72,12 +72,11 @@
         <translation>Japanische Übersetzung</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Polish, Spanish and Catalan translation</source>
-        <translation>Polnische, Spanische, und Katalanische Übersetzung</translation>
+        <translation type="obsolete">Polnische, Spanische, und Katalanische Übersetzung</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+21"/>
         <source>qTwitter icon design by %1</source>
         <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
         <translation>qTwitter Icon Designs %1</translation>
@@ -99,7 +98,7 @@
         <translation>Tests:</translation>
     </message>
     <message>
-        <location line="-38"/>
+        <location line="-40"/>
         <source>Development team as for 0.7.0:</source>
         <translation>Entwicklerteam für 0.7.0:</translation>
     </message>
@@ -109,7 +108,22 @@
         <translation>Portierungen auf Maemo Plattform</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+9"/>
+        <source>Portugese translation</source>
+        <translation>Portugiesische Übersetzung</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Spanish translation</source>
+        <translation>Spanische Übersetzung</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Polish and Catalan translation</source>
+        <translation>Polnische und Katalanische Übersetzung</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Releasing:</source>
         <translation></translation>
     </message>
@@ -117,32 +131,32 @@
 <context>
     <name>Accounts</name>
     <message>
-        <location filename="../src/accounts/accounts.ui"/>
+        <location filename="../src/accounts/accounts.ui" line="+61"/>
         <source>public timeline:</source>
         <translation>Öffentliche Zeitleiste:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+8"/>
         <source>None</source>
         <translation>Keine</translation>
     </message>
     <message>
-        <location/>
+        <location line="+5"/>
         <source>Twitter</source>
         <translation></translation>
     </message>
     <message>
-        <location/>
+        <location line="+5"/>
         <source>Identi.ca</source>
         <translation></translation>
     </message>
     <message>
-        <location/>
+        <location line="+5"/>
         <source>Both</source>
         <translation>Beide</translation>
     </message>
     <message>
-        <location/>
+        <location line="+28"/>
         <source>store passwords on disk</source>
         <translation>speichere Passwort auf Festplatte</translation>
     </message>
@@ -204,42 +218,43 @@
 <context>
     <name>AuthDialog</name>
     <message>
-        <location filename="../ui/authdialog.ui"/>
+        <location filename="../ui/authdialog.ui" line="+32"/>
         <source>Authentication required</source>
         <translation>Autenticació necessitada</translation>
     </message>
     <message>
-        <location/>
+        <location line="+33"/>
         <source>The credentials you provided are incorrect</source>
         <translation>Die Benutzerdaten sind nicht korrekt</translation>
     </message>
     <message>
-        <location/>
+        <location line="+13"/>
         <source>Username:</source>
         <translation>Benutzername:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+30"/>
         <source>Password:</source>
         <translation>Passwort:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+46"/>
         <source>disable account</source>
         <translation>Account deaktivieren</translation>
     </message>
     <message>
-        <location/>
+        <location line="+3"/>
+        <location line="+10"/>
         <source>buttonGroup</source>
         <translation></translation>
     </message>
     <message>
-        <location/>
+        <location line="-3"/>
         <source>remove account</source>
         <translation>Account entfernen</translation>
     </message>
     <message>
-        <location/>
+        <location line="-20"/>
         <source>or</source>
         <translation>oder</translation>
     </message>
@@ -407,27 +422,27 @@
         <translation>Senden fehlgeschlagen. Beachten Sie, dass keine Nachrichten an Benutzer gesendet werden können, die Ihnen nicht folgen.</translation>
     </message>
     <message>
-        <location filename="../ui/dmdialog.ui"/>
+        <location filename="../ui/dmdialog.ui" line="+20"/>
         <source>Direct Message</source>
         <translation>Direkt-Nachricht</translation>
     </message>
     <message>
-        <location/>
+        <location line="+6"/>
         <source>Write your message:</source>
         <translation>Nachricht schreiben:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+59"/>
         <source>Reset</source>
         <translation>Löschen</translation>
     </message>
     <message>
-        <location/>
+        <location line="+10"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
     <message>
-        <location/>
+        <location line="+13"/>
         <source>Send</source>
         <translation>Senden</translation>
     </message>
@@ -516,18 +531,18 @@
         <translation>Fehler</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui"/>
+        <location filename="../ui/mainwindow.ui" line="+20"/>
         <source>qTwitter</source>
         <translation></translation>
     </message>
     <message>
-        <location/>
+        <location line="+225"/>
         <source>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</source>
         <translation>&lt;span style=&quot;color: black&quot;&gt;Drücken Sie &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; um Links zu kürzen&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="+59"/>
-        <location filename="../ui/mainwindow.ui"/>
+        <location filename="../ui/mainwindow.ui" line="+6"/>
         <source>What are you doing?</source>
         <translation>Was machst du gerade?</translation>
     </message>
@@ -604,7 +619,7 @@
     </message>
     <message>
         <location line="+5"/>
-        <location filename="../ui/mainwindow.ui"/>
+        <location filename="../ui/mainwindow.ui" line="-72"/>
         <source>More...</source>
         <translation>Mehr...</translation>
     </message>
@@ -627,15 +642,14 @@
         <translation>Neuer Tweet</translation>
     </message>
     <message numerus="yes">
-        <location line="-451"/>
         <source>%n character(s) left</source>
-        <translation>
+        <translation type="obsolete">
             <numerusform>%n Zeichen übrig</numerusform>
             <numerusform>%n Zeichen übrig</numerusform>
         </translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-383"/>
         <source>&amp;File</source>
         <translation>&amp;Datei</translation>
     </message>
@@ -672,7 +686,8 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location line="+1"/>
+        <location line="-240"/>
+        <location line="+241"/>
         <source>%n characters left</source>
         <translation>
             <numerusform>%n Zeichen übrig</numerusform>
@@ -715,31 +730,31 @@
     <name>Settings</name>
     <message>
         <location filename="../src/settings.cpp" line="+324"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+26"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+13"/>
         <source>General</source>
         <translation>Allgemein</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+57"/>
         <source>Language</source>
         <translation>Sprache</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="+71"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+17"/>
         <source>English</source>
-        <extracomment>Please translate &quot;English&quot; to YOUR LANGUAGE NAME in your own language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc.</extracomment>
+        <extracomment>Please put here your translation&apos;s langugae, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Deutsch</translation>
     </message>
     <message>
         <location line="-64"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+70"/>
         <source>Network</source>
         <translation>Netzwerk</translation>
     </message>
@@ -760,7 +775,7 @@
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="-47"/>
         <source>Confirm messages deletion</source>
         <translation>Bestätige Löschen von Nachrichten</translation>
     </message>
@@ -790,25 +805,25 @@
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+53"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Benutze &amp;proxy HTTP</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+9"/>
         <source>Host:</source>
         <translation></translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+20"/>
         <source>Port:</source>
         <translation></translation>
     </message>
     <message>
         <location line="+2"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+51"/>
         <source>Status count:</source>
         <translation>Statusanzahl:</translation>
     </message>
@@ -823,12 +838,12 @@
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+54"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-56"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -853,18 +868,18 @@
         <translation>Browse</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="-222"/>
         <source>Refresh every (mins)</source>
         <translation>Aktualisiere jede (Minuten)</translation>
     </message>
     <message>
-        <location/>
+        <location line="+74"/>
         <source>Shorten links via</source>
         <translation>Kürze Links mit</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="-12"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+28"/>
         <source>Show tray notifications</source>
         <translation>Tray-Infos aktivieren</translation>
     </message>
@@ -884,7 +899,7 @@
     </message>
     <message>
         <location line="-20"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+111"/>
         <source>Appearance</source>
         <translation>Erscheinungsbild</translation>
     </message>
@@ -895,13 +910,13 @@
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="-87"/>
         <source>Accounts</source>
         <translation>Konten</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+122"/>
         <source>Color scheme:</source>
         <translation>Farbschema:</translation>
     </message>
@@ -1014,7 +1029,8 @@
         <translation>Über %1</translation>
     </message>
     <message>
-        <location filename="../ui/statuswidget.ui"/>
+        <location filename="../ui/statuswidget.ui" line="+387"/>
+        <location line="+30"/>
         <source>QPushButton {
 border: 1px;
 background-color: rgba(255,255,255,0);
@@ -1132,7 +1148,7 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicNewPhoto</name>
     <message>
-        <location filename="../ui/twitpicnewphoto.ui"/>
+        <location filename="../ui/twitpicnewphoto.ui" line="+26"/>
         <source>Upload completed</source>
         <translation>Upload komplett</translation>
     </message>
@@ -1143,7 +1159,7 @@ background-color: rgba(255,255,255,0);
         <location filename="../src/twitpicview.cpp" line="+82"/>
         <location line="+39"/>
         <location line="+10"/>
-        <location filename="../ui/twitpicview.ui"/>
+        <location filename="../ui/twitpicview.ui" line="+151"/>
         <source>Upload</source>
         <translation>Upload</translation>
     </message>
@@ -1167,27 +1183,27 @@ background-color: rgba(255,255,255,0);
         <location line="+6"/>
         <location line="+5"/>
         <location line="+12"/>
-        <location filename="../ui/twitpicview.ui"/>
+        <location filename="../ui/twitpicview.ui" line="-41"/>
         <source>Select a photo to upload</source>
         <translation>Wähle Foto zum Upload</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui"/>
+        <location filename="../ui/twitpicview.ui" line="-90"/>
         <source>Upload a photo to Twitpic</source>
         <translation>Foto zu Twitpic hochladen</translation>
     </message>
     <message>
-        <location/>
+        <location line="+8"/>
         <source>Choose a photo:</source>
         <translation>Foto auswählen:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+10"/>
         <source>Browse</source>
         <translation>Browse</translation>
     </message>
     <message>
-        <location/>
+        <location line="+90"/>
         <source>post a status</source>
         <translation>Status senden</translation>
     </message>
@@ -1243,27 +1259,27 @@ background-color: rgba(255,255,255,0);
         </translation>
     </message>
     <message>
-        <location filename="../ui/userinfopopup.ui"/>
+        <location filename="../ui/userinfopopup.ui" line="+210"/>
         <source>Login:</source>
         <translation></translation>
     </message>
     <message>
-        <location/>
+        <location line="+14"/>
         <source>Location:</source>
         <translation>Standort:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+14"/>
         <source>Local time:</source>
         <translation>Lokale Uhrzeit:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+14"/>
         <source>Homepage:</source>
         <translation></translation>
     </message>
     <message>
-        <location/>
+        <location line="+33"/>
         <source>Bio:</source>
         <translation></translation>
     </message>

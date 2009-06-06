@@ -4,27 +4,27 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../ui/aboutdialog.ui"/>
+        <location filename="../ui/aboutdialog.ui" line="+26"/>
         <source>About qTwitter</source>
         <translation>Sobre qTwitter</translation>
     </message>
     <message>
-        <location/>
+        <location line="+71"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location/>
+        <location line="+84"/>
         <source>Authors</source>
         <translation>Autors</translation>
     </message>
     <message>
-        <location/>
+        <location line="+84"/>
         <source>Credits</source>
         <translation>Crèdits</translation>
     </message>
     <message>
-        <location/>
+        <location line="+102"/>
         <source>Close</source>
         <translation>Tancar</translation>
     </message>
@@ -59,25 +59,24 @@
     <message>
         <location line="+3"/>
         <source>French translation</source>
-        <translation>Traducció francesa</translation>
+        <translation>Traducció al francès</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>German translation</source>
-        <translation>Traducció alemana</translation>
+        <translation>Traducció a l&apos;alemany</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Japanese translation</source>
-        <translation>Traducció japonesa</translation>
+        <translation>Traducció al japonès</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Polish, Spanish and Catalan translation</source>
-        <translation>Traducció polonesa, espanyola i catalana</translation>
+        <translation type="obsolete">Traducció polonesa, espanyola i catalana</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+21"/>
         <source>qTwitter icon design by %1</source>
         <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
         <translation>La icona de qTwitter per %1</translation>
@@ -99,7 +98,7 @@
         <translation>Evaluació:</translation>
     </message>
     <message>
-        <location line="-38"/>
+        <location line="-40"/>
         <source>Development team as for 0.7.0:</source>
         <translation>Equip de desenvolupament de 0.7.0:</translation>
     </message>
@@ -109,7 +108,22 @@
         <translation>Porting a la plataforma Maemo</translation>
     </message>
     <message>
-        <location line="+38"/>
+        <location line="+9"/>
+        <source>Portugese translation</source>
+        <translation>Traducció al portuguès</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Spanish translation</source>
+        <translation>Traducció a l&apos;espanyol</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Polish and Catalan translation</source>
+        <translation>Traducció al polonès i català</translation>
+    </message>
+    <message>
+        <location line="+29"/>
         <source>Releasing:</source>
         <translation>Llançament:</translation>
     </message>
@@ -117,32 +131,32 @@
 <context>
     <name>Accounts</name>
     <message>
-        <location filename="../src/accounts/accounts.ui"/>
+        <location filename="../src/accounts/accounts.ui" line="+61"/>
         <source>public timeline:</source>
         <translation>llista pública:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+8"/>
         <source>None</source>
         <translation>Cap</translation>
     </message>
     <message>
-        <location/>
+        <location line="+5"/>
         <source>Twitter</source>
         <translation>Twitter</translation>
     </message>
     <message>
-        <location/>
+        <location line="+5"/>
         <source>Identi.ca</source>
         <translation>Identi.ca</translation>
     </message>
     <message>
-        <location/>
+        <location line="+5"/>
         <source>Both</source>
         <translation>Dues</translation>
     </message>
     <message>
-        <location/>
+        <location line="+28"/>
         <source>store passwords on disk</source>
         <translation>desar les contrasenyes al disc</translation>
     </message>
@@ -204,42 +218,43 @@
 <context>
     <name>AuthDialog</name>
     <message>
-        <location filename="../ui/authdialog.ui"/>
+        <location filename="../ui/authdialog.ui" line="+32"/>
         <source>Authentication required</source>
         <translation>Autenticació necessitada</translation>
     </message>
     <message>
-        <location/>
+        <location line="+33"/>
         <source>The credentials you provided are incorrect</source>
         <translation>Les dades d&apos;autenticació són incorrectes</translation>
     </message>
     <message>
-        <location/>
+        <location line="+13"/>
         <source>Username:</source>
         <translation>Nom d&apos;usuari:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+30"/>
         <source>Password:</source>
         <translation>Contrasenya:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+46"/>
         <source>disable account</source>
         <translation>desactivar el compte</translation>
     </message>
     <message>
-        <location/>
+        <location line="+3"/>
+        <location line="+10"/>
         <source>buttonGroup</source>
         <translation></translation>
     </message>
     <message>
-        <location/>
+        <location line="-3"/>
         <source>remove account</source>
         <translation>suprimir el compte</translation>
     </message>
     <message>
-        <location/>
+        <location line="-20"/>
         <source>or</source>
         <translation>o</translation>
     </message>
@@ -407,27 +422,27 @@
         <translation>No és pot enviar el missatge. Recordeu que no és pot enviar els missatges als usuaris que no són els seus amics.</translation>
     </message>
     <message>
-        <location filename="../ui/dmdialog.ui"/>
+        <location filename="../ui/dmdialog.ui" line="+20"/>
         <source>Direct Message</source>
         <translation>El missatge privat</translation>
     </message>
     <message>
-        <location/>
+        <location line="+6"/>
         <source>Write your message:</source>
         <translation>Escriu un missatge:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+59"/>
         <source>Reset</source>
         <translation>De nou</translation>
     </message>
     <message>
-        <location/>
+        <location line="+10"/>
         <source>Close</source>
         <translation>Tancar</translation>
     </message>
     <message>
-        <location/>
+        <location line="+13"/>
         <source>Send</source>
         <translation>Enviar</translation>
     </message>
@@ -516,18 +531,18 @@
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui"/>
+        <location filename="../ui/mainwindow.ui" line="+20"/>
         <source>qTwitter</source>
         <translation></translation>
     </message>
     <message>
-        <location/>
+        <location line="+225"/>
         <source>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</source>
         <translation>&lt;span style=&quot;color: black&quot;&gt;Utilitzeu &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; per a escurçar enllaços&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="+59"/>
-        <location filename="../ui/mainwindow.ui"/>
+        <location filename="../ui/mainwindow.ui" line="+6"/>
         <source>What are you doing?</source>
         <translation>Què estàs fent ara?</translation>
     </message>
@@ -604,7 +619,7 @@
     </message>
     <message>
         <location line="+5"/>
-        <location filename="../ui/mainwindow.ui"/>
+        <location filename="../ui/mainwindow.ui" line="-72"/>
         <source>More...</source>
         <translation>Més....</translation>
     </message>
@@ -627,15 +642,14 @@
         <translation>Nou missatge</translation>
     </message>
     <message numerus="yes">
-        <location line="-451"/>
         <source>%n character(s) left</source>
-        <translation>
+        <translation type="obsolete">
             <numerusform>%n caràcter queda</numerusform>
             <numerusform>%n caracters queden</numerusform>
         </translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="-383"/>
         <source>&amp;File</source>
         <translation>&amp;Arxiu</translation>
     </message>
@@ -672,7 +686,8 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location line="+1"/>
+        <location line="-240"/>
+        <location line="+241"/>
         <source>%n characters left</source>
         <translation>
             <numerusform>%n caràcter disponible</numerusform>
@@ -715,31 +730,31 @@
     <name>Settings</name>
     <message>
         <location filename="../src/settings.cpp" line="+324"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+26"/>
         <source>Settings</source>
         <translation>Configuració</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+13"/>
         <source>General</source>
         <translation>General</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+57"/>
         <source>Language</source>
         <translation>Llengua</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="+71"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+17"/>
         <source>English</source>
-        <extracomment>Please translate &quot;English&quot; to YOUR LANGUAGE NAME in your own language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc.</extracomment>
+        <extracomment>Please put here your translation&apos;s langugae, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Català</translation>
     </message>
     <message>
         <location line="-64"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+70"/>
         <source>Network</source>
         <translation>Xarxa</translation>
     </message>
@@ -749,24 +764,24 @@
         <translation type="obsolete">&lt;buit&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="-136"/>
         <source>Refresh every (mins)</source>
         <translation>Actualitzar cada (min)</translation>
     </message>
     <message>
-        <location/>
+        <location line="+74"/>
         <source>Shorten links via</source>
         <translation>Escurçar enllaços amb</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="-3"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+28"/>
         <source>Show tray notifications</source>
         <translation>Mostrar les notificacions a la safata de sistema</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="-13"/>
         <source>Confirm messages deletion</source>
         <translation>Confirmar la supresió de missatges</translation>
     </message>
@@ -796,27 +811,27 @@
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+53"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Utilitzar el &amp;proxy HTTP</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+9"/>
         <source>Host:</source>
         <translation></translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+20"/>
         <source>Port:</source>
         <translation></translation>
     </message>
     <message>
         <location line="+2"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+51"/>
         <source>Status count:</source>
-        <translation>Quantitat de estatuts</translation>
+        <translation>Quantitat d&apos;estatuts:</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -829,12 +844,12 @@
         <translation>Anul·lar</translation>
     </message>
     <message>
-        <location line="+55"/>
+        <location line="+54"/>
         <source>Default</source>
         <translation>Per defecte</translation>
     </message>
     <message>
-        <location line="-57"/>
+        <location line="-56"/>
         <source>OK</source>
         <translation>Bé</translation>
     </message>
@@ -884,7 +899,7 @@
     </message>
     <message>
         <location line="-20"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="-9"/>
         <source>Appearance</source>
         <translation>Aparença</translation>
     </message>
@@ -895,13 +910,13 @@
     </message>
     <message>
         <location line="+3"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="-87"/>
         <source>Accounts</source>
         <translation>Comptes</translation>
     </message>
     <message>
         <location line="+7"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+122"/>
         <source>Color scheme:</source>
         <translation>Esquema de color:</translation>
     </message>
@@ -1014,7 +1029,8 @@
         <translation>Sobre %1</translation>
     </message>
     <message>
-        <location filename="../ui/statuswidget.ui"/>
+        <location filename="../ui/statuswidget.ui" line="+387"/>
+        <location line="+30"/>
         <source>QPushButton {
 border: 1px;
 background-color: rgba(255,255,255,0);
@@ -1132,7 +1148,7 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicNewPhoto</name>
     <message>
-        <location filename="../ui/twitpicnewphoto.ui"/>
+        <location filename="../ui/twitpicnewphoto.ui" line="+26"/>
         <source>Upload completed</source>
         <translation>El carregament s&apos;ha acabat</translation>
     </message>
@@ -1143,7 +1159,7 @@ background-color: rgba(255,255,255,0);
         <location filename="../src/twitpicview.cpp" line="+82"/>
         <location line="+39"/>
         <location line="+10"/>
-        <location filename="../ui/twitpicview.ui"/>
+        <location filename="../ui/twitpicview.ui" line="+151"/>
         <source>Upload</source>
         <translation>Pujar</translation>
     </message>
@@ -1167,27 +1183,27 @@ background-color: rgba(255,255,255,0);
         <location line="+6"/>
         <location line="+5"/>
         <location line="+12"/>
-        <location filename="../ui/twitpicview.ui"/>
+        <location filename="../ui/twitpicview.ui" line="-41"/>
         <source>Select a photo to upload</source>
         <translation>Seleccioneu el foto per a carregar</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui"/>
+        <location filename="../ui/twitpicview.ui" line="-90"/>
         <source>Upload a photo to Twitpic</source>
         <translation>Carregeu el foto a TwitPic</translation>
     </message>
     <message>
-        <location/>
+        <location line="+8"/>
         <source>Choose a photo:</source>
         <translation>Seleccioneu el foto:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+10"/>
         <source>Browse</source>
         <translation>Navegar</translation>
     </message>
     <message>
-        <location/>
+        <location line="+90"/>
         <source>post a status</source>
         <translation>afegir el missatge</translation>
     </message>
@@ -1247,27 +1263,27 @@ background-color: rgba(255,255,255,0);
         </translation>
     </message>
     <message>
-        <location filename="../ui/userinfopopup.ui"/>
+        <location filename="../ui/userinfopopup.ui" line="+210"/>
         <source>Login:</source>
         <translation>Nom d&apos;usuari:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+14"/>
         <source>Location:</source>
         <translation>Ubicació:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+14"/>
         <source>Local time:</source>
         <translation>Hora local:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+14"/>
         <source>Homepage:</source>
         <translation>Pàgina principal:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+33"/>
         <source>Bio:</source>
         <translation>Sobre:</translation>
     </message>

@@ -385,16 +385,15 @@ void Settings::createLanguageMenu()
     qmDir.cd( "qtwitter-app/res/loc" );
   }
   QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
-//  QTranslator translator;
   for (int i = 0; i < fileNames.size(); ++i) {
     QString locale = fileNames[i];
     locale.remove(0, locale.indexOf('_') + 1);
     locale.chop(3);
 
     translator.load(fileNames[i], qmDir.absolutePath());
-    //: Please translate "English" to YOUR LANGUAGE NAME in your own language, e.g. "Deutsch", "Francais", "Suomi", etc.
+    //: Please put here your translation's langugae, e.g. "Deutsch", "Francais", "Suomi", etc.
+    //: DON'T TRANSLATE "English" TO YOUR LANGUAGE
     QString language = translator.translate( "Settings", "English" );
-//    qDebug() << "adding language" << language << ", locale" << locale;
     ui.languageCombo->addItem( language, locale );
   }
   QString systemLocale = QLocale::system().name();

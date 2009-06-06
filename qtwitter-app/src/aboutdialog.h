@@ -33,7 +33,7 @@ public:
   ~AboutDialog();
 
 private:
-  QString addContributor( const QString &name, const QString &email, const QString &role = QString() );
+  QString contributor( const QString &name, const QString &email, const QString &role = QString() );
 
   void populateAuthors();
   void populateCredits();

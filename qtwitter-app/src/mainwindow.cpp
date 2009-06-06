@@ -60,7 +60,7 @@ MainWindow::MainWindow( QWidget *parent ) :
   timer = new QTimer( this );
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
   ui.countdownLabel->setMovie( progressIcon );
-  ui.countdownLabel->setToolTip( tr( "%n character(s) left", "", ui.countdownLabel->text().toInt() ) );
+  ui.countdownLabel->setToolTip( tr( "%n characters left", "", StatusEdit::STATUS_MAX_LENGTH ) );
   ui.statusEdit->setToolTip( ui.statusEdit->toolTip().arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
 
   //> experiment begin

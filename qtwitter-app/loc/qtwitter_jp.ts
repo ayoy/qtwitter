@@ -4,27 +4,27 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../ui/aboutdialog.ui"/>
+        <location filename="../ui/aboutdialog.ui" line="+26"/>
         <source>About qTwitter</source>
         <translation>キｭｰトゥウィータに関して</translation>
     </message>
     <message>
-        <location/>
+        <location line="+71"/>
         <source>About</source>
         <translation>このプログラムについて</translation>
     </message>
     <message>
-        <location/>
+        <location line="+84"/>
         <source>Authors</source>
         <translation>創造者</translation>
     </message>
     <message>
-        <location/>
+        <location line="+84"/>
         <source>Credits</source>
         <translation>クレジットタイトル</translation>
     </message>
     <message>
-        <location/>
+        <location line="+102"/>
         <source>Close</source>
         <translation>終了</translation>
     </message>
@@ -83,8 +83,22 @@
     </message>
     <message>
         <location line="+1"/>
+        <source>Portugese translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Spanish translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Polish and Catalan translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Polish, Spanish and Catalan translation</source>
-        <translation>ポーランド語、スペイン語、カタルーニャ語への翻訳</translation>
+        <translation type="obsolete">ポーランド語、スペイン語、カタルーニャ語への翻訳</translation>
     </message>
     <message>
         <location line="+18"/>
@@ -117,32 +131,32 @@
 <context>
     <name>Accounts</name>
     <message>
-        <location filename="../src/accounts/accounts.ui"/>
+        <location filename="../src/accounts/accounts.ui" line="+61"/>
         <source>public timeline:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
+        <location line="+8"/>
         <source>None</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
+        <location line="+5"/>
         <source>Twitter</source>
         <translation type="unfinished">トゥウィータ</translation>
     </message>
     <message>
-        <location/>
+        <location line="+5"/>
         <source>Identi.ca</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
+        <location line="+5"/>
         <source>Both</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
+        <location line="+28"/>
         <source>store passwords on disk</source>
         <translation type="unfinished"></translation>
     </message>
@@ -204,42 +218,43 @@
 <context>
     <name>AuthDialog</name>
     <message>
-        <location filename="../ui/authdialog.ui"/>
+        <location filename="../ui/authdialog.ui" line="+32"/>
         <source>Authentication required</source>
         <translation>ユーザー認証が必要です</translation>
     </message>
     <message>
-        <location/>
+        <location line="+33"/>
         <source>The credentials you provided are incorrect</source>
         <translation>ご提供の信用証明書は不正確です</translation>
     </message>
     <message>
-        <location/>
+        <location line="+13"/>
         <source>Username:</source>
         <translation>ユーザー名:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+30"/>
         <source>Password:</source>
         <translation>パスワード:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+36"/>
         <source>or</source>
         <translation>あるいは</translation>
     </message>
     <message>
-        <location/>
+        <location line="+10"/>
         <source>disable account</source>
         <translation>アカウントを無効にする</translation>
     </message>
     <message>
-        <location/>
+        <location line="+3"/>
+        <location line="+10"/>
         <source>buttonGroup</source>
         <translation>ボタングループ</translation>
     </message>
     <message>
-        <location/>
+        <location line="-3"/>
         <source>remove account</source>
         <translation>アカウントを削除する</translation>
     </message>
@@ -402,27 +417,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/dmdialog.ui"/>
+        <location filename="../ui/dmdialog.ui" line="+20"/>
         <source>Direct Message</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
+        <location line="+6"/>
         <source>Write your message:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
+        <location line="+59"/>
         <source>Reset</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
+        <location line="+10"/>
         <source>Close</source>
         <translation type="unfinished">終了</translation>
     </message>
     <message>
-        <location/>
+        <location line="+13"/>
         <source>Send</source>
         <translation type="unfinished"></translation>
     </message>
@@ -565,14 +580,13 @@
         <translation>公共の年表</translation>
     </message>
     <message numerus="yes">
-        <location line="-383"/>
         <source>%n character(s) left</source>
-        <translation>
+        <translation type="obsolete">
             <numerusform>残りの文字数：%n</numerusform>
         </translation>
     </message>
     <message>
-        <location line="+111"/>
+        <location line="-272"/>
         <location line="+345"/>
         <source>About qTwitter...</source>
         <translation>キｭｰトゥウィータに関して...</translation>
@@ -626,7 +640,7 @@
     </message>
     <message>
         <location line="+55"/>
-        <location filename="../ui/mainwindow.ui"/>
+        <location filename="../ui/mainwindow.ui" line="+179"/>
         <source>More...</source>
         <translation>詳細...</translation>
     </message>
@@ -643,7 +657,8 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location line="+1"/>
+        <location line="-240"/>
+        <location line="+241"/>
         <source>%n characters left</source>
         <translation type="unfinished">
             <numerusform></numerusform>
@@ -670,17 +685,17 @@
     </message>
     <message>
         <location line="+9"/>
-        <location filename="../ui/mainwindow.ui"/>
+        <location filename="../ui/mainwindow.ui" line="+72"/>
         <source>What are you doing?</source>
         <translation>何をしているのですか?</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui"/>
+        <location filename="../ui/mainwindow.ui" line="-231"/>
         <source>qTwitter</source>
         <translation>キｭｰトゥウィータ</translation>
     </message>
     <message>
-        <location/>
+        <location line="+225"/>
         <source>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</source>
         <translation>&lt;span style=&quot;color: black&quot;&gt;リンクを短縮するには &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; をご使用ください&lt;/span&gt;</translation>
     </message>
@@ -721,18 +736,18 @@
     </message>
     <message>
         <location line="-17"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+26"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+13"/>
         <source>General</source>
         <translation>一般</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+57"/>
         <source>Language</source>
         <translation>言語</translation>
     </message>
@@ -745,12 +760,12 @@
         <translation type="obsolete">パスワード</translation>
     </message>
     <message>
-        <location/>
+        <location line="-49"/>
         <source>Refresh every (mins)</source>
         <translation>次の時間ごとに更新する（分）：</translation>
     </message>
     <message>
-        <location/>
+        <location line="+74"/>
         <source>Shorten links via</source>
         <translation>次の文字列を使ってリンクを短縮する：</translation>
     </message>
@@ -771,13 +786,13 @@
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+28"/>
         <source>Show tray notifications</source>
         <translation>トレーの通知を表示する</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="-13"/>
         <source>Confirm messages deletion</source>
         <translation>メッセージの削除を確認する</translation>
     </message>
@@ -811,31 +826,31 @@
     </message>
     <message>
         <location line="+2"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+47"/>
         <source>Network</source>
         <translation>ネットワーク</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+6"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>&amp;HTTPプロクシを使用する</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+9"/>
         <source>Host:</source>
         <translation>ホスト:</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+20"/>
         <source>Port:</source>
         <translation>ポート:</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+42"/>
         <source>Appearance</source>
         <translation>外見</translation>
     </message>
@@ -845,7 +860,7 @@
     </message>
     <message>
         <location line="+2"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+35"/>
         <source>Color scheme:</source>
         <translation>カラー図式:</translation>
     </message>
@@ -866,13 +881,13 @@
     </message>
     <message>
         <location line="-13"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="-122"/>
         <source>Accounts</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+6"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="+96"/>
         <source>Status count:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -888,13 +903,13 @@
     </message>
     <message>
         <location line="+40"/>
-        <location filename="../ui/settings.ui"/>
+        <location filename="../ui/settings.ui" line="-156"/>
         <source>English</source>
-        <extracomment>Please translate &quot;English&quot; to YOUR LANGUAGE NAME in your own language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc.</extracomment>
+        <extracomment>Please put here your translation&apos;s langugae, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>日本語</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1007,7 +1022,8 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../ui/statuswidget.ui"/>
+        <location filename="../ui/statuswidget.ui" line="+387"/>
+        <location line="+30"/>
         <source>QPushButton {
 border: 1px;
 background-color: rgba(255,255,255,0);
@@ -1129,7 +1145,7 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicNewPhoto</name>
     <message>
-        <location filename="../ui/twitpicnewphoto.ui"/>
+        <location filename="../ui/twitpicnewphoto.ui" line="+26"/>
         <source>Upload completed</source>
         <translation>アップロードが完了しました</translation>
     </message>
@@ -1140,7 +1156,7 @@ background-color: rgba(255,255,255,0);
         <location filename="../src/twitpicview.cpp" line="+82"/>
         <location line="+39"/>
         <location line="+10"/>
-        <location filename="../ui/twitpicview.ui"/>
+        <location filename="../ui/twitpicview.ui" line="+151"/>
         <source>Upload</source>
         <translation>アップロード</translation>
     </message>
@@ -1164,27 +1180,27 @@ background-color: rgba(255,255,255,0);
         <location line="+6"/>
         <location line="+5"/>
         <location line="+12"/>
-        <location filename="../ui/twitpicview.ui"/>
+        <location filename="../ui/twitpicview.ui" line="-41"/>
         <source>Select a photo to upload</source>
         <translation>アップロードする写真をお選びください</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui"/>
+        <location filename="../ui/twitpicview.ui" line="-90"/>
         <source>Upload a photo to Twitpic</source>
         <translation>トゥウィートピックに写真をアップロードする</translation>
     </message>
     <message>
-        <location/>
+        <location line="+8"/>
         <source>Choose a photo:</source>
         <translation>写真をお選びください:</translation>
     </message>
     <message>
-        <location/>
+        <location line="+10"/>
         <source>Browse</source>
         <translation>閲覧</translation>
     </message>
     <message>
-        <location/>
+        <location line="+90"/>
         <source>post a status</source>
         <translation>ステータスを掲示する</translation>
     </message>
@@ -1242,27 +1258,27 @@ background-color: rgba(255,255,255,0);
         </translation>
     </message>
     <message>
-        <location filename="../ui/userinfopopup.ui"/>
+        <location filename="../ui/userinfopopup.ui" line="+210"/>
         <source>Login:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
+        <location line="+14"/>
         <source>Location:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
+        <location line="+14"/>
         <source>Local time:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
+        <location line="+14"/>
         <source>Homepage:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location/>
+        <location line="+33"/>
         <source>Bio:</source>
         <translation type="unfinished"></translation>
     </message>
