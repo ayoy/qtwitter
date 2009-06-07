@@ -232,16 +232,13 @@ void BitlyShortener::replyFinished( QNetworkReply *reply )
         int errorCode = nodeKeyVal.firstChildElement( "errorCode" ).text().toInt();
         switch( errorCode ) {
           case 0:
-              shortened( nodeKeyVal.firstChildElement( "shortUrl" ).text() );
-              break;
-          case 101:
-            errorMessage( tr( "Unknown error." ) );
-            break;
-          case 503:
-            errorMessage( tr( "Service unavailable." ) );
+            emit shortened( nodeKeyVal.firstChildElement( "shortUrl" ).text() );
             break;
           case 1206:
-            errorMessage( tr( "URL you tried to shorten was invalid." ) );
+            emit errorMessage( tr( "The URL entered was not valid." ) );
+            break;
+          default:
+            emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
         }
       }
       break;
