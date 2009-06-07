@@ -40,7 +40,8 @@ public:
     SHORTENER_METAMARK,
     SHORTENER_TINYURL,
     SHORTENER_TINYARROWS,
-    SHORTENER_UNU
+    SHORTENER_UNU,
+    SHORTENER_BITLY,
   };
 
   UrlShortener( QObject *parent = 0 );

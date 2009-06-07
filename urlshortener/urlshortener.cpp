@@ -59,6 +59,9 @@ void UrlShortener::shorten( const QString &url, UrlShortener::Shortener shorteni
   case UrlShortener::SHORTENER_UNU:
     shortenerInstance = new UnuShortener( this );
     break;
+  case UrlShortener::SHORTENER_BITLY:
+    shortenerInstance = new BitlyShortener( this );
+    break;
   case UrlShortener::SHORTENER_ISGD:
   default:
     shortenerInstance = new IsgdShortener( this );
