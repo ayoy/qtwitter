@@ -130,7 +130,7 @@ void Settings::loadConfig( bool dialogRejected )
   settings.endGroup();
   settings.beginGroup( "Appearance" );
     ui.statusCountBox->setValue( settings.value( "tweet count", 20 ).toInt() );
-    ui.colorBox->setCurrentIndex( settings.value( "color scheme", 3 ).toInt() );
+    ui.colorBox->setCurrentIndex( settings.value( "color scheme", 2 ).toInt() );
   settings.endGroup();
 
   ui.hostEdit->setEnabled( (bool) ui.proxyBox->checkState() );
