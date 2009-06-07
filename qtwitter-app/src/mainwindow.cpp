@@ -233,11 +233,17 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeli
       ui.statusEdit->setEnabled( true );
       emit switchModel( accounts.at(0).network, accounts.at(0).login );
     } else if ( publicTimeline != AccountsController::PT_NONE ) {
-      ui.statusEdit->setEnabled( true );
+      ui.statusEdit->setEnabled( false );
       if ( publicTimeline == AccountsController::PT_IDENTICA )
         emit switchToPublicTimelineModel( TwitterAPI::SOCIALNETWORK_IDENTICA );
       else
         emit switchToPublicTimelineModel( TwitterAPI::SOCIALNETWORK_TWITTER );
+      // TODO: this is probably always true here (?)
+      if ( publicTimeline == AccountsController::PT_BOTH ) {
+        ui.accountsComboBox->addItem( QString( "%1 @%2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_TWITTER ) ) );
+        ui.accountsComboBox->addItem( QString( "%1 @%2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) );
+        ui.accountsComboBox->setVisible( true );
+      }
     }
     return;
   }
