@@ -26,7 +26,8 @@ SOURCES += src/main.cpp \
     src/userinfobutton.cpp \
     src/userinfopopup.cpp \
     src/dmdialog.cpp \
-    src/configfile.cpp
+    src/configfile.cpp \
+    src/themes.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/imagedownload.h \
@@ -45,7 +46,8 @@ HEADERS += src/mainwindow.h \
     src/userinfobutton.h \
     src/userinfopopup.h \
     src/dmdialog.h \
-    src/configfile.h
+    src/configfile.h \
+    src/themes.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
@@ -85,7 +87,6 @@ else:unix {
         -Wl,-rpath,$${TOP} \
         $$TWITTERAPI_LIB \
         $$URLSHORTENER_LIB
-        
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin

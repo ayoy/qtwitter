@@ -24,6 +24,7 @@
 #include <QDialog>
 #include <QSettings>
 #include <QTranslator>
+#include "themes.h"
 #include "ui_settings.h"
 
 class QFile;
@@ -41,66 +42,12 @@ class Account;
 class AccountsModel;
 class AccountsController;
 
-struct ThemeElement
-{
-  QString styleSheet;
-  QString linkColor;
-  QColor listBackgroundColor;
-  ThemeElement() :
-      styleSheet( QString() ),
-      linkColor( QString() ),
-      listBackgroundColor( QColor() )
-  {}
-
-  ThemeElement( const QString &newStyleSheet, const QString &newLinkColor, const QColor &newListBackgroundColor ) :
-      styleSheet( newStyleSheet ),
-      linkColor( newLinkColor ),
-      listBackgroundColor( newListBackgroundColor )
-  {}
-
-  ThemeElement( const ThemeElement &other ) :
-      styleSheet( other.styleSheet ),
-      linkColor( other.linkColor ),
-      listBackgroundColor( other.listBackgroundColor )
-  {}
-};
-
-struct ThemeData
-{
-  ThemeElement unread;
-  ThemeElement active;
-  ThemeElement read;
-  ThemeElement disabled;
-  ThemeData() :
-      unread(),
-      active(),
-      read(),
-      disabled()
-  {}
-
-  ThemeData( const ThemeElement &unread, const ThemeElement &active,
-             const ThemeElement &read, const ThemeElement &disabled ) :
-      unread( unread ),
-      active( active ),
-      read( read ),
-      disabled( disabled )
-  {}
-};
-
-typedef QPair<QString,ThemeData> ThemeInfo;
 
 class Settings : public QDialog
 {
   Q_OBJECT
 
 public:
-
-  static const ThemeInfo STYLESHEET_CARAMEL;
-  static const ThemeInfo STYLESHEET_COCOA;
-  static const ThemeInfo STYLESHEET_GRAY;
-  static const ThemeInfo STYLESHEET_GREEN;
-  static const ThemeInfo STYLESHEET_PURPLE;
-  static const ThemeInfo STYLESHEET_SKY;
 
   Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView *twitpicviewSettings, QWidget *parent = 0 );
   ~Settings();
