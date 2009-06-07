@@ -160,17 +160,17 @@
 <context>
     <name>AccountsController</name>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="164"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="166"/>
         <source>Password security</source>
         <translation>Senha de segurança</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="164"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="166"/>
         <source>Please note:</source>
         <translation>Por favor, note:</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="165"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="167"/>
         <source>Although passwords are stored as human unreadable data, they can be easily decoded using the application&apos;s source code, which is publicly available. You have been warned.</source>
         <translation>Embora as senhas sejam armazenadas como dados ilegíveis para humanos, elas podem ser facilmente decodificadas utilizando o código fonte da aplicação, que está disponível publicamente. Você foi avisado.</translation>
     </message>
@@ -660,138 +660,138 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="154"/>
-        <location filename="../src/settings.cpp" line="340"/>
+        <location filename="../src/settings.cpp" line="156"/>
+        <location filename="../src/settings.cpp" line="348"/>
         <source>Use custom web browser</source>
         <translation>Utilizar navegador web personalizado</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="156"/>
-        <location filename="../src/settings.cpp" line="341"/>
+        <location filename="../src/settings.cpp" line="158"/>
+        <location filename="../src/settings.cpp" line="349"/>
         <source>Browse</source>
         <translation>Navegador</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="324"/>
+        <location filename="../src/settings.cpp" line="332"/>
         <location filename="../ui/settings.ui" line="26"/>
         <source>Settings</source>
         <translation>Configurações</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="325"/>
+        <location filename="../src/settings.cpp" line="333"/>
         <location filename="../ui/settings.ui" line="39"/>
         <source>General</source>
         <translation>Geral</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="326"/>
+        <location filename="../src/settings.cpp" line="334"/>
         <source>Refresh every (mins):</source>
         <translation>Atualizar todos os (mins):</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="327"/>
+        <location filename="../src/settings.cpp" line="335"/>
         <source>Language:</source>
         <translation>Idioma:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="328"/>
+        <location filename="../src/settings.cpp" line="336"/>
         <source>Shorten links via:</source>
         <translation>Encurtar links via:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="329"/>
-        <location filename="../ui/settings.ui" line="149"/>
+        <location filename="../src/settings.cpp" line="337"/>
+        <location filename="../ui/settings.ui" line="144"/>
         <source>Show tray notifications</source>
         <translation>Mostrar notificações na bandeja</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="330"/>
-        <location filename="../ui/settings.ui" line="136"/>
+        <location filename="../src/settings.cpp" line="338"/>
+        <location filename="../ui/settings.ui" line="131"/>
         <source>Confirm messages deletion</source>
         <translation>Confirmar exclusão das mensagens</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="331"/>
-        <location filename="../ui/settings.ui" line="173"/>
+        <location filename="../src/settings.cpp" line="339"/>
+        <location filename="../ui/settings.ui" line="168"/>
         <source>Accounts</source>
         <translation>Contas</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="332"/>
-        <location filename="../ui/settings.ui" line="183"/>
+        <location filename="../src/settings.cpp" line="340"/>
+        <location filename="../ui/settings.ui" line="178"/>
         <source>Network</source>
         <translation>Rede</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="333"/>
-        <location filename="../ui/settings.ui" line="189"/>
+        <location filename="../src/settings.cpp" line="341"/>
+        <location filename="../ui/settings.ui" line="184"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Utilizar &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="334"/>
-        <location filename="../ui/settings.ui" line="198"/>
+        <location filename="../src/settings.cpp" line="342"/>
+        <location filename="../ui/settings.ui" line="193"/>
         <source>Host:</source>
         <translation>Servidor:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="335"/>
-        <location filename="../ui/settings.ui" line="218"/>
+        <location filename="../src/settings.cpp" line="343"/>
+        <location filename="../ui/settings.ui" line="213"/>
         <source>Port:</source>
         <translation>Porta:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="336"/>
-        <location filename="../ui/settings.ui" line="260"/>
+        <location filename="../src/settings.cpp" line="344"/>
+        <location filename="../ui/settings.ui" line="255"/>
         <source>Appearance</source>
         <translation>Aparência</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="337"/>
-        <location filename="../ui/settings.ui" line="269"/>
+        <location filename="../src/settings.cpp" line="345"/>
+        <location filename="../ui/settings.ui" line="264"/>
         <source>Status count:</source>
         <translation>Status da conta:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="338"/>
-        <location filename="../ui/settings.ui" line="295"/>
+        <location filename="../src/settings.cpp" line="346"/>
+        <location filename="../ui/settings.ui" line="290"/>
         <source>Color scheme:</source>
         <translation>Esquema de cor:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="344"/>
+        <location filename="../src/settings.cpp" line="352"/>
         <source>OK</source>
         <translation>Ok</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="345"/>
+        <location filename="../src/settings.cpp" line="353"/>
         <source>Apply</source>
         <translation>Aplicar</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="346"/>
+        <location filename="../src/settings.cpp" line="354"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="356"/>
+        <location filename="../src/settings.cpp" line="364"/>
         <source>Select your browser executable</source>
         <translation>Selecionar o executável do navegador</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="356"/>
+        <location filename="../src/settings.cpp" line="364"/>
         <source>All files (*)</source>
         <translation>Todos os arquivos (*)</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="396"/>
-        <location filename="../ui/settings.ui" line="113"/>
+        <location filename="../src/settings.cpp" line="410"/>
         <source>English</source>
-        <extracomment>Please put here your translation&apos;s langugae, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
+        <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Português</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="400"/>
+        <location filename="../src/settings.cpp" line="329"/>
+        <location filename="../src/settings.cpp" line="416"/>
         <source>Default</source>
         <translation>Padrão</translation>
     </message>
@@ -806,7 +806,7 @@
         <translation>Idioma</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="121"/>
+        <location filename="../ui/settings.ui" line="116"/>
         <source>Shorten links via</source>
         <translation>Encurtar links via</translation>
     </message>

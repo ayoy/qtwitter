@@ -147,6 +147,9 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
     ui.colorBox->addItem( themes.keys()[i] );
   }
 
+  createLanguageMenu();
+  createUrlShortenerMenu();
+
 #ifdef Q_WS_X11
   QHBoxLayout *hlayout = new QHBoxLayout;
 
@@ -162,8 +165,6 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   selectBrowserEdit->setEnabled( false );
   selectBrowserButton->setEnabled( false );
 
-  createLanguageMenu();
-  createUrlShortenerMenu();
 
   connect( useCustomBrowserCheckBox, SIGNAL(toggled(bool)), selectBrowserEdit, SLOT(setEnabled(bool)) );
   connect( useCustomBrowserCheckBox, SIGNAL(toggled(bool)), selectBrowserButton, SLOT(setEnabled(bool)) );

@@ -164,7 +164,7 @@
 <context>
     <name>AccountsController</name>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="+164"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="+166"/>
         <source>Password security</source>
         <translation>Passwortsicherheit</translation>
     </message>
@@ -729,7 +729,7 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="+324"/>
+        <location filename="../src/settings.cpp" line="+332"/>
         <location filename="../ui/settings.ui" line="+26"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
@@ -746,15 +746,14 @@
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+71"/>
-        <location filename="../ui/settings.ui" line="+17"/>
+        <location filename="../src/settings.cpp" line="+77"/>
         <source>English</source>
-        <extracomment>Please put here your translation&apos;s langugae, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
+        <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Deutsch</translation>
     </message>
     <message>
-        <location line="-64"/>
-        <location filename="../ui/settings.ui" line="+70"/>
+        <location line="-70"/>
+        <location filename="../ui/settings.ui" line="+82"/>
         <source>Network</source>
         <translation>Netzwerk</translation>
     </message>
@@ -838,12 +837,13 @@
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="-25"/>
+        <location line="+87"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location line="-56"/>
+        <location line="-64"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -852,8 +852,8 @@
         <translation type="obsolete">Benutzername</translation>
     </message>
     <message>
-        <location line="-190"/>
-        <location line="+186"/>
+        <location line="-196"/>
+        <location line="+192"/>
         <source>Use custom web browser</source>
         <translation>Anderen Web-Browser verwenden</translation>
     </message>
@@ -862,18 +862,18 @@
         <translation type="obsolete">Passwort</translation>
     </message>
     <message>
-        <location line="-184"/>
-        <location line="+185"/>
+        <location line="-190"/>
+        <location line="+191"/>
         <source>Browse</source>
         <translation>Browse</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="-222"/>
+        <location filename="../ui/settings.ui" line="-217"/>
         <source>Refresh every (mins)</source>
         <translation>Aktualisiere jede (Minuten)</translation>
     </message>
     <message>
-        <location line="+74"/>
+        <location line="+69"/>
         <source>Shorten links via</source>
         <translation>Kürze Links mit</translation>
     </message>

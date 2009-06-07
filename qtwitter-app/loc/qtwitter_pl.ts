@@ -165,7 +165,7 @@
 <context>
     <name>AccountsController</name>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="+164"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="+166"/>
         <source>Password security</source>
         <translation>Ochrona haseł</translation>
     </message>
@@ -740,7 +740,7 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="+324"/>
+        <location filename="../src/settings.cpp" line="+332"/>
         <location filename="../ui/settings.ui" line="+26"/>
         <source>Settings</source>
         <translation>Ustawienia</translation>
@@ -757,15 +757,14 @@
         <translation>Język</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+71"/>
-        <location filename="../ui/settings.ui" line="+17"/>
+        <location filename="../src/settings.cpp" line="+77"/>
         <source>English</source>
-        <extracomment>Please put here your translation&apos;s langugae, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
+        <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Polski</translation>
     </message>
     <message>
-        <location line="-64"/>
-        <location filename="../ui/settings.ui" line="+70"/>
+        <location line="-70"/>
+        <location filename="../ui/settings.ui" line="+82"/>
         <source>Network</source>
         <translation>Sieć</translation>
     </message>
@@ -775,12 +774,12 @@
         <translation type="obsolete">&lt;puste&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="-136"/>
+        <location filename="../ui/settings.ui" line="-131"/>
         <source>Refresh every (mins)</source>
         <translation>Odświeżaj co (min.)</translation>
     </message>
     <message>
-        <location line="+74"/>
+        <location line="+69"/>
         <source>Shorten links via</source>
         <translation>Skracaj linki przez</translation>
     </message>
@@ -855,12 +854,13 @@
         <translation>Anuluj</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="-25"/>
+        <location line="+87"/>
         <source>Default</source>
         <translation>Domyślny</translation>
     </message>
     <message>
-        <location line="-56"/>
+        <location line="-64"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -869,8 +869,8 @@
         <translation type="obsolete">Nazwa użytkownika</translation>
     </message>
     <message>
-        <location line="-190"/>
-        <location line="+186"/>
+        <location line="-196"/>
+        <location line="+192"/>
         <source>Use custom web browser</source>
         <translation>Używaj innej przeglądarki</translation>
     </message>
@@ -879,8 +879,8 @@
         <translation type="obsolete">Hasło</translation>
     </message>
     <message>
-        <location line="-184"/>
-        <location line="+185"/>
+        <location line="-190"/>
+        <location line="+191"/>
         <source>Browse</source>
         <translation>Przeglądaj</translation>
     </message>

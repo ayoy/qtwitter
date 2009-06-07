@@ -164,7 +164,7 @@
 <context>
     <name>AccountsController</name>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="+164"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="+166"/>
         <source>Password security</source>
         <translation type="unfinished"></translation>
     </message>
@@ -744,15 +744,15 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="+154"/>
-        <location line="+186"/>
+        <location filename="../src/settings.cpp" line="+156"/>
+        <location line="+192"/>
         <source>Use custom web browser</source>
         <translatorcomment>?</translatorcomment>
         <translation>Ignorer le navigateur Web par défaut du système</translation>
     </message>
     <message>
-        <location line="-184"/>
-        <location line="+185"/>
+        <location line="-190"/>
+        <location line="+191"/>
         <source>Browse</source>
         <translation>Naviguer</translation>
     </message>
@@ -785,7 +785,7 @@
         <translation>Langue</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location line="+20"/>
         <source>Shorten links via</source>
         <translation>Raccourcir les URLs avec</translation>
     </message>
@@ -934,14 +934,14 @@
         <translation>Tous les fichiers (*)</translation>
     </message>
     <message>
-        <location line="+40"/>
-        <location filename="../ui/settings.ui" line="-156"/>
+        <location line="+46"/>
         <source>English</source>
-        <extracomment>Please put here your translation&apos;s langugae, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
+        <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Français</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="-81"/>
+        <location line="+87"/>
         <source>Default</source>
         <translation type="unfinished"></translation>
     </message>
