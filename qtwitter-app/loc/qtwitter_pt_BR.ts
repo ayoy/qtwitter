@@ -264,6 +264,20 @@
     </message>
 </context>
 <context>
+    <name>BitlyShortener</name>
+    <message>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="238"/>
+        <source>The URL entered was not valid.</source>
+        <translation>A URL digitada não é válida.</translation>
+    </message>
+    <message>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="241"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="246"/>
+        <source>An unknown error occurred when shortening your URL.</source>
+        <translation>Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
+    </message>
+</context>
+<context>
     <name>Core</name>
     <message>
         <location filename="../src/core.cpp" line="266"/>
@@ -446,37 +460,37 @@
 <context>
     <name>IsgdShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="62"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="67"/>
         <source>The URL entered was not valid.</source>
         <translation>A URL digitada não é válida.</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="64"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="69"/>
         <source>The URL entered was too long.</source>
         <translation>A URL digitada é muito longa.</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="66"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="71"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
         <translation>O endereço executado por esta requisição foi listado na lista negra por Spamhaus (SBL/XBL) ou Spamcop.</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="68"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="73"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
         <translation>A URL digitada é um potencial site de spam e está listada na lista negra URIBL ou na SUBBL.</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="70"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="75"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
         <translation>A URL que você digitou está na lista negra is.gd (links para sites de encurtar URL ou o próprio is.gd são desabilitados para previnir abusos).</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="72"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="77"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
         <translation>O endereço executado por esta requisição foi bloqueado por is.gd (normalmente o resultado de uma violação dos seus termos de uso).</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="77"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="82"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation>Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
     </message>
@@ -660,7 +674,7 @@
 <context>
     <name>MetamarkShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="129"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="134"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation>Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
     </message>
@@ -944,7 +958,7 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TinyarrowsShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="175"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="180"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation>Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
     </message>
@@ -952,7 +966,7 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TinyurlShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="152"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="157"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation>Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
     </message>
@@ -960,12 +974,12 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TrimShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="100"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="105"/>
         <source>The URL has been rejected by the tr.im</source>
         <translation>A URL foi rejeitada por tr.im</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="106"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="111"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation>Um erro desconhecido ocorreu ao  encurtar sua URL.</translation>
     </message>
@@ -1064,12 +1078,12 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UnuShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="198"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="203"/>
         <source>Your URL has been rejected by u.nu</source>
         <translation>Sua URL foi rejeitada por u.nu</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="202"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="207"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation>Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
     </message>

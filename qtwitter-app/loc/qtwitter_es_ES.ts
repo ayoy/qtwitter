@@ -271,6 +271,20 @@
     </message>
 </context>
 <context>
+    <name>BitlyShortener</name>
+    <message>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+238"/>
+        <source>The URL entered was not valid.</source>
+        <translation>La URL introduida no está válida.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+5"/>
+        <source>An unknown error occurred when shortening your URL.</source>
+        <translation>Un error desconocido ha sido encotrado durante la abreviación de su URL.</translation>
+    </message>
+</context>
+<context>
     <name>Core</name>
     <message>
         <location filename="../src/core.cpp" line="+267"/>
@@ -499,7 +513,7 @@
 <context>
     <name>IsgdShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+62"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="-179"/>
         <source>The URL entered was not valid.</source>
         <translation>La URL introducida no es válida.</translation>
     </message>
