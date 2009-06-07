@@ -17,8 +17,8 @@ v0.6.0 (2009/04/27):
 - added support for shortening URLs using tr.im, is.gd, tinyurl.com and MetaMark.com,
 - the whole Twitter API interface separated from the GUI-related code by putting it into a standalone shared library,
 - added support for Unicode for TwitPic statuses - ticket #4,
-- fixed a bug of cutting status when first '&' enountered - ticket #7,
-- added the appication identification for TwitPic - ticket #13,
+- fixed a bug of cutting status when first '&' encountered - ticket #7,
+- added the application identification for TwitPic - ticket #13,
 - changed the program icon and provided desktop integration resources for Linux and Windows - ticket #14,
 - web browser customization on Linux made global (includes links in statuses and all dialogs) - ticket #2,
 - added an icon indicating that status list update is in progress.
@@ -56,7 +56,7 @@ v0.3.1 (2009/02/21):
 - fixed a bug of unnecessary synchronizing when saving settings with unchanged update interval,
 - fixed a bug of copying user's (wrong) password to authDialog after failed 
 login,
-- fixed various bugs when altering between friends and public timeline, and rejecting auth dialog,
+- fixed various bugs when altering between friends and public timeline, and rejecting authDialog,
 - fixed bug of closing application when settings invoked from tray icon and 
 main window hidden.
 v0.3 (2009/02/19):
@@ -76,7 +76,7 @@ v0.2 (2009/02/14):
 - added replying to specific user and getting user's homepage.
 v0.1.1 (2009/02/09):
 - support for readability and accessibility for hyperlinks in statuses,
-- minor improvements to settings dialog behaviour and translation.
+- minor improvements to settings dialog behavior and translation.
 v0.1 (2009/02/08):
 - posting status updates to Twitter and downloading friends or public timeline,
 - in-session password storing,
