@@ -132,9 +132,13 @@
         <translation>Cronograma público:</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accounts.ui" line="69"/>
         <source>None</source>
-        <translation>Nome</translation>
+        <translation type="obsolete">Nome</translation>
+    </message>
+    <message>
+        <location filename="../src/accounts/accounts.ui" line="69"/>
+        <source>none</source>
+        <translation>nome</translation>
     </message>
     <message>
         <location filename="../src/accounts/accounts.ui" line="74"/>
@@ -148,8 +152,12 @@
     </message>
     <message>
         <location filename="../src/accounts/accounts.ui" line="84"/>
+        <source>both</source>
+        <translation>ambos</translation>
+    </message>
+    <message>
         <source>Both</source>
-        <translation>Ambos</translation>
+        <translation type="obsolete">Ambos</translation>
     </message>
     <message>
         <location filename="../src/accounts/accounts.ui" line="112"/>
@@ -660,138 +668,138 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="156"/>
-        <location filename="../src/settings.cpp" line="348"/>
+        <location filename="../src/settings.cpp" line="77"/>
+        <location filename="../src/settings.cpp" line="269"/>
         <source>Use custom web browser</source>
         <translation>Utilizar navegador web personalizado</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="158"/>
-        <location filename="../src/settings.cpp" line="349"/>
+        <location filename="../src/settings.cpp" line="79"/>
+        <location filename="../src/settings.cpp" line="270"/>
         <source>Browse</source>
         <translation>Navegador</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="332"/>
+        <location filename="../src/settings.cpp" line="253"/>
         <location filename="../ui/settings.ui" line="26"/>
         <source>Settings</source>
         <translation>Configurações</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="333"/>
+        <location filename="../src/settings.cpp" line="254"/>
         <location filename="../ui/settings.ui" line="39"/>
         <source>General</source>
         <translation>Geral</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="334"/>
+        <location filename="../src/settings.cpp" line="255"/>
         <source>Refresh every (mins):</source>
         <translation>Atualizar todos os (mins):</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="335"/>
+        <location filename="../src/settings.cpp" line="256"/>
         <source>Language:</source>
         <translation>Idioma:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="336"/>
+        <location filename="../src/settings.cpp" line="257"/>
         <source>Shorten links via:</source>
         <translation>Encurtar links via:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="337"/>
+        <location filename="../src/settings.cpp" line="258"/>
         <location filename="../ui/settings.ui" line="144"/>
         <source>Show tray notifications</source>
         <translation>Mostrar notificações na bandeja</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="338"/>
+        <location filename="../src/settings.cpp" line="259"/>
         <location filename="../ui/settings.ui" line="131"/>
         <source>Confirm messages deletion</source>
         <translation>Confirmar exclusão das mensagens</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="339"/>
+        <location filename="../src/settings.cpp" line="260"/>
         <location filename="../ui/settings.ui" line="168"/>
         <source>Accounts</source>
         <translation>Contas</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="340"/>
+        <location filename="../src/settings.cpp" line="261"/>
         <location filename="../ui/settings.ui" line="178"/>
         <source>Network</source>
         <translation>Rede</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="341"/>
+        <location filename="../src/settings.cpp" line="262"/>
         <location filename="../ui/settings.ui" line="184"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Utilizar &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="342"/>
+        <location filename="../src/settings.cpp" line="263"/>
         <location filename="../ui/settings.ui" line="193"/>
         <source>Host:</source>
         <translation>Servidor:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="343"/>
+        <location filename="../src/settings.cpp" line="264"/>
         <location filename="../ui/settings.ui" line="213"/>
         <source>Port:</source>
         <translation>Porta:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="344"/>
+        <location filename="../src/settings.cpp" line="265"/>
         <location filename="../ui/settings.ui" line="255"/>
         <source>Appearance</source>
         <translation>Aparência</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="345"/>
+        <location filename="../src/settings.cpp" line="266"/>
         <location filename="../ui/settings.ui" line="264"/>
         <source>Status count:</source>
         <translation>Status da conta:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="346"/>
+        <location filename="../src/settings.cpp" line="267"/>
         <location filename="../ui/settings.ui" line="290"/>
         <source>Color scheme:</source>
         <translation>Esquema de cor:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="352"/>
+        <location filename="../src/settings.cpp" line="273"/>
         <source>OK</source>
         <translation>Ok</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="353"/>
+        <location filename="../src/settings.cpp" line="274"/>
         <source>Apply</source>
         <translation>Aplicar</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="354"/>
+        <location filename="../src/settings.cpp" line="275"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="364"/>
+        <location filename="../src/settings.cpp" line="285"/>
         <source>Select your browser executable</source>
         <translation>Selecionar o executável do navegador</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="364"/>
+        <location filename="../src/settings.cpp" line="285"/>
         <source>All files (*)</source>
         <translation>Todos os arquivos (*)</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="410"/>
+        <location filename="../src/settings.cpp" line="331"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Português</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="329"/>
-        <location filename="../src/settings.cpp" line="416"/>
+        <location filename="../src/settings.cpp" line="250"/>
+        <location filename="../src/settings.cpp" line="337"/>
         <source>Default</source>
         <translation>Padrão</translation>
     </message>
@@ -919,8 +927,8 @@
         <translation>Sobre o %1</translation>
     </message>
     <message>
-        <location filename="../ui/statuswidget.ui" line="387"/>
-        <location filename="../ui/statuswidget.ui" line="417"/>
+        <location filename="../ui/statuswidget.ui" line="373"/>
+        <location filename="../ui/statuswidget.ui" line="403"/>
         <source>QPushButton {
 border: 1px;
 background-color: rgba(255,255,255,0);

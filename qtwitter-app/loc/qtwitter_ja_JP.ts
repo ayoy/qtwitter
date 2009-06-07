@@ -136,8 +136,12 @@
         <translation>公共の年表:</translation>
     </message>
     <message>
-        <location line="+8"/>
         <source>None</source>
+        <translation type="obsolete">なし</translation>
+    </message>
+    <message>
+        <location line="+8"/>
+        <source>none</source>
         <translation>なし</translation>
     </message>
     <message>
@@ -152,8 +156,12 @@
     </message>
     <message>
         <location line="+5"/>
-        <source>Both</source>
+        <source>both</source>
         <translation>両方</translation>
+    </message>
+    <message>
+        <source>Both</source>
+        <translation type="obsolete">両方</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -719,7 +727,7 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="+156"/>
+        <location filename="../src/settings.cpp" line="+77"/>
         <location line="+192"/>
         <source>Use custom web browser</source>
         <translation>カスタムのブラウザーを使用する</translation>
@@ -1023,7 +1031,7 @@
         <translation>%1に関して</translation>
     </message>
     <message>
-        <location filename="../ui/statuswidget.ui" line="+387"/>
+        <location filename="../ui/statuswidget.ui" line="+373"/>
         <location line="+30"/>
         <source>QPushButton {
 border: 1px;

@@ -59,12 +59,12 @@ FORMS += ui/mainwindow.ui \
     ui/dmdialog.ui
 linux-*:RESOURCES = res/resources_x11.qrc
 else:RESOURCES = res/resources.qrc
-TRANSLATIONS += loc/qtwitter_ca.ts \
-    loc/qtwitter_de.ts \
-    loc/qtwitter_es.ts \
-    loc/qtwitter_jp.ts \
-    loc/qtwitter_fr.ts \
-    loc/qtwitter_pl.ts \
+TRANSLATIONS += loc/qtwitter_ca_ES.ts \
+    loc/qtwitter_de_DE.ts \
+    loc/qtwitter_es_ES.ts \
+    loc/qtwitter_ja_JP.ts \
+    loc/qtwitter_fr_FR.ts \
+    loc/qtwitter_pl_PL.ts \
     loc/qtwitter_pt_BR.ts
 UI_DIR = tmp
 MOC_DIR = tmp

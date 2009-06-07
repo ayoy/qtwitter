@@ -1,131 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ca">
+<TS version="2.0" language="de_DE">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../ui/aboutdialog.ui" line="+26"/>
         <source>About qTwitter</source>
-        <translation>Sobre qTwitter</translation>
+        <translation>Über qTwitter</translation>
     </message>
     <message>
         <location line="+71"/>
         <source>About</source>
-        <translation>Sobre</translation>
+        <translation>Über</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Authors</source>
-        <translation>Autors</translation>
+        <translation>Autoren</translation>
     </message>
     <message>
         <location line="+84"/>
         <source>Credits</source>
-        <translation>Crèdits</translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+102"/>
         <source>Close</source>
-        <translation>Tancar</translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <source>Development team as for 0.6.0:</source>
-        <translation type="obsolete">Equip de desenvolupament de 0.6.0:</translation>
+        <translation type="obsolete">Entwicklerteam für 0.6.0:</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="+59"/>
         <source>Application concept and main development</source>
-        <translation>La idea d&apos;aplicació i desenvolupament principal</translation>
+        <translation>Programmkonzept und Hauptentwicklung</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>API library improvements and themes revisiting</source>
-        <translation>Milloraments en la biblioteca de API i actualització de temes</translation>
+        <translation>API Bibliothek- und Theme-Verbesserungen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>URL shortening services support</source>
-        <translation>Suport per escurçament d&apos;enllaços</translation>
+        <translation>URL Kürzungsservice</translation>
     </message>
     <message>
         <source>Visual aspects of internationalization</source>
-        <translation type="obsolete">Ajuda per visualització de textos traduïts</translation>
+        <translation type="obsolete">Optische Veränderungen durch Lokalisierung</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Translations:</source>
-        <translation>Traduccions:</translation>
+        <translation>Übersetzungen:</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>French translation</source>
-        <translation>Traducció al francès</translation>
+        <translation>Französische Übersetzung</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>German translation</source>
-        <translation>Traducció a l&apos;alemany</translation>
+        <translation>Deutsche Übersetzung</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Japanese translation</source>
-        <translation>Traducció al japonès</translation>
+        <translation>Japanische Übersetzung</translation>
     </message>
     <message>
         <source>Polish, Spanish and Catalan translation</source>
-        <translation type="obsolete">Traducció polonesa, espanyola i catalana</translation>
+        <translation type="obsolete">Polnische, Spanische, und Katalanische Übersetzung</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>qTwitter icon design by %1</source>
         <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
-        <translation>La icona de qTwitter per %1</translation>
+        <translation>qTwitter Icon Designs %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Other icons by %1</source>
         <extracomment>Other icons by wefunction.com</extracomment>
-        <translation>Altres icones per %1</translation>
+        <translation>Andere Icons von %1</translation>
     </message>
     <message>
         <location line="+23"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - el client Qt de Twitter&lt;/p&gt;&lt;p&gt;versió %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distribuint sota la llicència LGPL&lt;/p&gt;&lt;p&gt;versió 2.1 o posteriores&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - ein Qt Twitter Kunde&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;von &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Verbreitet unter LGPL Lizenz&lt;/p&gt;&lt;p&gt;Version 2.1 oder später&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location line="-20"/>
         <source>Testing:</source>
-        <translation>Evaluació:</translation>
+        <translation>Tests:</translation>
     </message>
     <message>
         <location line="-40"/>
         <source>Development team as for 0.7.0:</source>
-        <translation>Equip de desenvolupament de 0.7.0:</translation>
+        <translation>Entwicklerteam für 0.7.0:</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Porting to Maemo platform</source>
-        <translation>Porting a la plataforma Maemo</translation>
+        <translation>Portierungen auf Maemo Plattform</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>Portugese translation</source>
-        <translation>Traducció al portuguès</translation>
+        <translation>Portugiesische Übersetzung</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Spanish translation</source>
-        <translation>Traducció a l&apos;espanyol</translation>
+        <translation>Spanische Übersetzung</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Polish and Catalan translation</source>
-        <translation>Traducció al polonès i català</translation>
+        <translation>Polnische und Katalanische Übersetzung</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Releasing:</source>
-        <translation>Llançament:</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -133,32 +133,40 @@
     <message>
         <location filename="../src/accounts/accounts.ui" line="+61"/>
         <source>public timeline:</source>
-        <translation>llista pública:</translation>
+        <translation>Öffentliche Zeitleiste:</translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="obsolete">Keine</translation>
     </message>
     <message>
         <location line="+8"/>
-        <source>None</source>
-        <translation>Cap</translation>
+        <source>none</source>
+        <translation>Keine</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Twitter</source>
-        <translation>Twitter</translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Identi.ca</source>
-        <translation>Identi.ca</translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+5"/>
+        <source>both</source>
+        <translation>Beide</translation>
+    </message>
+    <message>
         <source>Both</source>
-        <translation>Dues</translation>
+        <translation type="obsolete">Beide</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>store passwords on disk</source>
-        <translation>desar les contrasenyes al disc</translation>
+        <translation>speichere Passwort auf Festplatte</translation>
     </message>
 </context>
 <context>
@@ -166,17 +174,17 @@
     <message>
         <location filename="../src/accounts/accountscontroller.cpp" line="+166"/>
         <source>Password security</source>
-        <translation>Nota de seguretat</translation>
+        <translation>Passwortsicherheit</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Please note:</source>
-        <translation>Tingui en compte:</translation>
+        <translation>Beachten Sie:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Although passwords are stored as human unreadable data, they can be easily decoded using the application&apos;s source code, which is publicly available. You have been warned.</source>
-        <translation>Encara que les contrasenyes són desades com a dades il legibles per als humans, es pot decodificar-les fàcilment usant el codi font de l&apos;aplicació, que està obert i disponible públicament. Vostè ha estat advertit.</translation>
+        <translation>Obwohl die Passwörter für Menschen unlesbar gespeicherwerden, können siie dennoch leicht mit Hilfe des öffentlich zugänglichen Quellcode entschlüsselt werden. Sie wurden gewarnt.</translation>
     </message>
 </context>
 <context>
@@ -184,35 +192,35 @@
     <message>
         <location filename="../src/accounts/accountsmodel.cpp" line="+111"/>
         <source>Enabled</source>
-        <translation>Habilitat</translation>
+        <translation>Aktiviert</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Service</source>
         <extracomment>&quot;Service&quot;, i.e. Twitter or Identi.ca</extracomment>
-        <translation>Servei</translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Login</source>
-        <translation>Usuari</translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Password</source>
-        <translation>Contrasenya</translation>
+        <translation>Passwort</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Direct msgs</source>
         <extracomment>This should be as short as possible (e.g. PW in Polish)</extracomment>
-        <translation>Missatges privats</translation>
+        <translation>Direkt-Nachricht</translation>
     </message>
     <message>
         <location line="+136"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation>&lt;buit&gt;</translation>
+        <translation>&lt;leer&gt;</translation>
     </message>
 </context>
 <context>
@@ -225,22 +233,22 @@
     <message>
         <location line="+33"/>
         <source>The credentials you provided are incorrect</source>
-        <translation>Les dades d&apos;autenticació són incorrectes</translation>
+        <translation>Die Benutzerdaten sind nicht korrekt</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Username:</source>
-        <translation>Nom d&apos;usuari:</translation>
+        <translation>Benutzername:</translation>
     </message>
     <message>
         <location line="+30"/>
         <source>Password:</source>
-        <translation>Contrasenya:</translation>
+        <translation>Passwort:</translation>
     </message>
     <message>
         <location line="+46"/>
         <source>disable account</source>
-        <translation>desactivar el compte</translation>
+        <translation>Account deaktivieren</translation>
     </message>
     <message>
         <location line="+3"/>
@@ -251,12 +259,12 @@
     <message>
         <location line="-3"/>
         <source>remove account</source>
-        <translation>suprimir el compte</translation>
+        <translation>Account entfernen</translation>
     </message>
     <message>
         <location line="-20"/>
         <source>or</source>
-        <translation>o</translation>
+        <translation>oder</translation>
     </message>
 </context>
 <context>
@@ -264,81 +272,81 @@
     <message>
         <location filename="../src/core.cpp" line="+267"/>
         <source>Are you sure to delete this status?</source>
-        <translation>Esteu segur de suprimir aquest missatge?</translation>
+        <translation>Wollen Sie diesen Status wirklich löschen?</translation>
     </message>
     <message>
         <location line="+109"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation>&lt;buit&gt;</translation>
+        <translation>&lt;leer&gt;</translation>
     </message>
     <message>
         <location line="+230"/>
         <source>Authentication is required to send direct messages.</source>
-        <translation>Verificació és requerida per a enviar missatges.</translation>
+        <translation>Authentifikation erforderlich, um Direkt-Nachrichten zu senden.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Authentication is required to delete updates.</source>
-        <translation>Verificació és requerida per a suprimir les seves actualitzacions.</translation>
+        <translation>Authentifikation erforderlich, um updates zu löschen.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
-        <translation>Autenticació és requerida per a obtenir les actualitzacions dels teus amics.</translation>
+        <translation>Authentifikation erforderlich, um Updates von Freunden zu erhalten.</translation>
     </message>
     <message>
         <location line="+69"/>
         <source>For:
 %1</source>
         <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
-        <translation>Per a:
+        <translation>Für:
 %1</translation>
     </message>
     <message>
         <source>and</source>
-        <translation type="obsolete">i</translation>
+        <translation type="obsolete">und</translation>
     </message>
     <message>
         <location line="-82"/>
         <source>Authentication is required to post updates.</source>
-        <translation>Es requereix autenticació per a publicar les seves actualitzacions.</translation>
+        <translation>Authentifikation erforderlich, um Updates zu senden.</translation>
     </message>
     <message>
         <location line="-337"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation>Esteu segur?</translation>
+        <translation>Bist Du sicher?</translation>
     </message>
     <message>
         <source>Are you sure to delete this tweet?</source>
-        <translation type="obsolete">Estàs segur de suprimir aquesta missatge?</translation>
+        <translation type="obsolete">Diesen Tweet wirklich löschen?</translation>
     </message>
     <message>
         <location line="+60"/>
         <source>There was a problem uploading your photo:</source>
-        <translation>Ha estat un problema de carregament el seu foto:</translation>
+        <translation>Es gab ein Problem beim Senden des Fotos:</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Photo available at:</source>
-        <translation>Foto disponible a:</translation>
+        <translation>Foto hier verfügbar:</translation>
     </message>
     <message>
         <location line="+300"/>
         <source>Warning</source>
-        <translation>Atenció</translation>
+        <translation>Warnung</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
-        <translation>Una o més peticions no s&apos;ha completat. Comproveu la seva connexió i/o configuració dels comptes.</translation>
+        <translation>Eine oder mehrere Anfragen konnten nicht fertig gestellt werden. Überprüfen Sie ihre Verbindung und/oder Kontoeinstellungen.</translation>
     </message>
     <message>
         <location line="+43"/>
         <source>For %1</source>
         <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
-        <translation>Per a %1</translation>
+        <translation>Für %1</translation>
     </message>
 </context>
 <context>
@@ -346,30 +354,30 @@
     <message>
         <location filename="../src/dmdialog.cpp" line="+53"/>
         <source>Direct message %1</source>
-        <translation>Escriu un missatge a %1</translation>
+        <translation>Direkt-Nachricht %1</translation>
     </message>
     <message numerus="yes">
         <location line="+35"/>
         <source>%n character over the limit</source>
         <translation>
-            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
-            <numerusform>Hi ha %n caràcters més enllà del limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
         <source>%n characters over the limit</source>
         <translation>
-            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
-            <numerusform>Hi ha%n caràcters més enllà del limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n character left</source>
         <translation>
-            <numerusform>%n caràcter disponible</numerusform>
-            <numerusform>%n caràcters disponibles</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -377,112 +385,112 @@
         <location line="+48"/>
         <source>%n characters left</source>
         <translation>
-            <numerusform>%n caràcter disponible</numerusform>
-            <numerusform>%n caràcters disponibles</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
         </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Message too long</source>
-        <translation>El missatge és massa llarg</translation>
+        <translation>Nachricht zu lang</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Your message is too long.</source>
-        <translation>El seu missatge és massa llarg.</translation>
+        <translation>Die Nachricht ist zu lang.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cool</source>
-        <translation>Bé</translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Oops...</source>
-        <translation>Ai!</translation>
+        <translation>Ups...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You can still post it like this, but it will be truncated.</source>
-        <translation>Seguiu podent pujar-lo com aixi, però el serà truncat.</translation>
+        <translation>Es kann so gesendet werden, wird jedoch abgeschnitten.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Sending...</source>
-        <translation>Enviant...</translation>
+        <translation>Sende...</translation>
     </message>
     <message>
         <location line="+18"/>
         <source>Message sent!</source>
-        <translation>S&apos;ha enviat el missatge!</translation>
+        <translation>Nachricht versendet!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Message sending failed. Note that you cannot send a message to a user that doesn&apos;t follow you.</source>
-        <translation>No és pot enviar el missatge. Recordeu que no és pot enviar els missatges als usuaris que no són els seus amics.</translation>
+        <translation>Senden fehlgeschlagen. Beachten Sie, dass keine Nachrichten an Benutzer gesendet werden können, die Ihnen nicht folgen.</translation>
     </message>
     <message>
         <location filename="../ui/dmdialog.ui" line="+20"/>
         <source>Direct Message</source>
-        <translation>El missatge privat</translation>
+        <translation>Direkt-Nachricht</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Write your message:</source>
-        <translation>Escriu un missatge:</translation>
+        <translation>Nachricht schreiben:</translation>
     </message>
     <message>
         <location line="+59"/>
         <source>Reset</source>
-        <translation>De nou</translation>
+        <translation>Löschen</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Close</source>
-        <translation>Tancar</translation>
+        <translation>Schließen</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Send</source>
-        <translation>Enviar</translation>
+        <translation>Senden</translation>
     </message>
 </context>
 <context>
     <name>ImageDownload</name>
     <message>
         <source>Download failed:</source>
-        <translation type="obsolete">Error de baixada:</translation>
+        <translation type="obsolete">Download fehlgeschlagen:</translation>
     </message>
 </context>
 <context>
     <name>IsGdShortener</name>
     <message>
         <source>The URL entered was not valid.</source>
-        <translation type="obsolete">La URL introduida no és vàlida.</translation>
+        <translation type="obsolete">Die eingegebene URL ist nicht korrekt.</translation>
     </message>
     <message>
         <source>The URL entered was too long.</source>
-        <translation type="obsolete">La URL introduïda és massa llarga.</translation>
+        <translation type="obsolete">Die eingegebene URL ist zu lang.</translation>
     </message>
     <message>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="obsolete">La seva adreça IP és a la llista negre de Spamhaus (SBL/XBL) o Spamcop.</translation>
+        <translation type="obsolete">Die Anfrage dieser Adresse wurde gesperrt durch Spamhaus (SBL/XBL) oder Spamcop.</translation>
     </message>
     <message>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="obsolete">La URL introduïda semble una pàgina web de spam i és a la llista negre de SURBL o URIBL.</translation>
+        <translation type="obsolete">Die eingegebene URL ist eine potenzielle Spamseite und ist entweder bei SURBL oder URIBL aufgelistet.</translation>
     </message>
     <message>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="obsolete">La URL introduïda és a la llista negre de is.gd (enllaços a serveis d&apos;escurçament de URLs o a is.gd en si mateix són deshabilitats).</translation>
+        <translation type="obsolete">Die eingegebene URL ist auf gd&apos;s schwarzer Liste (Links zu verkürzten Seiten oder zu gd wurden deaktiviert, um Missbrauch zu vermeiden.</translation>
     </message>
     <message>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="obsolete">La seva adreça IP és barrada per is.gd (normalment això és una conseqüencia de violació de les seves condicions d&apos;us).</translation>
+        <translation type="obsolete">Die Anfrage dieser Adresse wurde geblockt durch is.gd (wahrscheinlich aufgrund einer Verletzung ihrer Nutzungsbedingungen).</translation>
     </message>
     <message>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation type="obsolete">Ein Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
@@ -490,37 +498,37 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+62"/>
         <source>The URL entered was not valid.</source>
-        <translation>La URL introduida no és vàlida.</translation>
+        <translation>Die eingegebene URL ist nicht korrekt.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL entered was too long.</source>
-        <translation>La URL introduïda és massa llarga.</translation>
+        <translation>Die eingegebene URL ist zu lang.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation>La seva adreça IP és a la llista negre de Spamhaus (SBL/XBL) o Spamcop.</translation>
+        <translation>Die Anfrage dieser Adresse wurde gesperrt durch Spamhaus (SBL/XBL) oder Spamcop.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation>La URL introduïda semble una pàgina web de spam i és a la llista negre de SURBL o URIBL.</translation>
+        <translation>Die eingegebene URL ist eine potenzielle Spamseite und ist entweder bei SURBL oder URIBL aufgelistet.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation>La URL introduïda és a la llista negre de is.gd (enllaços a serveis d&apos;escurçament de URLs o a is.gd en si mateix són deshabilitats).</translation>
+        <translation>Die eingegebene URL ist auf gd&apos;s schwarzer Liste (Links zu verkürzten Seiten oder zu gd wurden deaktiviert, um Missbrauch zu vermeiden.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation>La seva adreça IP és barrada per is.gd (normalment això és una conseqüencia de violació de les seves condicions d&apos;us).</translation>
+        <translation>Die Anfrage dieser Adresse wurde geblockt durch is.gd (wahrscheinlich aufgrund einer Verletzung ihrer Nutzungsbedingungen).</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzer der URL.</translation>
     </message>
 </context>
 <context>
@@ -528,7 +536,7 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="+454"/>
         <source>Error</source>
-        <translation>Error</translation>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location filename="../ui/mainwindow.ui" line="+20"/>
@@ -538,25 +546,25 @@
     <message>
         <location line="+225"/>
         <source>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</source>
-        <translation>&lt;span style=&quot;color: black&quot;&gt;Utilitzeu &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; per a escurçar enllaços&lt;/span&gt;</translation>
+        <translation>&lt;span style=&quot;color: black&quot;&gt;Drücken Sie &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; um Links zu kürzen&lt;/span&gt;</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="+59"/>
         <location filename="../ui/mainwindow.ui" line="+6"/>
         <source>What are you doing?</source>
-        <translation>Què estàs fent ara?</translation>
+        <translation>Was machst du gerade?</translation>
     </message>
     <message>
         <location line="-365"/>
         <location line="+353"/>
         <source>Settings</source>
-        <translation>Configuració</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location line="-327"/>
         <location line="+345"/>
         <source>About qTwitter...</source>
-        <translation>Sobre qTwitter...</translation>
+        <translation>Über qTwitter...</translation>
     </message>
     <message>
         <location line="-271"/>
@@ -567,122 +575,122 @@
         <location line="+10"/>
         <location line="+66"/>
         <source>public timeline</source>
-        <translation>llista pública</translation>
+        <translation>Öffentliche Zeitleiste</translation>
     </message>
     <message numerus="yes">
         <source>%n character(s) over the limit</source>
         <translation type="obsolete">
-            <numerusform>%n caràcter més enllà del limit</numerusform>
-            <numerusform>%n caràcters més enllà del limit</numerusform>
+            <numerusform>%n Zeichen über Limit</numerusform>
+            <numerusform>%n Zeichen über Limit</numerusform>
         </translation>
     </message>
     <message>
         <location line="-122"/>
         <source>Your message is too long.</source>
-        <translation>El seu missatge és massa llarg.</translation>
+        <translation>Die Nachricht ist zu lang.</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Message too long</source>
-        <translation>El missatge massa llarg</translation>
+        <translation>Nachricht zu lang</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cool</source>
-        <translation>Bé</translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Oops...</source>
-        <translation>Ai!</translation>
+        <translation>Ups...</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>You can still post it like this, but it will be truncated.</source>
-        <translation>Seguiu podent pujar-lo com aixi, però el serà truncat.</translation>
+        <translation>Es kann so gesendet werden, wird jedoch abgeschnitten.</translation>
     </message>
     <message>
         <source>the public timeline</source>
         <extracomment>The full sentence is e.g.: &quot;New tweets for &lt;user A&gt;, &lt;user B&gt; and the public timeline&quot;</extracomment>
-        <translation type="obsolete">la llista pública</translation>
+        <translation type="obsolete">öffentliche Zeitleiste</translation>
     </message>
     <message>
         <location line="+121"/>
         <source>New tweets</source>
         <extracomment>New tweets received (this pops up in tray)</extracomment>
-        <translation>Hi ha missatges nous</translation>
+        <translation>Neue Tweets</translation>
     </message>
     <message>
         <location line="+56"/>
         <source>Navigate using %1 and %2</source>
-        <translation>Navegui usant %1 i %2</translation>
+        <translation>Steuern mit %1 und %2</translation>
     </message>
     <message>
         <location line="+5"/>
         <location filename="../ui/mainwindow.ui" line="-72"/>
         <source>More...</source>
-        <translation>Més....</translation>
+        <translation>Mehr...</translation>
     </message>
     <message>
         <location line="-9"/>
         <source>Update tweets</source>
-        <translation>Actualitzar missatges</translation>
+        <translation>Aktualisiere Tweets</translation>
     </message>
     <message>
         <location line="-353"/>
         <location line="+28"/>
         <location line="+345"/>
         <source>Quit</source>
-        <translation>Sortir</translation>
+        <translation>Exit</translation>
     </message>
     <message>
         <location line="-351"/>
         <location line="+345"/>
         <source>New tweet</source>
-        <translation>Nou missatge</translation>
+        <translation>Neuer Tweet</translation>
     </message>
     <message numerus="yes">
         <source>%n character(s) left</source>
         <translation type="obsolete">
-            <numerusform>%n caràcter queda</numerusform>
-            <numerusform>%n caracters queden</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
         </translation>
     </message>
     <message>
         <location line="-383"/>
         <source>&amp;File</source>
-        <translation>&amp;Arxiu</translation>
+        <translation>&amp;Datei</translation>
     </message>
     <message>
         <location line="+39"/>
         <location line="+345"/>
         <source>Upload a photo to TwitPic</source>
-        <translation>Pujeu el foto a TwitPic</translation>
+        <translation>Ein Foto bei TwitPic hochladen</translation>
     </message>
     <message>
         <location line="-344"/>
         <location line="+345"/>
         <source>Go to Twitter</source>
-        <translation>Anar a Twitter</translation>
+        <translation>Gehe zu Twitter</translation>
     </message>
     <message>
         <location line="-344"/>
         <location line="+345"/>
         <source>Go to Identi.ca</source>
-        <translation>Anar a Identi.ca</translation>
+        <translation>Gehe zu Identi.ca</translation>
     </message>
     <message>
         <location line="-344"/>
         <location line="+345"/>
         <source>Go to TwitPic</source>
-        <translation>Anar a TwitPic</translation>
+        <translation>Gehe zu TwitPic</translation>
     </message>
     <message numerus="yes">
         <location line="-215"/>
         <source>%n character left</source>
         <translation>
-            <numerusform>%n caràcter disponible</numerusform>
-            <numerusform>%n caràcters disponibles</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -690,24 +698,24 @@
         <location line="+241"/>
         <source>%n characters left</source>
         <translation>
-            <numerusform>%n caràcter disponible</numerusform>
-            <numerusform>%n caràcters disponibles</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
+            <numerusform>%n Zeichen übrig</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+5"/>
         <source>%n character over the limit</source>
         <translation>
-            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
-            <numerusform>Hi ha %n caràcters més enllà del limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n characters over the limit</source>
         <translation>
-            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
-            <numerusform>Hi ha %n caràcters més enllà del limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
+            <numerusform>%n Zeichen über dem Limit</numerusform>
         </translation>
     </message>
 </context>
@@ -715,7 +723,7 @@
     <name>MetaMarkShortener</name>
     <message>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation type="obsolete">Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
@@ -723,96 +731,90 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+52"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzer der URL.</translation>
     </message>
 </context>
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="+332"/>
+        <location filename="../src/settings.cpp" line="+253"/>
         <location filename="../ui/settings.ui" line="+26"/>
         <source>Settings</source>
-        <translation>Configuració</translation>
+        <translation>Einstellungen</translation>
     </message>
     <message>
         <location line="+1"/>
         <location filename="../ui/settings.ui" line="+13"/>
         <source>General</source>
-        <translation>General</translation>
+        <translation>Allgemein</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="+57"/>
         <source>Language</source>
-        <translation>Llengua</translation>
+        <translation>Sprache</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="+77"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
-        <translation>Català</translation>
+        <translation>Deutsch</translation>
     </message>
     <message>
         <location line="-70"/>
         <location filename="../ui/settings.ui" line="+82"/>
         <source>Network</source>
-        <translation>Xarxa</translation>
+        <translation>Netzwerk</translation>
     </message>
     <message>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation type="obsolete">&lt;buit&gt;</translation>
+        <translation type="obsolete">&lt;leer&gt;</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="-131"/>
-        <source>Refresh every (mins)</source>
-        <translation>Actualitzar cada (min)</translation>
-    </message>
-    <message>
-        <location line="+69"/>
-        <source>Shorten links via</source>
-        <translation>Escurçar enllaços amb</translation>
-    </message>
-    <message>
-        <location filename="../src/settings.cpp" line="-3"/>
-        <location filename="../ui/settings.ui" line="+28"/>
-        <source>Show tray notifications</source>
-        <translation>Mostrar les notificacions a la safata de sistema</translation>
+        <location line="-6"/>
+        <source>Refresh every (mins):</source>
+        <translation>Aktualisiere jede (Minuten):</translation>
     </message>
     <message>
         <location line="+1"/>
-        <location filename="../ui/settings.ui" line="-13"/>
+        <source>Language:</source>
+        <translation>Sprache:</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location filename="../ui/settings.ui" line="-47"/>
         <source>Confirm messages deletion</source>
-        <translation>Confirmar la supresió de missatges</translation>
+        <translation>Bestätige Löschen von Nachrichten</translation>
     </message>
     <message>
         <source>Account</source>
-        <translation type="obsolete">Compte</translation>
+        <translation type="obsolete">Konto</translation>
     </message>
     <message>
         <source>Enabled</source>
-        <translation type="obsolete">Habilitat</translation>
+        <translation type="obsolete">Aktiviert</translation>
     </message>
     <message>
         <source>Username:</source>
-        <translation type="obsolete">Nom d&apos;usuari:</translation>
+        <translation type="obsolete">Benutzername:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="obsolete">Contrasenya:</translation>
+        <translation type="obsolete">Passwort:</translation>
     </message>
     <message>
         <source>download direct messages</source>
-        <translation type="obsolete">pujar els missatges privats</translation>
+        <translation type="obsolete">download Direkt-Nachrichten</translation>
     </message>
     <message>
         <source>include public timeline</source>
-        <translation type="obsolete">incluir la llista pública</translation>
+        <translation type="obsolete">berücksichtige öffentliche Zeitleiste</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../ui/settings.ui" line="+53"/>
         <source>Use HTTP &amp;proxy</source>
-        <translation>Utilitzar el &amp;proxy HTTP</translation>
+        <translation>Benutze &amp;proxy HTTP</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -830,95 +832,101 @@
         <location line="+2"/>
         <location filename="../ui/settings.ui" line="+51"/>
         <source>Status count:</source>
-        <translation>Quantitat d&apos;estatuts:</translation>
+        <translation>Statusanzahl:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Apply</source>
-        <translation>Aplicar</translation>
+        <translation>Anwenden</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Cancel</source>
-        <translation>Anul·lar</translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location line="-25"/>
         <location line="+87"/>
         <source>Default</source>
-        <translation>Per defecte</translation>
+        <translation>Standard</translation>
     </message>
     <message>
         <location line="-64"/>
         <source>OK</source>
-        <translation>Bé</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <source>Username</source>
-        <translation type="obsolete">Nom d&apos;usuari</translation>
+        <translation type="obsolete">Benutzername</translation>
     </message>
     <message>
         <location line="-196"/>
         <location line="+192"/>
         <source>Use custom web browser</source>
-        <translation>Utilitzar un altre navegador web</translation>
+        <translation>Anderen Web-Browser verwenden</translation>
     </message>
     <message>
         <source>Password</source>
-        <translation type="obsolete">Contrasenya</translation>
+        <translation type="obsolete">Passwort</translation>
     </message>
     <message>
         <location line="-190"/>
         <location line="+191"/>
         <source>Browse</source>
-        <translation>Navegar</translation>
+        <translation>Browse</translation>
     </message>
     <message>
-        <location line="-15"/>
-        <source>Refresh every (mins):</source>
-        <translation>Actualitzar cada (min):</translation>
+        <location filename="../ui/settings.ui" line="-217"/>
+        <source>Refresh every (mins)</source>
+        <translation>Aktualisiere jede (Minuten)</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Language:</source>
-        <translation>Llengua:</translation>
+        <location line="+69"/>
+        <source>Shorten links via</source>
+        <translation>Kürze Links mit</translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="-12"/>
+        <location filename="../ui/settings.ui" line="+28"/>
+        <source>Show tray notifications</source>
+        <translation>Tray-Infos aktivieren</translation>
     </message>
     <message>
         <source>Tweet count:</source>
-        <translation type="obsolete">Quantitat de Tweets:</translation>
+        <translation type="obsolete">Tweet Anzahl:</translation>
     </message>
     <message>
-        <location line="+29"/>
+        <location line="+27"/>
         <source>Select your browser executable</source>
-        <translation>Escolliu l&apos;arxiu del seu navegador</translation>
+        <translation>Wähle Browser executable</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All files (*)</source>
-        <translation>Tots arxius (*)</translation>
+        <translation>Alle Dateien (*)</translation>
     </message>
     <message>
         <location line="-20"/>
-        <location filename="../ui/settings.ui" line="-9"/>
+        <location filename="../ui/settings.ui" line="+111"/>
         <source>Appearance</source>
-        <translation>Aparença</translation>
+        <translation>Erscheinungsbild</translation>
     </message>
     <message>
         <location line="-8"/>
         <source>Shorten links via:</source>
-        <translation>Escurçar enllaços amb:</translation>
+        <translation>Kürze Links mit:</translation>
     </message>
     <message>
         <location line="+3"/>
         <location filename="../ui/settings.ui" line="-87"/>
         <source>Accounts</source>
-        <translation>Comptes</translation>
+        <translation>Konten</translation>
     </message>
     <message>
         <location line="+7"/>
         <location filename="../ui/settings.ui" line="+122"/>
         <source>Color scheme:</source>
-        <translation>Esquema de color:</translation>
+        <translation>Farbschema:</translation>
     </message>
 </context>
 <context>
@@ -926,7 +934,7 @@
     <message>
         <location filename="../src/statusedit.cpp" line="+80"/>
         <source>What are you doing?</source>
-        <translation>Què estàs fent ara?</translation>
+        <translation>Was machst du gerade?</translation>
     </message>
 </context>
 <context>
@@ -937,37 +945,37 @@
         <location line="+184"/>
         <location line="+131"/>
         <source>Add to Favorites</source>
-        <translation>Afegir als favorits</translation>
+        <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
         <location line="-328"/>
         <location line="+344"/>
         <source>Retweet</source>
-        <translation>Reenviar</translation>
+        <translation>Retweet</translation>
     </message>
     <message>
         <location line="-326"/>
         <location line="+327"/>
         <source>Copy link to this status</source>
-        <translation>Copiar l&apos;enllaç a aquest missatge</translation>
+        <translation>Kopiere Link zu dieser Nachricht</translation>
     </message>
     <message>
         <location line="-317"/>
         <location line="+319"/>
         <source>Mark list as read</source>
-        <translation>Marcar la llista com a llegida</translation>
+        <translation>Markiere Liste als gelesen</translation>
     </message>
     <message>
         <location line="-314"/>
         <location line="+315"/>
         <source>Mark everything as read</source>
-        <translation>Marcar tot com a llegit</translation>
+        <translation>Alles als gelesen markieren</translation>
     </message>
     <message>
         <location line="-302"/>
         <location line="+303"/>
         <source>Go to User&apos;s homepage</source>
-        <translation>Anar-hi a la pàgina principal d&apos;usuari</translation>
+        <translation>Zur Homepage des Benutzers</translation>
     </message>
     <message>
         <location line="-292"/>
@@ -975,25 +983,25 @@
         <location line="+17"/>
         <location line="+153"/>
         <source>Reply to %1</source>
-        <translation>Respondre a %1</translation>
+        <translation>Antworte auf %1</translation>
     </message>
     <message>
         <location line="-260"/>
         <location line="+242"/>
         <source>Direct message %1</source>
-        <translation>Escrivir un missatge a %1</translation>
+        <translation>Direkt Nachricht %1</translation>
     </message>
     <message>
         <location line="-221"/>
         <location line="+259"/>
         <source>Go to User&apos;s Identi.ca page</source>
-        <translation>Anar-hi a la pàgina de Identi.ca d&apos;usuari</translation>
+        <translation>Zur Identi.ca Seite des Benutzers</translation>
     </message>
     <message>
         <location line="-256"/>
         <location line="+258"/>
         <source>Go to User&apos;s Twitter page</source>
-        <translation>Anar-hi a la pàgina de Twitter d&apos;usuari</translation>
+        <translation>Zur Twitter-Seite des Benutzers</translation>
     </message>
     <message>
         <location line="-195"/>
@@ -1001,14 +1009,14 @@
         <location line="+165"/>
         <location line="+11"/>
         <source>Delete status</source>
-        <translation>Suprimir el estatut</translation>
+        <translation>Status löschen</translation>
     </message>
     <message>
         <location line="-180"/>
         <location line="+6"/>
         <location line="+165"/>
         <source>Delete message</source>
-        <translation>Suprimir el missatge</translation>
+        <translation>Nachricht löschen</translation>
     </message>
     <message>
         <location line="-149"/>
@@ -1016,20 +1024,20 @@
         <location line="+129"/>
         <location line="+3"/>
         <source>Remove from Favorites</source>
-        <translation>Suprimir-lo dels favorits</translation>
+        <translation>Aus Favoriten entfernen</translation>
     </message>
     <message>
         <location line="-97"/>
         <source>in reply to %1</source>
-        <translation>en reposta a %1</translation>
+        <translation>Antwort auf %1</translation>
     </message>
     <message>
         <location line="+105"/>
         <source>About %1</source>
-        <translation>Sobre %1</translation>
+        <translation>Über %1</translation>
     </message>
     <message>
-        <location filename="../ui/statuswidget.ui" line="+387"/>
+        <location filename="../ui/statuswidget.ui" line="+373"/>
         <location line="+30"/>
         <source>QPushButton {
 border: 1px;
@@ -1043,7 +1051,7 @@ background-color: rgba(255,255,255,0);
     <name>TinyUrlShortener</name>
     <message>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation type="obsolete">Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
@@ -1051,7 +1059,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+46"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzer der URL.</translation>
     </message>
 </context>
 <context>
@@ -1059,18 +1067,18 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-23"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzer der URL.</translation>
     </message>
 </context>
 <context>
     <name>TrImShortener</name>
     <message>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="obsolete">La URL ha estat rebutjat per tr.im</translation>
+        <translation type="obsolete">Die URL wurde durch tr.im zurückgewiesen</translation>
     </message>
     <message>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation type="obsolete">Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
@@ -1078,43 +1086,43 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-52"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation>La URL ha estat rebutjat per tr.im</translation>
+        <translation>Die URL wurde durch tr.im zurückgewiesen</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzer der URL.</translation>
     </message>
 </context>
 <context>
     <name>Tweet</name>
     <message>
         <source>Go to User&apos;s Twitter page</source>
-        <translation type="obsolete">Vés-hi a la pàgina Twitter d&apos;usuari</translation>
+        <translation type="obsolete">Zur Twitter-Seite des Benutzers</translation>
     </message>
     <message>
         <source>Go to User&apos;s homepage</source>
-        <translation type="obsolete">Vés-hi a la pàgina principal d&apos;usuari</translation>
+        <translation type="obsolete">Zur Homepage des Benutzers</translation>
     </message>
     <message>
         <source>Delete tweet</source>
-        <translation type="obsolete">Suprimeix el missatge</translation>
+        <translation type="obsolete">Lösche tweet</translation>
     </message>
     <message>
         <source>Mark all as read</source>
-        <translation type="obsolete">Marca&apos;ls tots com a llegits</translation>
+        <translation type="obsolete">Alle als gelesen markieren</translation>
     </message>
     <message>
         <source>Reply to %1</source>
-        <translation type="obsolete">Respon a %1</translation>
+        <translation type="obsolete">Antworte auf %1</translation>
     </message>
     <message>
         <source>Retweet</source>
-        <translation type="obsolete">Reenvia</translation>
+        <translation type="obsolete">Retweet</translation>
     </message>
     <message>
         <source>Copy link to this tweet</source>
-        <translation type="obsolete">Copiar l&apos;enllaç a aquest missatge</translation>
+        <translation type="obsolete">Kopiere Link zu diesem Tweet</translation>
     </message>
 </context>
 <context>
@@ -1122,27 +1130,27 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../src/twitpicengine.cpp" line="+163"/>
         <source>Invalid twitter username or password</source>
-        <translation>Nom d&apos;usuari i/o contrasenya són incorrectes</translation>
+        <translation>Ungültiger Twitter Benutzername oder Passwort</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Image not found</source>
-        <translation>No s&apos;ha trobat la imatge</translation>
+        <translation>Bild nicht gefunden</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Invalid image type</source>
-        <translation>Incorrecte fromat de la imatge</translation>
+        <translation>Ungültiges Bildformat</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Image larger than 4MB</source>
-        <translation>Imatge més gran que 4MB</translation>
+        <translation>Bild größer als 4MB</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>We&apos;re sorry, but due to some mysterious error your image failed to upload</source>
-        <translation>Ho sentim, peró degut a algun error la imatge no ha estat pujat</translation>
+        <translation>Entschuldigung, es kam zu einem unbekannten Fehler beim Upload</translation>
     </message>
 </context>
 <context>
@@ -1150,7 +1158,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../ui/twitpicnewphoto.ui" line="+26"/>
         <source>Upload completed</source>
-        <translation>El carregament s&apos;ha acabat</translation>
+        <translation>Upload komplett</translation>
     </message>
 </context>
 <context>
@@ -1161,23 +1169,23 @@ background-color: rgba(255,255,255,0);
         <location line="+10"/>
         <location filename="../ui/twitpicview.ui" line="+151"/>
         <source>Upload</source>
-        <translation>Pujar</translation>
+        <translation>Upload</translation>
     </message>
     <message>
         <location line="-4"/>
         <location line="+2"/>
         <source>Abort</source>
-        <translation>Anul·lar</translation>
+        <translation>Stoppen</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Select photo to upload</source>
-        <translation>Seleccioneu el foto</translation>
+        <translation>Wähle Foto zum Upload</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Image files</source>
-        <translation>Imatges</translation>
+        <translation>Bilder</translation>
     </message>
     <message>
         <location line="+6"/>
@@ -1185,48 +1193,44 @@ background-color: rgba(255,255,255,0);
         <location line="+12"/>
         <location filename="../ui/twitpicview.ui" line="-41"/>
         <source>Select a photo to upload</source>
-        <translation>Seleccioneu el foto per a carregar</translation>
+        <translation>Wähle Foto zum Upload</translation>
     </message>
     <message>
         <location filename="../ui/twitpicview.ui" line="-90"/>
         <source>Upload a photo to Twitpic</source>
-        <translation>Carregeu el foto a TwitPic</translation>
+        <translation>Foto zu Twitpic hochladen</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Choose a photo:</source>
-        <translation>Seleccioneu el foto:</translation>
+        <translation>Foto auswählen:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Browse</source>
-        <translation>Navegar</translation>
+        <translation>Browse</translation>
     </message>
     <message>
         <location line="+90"/>
         <source>post a status</source>
-        <translation>afegir el missatge</translation>
+        <translation>Status senden</translation>
     </message>
 </context>
 <context>
     <name>TwitterAccountsModel</name>
     <message>
         <source>Enabled</source>
-        <translation type="obsolete">Habilitat</translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation type="obsolete">Usuari</translation>
+        <translation type="obsolete">Aktiviert</translation>
     </message>
     <message>
         <source>Direct msgs</source>
         <extracomment>This should be as short as possible (e.g. PW in Polish)</extracomment>
-        <translation type="obsolete">Missatges privats</translation>
+        <translation type="obsolete">Direkt-Nachricht</translation>
     </message>
     <message>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation type="obsolete">&lt;buit&gt;</translation>
+        <translation type="obsolete">&lt;leer&gt;</translation>
     </message>
 </context>
 <context>
@@ -1234,12 +1238,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+92"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation>La URL ha estat rebutjat per u.nu</translation>
+        <translation>Die URL wurde durch u.nu zurückgewiesen</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
@@ -1249,8 +1253,8 @@ background-color: rgba(255,255,255,0);
         <source>friend</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
         <translation>
-            <numerusform>amic</numerusform>
-            <numerusform>amics</numerusform>
+            <numerusform>Freund</numerusform>
+            <numerusform>Freunde</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -1258,34 +1262,34 @@ background-color: rgba(255,255,255,0);
         <source>friends</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
         <translation>
-            <numerusform>amic</numerusform>
-            <numerusform>amics</numerusform>
+            <numerusform>Freund</numerusform>
+            <numerusform>Freunde</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../ui/userinfopopup.ui" line="+210"/>
         <source>Login:</source>
-        <translation>Nom d&apos;usuari:</translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Location:</source>
-        <translation>Ubicació:</translation>
+        <translation>Standort:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Local time:</source>
-        <translation>Hora local:</translation>
+        <translation>Lokale Uhrzeit:</translation>
     </message>
     <message>
         <location line="+14"/>
         <source>Homepage:</source>
-        <translation>Pàgina principal:</translation>
+        <translation></translation>
     </message>
     <message>
         <location line="+33"/>
         <source>Bio:</source>
-        <translation>Sobre:</translation>
+        <translation></translation>
     </message>
 </context>
 </TS>
