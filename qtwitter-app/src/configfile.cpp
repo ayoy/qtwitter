@@ -132,6 +132,7 @@ void ConfigFile::convertSettingsToZeroSeven()
 
   setValue( "Accounts/publicTimeline", value( "TwitterAccounts/publicTimeline" ).toBool() );
   setValue( "Accounts/visibleAccount", value( "TwitterAccounts/currentModel" ).toInt() );
+  setValue( "Appearance/color scheme", value( "Appearance/color scheme").toInt() - 1 );
   remove( "TwitterAccounts/publicTimeline" );
   remove( "TwitterAccounts/currentModel" );
 }
