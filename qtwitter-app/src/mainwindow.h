@@ -54,6 +54,7 @@ public slots:
   void resetStatusEdit();
   void pauseIcon();
   void showProgressIcon();
+  void show();
   void about();
   void setListViewModel( StatusModel *model );
   void replaceUrl( const QString &url );
@@ -94,7 +95,7 @@ private slots:
   void changeLabel();
   void sendStatus();
   void resetStatus();
-  void configSaveCurrentModel( int index );
+  void configSaveCurrentModel( int index, bool unconditionally = false );
   void selectNextAccount();
   void selectPrevAccount();
 

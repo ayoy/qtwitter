@@ -649,7 +649,7 @@ QByteArray TwitterAPIInterface::prepareRequest( const QString &data, int inReply
     request.append( "&in_reply_to_status_id=" + QByteArray::number( inReplyTo ) );
   }
   request.append( "&source=qtwitter" );
-  qDebug() << request;
+//  qDebug() << request;
   return request;
 }
 
@@ -668,7 +668,7 @@ QByteArray TwitterAPIInterface::prepareRequest( const QString &screenName, const
   statusText.replace( QRegExp( "&" ), "%26" );
   statusText.replace( QRegExp( "\\+" ), "%2B" );
   request.append( text.toUtf8() );
-  qDebug() << request;
+//  qDebug() << request;
   return request;
 }
 

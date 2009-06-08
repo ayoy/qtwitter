@@ -368,10 +368,18 @@ void MainWindow::showProgressIcon()
   if ( !timer->isActive() )
     timer->singleShot( 60000, this, SLOT(resetStatusEdit()) );
 }
-
-void MainWindow::configSaveCurrentModel( int index )
+void MainWindow::show()
 {
-  if ( settings.value( "Accounts/visibleAccount", 0 ).toInt() != index ) {
+  ui.statusListView->setUpdatesEnabled( false );
+  QMainWindow::show();
+  configSaveCurrentModel( ui.accountsComboBox->currentIndex(), true );
+  ui.statusListView->setUpdatesEnabled( true );
+}
+
+void MainWindow::configSaveCurrentModel( int index, bool unconditionally )
+{
+  if ( settings.value( "Accounts/visibleAccount", 0 ).toInt() != index
+       || unconditionally ) {
     settings.setValue( "Accounts/visibleAccount", index );
     if ( Account::fromString( ui.accountsComboBox->currentText() ).second == tr( "public timeline" ) )
       emit switchToPublicTimelineModel( Account::fromString( ui.accountsComboBox->currentText() ).first );
@@ -422,7 +430,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
       showNormal();
     else
       showFullScreen();
-
+//    May be needed to update display after hiding (unless showNormal() and showFullScreen() invoke show())
+//    configSaveCurrentModel( ui.accountsComboBox->currentIndex(), true );
     event->accept();
   }
 #endif
@@ -463,21 +472,21 @@ void MainWindow::popupError( const QString &message )
 void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
 {
   switch ( reason ) {
-    case QSystemTrayIcon::Trigger:
+  case QSystemTrayIcon::Trigger:
 #ifdef Q_WS_WIN
     if ( !isVisible() ) {
 #else
     if ( !isVisible() || !QApplication::activeWindow() ) {
 #endif
       show();
-        raise();
-        activateWindow();
-      } else {
-        hide();
-      }
-      break;
-    default:
-      break;
+      raise();
+      activateWindow();
+    } else {
+      hide();
+    }
+    break;
+  default:
+    break;
   }
 }
 
