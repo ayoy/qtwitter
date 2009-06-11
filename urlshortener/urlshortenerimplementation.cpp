@@ -246,3 +246,31 @@ void BitlyShortener::replyFinished( QNetworkReply *reply )
       emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
+
+DiggShortener::DiggShortener( QObject *parent ) : UrlShortenerImplementation( parent ) {}
+
+void DiggShortener::shorten( const QString &url )
+{
+  QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
+
+  if( QRegExp( "http://digg.com" ).indexIn( url ) == -1 ) {
+    connection->get( QNetworkRequest( QUrl( "http://services.digg.com/url/short/create?appkey=http://qtwitter.ayoy.net&url=" + newUrl ) ) );
+  }
+}
+
+void DiggShortener::replyFinished( QNetworkReply *reply )
+{
+  QString response = reply->readAll();
+
+  switch( replyStatus( reply ) ) {
+    case 200:
+      {
+        QDomDocument doc;
+        doc.setContent( response, false );
+        emit shortened( doc.firstChildElement( "shorturls" ).firstChildElement( "shorturl" ).attribute("short_url") );
+      }
+      break;
+    default: case 500:
+      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  }
+}

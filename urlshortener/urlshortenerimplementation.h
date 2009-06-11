@@ -137,4 +137,16 @@ protected slots:
   virtual void replyFinished( QNetworkReply* );
 };
 
+class DiggShortener : public UrlShortenerImplementation
+{
+  Q_OBJECT
+
+public:
+  DiggShortener( QObject *parent = 0 );
+  UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_DIGG; }
+  void shorten( const QString &url );
+protected slots:
+  virtual void replyFinished( QNetworkReply* );
+};
+
 #endif // URLSHORTENERIMPLEMENTATION_H
