@@ -106,7 +106,7 @@ void MainWindow::createConnections()
   connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
   connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
   connect( filter, SIGNAL( shortenUrlPressed() ), ui.statusEdit, SLOT( shortenUrl() ));
-  connect( this, SIGNAL(addReplyString(QString,int)), ui.statusEdit, SLOT(addReplyString(QString,int)) );
+  connect( this, SIGNAL(addReplyString(QString,quint64)), ui.statusEdit, SLOT(addReplyString(QString,quint64)) );
   connect( this, SIGNAL(addRetweetString(QString)), ui.statusEdit, SLOT(addRetweetString(QString)) );
   connect( ui.statusEdit, SIGNAL( shortenUrl( QString ) ), this, SIGNAL( shortenUrl( QString ) ) );
 
@@ -690,7 +690,7 @@ void MainWindow::statusGotohomepageAction()
     Emitted to open a dialog for uploading a photo to TwitPic.
 */
 
-/*! \fn void MainWindow::post( const QByteArray& status, int inReplyTo = -1 )
+/*! \fn void MainWindow::post( const QByteArray& status, quint64 inReplyTo = -1 )
     Emitted to post a status update. Assigned to pressing Enter inside the status edit field.
     \param status A status to be posted.
     \param inReplyTo In case the status is a reply - optional id of the existing status to which the reply is posted.
@@ -706,7 +706,7 @@ void MainWindow::statusGotohomepageAction()
     Emitted when settings button pressed, requests opening the settings dialog.
 */
 
-/*! \fn void MainWindow::addReplyString( const QString& user, int inReplyTo )
+/*! \fn void MainWindow::addReplyString( const QString& user, quint64 inReplyTo )
     Works as a proxy between StatusWidget class instance and status edit field. Passes the request
     to initiate editing a reply.
     \param user Login of a User to whom the current User replies.

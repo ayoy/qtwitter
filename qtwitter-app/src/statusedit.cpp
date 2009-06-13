@@ -54,7 +54,7 @@ const int StatusEdit::STATUS_MAX_LENGTH = 140;
 StatusEdit::StatusEdit( QWidget * parent ) :
   QLineEdit( parent ),
   statusClean( true ),
-  inReplyToId( -1 )
+  inReplyToId( 0 )
   {}
 
 void StatusEdit::focusInEvent( QFocusEvent *event )
@@ -79,7 +79,7 @@ void StatusEdit::initialize()
 {
   setText( tr( "What are you doing?" ) );
   setStyleSheet( "color: gray" );
-  inReplyToId = -1;
+  inReplyToId = 0;
   statusClean = true;
 }
 
@@ -104,7 +104,7 @@ void StatusEdit::cancelEditing()
   clearFocus();
 }
 
-void StatusEdit::addReplyString( const QString &name, int inReplyTo )
+void StatusEdit::addReplyString( const QString &name, quint64 inReplyTo )
 {
   if ( statusClean ) {
     setText( "@" + name + " ");
@@ -223,7 +223,7 @@ int StatusEdit::charsLeft() const
     Initializes status edit field and clears focus.
 */
 
-/*! \fn void StatusEdit::addReplyString( const QString &name, int inReplyTo )
+/*! \fn void StatusEdit::addReplyString( const QString &name, quint64 inReplyTo )
     Adds user login in Twitter replying convention (\a \@user).
     \param name User login to be added to status edit field.
     \param inReplyTo Id of the existing status to which the reply is posted.

@@ -26,13 +26,13 @@
 Entry::Entry( Entry::Type entryType ) :
   type( entryType ),
   isOwn( false ),
-  id( -1 ),
+  id( 0 ),
   text( QString() ),
   originalText( QString() ),
   timestamp( QDateTime() ),
   localTime( QDateTime() ),
   hasInReplyToStatusId( false ),
-  inReplyToStatusId( -1 ),
+  inReplyToStatusId( 0 ),
   inReplyToScreenName( QString() ),
   favorited( false ),
   userInfo( UserInfo() )
@@ -41,13 +41,13 @@ Entry::Entry( Entry::Type entryType ) :
 void Entry::initialize()
 {
   isOwn = false;
-  id = -1;
+  id = 0;
   text = QString();
   originalText = QString();
   timestamp = QDateTime();
   localTime = QDateTime();
   hasInReplyToStatusId = false;
-  inReplyToStatusId = -1;
+  inReplyToStatusId = 0;
   inReplyToScreenName = QString();
   favorited = false;
   userInfo.initialize();
@@ -56,16 +56,16 @@ void Entry::initialize()
 bool Entry::checkContents()
 {
   if ( !hasInReplyToStatusId ) {
-    inReplyToStatusId = -1;
+    inReplyToStatusId = 0;
     inReplyToScreenName = QString();
   }
   if ( userInfo.checkContents() ) {
-    if ( ( id != -1 ) &&
+    if ( ( id != 0 ) &&
          ( type == Status ? !userInfo.imageUrl.isNull() : true ) &&  //todo: reference to userinfo here is lame
          !text.isNull() &&
          !timestamp.isNull() &&
          !localTime.isNull()  &&
-         ( hasInReplyToStatusId ? inReplyToStatusId != -1 : true ) &&
+         ( hasInReplyToStatusId ? inReplyToStatusId != 0 : true ) &&
          ( hasInReplyToStatusId ? !inReplyToScreenName.isNull() : true ) ) {
       return true;
     }

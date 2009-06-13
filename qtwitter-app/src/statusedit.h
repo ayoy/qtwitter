@@ -62,7 +62,7 @@ public:
 
 public slots:
   void cancelEditing();
-  void addReplyString( const QString &name, int inReplyTo );
+  void addReplyString( const QString &name, quint64 inReplyTo );
   void addRetweetString( QString message );
   void shortenUrl();
 
@@ -72,7 +72,7 @@ signals:
 
 private:
   bool statusClean;
-  int inReplyToId;
+  quint64 inReplyToId;
   QString selectedUrl;
 
 };

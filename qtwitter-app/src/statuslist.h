@@ -65,8 +65,8 @@ public:
   void markAllAsRead();
 
   void addStatus( Entry entry );
-  bool deleteStatus( int id );
-  void setFavorited( int index, bool favorited = true );
+  bool deleteStatus( quint64 id );
+  void setFavorited( quint64 id, bool favorited = true );
 
   bool remove( int from, int count );
   static void setMaxCount( int maxCount );

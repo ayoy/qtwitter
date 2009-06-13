@@ -104,7 +104,7 @@ struct Interface
 */
 
 /*!
-  \fn void TwitterAPIInterface::deleteEntry( const QString &login, int id )
+  \fn void TwitterAPIInterface::deleteEntry( const QString &login, quint64 id )
 
   Emitted when a status of the given \a id was deleted from Twitter and
   can be deleted from locally stored list of the user specified by \a login.
@@ -139,7 +139,7 @@ struct Interface
 */
 
 /*!
-  \fn void TwitterAPIInterface::unauthorized( const QString &login, const QString &password, const QString &status, int inReplyToStatusId )
+  \fn void TwitterAPIInterface::unauthorized( const QString &login, const QString &password, const QString &status, quint64 inReplyToStatusId )
 
   Emitted when the given credentials are rejected by Twitter. Aborts the pending
   request immediately.
@@ -258,7 +258,7 @@ Interface* TwitterAPIInterface::createInterface( TwitterAPI::SocialNetwork netwo
 
   \sa newEntry(), deleteUpdate()
 */
-void TwitterAPIInterface::postUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &data, int inReplyTo )
+void TwitterAPIInterface::postUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &data, quint64 inReplyTo )
 {
   QNetworkRequest request( QUrl( QString( "%1/statuses/update.xml" ).arg( services[ network ] ) ) );
   QByteArray content = prepareRequest( data, inReplyTo );
@@ -284,7 +284,7 @@ void TwitterAPIInterface::postUpdate( TwitterAPI::SocialNetwork network, const Q
 
   \sa deleteEntry(), postUpdate()
 */
-void TwitterAPIInterface::deleteUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id )
+void TwitterAPIInterface::deleteUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id )
 {
   QNetworkRequest request( QUrl( QString("%1/statuses/destroy/%2.xml").arg( services[ network ], QString::number(id) ) ) );
   request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
@@ -388,7 +388,7 @@ void TwitterAPIInterface::postDM( TwitterAPI::SocialNetwork network, const QStri
 /*!
   Not implemented yet.
 */
-void TwitterAPIInterface::deleteDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id )
+void TwitterAPIInterface::deleteDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id )
 {
   QNetworkRequest request( QUrl( QString( "%1/direct_messages/destroy/%2.xml" ).arg( services[ network ], QString::number(id) ) ) );
 
@@ -412,7 +412,7 @@ void TwitterAPIInterface::deleteDM( TwitterAPI::SocialNetwork network, const QSt
   \param id An id of the status to be favorited.
 
 */
-void TwitterAPIInterface::createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id )
+void TwitterAPIInterface::createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id )
 {
   QNetworkRequest request( QUrl( QString("%1/favorites/create/%2.xml").arg( services[ network ], QString::number(id) ) ) );
   request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
@@ -434,7 +434,7 @@ void TwitterAPIInterface::createFavorite( TwitterAPI::SocialNetwork network, con
   \param id An id of the status to be removed from favorites.
 
 */
-void TwitterAPIInterface::destroyFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id )
+void TwitterAPIInterface::destroyFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id )
 {
   QNetworkRequest request( QUrl( QString("%1/favorites/destroy/%2.xml").arg( services[ network ], QString::number(id) ) ) );
   request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
@@ -566,7 +566,7 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
       break;
 
     case TwitterAPI::ROLE_DELETE_UPDATE:
-      emit deleteEntry( network, login.toString(), id.toInt() );
+      emit deleteEntry( network, login.toString(), id.toULongLong() );
       emit requestDone( network, login.toString(), role );
       break;
 
@@ -576,17 +576,17 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
       break;
 
     case TwitterAPI::ROLE_DELETE_DM:
-      emit deleteDMDone( network, login.toString(), id.toInt(), TwitterAPI::ERROR_NO_ERROR );
+      emit deleteDMDone( network, login.toString(), id.toULongLong(), TwitterAPI::ERROR_NO_ERROR );
       emit requestDone( network, login.toString(), role );
       break;
 
     case TwitterAPI::ROLE_FAVORITES_CREATE:
-      emit favoriteStatus( network, login.toString(), id.toInt(), true );
+      emit favoriteStatus( network, login.toString(), id.toULongLong(), true );
       emit requestDone( network, login.toString(), role );
       break;
 
     case TwitterAPI::ROLE_FAVORITES_DESTROY:
-      emit favoriteStatus( network, login.toString(), id.toInt(), false );
+      emit favoriteStatus( network, login.toString(), id.toULongLong(), false );
       emit requestDone( network, login.toString(), role );
       break;
 
@@ -638,14 +638,14 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
   \param data Status message to be included in a request.
   \param inReplyTo Optional id of the status that the given status replies to.
 */
-QByteArray TwitterAPIInterface::prepareRequest( const QString &data, int inReplyTo )
+QByteArray TwitterAPIInterface::prepareRequest( const QString &data, quint64 inReplyTo )
 {
   QByteArray request( "status=" );
   QString statusText( data );
   statusText.replace( QRegExp( "&" ), "%26" );
   statusText.replace( QRegExp( "\\+" ), "%2B" );
   request.append( data.toUtf8() );
-  if ( inReplyTo != -1 ) {
+  if ( inReplyTo != 0 ) {
     request.append( "&in_reply_to_status_id=" + QByteArray::number( inReplyTo ) );
   }
   request.append( "&source=qtwitter" );
@@ -716,17 +716,17 @@ void TwitterAPIInterface::slotAuthenticationRequired( QNetworkReply *reply, QAut
         emit unauthorized( network, login, password, recipient.toString(), status.toString() );
         break;
       case TwitterAPI::ROLE_POST_DM:
-        emit unauthorized( network, login, password, status.toString(), id.toInt() );
+        emit unauthorized( network, login, password, status.toString(), id.toULongLong() );
         break;
       default:;
       }
     } else if ( /*del.isValid() && del.toBool()*/ id.isValid() ) {
       switch ( role ) {
       case TwitterAPI::ROLE_DELETE_UPDATE:
-        emit unauthorized( network, login, password, id.toInt(), Entry::Status );
+        emit unauthorized( network, login, password, id.toULongLong(), Entry::Status );
         break;
       case TwitterAPI::ROLE_DELETE_DM:
-        emit unauthorized( network, login, password, id.toInt(), Entry::DirectMessage );
+        emit unauthorized( network, login, password, id.toULongLong(), Entry::DirectMessage );
         break;
       default:;
       }

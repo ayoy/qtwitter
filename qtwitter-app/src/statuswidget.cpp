@@ -88,7 +88,7 @@ void StatusWidget::createMenu()
   replyAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ) );
   menu->addAction( replyAction );
   connect( replyAction, SIGNAL(triggered()), this, SLOT(slotReply()) );
-  connect( this, SIGNAL(reply(QString,int)), statusListModel, SIGNAL(reply(QString,int)) );
+  connect( this, SIGNAL(reply(QString,quint64)), statusListModel, SIGNAL(reply(QString,quint64)) );
 
   retweetAction = new QAction( tr( "Retweet" ), this );
   retweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ) );
@@ -449,7 +449,7 @@ void StatusWidget::retranslateUi()
   }
 }
 
-int StatusWidget::getId() const
+quint64 StatusWidget::getId() const
 {
   return statusData->id;
 }
@@ -696,7 +696,7 @@ void StatusWidget::handleReplyDeleteButton()
     Copies a link to the StatusWidget to system clipboard.
 */
 
-/*! \fn void StatusWidget::reply( const QString &name, int inReplyTo )
+/*! \fn void StatusWidget::reply( const QString &name, quint64 inReplyTo )
     Emitted to notify the MainWindow class instance about the User's request
     to send a reply.
     \param name Login of the User to whom a reply is addressed.

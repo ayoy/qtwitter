@@ -45,14 +45,14 @@ public:
   TwitterAPIInterface( QObject *parent = 0 );
   virtual ~TwitterAPIInterface();
 
-  void postUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &data, int inReplyTo = -1 );
-  void deleteUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
+  void postUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &data, quint64 inReplyTo = 0 );
+  void deleteUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id );
   void friendsTimeline( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int msgCount = 20 );
   void directMessages( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int msgCount = 20 );
   void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text );
-  void deleteDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
-  void createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
-  void destroyFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int id );
+  void deleteDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id );
+  void createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id );
+  void destroyFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id );
   void publicTimeline( TwitterAPI::SocialNetwork network );
 
 public slots:
@@ -61,15 +61,15 @@ public slots:
 signals:
   void requestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );
   void newEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
-  void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, int id );
-  void favoriteStatus( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited );
+  void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, quint64 id );
+  void favoriteStatus( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, bool favorited );
   void postDMDone( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
-  void deleteDMDone( TwitterAPI::SocialNetwork network, const QString &login, int id, TwitterAPI::ErrorCode error );
+  void deleteDMDone( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, TwitterAPI::ErrorCode error );
 
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
-  void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, int inReplyToId );
+  void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, quint64 inReplyToId );
   void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text );
-  void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int destroyId, Entry::Type type );
+  void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 destroyId, Entry::Type type );
   void errorMessage( const QString &message );
 
 private slots:
@@ -79,7 +79,7 @@ private slots:
 private:
   void parseXml( const QByteArray &data, XmlParser *parser );
   Interface* createInterface( TwitterAPI::SocialNetwork network, const QString &login );
-  QByteArray prepareRequest( const QString &data, int inReplyTo );
+  QByteArray prepareRequest( const QString &data, quint64 inReplyTo );
   QByteArray prepareRequest( const QString &screenName, const QString & );
 
   QMap< TwitterAPI::SocialNetwork, QMap<QString,Interface*> > connections;

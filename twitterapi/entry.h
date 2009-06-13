@@ -44,13 +44,13 @@ struct TWITTERAPI_EXPORT Entry
 
   Type type;
   bool isOwn;
-  int id;
+  quint64 id;
   QString text;
   QString originalText;
   QDateTime timestamp;
   QDateTime localTime;
   bool hasInReplyToStatusId;
-  int inReplyToStatusId;
+  quint64 inReplyToStatusId;
   QString inReplyToScreenName;
   bool favorited;
   UserInfo userInfo;

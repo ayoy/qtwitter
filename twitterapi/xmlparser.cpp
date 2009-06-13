@@ -121,8 +121,8 @@ bool XmlParser::characters( const QString &ch )
     if ( parsingUser ) {
       parseUserInfo(ch);
     } else {
-      if ( currentTag == TAG_STATUS_ID && entry.id == -1 ) {
-        entry.id = ch.toInt();
+      if ( currentTag == TAG_STATUS_ID && entry.id == Q_UINT64_C(0) ) {
+        entry.id = ch.toULongLong();
       } else if ( currentTag == TAG_USER_TEXT && entry.text.isNull() ) {
         entry.originalText = ch;
         entry.originalText.replace( "&lt;", "<" );
@@ -133,7 +133,7 @@ bool XmlParser::characters( const QString &ch )
         /* It's better to leave UTC timestamp alone; Additional member localTime is added to store local time when
          user's system supports timezones. */
         entry.localTime = entry.timestamp.addSecs( timeShift ); //now - utc
-      } else if ( currentTag == TAG_INREPLYTO_STATUS_ID && entry.inReplyToStatusId == -1) {
+      } else if ( currentTag == TAG_INREPLYTO_STATUS_ID && entry.inReplyToStatusId == 0) {
         if( !ch.trimmed().isEmpty() ) {
           /* In reply to status id exists and is not empty; Hack for dealing with tags that are opened and closed
            at the same time, e.g. <in_reply_to_screen_name/>  */
@@ -282,7 +282,7 @@ bool XmlParserDirectMsg::startElement( const QString & /* namespaceURI */, const
   }
   important = tags.contains( qName );
   if ( important )
-    currentTag = qName;
+      currentTag = qName;
   return true;
 }
 
@@ -303,8 +303,8 @@ bool XmlParserDirectMsg::characters( const QString &ch )
     if (parsingSender)
       parseUserInfo(ch);
     else {
-    if ( currentTag == TAG_STATUS_ID && entry.id == -1 ) {
-      entry.id = ch.toInt();
+    if ( currentTag == TAG_STATUS_ID && entry.id == Q_UINT64_C(0) ) {
+      entry.id = ch.toULongLong();
     } else if ( currentTag == TAG_USER_TEXT && entry.text.isNull() ) {
       entry.originalText = ch;
       entry.text = textToHtml( ch, network );

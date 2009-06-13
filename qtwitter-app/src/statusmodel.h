@@ -65,8 +65,8 @@ public slots:
   void removeStatus( int ind );
   void markAllAsRead();
 
-  void sendDeleteRequest( int id, Entry::Type type );
-  void sendFavoriteRequest( int id, bool favorited );
+  void sendDeleteRequest( quint64 id, Entry::Type type );
+  void sendFavoriteRequest( quint64 id, bool favorited );
   void sendDMRequest( const QString &screenName );
   void selectStatus( const QModelIndex &index );
   void selectStatus( StatusWidget *status );
@@ -77,11 +77,11 @@ public slots:
 
 signals:
   void retweet( QString message );
-  void destroy( TwitterAPI::SocialNetwork network, const QString &login, int id, Entry::Type type );
-  void favorite( TwitterAPI::SocialNetwork network, const QString &login, int id, bool favorited );
+  void destroy( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, Entry::Type type );
+  void favorite( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, bool favorited );
   void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName );
   void openBrowser( QUrl address );
-  void reply( const QString &name, int inReplyTo );
+  void reply( const QString &name, quint64 inReplyTo );
   void about();
   void markEverythingAsRead();
 

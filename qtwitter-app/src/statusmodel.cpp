@@ -223,13 +223,13 @@ void StatusModel::clear()
   updateDisplay();
 }
 
-void StatusModel::sendDeleteRequest( int id, Entry::Type type )
+void StatusModel::sendDeleteRequest( quint64 id, Entry::Type type )
 {
   qDebug() << "StatusModel::sendDeleteRequest";
   emit destroy( statusList->network(), statusList->login(), id, type );
 }
 
-void StatusModel::sendFavoriteRequest( int id, bool favorited )
+void StatusModel::sendFavoriteRequest( quint64 id, bool favorited )
 {
   qDebug() << "StatusModel::sendFavoriteRequest";
   emit favorite( statusList->network(), statusList->login(), id, favorited );
@@ -524,7 +524,7 @@ void StatusModel::emitOpenBrowser( QString address )
     \param address Web address to be accessed.
 */
 
-/*! \fn void StatusModel::reply( const QString &name, int inReplyTo )
+/*! \fn void StatusModel::reply( const QString &name, quint64 inReplyTo )
     Passes the reply request from a particular StatusWidget to the MainWindow.
     \param name Login of the original message author.
     \param inReplyTo Id of the existing status to which the reply is posted.

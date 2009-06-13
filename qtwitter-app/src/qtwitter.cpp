@@ -46,7 +46,7 @@ Qtwitter::Qtwitter( QWidget *parent )
 
   connect( this, SIGNAL(updateStatuses()), core, SLOT(forceGet()) );
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
-  connect( this, SIGNAL(post(TwitterAPI::SocialNetwork,QString,QString,int)), core, SLOT(post(TwitterAPI::SocialNetwork,QString,QString,int)) );
+  connect( this, SIGNAL(post(TwitterAPI::SocialNetwork,QString,QString,quint64)), core, SLOT(post(TwitterAPI::SocialNetwork,QString,QString,quint64)) );
   connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
   connect( this, SIGNAL(shortenUrl(QString)), core, SLOT(shortenUrl(QString)));
   connect( this, SIGNAL(iconStopped()), core, SLOT(resetRequestsCount()) );
@@ -55,7 +55,7 @@ Qtwitter::Qtwitter( QWidget *parent )
   connect( core, SIGNAL(accountsUpdated(QList<Account>,int)), this, SLOT(setupAccounts(QList<Account>,int)) );
   connect( core, SIGNAL(urlShortened(QString)), this, SLOT(replaceUrl(QString)));
   connect( core, SIGNAL(about()), this, SLOT(about()) );
-  connect( core, SIGNAL(addReplyString(QString,int)), this, SIGNAL(addReplyString(QString,int)) );
+  connect( core, SIGNAL(addReplyString(QString,quint64)), this, SIGNAL(addReplyString(QString,quint64)) );
   connect( core, SIGNAL(addRetweetString(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( core, SIGNAL(errorMessage(QString)), this, SLOT(popupError(QString)) );
   connect( core, SIGNAL(resetUi()), this, SLOT(resetStatusEdit()) );

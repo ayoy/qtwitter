@@ -200,7 +200,7 @@ void StatusList::addStatus( Entry entry )
     emit statusAdded( index );
 }
 
-bool StatusList::deleteStatus( int id )
+bool StatusList::deleteStatus( quint64 id )
 {
   for ( QList<Status>::const_iterator i = d->data.begin(); i != d->data.end(); ++i) {
     if ( id == (*i).entry.id ) {
@@ -213,7 +213,7 @@ bool StatusList::deleteStatus( int id )
   return false;
 }
 
-void StatusList::setFavorited( int id, bool favorited )
+void StatusList::setFavorited( quint64 id, bool favorited )
 {
   for ( QList<Status>::iterator i = d->data.begin(); i != d->data.end(); ++i) {
     if ( id == (*i).entry.id ) {

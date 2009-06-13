@@ -61,7 +61,7 @@ public:
   void applyTheme();
   void retranslateUi();
 
-  int getId() const;
+  quint64 getId() const;
 
   static void setScrollBarWidth( int width );
   static void setCurrentWidth( int width );
@@ -78,11 +78,11 @@ public slots:
   void adjustSize();
 
 signals:
-  void reply( const QString &name, int inReplyTo );
+  void reply( const QString &name, quint64 inReplyTo );
   void retweet( QString message );
   void markAllAsRead();
   void selectMe( StatusWidget *status );
-  void deleteStatus( int id );
+  void deleteStatus( quint64 id );
   void getUserInfo( int userId);
 
 protected:
@@ -105,7 +105,7 @@ private:
   QAction *dmAction;
   QAction *copylinkAction;
   QAction *markallasreadAction;
-  QAction *markeverythingasreadAction;
+  QAction *markeverythingasreadAction ;
   QAction *gotohomepageAction;
   QAction *gototwitterpageAction;
   QAction *deleteAction;
