@@ -101,9 +101,9 @@ void AboutDialog::populateCredits()
   creditsHtml.append( QString( "<br/><p><b>%1</b></p>"
                                "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Releasing:" ) ) );
   creditsHtml.append( contributor( "Markos Chandras", "hwoarang@gentoo.org", "Gentoo" ) );
-  creditsHtml.append( contributor( "Eugene Pivnev", "ti.eugene@gmail.com", "Fedora, openSuse, Mandriva" ) );
+  creditsHtml.append( contributor( "Eugene Pivnev", "ti.eugene@gmail.com", "Mandriva, openSuse" ) );
   creditsHtml.append( contributor( "Nick B", "shirakawasuna@gmail.com", "Arch" ) );
-  creditsHtml.append( contributor( "Dominik Kapusta", "d@ayoy.net", "Ubuntu/Debian, MacOS X, Windows" ) );
+  creditsHtml.append( contributor( "Dominik Kapusta", "d@ayoy.net", "Ubuntu/Debian, Fedora, MacOS X, Windows" ) );
 
   creditsHtml.append(   "</body>"
                       "</html>" );

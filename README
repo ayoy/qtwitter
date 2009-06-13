@@ -1,12 +1,12 @@
 qTwitter is an application interacting with Twitter and Identi.ca social networks. Aims to be as compact as possible still providing outstanding usability. Since it's a Qt-based application with no other dependencies, it works wherever Qt does, i.e. Windows, Mac OS X and vast variety of Linuxes and Unices supporting X11 (including Nokia's Maemo platform).
 
-Features' summary as for v0.7.0:
+Features' summary as for v0.7.1:
   - support for Twitter and Identi.ca for:
     * friends and public timeline,
     * posting, replying, retweeting, deleting and (dis)favoring statuses,
     * downloading, sending and deleting direct messages,
   - support for working with multiple accounts at the same time,
-  - integrated support for one-click URL shortening via 7 different services,
+  - integrated support for one-click URL shortening via 8 different services,
   - full interaction with TwitPic API, allowing for easy one-click image uploading and posting updates,
   - system tray notifications (via knotify and Growl),
   - customizable statuses list length and look (via the use of themes),

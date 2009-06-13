@@ -1,3 +1,7 @@
+v0.7.1 (2009/06/13):
+- CRITICAL: Fixed parsing of statuses' ids (after Twitter statuses count reached maximum for 32-bit integer),
+- added digg.com URL shortening service,
+- minor corrections to user info popup and settings dialog.
 v0.7.0 (2009/06/08):
 - PROVIDED SUPPORT FOR IDENTI.CA using Twitter-compatible API,
 - added support for sending and deleting direct messages,
