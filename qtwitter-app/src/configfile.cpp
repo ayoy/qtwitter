@@ -23,7 +23,7 @@
 #include <account.h>
 #include <QFileInfo>
 
-const QString ConfigFile::APP_VERSION = "0.7.0";
+const QString ConfigFile::APP_VERSION = "0.7.1";
 
 
 ConfigFile settings;

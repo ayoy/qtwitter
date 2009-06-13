@@ -29,10 +29,6 @@
         <translation>終了</translation>
     </message>
     <message>
-        <source>Development team as for 0.6.0:</source>
-        <translation type="obsolete">0.6.0バージョンの開発チーム:</translation>
-    </message>
-    <message>
         <location filename="../src/aboutdialog.cpp" line="+59"/>
         <source>Application concept and main development</source>
         <translation>アプリケーションの着想と主要開発</translation>
@@ -48,13 +44,9 @@
         <translation>URLを短縮するサービスのサポート</translation>
     </message>
     <message>
-        <source>Visual aspects of internationalization</source>
-        <translation type="obsolete">国際化によるビジュアル問題の解決</translation>
-    </message>
-    <message>
         <location line="-4"/>
-        <source>Development team as for 0.7.0:</source>
-        <translation>0.7.0バージョンの開発チーム:</translation>
+        <source>Development team as for 0.7.1:</source>
+        <translation>0.7.1バージョンの開発チーム:</translation>
     </message>
     <message>
         <location line="+5"/>
@@ -97,10 +89,6 @@
         <translation>ポーランド語とカタルーニャ語への翻訳</translation>
     </message>
     <message>
-        <source>Polish, Spanish and Catalan translation</source>
-        <translation type="obsolete">ポーランド語、スペイン語、カタルーニャ語への翻訳</translation>
-    </message>
-    <message>
         <location line="+18"/>
         <source>qTwitter icon design by %1</source>
         <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
@@ -136,10 +124,6 @@
         <translation>公共の年表:</translation>
     </message>
     <message>
-        <source>None</source>
-        <translation type="obsolete">なし</translation>
-    </message>
-    <message>
         <location line="+8"/>
         <source>none</source>
         <translation>なし</translation>
@@ -158,10 +142,6 @@
         <location line="+5"/>
         <source>both</source>
         <translation>両方</translation>
-    </message>
-    <message>
-        <source>Both</source>
-        <translation type="obsolete">両方</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -284,7 +264,7 @@
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="+616"/>
+        <location filename="../src/core.cpp" line="+625"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>ご友人の更新情報をお読みになるには、ユーザー認証が必要です。</translation>
     </message>
@@ -294,14 +274,10 @@
         <translation>最新情報を掲示するには、ユーザー認証が必要となります。</translation>
     </message>
     <message>
-        <location line="-337"/>
+        <location line="-346"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
         <translation>よろしいですか?</translation>
-    </message>
-    <message>
-        <source>Are you sure to delete this tweet?</source>
-        <translation type="obsolete">このトゥウィートを削除してよろしいですか?</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -309,7 +285,7 @@
         <translation>このステータスを削除してよろしいですか?</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location line="+63"/>
         <source>There was a problem uploading your photo:</source>
         <translation>写真をアップロードするときに、問題が発生しました:</translation>
     </message>
@@ -325,7 +301,7 @@
         <translation>&lt;空&gt;</translation>
     </message>
     <message>
-        <location line="+230"/>
+        <location line="+235"/>
         <source>Authentication is required to send direct messages.</source>
         <translation>直接なメッセージを送信するには、ユーザー認証が必要となります。</translation>
     </message>
@@ -357,10 +333,6 @@
         <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
         <translation>未読なステータスのあるユーザー:
 %1</translation>
-    </message>
-    <message>
-        <source>and</source>
-        <translation type="obsolete">および</translation>
     </message>
 </context>
 <context>
@@ -466,47 +438,17 @@
     </message>
 </context>
 <context>
-    <name>ImageDownload</name>
+    <name>DiggShortener</name>
     <message>
-        <source>Download failed:</source>
-        <translation type="obsolete">ダウンロードが失敗しました:</translation>
-    </message>
-</context>
-<context>
-    <name>IsGdShortener</name>
-    <message>
-        <source>The URL entered was not valid.</source>
-        <translation type="obsolete">ご入力のURLは正しくありません。</translation>
-    </message>
-    <message>
-        <source>The URL entered was too long.</source>
-        <translation type="obsolete">ご入力のURLは長すぎます。</translation>
-    </message>
-    <message>
-        <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="obsolete">この要請を送られたアドレスは、スパムハウス(SBL/XBL)またはスパムコプによりブラックリストに載せられています。</translation>
-    </message>
-    <message>
-        <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="obsolete">ご入力のURLは迷惑メールサイトの可能性があり、SURBLまたはURIBLのブラックリストに載せられています。</translation>
-    </message>
-    <message>
-        <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="obsolete">ご入力のURLはis.gdのブラックリストに載せられています(悪用を避けるために、URLアドレスを短縮するサイトへのリンクは使用不可能になっております)。</translation>
-    </message>
-    <message>
-        <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="obsolete">要請を送られたアドレスは、is.gdによりブロックされています(たいていの原因は使用条件の違反行為です)。</translation>
-    </message>
-    <message>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+28"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短執する際に未知のエラーが発生しました。</translation>
+        <translation>URLを短執する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>IsgdShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="-179"/>
+        <location line="-207"/>
         <source>The URL entered was not valid.</source>
         <translation>ご入力のURLは正しくありません。</translation>
     </message>
@@ -545,83 +487,73 @@
     <name>MainWindow</name>
     <message>
         <location filename="../src/mainwindow.cpp" line="+169"/>
-        <location line="+345"/>
+        <location line="+360"/>
         <source>New tweet</source>
         <translation>新着トゥウィート</translation>
     </message>
     <message>
-        <location line="-344"/>
-        <location line="+345"/>
+        <location line="-359"/>
+        <location line="+360"/>
         <source>Upload a photo to TwitPic</source>
         <translation>トゥウィートピックに写真をアップロードする</translation>
     </message>
     <message>
-        <location line="-344"/>
-        <location line="+345"/>
+        <location line="-359"/>
+        <location line="+360"/>
         <source>Go to Twitter</source>
         <translation>ツイッターを開く</translation>
     </message>
     <message>
-        <location line="-344"/>
-        <location line="+345"/>
+        <location line="-359"/>
+        <location line="+360"/>
         <source>Go to Identi.ca</source>
         <translation>Identi.caを開く</translation>
     </message>
     <message>
-        <location line="-344"/>
-        <location line="+345"/>
+        <location line="-359"/>
+        <location line="+360"/>
         <source>Go to TwitPic</source>
         <translation>トゥウィートピックを開く</translation>
     </message>
     <message>
-        <location line="-371"/>
+        <location line="-386"/>
         <location line="+28"/>
-        <location line="+345"/>
+        <location line="+360"/>
         <source>Quit</source>
         <translation>終了</translation>
     </message>
     <message>
-        <location line="-389"/>
+        <location line="-404"/>
         <source>&amp;File</source>
         <translation>&amp;ファイル</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location line="+353"/>
+        <location line="+368"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
     <message>
-        <location line="-253"/>
+        <location line="-273"/>
+        <location line="+1"/>
+        <location line="+10"/>
         <location line="+4"/>
         <location line="+9"/>
         <location line="+19"/>
-        <location line="+90"/>
+        <location line="+98"/>
         <location line="+10"/>
-        <location line="+66"/>
+        <location line="+67"/>
         <source>public timeline</source>
         <translation>公共の年表</translation>
     </message>
-    <message numerus="yes">
-        <source>%n character(s) left</source>
-        <translation type="obsolete">
-            <numerusform>残りの文字数：%n</numerusform>
-        </translation>
-    </message>
     <message>
-        <location line="-272"/>
-        <location line="+345"/>
+        <location line="-287"/>
+        <location line="+360"/>
         <source>About qTwitter...</source>
         <translation>キｭｰツイッターに関して...</translation>
     </message>
-    <message numerus="yes">
-        <source>%n character(s) over the limit</source>
-        <translation type="obsolete">
-            <numerusform>制限された文字数を%n文字超えています</numerusform>
-        </translation>
-    </message>
     <message>
-        <location line="-195"/>
+        <location line="-204"/>
         <source>Your message is too long.</source>
         <translation>メッセージは長すぎます。</translation>
     </message>
@@ -646,12 +578,7 @@
         <translation>そのままご送信なさっても構いませんが、メッセージが切り詰められてしまいます。</translation>
     </message>
     <message>
-        <source>the public timeline</source>
-        <extracomment>The full sentence is e.g.: &quot;New tweets for &lt;user A&gt;, &lt;user B&gt; and the public timeline&quot;</extracomment>
-        <translation type="obsolete">公共の年表</translation>
-    </message>
-    <message>
-        <location line="+121"/>
+        <location line="+130"/>
         <source>New tweets</source>
         <extracomment>New tweets received (this pops up in tray)</extracomment>
         <translation>新着トゥウィート</translation>
@@ -673,15 +600,15 @@
         <translation>トゥウィートの更新</translation>
     </message>
     <message numerus="yes">
-        <location line="-197"/>
+        <location line="-206"/>
         <source>%n character left</source>
         <translation>
             <numerusform>残りの文字数：%n</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location line="-240"/>
-        <location line="+241"/>
+        <location line="-246"/>
+        <location line="+247"/>
         <source>%n characters left</source>
         <translation>
             <numerusform>残りの文字数：%n</numerusform>
@@ -702,7 +629,7 @@
         </translation>
     </message>
     <message>
-        <location line="+194"/>
+        <location line="+203"/>
         <source>Navigate using %1 and %2</source>
         <translation>%1あるいは%2を使用してナビゲートする</translation>
     </message>
@@ -724,13 +651,6 @@
     </message>
 </context>
 <context>
-    <name>MetaMarkShortener</name>
-    <message>
-        <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短執する際に未知のエラーが発生しました。</translation>
-    </message>
-</context>
-<context>
     <name>MetamarkShortener</name>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+52"/>
@@ -741,24 +661,19 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="+77"/>
-        <location line="+192"/>
+        <location filename="../src/settings.cpp" line="+84"/>
+        <location line="+193"/>
         <source>Use custom web browser</source>
         <translation>カスタムのブラウザーを使用する</translation>
     </message>
     <message>
-        <location line="-190"/>
-        <location line="+191"/>
+        <location line="-191"/>
+        <location line="+192"/>
         <source>Browse</source>
         <translation>閲覧</translation>
     </message>
     <message>
-        <source>&lt;empty&gt;</source>
-        <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation type="obsolete">&lt;空&gt;</translation>
-    </message>
-    <message>
-        <location line="-17"/>
+        <location line="-18"/>
         <location filename="../ui/settings.ui" line="+26"/>
         <source>Settings</source>
         <translation>設定</translation>
@@ -770,17 +685,9 @@
         <translation>一般</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="+57"/>
+        <location filename="../ui/settings.ui" line="+63"/>
         <source>Language</source>
         <translation>言語</translation>
-    </message>
-    <message>
-        <source>Username</source>
-        <translation type="obsolete">ユーザー名</translation>
-    </message>
-    <message>
-        <source>Password</source>
-        <translation type="obsolete">パスワード</translation>
     </message>
     <message>
         <location line="-49"/>
@@ -808,8 +715,8 @@
         <translation>次の文字列を使ってリンクを短縮する:</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <location filename="../ui/settings.ui" line="+28"/>
+        <location line="+2"/>
+        <location filename="../ui/settings.ui" line="+43"/>
         <source>Show tray notifications</source>
         <translation>トレーの通知を表示する</translation>
     </message>
@@ -818,34 +725,6 @@
         <location filename="../ui/settings.ui" line="-13"/>
         <source>Confirm messages deletion</source>
         <translation>メッセージの削除を確認する</translation>
-    </message>
-    <message>
-        <source>Twitter</source>
-        <translation type="obsolete">トゥウィータ</translation>
-    </message>
-    <message>
-        <source>Account</source>
-        <translation type="obsolete">アカウント</translation>
-    </message>
-    <message>
-        <source>Enabled</source>
-        <translation type="obsolete">使用可能</translation>
-    </message>
-    <message>
-        <source>Username:</source>
-        <translation type="obsolete">ユーザー名:</translation>
-    </message>
-    <message>
-        <source>Password:</source>
-        <translation type="obsolete">パスワード:</translation>
-    </message>
-    <message>
-        <source>download direct messages</source>
-        <translation type="obsolete">直接なメッセージをダウンロードする</translation>
-    </message>
-    <message>
-        <source>include public timeline</source>
-        <translation type="obsolete">公共の年表を含む</translation>
     </message>
     <message>
         <location line="+2"/>
@@ -878,10 +757,6 @@
         <translation>外見</translation>
     </message>
     <message>
-        <source>Tweet count:</source>
-        <translation type="obsolete">トゥウィート数:</translation>
-    </message>
-    <message>
         <location line="+2"/>
         <location filename="../ui/settings.ui" line="+35"/>
         <source>Color scheme:</source>
@@ -903,7 +778,13 @@
         <translation>OK</translation>
     </message>
     <message>
-        <location line="-13"/>
+        <location line="-215"/>
+        <location line="+199"/>
+        <source>Tip: use %1 to shorten links</source>
+        <translation>リンクを短縮するには %1 をご使用ください</translation>
+    </message>
+    <message>
+        <location line="+3"/>
         <location filename="../ui/settings.ui" line="-122"/>
         <source>Accounts</source>
         <translation>アカウント</translation>
@@ -931,8 +812,8 @@
         <translation>日本語</translation>
     </message>
     <message>
-        <location line="-81"/>
-        <location line="+87"/>
+        <location line="-82"/>
+        <location line="+88"/>
         <source>Default</source>
         <translation>初期設定</translation>
     </message>
@@ -1060,13 +941,6 @@ background-color: rgba(255,255,255,0);
     </message>
 </context>
 <context>
-    <name>TinyUrlShortener</name>
-    <message>
-        <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短執する際に未知のエラーが発生しました。</translation>
-    </message>
-</context>
-<context>
     <name>TinyarrowsShortener</name>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+46"/>
@@ -1083,17 +957,6 @@ background-color: rgba(255,255,255,0);
     </message>
 </context>
 <context>
-    <name>TrImShortener</name>
-    <message>
-        <source>The URL has been rejected by the tr.im</source>
-        <translation type="obsolete">URLはtr.imにより拒絶されました</translation>
-    </message>
-    <message>
-        <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短執する際に未知のエラーが発生しました。</translation>
-    </message>
-</context>
-<context>
     <name>TrimShortener</name>
     <message>
         <location line="-52"/>
@@ -1104,41 +967,6 @@ background-color: rgba(255,255,255,0);
         <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
         <translation>URLを短縮する際に未知のエラーが発生しました。</translation>
-    </message>
-</context>
-<context>
-    <name>Tweet</name>
-    <message>
-        <source>Retweet</source>
-        <translation type="obsolete">再トゥウィートする</translation>
-    </message>
-    <message>
-        <source>Reply to %1</source>
-        <translation type="obsolete">%1に返信する</translation>
-    </message>
-    <message>
-        <source>Delete tweet</source>
-        <translation type="obsolete">トゥウィートを削除する</translation>
-    </message>
-    <message>
-        <source>Copy link to this tweet</source>
-        <translation type="obsolete">リンクをこのトゥウィートにコピーする</translation>
-    </message>
-    <message>
-        <source>Mark all as read</source>
-        <translation type="obsolete">すべてのメッセージを既読にする</translation>
-    </message>
-    <message>
-        <source>Go to User&apos;s Twitter page</source>
-        <translation type="obsolete">このユーザーのトゥウィータページにアクセスする</translation>
-    </message>
-    <message>
-        <source>Go to User&apos;s homepage</source>
-        <translation type="obsolete">このユーザーのホームページにアクセスする</translation>
-    </message>
-    <message>
-        <source>Form</source>
-        <translation type="obsolete">フォーム</translation>
     </message>
 </context>
 <context>
@@ -1230,27 +1058,6 @@ background-color: rgba(255,255,255,0);
         <location line="+90"/>
         <source>post a status</source>
         <translation>ステータスを掲示する</translation>
-    </message>
-</context>
-<context>
-    <name>TwitterAccountsModel</name>
-    <message>
-        <source>Enabled</source>
-        <translation type="obsolete">使用可能</translation>
-    </message>
-    <message>
-        <source>Login</source>
-        <translation type="obsolete">ログイン</translation>
-    </message>
-    <message>
-        <source>Direct msgs</source>
-        <extracomment>This should be as short as possible (e.g. PW in Polish)</extracomment>
-        <translation type="obsolete">直接なメッセージ</translation>
-    </message>
-    <message>
-        <source>&lt;empty&gt;</source>
-        <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation type="obsolete">&lt;空&gt;</translation>
     </message>
 </context>
 <context>

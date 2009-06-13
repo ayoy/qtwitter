@@ -23,6 +23,7 @@
 #include <QTranslator>
 #include <QFile>
 #include <QDir>
+#include <QFont>
 #include <QAuthenticator>
 #include <QPushButton>
 #include <QCheckBox>
@@ -57,6 +58,12 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   connect( this, SIGNAL(createAccounts(QWidget*)), core, SLOT(createAccounts(QWidget*)) );
 
   ui.setupUi( this );
+
+  QFont smallerFont = ui.shortenerInfoLabel->font();
+  smallerFont.setPointSize( smallerFont.pointSize() - 1 );
+  ui.shortenerInfoLabel->setFont( smallerFont );
+
+  ui.shortenerInfoLabel->setText( tr( "Tip: use %1 to shorten links" ).arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
 
   themes.insert( Themes::STYLESHEET_COCOA.first,   Themes::STYLESHEET_COCOA.second);
   themes.insert( Themes::STYLESHEET_GRAY.first,    Themes::STYLESHEET_GRAY.second);
@@ -255,6 +262,7 @@ void Settings::retranslateUi()
   ui.refreshLabel->setText( tr("Refresh every (mins):") );
   ui.languageLabel->setText( tr("Language:") );
   ui.shortenLabel->setText( tr("Shorten links via:") );
+  ui.shortenerInfoLabel->setText( tr( "Tip: use %1 to shorten links" ).arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
   ui.notificationsBox->setText( tr("Show tray notifications") );
   ui.confirmDeletionBox->setText( tr("Confirm messages deletion") );
   ui.tabs->setTabText( 1, tr( "Accounts" ) );

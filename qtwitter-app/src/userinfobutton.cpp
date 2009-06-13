@@ -62,7 +62,7 @@ void UserInfoButton::showPopup()
 
   if ( UserInfoPopup::instance() ) {
     connect( UserInfoPopup::instance(), SIGNAL(closed()), this, SLOT(destroyPopup()) );
-    UserInfoPopup::instance()->move( QCursor::pos() );
+    UserInfoPopup::instance()->move( QCursor::pos() + QPoint(-3, -3) );
     UserInfoPopup::instance()->show();
   }
 }
