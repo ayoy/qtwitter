@@ -128,6 +128,7 @@ private slots:
   void markEverythingAsRead();
 
 private:
+  void destroyDontAsk( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, Entry::Type type );
   void setupStatusLists();
   void checkUnreadStatuses();
   bool retryAuthorizing( Account *account, int role );

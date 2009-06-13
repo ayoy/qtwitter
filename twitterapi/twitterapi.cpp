@@ -624,10 +624,10 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
     break;
   default:
     qDebug() << "[TwitterAPI] error:" << replyCode;
-    if ( login.isValid() )
-      emit requestDone( network, login.toString(), role );
-    else
-      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, role );
+//    if ( login.isValid() )
+//      emit requestDone( network, login.toString(), role );
+//    else
+//      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, role );
   }
   reply->close();
 }

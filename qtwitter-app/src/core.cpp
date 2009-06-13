@@ -205,7 +205,7 @@ void Core::forceGet()
 
 void Core::get( TwitterAPI::SocialNetwork network, const QString &login, const QString &password )
 {
-  requestCount = 0;
+//  requestCount = 0;
   twitterapi->friendsTimeline( network, login, password, settings.value("Appearance/tweet count", 20).toInt() );
   emit newRequest();
   if ( accountsModel->account( network, login )->directMessages ) {
@@ -272,7 +272,11 @@ void Core::destroy( TwitterAPI::SocialNetwork network, const QString &login, qui
     if ( result == QMessageBox::Cancel )
       return;
   }
+  destroyDontAsk( network, login, id, type );
+}
 
+void Core::destroyDontAsk( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, Entry::Type type )
+{
   checkForNew = false;
   if ( type == Entry::Status ) {
     twitterapi->deleteUpdate( network, login, accountsModel->account( network, login )->password, id );
@@ -484,10 +488,11 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
 {
   Q_UNUSED(password);
   Account *account = accountsModel->account( network, login );
-  if ( !retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE ) )
-    return;
+  requestCount--;
   if ( account->directMessages )
     requestCount--;
+  if ( !retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE ) )
+    return;
   get( network, account->login, account->password );
 }
 
@@ -495,6 +500,7 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
 {
   Q_UNUSED(password);
   Account *account = accountsModel->account( network, login );
+  requestCount--;
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE ) )
     return;
   post( network, account->login, status, inReplyToId );
@@ -504,6 +510,7 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
 {
   Q_UNUSED(password);
   Account *account = accountsModel->account( network, login );
+  requestCount--;
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_POST_DM ) )
     return;
   postDM( network, account->login, screenName, text );
@@ -513,9 +520,10 @@ void Core::slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &l
 {
   Q_UNUSED(password);
   Account *account = accountsModel->account( network, login );
+  requestCount--;
   if ( !retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE ) )
     return;
-  destroy( network, account->login, destroyId, type );
+  destroyDontAsk( network, account->login, destroyId, type );
 }
 
 void Core::setupStatusLists()
@@ -593,6 +601,7 @@ bool Core::retryAuthorizing( Account *account, int role )
 {
   if ( !account )
     return false;
+
   Core::AuthDialogState state = authDataDialog( account );
   switch ( state ) {
   case Core::STATE_ACCEPTED:
@@ -627,7 +636,7 @@ bool Core::retryAuthorizing( Account *account, int role )
 void Core::slotNewRequest()
 {
   requestCount++;
-  qDebug() << requestCount;
+  qDebug() << requestCount << "request(s) pending";
 }
 
 void Core::resetRequestsCount()
