@@ -425,6 +425,7 @@ void Settings::createUrlShortenerMenu()
   ui.urlShortenerCombo->addItem( "TinyURL", UrlShortener::SHORTENER_TINYURL );
   ui.urlShortenerCombo->addItem( "tr.im", UrlShortener::SHORTENER_TRIM );
   ui.urlShortenerCombo->addItem( "u.nu", UrlShortener::SHORTENER_UNU );
+  ui.urlShortenerCombo->addItem( "Migre.me", UrlShortener::SHORTENER_MIGREME);
 }
 
 /*! \struct ThemeElement

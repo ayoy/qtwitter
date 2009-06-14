@@ -274,3 +274,42 @@ void DiggShortener::replyFinished( QNetworkReply *reply )
       emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
+
+MigreMeShortener::MigreMeShortener( QObject *parent ) : UrlShortenerImplementation( parent ) {}
+
+void MigreMeShortener::shorten( const QString &url )
+{
+  QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
+
+  if( QRegExp( "http://migre.me" ).indexIn( url ) == -1 ) {
+    connection->get( QNetworkRequest( QUrl( "http://migre.me/api.xml?url=" + newUrl ) ) );
+  }
+}
+
+void MigreMeShortener::replyFinished( QNetworkReply *reply )
+{
+    QString response = reply->readAll();
+
+    switch( replyStatus( reply ) ) {
+     case 200:
+      {
+        QDomDocument doc;
+        doc.setContent( response, false );
+        QDomElement migre = doc.firstChildElement( "item" );
+        int errorCode = migre.firstChildElement( "error" ).text().toInt();
+        switch( errorCode ) {
+          case 0:
+            emit shortened( migre.firstChildElement( "migre" ).text() );
+            break;
+          case 2:
+            emit errorMessage( tr( "The URL entered was not valid." ) );
+            break;
+          default:
+            emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+        }
+      }
+      break;
+    default: case 500:
+      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  }
+}

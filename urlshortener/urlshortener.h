@@ -42,7 +42,8 @@ public:
     SHORTENER_TINYARROWS,
     SHORTENER_UNU,
     SHORTENER_BITLY,
-    SHORTENER_DIGG
+    SHORTENER_DIGG,
+    SHORTENER_MIGREME
   };
 
   UrlShortener( QObject *parent = 0 );
