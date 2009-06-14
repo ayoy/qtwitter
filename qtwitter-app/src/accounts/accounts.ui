@@ -183,6 +183,14 @@
    <header>accountsview.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>accountsView</tabstop>
+  <tabstop>addAccountButton</tabstop>
+  <tabstop>deleteAccountButton</tabstop>
+  <tabstop>publicTimelineComboBox</tabstop>
+  <tabstop>passwordsCheckBox</tabstop>
+  <tabstop>disclaimerButton</tabstop>
+ </tabstops>
  <resources>
   <include location="../../res/resources.qrc"/>
  </resources>

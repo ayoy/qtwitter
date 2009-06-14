@@ -57,6 +57,7 @@ public:
 
 public slots:
   void saveConfig( int quitting = 0 );
+  void checkForUpdate();
   void show();
   void accept();
   void reject();
@@ -68,6 +69,7 @@ signals:
 
 private slots:
   void changeTheme( const QString& );
+  void readUpdateReply( bool available, const QString &version );
   void retranslateUi();
 #ifdef Q_WS_X11
   void setBrowser();

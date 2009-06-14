@@ -34,6 +34,7 @@
 #include <QProcess>
 #include <QSettings>
 #include <QApplication>
+#include <QMessageBox>
 #include <urlshortener/urlshortener.h>
 #include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
@@ -42,6 +43,7 @@
 #include "core.h"
 #include "mainwindow.h"
 #include "twitpicview.h"
+#include "updater.h"
 
 extern ConfigFile settings;
 
@@ -102,6 +104,7 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView
   connect( ui.buttonBox->button( QDialogButtonBox::Apply ), SIGNAL(clicked()), this, SLOT(saveConfig()) );
   connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
   connect( ui.colorBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeTheme(QString)) );
+  connect( ui.checkNowButton, SIGNAL(clicked()), this, SLOT(checkForUpdate()) );
   ui.portEdit->setValidator( new QIntValidator( 1, 65535, this ) );
 
   emit createAccounts( ui.widget );
@@ -126,9 +129,13 @@ void Settings::loadConfig( bool dialogRejected )
   settings.endGroup();
   settings.beginGroup( "Network" );
     settings.beginGroup( "Proxy" );
-      ui.proxyBox->setChecked( settings.value( "enabled" ).toBool() );
+      ui.proxyBox->setChecked( settings.value( "enabled", false ).toBool() );
       ui.hostEdit->setText( settings.value( "host" ).toString() );
       ui.portEdit->setText( settings.value( "port" ).toString() );
+    settings.endGroup();
+    settings.beginGroup( "updates" );
+      ui.updatesCheckBox->setChecked( settings.value( "check", true ).toBool() );
+      ui.lastChecked->setText( settings.value( "last", tr( "never" ) ).toString() );
     settings.endGroup();
 #ifdef Q_WS_X11
     useCustomBrowserCheckBox->setChecked( settings.value( "customBrowser", Qt::Unchecked ).toBool() );
@@ -202,6 +209,10 @@ void Settings::saveConfig( int quitting )
       settings.setValue( "host", ui.hostEdit->text() );
       settings.setValue( "port", ui.portEdit->text() );
     settings.endGroup();
+    settings.beginGroup( "updates" );
+      settings.setValue( "check", ui.updatesCheckBox->isChecked() );
+      settings.setValue( "last", ui.lastChecked->text() );
+    settings.endGroup();
 #ifdef Q_WS_X11
     if ( useCustomBrowserCheckBox->isChecked() && selectBrowserEdit->text().isEmpty() ) {
       useCustomBrowserCheckBox->setChecked( false );
@@ -221,11 +232,42 @@ void Settings::saveConfig( int quitting )
   }
 }
 
+void Settings::checkForUpdate()
+{
+  Updater *updater = new Updater( this );
+  connect( updater, SIGNAL(updateChecked(bool,QString)), this, SLOT(readUpdateReply(bool,QString)) );
+  updater->checkForUpdate();
+}
+
+void Settings::readUpdateReply( bool available, const QString &version )
+{
+  ui.lastChecked->setText( QDateTime::currentDateTime().toString( Qt::SystemLocaleShortDate ) );
+  settings.setValue( "Network/updates/last", ui.lastChecked->text() );
+  QMessageBox *messageBox;
+  if ( available ) {
+    messageBox = new QMessageBox( QMessageBox::Information, tr( "Update available" ),
+                     tr( "An update to qTwitter is available!" ),
+                     QMessageBox::Close, this );
+    messageBox->setInformativeText( tr( "Current version is %1.<br>Download it from %2" )
+                                    .arg( version, "<a href='http://www.qt-apps.org/content/show.php/qTwitter?content=99087'>"
+                                                   "Qt-Apps.org</a>" ) );
+  } else {
+    messageBox = new QMessageBox( QMessageBox::Information, tr( "No updates available" ),
+                     tr( "Sorry, no updates for qTwitter are currently available" ),
+                     QMessageBox::Close, this );
+  }
+  messageBox->setButtonText( QMessageBox::Close, tr( "Close" ) );
+  messageBox->exec();
+  messageBox->deleteLater();
+  sender()->deleteLater();
+}
+
 void Settings::show()
 {
   updateAccountsOnExit = true;
   core->setSettingsOpen( true );
   ui.tabs->setCurrentIndex( 0 );
+  ui.lastChecked->setText( settings.value( "Network/updates/last" ).toString() );
   QDialog::show();
   adjustSize();
 }

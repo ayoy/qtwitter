@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>378</width>
-    <height>327</height>
+    <width>390</width>
+    <height>345</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -18,7 +18,7 @@
   </property>
   <property name="minimumSize">
    <size>
-    <width>350</width>
+    <width>390</width>
     <height>0</height>
    </size>
   </property>
@@ -29,7 +29,7 @@
    <item>
     <widget class="QTabWidget" name="tabs">
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <property name="usesScrollButtons">
       <bool>false</bool>
@@ -257,6 +257,66 @@
         </layout>
        </item>
        <item>
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Updates</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout">
+            <item>
+             <widget class="QCheckBox" name="updatesCheckBox">
+              <property name="text">
+               <string>Automatically check for updates at startup</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_2">
+            <item>
+             <widget class="QLabel" name="lastCheckedLabel">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string>Last checked:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLabel" name="lastChecked">
+              <property name="sizePolicy">
+               <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                <horstretch>0</horstretch>
+                <verstretch>0</verstretch>
+               </sizepolicy>
+              </property>
+              <property name="text">
+               <string notr="true">TextLabel</string>
+              </property>
+              <property name="alignment">
+               <set>Qt::AlignCenter</set>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
+          <item>
+           <widget class="QPushButton" name="checkNowButton">
+            <property name="text">
+             <string>Check now</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -339,15 +399,20 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>buttonBox</tabstop>
+  <tabstop>tabs</tabstop>
   <tabstop>refreshCombo</tabstop>
   <tabstop>languageCombo</tabstop>
   <tabstop>urlShortenerCombo</tabstop>
+  <tabstop>confirmDeletionBox</tabstop>
+  <tabstop>notificationsBox</tabstop>
   <tabstop>proxyBox</tabstop>
   <tabstop>hostEdit</tabstop>
   <tabstop>portEdit</tabstop>
+  <tabstop>updatesCheckBox</tabstop>
+  <tabstop>checkNowButton</tabstop>
   <tabstop>statusCountBox</tabstop>
   <tabstop>colorBox</tabstop>
+  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
  <connections>
@@ -358,8 +423,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>263</x>
-     <y>328</y>
+     <x>269</x>
+     <y>322</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -374,8 +439,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>302</x>
-     <y>328</y>
+     <x>308</x>
+     <y>322</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

@@ -27,7 +27,8 @@ SOURCES += src/main.cpp \
     src/userinfopopup.cpp \
     src/dmdialog.cpp \
     src/configfile.cpp \
-    src/themes.cpp
+    src/themes.cpp \
+    src/updater.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/imagedownload.h \
@@ -47,7 +48,8 @@ HEADERS += src/mainwindow.h \
     src/userinfopopup.h \
     src/dmdialog.h \
     src/configfile.h \
-    src/themes.h
+    src/themes.h \
+    src/updater.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \

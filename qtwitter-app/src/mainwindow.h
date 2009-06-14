@@ -92,6 +92,10 @@ protected:
 private slots:
   void iconActivated( QSystemTrayIcon::ActivationReason reason );
   void emitOpenBrowser( QString address );
+  void checkForUpdates();
+  void silentCheckForUpdates();
+  void readUpdateReply( bool available, const QString &version );
+  void silentReadUpdateReply( bool available, const QString &version );
   void changeLabel();
   void sendStatus();
   void resetStatus();
@@ -115,6 +119,7 @@ private:
   QAction *gototwitterAction;
   QAction *gotoidenticaAction;
   QAction *gototwitpicAction;
+  QAction *checkforupdatesAction;
   QAction *aboutAction;
   QAction *quitAction;
   QMovie *progressIcon;

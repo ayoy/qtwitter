@@ -41,6 +41,7 @@
 #include "accountsdelegate.h"
 #include "accountscontroller.h"
 #include "configfile.h"
+#include "updater.h"
 
 extern ConfigFile settings;
 
@@ -77,6 +78,9 @@ MainWindow::MainWindow( QWidget *parent ) :
 #ifdef Q_WS_HILDON
   createHildonMenu();
 #endif
+  if ( settings.value( "Network/updates/check", true ).toBool() ) {
+    silentCheckForUpdates();
+  }
 }
 
 MainWindow::~MainWindow() {
@@ -171,6 +175,7 @@ void MainWindow::createButtonMenu()
   gototwitterAction = new QAction( tr( "Go to Twitter" ), buttonMenu );
   gotoidenticaAction = new QAction( tr( "Go to Identi.ca" ), buttonMenu );
   gototwitpicAction = new QAction( tr( "Go to TwitPic" ), buttonMenu );
+  checkforupdatesAction = new QAction( tr( "Check for updates" ), buttonMenu );
   aboutAction = new QAction( tr( "About qTwitter..." ), buttonMenu );
   quitAction = new QAction( tr( "Quit" ), buttonMenu );
   quitAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
@@ -194,6 +199,7 @@ void MainWindow::createButtonMenu()
   connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(QString)), this, SLOT(emitOpenBrowser(QString)) );
+  connect( checkforupdatesAction, SIGNAL(triggered()), this, SLOT(checkForUpdates()) );
   connect( aboutAction, SIGNAL(triggered()), this, SLOT(about()) );
 
   buttonMenu->addAction( newstatusAction );
@@ -203,6 +209,7 @@ void MainWindow::createButtonMenu()
   buttonMenu->addAction( gotoidenticaAction );
   buttonMenu->addAction( gototwitpicAction );
   buttonMenu->addSeparator();
+  buttonMenu->addAction( checkforupdatesAction );
   buttonMenu->addAction( aboutAction );
   buttonMenu->addAction( quitAction );
   ui.moreButton->setMenu( buttonMenu );
@@ -495,6 +502,60 @@ void MainWindow::emitOpenBrowser( QString address )
   emit openBrowser( QUrl( address ) );
 }
 
+void MainWindow::checkForUpdates()
+{
+  Updater *updater = new Updater( this );
+  connect( updater, SIGNAL(updateChecked(bool,QString)), this, SLOT(readUpdateReply(bool,QString)) );
+  updater->checkForUpdate();
+}
+
+void MainWindow::silentCheckForUpdates()
+{
+  Updater *updater = new Updater( this );
+  connect( updater, SIGNAL(updateChecked(bool,QString)), this, SLOT(silentReadUpdateReply(bool,QString)) );
+  updater->checkForUpdate();
+}
+
+void MainWindow::readUpdateReply( bool available, const QString &version )
+{
+  settings.setValue( "Network/updates/last", QDateTime::currentDateTime().toString( Qt::SystemLocaleShortDate ) );
+  QMessageBox *messageBox;
+  if ( available ) {
+    messageBox = new QMessageBox( QMessageBox::Information, tr( "Update available" ),
+                     tr( "An update to qTwitter is available!" ),
+                     QMessageBox::Close, this );
+    messageBox->setInformativeText( tr( "Current version is %1.<br>Download it from %2" )
+                                    .arg( version, "<a href='http://www.qt-apps.org/content/show.php/qTwitter?content=99087'>"
+                                                   "Qt-Apps.org</a>" ) );
+  } else {
+    messageBox = new QMessageBox( QMessageBox::Information, tr( "No updates available" ),
+                     tr( "Sorry, no updates for qTwitter are currently available" ),
+                     QMessageBox::Close, this );
+  }
+  messageBox->setButtonText( QMessageBox::Close, tr( "Close" ) );
+  messageBox->exec();
+  messageBox->deleteLater();
+  sender()->deleteLater();
+}
+
+void MainWindow::silentReadUpdateReply( bool available, const QString &version )
+{
+  settings.setValue( "Network/updates/last", QDateTime::currentDateTime().toString( Qt::SystemLocaleShortDate ) );
+  if ( available ) {
+    QMessageBox *messageBox;
+    messageBox = new QMessageBox( QMessageBox::Information, tr( "Update available" ),
+                     tr( "An update to qTwitter is available!" ),
+                     QMessageBox::Close, this );
+    messageBox->setInformativeText( tr( "Current version is %1.<br>Download it from %2" )
+                                    .arg( version, "<a href='http://www.qt-apps.org/content/show.php/qTwitter?content=99087'>"
+                                                   "Qt-Apps.org</a>" ) );
+    messageBox->setButtonText( QMessageBox::Close, tr( "Close" ) );
+    messageBox->exec();
+    messageBox->deleteLater();
+  }
+  sender()->deleteLater();
+}
+
 void MainWindow::changeListBackgroundColor(const QColor &newColor )
 {
   QPalette palette( ui.statusListView->palette() );
@@ -531,6 +592,7 @@ void MainWindow::retranslateUi()
   gototwitterAction->setText( tr( "Go to Twitter" ) );
   gotoidenticaAction->setText( tr( "Go to Identi.ca" ) );
   gototwitpicAction->setText( tr( "Go to TwitPic" ) );
+  checkforupdatesAction->setText( tr( "Check for updates" ) );
   aboutAction->setText( tr( "About qTwitter..." ) );
   quitAction->setText( tr( "Quit" ) );
 }
