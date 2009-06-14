@@ -149,12 +149,12 @@ protected slots:
   virtual void replyFinished( QNetworkReply* );
 };
 
-class MigreMeShortener : public UrlShortenerImplementation
+class MigremeShortener : public UrlShortenerImplementation
 {
   Q_OBJECT
 
 public:
-  MigreMeShortener( QObject *parent = 0 );
+  MigremeShortener( QObject *parent = 0 );
   UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_MIGREME; }
   void shorten( const QString &url );
 protected slots:

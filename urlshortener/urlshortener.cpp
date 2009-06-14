@@ -66,7 +66,7 @@ void UrlShortener::shorten( const QString &url, UrlShortener::Shortener shorteni
     shortenerInstance = new DiggShortener( this );
     break;
   case UrlShortener::SHORTENER_MIGREME:
-    shortenerInstance = new MigreMeShortener( this );
+    shortenerInstance = new MigremeShortener( this );
     break;
   case UrlShortener::SHORTENER_ISGD:
   default:

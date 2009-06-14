@@ -58,28 +58,28 @@ void IsgdShortener::replyFinished( QNetworkReply * reply )
   QString response = reply->readLine();
 
   switch( replyStatus( reply ) ) {
-    case 200:
-      emit shortened( response );
-      break;
-    case 500: {
-        QString message = response.replace("Error: ", "");
-        if( message == "The URL entered was not valid." ) {
-          emit errorMessage( tr( "The URL entered was not valid.") );
-        } else if ( message == "The URL entered was too long." ) {
-          emit errorMessage( tr( "The URL entered was too long.") );
-        } else if ( message ==  "The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop." )  {
-          emit errorMessage( tr( "The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.") );
-        } else if ( message == "The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.") {
-          emit errorMessage( tr( "The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist." ) );
-        } else if ( message == "The URL you entered is on the is.gd's blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse)." ) {
-          emit errorMessage( tr( "The URL you entered is on the is.gd's blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse)." ) );
-        } else if ( message == "The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use)." ) {
-          emit errorMessage( tr( "The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use)." ) );
-        }
+  case 200:
+    emit shortened( response );
+    break;
+  case 500: {
+      QString message = response.replace("Error: ", "");
+      if( message == "The URL entered was not valid." ) {
+        emit errorMessage( tr( "The URL entered was not valid.") );
+      } else if ( message == "The URL entered was too long." ) {
+        emit errorMessage( tr( "The URL entered was too long.") );
+      } else if ( message ==  "The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop." )  {
+        emit errorMessage( tr( "The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.") );
+      } else if ( message == "The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.") {
+        emit errorMessage( tr( "The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist." ) );
+      } else if ( message == "The URL you entered is on the is.gd's blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse)." ) {
+        emit errorMessage( tr( "The URL you entered is on the is.gd's blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse)." ) );
+      } else if ( message == "The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use)." ) {
+        emit errorMessage( tr( "The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use)." ) );
       }
-      break;
-    default:
-      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+    }
+    break;
+  default:
+    emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
 
@@ -100,15 +100,15 @@ void TrimShortener::replyFinished( QNetworkReply *reply )
   QString response = reply->readLine();
 
   switch( replyStatus( reply ) ) {
-    case 200:
-      if( QRegExp( "\\s*" ).exactMatch( response ) ) {
-        emit errorMessage( tr( "The URL has been rejected by the tr.im" ) );
-      } else {
-        emit shortened( response.trimmed() );
-      }
-      break;
-    default:
-      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  case 200:
+    if( QRegExp( "\\s*" ).exactMatch( response ) ) {
+      emit errorMessage( tr( "The URL has been rejected by the tr.im" ) );
+    } else {
+      emit shortened( response.trimmed() );
+    }
+    break;
+  default:
+    emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
 
@@ -127,11 +127,12 @@ void MetamarkShortener::replyFinished( QNetworkReply *reply )
   QString response = reply->readLine();
 
   switch( replyStatus( reply ) ) {
-    case 200:
-      emit shortened( response );
-      break;
-    default: case 500:
-      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  case 200:
+    emit shortened( response );
+    break;
+  case 500:
+  default:
+        emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
 
@@ -150,11 +151,12 @@ void TinyurlShortener::replyFinished( QNetworkReply *reply )
   QString response = reply->readLine();
 
   switch( replyStatus( reply ) ) {
-    case 200:
-      emit shortened( response );
-      break;
-    default: case 500:
-      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  case 200:
+    emit shortened( response );
+    break;
+  case 500:
+  default:
+    emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
 
@@ -173,11 +175,12 @@ void TinyarrowsShortener::replyFinished( QNetworkReply *reply )
   QString response = QString::fromUtf8( reply->readLine() );
 
   switch( replyStatus( reply ) ) {
-    case 200:
-      emit shortened( response );
-      break;
-    default: case 500:
-      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  case 200:
+    emit shortened( response );
+    break;
+  case 500:
+  default:
+    emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
 
@@ -196,15 +199,16 @@ void UnuShortener::replyFinished( QNetworkReply *reply )
   QString response = reply->readLine();
 
   switch( replyStatus( reply ) ) {
-    case 200:
-      if( response.indexOf( "http://" ) == 0 ) {
-        emit shortened( response );
-      } else {
-        emit errorMessage( tr( "Your URL has been rejected by u.nu" ) );
-      }
-      break;
-    default: case 500:
-      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  case 200:
+    if( response.indexOf( "http://" ) == 0 ) {
+      emit shortened( response );
+    } else {
+      emit errorMessage( tr( "Your URL has been rejected by u.nu" ) );
+    }
+    break;
+  case 500:
+  default:
+    emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
 
@@ -222,28 +226,29 @@ void BitlyShortener::shorten( const QString &url )
 void BitlyShortener::replyFinished( QNetworkReply *reply )
 {
   QString response = reply->readLine();
+  int errorCode;
+  QDomDocument doc;
+  QDomElement nodeKeyVal;
 
   switch( replyStatus( reply ) ) {
-    case 200:
-      {
-        QDomDocument doc;
-        doc.setContent( response, false );
-        QDomElement nodeKeyVal = doc.firstChildElement( "bitly" ).firstChildElement( "results" ).firstChildElement( "nodeKeyVal" );
-        int errorCode = nodeKeyVal.firstChildElement( "errorCode" ).text().toInt();
-        switch( errorCode ) {
-          case 0:
-            emit shortened( nodeKeyVal.firstChildElement( "shortUrl" ).text() );
-            break;
-          case 1206:
-            emit errorMessage( tr( "The URL entered was not valid." ) );
-            break;
-          default:
-            emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
-        }
-      }
+  case 200:
+    doc.setContent( response, false );
+    nodeKeyVal = doc.firstChildElement( "bitly" ).firstChildElement( "results" ).firstChildElement( "nodeKeyVal" );
+    errorCode = nodeKeyVal.firstChildElement( "errorCode" ).text().toInt();
+    switch( errorCode ) {
+    case 0:
+      emit shortened( nodeKeyVal.firstChildElement( "shortUrl" ).text() );
       break;
-    default: case 500:
+    case 1206:
+      emit errorMessage( tr( "The URL entered was not valid." ) );
+      break;
+    default:
       emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+    }
+    break;
+  case 500:
+  default:
+    emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
 
@@ -261,23 +266,22 @@ void DiggShortener::shorten( const QString &url )
 void DiggShortener::replyFinished( QNetworkReply *reply )
 {
   QString response = reply->readAll();
+  QDomDocument doc;
 
   switch( replyStatus( reply ) ) {
-    case 200:
-      {
-        QDomDocument doc;
-        doc.setContent( response, false );
-        emit shortened( doc.firstChildElement( "shorturls" ).firstChildElement( "shorturl" ).attribute("short_url") );
-      }
-      break;
-    default: case 500:
-      emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+  case 200:
+    doc.setContent( response, false );
+    emit shortened( doc.firstChildElement( "shorturls" ).firstChildElement( "shorturl" ).attribute("short_url") );
+    break;
+  case 500:
+  default:
+    emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }
 
-MigreMeShortener::MigreMeShortener( QObject *parent ) : UrlShortenerImplementation( parent ) {}
+MigremeShortener::MigremeShortener( QObject *parent ) : UrlShortenerImplementation( parent ) {}
 
-void MigreMeShortener::shorten( const QString &url )
+void MigremeShortener::shorten( const QString &url )
 {
   QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
 
@@ -286,30 +290,31 @@ void MigreMeShortener::shorten( const QString &url )
   }
 }
 
-void MigreMeShortener::replyFinished( QNetworkReply *reply )
+void MigremeShortener::replyFinished( QNetworkReply *reply )
 {
-    QString response = reply->readAll();
+  QString response = reply->readAll();
+  QDomDocument doc;
+  QDomElement migre;
+  int errorCode;
 
-    switch( replyStatus( reply ) ) {
-     case 200:
-      {
-        QDomDocument doc;
-        doc.setContent( response, false );
-        QDomElement migre = doc.firstChildElement( "item" );
-        int errorCode = migre.firstChildElement( "error" ).text().toInt();
-        switch( errorCode ) {
-          case 0:
-            emit shortened( migre.firstChildElement( "migre" ).text() );
-            break;
-          case 2:
-            emit errorMessage( tr( "The URL entered was not valid." ) );
-            break;
-          default:
-            emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
-        }
-      }
+  switch( replyStatus( reply ) ) {
+  case 200:
+    doc.setContent( response, false );
+    migre = doc.firstChildElement( "item" );
+    errorCode = migre.firstChildElement( "error" ).text().toInt();
+    switch( errorCode ) {
+    case 0:
+      emit shortened( migre.firstChildElement( "migre" ).text() );
       break;
-    default: case 500:
+    case 2:
+      emit errorMessage( tr( "The URL entered was not valid." ) );
+      break;
+    default:
       emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
+    }
+    break;
+  case 500:
+  default:
+    emit errorMessage( tr( "An unknown error occurred when shortening your URL." ) );
   }
 }

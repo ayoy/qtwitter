@@ -421,11 +421,11 @@ void Settings::createUrlShortenerMenu()
   ui.urlShortenerCombo->addItem( "Digg", UrlShortener::SHORTENER_DIGG );
   ui.urlShortenerCombo->addItem( "is.gd", UrlShortener::SHORTENER_ISGD );
   ui.urlShortenerCombo->addItem( "MetaMark", UrlShortener::SHORTENER_METAMARK );
+  ui.urlShortenerCombo->addItem( "Migre.me", UrlShortener::SHORTENER_MIGREME);
   ui.urlShortenerCombo->addItem( "tinyarro.ws", UrlShortener::SHORTENER_TINYARROWS );
   ui.urlShortenerCombo->addItem( "TinyURL", UrlShortener::SHORTENER_TINYURL );
   ui.urlShortenerCombo->addItem( "tr.im", UrlShortener::SHORTENER_TRIM );
   ui.urlShortenerCombo->addItem( "u.nu", UrlShortener::SHORTENER_UNU );
-  ui.urlShortenerCombo->addItem( "Migre.me", UrlShortener::SHORTENER_MIGREME);
 }
 
 /*! \struct ThemeElement
