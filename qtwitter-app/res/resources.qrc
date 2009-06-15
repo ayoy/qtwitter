@@ -24,5 +24,6 @@
         <file>loc/qtwitter_ja_JP.qm</file>
         <file>loc/qtwitter_pl_PL.qm</file>
         <file>loc/qtwitter_pt_BR.qm</file>
+        <file>loc/qtwitter_it_IT.qm</file>
     </qresource>
 </RCC>

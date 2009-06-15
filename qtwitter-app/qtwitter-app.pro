@@ -65,6 +65,7 @@ TRANSLATIONS += loc/qtwitter_ca_ES.ts \
     loc/qtwitter_de_DE.ts \
     loc/qtwitter_es_ES.ts \
     loc/qtwitter_ja_JP.ts \
+    loc/qtwitter_it_IT.ts \
     loc/qtwitter_fr_FR.ts \
     loc/qtwitter_pl_PL.ts \
     loc/qtwitter_pt_BR.ts
