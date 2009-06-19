@@ -4,11 +4,16 @@ TARGET = qtwitter
 # sets the TOP variable to the root source code dir
 include(../qtwitter.pri)
 DESTDIR = $${TOP}
+
 include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
-include($${TOP}/qoauth/qoauth.pri)
+
+contains( DEFINES, OAUTH ) {
+    include($${TOP}/qoauth/qoauth.pri)
+    include(src/oauth/oauth.pri)
+}
+
 include(src/accounts/accounts.pri)
-include(src/oauth/oauth.pri)
 include(src/qticonloader/qticonloader.pri)
 QT += network \
     xml
@@ -85,9 +90,12 @@ macx {
     LIBS += -framework \
         twitterapi \
         -framework \
-        urlshortener \
-        -framework \
-        qoauth
+        urlshortener
+
+    contains( DEFINES, OAUTH ) {
+        LIBS += -framework \
+            qoauth
+    }
 }
 else:unix { 
     LIBS += -L$${TOP} \

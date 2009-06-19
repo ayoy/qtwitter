@@ -19,6 +19,9 @@
  ***************************************************************************/
 
 
+#include "twitterapi.h"
+#include "xmlparser.h"
+
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
@@ -26,9 +29,6 @@
 #include <QXmlInputSource>
 #include <QAuthenticator>
 #include <QDebug>
-#include <qoauth/qoauth.h>
-#include "twitterapi.h"
-#include "xmlparser.h"
 
 struct Interface
 {
@@ -204,7 +204,10 @@ TwitterAPIInterface::TwitterAPIInterface( QObject *parent ) : QObject( parent )
   services[ TwitterAPI::SOCIALNETWORK_IDENTICA ] = TwitterAPI::URL_IDENTICA;
   xmlReader = new QXmlSimpleReader;
   source = new QXmlInputSource;
+
+#ifdef OAUTH
   qoauth = new QOAuth( this );
+#endif
 }
 
 /*!
@@ -231,6 +234,7 @@ TwitterAPIInterface::~TwitterAPIInterface()
   }
 }
 
+#ifdef OAUTH
 QByteArray TwitterAPIInterface::consumerKey() const
 {
   return qoauth->consumerKey();
@@ -250,6 +254,7 @@ void TwitterAPIInterface::setConsumerSecret( const QByteArray &consumerSecret )
 {
   qoauth->setConsumerSecret( consumerSecret );
 }
+#endif
 
 /*!
   Creates an interface (i.e. a QNetworkAccessManager instance and a set
@@ -298,24 +303,26 @@ void TwitterAPIInterface::postUpdate( TwitterAPI::SocialNetwork network, const Q
 
   QByteArray content;
 
+#ifdef OAUTH
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    int index = password.indexOf( '&' );
-    QByteArray token = password.left( index ).toAscii();
-    QByteArray tokenSecret = password.right( password.length() - index - 1 ).toAscii();
-
     QOAuth::ParamMap map;
+
     map.insert( "status", data.toUtf8().toPercentEncoding() );
     map.insert( "source", "qtwitter" );
     if ( inReplyTo != 0 ) {
       map.insert( "in_reply_to_status_id", QByteArray::number( inReplyTo ) );
     }
-    content = qoauth->createParametersString( services.value( network ), QOAuth::POST, QOAuth::HMAC_SHA1,
-                                              token, tokenSecret, map, QOAuth::ParseForInlineQuery );
+
+    content = prepareOAuthString( url, QOAuth::POST, password, map );
+
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     content = prepareRequest( data, inReplyTo );
   }
+#else
+  content = prepareRequest( data, inReplyTo );
+#endif
 
-  QNetworkRequest request;//( QUrl( QString( services.value(network) ).append( UrlStatusesUpdate ) ) );
+  QNetworkRequest request;
   request.setUrl( QUrl(url) );
 
   request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
@@ -347,15 +354,13 @@ void TwitterAPIInterface::deleteUpdate( TwitterAPI::SocialNetwork network, const
 
   QByteArray content;
 
+#ifdef OAUTH
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    int index = password.indexOf( '&' );
-    QByteArray token = password.left( index ).toAscii();
-    QByteArray tokenSecret = password.right( password.length() - index - 1 ).toAscii();
-    content = qoauth->createParametersString( services.value( network ), QOAuth::POST, QOAuth::HMAC_SHA1,
-                                              token, tokenSecret, QOAuth::ParamMap(), QOAuth::ParseForInlineQuery );
+    content = prepareOAuthString( url, QOAuth::POST, password );
   }
+#endif
 
-  QNetworkRequest request;//( QUrl( QString( services.value(network) ).append( UrlStatusesUpdate ) ) );
+  QNetworkRequest request;
   request.setUrl( QUrl(url) );
 
   request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
@@ -388,24 +393,23 @@ void TwitterAPIInterface::friendsTimeline( TwitterAPI::SocialNetwork network, co
 
   QString url = services.value(network);
   url.append( UrlStatusesFriendsTimeline );
-  url.append( '?' );
 
+#ifdef OAUTH
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    int index = password.indexOf( '&' );
-    QByteArray token = password.left( index ).toAscii();
-    QByteArray tokenSecret = password.right( password.length() - index - 1 ).toAscii();
-
     QOAuth::ParamMap map;
     map.insert( "count", statusCount.toAscii() );
-    QByteArray parameters = qoauth->createParametersString( services.value( network ), QOAuth::GET, QOAuth::HMAC_SHA1,
-                                                            token, tokenSecret, map, QOAuth::ParseForInlineQuery );
-    url.append( parameters );
-    qDebug() << url;
-  } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    url.append( QString("count=%1").arg( statusCount ) );
-  }
 
-  QNetworkRequest request;//( QUrl( QString( "%1/statuses/friends_timeline.xml?count=%2" ).arg( services[ network ], statusCount ) ) );
+    QByteArray parameters = prepareOAuthString( url, QOAuth::GET, password, map );
+
+    url.append( "?" + parameters );
+  } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+    url.append( QString("?count=%1").arg( statusCount ) );
+  }
+#else
+  url.append( QString("?count=%1").arg( statusCount ) );
+#endif
+
+  QNetworkRequest request;
   request.setUrl( QUrl(url) );
   request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
   request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_FRIENDS_TIMELINE );
@@ -434,31 +438,28 @@ void TwitterAPIInterface::friendsTimeline( TwitterAPI::SocialNetwork network, co
 */
 void TwitterAPIInterface::directMessages( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int msgCount )
 {
-  /* When directMessages is called from requestFinished, msgCount argument shouldn't be out of bounds,
-     but we can check if the value is correct anyway
-  */
   QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
 
   QString url = services.value(network);
   url.append( UrlDirectMessages );
-  url.append( '?' );
 
+#ifdef OAUTH
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    int index = password.indexOf( '&' );
-    QByteArray token = password.left( index ).toAscii();
-    QByteArray tokenSecret = password.right( password.length() - index - 1 ).toAscii();
-
     QOAuth::ParamMap map;
     map.insert( "count", statusCount.toAscii() );
-    QByteArray parameters = qoauth->createParametersString( services.value( network ), QOAuth::GET, QOAuth::HMAC_SHA1,
-                                                            token, tokenSecret, map, QOAuth::ParseForInlineQuery );
-    url.append( parameters );
+
+    QByteArray parameters = prepareOAuthString( url, QOAuth::GET, password, map );
+
+    url.append( "?" + parameters );
     qDebug() << url;
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    url.append( QString("count=%1").arg( statusCount ) );
+    url.append( QString("?count=%1").arg( statusCount ) );
   }
+#else
+  url.append( QString("?count=%1").arg( statusCount ) );
+#endif
 
-  QNetworkRequest request;//( QUrl( QString( "%1/direct_messages.xml?count=%2" ).arg( services[ network ], statusCount ) ) );
+  QNetworkRequest request;
   request.setUrl( QUrl(url) );
 
   request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
@@ -490,21 +491,22 @@ void TwitterAPIInterface::postDM( TwitterAPI::SocialNetwork network, const QStri
 
   QByteArray content;
 
+#ifdef OAUTH
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    int index = password.indexOf( '&' );
-    QByteArray token = password.left( index ).toAscii();
-    QByteArray tokenSecret = password.right( password.length() - index - 1 ).toAscii();
-
     QOAuth::ParamMap map;
     map.insert( "user", screenName.toUtf8() );
     map.insert( "text", text.toUtf8().toPercentEncoding() );
-    content = qoauth->createParametersString( services.value( network ), QOAuth::POST, QOAuth::HMAC_SHA1,
-                                              token, tokenSecret, map, QOAuth::ParseForInlineQuery );
+
+    content = prepareOAuthString( url, QOAuth::GET, password, map );
+
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     content = prepareRequest( screenName, text );
   }
+#else
+  content = prepareRequest( screenName, text );
+#endif
 
-  QNetworkRequest request;//( QUrl( QString( "%1/direct_messages/new.xml" ).arg( services[ network ] ) ) );
+  QNetworkRequest request;
   request.setUrl( QUrl(url) );
 
   request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
@@ -530,13 +532,11 @@ void TwitterAPIInterface::deleteDM( TwitterAPI::SocialNetwork network, const QSt
 
   QByteArray content;
 
+#ifdef OAUTH
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    int index = password.indexOf( '&' );
-    QByteArray token = password.left( index ).toAscii();
-    QByteArray tokenSecret = password.right( password.length() - index - 1 ).toAscii();
-    content = qoauth->createParametersString( services.value( network ), QOAuth::POST, QOAuth::HMAC_SHA1,
-                                              token, tokenSecret, QOAuth::ParamMap(), QOAuth::ParseForInlineQuery );
+    content = prepareOAuthString( url, QOAuth::POST, password );
   }
+#endif
 
   QNetworkRequest request;
   request.setUrl( QUrl(url) );
@@ -568,13 +568,11 @@ void TwitterAPIInterface::createFavorite( TwitterAPI::SocialNetwork network, con
 
   QByteArray content;
 
+#ifdef OAUTH
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    int index = password.indexOf( '&' );
-    QByteArray token = password.left( index ).toAscii();
-    QByteArray tokenSecret = password.right( password.length() - index - 1 ).toAscii();
-    content = qoauth->createParametersString( services.value( network ), QOAuth::POST, QOAuth::HMAC_SHA1,
-                                              token, tokenSecret, QOAuth::ParamMap(), QOAuth::ParseForInlineQuery );
+    content = prepareOAuthString( url, QOAuth::POST, password );
   }
+#endif
 
   QNetworkRequest request;
   request.setUrl( QUrl(url) );
@@ -605,13 +603,11 @@ void TwitterAPIInterface::destroyFavorite( TwitterAPI::SocialNetwork network, co
 
   QByteArray content;
 
+#ifdef OAUTH
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    int index = password.indexOf( '&' );
-    QByteArray token = password.left( index ).toAscii();
-    QByteArray tokenSecret = password.right( password.length() - index - 1 ).toAscii();
-    content = qoauth->createParametersString( services.value( network ), QOAuth::POST, QOAuth::HMAC_SHA1,
-                                              token, tokenSecret, QOAuth::ParamMap(), QOAuth::ParseForInlineQuery );
+    content = prepareOAuthString( url, QOAuth::POST, password );
   }
+#endif
 
   QNetworkRequest request;
   request.setUrl( QUrl(url) );
@@ -816,6 +812,19 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
   reply->close();
 }
 
+#ifdef OAUTH
+QByteArray TwitterAPIInterface::prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,
+                                                    const QString &password, const QOAuth::ParamMap &params )
+{
+  int index = password.indexOf( '&' );
+  QByteArray token = password.left( index ).toAscii();
+  QByteArray tokenSecret = password.right( password.length() - index - 1 ).toAscii();
+  QByteArray content = qoauth->createParametersString( requestUrl, method, QOAuth::HMAC_SHA1,
+                                                       token, tokenSecret, params, QOAuth::ParseForInlineQuery );
+  return content;
+}
+#endif
+
 /*!
   Constructs a request from the given message text and optional \a inReplyTo argument.
 
@@ -825,15 +834,11 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
 QByteArray TwitterAPIInterface::prepareRequest( const QString &data, quint64 inReplyTo )
 {
   QByteArray request( "status=" );
-  QString statusText( data );
-  statusText.replace( QRegExp( "&" ), "%26" );
-  statusText.replace( QRegExp( "\\+" ), "%2B" );
-  request.append( data.toUtf8() );
+  request.append( data.toUtf8().toPercentEncoding() );
   if ( inReplyTo != 0 ) {
     request.append( "&in_reply_to_status_id=" + QByteArray::number( inReplyTo ) );
   }
   request.append( "&source=qtwitter" );
-//  qDebug() << request;
   return request;
 }
 
@@ -848,11 +853,7 @@ QByteArray TwitterAPIInterface::prepareRequest( const QString &screenName, const
   QByteArray request( "user=" );
   request.append( screenName );
   request.append( "&text=" );
-  QString statusText( text );
-  statusText.replace( QRegExp( "&" ), "%26" );
-  statusText.replace( QRegExp( "\\+" ), "%2B" );
-  request.append( text.toUtf8() );
-//  qDebug() << request;
+  request.append( text.toUtf8().toPercentEncoding() );
   return request;
 }
 

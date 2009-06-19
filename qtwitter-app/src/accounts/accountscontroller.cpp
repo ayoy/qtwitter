@@ -25,8 +25,11 @@
 #include "accountsview.h"
 #include "accountsdelegate.h"
 #include <configfile.h>
-#include <oauthwizard.h>
 #include <qticonloader.h>
+
+#ifdef OAUTH
+#  include <oauthwizard.h>
+#endif
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -190,13 +193,9 @@ void AccountsController::addAccount()
 
   if ( result == QDialog::Accepted ) {
     int index = model->rowCount();
-    if ( network == "Identi.ca" ) {
-      model->insertRow( index );
-      model->account( index ).network = network == "Twitter" ? TwitterAPI::SOCIALNETWORK_TWITTER : TwitterAPI::SOCIALNETWORK_IDENTICA;
-      settings.addAccount( index, model->account( index ) );
-      view->setCurrentIndex( model->index( index, 0 ) );
-      ui->deleteAccountButton->setEnabled( true );
-    } else if ( network == "Twitter" ) {
+
+#ifdef OAUTH
+    if ( network == "Twitter" ) {
       OAuthWizard *wizard = new OAuthWizard( view );
       wizard->exec();
       if ( wizard->authorized() ) {
@@ -213,7 +212,17 @@ void AccountsController::addAccount()
         ui->deleteAccountButton->setEnabled( true );
       }
       wizard->deleteLater();
+
+    } else if ( network == "Identi.ca" ) {
+#endif
+      model->insertRow( index );
+      model->account( index ).network = network == "Twitter" ? TwitterAPI::SOCIALNETWORK_TWITTER : TwitterAPI::SOCIALNETWORK_IDENTICA;
+      settings.addAccount( index, model->account( index ) );
+      view->setCurrentIndex( model->index( index, 0 ) );
+      ui->deleteAccountButton->setEnabled( true );
+#ifdef OAUTH
     }
+#endif
   }
 }
 

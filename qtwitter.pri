@@ -1,1 +1,2 @@
 TOP = $${PWD}
+DEFINES += OAUTH

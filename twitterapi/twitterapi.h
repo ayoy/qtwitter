@@ -23,11 +23,17 @@
 #define TWITTERAPI_H
 
 #include <QObject>
+
+#include "twitterapi_global.h"
+#include "entry.h"
+
 #include <QMap>
 #include <QNetworkRequest>
 #include <QPointer>
-#include "twitterapi_global.h"
-#include "entry.h"
+
+#ifdef OAUTH
+#  include <qoauth/qoauth.h>
+#endif
 
 class QNetworkReply;
 class QAuthenticator;
@@ -35,23 +41,26 @@ class QXmlSimpleReader;
 class QXmlInputSource;
 class XmlParser;
 struct Interface;
-class QOAuth;
 
 class TWITTERAPI_EXPORT TwitterAPIInterface : public QObject
 {
   Q_OBJECT
+#ifdef OAUTH
   Q_PROPERTY( QByteArray consumerKey READ consumerKey WRITE setConsumerKey )
   Q_PROPERTY( QByteArray consumerSecret READ consumerSecret WRITE setConsumerSecret )
+#endif
 
 public:
 
   TwitterAPIInterface( QObject *parent = 0 );
   virtual ~TwitterAPIInterface();
 
+#ifdef OAUTH
   QByteArray consumerKey() const;
   void setConsumerKey( const QByteArray &consumerKey );
   QByteArray consumerSecret() const;
   void setConsumerSecret( const QByteArray &consumerSecret );
+#endif
 
   void postUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &data, quint64 inReplyTo = 0 );
   void deleteUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id );
@@ -87,6 +96,12 @@ private slots:
 private:
   void parseXml( const QByteArray &data, XmlParser *parser );
   Interface* createInterface( TwitterAPI::SocialNetwork network, const QString &login );
+
+#ifdef OAUTH
+  QByteArray prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,
+                                 const QString &password, const QOAuth::ParamMap &params = QOAuth::ParamMap() );
+#endif
+
   QByteArray prepareRequest( const QString &data, quint64 inReplyTo );
   QByteArray prepareRequest( const QString &screenName, const QString & );
 
@@ -94,7 +109,10 @@ private:
   QMap< TwitterAPI::SocialNetwork, QString > services;
   QXmlSimpleReader *xmlReader;
   QXmlInputSource *source;
+
+#ifdef OAUTH
   QOAuth *qoauth;
+#endif
 
   static const QNetworkRequest::Attribute ATTR_SOCIALNETWORK;
   static const QNetworkRequest::Attribute ATTR_ROLE;
