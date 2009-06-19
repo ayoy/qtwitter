@@ -7,17 +7,17 @@
     <x>0</x>
     <y>0</y>
     <width>204</width>
-    <height>133</height>
+    <height>210</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>Allow access</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="allowLabel">
      <property name="text">
-      <string>Click the button to allow qTwitter access your Twitter account</string>
+      <string>You must allow qTwitter accessing your Twitter account</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>
@@ -28,14 +28,58 @@
     </widget>
    </item>
    <item>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="allowButton">
      <property name="text">
-      <string>Login to Twitter</string>
+      <string>Allow qTwitter access</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <widget class="QLabel" name="pinLabel">
+     <property name="text">
+      <string>Enter PIN number received from twitter.com</string>
+     </property>
+     <property name="alignment">
+      <set>Qt::AlignCenter</set>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout">
+     <item>
+      <widget class="QLineEdit" name="pinEdit"/>
+     </item>
+     <item>
+      <widget class="QPushButton" name="okButton">
+       <property name="text">
+        <string>OK</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
   </layout>
  </widget>
  <resources/>
- <connections/>
+ <connections>
+  <connection>
+   <sender>okButton</sender>
+   <signal>clicked()</signal>
+   <receiver>OAuthWizard</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>152</x>
+     <y>176</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>168</x>
+     <y>204</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
 </ui>

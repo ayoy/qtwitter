@@ -22,6 +22,7 @@
 #define QOAUTH_H
 
 #include <QObject>
+#include <QMap>
 #include "qoauth_global.h"
 
 class QOAuthPrivate;
@@ -30,17 +31,49 @@ class QOAUTH_EXPORT QOAuth : public QObject
 {
   Q_OBJECT
 
+  Q_PROPERTY( QByteArray consumerKey READ consumerKey WRITE setConsumerKey )
+  Q_PROPERTY( QByteArray consumerSecret READ consumerSecret WRITE setConsumerSecret )
+  Q_PROPERTY( QByteArray token READ token )
+
 public:
+  enum SignatureMethod {
+    HMAC_SHA1,
+    HMAC_RSA,
+    PLAINTEXT
+  };
+
+  enum HttpMethod {
+    GET,
+    POST
+  };
+  
+  typedef QMap<QByteArray,QByteArray> MiscParams;
+
+  static const QByteArray Version;
+
   QOAuth( QObject *parent = 0 );
   virtual ~QOAuth();
 
-  void request_token();
-  void authorize();
+  QByteArray consumerKey() const;
+  void setConsumerKey( const QByteArray &consumerKey );
+
+  QByteArray consumerSecret() const;
+  void setConsumerSecret( const QByteArray &consumerSecret );
+
+  QByteArray token() const;
+
+  QByteArray requestToken( const QString &requestUrl, SignatureMethod signatureMethod, HttpMethod httpMethod,
+                           uint timeout = 0, const MiscParams &params = MiscParams() );
+//  void authorize();
   void authenticate();
-  void access_token();
+  QByteArray accessToken( const QString &requestUrl, SignatureMethod signatureMethod, HttpMethod httpMethod,
+                    uint timeout = 0, const MiscParams &params = MiscParams() );
+
+
+protected:
+  QOAuthPrivate *d_ptr;
 
 private:
-  QOAuthPrivate *d_ptr;
   Q_DECLARE_PRIVATE(QOAuth)
 };
 

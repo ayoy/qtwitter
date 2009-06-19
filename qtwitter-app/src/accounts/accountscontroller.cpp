@@ -18,14 +18,20 @@
  ***************************************************************************/
 
 
-#include <QMessageBox>
-#include <qticonloader.h>
-#include <configfile.h>
+#include "accountscontroller.h"
+#include "ui_accounts.h"
+
 #include "accountsmodel.h"
 #include "accountsview.h"
 #include "accountsdelegate.h"
-#include "accountscontroller.h"
-#include "ui_accounts.h"
+#include <configfile.h>
+#include <oauthwizard.h>
+#include <qticonloader.h>
+
+#include <QMessageBox>
+#include <QInputDialog>
+#include <QModelIndex>
+#include <QDebug>
 
 extern ConfigFile settings;
 
@@ -172,10 +178,29 @@ void AccountsController::showPasswordDisclaimer()
 
 void AccountsController::addAccount()
 {
-  model->insertRow( model->rowCount() );
-  settings.addAccount( model->rowCount() - 1, model->getAccounts().at( model->rowCount() - 1 ) );
-  view->setCurrentIndex( model->index( model->rowCount() - 1, 0 ) );
-  ui->deleteAccountButton->setEnabled( true );
+  QInputDialog *dlg = new QInputDialog( view );
+  //: Select social network, i.e. Twitter or Identi.ca
+  dlg->setLabelText( tr( "Select social network:" ) );
+  dlg->setComboBoxItems( QStringList() << "Twitter" << "Identi.ca" );
+  dlg->setCancelButtonText( tr( "Cancel" ) );
+  dlg->setOkButtonText( tr( "OK" ) );
+  int result = dlg->exec();
+  QString network = dlg->textValue();
+  dlg->deleteLater();
+
+  if ( result == QDialog::Accepted ) {
+    if ( network == "Identi.ca" ) {
+      model->insertRow( model->rowCount() );
+      model->account( model->rowCount() - 1 ).network = network == "Twitter" ? TwitterAPI::SOCIALNETWORK_TWITTER : TwitterAPI::SOCIALNETWORK_IDENTICA;
+      settings.addAccount( model->rowCount() - 1, model->getAccounts().at( model->rowCount() - 1 ) );
+      view->setCurrentIndex( model->index( model->rowCount() - 1, 0 ) );
+      ui->deleteAccountButton->setEnabled( true );
+    } else if ( network == "Twitter" ) {
+      OAuthWizard *wizard = new OAuthWizard( view );
+      wizard->exec();
+      wizard->deleteLater();
+    }
+  }
 }
 
 void AccountsController::deleteAccount()

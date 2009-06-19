@@ -228,7 +228,7 @@ int MainWindow::getScrollBarWidth()
 void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeline )
 {
   ui.accountsComboBox->clear();
-
+  ui.statusEdit->setEnabled( false );
   foreach ( Account account, accounts ) {
     if ( account.isEnabled )
       ui.accountsComboBox->addItem( QString( "%1 @%2" ).arg( account.login, Account::networkToString( account.network ) ) );

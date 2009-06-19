@@ -85,7 +85,9 @@ macx {
     LIBS += -framework \
         twitterapi \
         -framework \
-        urlshortener
+        urlshortener \
+        -framework \
+        qoauth
 }
 else:unix { 
     LIBS += -L$${TOP} \

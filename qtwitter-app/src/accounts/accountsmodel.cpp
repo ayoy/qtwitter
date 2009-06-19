@@ -157,7 +157,7 @@ bool AccountsModel::setData( const QModelIndex &index, const QVariant &value, in
 
 Qt::ItemFlags AccountsModel::flags( const QModelIndex &index ) const
 {
-  if ( index.column() != 0 && index.column() != 4 )
+  if ( index.column() != 0 && index.column() != 1 && index.column() != 4 )
     return QAbstractItemModel::flags( index ) |= Qt::ItemIsEditable;
   return QAbstractItemModel::flags( index );
 }

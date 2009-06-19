@@ -1,21 +1,36 @@
 #include "oauthwizard.h"
 #include "ui_oauthwizard.h"
+#include <qoauth/qoauth.h>
 
-#include <QNetworkAccessManager>
-#include <QNetworkRequest>
-#include <QNetworkReply>
+//#include <QNetworkAccessManager>
+//#include <QNetworkRequest>
+//#include <QNetworkReply>
+#include <QDesktopServices>
 #include <QUrl>
 #include <QDateTime>
 #include <QDebug>
 
+const QByteArray OAuthWizard::TwitterRequestTokenURL = "http://twitter.com/oauth/request_token";
+const QByteArray OAuthWizard::TwitterAccessTokenURL  = "http://twitter.com/oauth/access_token";
+const QByteArray OAuthWizard::TwitterAuthorizeURL    = "http://twitter.com/oauth/authorize";
+
+const QByteArray OAuthWizard::ConsumerKey    = "tIFvBZ10xbiOq5p60EcEdA";
+const QByteArray OAuthWizard::ConsumerSecret = "5gXfCncW8qEilc3kAw05db2bbfw8RNsDhEAEl9iijdA";
+
 OAuthWizard::OAuthWizard(QWidget *parent) :
     QDialog(parent),
+    qoauth( new QOAuth( this ) ),
     m_ui(new Ui::OAuthWizard)
 {
+  qoauth->setConsumerKey( ConsumerKey );
+  qoauth->setConsumerSecret( ConsumerSecret );
+
   m_ui->setupUi(this);
-  manager = new QNetworkAccessManager( this );
-  connect( m_ui->pushButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
-  connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
+  m_ui->pinLabel->hide();
+  m_ui->pinEdit->hide();
+  m_ui->okButton->hide();
+  connect( m_ui->allowButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
+  connect( m_ui->okButton, SIGNAL(clicked()), this, SLOT(authorize()) );
 }
 
 OAuthWizard::~OAuthWizard()
@@ -37,47 +52,26 @@ void OAuthWizard::changeEvent(QEvent *e)
 
 void OAuthWizard::openUrl()
 {
-  uint time = QDateTime::currentDateTime().toTime_t();
-  QString timestamp = QString::number( time );
-  QString signatureString( "GET"
-                           "&http://twitter.com/oauth/request_token"
-                           "&content-type=application/x-www-form-urlencoded"
-                           "&oauth_consumer_key=tIFvBZ10xbiOq5p60EcEdA"
-                           "&oauth_nonce=4572616e48616d6d65724c61686176"
-                           "&oauth_signature_method=PLAINTEXT"
-                           "&oauth_timestamp=%1"
-                           "&oauth_token=&oauth_version=1.0" );
-  signatureString.arg( timestamp );
+  QByteArray tokenString = qoauth->requestToken( TwitterRequestTokenURL,
+                                                 QOAuth::HMAC_SHA1, QOAuth::GET, 10000 );
+  qDebug() << __PRETTY_FUNCTION__ << tokenString;
+  QString url = TwitterAuthorizeURL;
 
-  QByteArray signature = signatureString.toAscii().toPercentEncoding();
+  url.append( "?" );
+  url.append( tokenString );
+  url.append( "&oauth_callback=oob" );
 
-  QByteArray authorizationHeader( "OAuth realm=\"http://twitter.com/\","
-                                  "oauth_consumer_key=\"tIFvBZ10xbiOq5p60EcEdA\","
-                                  "oauth_token=\"\","
-                                  "oauth_signature_method=\"PLAINTEXT\","
-                                  "oauth_signature=\"" );
-  authorizationHeader.append( signature );
-  authorizationHeader.append( "\","
-                              "oauth_timestamp=\"" );
-  authorizationHeader.append( timestamp );
-  authorizationHeader.append( "\","
-                              "oauth_nonce=\"4572616e48616d6d65724c61686176\","
-                              "oauth_version=\"1.0\"" );
-
-  QNetworkRequest request( QUrl( "http://twitter.com/oauth/request_token" ) );
-  request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-  request.setRawHeader( "Authorization", authorizationHeader );
-
-
-
+  QDesktopServices::openUrl( QUrl( url ) );
+  m_ui->allowLabel->hide();
+  m_ui->allowButton->hide();
+  m_ui->pinLabel->show();
+  m_ui->pinEdit->show();
+  m_ui->okButton->show();
 }
 
-void OAuthWizard::requestFinished( QNetworkReply *reply )
+void OAuthWizard::authorize()
 {
-  int code = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
-  if ( code != 200 ) {
-    qDebug() << "Error:" << code;
-  } else {
-    qDebug() << reply->readAll();
-  }
+  QMap<QByteArray,QByteArray> otherArgs;
+  otherArgs.insert( "oauth_verifier", m_ui->pinEdit->text().toAscii() );
+  QByteArray accessToken = qoauth->accessToken( TwitterAccessTokenURL, QOAuth::HMAC_SHA1, QOAuth::POST, 10000, otherArgs );
 }

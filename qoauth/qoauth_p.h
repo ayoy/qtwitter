@@ -21,13 +21,14 @@
 #ifndef QOAUTH_P_H
 #define QOAUTH_P_H
 
+#include "qoauth.h"
 #include <QObject>
 #include <QNetworkRequest>
+#include <QMap>
 
 class QNetworkAccessManager;
 class QNetworkReply;
 class QEventLoop;
-class QTimer;
 class QOAuth;
 
 
@@ -44,17 +45,47 @@ public:
     AccessToken
   };
 
+  enum ParsingMode {
+    ParseForSignatureBaseString,
+    ParseForInlineQuery = ParseForSignatureBaseString,
+    ParseForHeaderArguments
+  };
+
   QOAuthPrivate( QObject *parent = 0 );
+  QByteArray httpMethodToString( QOAuth::HttpMethod method );
+  QByteArray signatureMethodToString( QOAuth::SignatureMethod method );
+
+  QByteArray createParametersString( const QMap<QByteArray,QByteArray> &parameters, ParsingMode mode );
+  QByteArray createSignature( const QString &requestUrl, QOAuth::SignatureMethod signatureMethod,
+                              QOAuth::HttpMethod httpMethod, const QOAuth::MiscParams &params );
+
+  bool parseRequestTokenReply( const QByteArray &data );
+
+  QByteArray consumerKey;
+  QByteArray consumerSecret;
+  QByteArray token;
+  QByteArray tokenSecret;
+  QByteArray accessToken;
+
   QNetworkAccessManager *manager;
   QEventLoop *loop;
-  QTimer *timer;
 
-  static const QNetworkRequest::Attribute requestType;
+  static const QNetworkRequest::Attribute RequestType;
+
+  static const QByteArray ParamConsumerKey;
+  static const QByteArray ParamNonce;
+  static const QByteArray ParamSignature;
+  static const QByteArray ParamSignatureMethod;
+  static const QByteArray ParamTimestamp;
+  static const QByteArray ParamVersion;
+  static const QByteArray ParamToken;
+  static const QByteArray ParamTokenSecret;
+  static const QByteArray ParamAccessToken;
 
 public slots:
   void parseReply( QNetworkReply *reply );
 
-private:
+protected:
   QOAuth *q_ptr;
 };
 
