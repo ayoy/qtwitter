@@ -107,6 +107,16 @@ private:
   static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
   static const QNetworkRequest::Attribute ATTR_MSGCOUNT;
 
+  static const QString UrlStatusesPublicTimeline;
+  static const QString UrlStatusesFriendsTimeline;
+  static const QString UrlStatusesUpdate;
+  static const QString UrlStatusesDestroy;
+  static const QString UrlDirectMessages;
+  static const QString UrlDirectMessagesNew;
+  static const QString UrlDirectMessagesDestroy;
+  static const QString UrlFavoritesCreate;
+  static const QString UrlFavoritesDestroy;
+
 };
 
 #endif // TWITTERAPI_H
