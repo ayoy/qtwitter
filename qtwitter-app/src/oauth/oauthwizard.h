@@ -17,14 +17,23 @@ public:
   explicit OAuthWizard(QWidget *parent = 0);
   virtual ~OAuthWizard();
 
+  QByteArray getScreenName() const;
+  QByteArray getOAuthKey() const;
+  bool authorized() const;
+
 protected:
   virtual void changeEvent(QEvent *e);
 
 private slots:
   void openUrl();
   void authorize();
+  void setOkButtonEnabled();
 
 private:
+  bool state;
+  QByteArray screenName;
+  QByteArray oAuthKey;
+
   QOAuth *qoauth;
   Ui::OAuthWizard *m_ui;
 
@@ -33,6 +42,12 @@ private:
   static const QByteArray TwitterAuthorizeURL;
   static const QByteArray ConsumerKey;
   static const QByteArray ConsumerSecret;
+  static const QByteArray ParamCallback;
+  static const QByteArray ParamCallbackValue;
+  static const QByteArray ParamVerifier;
+  static const QByteArray ParamScreenName;
+  static const QByteArray ParamToken;
+  static const QByteArray ParamTokenSecret;
 };
 
 #endif // OAUTHWIZARD_H

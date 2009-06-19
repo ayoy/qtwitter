@@ -47,7 +47,17 @@ public:
     POST
   };
   
-  typedef QMap<QByteArray,QByteArray> MiscParams;
+  typedef QMap<QByteArray,QByteArray> ParamMap;
+
+  static const QByteArray ParamConsumerKey;
+  static const QByteArray ParamNonce;
+  static const QByteArray ParamSignature;
+  static const QByteArray ParamSignatureMethod;
+  static const QByteArray ParamTimestamp;
+  static const QByteArray ParamVersion;
+  static const QByteArray ParamToken;
+  static const QByteArray ParamTokenSecret;
+  static const QByteArray ParamAccessToken;
 
   static const QByteArray Version;
 
@@ -62,12 +72,11 @@ public:
 
   QByteArray token() const;
 
-  QByteArray requestToken( const QString &requestUrl, SignatureMethod signatureMethod, HttpMethod httpMethod,
-                           uint timeout = 0, const MiscParams &params = MiscParams() );
-//  void authorize();
+  ParamMap requestToken( const QString &requestUrl, SignatureMethod signatureMethod, HttpMethod httpMethod,
+                           uint timeout = 0, const ParamMap &params = ParamMap() );
   void authenticate();
-  QByteArray accessToken( const QString &requestUrl, SignatureMethod signatureMethod, HttpMethod httpMethod,
-                    uint timeout = 0, const MiscParams &params = MiscParams() );
+  ParamMap accessToken( const QString &requestUrl, SignatureMethod signatureMethod, HttpMethod httpMethod,
+                    uint timeout = 0, const ParamMap &params = ParamMap() );
 
 
 protected:

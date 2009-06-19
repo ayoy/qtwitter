@@ -189,15 +189,29 @@ void AccountsController::addAccount()
   dlg->deleteLater();
 
   if ( result == QDialog::Accepted ) {
+    int index = model->rowCount();
     if ( network == "Identi.ca" ) {
-      model->insertRow( model->rowCount() );
-      model->account( model->rowCount() - 1 ).network = network == "Twitter" ? TwitterAPI::SOCIALNETWORK_TWITTER : TwitterAPI::SOCIALNETWORK_IDENTICA;
-      settings.addAccount( model->rowCount() - 1, model->getAccounts().at( model->rowCount() - 1 ) );
-      view->setCurrentIndex( model->index( model->rowCount() - 1, 0 ) );
+      model->insertRow( index );
+      model->account( index ).network = network == "Twitter" ? TwitterAPI::SOCIALNETWORK_TWITTER : TwitterAPI::SOCIALNETWORK_IDENTICA;
+      settings.addAccount( index, model->account( index ) );
+      view->setCurrentIndex( model->index( index, 0 ) );
       ui->deleteAccountButton->setEnabled( true );
     } else if ( network == "Twitter" ) {
       OAuthWizard *wizard = new OAuthWizard( view );
       wizard->exec();
+      if ( wizard->authorized() ) {
+        model->insertRow( index );
+        qDebug() << "screenName:" << wizard->getScreenName();
+        qDebug() << "oAuthKey:" << wizard->getOAuthKey();
+
+        Account &account = model->account( index );
+        account.network = TwitterAPI::SOCIALNETWORK_TWITTER;
+        account.login = wizard->getScreenName();
+        account.password = wizard->getOAuthKey();
+        settings.addAccount( index, model->account( index ) );
+        view->setCurrentIndex( model->index( index, 0 ) );
+        ui->deleteAccountButton->setEnabled( true );
+      }
       wizard->deleteLater();
     }
   }
