@@ -33,7 +33,6 @@ class QOAUTH_EXPORT QOAuth : public QObject
 
   Q_PROPERTY( QByteArray consumerKey READ consumerKey WRITE setConsumerKey )
   Q_PROPERTY( QByteArray consumerSecret READ consumerSecret WRITE setConsumerSecret )
-  Q_PROPERTY( QByteArray token READ token )
 
 public:
   enum SignatureMethod {
@@ -47,6 +46,12 @@ public:
     POST
   };
   
+  enum ParsingMode {
+    ParseForSignatureBaseString,
+    ParseForInlineQuery = ParseForSignatureBaseString,
+    ParseForHeaderArguments
+  };
+
   typedef QMap<QByteArray,QByteArray> ParamMap;
 
   static const QByteArray ParamConsumerKey;
@@ -70,14 +75,17 @@ public:
   QByteArray consumerSecret() const;
   void setConsumerSecret( const QByteArray &consumerSecret );
 
-  QByteArray token() const;
+//  QByteArray token() const;
 
-  ParamMap requestToken( const QString &requestUrl, SignatureMethod signatureMethod, HttpMethod httpMethod,
-                           uint timeout = 0, const ParamMap &params = ParamMap() );
-  void authenticate();
-  ParamMap accessToken( const QString &requestUrl, SignatureMethod signatureMethod, HttpMethod httpMethod,
-                    uint timeout = 0, const ParamMap &params = ParamMap() );
+  ParamMap requestToken( const QString &requestUrl, HttpMethod httpMethod, SignatureMethod signatureMethod,
+                         uint timeout = 0, const ParamMap &params = ParamMap() );
+  ParamMap accessToken( const QString &requestUrl, HttpMethod httpMethod, SignatureMethod signatureMethod,
+                        const QByteArray &token, const QByteArray &tokenSecret,
+                        uint timeout = 0, const ParamMap &params = ParamMap() );
 
+  QByteArray createParametersString( const QString &requestUrl, QOAuth::HttpMethod httpMethod, QOAuth::SignatureMethod signatureMethod,
+                                     const QByteArray &token, const QByteArray &tokenSecret,
+                                     const QOAuth::ParamMap &params, QOAuth::ParsingMode mode );
 
 protected:
   QOAuthPrivate *d_ptr;

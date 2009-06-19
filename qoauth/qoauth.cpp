@@ -50,8 +50,6 @@ QOAuthPrivate::QOAuthPrivate( QObject *parent ) :
     QObject( parent ),
     consumerKey( QByteArray() ),
     consumerSecret( QByteArray() ),
-    token( QByteArray() ),
-    tokenSecret( QByteArray() ),
     accessToken( QByteArray() ),
     manager( new QNetworkAccessManager( this ) ),
     loop( new QEventLoop( this ) )
@@ -88,17 +86,17 @@ QByteArray QOAuthPrivate::signatureMethodToString( QOAuth::SignatureMethod metho
   }
 }
 
-QByteArray QOAuthPrivate::createParametersString( const QMap<QByteArray,QByteArray> &parameters, ParsingMode mode )
+QByteArray QOAuthPrivate::createParametersString( const QOAuth::ParamMap &parameters, QOAuth::ParsingMode mode )
 {
   QByteArray middleString;
   QByteArray endString;
   switch ( mode ) {
-  // equals to ParseForInlineQuery
-  case ParseForSignatureBaseString:
+  // equals to QOAuth::ParseForInlineQuery
+  case QOAuth::ParseForSignatureBaseString:
     middleString = "=";
     endString = "&";
     break;
-  case ParseForHeaderArguments:
+  case QOAuth::ParseForHeaderArguments:
     middleString = "=\"";
     endString = "\",";
     break;
@@ -189,10 +187,7 @@ bool QOAuthPrivate::parseRequestTokenReply( const QByteArray &data )
   if ( !replyParams.contains( QOAuth::ParamTokenSecret ) ) {
     qWarning() << __PRETTY_FUNCTION__ << "oauth_token_secret not present in reply!";
     return false;
-  }
-  // assign token and tokenSecret values
-  token = replyParams.value( QOAuth::ParamToken );
-  tokenSecret = replyParams.value( QOAuth::ParamTokenSecret );
+  }  
   return true;
 }
 
@@ -208,9 +203,6 @@ bool QOAuthPrivate::parseAccessTokenReply( const QByteArray &data )
     qWarning() << __PRETTY_FUNCTION__ << "oauth_token_secret not present in reply!";
     return false;
   }
-  // assign token and tokenSecret values
-  token = replyParams.value( QOAuth::ParamToken );
-  tokenSecret = replyParams.value( QOAuth::ParamTokenSecret );
   return true;
 }
 
@@ -256,15 +248,9 @@ void QOAuth::setConsumerSecret( const QByteArray &consumerSecret )
   d->consumerSecret = consumerSecret;
 }
 
-QByteArray QOAuth::token() const
-{
-  Q_D(const QOAuth);
-
-  return d->token;
-}
-
-QByteArray QOAuthPrivate::createSignature( const QString &requestUrl, QOAuth::SignatureMethod signatureMethod,
-                            QOAuth::HttpMethod httpMethod, QOAuth::ParamMap *params )
+QByteArray QOAuthPrivate::createSignature( const QString &requestUrl, QOAuth::HttpMethod httpMethod,
+                                           QOAuth::SignatureMethod signatureMethod, const QByteArray &token,
+                                           const QByteArray &tokenSecret, QOAuth::ParamMap *params )
 {
   QCA::Initializer init;
 
@@ -289,14 +275,14 @@ QByteArray QOAuthPrivate::createSignature( const QString &requestUrl, QOAuth::Si
   params->insert( QOAuth::ParamConsumerKey, consumerKey );
   params->insert( QOAuth::ParamNonce, nonce );
   params->insert( QOAuth::ParamSignatureMethod,
-                     signatureMethodToString( signatureMethod ) );
+                  signatureMethodToString( signatureMethod ) );
   params->insert( QOAuth::ParamTimestamp, timestamp );
   params->insert( QOAuth::ParamVersion, QOAuth::Version );
   if ( !token.isEmpty() ) {
     params->insert( QOAuth::ParamToken, token );
   }
 
-  QByteArray parametersString = createParametersString( *params, QOAuthPrivate::ParseForSignatureBaseString );
+  QByteArray parametersString = createParametersString( *params, QOAuth::ParseForSignatureBaseString );
   QByteArray percentParametersString = parametersString.toPercentEncoding();
 
   // 4. create signature base string
@@ -320,8 +306,8 @@ QByteArray QOAuthPrivate::createSignature( const QString &requestUrl, QOAuth::Si
 }
 
 
-QOAuth::ParamMap QOAuth::requestToken( const QString &requestUrl, SignatureMethod signatureMethod, HttpMethod httpMethod,
-                                 uint timeout, const ParamMap &params )
+QOAuth::ParamMap QOAuth::requestToken( const QString &requestUrl, HttpMethod httpMethod, SignatureMethod signatureMethod,
+                                       uint timeout, const ParamMap &params )
 {
   Q_D(QOAuth);
 
@@ -340,13 +326,14 @@ QOAuth::ParamMap QOAuth::requestToken( const QString &requestUrl, SignatureMetho
     return ParamMap();
   }
 
-  QMap<QByteArray,QByteArray> parameters = params;
+  QOAuth::ParamMap parameters = params;
   // create signature
-  QByteArray signature = d->createSignature( requestUrl, signatureMethod, httpMethod, &parameters );
+  QByteArray signature = d->createSignature( requestUrl, httpMethod, signatureMethod,
+                                             QByteArray(), QByteArray(), &parameters );
 
   // add signature to parameters and create authorization header
   parameters.insert( QOAuth::ParamSignature, signature );
-  QByteArray authorizationHeader = d->createParametersString( parameters, QOAuthPrivate::ParseForHeaderArguments );
+  QByteArray authorizationHeader = d->createParametersString( parameters, ParseForHeaderArguments );
 
   // create a network request
   QNetworkRequest request;
@@ -364,19 +351,12 @@ QOAuth::ParamMap QOAuth::requestToken( const QString &requestUrl, SignatureMetho
   // start the event loop and wait for the response
   d->loop->exec();
 
-  // prepare the result string
-  QByteArray result( QOAuth::ParamToken );
-  result.append( "=" + d->token );
-
   return d->replyParams;
 }
 
-void QOAuth::authenticate()
-{
-}
-
-QOAuth::ParamMap QOAuth::accessToken( const QString &requestUrl, SignatureMethod signatureMethod, HttpMethod httpMethod,
-                          uint timeout, const ParamMap &params )
+QOAuth::ParamMap QOAuth::accessToken( const QString &requestUrl, HttpMethod httpMethod, SignatureMethod signatureMethod,
+                                      const QByteArray &token, const QByteArray &tokenSecret,
+                                      uint timeout, const ParamMap &params )
 {
   Q_D(QOAuth);
 
@@ -386,14 +366,6 @@ QOAuth::ParamMap QOAuth::accessToken( const QString &requestUrl, SignatureMethod
   }
   if ( d->consumerSecret.isEmpty() ) {
     qWarning() << __PRETTY_FUNCTION__ << "consumer secret is empty, make sure that you set it with QOAuth::setConsumerSecret()";
-    return ParamMap();
-  }
-  if ( d->token.isEmpty() ) {
-    qWarning() << __PRETTY_FUNCTION__ << "token is empty, make sure that you obtained it with QOAuth::requestToken()";
-    return ParamMap();
-  }
-  if ( d->tokenSecret.isEmpty() ) {
-    qWarning() << __PRETTY_FUNCTION__ << "token secret is empty, make sure that you obtained it with QOAuth::requestToken()";
     return ParamMap();
   }
 
@@ -409,12 +381,13 @@ QOAuth::ParamMap QOAuth::accessToken( const QString &requestUrl, SignatureMethod
     qFatal( "HMAC(SHA1) is not supported!" );
   }
 
-  QMap<QByteArray,QByteArray> parameters = params;
-  QByteArray signature = d->createSignature( requestUrl, signatureMethod, httpMethod, &parameters );
+  QOAuth::ParamMap parameters = params;
+  QByteArray signature = d->createSignature( requestUrl, httpMethod, signatureMethod,
+                                             token, tokenSecret, &parameters );
 
   // add signature to parameters and create authorization header
   parameters.insert( QOAuth::ParamSignature, signature );
-  QByteArray authorizationHeader = d->createParametersString( parameters, QOAuthPrivate::ParseForInlineQuery );
+  QByteArray authorizationHeader = d->createParametersString( parameters, ParseForInlineQuery );
 
   // create a network request
   QNetworkRequest request;
@@ -431,12 +404,21 @@ QOAuth::ParamMap QOAuth::accessToken( const QString &requestUrl, SignatureMethod
   d->manager->post( request, authorizationHeader );
   // start the event loop and wait for the response
   d->loop->exec();
-//  qDebug() << "token:" << d->token
-//           << "tokenSecret:" << d->tokenSecret;
-
-//  // prepare the result string
-//  QByteArray result( QOAuth::ParamAccessToken );
-//  result.append( "=" + d->accessToken );
 
   return d->replyParams;
+}
+
+QByteArray QOAuth::createParametersString( const QString &requestUrl, QOAuth::HttpMethod httpMethod, QOAuth::SignatureMethod signatureMethod,
+                                           const QByteArray &token, const QByteArray &tokenSecret,
+                                           const QOAuth::ParamMap &params, QOAuth::ParsingMode mode )
+{
+  Q_D(QOAuth);
+
+  QOAuth::ParamMap parameters = params;
+  QByteArray signature = d->createSignature( requestUrl, httpMethod, signatureMethod,
+                                             token, tokenSecret, &parameters );
+  parameters.insert( QOAuth::ParamSignature, signature );
+  QByteArray parametersString = d->createParametersString( parameters, mode );
+
+  return parametersString;
 }

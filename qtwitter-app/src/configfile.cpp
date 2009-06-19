@@ -65,7 +65,7 @@ void ConfigFile::addAccount( int id, const Account &account )
   settings.setValue( "enabled", account.isEnabled );
   settings.setValue( "service", account.network );
   settings.setValue( "login", account.login );
-  settings.setValue( "password", account.password );
+  settings.setValue( "password", pwHash( account.password ) );
   settings.setValue( "directmsgs", account.directMessages );
   settings.endGroup();
 }

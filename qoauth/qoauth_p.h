@@ -45,19 +45,15 @@ public:
     AccessToken
   };
 
-  enum ParsingMode {
-    ParseForSignatureBaseString,
-    ParseForInlineQuery = ParseForSignatureBaseString,
-    ParseForHeaderArguments
-  };
-
   QOAuthPrivate( QObject *parent = 0 );
-  QByteArray httpMethodToString( QOAuth::HttpMethod method );
-  QByteArray signatureMethodToString( QOAuth::SignatureMethod method );
+  static QByteArray httpMethodToString( QOAuth::HttpMethod method );
+  static QByteArray signatureMethodToString( QOAuth::SignatureMethod method );
 
-  QByteArray createParametersString( const QOAuth::ParamMap &parameters, ParsingMode mode );
-  QByteArray createSignature( const QString &requestUrl, QOAuth::SignatureMethod signatureMethod,
-                              QOAuth::HttpMethod httpMethod, QOAuth::ParamMap *params );
+  static QByteArray createParametersString( const QOAuth::ParamMap &parameters, QOAuth::ParsingMode mode );
+
+  QByteArray createSignature( const QString &requestUrl, QOAuth::HttpMethod httpMethod,
+                              QOAuth::SignatureMethod signatureMethod, const QByteArray &token,
+                              const QByteArray &tokenSecret, QOAuth::ParamMap *params );
 
   bool parseRequestTokenReply( const QByteArray &data );
   bool parseAccessTokenReply( const QByteArray &data );
@@ -66,8 +62,6 @@ public:
 
   QByteArray consumerKey;
   QByteArray consumerSecret;
-  QByteArray token;
-  QByteArray tokenSecret;
   QByteArray accessToken;
 
   QOAuth::ParamMap replyParams;

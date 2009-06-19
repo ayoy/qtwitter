@@ -26,6 +26,7 @@
 #include <QXmlInputSource>
 #include <QAuthenticator>
 #include <QDebug>
+#include <qoauth/qoauth.h>
 #include "twitterapi.h"
 #include "xmlparser.h"
 
@@ -192,6 +193,7 @@ TwitterAPIInterface::TwitterAPIInterface( QObject *parent ) : QObject( parent )
   services[ TwitterAPI::SOCIALNETWORK_IDENTICA ] = TwitterAPI::URL_IDENTICA;
   xmlReader = new QXmlSimpleReader;
   source = new QXmlInputSource;
+  qoauth = new QOAuth( this );
 }
 
 /*!
@@ -216,6 +218,26 @@ TwitterAPIInterface::~TwitterAPIInterface()
       i++;
     }
   }
+}
+
+QByteArray TwitterAPIInterface::consumerKey() const
+{
+  return qoauth->consumerKey();
+}
+
+void TwitterAPIInterface::setConsumerKey( const QByteArray &consumerKey )
+{
+  qoauth->setConsumerKey( consumerKey );
+}
+
+QByteArray TwitterAPIInterface::consumerSecret() const
+{
+  return qoauth->consumerSecret();
+}
+
+void TwitterAPIInterface::setConsumerSecret( const QByteArray &consumerSecret )
+{
+  qoauth->setConsumerSecret( consumerSecret );
 }
 
 /*!
@@ -321,6 +343,23 @@ void TwitterAPIInterface::friendsTimeline( TwitterAPI::SocialNetwork network, co
   request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
   request.setAttribute( TwitterAPIInterface::ATTR_MSGCOUNT, statusCount );
   qDebug() << "TwitterAPIInterface::friendsTimeline(" + login + ")";
+
+  if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
+    int index = password.indexOf( '?' );
+    QByteArray token = password.left( index ).toAscii();
+    QByteArray tokenSecret = password.right( password.length() - index - 1 ).toAscii();
+    QOAuth::ParamMap map;
+    map.insert( "count", statusCount.toAscii() );
+    QByteArray parameters = qoauth->createParametersString( services.value( network ), QOAuth::GET, QOAuth::HMAC_SHA1,
+                                                            token, tokenSecret, map, QOAuth::ParseForInlineQuery );
+    qDebug() << parameters;
+    QString url = request.url().toString();
+    url = url.left( url.indexOf( '?' ) + 1 );
+    url.append( parameters );
+    request.setUrl( QUrl( url ) );
+    qDebug() << url;
+  }
+
   if ( !connections[ network ].contains( login ) )
     createInterface( network, login );
   connections[ network ][ login ]->friendsInProgress = true;

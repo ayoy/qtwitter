@@ -18,15 +18,14 @@ const QByteArray OAuthWizard::ParamCallback      = "oauth_callback";
 const QByteArray OAuthWizard::ParamCallbackValue = "oob";
 const QByteArray OAuthWizard::ParamVerifier      = "oauth_verifier";
 const QByteArray OAuthWizard::ParamScreenName    = "screen_name";
-const QByteArray OAuthWizard::ParamToken         = "oauth_token";
-const QByteArray OAuthWizard::ParamTokenSecret   = "oauth_token_secret";
 
 
 OAuthWizard::OAuthWizard(QWidget *parent) :
     QDialog(parent),
     state( false ),
     screenName( QByteArray() ),
-    oAuthKey( QByteArray() ),
+    token( QByteArray() ),
+    tokenSecret( QByteArray() ),
     qoauth( new QOAuth( this ) ),
     m_ui(new Ui::OAuthWizard)
 {
@@ -57,10 +56,10 @@ QByteArray OAuthWizard::getScreenName() const
 
 QByteArray OAuthWizard::getOAuthKey() const
 {
-  if ( oAuthKey.isEmpty() ) {
-    qWarning() << __PRETTY_FUNCTION__ << "screenName is empty, did you finished the authorization procedure?";
+  if ( token.isEmpty() || tokenSecret.isEmpty() ) {
+    qWarning() << __PRETTY_FUNCTION__ << "token and/or tokenSecret are empty, did you finished the authorization procedure?";
   }
-  return oAuthKey;
+  return token + "&" + tokenSecret;
 }
 
 bool OAuthWizard::authorized() const
@@ -91,10 +90,11 @@ void OAuthWizard::setOkButtonEnabled()
 
 void OAuthWizard::openUrl()
 {
-  QOAuth::ParamMap requestToken = qoauth->requestToken( TwitterRequestTokenURL, QOAuth::HMAC_SHA1,
-                                                        QOAuth::GET, 10000 );
+  QOAuth::ParamMap requestToken = qoauth->requestToken( TwitterRequestTokenURL, QOAuth::GET,
+                                                        QOAuth::HMAC_SHA1, 10000 );
 
-  QByteArray token = requestToken.value( QOAuth::ParamToken );
+  token = requestToken.value( QOAuth::ParamToken );
+  tokenSecret = requestToken.value( QOAuth::ParamTokenSecret );
 
   qDebug() << __PRETTY_FUNCTION__ << requestToken;
   QString url = TwitterAuthorizeURL;
@@ -115,14 +115,15 @@ void OAuthWizard::authorize()
 {
   QOAuth::ParamMap otherArgs;
   otherArgs.insert( "oauth_verifier", m_ui->pinEdit->text().toAscii() );
-  QOAuth::ParamMap accessToken = qoauth->accessToken( TwitterAccessTokenURL, QOAuth::HMAC_SHA1,
-                                                      QOAuth::POST, 10000, otherArgs );
+  QOAuth::ParamMap accessToken = qoauth->accessToken( TwitterAccessTokenURL, QOAuth::POST, QOAuth::HMAC_SHA1,
+                                                      token, tokenSecret, 10000, otherArgs );
 //("oauth_token", "14588921-fSLuSles25KfXYRKtJ4cNBPRzWj4XfVvT4RoggkiM")
 //("oauth_token_secret", "12LpUz0aAtAUfwWDxCuHcRZGacFaz9EDJU4NWa1Jqvs")
 //("screen_name", "ayoy")
 //("user_id", "14588921")
   screenName = accessToken.value( ParamScreenName );
-  oAuthKey = QByteArray() + accessToken.value( ParamToken ) + "&" + accessToken.value( ParamTokenSecret );
+  token = accessToken.value( QOAuth::ParamToken );
+  tokenSecret = accessToken.value( QOAuth::ParamTokenSecret );
   qDebug() << accessToken;
   state = true;
 }

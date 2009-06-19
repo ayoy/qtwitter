@@ -35,15 +35,23 @@ class QXmlSimpleReader;
 class QXmlInputSource;
 class XmlParser;
 struct Interface;
+class QOAuth;
 
 class TWITTERAPI_EXPORT TwitterAPIInterface : public QObject
 {
   Q_OBJECT
+  Q_PROPERTY( QByteArray consumerKey READ consumerKey WRITE setConsumerKey )
+  Q_PROPERTY( QByteArray consumerSecret READ consumerSecret WRITE setConsumerSecret )
 
 public:
 
   TwitterAPIInterface( QObject *parent = 0 );
   virtual ~TwitterAPIInterface();
+
+  QByteArray consumerKey() const;
+  void setConsumerKey( const QByteArray &consumerKey );
+  QByteArray consumerSecret() const;
+  void setConsumerSecret( const QByteArray &consumerSecret );
 
   void postUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &data, quint64 inReplyTo = 0 );
   void deleteUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id );
@@ -86,6 +94,7 @@ private:
   QMap< TwitterAPI::SocialNetwork, QString > services;
   QXmlSimpleReader *xmlReader;
   QXmlInputSource *source;
+  QOAuth *qoauth;
 
   static const QNetworkRequest::Attribute ATTR_SOCIALNETWORK;
   static const QNetworkRequest::Attribute ATTR_ROLE;

@@ -1,6 +1,8 @@
 TARGET = twitterapi
+
 include(../qtwitter.pri)
 include(twitterapi.pri)
+include($${TOP}/qoauth/qoauth.pri)
 TEMPLATE = lib
 QT += network \
     xml
@@ -9,8 +11,11 @@ CONFIG += dll
 DEFINES += TWITTERAPI
 macx { 
     CONFIG += lib_bundle
+    QMAKE_LFLAGS += -F$${TOP}/qtwitter.app/Contents/Frameworks
     LIBS += -install_name \
-        @executable_path/../Frameworks/$${TARGET}.framework/Versions/$${VER_MAJ}/$${TARGET}
+        @executable_path/../Frameworks/$${TARGET}.framework/Versions/$${VER_MAJ}/$${TARGET} \
+        -framework \
+        qoauth
     DESTDIR = $${TOP}/qtwitter.app/Contents/Frameworks
     FRAMEWORK_HEADERS.files = twitterapi.h
     FRAMEWORK_HEADERS.path = Versions/$${VER_MAJ}/Headers
@@ -41,4 +46,4 @@ HEADERS += twitterapi_global.h \
     userinfo.h
 MOC_DIR = tmp
 OBJECTS_DIR = tmp
-INCLUDEPATH += tmp
+INCLUDEPATH += $${TOP} tmp

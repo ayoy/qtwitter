@@ -37,6 +37,7 @@
 #include "accountscontroller.h"
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
+#include "oauthwizard.h"
 
 extern ConfigFile settings;
 
@@ -58,6 +59,8 @@ Core::Core( MainWindow *parent ) :
   connect( imageDownload, SIGNAL(imageReadyForUrl(QString,QPixmap*)), this, SLOT(setImageForUrl(QString,QPixmap*)) );
 
   twitterapi = new TwitterAPIInterface( this );
+  twitterapi->setConsumerKey( OAuthWizard::ConsumerKey );
+  twitterapi->setConsumerSecret( OAuthWizard::ConsumerSecret );
   connect( twitterapi, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)), this, SLOT(addEntry(TwitterAPI::SocialNetwork,QString,Entry)) );
   connect( twitterapi, SIGNAL(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)) );
   connect( twitterapi, SIGNAL(favoriteStatus(TwitterAPI::SocialNetwork,QString,quint64,bool)), this, SLOT(setFavorited(TwitterAPI::SocialNetwork,QString,quint64,bool)) );

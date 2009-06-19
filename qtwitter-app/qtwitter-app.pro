@@ -93,7 +93,8 @@ else:unix {
     LIBS += -L$${TOP} \
         -Wl,-rpath,$${TOP} \
         $$TWITTERAPI_LIB \
-        $$URLSHORTENER_LIB
+        $$URLSHORTENER_LIB \
+        $$QOAUTH_LIB
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
@@ -142,5 +143,6 @@ else:win32 {
     RC_FILE = win32/qtwitter.rc
     LIBS += -L$${TOP} \
         $$TWITTERAPI_LIB \
-        $$URLSHORTENER_LIB
+        $$URLSHORTENER_LIB \
+        $$QOAUTH_LIB
 }

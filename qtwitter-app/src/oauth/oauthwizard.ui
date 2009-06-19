@@ -37,7 +37,7 @@
    <item>
     <widget class="QLabel" name="pinLabel">
      <property name="text">
-      <string>Enter PIN number received from twitter.com</string>
+      <string>Enter PIN number received from Twitter</string>
      </property>
      <property name="alignment">
       <set>Qt::AlignCenter</set>

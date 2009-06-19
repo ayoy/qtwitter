@@ -14,6 +14,9 @@ class OAuthWizard : public QDialog {
   Q_DISABLE_COPY(OAuthWizard)
 
 public:
+  static const QByteArray ConsumerKey;
+  static const QByteArray ConsumerSecret;
+
   explicit OAuthWizard(QWidget *parent = 0);
   virtual ~OAuthWizard();
 
@@ -32,7 +35,8 @@ private slots:
 private:
   bool state;
   QByteArray screenName;
-  QByteArray oAuthKey;
+  QByteArray token;
+  QByteArray tokenSecret;
 
   QOAuth *qoauth;
   Ui::OAuthWizard *m_ui;
@@ -40,8 +44,6 @@ private:
   static const QByteArray TwitterRequestTokenURL;
   static const QByteArray TwitterAccessTokenURL;
   static const QByteArray TwitterAuthorizeURL;
-  static const QByteArray ConsumerKey;
-  static const QByteArray ConsumerSecret;
   static const QByteArray ParamCallback;
   static const QByteArray ParamCallbackValue;
   static const QByteArray ParamVerifier;

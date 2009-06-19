@@ -236,7 +236,7 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeli
 
   if ( ( publicTimeline == AccountsController::PT_NONE && accounts.size() < 2 ) || accounts.isEmpty() ) {
     ui.accountsComboBox->setVisible( false );
-    if ( !accounts.isEmpty() ) {
+    if ( !accounts.isEmpty() && accounts.at(0).isEnabled ) {
       ui.statusEdit->setEnabled( true );
       emit switchModel( accounts.at(0).network, accounts.at(0).login );
     } else if ( publicTimeline != AccountsController::PT_NONE ) {
