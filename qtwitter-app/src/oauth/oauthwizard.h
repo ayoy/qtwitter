@@ -5,6 +5,7 @@
 
 namespace Ui {
   class OAuthWizard;
+  class PinDialog;
 }
 
 class QOAuth;
@@ -39,7 +40,8 @@ private:
   QByteArray tokenSecret;
 
   QOAuth *qoauth;
-  Ui::OAuthWizard *m_ui;
+  Ui::OAuthWizard *ui_o;
+  Ui::PinDialog *ui_p;
 
   static const QByteArray TwitterRequestTokenURL;
   static const QByteArray TwitterAccessTokenURL;

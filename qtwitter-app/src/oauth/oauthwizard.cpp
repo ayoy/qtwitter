@@ -1,5 +1,6 @@
 #include "oauthwizard.h"
 #include "ui_oauthwizard.h"
+#include "ui_pindialog.h"
 #include <qoauth/qoauth.h>
 
 #include <QDesktopServices>
@@ -27,23 +28,22 @@ OAuthWizard::OAuthWizard(QWidget *parent) :
     token( QByteArray() ),
     tokenSecret( QByteArray() ),
     qoauth( new QOAuth( this ) ),
-    m_ui(new Ui::OAuthWizard)
+    ui_o(new Ui::OAuthWizard),
+    ui_p(new Ui::PinDialog)
 {
   qoauth->setConsumerKey( ConsumerKey );
   qoauth->setConsumerSecret( ConsumerSecret );
 
-  m_ui->setupUi(this);
-  m_ui->pinLabel->hide();
-  m_ui->pinEdit->hide();
-  m_ui->okButton->hide();
-  connect( m_ui->allowButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
-  connect( m_ui->okButton, SIGNAL(clicked()), this, SLOT(authorize()) );
-  connect( m_ui->pinEdit, SIGNAL(textChanged(QString)), this, SLOT(setOkButtonEnabled()) );
+  ui_o->setupUi(this);
+  adjustSize();
+
+  connect( ui_o->allowButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
 }
 
 OAuthWizard::~OAuthWizard()
 {
-  delete m_ui;
+  delete ui_o;
+  delete ui_p;
 }
 
 QByteArray OAuthWizard::getScreenName() const
@@ -72,7 +72,8 @@ void OAuthWizard::changeEvent(QEvent *e)
   QDialog::changeEvent(e);
   switch (e->type()) {
   case QEvent::LanguageChange:
-    m_ui->retranslateUi(this);
+    ui_o->retranslateUi(this);
+    ui_p->retranslateUi(this);
     break;
   default:
     break;
@@ -81,10 +82,10 @@ void OAuthWizard::changeEvent(QEvent *e)
 
 void OAuthWizard::setOkButtonEnabled()
 {
-  if ( m_ui->pinEdit->text().isEmpty() ) {
-    m_ui->okButton->setEnabled( false );
+  if ( ui_p->pinEdit->text().isEmpty() ) {
+    ui_p->okButton->setEnabled( false );
   } else {
-    m_ui->okButton->setEnabled( true );
+    ui_p->okButton->setEnabled( true );
   }
 }
 
@@ -104,26 +105,26 @@ void OAuthWizard::openUrl()
   url.append( "&" + ParamCallback + "=" + ParamCallbackValue );
 
   QDesktopServices::openUrl( QUrl( url ) );
-  m_ui->allowLabel->hide();
-  m_ui->allowButton->hide();
-  m_ui->pinLabel->show();
-  m_ui->pinEdit->show();
-  m_ui->okButton->show();
+
+  delete this->layout();
+  ui_o->allowLabel->hide();
+  ui_o->allowButton->hide();
+  ui_p->setupUi(this);
+//  adjustSize();
+  connect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(authorize()) );
+  connect( ui_p->pinEdit, SIGNAL(textChanged(QString)), this, SLOT(setOkButtonEnabled()) );
 }
 
 void OAuthWizard::authorize()
 {
+  ui_p->pinEdit->setEnabled( false );
   QOAuth::ParamMap otherArgs;
-  otherArgs.insert( "oauth_verifier", m_ui->pinEdit->text().toAscii() );
+  otherArgs.insert( ParamVerifier, ui_p->pinEdit->text().toAscii() );
   QOAuth::ParamMap accessToken = qoauth->accessToken( TwitterAccessTokenURL, QOAuth::POST, QOAuth::HMAC_SHA1,
                                                       token, tokenSecret, 10000, otherArgs );
-//("oauth_token", "14588921-fSLuSles25KfXYRKtJ4cNBPRzWj4XfVvT4RoggkiM")
-//("oauth_token_secret", "12LpUz0aAtAUfwWDxCuHcRZGacFaz9EDJU4NWa1Jqvs")
-//("screen_name", "ayoy")
-//("user_id", "14588921")
   screenName = accessToken.value( ParamScreenName );
   token = accessToken.value( QOAuth::ParamToken );
   tokenSecret = accessToken.value( QOAuth::ParamTokenSecret );
-  qDebug() << accessToken;
   state = true;
+  accept();
 }

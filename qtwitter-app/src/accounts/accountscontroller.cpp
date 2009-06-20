@@ -92,13 +92,19 @@ void AccountsController::loadAccounts()
   settings.beginGroup( "Accounts" );
   for ( int i = 0; i < settings.childGroups().count(); i++ ) {
     model->insertRow(i);
-    model->account(i).isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
-    model->account(i).network = (TwitterAPI::SocialNetwork) settings.value( QString( "%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_TWITTER ).toInt();
-    model->account(i).login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
-    if ( ui->passwordsCheckBox->isChecked() ) {
-      model->account(i).password = settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
+    Account &account = model->account(i);
+    account.isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
+    account.network = (TwitterAPI::SocialNetwork) settings.value( QString( "%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_TWITTER ).toInt();
+    account.login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
+    if ( ui->passwordsCheckBox->isChecked()
+#ifdef OAUTH
+         || ( !ui->passwordsCheckBox->isChecked() &&
+              account.network == TwitterAPI::SOCIALNETWORK_TWITTER )
+#endif
+      ) {
+      account.password = settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
     }
-    model->account(i).directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
+    account.directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
   }
   ui->publicTimelineComboBox->setCurrentIndex( settings.value( "publicTimeline", PT_NONE ).toInt() );
   settings.endGroup();
@@ -181,7 +187,7 @@ void AccountsController::showPasswordDisclaimer()
                                      "which is publicly available. You have been warned." ) );
 #ifdef OAUTH
   messageBox.setInformativeText( messageBox.informativeText().append( "<br><br>" )
-                                 .append( tr( "Note also that Twitter authorization keys are stored anyway."
+                                 .append( tr( "Note also that Twitter authorization keys are stored anyway. "
                                               "Remove the account from the list if you want the key to be deleted."
                                               /*"They can't be reused outside this application."*/ ) ) );
 #endif
