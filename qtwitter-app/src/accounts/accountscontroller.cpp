@@ -164,7 +164,10 @@ void AccountsController::togglePasswordStoring( int state )
     }
   } else {
     for ( int i = 0; i < model->rowCount(); ++i ) {
-      settings.remove( QString( "Accounts/%1/password" ).arg(i) );
+#ifdef OAUTH
+      if ( model->account(i).network == TwitterAPI::SOCIALNETWORK_IDENTICA )
+#endif
+        settings.remove( QString( "Accounts/%1/password" ).arg(i) );
     }
   }
   settings.setValue( "General/savePasswords", state );
@@ -176,6 +179,12 @@ void AccountsController::showPasswordDisclaimer()
   messageBox.setInformativeText( tr( "Although passwords are stored as human unreadable data, "
                                      "they can be easily decoded using the application's source code, "
                                      "which is publicly available. You have been warned." ) );
+#ifdef OAUTH
+  messageBox.setInformativeText( messageBox.informativeText().append( "<br><br>" )
+                                 .append( tr( "Note also that Twitter authorization keys are stored anyway."
+                                              "Remove the account from the list if you want the key to be deleted."
+                                              /*"They can't be reused outside this application."*/ ) ) );
+#endif
   messageBox.exec();
 }
 
@@ -200,8 +209,6 @@ void AccountsController::addAccount()
       wizard->exec();
       if ( wizard->authorized() ) {
         model->insertRow( index );
-        qDebug() << "screenName:" << wizard->getScreenName();
-        qDebug() << "oAuthKey:" << wizard->getOAuthKey();
 
         Account &account = model->account( index );
         account.network = TwitterAPI::SOCIALNETWORK_TWITTER;
