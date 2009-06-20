@@ -91,18 +91,12 @@ macx {
         twitterapi \
         -framework \
         urlshortener
-
-    contains( DEFINES, OAUTH ) {
-        LIBS += -framework \
-            qoauth
-    }
 }
 else:unix { 
     LIBS += -L$${TOP} \
         -Wl,-rpath,$${TOP} \
         $$TWITTERAPI_LIB \
-        $$URLSHORTENER_LIB \
-        $$QOAUTH_LIB
+        $$URLSHORTENER_LIB
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
