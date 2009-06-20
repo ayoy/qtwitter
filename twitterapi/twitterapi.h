@@ -32,7 +32,7 @@
 #include <QPointer>
 
 #ifdef OAUTH
-#  include <qoauth/qoauth.h>
+#  include <QOAuth>
 #endif
 
 class QNetworkReply;

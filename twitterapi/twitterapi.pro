@@ -4,7 +4,7 @@ include(../qtwitter.pri)
 include(twitterapi.pri)
 
 contains( DEFINES, OAUTH ) {
-    include($${TOP}/qoauth/qoauth.pri)
+    CONFIG += oauth
 }
 
 TEMPLATE = lib

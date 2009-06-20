@@ -4,12 +4,11 @@
 
 include(qtwitter.pri)
 TEMPLATE = subdirs
-SUBDIRS = urlshortener qoauth twitterapi qtwitter-app
+SUBDIRS = urlshortener twitterapi qtwitter-app
 CONFIG += ordered
 
 contains( DEFINES, OAUTH ) {
     message( "Configuring with OAuth support..." )
 } else {
     message( "Configuring without OAuth support..." )
-    SUBDIRS -= qoauth
 }

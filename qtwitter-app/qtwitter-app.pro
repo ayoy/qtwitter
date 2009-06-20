@@ -9,8 +9,8 @@ include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
 
 contains( DEFINES, OAUTH ) {
-    include($${TOP}/qoauth/qoauth.pri)
     include(src/oauth/oauth.pri)
+    CONFIG += oauth
 }
 
 include(src/accounts/accounts.pri)

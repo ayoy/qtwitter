@@ -1,7 +1,7 @@
 #include "oauthwizard.h"
 #include "ui_oauthwizard.h"
 #include "ui_pindialog.h"
-#include <qoauth/qoauth.h>
+#include <QOAuth>
 
 #include <QDesktopServices>
 #include <QUrl>
