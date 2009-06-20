@@ -7,6 +7,7 @@
 #include <QUrl>
 #include <QDateTime>
 #include <QDebug>
+#include <QRegExpValidator>
 
 const QByteArray OAuthWizard::TwitterRequestTokenURL = "http://twitter.com/oauth/request_token";
 const QByteArray OAuthWizard::TwitterAccessTokenURL  = "http://twitter.com/oauth/access_token";
@@ -94,10 +95,19 @@ void OAuthWizard::openUrl()
   QOAuth::ParamMap requestToken = qoauth->requestToken( TwitterRequestTokenURL, QOAuth::GET,
                                                         QOAuth::HMAC_SHA1, 10000 );
 
+  if ( qoauth->error() != QOAuth::NoError ) {
+    ui_o->allowLabel->setText( tr( "There was a network-related problem with completing the request. Please try again later." ) );
+    ui_o->allowButton->setText( tr( "Close" ) );
+    resize( width(), height() * 1.5 );
+    disconnect( ui_o->allowButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
+    connect( ui_o->allowButton, SIGNAL(clicked()), this, SLOT(reject()) );
+    state = false;
+    return;
+  }
+
   token = requestToken.value( QOAuth::ParamToken );
   tokenSecret = requestToken.value( QOAuth::ParamTokenSecret );
 
-  qDebug() << __PRETTY_FUNCTION__ << requestToken;
   QString url = TwitterAuthorizeURL;
 
   url.append( "?" );
@@ -106,11 +116,12 @@ void OAuthWizard::openUrl()
 
   QDesktopServices::openUrl( QUrl( url ) );
 
-  delete this->layout();
-  ui_o->allowLabel->hide();
-  ui_o->allowButton->hide();
+  delete layout();
+
+  ui_o->allowLabel->deleteLater();
+  ui_o->allowButton->deleteLater();
   ui_p->setupUi(this);
-//  adjustSize();
+  ui_p->pinEdit->setValidator( new QRegExpValidator( QRegExp( "\\d{6}" ), this ) );
   connect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(authorize()) );
   connect( ui_p->pinEdit, SIGNAL(textChanged(QString)), this, SLOT(setOkButtonEnabled()) );
 }
@@ -122,6 +133,18 @@ void OAuthWizard::authorize()
   otherArgs.insert( ParamVerifier, ui_p->pinEdit->text().toAscii() );
   QOAuth::ParamMap accessToken = qoauth->accessToken( TwitterAccessTokenURL, QOAuth::POST, QOAuth::HMAC_SHA1,
                                                       token, tokenSecret, 10000, otherArgs );
+
+  if ( qoauth->error() != QOAuth::NoError ) {
+    ui_p->pinEdit->hide();
+    ui_p->pinLabel->setText( tr( "Either the PIN you entered is incorrect, or a network-related problem occured. Please try again later." ) );
+    ui_p->okButton->setText( tr( "Close" ) );
+    resize( width(), height() * 1.5 );
+    disconnect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(authorize()) );
+    connect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(reject()) );
+    state = false;
+    return;
+  }
+
   screenName = accessToken.value( ParamScreenName );
   token = accessToken.value( QOAuth::ParamToken );
   tokenSecret = accessToken.value( QOAuth::ParamTokenSecret );
