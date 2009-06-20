@@ -108,11 +108,18 @@ QByteArray QOAuthPrivate::createParametersString( const QOAuth::ParamMap &parame
   QByteArray parameter;
   QByteArray parametersString;
 
-  foreach( parameter, parameters.keys() ) {
-    parametersString.append( parameter );
-    parametersString.append( middleString );
-    parametersString.append( parameters.value( parameter ) );
-    parametersString.append( endString );
+  foreach( parameter, parameters.uniqueKeys() ) {
+    QList<QByteArray> values = parameters.values( parameter );
+    if ( values.size() > 1 ) {
+      qSort( values.begin(), values.end() );
+    }
+    QByteArray value;
+    foreach ( value, values ) {
+      parametersString.append( parameter );
+      parametersString.append( middleString );
+      parametersString.append( value );
+      parametersString.append( endString );
+    }
   }
   parametersString.chop(1);
 
@@ -170,7 +177,7 @@ QOAuth::ParamMap QOAuthPrivate::replyToMap( const QByteArray &data )
     // key is on the left
     key = replyParam.left( separatorIndex );
     // value is on the right
-    parameters[ key ] = replyParam.right( replyParam.length() - separatorIndex - 1 );
+    parameters.insert( key , replyParam.right( replyParam.length() - separatorIndex - 1 ) );
   }
 
   return parameters;

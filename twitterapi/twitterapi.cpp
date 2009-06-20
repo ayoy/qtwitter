@@ -449,9 +449,7 @@ void TwitterAPIInterface::directMessages( TwitterAPI::SocialNetwork network, con
     map.insert( "count", statusCount.toAscii() );
 
     QByteArray parameters = prepareOAuthString( url, QOAuth::GET, password, map );
-
     url.append( "?" + parameters );
-    qDebug() << url;
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     url.append( QString("?count=%1").arg( statusCount ) );
   }

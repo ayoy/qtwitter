@@ -22,7 +22,7 @@
 #define QOAUTH_H
 
 #include <QObject>
-#include <QMap>
+#include <QMultiMap>
 #include "qoauth_global.h"
 
 class QOAuthPrivate;
@@ -52,7 +52,7 @@ public:
     ParseForHeaderArguments
   };
 
-  typedef QMap<QByteArray,QByteArray> ParamMap;
+  typedef QMultiMap<QByteArray,QByteArray> ParamMap;
 
   static const QByteArray ParamConsumerKey;
   static const QByteArray ParamNonce;
@@ -74,8 +74,6 @@ public:
 
   QByteArray consumerSecret() const;
   void setConsumerSecret( const QByteArray &consumerSecret );
-
-//  QByteArray token() const;
 
   ParamMap requestToken( const QString &requestUrl, HttpMethod httpMethod, SignatureMethod signatureMethod,
                          uint timeout = 0, const ParamMap &params = ParamMap() );
