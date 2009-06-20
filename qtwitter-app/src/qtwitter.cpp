@@ -68,7 +68,7 @@ Qtwitter::Qtwitter( QWidget *parent )
   connect( twitpic, SIGNAL(abortUpload()), core, SLOT(abortUploadPhoto()) );
   connect( this, SIGNAL(openTwitPicDialog()), twitpic, SLOT(show()) );
   connect( core, SIGNAL(twitPicResponseReceived()), twitpic, SLOT(resetForm()) );
-  connect( core, SIGNAL(twitPicDataSendProgress(int,int)), twitpic, SLOT(showUploadProgress(int,int)) );
+  connect( core, SIGNAL(twitPicDataSendProgress(qint64,qint64)), twitpic, SLOT(showUploadProgress(qint64,qint64)) );
   connect( core, SIGNAL(accountsUpdated(QList<Account>,int)), twitpic, SLOT(setupAccounts(QList<Account>)) );
 
   settingsDialog = new Settings( this, core, twitpic, this );

@@ -90,7 +90,7 @@ signals:
   void accountsUpdated( const QList<Account> &accounts, int isPublicTimelineRequested );
   void errorMessage( const QString &message );
   void twitPicResponseReceived();
-  void twitPicDataSendProgress(int,int);
+  void twitPicDataSendProgress(qint64,qint64);
   void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void requestStarted();
   void resetUi();

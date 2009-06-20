@@ -71,10 +71,10 @@ void TwitPicView::setupAccounts( const QList<Account> &accounts )
 }
 
 
-void TwitPicView::showUploadProgress( int done, int total )
+void TwitPicView::showUploadProgress( qint64 done, qint64 total )
 {
-  m_ui->uploadProgressBar->setMaximum( total );
-  m_ui->uploadProgressBar->setValue( done );
+  m_ui->uploadProgressBar->setMaximum( (int)total );
+  m_ui->uploadProgressBar->setValue( (int)done );
 }
 
 void TwitPicView::resetForm()

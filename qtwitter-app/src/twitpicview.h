@@ -37,7 +37,7 @@ public:
 
 public slots:
   void setupAccounts( const QList<Account> &accounts );
-  void showUploadProgress( int done, int total );
+  void showUploadProgress( qint64 done, qint64 total );
   void resetForm();
   void reject();
 

@@ -23,124 +23,116 @@
 #include <QBuffer>
 #include <QFile>
 #include <QDomDocument>
+
+#include <QNetworkAccessManager>
+#include <QNetworkRequest>
+#include <QNetworkReply>
+#include <QUrl>
+
 #include "core.h"
 #include "twitpicengine.h"
 
 
 TwitPicEngine::TwitPicEngine( Core *coreParent, QObject *parent ) :
-    QHttp( parent )
+    QObject( parent ),
+    manager( new QNetworkAccessManager( this ) ),
+    reply( 0 ),
+    coreParent( coreParent )
 {
-  setHost( "twitpic.com", QHttp::ConnectionModeHttp);
-  createConnections( coreParent );
+  connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(readReply(QNetworkReply*)) );
+  connect( this, SIGNAL(errorMessage(QString)), coreParent, SIGNAL(errorMessage(QString)) );
+  connect( this, SIGNAL(completed(bool, QString, bool)), coreParent, SLOT(twitPicResponse(bool, QString, bool)) );
 }
 
 TwitPicEngine::~TwitPicEngine()
 {
-  clearDataStorage();
+  if ( reply ) {
+    reply->abort();
+    reply->deleteLater();
+    reply = 0;
+  }
 }
 
 void TwitPicEngine::postContent( const QString &login, const QString &password, QString photoPath, QString status )
-{
-  QString path;
-  if ( status.isEmpty() ) {
-    path = "/api/upload";
-  } else {
-    path = "/api/uploadAndPost";
+{ 
+  QNetworkRequest request;
+
+  QString url( "http://twitpic.com/api/upload" );
+  if ( !status.isEmpty() ) {
+    url.append( "AndPost" );
   }
 
   QFile photo( photoPath );
   photo.open( QIODevice::ReadOnly );
 
-  QByteArray requestString;
-  requestString.append( "--AaB03x\r\n" );
-  requestString.append( "content-disposition: form-data; name=\"media\"; filename=\"" + photo.fileName().toAscii() + "\"\r\n" );
-  requestString.append( "\r\n" );
+  QByteArray data;
+  data.append( "--AaB03x\r\n" );
+  data.append( "content-disposition: form-data; name=\"media\"; filename=\"" + photo.fileName().toAscii() + "\"\r\n" );
+  data.append( "\r\n" );
 
-  requestString.append( photo.readAll() );
+  data.append( photo.readAll() );
   photo.close();
 
-  requestString.append( "\r\n" );
-  requestString.append( "--AaB03x\r\n" );
+  data.append( "\r\n" );
+  data.append( "--AaB03x\r\n" );
   if ( !status.isEmpty() ) {
-    requestString.append( "content-disposition: form-data; name=\"message\"\r\n" );
-    requestString.append( "\r\n" );
-    requestString.append( status.toUtf8() + "\r\n" );
-    requestString.append( "--AaB03x\r\n" );
+    data.append( "content-disposition: form-data; name=\"message\"\r\n" );
+    data.append( "\r\n" );
+    data.append( status.toUtf8() + "\r\n" );
+    data.append( "--AaB03x\r\n" );
   }
-  requestString.append( "content-disposition: form-data; name=\"source\"\r\n" );
-  requestString.append( "\r\n" );
-  requestString.append( "qtwitter\r\n" );
-  requestString.append( "--AaB03x\r\n" );
-  requestString.append( "content-disposition: form-data; name=\"username\"\r\n" );
-  requestString.append( "\r\n" );
-  requestString.append( login.toUtf8() + "\r\n" );
-  requestString.append( "--AaB03x\r\n" );
-  requestString.append( "content-disposition: form-data; name=\"password\"\r\n" );
-  requestString.append( "\r\n" );
-  requestString.append( password.toUtf8() + "\r\n" );
-  requestString.append( "--AaB03x--\r\n" );
+  data.append( "content-disposition: form-data; name=\"source\"\r\n" );
+  data.append( "\r\n" );
+  data.append( "qtwitter\r\n" );
+  data.append( "--AaB03x\r\n" );
+  data.append( "content-disposition: form-data; name=\"username\"\r\n" );
+  data.append( "\r\n" );
+  data.append( login.toUtf8() + "\r\n" );
+  data.append( "--AaB03x\r\n" );
+  data.append( "content-disposition: form-data; name=\"password\"\r\n" );
+  data.append( "\r\n" );
+  data.append( password.toUtf8() + "\r\n" );
+  data.append( "--AaB03x--\r\n" );
 
+  request.setHeader( QNetworkRequest::ContentTypeHeader, "multipart/form-data, boundary=AaB03x" );
+  request.setUrl( QUrl( url ) );
 
-  QHttpRequestHeader header( "POST", path );
-  header.setValue( "Host", "twitpic.com" );
-  header.setValue( "Content-type", "multipart/form-data, boundary=AaB03x" );
-  header.setValue( "Cache-Control", "no-cache" );
-  header.setValue( "Accept","*/*" );
-  header.setContentLength( requestString.length() );
-
-  qDebug() << header.toString() << header.isValid();
-
-  bytearray = new QByteArray;
-  buffer = new QBuffer( bytearray );
-  httpRequestAborted = false;
-
-  httpGetId = request( header, requestString, buffer );
-  qDebug() << "Request of type POST and id" << httpGetId << "started";
-  qDebug() << currentRequest().toString();
+  if ( reply ) {
+    reply->abort();
+    reply->deleteLater();
+  }
+  reply = manager->post( request, data );
+  connect( reply, SIGNAL(uploadProgress(qint64,qint64)), coreParent, SIGNAL(twitPicDataSendProgress(qint64,qint64)) );
 }
 
 void TwitPicEngine::abort()
 {
   qDebug() << "aborting...";
-  httpRequestAborted = true;
-  QHttp::abort();
+  reply->abort();
+  reply->deleteLater();
+  reply = 0;
 }
 
-void TwitPicEngine::readResponseHeader(const QHttpResponseHeader &responseHeader)
+void TwitPicEngine::readReply( QNetworkReply *reply )
 {
-  if ( responseHeader.statusCode() >= 400 ) {
-    qDebug() << "Download failed: " << responseHeader.reasonPhrase();
-    abort();
-    clearDataStorage();
-  }
-}
-
-void TwitPicEngine::httpRequestFinished(int requestId, bool error)
-{
-  if (httpRequestAborted) {
-    clearDataStorage();
-    qDebug() << "request aborted";
-    return;
-  }
-  if ( requestId != httpGetId )
-    return;
-
-  buffer->close();
-
-  if (error) {
-    emit errorMessage( "Download failed: " + errorString() );
+  qDebug() << __PRETTY_FUNCTION__;
+  int replyCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
+  if ( replyCode == 200 ) {
+    parseReply( reply->readAll() );
   } else {
-    parseReply( *bytearray );
+    emit errorMessage( "Download failed: " + reply->errorString() );
   }
-  clearDataStorage();
+  reply->close();
+  reply = 0;
 }
+
 
 /*!
   Parses xml returned by Twitpic after the photo has been uploaded.
 
   \param &reply Contains the server's response.
 */
-void TwitPicEngine::parseReply(QByteArray &reply)
+void TwitPicEngine::parseReply( const QByteArray &reply )
 {
   QString url;
   bool userId = false;
@@ -177,48 +169,22 @@ void TwitPicEngine::parseReply(QByteArray &reply)
       emit completed(false, "\n" + errMsg, false);
       return;
     }
+  }
 
-    //status ok:
-    QDomNode n = docElem.firstChild();
-    while ( !n.isNull() ) {
-      QDomElement e = n.toElement();
-      if ( !e.isNull() ) {
-        qDebug() << qPrintable( e.tagName() );
-        if(e.tagName() == "userid")
-          userId = true;
-        else if(e.tagName() == "mediaurl")
-          url = e.text();
-      }
-      n = n.nextSibling();
+  //status ok:
+  QDomNode n = docElem.firstChild();
+  while ( !n.isNull() ) {
+    QDomElement e = n.toElement();
+    if ( !e.isNull() ) {
+      qDebug() << qPrintable( e.tagName() );
+      if(e.tagName() == "userid")
+        userId = true;
+      else if(e.tagName() == "mediaurl")
+        url = e.text();
     }
-    emit completed(true, url, userId);
+    n = n.nextSibling();
   }
-}
-
-void TwitPicEngine::createConnections( Core *coreParent )
-{
-  connect( this, SIGNAL(requestStarted(int)), SLOT(httpRequestStarted(int)));
-  connect( this, SIGNAL(requestFinished(int, bool)), SLOT(httpRequestFinished(int, bool)));
-  connect( this, SIGNAL(responseHeaderReceived(const QHttpResponseHeader &)), SLOT(readResponseHeader(const QHttpResponseHeader &)));
-
-  connect( this, SIGNAL(errorMessage(QString)), coreParent, SIGNAL(errorMessage(QString)) );
-  connect( this, SIGNAL(completed(bool, QString, bool)), coreParent, SLOT(twitPicResponse(bool, QString, bool)) );
-  connect( this, SIGNAL(dataSendProgress(int,int)), coreParent, SIGNAL(twitPicDataSendProgress(int,int)) );
-}
-
-void TwitPicEngine::clearDataStorage()
-{
-  if (buffer) {
-    if ( buffer->isOpen() ) {
-      buffer->close();
-    }
-    delete buffer;
-    buffer = 0;
-  }
-  if(bytearray) {
-    delete bytearray;
-    bytearray = 0;
-  }
+  emit completed(true, url, userId);
 }
 
 

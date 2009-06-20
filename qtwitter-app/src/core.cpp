@@ -23,6 +23,7 @@
 #include <QDesktopServices>
 #include <QProcess>
 #include <QMessageBox>
+#include <QInputDialog>
 #include <QDebug>
 #include <urlshortener/urlshortener.h>
 #include "core.h"
@@ -308,9 +309,14 @@ void Core::postDM( TwitterAPI::SocialNetwork network, const QString &login, cons
 
 void Core::uploadPhoto( const QString &login, QString photoPath, QString status )
 {
-  twitpicUpload = new TwitPicEngine( this );
-  qDebug() << "uploading photo";
-  twitpicUpload->postContent( login, accountsModel->account( TwitterAPI::SOCIALNETWORK_TWITTER, login )->password, photoPath, status );
+  bool ok = false;
+  QString password = QInputDialog::getText( 0, tr( "Enter password" ), tr( "Enter your Twitter password.<br>We're not storing it anywhere" ),
+                                            QLineEdit::Password, QString(), &ok );
+  if ( ok && !password.isEmpty() ) {
+    twitpicUpload = new TwitPicEngine( this );
+    qDebug() << "uploading photo";
+    twitpicUpload->postContent( login, password, photoPath, status );
+  }
 }
 
 void Core::abortUploadPhoto()

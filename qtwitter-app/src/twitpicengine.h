@@ -22,12 +22,13 @@
 #ifndef TWITPICENGINE_H
 #define TWITPICENGINE_H
 
-#include <QHttp>
+#include <QObject>
 
-class QBuffer;
+class QNetworkAccessManager;
+class QNetworkReply;
 class Core;
 
-class TwitPicEngine : public QHttp
+class TwitPicEngine : public QObject
 {
   Q_OBJECT
 
@@ -46,13 +47,10 @@ signals:
   void completed( bool responseStatus, QString message, bool newStatus );
 
 private slots:
-  void readResponseHeader( const QHttpResponseHeader &responseHeader );
-  void httpRequestFinished( int requestId, bool error );
+  void readReply( QNetworkReply *reply );
 
 private:
-  void createConnections( Core *whereToConnectTo );
-  void clearDataStorage();
-  void parseReply(QByteArray &reply);
+  void parseReply( const QByteArray &reply );
 
 private:
   enum ErrorId {
@@ -62,10 +60,9 @@ private:
     ErrOversized = 1004
   };
 
-  int httpGetId;
-  bool httpRequestAborted;
-  QByteArray *bytearray;
-  QBuffer *buffer;
+  QNetworkAccessManager *manager;
+  QNetworkReply *reply;
+  Core *coreParent;
 };
 
 #endif // TWITPICENGINE_H
