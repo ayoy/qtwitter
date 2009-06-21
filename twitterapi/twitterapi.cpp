@@ -401,7 +401,7 @@ void TwitterAPIInterface::friendsTimeline( TwitterAPI::SocialNetwork network, co
 
     QByteArray parameters = prepareOAuthString( url, QOAuth::GET, password, map );
 
-    url.append( "?" + parameters );
+    url.append( parameters );
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     url.append( QString("?count=%1").arg( statusCount ) );
   }
@@ -449,7 +449,7 @@ void TwitterAPIInterface::directMessages( TwitterAPI::SocialNetwork network, con
     map.insert( "count", statusCount.toAscii() );
 
     QByteArray parameters = prepareOAuthString( url, QOAuth::GET, password, map );
-    url.append( "?" + parameters );
+    url.append( parameters );
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     url.append( QString("?count=%1").arg( statusCount ) );
   }
@@ -495,7 +495,7 @@ void TwitterAPIInterface::postDM( TwitterAPI::SocialNetwork network, const QStri
     map.insert( "user", screenName.toUtf8() );
     map.insert( "text", text.toUtf8().toPercentEncoding() );
 
-    content = prepareOAuthString( url, QOAuth::GET, password, map );
+    content = prepareOAuthString( url, QOAuth::POST, password, map );
 
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     content = prepareRequest( screenName, text );

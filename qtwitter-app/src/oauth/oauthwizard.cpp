@@ -1,7 +1,7 @@
 #include "oauthwizard.h"
 #include "ui_oauthwizard.h"
 #include "ui_pindialog.h"
-#include <QOAuth>
+#include <QtOAuth>
 
 #include <QDesktopServices>
 #include <QUrl>
@@ -34,6 +34,7 @@ OAuthWizard::OAuthWizard(QWidget *parent) :
 {
   qoauth->setConsumerKey( ConsumerKey );
   qoauth->setConsumerSecret( ConsumerSecret );
+  qoauth->setRequestTimeout( 10000 );
 
   ui_o->setupUi(this);
   adjustSize();
@@ -92,8 +93,8 @@ void OAuthWizard::setOkButtonEnabled()
 
 void OAuthWizard::openUrl()
 {
-  QOAuth::ParamMap requestToken = qoauth->requestToken( TwitterRequestTokenURL, QOAuth::GET,
-                                                        QOAuth::HMAC_SHA1, 10000 );
+  QOAuth::ParamMap requestToken = qoauth->requestToken( TwitterRequestTokenURL, QOAuth::GET, QOAuth::HMAC_SHA1 );
+  qDebug() << requestToken;
 
   if ( qoauth->error() != QOAuth::NoError ) {
     ui_o->allowLabel->setText( tr( "There was a network-related problem with completing the request. Please try again later." ) );
@@ -131,8 +132,8 @@ void OAuthWizard::authorize()
   ui_p->pinEdit->setEnabled( false );
   QOAuth::ParamMap otherArgs;
   otherArgs.insert( ParamVerifier, ui_p->pinEdit->text().toAscii() );
-  QOAuth::ParamMap accessToken = qoauth->accessToken( TwitterAccessTokenURL, QOAuth::POST, QOAuth::HMAC_SHA1,
-                                                      token, tokenSecret, 10000, otherArgs );
+  QOAuth::ParamMap accessToken = qoauth->accessToken( TwitterAccessTokenURL, QOAuth::POST, token,
+                                                      tokenSecret, QOAuth::HMAC_SHA1, otherArgs );
 
   if ( qoauth->error() != QOAuth::NoError ) {
     ui_p->pinEdit->hide();
