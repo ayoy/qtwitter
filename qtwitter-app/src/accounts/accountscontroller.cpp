@@ -196,7 +196,14 @@ void AccountsController::showPasswordDisclaimer()
 
 void AccountsController::addAccount()
 {
+#if QT_VERSION < 0x040500
+  bool ok = false;
+  QString network = QInputDialog::getItem( view, tr( "Add account" ), tr( "Select social network:" ),
+                                           QStringList() << "Twitter" << "Identi.ca", 0, false, &ok );
+  int result = ok ? QDialog::Accepted : QDialog::Rejected;
+#else
   QInputDialog *dlg = new QInputDialog( view );
+  dlg->setWindowTitle( tr( "Add account" ) );
   //: Select social network, i.e. Twitter or Identi.ca
   dlg->setLabelText( tr( "Select social network:" ) );
   dlg->setComboBoxItems( QStringList() << "Twitter" << "Identi.ca" );
@@ -205,6 +212,7 @@ void AccountsController::addAccount()
   int result = dlg->exec();
   QString network = dlg->textValue();
   dlg->deleteLater();
+#endif
 
   if ( result == QDialog::Accepted ) {
     int index = model->rowCount();
