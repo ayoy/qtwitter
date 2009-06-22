@@ -817,8 +817,8 @@ QByteArray TwitterAPIInterface::prepareOAuthString( const QString &requestUrl, Q
   int index = password.indexOf( '&' );
   QByteArray token = password.left( index ).toAscii();
   QByteArray tokenSecret = password.right( password.length() - index - 1 ).toAscii();
-  QByteArray content = qoauth->createParametersString( requestUrl, method, QOAuth::HMAC_SHA1,
-                                                       token, tokenSecret, params, QOAuth::ParseForInlineQuery );
+  QByteArray content = qoauth->createParametersString( requestUrl, method, token, tokenSecret,
+                                                       QOAuth::HMAC_SHA1, params, QOAuth::ParseForInlineQuery );
   return content;
 }
 #endif
