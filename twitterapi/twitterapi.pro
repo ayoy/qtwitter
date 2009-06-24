@@ -19,11 +19,6 @@ macx {
     LIBS += -install_name \
         @executable_path/../Frameworks/$${TARGET}.framework/Versions/$${VER_MAJ}/$${TARGET}
 
-    contains( DEFINES, OAUTH ) {
-        LIBS += -framework \
-            qoauth
-    }
-
     DESTDIR = $${TOP}/qtwitter.app/Contents/Frameworks
     FRAMEWORK_HEADERS.files = twitterapi.h
     FRAMEWORK_HEADERS.path = Versions/$${VER_MAJ}/Headers
@@ -31,12 +26,6 @@ macx {
 }
 else:unix { 
     DESTDIR = $${TOP}
-
-    contains( DEFINES, OAUTH ) {
-        LIBS += -L$${TOP} \
-            -Wl,-rpath,$${TOP} \
-            $$QOAUTH_LIB
-    }
 
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
@@ -49,12 +38,6 @@ else:unix {
 else:win32 { 
     DESTDIR = $${TOP}
     DLLDESTDIR = $${DESTDIR}
-
-    contains( DEFINES, OAUTH ) {
-        LIBS += -L$${TOP} \
-            -Wl,-rpath,$${TOP} \
-            $$QOAUTH_LIB
-    }
 }
 SOURCES += xmlparser.cpp \
     twitterapi.cpp \
