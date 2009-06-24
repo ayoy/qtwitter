@@ -84,12 +84,27 @@ QVariant AccountsModel::data( const QModelIndex &index, int role ) const
       return accounts.at( index.row() ).login;
     break;
   case COL_PASSWORD:
-    if ( role == Qt::DisplayRole )
+    if ( role == Qt::DisplayRole ) {
+#ifdef OAUTH
+      switch ( accounts.at( index.row() ).network ) {
+      case TwitterAPI::SOCIALNETWORK_IDENTICA:
 #ifdef Q_WS_HILDON
       return QString( accounts.at( index.row() ).password.length(), '*' );
 #else
       return QString( accounts.at( index.row() ).password.length(), QChar(0x25cf) );
 #endif
+      case TwitterAPI::SOCIALNETWORK_TWITTER:
+      default:
+        return tr( "authorized" );
+      }
+#else
+#ifdef Q_WS_HILDON
+      return QString( accounts.at( index.row() ).password.length(), '*' );
+#else
+      return QString( accounts.at( index.row() ).password.length(), QChar(0x25cf) );
+#endif
+#endif
+    }
     if ( role == Qt::EditRole )
       return accounts.at( index.row() ).password;
     break;
@@ -157,8 +172,14 @@ bool AccountsModel::setData( const QModelIndex &index, const QVariant &value, in
 
 Qt::ItemFlags AccountsModel::flags( const QModelIndex &index ) const
 {
-  if ( index.column() != 0 && index.column() != 4 )
-    return QAbstractItemModel::flags( index ) |= Qt::ItemIsEditable;
+#ifdef OAUTH
+  if ( accounts.at( index.row() ).network != TwitterAPI::SOCIALNETWORK_TWITTER ) {
+#endif
+    if ( index.column() == COL_LOGIN || index.column() == COL_PASSWORD )
+      return QAbstractItemModel::flags( index ) |= Qt::ItemIsEditable;
+#ifdef OAUTH
+  }
+#endif
   return QAbstractItemModel::flags( index );
 }
 
@@ -179,8 +200,6 @@ bool AccountsModel::insertRows( int row, int count, const QModelIndex &parent )
 bool AccountsModel::removeRows( int row, int count, const QModelIndex &parent )
 {
   Q_UNUSED(parent);
-//  if ( !parent.isValid() )
-//    return false;
 
   if ( row > accounts.size() )
     return false;

@@ -18,14 +18,23 @@
  ***************************************************************************/
 
 
-#include <QMessageBox>
-#include <qticonloader.h>
-#include <configfile.h>
+#include "accountscontroller.h"
+#include "ui_accounts.h"
+
 #include "accountsmodel.h"
 #include "accountsview.h"
 #include "accountsdelegate.h"
-#include "accountscontroller.h"
-#include "ui_accounts.h"
+#include <configfile.h>
+#include <qticonloader.h>
+
+#ifdef OAUTH
+#  include <oauthwizard.h>
+#endif
+
+#include <QMessageBox>
+#include <QInputDialog>
+#include <QModelIndex>
+#include <QDebug>
 
 extern ConfigFile settings;
 
@@ -83,13 +92,19 @@ void AccountsController::loadAccounts()
   settings.beginGroup( "Accounts" );
   for ( int i = 0; i < settings.childGroups().count(); i++ ) {
     model->insertRow(i);
-    model->account(i).isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
-    model->account(i).network = (TwitterAPI::SocialNetwork) settings.value( QString( "%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_TWITTER ).toInt();
-    model->account(i).login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
-    if ( ui->passwordsCheckBox->isChecked() ) {
-      model->account(i).password = settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
+    Account &account = model->account(i);
+    account.isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
+    account.network = (TwitterAPI::SocialNetwork) settings.value( QString( "%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_TWITTER ).toInt();
+    account.login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
+    if ( ui->passwordsCheckBox->isChecked()
+#ifdef OAUTH
+         || ( !ui->passwordsCheckBox->isChecked() &&
+              account.network == TwitterAPI::SOCIALNETWORK_TWITTER )
+#endif
+      ) {
+      account.password = settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
     }
-    model->account(i).directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
+    account.directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
   }
   ui->publicTimelineComboBox->setCurrentIndex( settings.value( "publicTimeline", PT_NONE ).toInt() );
   settings.endGroup();
@@ -155,7 +170,10 @@ void AccountsController::togglePasswordStoring( int state )
     }
   } else {
     for ( int i = 0; i < model->rowCount(); ++i ) {
-      settings.remove( QString( "Accounts/%1/password" ).arg(i) );
+#ifdef OAUTH
+      if ( model->account(i).network == TwitterAPI::SOCIALNETWORK_IDENTICA )
+#endif
+        settings.remove( QString( "Accounts/%1/password" ).arg(i) );
     }
   }
   settings.setValue( "General/savePasswords", state );
@@ -167,15 +185,66 @@ void AccountsController::showPasswordDisclaimer()
   messageBox.setInformativeText( tr( "Although passwords are stored as human unreadable data, "
                                      "they can be easily decoded using the application's source code, "
                                      "which is publicly available. You have been warned." ) );
+#ifdef OAUTH
+  messageBox.setInformativeText( messageBox.informativeText().append( "<br><br>" )
+                                 .append( tr( "Note also that Twitter authorization keys are stored anyway. "
+                                              "Remove the account from the list if you want the key to be deleted."
+                                              /*"They can't be reused outside this application."*/ ) ) );
+#endif
   messageBox.exec();
 }
 
 void AccountsController::addAccount()
 {
-  model->insertRow( model->rowCount() );
-  settings.addAccount( model->rowCount() - 1, model->getAccounts().at( model->rowCount() - 1 ) );
-  view->setCurrentIndex( model->index( model->rowCount() - 1, 0 ) );
-  ui->deleteAccountButton->setEnabled( true );
+#if QT_VERSION < 0x040500
+  bool ok = false;
+  QString network = QInputDialog::getItem( view, tr( "Add account" ), tr( "Select social network:" ),
+                                           QStringList() << "Twitter" << "Identi.ca", 0, false, &ok );
+  int result = ok ? QDialog::Accepted : QDialog::Rejected;
+#else
+  QInputDialog *dlg = new QInputDialog( view );
+  dlg->setWindowTitle( tr( "Add account" ) );
+  //: Select social network, i.e. Twitter or Identi.ca
+  dlg->setLabelText( tr( "Select social network:" ) );
+  dlg->setComboBoxItems( QStringList() << "Twitter" << "Identi.ca" );
+  dlg->setCancelButtonText( tr( "Cancel" ) );
+  dlg->setOkButtonText( tr( "OK" ) );
+  int result = dlg->exec();
+  QString network = dlg->textValue();
+  dlg->deleteLater();
+#endif
+
+  if ( result == QDialog::Accepted ) {
+    int index = model->rowCount();
+
+#ifdef OAUTH
+    if ( network == "Twitter" ) {
+      OAuthWizard *wizard = new OAuthWizard( view );
+      wizard->exec();
+      if ( wizard->authorized() ) {
+        model->insertRow( index );
+
+        Account &account = model->account( index );
+        account.network = TwitterAPI::SOCIALNETWORK_TWITTER;
+        account.login = wizard->getScreenName();
+        account.password = wizard->getOAuthKey();
+        settings.addAccount( index, model->account( index ) );
+        view->setCurrentIndex( model->index( index, 0 ) );
+        ui->deleteAccountButton->setEnabled( true );
+      }
+      wizard->deleteLater();
+
+    } else if ( network == "Identi.ca" ) {
+#endif
+      model->insertRow( index );
+      model->account( index ).network = network == "Twitter" ? TwitterAPI::SOCIALNETWORK_TWITTER : TwitterAPI::SOCIALNETWORK_IDENTICA;
+      settings.addAccount( index, model->account( index ) );
+      view->setCurrentIndex( model->index( index, 0 ) );
+      ui->deleteAccountButton->setEnabled( true );
+#ifdef OAUTH
+    }
+#endif
+  }
 }
 
 void AccountsController::deleteAccount()

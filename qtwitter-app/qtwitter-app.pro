@@ -4,8 +4,15 @@ TARGET = qtwitter
 # sets the TOP variable to the root source code dir
 include(../qtwitter.pri)
 DESTDIR = $${TOP}
+
 include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
+
+contains( DEFINES, OAUTH ) {
+    include(src/oauth/oauth.pri)
+    CONFIG += oauth
+}
+
 include(src/accounts/accounts.pri)
 include(src/qticonloader/qticonloader.pri)
 QT += network \
@@ -138,5 +145,6 @@ else:win32 {
     RC_FILE = win32/qtwitter.rc
     LIBS += -L$${TOP} \
         $$TWITTERAPI_LIB \
-        $$URLSHORTENER_LIB
+        $$URLSHORTENER_LIB \
+        $$QOAUTH_LIB
 }
