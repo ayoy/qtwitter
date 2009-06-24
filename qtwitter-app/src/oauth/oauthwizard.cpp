@@ -1,6 +1,7 @@
 #include "oauthwizard.h"
 #include "ui_oauthwizard.h"
-#include "ui_pindialog.h"
+#include "ui_pinwidget.h"
+#include "ui_allowwidget.h"
 #include <QtOAuth>
 
 #include <QDesktopServices>
@@ -30,21 +31,24 @@ OAuthWizard::OAuthWizard(QWidget *parent) :
     tokenSecret( QByteArray() ),
     qoauth( new QOAuth( this ) ),
     ui_o(new Ui::OAuthWizard),
-    ui_p(new Ui::PinDialog)
+    ui_a(new Ui::AllowWidget),
+    ui_p(new Ui::PinWidget)
 {
   qoauth->setConsumerKey( ConsumerKey );
   qoauth->setConsumerSecret( ConsumerSecret );
   qoauth->setRequestTimeout( 10000 );
 
   ui_o->setupUi(this);
+  ui_a->setupUi(ui_o->widget);
   adjustSize();
 
-  connect( ui_o->allowButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
+  connect( ui_a->allowButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
 }
 
 OAuthWizard::~OAuthWizard()
 {
   delete ui_o;
+  delete ui_a;
   delete ui_p;
 }
 
@@ -75,6 +79,7 @@ void OAuthWizard::changeEvent(QEvent *e)
   switch (e->type()) {
   case QEvent::LanguageChange:
     ui_o->retranslateUi(this);
+    ui_a->retranslateUi(this);
     ui_p->retranslateUi(this);
     break;
   default:
@@ -97,11 +102,11 @@ void OAuthWizard::openUrl()
   qDebug() << requestToken;
 
   if ( qoauth->error() != QOAuth::NoError ) {
-    ui_o->allowLabel->setText( tr( "There was a network-related problem with completing the request. Please try again later." ) );
-    ui_o->allowButton->setText( tr( "Close" ) );
+    ui_a->allowLabel->setText( tr( "There was a network-related problem with completing the request. Please try again later." ) );
+    ui_a->allowButton->setText( tr( "Close" ) );
     resize( width(), height() * 1.5 );
-    disconnect( ui_o->allowButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
-    connect( ui_o->allowButton, SIGNAL(clicked()), this, SLOT(reject()) );
+    disconnect( ui_a->allowButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
+    connect( ui_a->allowButton, SIGNAL(clicked()), this, SLOT(reject()) );
     state = false;
     return;
   }
@@ -117,11 +122,11 @@ void OAuthWizard::openUrl()
 
   QDesktopServices::openUrl( QUrl( url ) );
 
-  delete layout();
+  delete ui_o->widget->layout();
 
-  ui_o->allowLabel->deleteLater();
-  ui_o->allowButton->deleteLater();
-  ui_p->setupUi(this);
+  ui_a->allowLabel->deleteLater();
+  ui_a->allowButton->deleteLater();
+  ui_p->setupUi(ui_o->widget);
   ui_p->pinEdit->setValidator( new QRegExpValidator( QRegExp( "\\d{6}" ), this ) );
   connect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(authorize()) );
   connect( ui_p->pinEdit, SIGNAL(textChanged(QString)), this, SLOT(setOkButtonEnabled()) );
