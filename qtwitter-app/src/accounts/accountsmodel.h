@@ -59,8 +59,8 @@ public:
   void clear();
   void cleanUp();
 
-  QList<Account> getAccounts();
-
+  QList<Account> getAccounts() const;
+  void setAccounts( const QList<Account> &accounts );
 
   // TODO: do we really need these two?
   Account& account( int index );

@@ -75,3 +75,38 @@ bool UserInfo::checkContents()
   return false;
 }
 
+QDataStream& operator<<( QDataStream & out, const UserInfo &userInfo )
+{
+  out << userInfo.id;
+  out << userInfo.name;
+  out << userInfo.screenName;
+  out << userInfo.location;
+  out << userInfo.description;
+  out << userInfo.imageUrl;
+  out << userInfo.homepage;
+  out << userInfo.hasHomepage;
+  out << userInfo.profileProtected;
+  out << userInfo.followersCount;
+  out << userInfo.friendsCount;
+  out << userInfo.utcOffset;
+  out << userInfo.statusesCount;
+  return out;
+}
+
+QDataStream& operator>>( QDataStream & in, UserInfo &userInfo )
+{
+  in >> userInfo.id;
+  in >> userInfo.name;
+  in >> userInfo.screenName;
+  in >> userInfo.location;
+  in >> userInfo.description;
+  in >> userInfo.imageUrl;
+  in >> userInfo.homepage;
+  in >> userInfo.hasHomepage;
+  in >> userInfo.profileProtected;
+  in >> userInfo.followersCount;
+  in >> userInfo.friendsCount;
+  in >> userInfo.utcOffset;
+  in >> userInfo.statusesCount;
+  return in;
+}

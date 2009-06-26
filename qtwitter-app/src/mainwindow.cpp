@@ -56,7 +56,7 @@ MainWindow::MainWindow( QWidget *parent ) :
 
   StatusWidget::setScrollBarWidth( ui.statusListView->verticalScrollBar()->width() );
 
-  ui.accountsComboBox->setVisible( false );
+//  ui.accountsComboBox->setVisible( false );
 
   timer = new QTimer( this );
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
@@ -235,7 +235,7 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeli
   }
 
   if ( ( publicTimeline == AccountsController::PT_NONE && accounts.size() < 2 ) || accounts.isEmpty() ) {
-    ui.accountsComboBox->setVisible( false );
+//    ui.accountsComboBox->setVisible( false );
     if ( !accounts.isEmpty() && accounts.at(0).isEnabled ) {
       ui.statusEdit->setEnabled( true );
       emit switchModel( accounts.at(0).network, accounts.at(0).login );
@@ -249,7 +249,7 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeli
       if ( publicTimeline == AccountsController::PT_BOTH ) {
         ui.accountsComboBox->addItem( QString( "%1 @%2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_TWITTER ) ) );
         ui.accountsComboBox->addItem( QString( "%1 @%2" ).arg( tr( "public timeline" ), Account::networkToString( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) );
-        ui.accountsComboBox->setVisible( true );
+//        ui.accountsComboBox->setVisible( true );
       }
     }
     return;
@@ -269,7 +269,7 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeli
   }
 
   if ( ui.accountsComboBox->count() <= 1 ) {
-    ui.accountsComboBox->setVisible( false );
+//    ui.accountsComboBox->setVisible( false );
 
     if ( Account::fromString( ui.accountsComboBox->currentText() ).second == tr( "public timeline" ) ) {
       ui.statusEdit->setEnabled( false );
@@ -281,7 +281,7 @@ void MainWindow::setupAccounts( const QList<Account> &accounts, int publicTimeli
     }
     return;
   }
-  ui.accountsComboBox->setVisible( true );
+//  ui.accountsComboBox->setVisible( true );
 
   int index = settings.value( "Accounts/visibleAccount", 0 ).toInt();
 

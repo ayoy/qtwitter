@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QList>
+#include <QDataStream>
 #include <twitterapi/twitterapi.h>
 #include "statusmodel.h"
 #include "statuswidget.h"
@@ -42,6 +43,12 @@ struct Status {
   }
 };
 
+QDataStream& operator<<( QDataStream &out, const Entry &entry );
+QDataStream& operator>>( QDataStream &in, Entry &entry );
+
+QDataStream& operator<<( QDataStream & out, const Status &status );
+QDataStream& operator>>( QDataStream & in, Status &status );
+
 Q_DECLARE_METATYPE(Status)
 
 class StatusListPrivate;
@@ -55,6 +62,7 @@ class StatusList : public QObject
   Q_PROPERTY( SocialNetwork network READ network WRITE setNetwork )
   Q_PROPERTY( QString login READ login WRITE setLogin )
   Q_PROPERTY( bool visible READ isVisible WRITE setVisible )
+  // index of the active status
   Q_PROPERTY( int active READ active )
 
 public:
@@ -89,6 +97,7 @@ public:
   void setImage( int index, const QPixmap &pixmap );
 
   const QList<Status>& getData() const;
+  void setStatuses( const QList<Status> &statuses );
 
   int active() const;
   int size() const;

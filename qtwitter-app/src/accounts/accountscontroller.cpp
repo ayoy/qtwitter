@@ -40,7 +40,7 @@ extern ConfigFile settings;
 
 AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
     QObject( parent ),
-    model( new AccountsModel( this ) ),
+    model( 0 ),
     ui( new Ui::Accounts ),
     widget( widget )
 {
@@ -56,14 +56,14 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   ui->passwordsCheckBox->setChecked( settings.value( "General/savePasswords", Qt::Unchecked ).toInt() );
 
   connect( view, SIGNAL(checkBoxClicked(QModelIndex)), this, SLOT(updateCheckBox(QModelIndex)) );
-  connect( model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateAccounts(QModelIndex,QModelIndex)) );
+//  connect( model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateAccounts(QModelIndex,QModelIndex)) );
   connect( ui->addAccountButton, SIGNAL(clicked()), this, SLOT(addAccount()));
   connect( ui->deleteAccountButton, SIGNAL(clicked()), this, SLOT(deleteAccount()));
   connect( ui->publicTimelineComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePublicTimeline(int)) );
   connect( ui->passwordsCheckBox, SIGNAL(stateChanged(int)), this, SLOT(togglePasswordStoring(int)) );
   connect( ui->disclaimerButton, SIGNAL(clicked()), this, SLOT(showPasswordDisclaimer()) );
 
-  view->setModel( model );
+//  view->setModel( model );
   view->setItemDelegate( new AccountsDelegate( this ) );
 
   // TODO: WTF?
@@ -76,6 +76,7 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
 
 AccountsController::~AccountsController()
 {
+  updateAccounts( model->index(0,0), model->index( model->rowCount() - 1, model->columnCount() - 1 ) );
   updatePublicTimeline( ui->publicTimelineComboBox->currentIndex() );
   delete ui;
   ui = 0;
@@ -86,26 +87,112 @@ AccountsModel* AccountsController::getModel() const
   return model;
 }
 
+void AccountsController::setModel( AccountsModel *accountsModel )
+{
+  model = accountsModel;
+  model->setParent( this );
+  view->setModel( model );
+  connect( model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateAccounts(QModelIndex,QModelIndex)) );
+}
+
 void AccountsController::loadAccounts()
 {
-  model->clear();
+  if (!model)
+    return;
+
+  qDebug() << "Accounts count:" << model->rowCount();
+  if ( model->rowCount() > 0 )
+    qDebug() << model->account(0).login;
+
   settings.beginGroup( "Accounts" );
+
+  QList<Account> modelAccounts = model->getAccounts();
+  QList<Account> settingsAccounts;
+  QList<QString> passwords;
+  Account account;
   for ( int i = 0; i < settings.childGroups().count(); i++ ) {
-    model->insertRow(i);
-    Account &account = model->account(i);
     account.isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
     account.network = (TwitterAPI::SocialNetwork) settings.value( QString( "%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_TWITTER ).toInt();
     account.login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
-    if ( ui->passwordsCheckBox->isChecked()
-#ifdef OAUTH
-         || ( !ui->passwordsCheckBox->isChecked() &&
-              account.network == TwitterAPI::SOCIALNETWORK_TWITTER )
-#endif
-      ) {
-      account.password = settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
-    }
     account.directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
+
+    passwords << settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
+    settingsAccounts << account;
   }
+  for( int i = 0; i < modelAccounts.size(); ++i ) {
+    Account &modelAccount = modelAccounts[i];
+    if ( !settingsAccounts.contains( modelAccount ) ) {
+      modelAccounts.removeAll( modelAccount );
+    } else {
+      if ( ui->passwordsCheckBox->isChecked()
+#ifdef OAUTH
+        || ( !ui->passwordsCheckBox->isChecked() &&
+             account.network == TwitterAPI::SOCIALNETWORK_TWITTER )
+#endif
+        ) {
+        int modelAccountIndex = settingsAccounts.indexOf( modelAccount );
+        modelAccount.password = passwords.at( modelAccountIndex );
+        passwords.removeAt( modelAccountIndex );
+        settingsAccounts.removeAt( modelAccountIndex );
+        qDebug() << __FUNCTION__ << "MODEL" << modelAccount.login << modelAccount.password;
+      }
+    }
+  }
+
+  for( int i = 0; i < settingsAccounts.size(); ++i ) {
+    Account &settingsAccount = settingsAccounts[i];
+    if ( !modelAccounts.contains( settingsAccount ) ) {
+      if ( ui->passwordsCheckBox->isChecked()
+#ifdef OAUTH
+        || ( !ui->passwordsCheckBox->isChecked() &&
+             account.network == TwitterAPI::SOCIALNETWORK_TWITTER )
+#endif
+        ) {
+        settingsAccount.password = passwords.at( settingsAccounts.indexOf( settingsAccount ) );
+        qDebug() << __FUNCTION__ << "SETTINGS" << settingsAccount.login << settingsAccount.password;
+        modelAccounts << settingsAccount;
+      }
+    }
+  }
+  model->setAccounts( modelAccounts );
+
+//  model->clear();
+//  for ( int i = 0; i < settings.childGroups().count(); i++ ) {
+//    model->insertRow(i);
+//
+//    account.isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
+//    account.network = (TwitterAPI::SocialNetwork) settings.value( QString( "%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_TWITTER ).toInt();
+//    account.login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
+//    account.directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
+//
+//    if (model->getAccounts().contains( account ) ) {
+//      if ( ui->passwordsCheckBox->isChecked()
+//#ifdef OAUTH
+//        || ( !ui->passwordsCheckBox->isChecked() &&
+//             account.network == TwitterAPI::SOCIALNETWORK_TWITTER )
+//#endif
+//        ) {
+//        model->account( account.network, account.login )->password =
+//            settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
+//      }
+//    } else {
+//    }
+//
+//
+////    Account &account = model->account(i);
+//    account.isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
+//    account.network = (TwitterAPI::SocialNetwork) settings.value( QString( "%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_TWITTER ).toInt();
+//    account.login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
+//    if ( ui->passwordsCheckBox->isChecked()
+//#ifdef OAUTH
+//         || ( !ui->passwordsCheckBox->isChecked() &&
+//              account.network == TwitterAPI::SOCIALNETWORK_TWITTER )
+//#endif
+//      ) {
+//      account.password = settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
+//    }
+//    account.directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
+//  }
   ui->publicTimelineComboBox->setCurrentIndex( settings.value( "publicTimeline", PT_NONE ).toInt() );
   settings.endGroup();
   if ( view->model()->rowCount() <= 0 ) {
@@ -119,33 +206,61 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
 {
   // TODO: change config file to organise accounts in an array,
   //       i.e. "Accounts/%1/%2" with respect to view's row and column
-  Q_UNUSED(bottomRight);
-  if ( !topLeft.isValid() )
-    return;
+
 //  updateAccountsOnExit = true;
-  switch ( topLeft.column() ) {
-  case AccountsModel::COL_ENABLED:
-    settings.setValue( QString("Accounts/%1/enabled").arg( topLeft.row() ), topLeft.data() );
-    return;
-  case AccountsModel::COL_NETWORK:
-    settings.setValue( QString("Accounts/%1/service").arg( topLeft.row() ), topLeft.data( Qt::EditRole ) );
-    return;
-  case AccountsModel::COL_LOGIN:
-    settings.setValue( QString("Accounts/%1/login").arg( topLeft.row() ), topLeft.data() );
-    return;
-  case AccountsModel::COL_PASSWORD:
-    if ( ui->passwordsCheckBox->isChecked() )
-      settings.setValue( QString("Accounts/%1/password").arg( topLeft.row() ), ConfigFile::pwHash( topLeft.data( Qt::EditRole ).toString() ) );
-    return;
-  case AccountsModel::COL_DM:
-    settings.setValue( QString("Accounts/%1/directMessages").arg( topLeft.row() ), topLeft.data() );
-  default:
-    return;
+
+  for( int i = topLeft.row(); i <= bottomRight.row(); ++i )
+    for (int j = topLeft.column(); j <= bottomRight.column(); ++j ) {
+
+    if ( model->index(i, j).isValid() ) {
+      switch ( j ) {
+      case AccountsModel::COL_ENABLED:
+        settings.setValue( QString("Accounts/%1/enabled").arg( i ), model->index(i,j).data( Qt::CheckStateRole ) == Qt::Checked );
+        return;
+      case AccountsModel::COL_NETWORK:
+        settings.setValue( QString("Accounts/%1/service").arg( i ), model->index(i,j).data( Qt::EditRole ) );
+        return;
+      case AccountsModel::COL_LOGIN:
+        settings.setValue( QString("Accounts/%1/login").arg( i ), model->index(i,j).data() );
+        return;
+      case AccountsModel::COL_PASSWORD:
+        if ( ui->passwordsCheckBox->isChecked() )
+          settings.setValue( QString("Accounts/%1/password").arg( i ), ConfigFile::pwHash( model->index(i,j).data( Qt::EditRole ).toString() ) );
+        return;
+      case AccountsModel::COL_DM:
+        settings.setValue( QString("Accounts/%1/directMessages").arg( i ), model->index(i,j).data( Qt::CheckStateRole ) == Qt::Checked );
+      default:
+        return;
+      }
+    }
   }
+
+//  switch ( topLeft.column() ) {
+//  case AccountsModel::COL_ENABLED:
+//    settings.setValue( QString("Accounts/%1/enabled").arg( topLeft.row() ), topLeft.data() );
+//    return;
+//  case AccountsModel::COL_NETWORK:
+//    settings.setValue( QString("Accounts/%1/service").arg( topLeft.row() ), topLeft.data( Qt::EditRole ) );
+//    return;
+//  case AccountsModel::COL_LOGIN:
+//    settings.setValue( QString("Accounts/%1/login").arg( topLeft.row() ), topLeft.data() );
+//    return;
+//  case AccountsModel::COL_PASSWORD:
+//    if ( ui->passwordsCheckBox->isChecked() )
+//      settings.setValue( QString("Accounts/%1/password").arg( topLeft.row() ), ConfigFile::pwHash( topLeft.data( Qt::EditRole ).toString() ) );
+//    return;
+//  case AccountsModel::COL_DM:
+//    settings.setValue( QString("Accounts/%1/directMessages").arg( topLeft.row() ), topLeft.data() );
+//  default:
+//    return;
+//  }
 }
 
 void AccountsController::updateCheckBox( const QModelIndex &index )
 {
+  if (!model)
+    return;
+
   Account &account = model->account( index.row() );
   if ( index.column() == AccountsModel::COL_ENABLED ) {
     account.isEnabled = !account.isEnabled;
@@ -164,6 +279,9 @@ void AccountsController::updatePublicTimeline( int state )
 
 void AccountsController::togglePasswordStoring( int state )
 {
+  if (!model)
+    return;
+
   if ( state == Qt::Checked ) {
     for ( int i = 0; i < model->rowCount(); ++i ) {
       settings.setValue( QString( "Accounts/%1/password" ).arg(i), ConfigFile::pwHash( model->index( i, AccountsModel::COL_PASSWORD ).data( Qt::EditRole ).toString() ) );
@@ -196,6 +314,9 @@ void AccountsController::showPasswordDisclaimer()
 
 void AccountsController::addAccount()
 {
+  if (!model)
+    return;
+
 #if QT_VERSION < 0x040500
   bool ok = false;
   QString network = QInputDialog::getItem( view, tr( "Add account" ), tr( "Select social network:" ),
@@ -249,8 +370,12 @@ void AccountsController::addAccount()
 
 void AccountsController::deleteAccount()
 {
+  if (!model)
+    return;
+
   if ( !view->selectionModel()->currentIndex().isValid() )
     return;
+
   int row = view->selectionModel()->currentIndex().row();
   model->removeRow( row );
   settings.deleteAccount( row, model->rowCount() );
@@ -263,16 +388,24 @@ void AccountsController::deleteAccount()
 
 void AccountsController::setAccountEnabled( bool state )
 {
+  if (!model)
+    return;
+
   if ( !view->selectionModel()->currentIndex().isValid() )
     return;
+
   model->account( view->currentIndex().row() ).isEnabled = state;
   settings.setValue( QString("Accounts/%1/enabled").arg( view->currentIndex().row() ), state );
 }
 
 void AccountsController::setAccountDM( bool state )
 {
+  if (!model)
+    return;
+
   if ( !view->selectionModel()->currentIndex().isValid() )
     return;
+
   model->account( view->currentIndex().row() ).directMessages = state;
   settings.setValue( QString("Accounts/%1/directmsgs").arg( view->currentIndex().row() ), state );
 }

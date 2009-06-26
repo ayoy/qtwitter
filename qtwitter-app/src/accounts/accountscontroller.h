@@ -47,6 +47,7 @@ public:
   AccountsController( QWidget *widget, QObject *parent );
   virtual ~AccountsController();
   AccountsModel* getModel() const;
+  void setModel( AccountsModel *model );
 
 public slots:
   void loadAccounts();

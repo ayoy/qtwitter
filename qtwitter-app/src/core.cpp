@@ -25,6 +25,9 @@
 #include <QMessageBox>
 #include <QInputDialog>
 #include <QDebug>
+#include <QDataStream>
+#include <QDir>
+#include <QFile>
 #include <urlshortener/urlshortener.h>
 #include "core.h"
 #include "mainwindow.h"
@@ -101,18 +104,75 @@ Core::Core( MainWindow *parent ) :
   connect( statusModel, SIGNAL(markEverythingAsRead()), this, SLOT(markEverythingAsRead()) );
   connect( this, SIGNAL(resizeData(int,int)), statusModel, SLOT(resizeData(int,int)) );
 
+  accountsModel = new AccountsModel;
+
+#if defined Q_WS_MAC || Q_WS_WIN
+  QFile file( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/qTwitter/state" );
+#else
+  QFile file( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/.qtwitter/state" );
+#endif
+  bool ok = file.open(QIODevice::ReadOnly);
+  if (ok) {
+    QDataStream in(&file);
+    int count;
+    in >> count;
+    qDebug() << __FUNCTION__ << "Accounts count:" << count;
+
+    QList<Account> accountsList;
+
+    for( int i = 0; i < count; ++i ) {
+      Account account;
+      in >> account;
+      accountsList << account;
+      statusLists.insert( account, new StatusList( account.login, account.network, this ) );
+    }
+
+    accountsModel->setAccounts( accountsList );
+
+    foreach( StatusList *statusList, statusLists.values() ) {
+      QList<Status> list;
+      in >> list;
+      statusList->setStatuses( list );
+    }
+  }
+  file.close();
 }
 
 Core::~Core()
 {
+#if defined Q_WS_MAC || Q_WS_WIN
+  QString path( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/qTwitter" );
+#else
+  QString path( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) + "/.qtwitter" );
+#endif
+  QDir dir( path );
+  if ( !dir.exists() && !dir.mkpath( path ) ) {
+    return;
+  }
+  QFile file( path + "/state" );
+  bool ok = file.open(QIODevice::WriteOnly);
+  if (ok) {
+    QDataStream out(&file);
+    QList<Account> list = statusLists.keys();
+    out << list.size();
+    foreach ( Account account, list ) {
+      out << account;
+    }
+    foreach ( StatusList *statusList, statusLists.values() ) {
+      out << statusList->getData();
+    }
+    file.close();
+  }
 }
 
 void Core::createAccounts( QWidget *view )
 {
   accounts = new AccountsController( view, this );
   connect( accounts, SIGNAL(comboActive(bool)), this, SLOT(setWaitForAccounts(bool)) );
-  if ( !accountsModel )
-    accountsModel = accounts->getModel();
+  if ( accountsModel )
+    accounts->setModel( accountsModel );
+  else
+    qWarning() << "Accounts model not present!";
 }
 
 void Core::setWaitForAccounts( bool wait )
@@ -154,6 +214,8 @@ void Core::applySettings()
     statusModel->setMaxStatusCount( mtc );
     setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
 
+    if ( statusLists.keys().size() > 0 )
+      statusModel->setStatusList( statusLists.value( statusLists.keys().at(0) ) );
 
     setupStatusLists();
     emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
@@ -546,10 +608,23 @@ void Core::setupStatusLists()
 {
   accountsModel->cleanUp();
   QList<Account> newAccounts = accountsModel->getAccounts();
-  foreach ( Account account, statusLists.keys() ) {
-    if ( account.login != TwitterAPI::PUBLIC_TIMELINE && !newAccounts.contains( account ) ) {
-      statusLists[ account ]->deleteLater();
-      statusLists.remove( account );
+  QMap<Account,QString> passwordMap;
+  QString password;
+  foreach ( Account account, newAccounts ) {
+    password = account.password;
+    account.password = QString();
+    passwordMap.insert( account, password );
+  }
+
+  for( int i = 0; i < statusLists.keys().size(); ++i ) {
+    Account &account = statusLists.keys()[i];
+    if ( account.login != TwitterAPI::PUBLIC_TIMELINE ) {
+      if ( !passwordMap.keys().contains( account ) ) {
+        statusLists[ account ]->deleteLater();
+        statusLists.remove( account );
+      } else {
+        account.password = passwordMap.value( account );
+      }
     }
   }
 

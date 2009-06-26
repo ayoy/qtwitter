@@ -24,6 +24,7 @@
 #include <QPair>
 #include <QMetaType>
 #include <twitterapi/twitterapi_global.h>
+#include <QDataStream>
 
 struct Account
 {
@@ -43,6 +44,9 @@ struct Account
   bool operator==( const Account &other ) const;
   bool operator<( const Account &other ) const;
 };
+
+QDataStream& operator<<( QDataStream &out, const Account &account );
+QDataStream& operator>>( QDataStream &in, Account &account );
 
 Q_DECLARE_METATYPE(Account)
 

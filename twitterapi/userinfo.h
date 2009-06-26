@@ -25,7 +25,9 @@
 
 #include <QMetaType>
 #include <QDateTime>
+#include <QDataStream>
 #include "twitterapi_global.h"
+
 
 struct TWITTERAPI_EXPORT UserInfo
 {
@@ -56,6 +58,8 @@ struct TWITTERAPI_EXPORT UserInfo
 //    QString currentStatus;            //!< User's current status
 };
 
+QDataStream& operator<<( QDataStream & out, const UserInfo &userInfo );
+QDataStream& operator>>( QDataStream & in, UserInfo &userInfo );
 
 Q_DECLARE_METATYPE(UserInfo)
 

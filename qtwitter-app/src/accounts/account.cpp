@@ -90,3 +90,23 @@ bool Account::operator<( const Account &other ) const
     return network < other.network;
   return login < other.login;
 }
+
+QDataStream& operator<<( QDataStream & out, const Account &account )
+{
+  out << account.isEnabled;
+  out << account.network;
+  out << account.login;
+  out << account.directMessages;
+  return out;
+}
+
+QDataStream& operator>>( QDataStream & in, Account &account )
+{
+  int network;
+  in >> account.isEnabled;
+  in >> network;
+  in >> account.login;
+  in >> account.directMessages;
+  account.network = (TwitterAPI::SocialNetwork) network;
+  return in;
+}
