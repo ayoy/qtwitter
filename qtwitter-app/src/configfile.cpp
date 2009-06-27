@@ -44,6 +44,8 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
     } else if ( value( "General/version", QString() ).toString().isNull() ) {
       convertSettingsToZeroSix();
       convertSettingsToZeroSeven();
+    } else {
+      setValue( "General/version", ConfigFile::APP_VERSION );
     }
   } else {
     setValue( "General/version", ConfigFile::APP_VERSION );

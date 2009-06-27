@@ -101,9 +101,9 @@ const int StatusListPrivate::publicMaxCount = 20;
 int StatusListPrivate::maxCount = 0;
 
 StatusList::StatusList( const QString &login , TwitterAPI::SocialNetwork network, QObject *parent ) :
-    QObject( parent )
+    QObject( parent ),
+    d( new StatusListPrivate )
 {
-  d = new StatusListPrivate;
   d->network = network;
   d->login = login;
 }
@@ -111,7 +111,6 @@ StatusList::StatusList( const QString &login , TwitterAPI::SocialNetwork network
 StatusList::~StatusList()
 {
   delete d;
-  d = 0;
 }
 
 bool StatusList::hasUnread()
@@ -211,6 +210,11 @@ void StatusList::setStatuses( const QList<Status> &statuses )
 int StatusList::active() const
 {
   return d->active;
+}
+
+void StatusList::setActive( int active )
+{
+  d->active = active;
 }
 
 int StatusList::size() const

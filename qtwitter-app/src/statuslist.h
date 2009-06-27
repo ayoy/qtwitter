@@ -63,7 +63,7 @@ class StatusList : public QObject
   Q_PROPERTY( QString login READ login WRITE setLogin )
   Q_PROPERTY( bool visible READ isVisible WRITE setVisible )
   // index of the active status
-  Q_PROPERTY( int active READ active )
+  Q_PROPERTY( int active READ active WRITE setActive )
 
 public:
   StatusList( const QString &login, TwitterAPI::SocialNetwork network, QObject *parent = 0 );
@@ -100,6 +100,8 @@ public:
   void setStatuses( const QList<Status> &statuses );
 
   int active() const;
+  void setActive( int active );
+
   int size() const;
 
 public slots:
@@ -114,7 +116,7 @@ signals:
   void imageChanged( int index );
 
 private:
-  StatusListPrivate * d;
+  StatusListPrivate * const d;
 };
 
 #endif // STATUSLIST_H

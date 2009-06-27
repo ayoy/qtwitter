@@ -116,23 +116,36 @@ Core::Core( MainWindow *parent ) :
     QDataStream in(&file);
     int count;
     in >> count;
-    qDebug() << __FUNCTION__ << "Accounts count:" << count;
+//    qDebug() << "Stream status:" << in.status();
+    if ( in.status() == QDataStream::Ok ) {
+//      qDebug() << __FUNCTION__ << "Accounts count:" << count;
 
-    QList<Account> accountsList;
+      QList<Account> accountsList;
 
-    for( int i = 0; i < count; ++i ) {
-      Account account;
-      in >> account;
-      accountsList << account;
-      statusLists.insert( account, new StatusList( account.login, account.network, this ) );
-    }
+      for( int i = 0; i < count; ++i ) {
+        Account account;
+        in >> account;
+        accountsList << account;
+        statusLists.insert( account, new StatusList( account.login, account.network, this ) );
+      }
 
-    accountsModel->setAccounts( accountsList );
+//      qDebug() << "Stream status:" << in.status();
+      if ( in.status() == QDataStream::Ok ) {
+        accountsModel->setAccounts( accountsList );
 
-    foreach( StatusList *statusList, statusLists.values() ) {
-      QList<Status> list;
-      in >> list;
-      statusList->setStatuses( list );
+        foreach( StatusList *statusList, statusLists.values() ) {
+          qint8 visible;
+          qint8 active;
+          QList<Status> list;
+          in >> visible;
+          in >> active;
+          in >> list;
+          statusList->setStatuses( list );
+          statusList->setVisible( (bool) visible );
+          statusList->setActive( active );
+        }
+      }
+//      qDebug() << "Stream status:" << in.status();
     }
   }
   file.close();
@@ -159,6 +172,8 @@ Core::~Core()
       out << account;
     }
     foreach ( StatusList *statusList, statusLists.values() ) {
+      out << (qint8) statusList->isVisible();
+      out << (qint8) statusList->active();
       out << statusList->getData();
     }
     file.close();
@@ -214,8 +229,10 @@ void Core::applySettings()
     statusModel->setMaxStatusCount( mtc );
     setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
 
-    if ( statusLists.keys().size() > 0 )
-      statusModel->setStatusList( statusLists.value( statusLists.keys().at(0) ) );
+    if ( statusLists.keys().size() > 0 ) {
+      statusModel->setStatusList( statusLists.value(
+          statusLists.keys().at( settings.value( "Accounts/visibleAccount", 0 ).toInt() ) ) );
+    }
 
     setupStatusLists();
     emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
@@ -616,14 +633,23 @@ void Core::setupStatusLists()
     passwordMap.insert( account, password );
   }
 
-  for( int i = 0; i < statusLists.keys().size(); ++i ) {
-    Account &account = statusLists.keys()[i];
+  QList<Account> statusListsKeys = statusLists.keys();
+  for( int i = 0; i < statusListsKeys.size(); ++i ) {
+    Account &account = statusListsKeys[i];
     if ( account.login != TwitterAPI::PUBLIC_TIMELINE ) {
       if ( !passwordMap.keys().contains( account ) ) {
         statusLists[ account ]->deleteLater();
         statusLists.remove( account );
       } else {
+        QList<Status> statuses = statusLists.value( account )->getData();
+        statusLists[ account ]->deleteLater();
+        statusLists.remove( account );
+
         account.password = passwordMap.value( account );
+
+        StatusList *statusList = new StatusList( account.login, account.network, this );
+        statusList->setStatuses( statuses );
+        statusLists.insert( account, statusList );
       }
     }
   }
