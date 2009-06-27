@@ -105,7 +105,7 @@ else:unix {
         ../README \
         ../LICENSE
     SHARE_DIR = $${INSTALL_PREFIX}/share/$${TARGET}
-    DEFINES += SHARE_DIR=\"\\\"$${SHARE_DIR}\\\"\"
+    DEFINES += SHARE_DIR='\\\"$${SHARE_DIR}\\\"'
     translations.path = $${SHARE_DIR}/loc
     translations.files = $${TRANSLATIONS}
     translations.files ~= s/\.ts/.qm/g

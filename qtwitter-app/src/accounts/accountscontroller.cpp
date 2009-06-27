@@ -130,7 +130,7 @@ void AccountsController::loadAccounts()
         modelAccount.password = passwords.at( modelAccountIndex );
         passwords.removeAt( modelAccountIndex );
         settingsAccounts.removeAt( modelAccountIndex );
-        qDebug() << __FUNCTION__ << "MODEL" << modelAccount.login << modelAccount.password;
+//        qDebug() << __FUNCTION__ << "MODEL" << modelAccount.login << modelAccount.password;
       }
     }
   }
@@ -145,7 +145,7 @@ void AccountsController::loadAccounts()
 #endif
         ) {
         settingsAccount.password = passwords.at( settingsAccounts.indexOf( settingsAccount ) );
-        qDebug() << __FUNCTION__ << "SETTINGS" << settingsAccount.login << settingsAccount.password;
+//        qDebug() << __FUNCTION__ << "SETTINGS" << settingsAccount.login << settingsAccount.password;
         modelAccounts.insert( i, settingsAccount );
       }
     } else {
