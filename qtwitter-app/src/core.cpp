@@ -109,7 +109,7 @@ Core::Core( MainWindow *parent ) :
 #if defined Q_WS_MAC || Q_WS_WIN
   QFile file( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/qTwitter/state" );
 #else
-  QFile file( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/.qtwitter/state" );
+  QFile file( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) + "/.qtwitter/state" );
 #endif
   bool ok = file.open(QIODevice::ReadOnly);
   if (ok) {
