@@ -180,9 +180,9 @@ void StatusModel::setStatusList( StatusList *statusList )
   int active = statusList->active();
   if ( active == -1 ) {
     currentIndex = QModelIndex();
-    view->setCurrentIndex( index( 0, 0 ) );
     view->scrollTo( index( 0, 0 ) );
   } else {
+    currentIndex = index( active, 0 );
     selectStatus( index( active, 0 ) );
     view->setCurrentIndex( currentIndex );
     view->scrollTo( currentIndex );

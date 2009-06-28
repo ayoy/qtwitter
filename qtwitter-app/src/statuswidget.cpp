@@ -69,7 +69,6 @@ StatusWidget::StatusWidget( StatusModel *parentModel, QWidget *parent ) :
 
   resize( currentWidth, height() );
   adjustSize();
-  setFocusProxy( m_ui->userStatus );
   createMenu();
   m_ui->userStatus->setMenu( menu );
 }

@@ -36,7 +36,8 @@ public:
 
   void mousePressEvent( QMouseEvent * e )
   {
-    emit mousePressed();
+    if ( e->button() == Qt::LeftButton )
+      emit mousePressed();
     QTextBrowser::mousePressEvent( e );
   }
 

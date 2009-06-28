@@ -229,11 +229,6 @@ void Core::applySettings()
     statusModel->setMaxStatusCount( mtc );
     setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
 
-    if ( statusLists.keys().size() > 0 ) {
-      statusModel->setStatusList( statusLists.value(
-          statusLists.keys().at( settings.value( "Accounts/visibleAccount", 0 ).toInt() ) ) );
-    }
-
     setupStatusLists();
     emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
 
@@ -642,6 +637,7 @@ void Core::setupStatusLists()
         statusLists.remove( account );
       } else {
         QList<Status> statuses = statusLists.value( account )->getData();
+        int active = statusLists.value( account )->active();
         statusLists[ account ]->deleteLater();
         statusLists.remove( account );
 
@@ -649,6 +645,7 @@ void Core::setupStatusLists()
 
         StatusList *statusList = new StatusList( account.login, account.network, this );
         statusList->setStatuses( statuses );
+        statusList->setActive( active );
         statusLists.insert( account, statusList );
       }
     }
