@@ -229,8 +229,9 @@ void Core::applySettings()
     setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
 
     setupStatusLists();
-    if ( statusLists.count() == 0 )
+    if ( statusLists.count() == 0 ) {
       statusModel->clear();
+    }
 
     emit accountsUpdated( accountsModel->getAccounts() );
 
@@ -608,23 +609,24 @@ void Core::setupStatusLists()
   QList<Account> statusListsKeys = statusLists.keys();
   for( int i = 0; i < statusListsKeys.size(); ++i ) {
     Account &account = statusListsKeys[i];
-    if ( account.login != TwitterAPI::PUBLIC_TIMELINE ) {
-      if ( !passwordMap.keys().contains( account ) ) {
-        statusLists[ account ]->deleteLater();
-        statusLists.remove( account );
-      } else {
-        QList<Status> statuses = statusLists.value( account )->getData();
-        int active = statusLists.value( account )->active();
-        statusLists[ account ]->deleteLater();
-        statusLists.remove( account );
+    Account noPasswdAccount = account;
+    noPasswdAccount.password = QString();
+    if ( !passwordMap.keys().contains( noPasswdAccount ) ) {
+      statusLists[ account ]->deleteLater();
+      qDebug() << "Deleting statusList for account:" << account.login << account.network;
+      statusLists.remove( account );
+    } else {
+      QList<Status> statuses = statusLists.value( account )->getData();
+      int active = statusLists.value( account )->active();
+      statusLists[ account ]->deleteLater();
+      statusLists.remove( account );
 
-        account.password = passwordMap.value( account );
+      account.password = passwordMap.value( account );
 
-        StatusList *statusList = new StatusList( account.login, account.network, this );
-        statusList->setStatuses( statuses );
-        statusList->setActive( active );
-        statusLists.insert( account, statusList );
-      }
+      StatusList *statusList = new StatusList( account.login, account.network, this );
+      statusList->setStatuses( statuses );
+      statusList->setActive( active );
+      statusLists.insert( account, statusList );
     }
   }
 
