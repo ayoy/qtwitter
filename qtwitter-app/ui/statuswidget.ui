@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>292</width>
-    <height>91</height>
+    <height>82</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -28,7 +28,7 @@
      <x>0</x>
      <y>0</y>
      <width>292</width>
-     <height>91</height>
+     <height>82</height>
     </rect>
    </property>
    <property name="sizePolicy">
@@ -71,8 +71,8 @@ border-radius: 0px}
    <widget class="QLabel" name="userName">
     <property name="geometry">
      <rect>
-      <x>72</x>
-      <y>13</y>
+      <x>66</x>
+      <y>8</y>
       <width>200</width>
       <height>17</height>
      </rect>
@@ -90,8 +90,8 @@ border-radius: 0px}
    <widget class="StatusTextBrowser" name="userStatus">
     <property name="geometry">
      <rect>
-      <x>69</x>
-      <y>32</y>
+      <x>63</x>
+      <y>23</y>
       <width>200</width>
       <height>25</height>
      </rect>
@@ -295,7 +295,7 @@ p, li { white-space: pre-wrap; }
     <property name="geometry">
      <rect>
       <x>26</x>
-      <y>65</y>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -339,8 +339,8 @@ background-color: rgba(255,255,255,0);
    <widget class="QLabel" name="timeStamp">
     <property name="geometry">
      <rect>
-      <x>72</x>
-      <y>60</y>
+      <x>66</x>
+      <y>52</y>
       <width>200</width>
       <height>18</height>
      </rect>
@@ -361,7 +361,7 @@ background-color: rgba(255,255,255,0);
     <property name="geometry">
      <rect>
       <x>42</x>
-      <y>65</y>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>
@@ -391,7 +391,7 @@ background-color: rgba(255,255,255,0);
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>65</y>
+      <y>60</y>
       <width>16</width>
       <height>16</height>
      </rect>

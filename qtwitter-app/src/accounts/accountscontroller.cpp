@@ -196,7 +196,7 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
           settings.setValue( QString("Accounts/%1/password").arg( i ), ConfigFile::pwHash( model->index(i,j).data( Qt::EditRole ).toString() ) );
         break;
       case AccountsModel::COL_DM:
-        settings.setValue( QString("Accounts/%1/directMessages").arg( i ), model->index(i,j).data( Qt::CheckStateRole ) != Qt::Unchecked );
+        settings.setValue( QString("Accounts/%1/directmsgs").arg( i ), model->index(i,j).data( Qt::CheckStateRole ) != Qt::Unchecked );
       default:
         break;
       }

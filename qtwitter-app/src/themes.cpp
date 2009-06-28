@@ -23,7 +23,7 @@
 const ThemeInfo Themes::STYLESHEET_COCOA   = ThemeInfo( QString( "Cocoa" ),
                                                           ThemeData( ThemeElement( QString( "QFrame {"
                                                                                               "background-color: rgb(204, 153, 102);"
-                                                                                              "border-width: 3px;"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
                                                                                               "border-color: rgb(51, 51, 0);"
                                                                                               "border-radius: 12px }"
@@ -41,7 +41,7 @@ const ThemeInfo Themes::STYLESHEET_COCOA   = ThemeInfo( QString( "Cocoa" ),
                                                                                             "a:visited { color: rgb(255, 248, 40); }" ) ),
                                                                      ThemeElement( QString( "QFrame {"
                                                                                               "background-color: rgb(234, 183, 132);"
-                                                                                              "border-width: 3px;"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
                                                                                               "border-color: rgb(102, 102, 0);"
                                                                                               "border-radius: 12px }"
@@ -59,7 +59,7 @@ const ThemeInfo Themes::STYLESHEET_COCOA   = ThemeInfo( QString( "Cocoa" ),
                                                                                             "a:visited { color: rgb(255, 248, 40); }" ) ),
                                                                      ThemeElement( QString( "QFrame {"
                                                                                               "background-color: rgb(153, 102, 51);"
-                                                                                              "border-width: 3px; border-style: outset;"
+                                                                                              "border-width: 2px; border-style: outset;"
                                                                                               "border-color: rgb(20, 20, 0);"
                                                                                               "border-radius: 12px }"
                                                                                             "QLabel {"
@@ -93,7 +93,7 @@ const ThemeInfo Themes::STYLESHEET_COCOA   = ThemeInfo( QString( "Cocoa" ),
 const ThemeInfo Themes::STYLESHEET_GRAY    = ThemeInfo( QString( "Gray" ),
                                                           ThemeData( ThemeElement( QString( "QFrame {"
                                                                                               "background-color: rgb(102, 102, 102);"
-                                                                                              "border-width: 3px;"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
                                                                                               "border-color: rgb(0, 0, 0);"
                                                                                               "border-radius: 12px}"
@@ -111,7 +111,7 @@ const ThemeInfo Themes::STYLESHEET_GRAY    = ThemeInfo( QString( "Gray" ),
                                                                                             "a:visited { color: rgb(255, 248, 140); }" ) ),
                                                                      ThemeElement( QString( "QFrame {"
                                                                                               "background-color: rgb(133, 133, 133);"
-                                                                                              "border-width: 3px;"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
                                                                                               "border-color: rgb(204, 204, 204);"
                                                                                               "border-radius: 12px }"
@@ -129,7 +129,7 @@ const ThemeInfo Themes::STYLESHEET_GRAY    = ThemeInfo( QString( "Gray" ),
                                                                                             "a:visited { color: rgb(255, 248, 140); }" ) ),
                                                                      ThemeElement( QString( "QFrame {"
                                                                                               "background-color: rgb(51, 51, 51);"
-                                                                                              "border-width: 3px;"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
                                                                                               "border-color: rgb(0, 0, 0);"
                                                                                               "border-radius: 12px}"
@@ -159,11 +159,12 @@ const ThemeInfo Themes::STYLESHEET_GRAY    = ThemeInfo( QString( "Gray" ),
                                                                                             "a:visited { color: rgb(215, 208, 100); }" ) ),
                                                                                    QColor( 51, 51, 51 ) ) );
 const ThemeInfo Themes::STYLESHEET_GREEN   = ThemeInfo( QString( "Green" ),
+                                                                     // unread
                                                           ThemeData( ThemeElement( QString( "QFrame {"
-                                                                                              "background-color: rgb(102, 153, 0);"
-                                                                                              "border-width: 3px;"
-                                                                                              "border-style: outset;"
-                                                                                              "border-color: rgb(0, 72, 0);"
+                                                                                              "background-color: rgb(82, 133, 0);"
+                                                                                              "border-width: 2px;"
+                                                                                              "border-style: solid;"
+                                                                                              "border-color: rgb(31, 82, 0);"
                                                                                               "border-radius: 12px}"
                                                                                             "QLabel {"
                                                                                               "background-color: rgba(255, 255, 255, 0);"
@@ -177,11 +178,13 @@ const ThemeInfo Themes::STYLESHEET_GREEN   = ThemeInfo( QString( "Green" ),
                                                                                               "border-style: normal }" ),
                                                                                    QString( "a:link { color: rgb(255, 248, 140); }"
                                                                                             "a:visited { color: rgb(255, 248, 140); }" ) ),
+                                                                     // active
                                                                      ThemeElement( QString( "QFrame {"
-                                                                                              "background-color: rgb(132, 183, 30);"
-                                                                                              "border-width: 3px;"
+//                                                                                              "background-color: rgb(132, 183, 30);"
+                                                                                              "background-color: rgb(112, 162, 30);"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
-                                                                                              "border-color: rgb(0, 92, 0);"
+                                                                                              "border-color: rgb(82, 133, 0);"
                                                                                               "border-radius: 12px}"
                                                                                             "QLabel {"
                                                                                               "background-color: rgba(255, 255, 255, 0);"
@@ -193,26 +196,29 @@ const ThemeInfo Themes::STYLESHEET_GREEN   = ThemeInfo( QString( "Green" ),
                                                                                               "color: rgb(255, 255, 255);"
                                                                                               "border-width: 0px;"
                                                                                               "border-style: normal }" ),
-                                                                                   QString( "a:link { color: rgb(255, 248, 140); }"
-                                                                                            "a:visited { color: rgb(255, 248, 140); }" ) ),
+                                                                                   QString( "a:link { color: rgb(255, 248, 160); }"
+                                                                                            "a:visited { color: rgb(255, 248, 160); }" ) ),
+                                                                     // read
                                                                      ThemeElement( QString( "QFrame {"
                                                                                               "background-color: rgb(51, 102, 0);"
-                                                                                              "border-width: 3px;"
-                                                                                              "border-style: outset;"
-                                                                                              "border-color: rgb(0, 32, 0);"
+                                                                                              "border-width: 2px;"
+                                                                                              "border-style: solid;"
+                                                                                              "border-color: rgb(0, 51, 0);"
+//                                                                                              "border-color: rgb(0, 32, 0);"
                                                                                               "border-radius: 12px}"
                                                                                             "QLabel {"
                                                                                               "background-color: rgba(255, 255, 255, 0);"
-                                                                                              "color: rgb(153, 153, 153);"
+                                                                                              "color: rgb(224, 224, 224);"
                                                                                               "border-width: 0px;"
                                                                                               "border-radius: 0px }"
                                                                                             "QTextBrowser {"
                                                                                               "background-color: rgba(255, 255, 255, 0);"
-                                                                                              "color: rgb(153, 153, 153);"
+                                                                                              "color: rgb(224, 224, 224);"
                                                                                               "border-width: 0px;"
                                                                                               "border-style: normal}" ),
-                                                                                   QString( "a:link { color: rgb(153, 146, 38); }"
+                                                                                   QString( "a:link { color: rgb(204, 186, 78); }"
                                                                                             "a:visited { color: rgb(153, 146, 38); }" ) ),
+                                                                     // disabled
                                                                      ThemeElement( QString( "QFrame {"
                                                                                               "background-color: rgb(0, 51, 0);"
                                                                                               "border-style: none }"
@@ -232,7 +238,7 @@ const ThemeInfo Themes::STYLESHEET_GREEN   = ThemeInfo( QString( "Green" ),
 const ThemeInfo Themes::STYLESHEET_PURPLE  = ThemeInfo( QString( "Purple" ),
                                                           ThemeData( ThemeElement( QString( "QFrame {"
                                                                                               "background-color: rgb(153, 102, 204);"
-                                                                                              "border-width: 3px;"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
                                                                                               "border-color: rgb(153, 153, 204);"
                                                                                               "border-radius: 12px }"
@@ -250,7 +256,7 @@ const ThemeInfo Themes::STYLESHEET_PURPLE  = ThemeInfo( QString( "Purple" ),
                                                                                             "a:visited { color: rgb(255, 248, 140); }" ) ),
                                                                      ThemeElement( QString( "QFrame {"
                                                                                               "background-color: rgb(183, 132, 234);"
-                                                                                              "border-width: 3px;"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
                                                                                               "border-color: rgb(173, 173, 224);"
                                                                                               "border-radius: 12px}"
@@ -268,7 +274,7 @@ const ThemeInfo Themes::STYLESHEET_PURPLE  = ThemeInfo( QString( "Purple" ),
                                                                                             "a:visited { color: rgb(255, 248, 140); }" ) ),
                                                                      ThemeElement( QString( "QFrame {"
                                                                                               "background-color: rgb(102, 51, 153);"
-                                                                                              "border-width: 3px;"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
                                                                                               "border-color: rgb(113, 113, 164);"
                                                                                               "border-radius: 12px}"
@@ -306,7 +312,7 @@ const ThemeInfo Themes::STYLESHEET_SKY     = ThemeInfo( QString( "Sky" ),
                                                                                                                                  "stop:0 rgba(139, 187, 218, 255),"
                                                                                                                                  "stop:0.5 rgba(180, 209, 236, 255),"
                                                                                                                                  "stop:1 rgba(222, 231, 255, 255));"
-                                                                                              "border-width: 3px;"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
                                                                                               "border-color: rgb(163, 199, 215);"
                                                                                               "border-radius: 12px }"
@@ -327,7 +333,7 @@ const ThemeInfo Themes::STYLESHEET_SKY     = ThemeInfo( QString( "Sky" ),
                                                                                                                                 "stop:0 rgba(139, 187, 218, 255),"
                                                                                                                                 "stop:0.2 rgba(180, 209, 236, 255),"
                                                                                                                                 "stop:1 rgba(222, 231, 255, 255));"
-                                                                                              "border-width: 3px;"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
                                                                                               "border-color: rgb(255, 255, 255);"
                                                                                               "border-radius: 12px}"
@@ -348,7 +354,7 @@ const ThemeInfo Themes::STYLESHEET_SKY     = ThemeInfo( QString( "Sky" ),
                                                                                                                                 "stop:0 rgba(89, 137, 168, 255),"
                                                                                                                                 "stop:0.8 rgba(180, 209, 236, 255),"
                                                                                                                                 "stop:1 rgba(222, 231, 255, 255));"
-                                                                                              "border-width: 3px;"
+                                                                                              "border-width: 2px;"
                                                                                               "border-style: outset;"
                                                                                               "border-color: rgb(102, 137, 153);"
                                                                                               "border-radius: 12px}"
