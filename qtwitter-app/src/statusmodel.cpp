@@ -35,7 +35,7 @@ StatusModel::StatusModel( StatusListView *parentListView, QObject *parent ) :
 {
   connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(selectStatus(QModelIndex)) );
   connect( view, SIGNAL(moveFocus(bool)), this, SLOT(moveFocus(bool)) );
-  connect( view, SIGNAL(deselectAll()), this, SLOT(clearSelection()) );
+  connect( view, SIGNAL(deselectAll()), this, SLOT(deselectCurrentIndex()) );
 }
 
 void StatusModel::populate()
@@ -126,12 +126,8 @@ void StatusModel::deselectCurrentIndex()
   if ( currentIndex.isValid() ) {
     StatusWidget *widget = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
     Q_ASSERT(widget);
-    StatusModel::StatusState state = statusList->state( currentIndex.row() );
-    if ( state != StatusModel::STATE_UNREAD ) {
-      state = StatusModel::STATE_READ;
-      statusList->setState( currentIndex.row(), state );
-      widget->setState( StatusModel::STATE_READ );
-    }
+    widget->setState( StatusModel::STATE_READ );
+    statusList->setState( currentIndex.row(), StatusModel::STATE_READ );
     currentIndex = QModelIndex();
   }
 }
@@ -321,17 +317,6 @@ void StatusModel::markAllAsRead()
         status.state = StatusModel::STATE_READ;
       statusList->setState(i, status.state );
     }
-  }
-}
-
-void StatusModel::clearSelection()
-{
-  StatusWidget *widget = 0;
-  if ( currentIndex.isValid() ) {
-    widget = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
-    Q_ASSERT(widget);
-    widget->setState( StatusModel::STATE_READ );
-    statusList->setState( currentIndex.row(), StatusModel::STATE_READ );
   }
 }
 

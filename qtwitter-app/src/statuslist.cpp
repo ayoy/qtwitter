@@ -181,6 +181,9 @@ void StatusList::setState( int index, StatusModel::StatusState state )
   if ( d->data[ index ].state == state )
     return;
 
+  if ( d->data[ index ].state == StatusModel::STATE_ACTIVE )
+    d->active = -1;
+
   d->data[ index ].state = state;
 
   if ( state == StatusModel::STATE_ACTIVE )
