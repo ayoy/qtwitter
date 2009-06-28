@@ -55,7 +55,11 @@ StatusWidget::StatusWidget( StatusModel *parentModel, QWidget *parent ) :
   m_ui->favoriteReplyButton->setToolTip( tr( "Add to Favorites" ) );
 
   QFont timeStampFont = m_ui->timeStamp->font();
+#ifdef Q_WS_MAC
   timeStampFont.setPointSize( timeStampFont.pointSize() - 2 );
+#else
+  timeStampFont.setPointSize( timeStampFont.pointSize() - 1 );
+#endif
   m_ui->timeStamp->setFont( timeStampFont );
 
   connect( m_ui->replyDeleteButton, SIGNAL(clicked()), this, SLOT(handleReplyDeleteButton()));
@@ -209,7 +213,7 @@ void StatusWidget::resize( int w, int h )
   w -= StatusWidget::scrollBarWidth;
   QWidget::resize( w, h );
   m_ui->frame->resize( w, h );
-  m_ui->userStatus->resize( size().width() - m_ui->userStatus->geometry().x() - 12, m_ui->userStatus->size().height() );
+  m_ui->userStatus->resize( size().width() - m_ui->userStatus->geometry().x() - 6, m_ui->userStatus->size().height() );
   m_ui->userName->resize( m_ui->userStatus->width(), m_ui->userName->height() );
   m_ui->timeStamp->resize( m_ui->userStatus->width(), m_ui->timeStamp->height() );
   adjustSize();
@@ -478,8 +482,8 @@ void StatusWidget::adjustSize()
   m_ui->userStatus->document()->setTextWidth( m_ui->userStatus->width() );
   m_ui->userStatus->resize( m_ui->userStatus->size().width(), (int)m_ui->userStatus->document()->size().height() );
   m_ui->frame->resize( m_ui->frame->width(), qMax(82, m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + m_ui->timeStamp->height() + 8) );
-  m_ui->timeStamp->move( m_ui->timeStamp->x(), height() - m_ui->timeStamp->height() - 6 );//m_ui->userStatus->geometry().y() + m_ui->userStatus->height() );
   resize( m_ui->frame->size() );
+  m_ui->timeStamp->move( m_ui->timeStamp->x(), height() - m_ui->timeStamp->height() - 6 );//m_ui->userStatus->geometry().y() + m_ui->userStatus->height() );
 }
 
 void StatusWidget::slotReply()
