@@ -64,7 +64,6 @@ public slots:
   void switchLanguage( int index );
 
 signals:
-  void accountsChanged( const QList<Account> &accounts, bool publicTimeline );
   void createAccounts( QWidget *view );
 
 private slots:

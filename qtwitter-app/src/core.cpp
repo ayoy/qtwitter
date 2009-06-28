@@ -216,7 +216,6 @@ void Core::setSettingsOpen( bool open )
 void Core::applySettings()
 {
   static bool appStartup = true;
-  publicTimeline = settings.value( "Accounts/publicTimeline", AccountsController::PT_NONE ).toInt();
   if ( appStartup ) {
     accounts->loadAccounts();
     appStartup = false;
@@ -230,7 +229,10 @@ void Core::applySettings()
     setTimerInterval( settings.value( "General/refresh-value", 15 ).toInt() * 60000 );
 
     setupStatusLists();
-    emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
+    if ( statusLists.count() == 0 )
+      statusModel->clear();
+
+    emit accountsUpdated( accountsModel->getAccounts() );
 
     // TODO: do this only when really needed
     twitterapi->resetConnections();
@@ -276,8 +278,6 @@ void Core::setModelData( TwitterAPI::SocialNetwork network, const QString &login
   //TODO: debug, warning, etc.
   if ( login.isNull() )
     statusModel->clear();
-  else if ( login == TwitterAPI::PUBLIC_TIMELINE )
-    statusModel->setStatusList( statusLists[ Account::publicTimeline( network ) ] );
   else
     statusModel->setStatusList( statusLists[ *accountsModel->account( network, login ) ] );
 }
@@ -312,23 +312,6 @@ void Core::get()
         emit newRequest();
       }
     }
-  }
-
-  switch ( publicTimeline ) {
-  case AccountsController::PT_BOTH:
-  case AccountsController::PT_TWITTER:
-    twitterapi->publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER );
-    started = true;
-    emit newRequest();
-    if ( publicTimeline == AccountsController::PT_TWITTER )
-      break;
-  case AccountsController::PT_IDENTICA:
-    twitterapi->publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA );
-    started = true;
-    emit newRequest();
-  case AccountsController::PT_NONE:
-  default:
-    break;
   }
 
   if ( started )
@@ -478,14 +461,14 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
       authDialogOpen = false;
       account->isEnabled = false;
       settings.setValue( QString("Accounts/%1/enabled").arg( row ), false );
-      emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
+      emit accountsUpdated( accountsModel->getAccounts() );
       delete dlg;
       return Core::STATE_DISABLE_ACCOUNT;
     } else if ( ui.removeBox->isChecked() ) {
       authDialogOpen = false;
       accountsModel->removeRow( row );
       settings.deleteAccount( row, accountsModel->rowCount() );
-      emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
+      emit accountsUpdated( accountsModel->getAccounts() );
       delete dlg;
       return Core::STATE_REMOVE_ACCOUNT;
     }
@@ -496,7 +479,7 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
       statusLists[ newAccount ]->setLogin( newAccount.login );
       statusLists.remove( *account );
       account->login = ui.loginEdit->text();
-      emit accountsUpdated( accountsModel->getAccounts(), publicTimeline );
+      emit accountsUpdated( accountsModel->getAccounts() );
     }
     account->password = ui.passwordEdit->text();
 
@@ -523,15 +506,9 @@ void Core::retranslateUi()
 
 void Core::addEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry )
 {
-  if ( login == TwitterAPI::PUBLIC_TIMELINE ) {
-    if ( !statusLists.contains( Account::publicTimeline( network ) ) )
-      return;
-    statusLists[ Account::publicTimeline( network ) ]->addStatus( entry );
-  } else {
-    if ( !statusLists.contains( *accountsModel->account( network, login ) ) )
-      return;
-    statusLists[ *accountsModel->account( network, login ) ]->addStatus( entry );
-  }
+  if ( !statusLists.contains( *accountsModel->account( network, login ) ) )
+    return;
+  statusLists[ *accountsModel->account( network, login ) ]->addStatus( entry );
 
   if ( entry.type == Entry::Status ) {
     if ( imageDownload->contains( entry.userInfo.imageUrl ) ) {
@@ -667,47 +644,6 @@ void Core::setupStatusLists()
       statusLists[ account ]->slotDirectMessagesChanged( account.directMessages );
   }
 
-  switch ( publicTimeline ) {
-  case AccountsController::PT_NONE:
-    if ( statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ) ) {
-      statusLists[ Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ]->deleteLater();
-      statusLists.remove( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) );
-    }
-    if ( statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
-      statusLists[ Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ]->deleteLater();
-      statusLists.remove( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) );
-    }
-    break;
-  case AccountsController::PT_TWITTER:
-    if ( !statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ) ) {
-      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_TWITTER, this );
-      statusLists.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ), statusList );
-    }
-    if ( statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
-      statusLists[ Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ]->deleteLater();
-      statusLists.remove( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) );
-    }
-    break;
-  case AccountsController::PT_IDENTICA:
-    if ( !statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
-      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_IDENTICA, this );
-      statusLists.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ), statusList );
-    }
-    if ( statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ) ) {
-      statusLists[ Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ]->deleteLater();
-      statusLists.remove( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) );
-    }
-    break;
-  case AccountsController::PT_BOTH:
-    if ( !statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) ) ) {
-      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_TWITTER, this );
-      statusLists.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ), statusList );
-    }
-    if ( !statusLists.contains( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) ) ) {
-      StatusList *statusList = new StatusList( TwitterAPI::PUBLIC_TIMELINE, TwitterAPI::SOCIALNETWORK_IDENTICA, this );
-      statusLists.insert( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ), statusList );
-    }
-  }
   requestCount = 0;
 }
 
@@ -976,12 +912,6 @@ void Core::shortenUrl( const QString &url )
     \param image An image to show for Statuses with the given \a url
 */
 
-/*! \fn void Core::requestListRefresh( bool isPublicTimeline, bool isSwitchUser)
-    Emitted when user's request may possibly require deleting currently displayed list.
-    \param isPublicTimeline Value returned by isPublicTimelineSync.
-    \param isSwitchUser Indicates wether the user has changed since previous valid request.
-*/
-
 /*! \fn void Core::requestStarted()
     Emitted when any of the post/get requests starts. Used to make MainWindow instance
     display the progress icon.
@@ -995,12 +925,6 @@ void Core::shortenUrl( const QString &url )
 /*! \fn void Core::timelineUpdated()
     Emitted to notify model that TwitterAPI requests are finished and notification popup
     can be displayed.
-*/
-
-/*! \fn void Core::directMessagesSyncChanged( bool isEnabled )
-    Emitted when direct messages downloading enabled state changes.
-    \param isEnabled Indicates if direct messages were enabled or disabled.
-    \sa setDirectMessagesSync(), isDirectMessagesSync()
 */
 
 /*! \fn void Core::publicTimelineSyncChanged( bool isEnabled )

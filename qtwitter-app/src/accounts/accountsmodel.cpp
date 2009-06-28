@@ -26,8 +26,6 @@ extern ConfigFile settings;
 
 AccountsModel::AccountsModel( QObject *parent ) : QAbstractItemModel( parent )
 {
-//  accounts.append( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_TWITTER ) );
-//  accounts.append( Account::publicTimeline( TwitterAPI::SOCIALNETWORK_IDENTICA ) );
 }
 
 int AccountsModel::rowCount( const QModelIndex &parent ) const

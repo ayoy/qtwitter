@@ -64,6 +64,7 @@ public slots:
   void updateImage( int ind );
   void removeStatus( int ind );
   void markAllAsRead();
+  void clearSelection();
 
   void sendDeleteRequest( quint64 id, Entry::Type type );
   void sendFavoriteRequest( quint64 id, bool favorited );

@@ -87,16 +87,14 @@ public slots:
   void retranslateUi();
 
 signals:
-  void accountsUpdated( const QList<Account> &accounts, int isPublicTimelineRequested );
+  void accountsUpdated( const QList<Account> &accounts );
   void errorMessage( const QString &message );
   void twitPicResponseReceived();
   void twitPicDataSendProgress(qint64,qint64);
-  void requestListRefresh( bool isPublicTimeline, bool isSwitchUser);
   void requestStarted();
   void resetUi();
   void pauseIcon();
   void timelineUpdated();
-  void directMessagesSyncChanged( bool b );
   void modelChanged( StatusModel *model );
   void addReplyString( const QString &user, quint64 id );
   void addRetweetString( QString message );
@@ -133,7 +131,6 @@ private:
   void checkUnreadStatuses();
   bool retryAuthorizing( Account *account, int role );
   bool authDialogOpen;
-  int publicTimeline;
   int requestCount;
   int tempModelCount;
 

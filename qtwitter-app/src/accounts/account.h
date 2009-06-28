@@ -37,7 +37,6 @@ struct Account
   static QPair<TwitterAPI::SocialNetwork,QString> fromString( const QString &name );
   static TwitterAPI::SocialNetwork networkFromString( const QString &name );
   static QString networkToString( TwitterAPI::SocialNetwork network );
-  static const Account publicTimeline( TwitterAPI::SocialNetwork network );
 
   QString toString() const;
   Account operator=( const Account &other );

@@ -49,7 +49,6 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
     }
   } else {
     setValue( "General/version", ConfigFile::APP_VERSION );
-    setValue( "Accounts/publicTimeline", true );
   }
 }
 
@@ -98,10 +97,10 @@ void ConfigFile::convertSettingsToZeroSix()
     setValue( "TwitterAccounts/0/password", value( "General/password", "" ).toString() );
     setValue( "TwitterAccounts/0/directmsgs", value( "General/directMessages", false ).toBool() );
   }
-  setValue( "TwitterAccounts/publicTimeline", true );
   if ( value( "General/timeline", false ).toBool() ) {
     setValue( "TwitterAccounts/currentModel", 1 );
   }
+  remove( "TwitterAccounts/publicTimeline" );
   remove( "General/username" );
   remove( "General/password" );
   remove( "General/directMessages" );
@@ -132,9 +131,7 @@ void ConfigFile::convertSettingsToZeroSeven()
       break;
   }
 
-  setValue( "Accounts/publicTimeline", value( "TwitterAccounts/publicTimeline" ).toBool() );
   setValue( "Accounts/visibleAccount", value( "TwitterAccounts/currentModel" ).toInt() );
   setValue( "Appearance/color scheme", value( "Appearance/color scheme").toInt() - 1 );
-  remove( "TwitterAccounts/publicTimeline" );
   remove( "TwitterAccounts/currentModel" );
 }

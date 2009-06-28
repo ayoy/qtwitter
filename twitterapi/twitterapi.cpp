@@ -417,7 +417,7 @@ void TwitterAPIInterface::friendsTimeline( TwitterAPI::SocialNetwork network, co
   request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
   request.setAttribute( TwitterAPIInterface::ATTR_MSGCOUNT, statusCount );
   qDebug() << "TwitterAPIInterface::friendsTimeline(" + login + ")";
-  
+
   if ( !connections[ network ].contains( login ) )
     createInterface( network, login );
   connections[ network ][ login ]->friendsInProgress = true;

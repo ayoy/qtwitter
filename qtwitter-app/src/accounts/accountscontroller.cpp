@@ -52,13 +52,11 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   ui->deleteAccountButton->setIcon(QtIconLoader::icon("list-remove", QIcon(":/icons/cancel_48.png")));
   //< freedesktop experiment end
 
-  ui->publicTimelineComboBox->setCurrentIndex( settings.value( "Accounts/publicTimeline", PT_NONE ).toInt() );
   ui->passwordsCheckBox->setChecked( settings.value( "General/savePasswords", Qt::Unchecked ).toInt() );
 
   connect( view, SIGNAL(checkBoxClicked(QModelIndex)), this, SLOT(updateCheckBox(QModelIndex)) );
   connect( ui->addAccountButton, SIGNAL(clicked()), this, SLOT(addAccount()));
   connect( ui->deleteAccountButton, SIGNAL(clicked()), this, SLOT(deleteAccount()));
-  connect( ui->publicTimelineComboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(updatePublicTimeline(int)) );
   connect( ui->passwordsCheckBox, SIGNAL(stateChanged(int)), this, SLOT(togglePasswordStoring(int)) );
   connect( ui->disclaimerButton, SIGNAL(clicked()), this, SLOT(showPasswordDisclaimer()) );
 
@@ -75,7 +73,6 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
 AccountsController::~AccountsController()
 {
   updateAccounts( model->index(0,0), model->index( model->rowCount() - 1, model->columnCount() - 1 ) );
-  updatePublicTimeline( ui->publicTimelineComboBox->currentIndex() );
   delete ui;
   ui = 0;
 }
@@ -158,7 +155,6 @@ void AccountsController::loadAccounts()
   qSort( modelAccounts );
 
   model->setAccounts( modelAccounts );
-  ui->publicTimelineComboBox->setCurrentIndex( settings.value( "publicTimeline", PT_NONE ).toInt() );
   settings.endGroup(); //Accounts
 
   updateAccounts( model->index(0,0), model->index( model->rowCount() - 1, model->columnCount() - 1 ) );
@@ -218,11 +214,6 @@ void AccountsController::updateCheckBox( const QModelIndex &index )
     setAccountDM( account.directMessages );
   }
   view->update( index );
-}
-
-void AccountsController::updatePublicTimeline( int state )
-{
-  settings.setValue( "Accounts/publicTimeline", state );
 }
 
 void AccountsController::togglePasswordStoring( int state )
@@ -360,9 +351,7 @@ void AccountsController::setAccountDM( bool state )
 
 void AccountsController::retranslateUi()
 {
-  int currentIndex = ui->publicTimelineComboBox->currentIndex();
   if ( widget ) {
     ui->retranslateUi( widget );
   }
-  ui->publicTimelineComboBox->setCurrentIndex( currentIndex );
 }

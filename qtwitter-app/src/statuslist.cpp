@@ -164,6 +164,10 @@ bool StatusList::isVisible() const
 void StatusList::setData( int index, const Status &status )
 {
   d->data[ index ] = status;
+  if ( status.state == StatusModel::STATE_ACTIVE ) {
+    d->active = index;
+//    emit stateChanged( index );
+  }
   emit dataChanged( index );
 }
 

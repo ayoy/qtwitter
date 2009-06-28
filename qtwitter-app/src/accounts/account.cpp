@@ -48,17 +48,6 @@ QString Account::networkToString( TwitterAPI::SocialNetwork network )
   }
 }
 
-const Account Account::publicTimeline( TwitterAPI::SocialNetwork network )
-{
-  Account account;
-  account.isEnabled = true;
-  account.network = network;
-  account.login = TwitterAPI::PUBLIC_TIMELINE;
-  account.password = "";
-  account.directMessages = false;
-  return account;
-}
-
 QString Account::toString() const
 {
   return QString( "%1 @ %2" ).arg( login, networkToString( network ) );

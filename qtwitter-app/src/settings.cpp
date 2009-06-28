@@ -579,11 +579,6 @@ void Settings::createUrlShortenerMenu()
     \param index Indicates a requested language by a language combo box's current index.
 */
 
-/*! \fn void Settings::slotPublicTimelineSyncChanged( bool isEnabled )
-    Applies timeline setting change made from a login window to a settings file.
-    \param isEnabled Indicates whether public timeline downloading is enabled now.
-*/
-
 /*! \fn void Settings::setAuthDataInDialog( const QAuthenticator &authData )
     Applies authentication data change made from a login window to a settings dialog.
     \param authData Authentication data to be saved.

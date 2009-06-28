@@ -40,7 +40,6 @@ Qtwitter::Qtwitter( QWidget *parent )
   : MainWindow( parent )
 {
   connect( this, SIGNAL(switchModel(TwitterAPI::SocialNetwork,QString)), SLOT(setCurrentModel(TwitterAPI::SocialNetwork,QString)) );
-  connect( this, SIGNAL(switchToPublicTimelineModel(TwitterAPI::SocialNetwork)), SLOT(setPublicTimelineModel(TwitterAPI::SocialNetwork)) );
 
   core = new Core( this );
 
@@ -52,7 +51,7 @@ Qtwitter::Qtwitter( QWidget *parent )
   connect( this, SIGNAL(iconStopped()), core, SLOT(resetRequestsCount()) );
   connect( this, SIGNAL(statusMarkeverythingasreadAction()), core, SLOT(markEverythingAsRead()) );
   connect( core, SIGNAL(pauseIcon()), this, SLOT(pauseIcon()) );
-  connect( core, SIGNAL(accountsUpdated(QList<Account>,int)), this, SLOT(setupAccounts(QList<Account>,int)) );
+  connect( core, SIGNAL(accountsUpdated(QList<Account>)), this, SLOT(setupAccounts(QList<Account>)) );
   connect( core, SIGNAL(urlShortened(QString)), this, SLOT(replaceUrl(QString)));
   connect( core, SIGNAL(about()), this, SLOT(about()) );
   connect( core, SIGNAL(addReplyString(QString,quint64)), this, SIGNAL(addReplyString(QString,quint64)) );
@@ -69,7 +68,7 @@ Qtwitter::Qtwitter( QWidget *parent )
   connect( this, SIGNAL(openTwitPicDialog()), twitpic, SLOT(show()) );
   connect( core, SIGNAL(twitPicResponseReceived()), twitpic, SLOT(resetForm()) );
   connect( core, SIGNAL(twitPicDataSendProgress(qint64,qint64)), twitpic, SLOT(showUploadProgress(qint64,qint64)) );
-  connect( core, SIGNAL(accountsUpdated(QList<Account>,int)), twitpic, SLOT(setupAccounts(QList<Account>)) );
+  connect( core, SIGNAL(accountsUpdated(QList<Account>)), twitpic, SLOT(setupAccounts(QList<Account>)) );
 
   settingsDialog = new Settings( this, core, twitpic, this );
   connect( this, SIGNAL(settingsDialogRequested()), settingsDialog, SLOT( show() ) );
@@ -83,13 +82,4 @@ Qtwitter::Qtwitter( QWidget *parent )
 void Qtwitter::setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login )
 {
   core->setModelData( network, login );
-}
-
-//  this is to avoid relying on translation files
-//  caused by a bug in tr() method
-void Qtwitter::setPublicTimelineModel( TwitterAPI::SocialNetwork network )
-{
-  // TODO: probably won't work
-  // UPDATE: works! :)
-  core->setModelData( network, TwitterAPI::PUBLIC_TIMELINE );
 }

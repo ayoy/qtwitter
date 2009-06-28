@@ -23,7 +23,7 @@
 
 #include <QListView>
 #include <QKeyEvent>
-
+#include <QDebug>
 class StatusListView : public QListView
 {
   Q_OBJECT
@@ -35,16 +35,25 @@ public:
     switch ( e->key() ) {
     case Qt::Key_Up:
       emit moveFocus( true );
+      e->accept();
       break;
     case Qt::Key_Down:
       emit moveFocus( false );
+      e->accept();
     default:;
     }
     QListView::keyPressEvent( e );
   }
 
+public slots:
+  void clearSelection() {
+    emit deselectAll();
+    QListView::clearSelection();
+  }
+
 signals:
   void moveFocus( bool up );
+  void deselectAll();
 
 };
 

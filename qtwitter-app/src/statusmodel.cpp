@@ -35,17 +35,18 @@ StatusModel::StatusModel( StatusListView *parentListView, QObject *parent ) :
 {
   connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(selectStatus(QModelIndex)) );
   connect( view, SIGNAL(moveFocus(bool)), this, SLOT(moveFocus(bool)) );
+  connect( view, SIGNAL(deselectAll()), this, SLOT(clearSelection()) );
 }
 
 void StatusModel::populate()
 {
   if ( rowCount() < maxStatusCount ) {
     for ( int i = rowCount(); i < maxStatusCount; ++i ) {
-      StatusWidget *status = new StatusWidget( this );
+      StatusWidget *widget = new StatusWidget( this );
       QStandardItem *newItem = new QStandardItem;
-      newItem->setSizeHint( status->size() );
+      newItem->setSizeHint( widget->size() );
       appendRow( newItem );
-      view->setIndexWidget( newItem->index(), status );
+      view->setIndexWidget( newItem->index(), widget );
     }
   } else {
     removeRows( maxStatusCount, rowCount() - maxStatusCount );
@@ -75,25 +76,25 @@ void StatusModel::updateDisplay()
 
 void StatusModel::updateDisplay( int ind )
 {
-  StatusWidget *status = static_cast<StatusWidget*>( view->indexWidget( index( ind, 0 ) ) );
-  Q_ASSERT(status);
+  StatusWidget *widget = static_cast<StatusWidget*>( view->indexWidget( index( ind, 0 ) ) );
+  Q_ASSERT(widget);
   if ( statusList )
-    status->setStatusData( statusList->data( ind ) );
-  item( ind )->setSizeHint( status->size() );
+    widget->setStatusData( statusList->data( ind ) );
+  item( ind )->setSizeHint( widget->size() );
 }
 
 void StatusModel::updateImage( int ind )
 {
-  StatusWidget *status = static_cast<StatusWidget*>( view->indexWidget( index( ind, 0 ) ) );
-  Q_ASSERT(status);
-  status->setImage( statusList->data( ind ).image );
+  StatusWidget *widget = static_cast<StatusWidget*>( view->indexWidget( index( ind, 0 ) ) );
+  Q_ASSERT(widget);
+  widget->setImage( statusList->data( ind ).image );
 }
 
 void StatusModel::updateState( int ind )
 {
-  StatusWidget *status = static_cast<StatusWidget*>( view->indexWidget( index( ind, 0 ) ) );
-  Q_ASSERT(status);
-  status->setState( statusList->data( ind ).state );
+  StatusWidget *widget = static_cast<StatusWidget*>( view->indexWidget( index( ind, 0 ) ) );
+  Q_ASSERT(widget);
+  widget->setState( statusList->data( ind ).state );
 }
 
 void StatusModel::removeStatus( int ind )
@@ -101,15 +102,15 @@ void StatusModel::removeStatus( int ind )
   if ( ind == rowCount() - 1 )
     return;
 
-  StatusWidget *status;
+  StatusWidget *widget;
 
   for ( int i = ind; i < statusList->size() - 1; ++i ) {
-    status = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
-    status->setStatusData( statusList->data(i + 1) );
+    widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
+    widget->setStatusData( statusList->data(i + 1) );
   }
-  status = static_cast<StatusWidget*>( view->indexWidget( index( statusList->size() - 1, 0 ) ) );
-  Q_ASSERT(status);
-  status->initialize();
+  widget = static_cast<StatusWidget*>( view->indexWidget( index( statusList->size() - 1, 0 ) ) );
+  Q_ASSERT(widget);
+  widget->initialize();
 }
 
 StatusWidget* StatusModel::currentStatus()
@@ -123,13 +124,13 @@ StatusWidget* StatusModel::currentStatus()
 void StatusModel::deselectCurrentIndex()
 {
   if ( currentIndex.isValid() ) {
-    StatusWidget *status = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
-    Q_ASSERT(status);
+    StatusWidget *widget = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
+    Q_ASSERT(widget);
     StatusModel::StatusState state = statusList->state( currentIndex.row() );
     if ( state != StatusModel::STATE_UNREAD ) {
       state = StatusModel::STATE_READ;
       statusList->setState( currentIndex.row(), state );
-      status->setState( StatusModel::STATE_READ );
+      widget->setState( StatusModel::STATE_READ );
     }
     currentIndex = QModelIndex();
   }
@@ -138,11 +139,11 @@ void StatusModel::deselectCurrentIndex()
 void StatusModel::setTheme( const ThemeData &theme )
 {
   StatusWidget::setTheme( theme );
-  StatusWidget *status;
+  StatusWidget *widget;
   for ( int i = 0; i < rowCount(); i++ ) {
-    status = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
-    Q_ASSERT(status);
-    status->applyTheme();
+    widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
+    Q_ASSERT(widget);
+    widget->applyTheme();
   }
 }
 
@@ -167,13 +168,13 @@ void StatusModel::setStatusList( StatusList *statusList )
 
   // for cleaning up the list when switching to public timeline that could have
   // less statuses than requested maximum
-  StatusWidget *status;
+  StatusWidget *widget;
   if ( statusList->size() < maxStatusCount ) {
     for ( int i = statusList->size(); i < maxStatusCount; ++i ) {
-      status = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
-      Q_ASSERT(status);
-      status->initialize();
-      item( i )->setSizeHint( status->size() );
+      widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
+      Q_ASSERT(widget);
+      widget->initialize();
+      item( i )->setSizeHint( widget->size() );
     }
   }
 
@@ -213,12 +214,12 @@ void StatusModel::clear()
 
   statusList = 0;
 
-  StatusWidget *status;
+  StatusWidget *widget;
   for ( int i = 0; i < rowCount(); ++i )
   {
-    status = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
-    Q_ASSERT(status);
-    status->initialize();
+    widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
+    Q_ASSERT(widget);
+    widget->initialize();
   }
   updateDisplay();
 }
@@ -254,7 +255,7 @@ void StatusModel::selectStatus( const QModelIndex &index )
   }
 
   StatusModel::StatusState state;
-  StatusWidget *status;
+  StatusWidget *widget;
 
   if ( currentIndex.isValid() ) {
     state = statusList->state( currentIndex.row() );
@@ -262,9 +263,9 @@ void StatusModel::selectStatus( const QModelIndex &index )
       state = StatusModel::STATE_READ;
       statusList->setState( currentIndex.row(), state );
 
-      status = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
-      Q_ASSERT(status);
-      status->setState( state );
+      widget = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
+      Q_ASSERT(widget);
+      widget->setState( state );
     }
   }
 
@@ -272,9 +273,9 @@ void StatusModel::selectStatus( const QModelIndex &index )
 
   statusList->setState( index.row(), StatusModel::STATE_ACTIVE );
 
-  status = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
-  Q_ASSERT(status);
-  status->setState( StatusModel::STATE_ACTIVE );
+  widget = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
+  Q_ASSERT(widget);
+  widget->setState( StatusModel::STATE_ACTIVE );
 
   view->setCurrentIndex( currentIndex );
 }
@@ -323,14 +324,23 @@ void StatusModel::markAllAsRead()
   }
 }
 
+void StatusModel::clearSelection()
+{
+  StatusWidget *widget = 0;
+  if ( currentIndex.isValid() ) {
+    widget = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
+    Q_ASSERT(widget);
+    widget->setState( StatusModel::STATE_READ );
+    statusList->setState( currentIndex.row(), StatusModel::STATE_READ );
+  }
+}
+
 void StatusModel::retranslateUi()
 {
-  // TODO :)
-//  return;
-  StatusWidget *status;
+  StatusWidget *widget;
   for ( int i = 0; i < rowCount(); i++ ) {
-    status = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
-    status->retranslateUi();
+    widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
+    widget->retranslateUi();
   }
 }
 
@@ -338,11 +348,11 @@ void StatusModel::resizeData( int width, int oldWidth )
 {
   Q_UNUSED(oldWidth);
 
-  StatusWidget *status;
+  StatusWidget *widget;
   for ( int i = 0; i < rowCount(); i++ ) {
-    status = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
-    status->resize( width, status->size().height() );
-    item(i)->setSizeHint( status->size() );
+    widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
+    widget->resize( width, widget->size().height() );
+    item(i)->setSizeHint( widget->size() );
   }
 }
 
@@ -369,13 +379,13 @@ void StatusModel::moveFocus( bool up )
 void StatusModel::setImageForUrl( const QString& url, QPixmap *image )
 {
   Status status;
-  StatusWidget *statusWidget;
+  StatusWidget *widget;
   for ( int i = 0; i < statusList->size(); i++ ) {
     status = statusList->data(i);
     if ( url == status.entry.userInfo.imageUrl ) {
       status.image = *image;
-      statusWidget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
-      statusWidget->setImage( *image );
+      widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
+      widget->setImage( *image );
     }
   }
 }
@@ -492,12 +502,6 @@ void StatusModel::emitOpenBrowser( QString address )
                        upon next update.
     \param userChanged Indicates if the authentcating user has changed since the
                        last update.
-*/
-
-/*! \fn void StatusModel::setPublicTimelineRequested( bool b )
-    Sets the flag indicating if the public timeline will be requested upon the
-    next connection.
-    \param b The new flag's value.
 */
 
 /*! \fn void StatusModel::restatus( QString message )
