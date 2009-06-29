@@ -96,6 +96,7 @@ private slots:
 private:
   void parseXml( const QByteArray &data, XmlParser *parser );
   Interface* createInterface( TwitterAPI::SocialNetwork network, const QString &login );
+  void emitUnauthorized( QNetworkReply *reply );
 
 #ifdef OAUTH
   QByteArray prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,

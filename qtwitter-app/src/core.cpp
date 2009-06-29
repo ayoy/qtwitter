@@ -480,11 +480,11 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
       statusLists[ newAccount ]->setLogin( newAccount.login );
       statusLists.remove( *account );
       account->login = ui.loginEdit->text();
+      settings.setValue( QString("Accounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login );
       emit accountsUpdated( accountsModel->getAccounts() );
     }
     account->password = ui.passwordEdit->text();
 
-    settings.setValue( QString("Accounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login );
     if ( settings.value( "General/savePasswords", Qt::Unchecked ).toInt() == Qt::Checked )
       settings.setValue( QString("Accounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password ) );
 

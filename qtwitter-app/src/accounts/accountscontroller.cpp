@@ -61,13 +61,6 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   connect( ui->disclaimerButton, SIGNAL(clicked()), this, SLOT(showPasswordDisclaimer()) );
 
   view->setItemDelegate( new AccountsDelegate( this ) );
-
-  // TODO: WTF?
-  view->setColumnWidth( 0, (int)(view->width() * 0.5 ));
-  view->setColumnWidth( 1, (int)(view->width() * 0.7 ));
-  view->setColumnWidth( 2, (int)(view->width() * 0.8 ));
-  view->setColumnWidth( 3, (int)(view->width() * 0.8 ));
-  view->setColumnWidth( 4, (int)(view->width() * 0.2 ));
 }
 
 AccountsController::~AccountsController()
@@ -88,6 +81,12 @@ void AccountsController::setModel( AccountsModel *accountsModel )
   model->setParent( this );
   view->setModel( model );
   connect( model, SIGNAL(dataChanged(QModelIndex,QModelIndex)), this, SLOT(updateAccounts(QModelIndex,QModelIndex)) );
+  // TODO: WTF?
+  view->setColumnWidth( 0, (int)(view->width() * 0.5 ));
+  view->setColumnWidth( 1, (int)(view->width() * 0.7 ));
+  view->setColumnWidth( 2, (int)(view->width() * 0.8 ));
+  view->setColumnWidth( 3, (int)(view->width() * 0.8 ));
+  view->setColumnWidth( 4, (int)(view->width() * 0.2 ));
 }
 
 void AccountsController::loadAccounts()
