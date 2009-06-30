@@ -44,7 +44,7 @@ public:
   StatusListView* getListView();
   int getScrollBarWidth();
 
-  
+
 public slots:
   void setupAccounts( const QList<Account> &accounts );
   void changeListBackgroundColor( const QColor &newColor );
@@ -69,7 +69,7 @@ public slots:
 
 signals:
   void updateStatuses();
-  void openTwitPicDialog();
+  void twitPicRequested();
   void post( TwitterAPI::SocialNetwork network, const QString &login, QString status, quint64 inReplyTo );
   void openBrowser( QUrl address );
   void settingsDialogRequested();

@@ -30,6 +30,7 @@
 #include "statuslist.h"
 
 class QAbstractItemModel;
+class QStringList;
 class MainWindow;
 class ImageDownload;
 class TwitPicEngine;
@@ -65,6 +66,7 @@ public:
   void setModelData( TwitterAPI::SocialNetwork network, const QString &login );
 
   void setSettingsOpen( bool open );
+  QStringList twitpicLogins() const;
 
 public slots:
   void forceGet();

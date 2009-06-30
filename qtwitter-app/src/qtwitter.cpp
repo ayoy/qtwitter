@@ -36,10 +36,12 @@
 
 //extern ConfigFile settings;
 
-Qtwitter::Qtwitter( QWidget *parent )
-  : MainWindow( parent )
+Qtwitter::Qtwitter( QWidget *parent ) :
+    MainWindow( parent ),
+    twitpic(0)
 {
   connect( this, SIGNAL(switchModel(TwitterAPI::SocialNetwork,QString)), SLOT(setCurrentModel(TwitterAPI::SocialNetwork,QString)) );
+  connect( this, SIGNAL(twitPicRequested()), SLOT(openTwitPic()) );
 
   core = new Core( this );
 
@@ -62,15 +64,8 @@ Qtwitter::Qtwitter( QWidget *parent )
   if ( QSystemTrayIcon::supportsMessages() )
     connect( core, SIGNAL(sendNewsReport(QString)), this, SLOT(popupMessage(QString)) );
 
-  twitpic = new TwitPicView( this );
-  connect( twitpic, SIGNAL(uploadPhoto(QString,QString,QString)), core, SLOT(uploadPhoto(QString,QString,QString)) );
-  connect( twitpic, SIGNAL(abortUpload()), core, SLOT(abortUploadPhoto()) );
-  connect( this, SIGNAL(openTwitPicDialog()), twitpic, SLOT(show()) );
-  connect( core, SIGNAL(twitPicResponseReceived()), twitpic, SLOT(resetForm()) );
-  connect( core, SIGNAL(twitPicDataSendProgress(qint64,qint64)), twitpic, SLOT(showUploadProgress(qint64,qint64)) );
-  connect( core, SIGNAL(accountsUpdated(QList<Account>)), twitpic, SLOT(setupAccounts(QList<Account>)) );
 
-  settingsDialog = new Settings( this, core, twitpic, this );
+  settingsDialog = new Settings( this, core, this );
   connect( this, SIGNAL(settingsDialogRequested()), settingsDialog, SLOT( show() ) );
 
   QSignalMapper *mapper = new QSignalMapper( this );
@@ -82,4 +77,18 @@ Qtwitter::Qtwitter( QWidget *parent )
 void Qtwitter::setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login )
 {
   core->setModelData( network, login );
+}
+
+void Qtwitter::openTwitPic()
+{
+  if ( !twitpic ) {
+    twitpic = new TwitPicView( this );
+    connect( twitpic, SIGNAL(uploadPhoto(QString,QString,QString)), core, SLOT(uploadPhoto(QString,QString,QString)) );
+    connect( twitpic, SIGNAL(abortUpload()), core, SLOT(abortUploadPhoto()) );
+    connect( core, SIGNAL(twitPicResponseReceived()), twitpic, SLOT(resetForm()) );
+    connect( core, SIGNAL(twitPicDataSendProgress(qint64,qint64)), twitpic, SLOT(showUploadProgress(qint64,qint64)) );
+    connect( core, SIGNAL(accountsUpdated(QList<Account>)), twitpic, SLOT(setupAccounts(QList<Account>)) );
+    twitpic->setupAccounts( core->twitpicLogins() );
+  }
+  twitpic->show();
 }

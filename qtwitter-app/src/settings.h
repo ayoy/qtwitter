@@ -49,7 +49,7 @@ class Settings : public QDialog
 
 public:
 
-  Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView *twitpicviewSettings, QWidget *parent = 0 );
+  Settings( MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent = 0 );
   ~Settings();
 
   void loadConfig( bool dialogRejected = false );
@@ -81,7 +81,6 @@ private:
   bool updateAccountsOnExit;
   MainWindow *mainWindow;
   Core *core;
-  TwitPicView *twitPicView;
   QMap<QString,ThemeData> themes;
   Ui::Settings ui;
   QTranslator translator;

@@ -42,18 +42,16 @@
 #include "configfile.h"
 #include "core.h"
 #include "mainwindow.h"
-#include "twitpicview.h"
 #include "updater.h"
 
 extern ConfigFile settings;
 
 
-Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, TwitPicView *twitpicviewSettings, QWidget *parent ) :
+Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent ) :
     QDialog( parent ),
     updateAccountsOnExit( false ),
     mainWindow( mainwinSettings ),
-    core( coreSettings ),
-    twitPicView( twitpicviewSettings )
+    core( coreSettings )
 {
   // Sorry, but this has to be here and not in Qtwitter::Qtwitter() for the core to be aware
   // of the signal emitted in Settings::Settings()

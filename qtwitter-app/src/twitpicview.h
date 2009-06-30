@@ -22,11 +22,13 @@
 #define TWITPICVIEW_H
 
 #include <QtGui/QDialog>
-#include "account.h"
+#include <account.h>
 
 namespace Ui {
   class TwitPicView;
 }
+
+class QStringList;
 
 class TwitPicView : public QDialog {
   Q_OBJECT
@@ -37,6 +39,7 @@ public:
 
 public slots:
   void setupAccounts( const QList<Account> &accounts );
+  void setupAccounts( const QStringList &accounts );
   void showUploadProgress( qint64 done, qint64 total );
   void resetForm();
   void reject();

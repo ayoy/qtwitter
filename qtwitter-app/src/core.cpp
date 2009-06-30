@@ -26,6 +26,7 @@
 #include <QInputDialog>
 #include <QDebug>
 #include <QDataStream>
+#include <QStringList>
 #include <QDir>
 #include <QFile>
 #include <urlshortener/urlshortener.h>
@@ -211,6 +212,17 @@ void Core::markEverythingAsRead()
 void Core::setSettingsOpen( bool open )
 {
   settingsOpen = open;
+}
+
+QStringList Core::twitpicLogins() const
+{
+  QStringList list;
+  foreach ( Account account, accountsModel->getAccounts() ) {
+    if ( account.network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
+      list << account.login;
+    }
+  }
+  return list;
 }
 
 void Core::applySettings()

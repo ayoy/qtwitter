@@ -21,6 +21,7 @@
 #include <QFileDialog>
 #include <QProcess>
 #include <QDebug>
+#include <QStringList>
 #include <twitterapi/twitterapi_global.h>
 #include "twitpicview.h"
 #include "ui_twitpicview.h"
@@ -68,6 +69,12 @@ void TwitPicView::setupAccounts( const QList<Account> &accounts )
     m_ui->accountsComboBox->setCurrentIndex( m_ui->accountsComboBox->count() - 1 );
   else
     m_ui->accountsComboBox->setCurrentIndex( index );
+}
+
+void TwitPicView::setupAccounts( const QStringList &accounts )
+{
+  m_ui->accountsComboBox->clear();
+  m_ui->accountsComboBox->addItems( accounts );
 }
 
 

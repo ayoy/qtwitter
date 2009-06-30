@@ -189,13 +189,12 @@ void MainWindow::createButtonMenu()
   gototwitpicAction->setShortcut( QKeySequence( Qt::CTRL + Qt::ALT + Qt::Key_G ) );
 
   QSignalMapper *mapper = new QSignalMapper( this );
-  // TODO: Identi.ca?
   mapper->setMapping( gototwitterAction, "http://twitter.com/home" );
   mapper->setMapping( gototwitterAction, "http://identi.ca" );
   mapper->setMapping( gototwitpicAction, "http://twitpic.com" );
 
   connect( newstatusAction, SIGNAL(triggered()), ui.statusEdit, SLOT(setFocus()) );
-  connect( newtwitpicAction, SIGNAL(triggered()), this, SIGNAL(openTwitPicDialog()) );
+  connect( newtwitpicAction, SIGNAL(triggered()), this, SIGNAL(twitPicRequested()) );
   connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(QString)), this, SLOT(emitOpenBrowser(QString)) );
