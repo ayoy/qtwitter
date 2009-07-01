@@ -33,8 +33,10 @@
 #include "statuswidget.h"
 #include "settings.h"
 #include "account.h"
+#include "configfile.h"
+#include "welcomedialog.h"
 
-//extern ConfigFile settings;
+extern ConfigFile settings;
 
 Qtwitter::Qtwitter( QWidget *parent ) :
     MainWindow( parent ),
@@ -72,6 +74,14 @@ Qtwitter::Qtwitter( QWidget *parent ) :
   mapper->setMapping( qApp, 1 );
   connect( qApp, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(int)), settingsDialog, SLOT(saveConfig(int)) );
+
+  if ( settings.contains( "FIRSTRUN" ) ) {
+    WelcomeDialog dlg;
+    connect( &dlg, SIGNAL(addAccount()), core, SLOT(addAccount()) );
+    connect( core, SIGNAL(accountDialogClosed(bool)), &dlg, SLOT(confirmAccountAdded(bool)) );
+    connect( &dlg, SIGNAL(accepted()), core, SLOT(applySettings()) );
+    dlg.exec();
+  }
 }
 
 void Qtwitter::setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login )

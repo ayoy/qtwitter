@@ -317,12 +317,12 @@ void TwitterAPIInterface::postUpdate( TwitterAPI::SocialNetwork network, const Q
     content = prepareOAuthString( url, QOAuth::POST, password, map );
 
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toAscii() + ":" + password.toAscii();
+    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
     content = prepareRequest( data, inReplyTo );
   }
 #else
-  QByteArray auth = login.toAscii() + ":" + password.toAscii();
+  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   content = prepareRequest( data, inReplyTo );
 #endif
@@ -364,11 +364,11 @@ void TwitterAPIInterface::deleteUpdate( TwitterAPI::SocialNetwork network, const
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
     content = prepareOAuthString( url, QOAuth::POST, password );
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toAscii() + ":" + password.toAscii();
+    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   }
 #else
-  QByteArray auth = login.toAscii() + ":" + password.toAscii();
+  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
 #endif
 
@@ -410,18 +410,18 @@ void TwitterAPIInterface::friendsTimeline( TwitterAPI::SocialNetwork network, co
 #ifdef OAUTH
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
     QOAuth::ParamMap map;
-    map.insert( "count", statusCount.toAscii() );
+    map.insert( "count", statusCount.toUtf8() );
 
     QByteArray parameters = prepareOAuthString( url, QOAuth::GET, password, map );
 
     url.append( parameters );
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toAscii() + ":" + password.toAscii();
+    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
     url.append( QString("?count=%1").arg( statusCount ) );
   }
 #else
-  QByteArray auth = login.toAscii() + ":" + password.toAscii();
+  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   url.append( QString("?count=%1").arg( statusCount ) );
 #endif
@@ -464,17 +464,17 @@ void TwitterAPIInterface::directMessages( TwitterAPI::SocialNetwork network, con
 #ifdef OAUTH
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
     QOAuth::ParamMap map;
-    map.insert( "count", statusCount.toAscii() );
+    map.insert( "count", statusCount.toUtf8() );
 
     QByteArray parameters = prepareOAuthString( url, QOAuth::GET, password, map );
     url.append( parameters );
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toAscii() + ":" + password.toAscii();
+    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
     url.append( QString("?count=%1").arg( statusCount ) );
   }
 #else
-  QByteArray auth = login.toAscii() + ":" + password.toAscii();
+  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   url.append( QString("?count=%1").arg( statusCount ) );
 #endif
@@ -519,12 +519,12 @@ void TwitterAPIInterface::postDM( TwitterAPI::SocialNetwork network, const QStri
     content = prepareOAuthString( url, QOAuth::POST, password, map );
 
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toAscii() + ":" + password.toAscii();
+    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
     content = prepareRequest( screenName, text );
   }
 #else
-  QByteArray auth = login.toAscii() + ":" + password.toAscii();
+  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   content = prepareRequest( screenName, text );
 #endif
@@ -559,11 +559,11 @@ void TwitterAPIInterface::deleteDM( TwitterAPI::SocialNetwork network, const QSt
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
     content = prepareOAuthString( url, QOAuth::POST, password );
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toAscii() + ":" + password.toAscii();
+    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   }
 #else
-  QByteArray auth = login.toAscii() + ":" + password.toAscii();
+  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
 #endif
 
@@ -601,11 +601,11 @@ void TwitterAPIInterface::createFavorite( TwitterAPI::SocialNetwork network, con
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
     content = prepareOAuthString( url, QOAuth::POST, password );
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toAscii() + ":" + password.toAscii();
+    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   }
 #else
-  QByteArray auth = login.toAscii() + ":" + password.toAscii();
+  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
 #endif
 
@@ -642,11 +642,11 @@ void TwitterAPIInterface::destroyFavorite( TwitterAPI::SocialNetwork network, co
   if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
     content = prepareOAuthString( url, QOAuth::POST, password );
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toAscii() + ":" + password.toAscii();
+    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   }
 #else
-  QByteArray auth = login.toAscii() + ":" + password.toAscii();
+  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
 #endif
 

@@ -18,57 +18,41 @@
  ***************************************************************************/
 
 
-#ifndef ACCOUNTSCONTROLLER_H
-#define ACCOUNTSCONTROLLER_H
+#ifndef NEWACCOUNTDIALOG_H
+#define NEWACCOUNTDIALOG_H
 
-#include <QObject>
-
-class QWidget;
-class QModelIndex;
-class AccountsModel;
-class AccountsView;
+#include <QtGui/QDialog>
 
 namespace Ui {
-  class Accounts;
+  class NewAccountDialog;
 }
 
-class AccountsController : public QObject
+class NewAccountDialog : public QDialog
 {
   Q_OBJECT
+
+  Q_PROPERTY( int network READ network );
+  Q_PROPERTY( QString login READ login );
+  Q_PROPERTY( QString password READ password );
+
 public:
+  NewAccountDialog( QWidget *parent = 0 );
+  ~NewAccountDialog();
 
-  AccountsController( QWidget *widget, QObject *parent );
-  virtual ~AccountsController();
-  AccountsModel* getModel() const;
-  void setModel( AccountsModel *model );
+  int network() const;
+  QString login() const;
+  QString password() const;
 
-public slots:
-  void addAccount();
-  void loadAccounts();
-  void retranslateUi();
+protected:
+  void changeEvent(QEvent *e);
 
-signals:
-  void comboActive( bool isActive );
-  void accountDialogClosed( bool success );
-
+#ifdef OAUTH
 private slots:
-  void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
-  void updateCheckBox( const QModelIndex &index );
-  void togglePasswordStoring( int state );
-  void showPasswordDisclaimer();
-  void deleteAccount();
+  void toggleEdits( int index );
+#endif
 
 private:
-  void setAccountEnabled( bool state );
-  void setAccountDM( bool state );
-
-  AccountsModel *model;
-  AccountsView *view;
-  Ui::Accounts *ui;
-
-  QWidget *widget;
-
-  friend class AccountsDelegate;
+  Ui::NewAccountDialog *m_ui;
 };
 
-#endif // ACCOUNTSCONTROLLER_H
+#endif // NEWACCOUNTDIALOG_H

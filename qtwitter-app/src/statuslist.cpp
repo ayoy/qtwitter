@@ -258,6 +258,9 @@ int StatusListPrivate::addStatus( Entry entry )
     }
   }
   if ( data.size() < maxCount ) {
+    if ( data.at( data.size() - 1 ).state != StatusModel::STATE_UNREAD ) {
+      status.state = StatusModel::STATE_READ;
+    }
     data.append( status );
     return data.size() - 1;
   }
@@ -296,7 +299,7 @@ void StatusList::setFavorited( quint64 id, bool favorited )
 
 bool StatusList::remove( int from, int count )
 {
-  if ( d->data.size() < from + count )
+  if ( d->data.size() < from )
     return false;
 
   for ( int i = count - 1; i >= 0; --i )

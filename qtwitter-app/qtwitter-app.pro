@@ -4,15 +4,12 @@ TARGET = qtwitter
 # sets the TOP variable to the root source code dir
 include(../qtwitter.pri)
 DESTDIR = $${TOP}
-
 include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
-
 contains( DEFINES, OAUTH ) {
     include(src/oauth/oauth.pri)
     CONFIG += oauth
 }
-
 include(src/accounts/accounts.pri)
 include(src/qticonloader/qticonloader.pri)
 QT += network \
@@ -35,7 +32,8 @@ SOURCES += src/main.cpp \
     src/dmdialog.cpp \
     src/configfile.cpp \
     src/themes.cpp \
-    src/updater.cpp
+    src/updater.cpp \
+    src/welcomedialog.cpp
 HEADERS += src/mainwindow.h \
     src/statusedit.h \
     src/imagedownload.h \
@@ -56,7 +54,8 @@ HEADERS += src/mainwindow.h \
     src/dmdialog.h \
     src/configfile.h \
     src/themes.h \
-    src/updater.h
+    src/updater.h \
+    src/welcomedialog.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
@@ -65,7 +64,8 @@ FORMS += ui/mainwindow.ui \
     ui/twitpicview.ui \
     ui/twitpicnewphoto.ui \
     ui/userinfopopup.ui \
-    ui/dmdialog.ui
+    ui/dmdialog.ui \
+    ui/welcomedialog.ui
 linux-*:RESOURCES = res/resources_x11.qrc
 else:RESOURCES = res/resources.qrc
 TRANSLATIONS += loc/qtwitter_ca_ES.ts \
@@ -83,7 +83,7 @@ OBJECTS_DIR = tmp
 INCLUDEPATH += $${TOP} \
     src \
     tmp
-macx { 
+macx {
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
     QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
@@ -92,7 +92,7 @@ macx {
         -framework \
         urlshortener
 }
-else:unix { 
+else:unix {
     LIBS += -L$${TOP} \
         -Wl,-rpath,$${TOP} \
         $$TWITTERAPI_LIB \
@@ -141,7 +141,7 @@ else:unix {
         icons256 \
         desktop
 }
-else:win32 { 
+else:win32 {
     RC_FILE = win32/qtwitter.rc
     LIBS += -L$${TOP} \
         $$TWITTERAPI_LIB \

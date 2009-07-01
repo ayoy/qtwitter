@@ -245,6 +245,7 @@ void MainWindow::setupAccounts( const QList<Account> &accounts )
       ui.accountsComboBox->setCurrentIndex( index );
     }
 
+    ui.accountsComboBox->setVisible( true );
     ui.statusEdit->setEnabled( true );
     emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
                       Account::fromString( ui.accountsComboBox->currentText() ).second );

@@ -39,6 +39,9 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
 #endif
 {
   if ( QFileInfo( fileName() ).exists() ) {
+    if ( contains( "FIRSTRUN" ) ) {
+      remove( "FIRSTRUN" );
+    }
     if ( value( "General/version", QString() ).toString() == "0.6.0" ) {
       convertSettingsToZeroSeven();
     } else if ( value( "General/version", QString() ).toString().isNull() ) {
@@ -49,6 +52,7 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
     }
   } else {
     setValue( "General/version", ConfigFile::APP_VERSION );
+    setValue( "FIRSTRUN", true );
   }
 }
 

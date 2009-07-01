@@ -185,6 +185,7 @@ void Core::createAccounts( QWidget *view )
 {
   accounts = new AccountsController( view, this );
   connect( accounts, SIGNAL(comboActive(bool)), this, SLOT(setWaitForAccounts(bool)) );
+  connect( accounts, SIGNAL(accountDialogClosed(bool)), this, SIGNAL(accountDialogClosed(bool)) );
   if ( accountsModel )
     accounts->setModel( accountsModel );
   else
@@ -713,6 +714,11 @@ void Core::resetRequestsCount()
                           QMessageBox::Ok );
     qDebug() << "warning: some requests may failed...";
   }
+}
+
+void Core::addAccount()
+{
+  accounts->addAccount();
 }
 
 void Core::slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role )

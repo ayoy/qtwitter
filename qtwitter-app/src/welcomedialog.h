@@ -18,57 +18,36 @@
  ***************************************************************************/
 
 
-#ifndef ACCOUNTSCONTROLLER_H
-#define ACCOUNTSCONTROLLER_H
+#ifndef WELCOMEDIALOG_H
+#define WELCOMEDIALOG_H
 
-#include <QObject>
-
-class QWidget;
-class QModelIndex;
-class AccountsModel;
-class AccountsView;
+#include <QtGui/QDialog>
 
 namespace Ui {
-  class Accounts;
+  class WelcomeDialog;
 }
 
-class AccountsController : public QObject
+class WelcomeDialog : public QDialog
 {
   Q_OBJECT
 public:
-
-  AccountsController( QWidget *widget, QObject *parent );
-  virtual ~AccountsController();
-  AccountsModel* getModel() const;
-  void setModel( AccountsModel *model );
+  WelcomeDialog(QWidget *parent = 0);
+  ~WelcomeDialog();
 
 public slots:
-  void addAccount();
-  void loadAccounts();
-  void retranslateUi();
+  void confirmAccountAdded( bool success );
 
 signals:
-  void comboActive( bool isActive );
-  void accountDialogClosed( bool success );
+  void addAccount();
+
+protected:
+  void changeEvent(QEvent *e);
 
 private slots:
-  void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
-  void updateCheckBox( const QModelIndex &index );
-  void togglePasswordStoring( int state );
-  void showPasswordDisclaimer();
-  void deleteAccount();
+  void proceed();
 
 private:
-  void setAccountEnabled( bool state );
-  void setAccountDM( bool state );
-
-  AccountsModel *model;
-  AccountsView *view;
-  Ui::Accounts *ui;
-
-  QWidget *widget;
-
-  friend class AccountsDelegate;
+  Ui::WelcomeDialog *m_ui;
 };
 
-#endif // ACCOUNTSCONTROLLER_H
+#endif // WELCOMEDIALOG_H

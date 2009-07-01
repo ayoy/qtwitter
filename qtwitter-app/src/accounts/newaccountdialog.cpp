@@ -18,57 +18,60 @@
  ***************************************************************************/
 
 
-#ifndef ACCOUNTSCONTROLLER_H
-#define ACCOUNTSCONTROLLER_H
+#include "newaccountdialog.h"
+#include "ui_newaccountdialog.h"
+#include <twitterapi/twitterapi_global.h>
 
-#include <QObject>
-
-class QWidget;
-class QModelIndex;
-class AccountsModel;
-class AccountsView;
-
-namespace Ui {
-  class Accounts;
+NewAccountDialog::NewAccountDialog( QWidget *parent ) :
+    QDialog( parent ),
+    m_ui(new Ui::NewAccountDialog)
+{
+  m_ui->setupUi( this );
+#ifdef OAUTH
+  connect( m_ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(toggleEdits(int)) );
+  toggleEdits( 0 );
+#endif
 }
 
-class AccountsController : public QObject
+NewAccountDialog::~NewAccountDialog()
 {
-  Q_OBJECT
-public:
+  delete m_ui;
+}
 
-  AccountsController( QWidget *widget, QObject *parent );
-  virtual ~AccountsController();
-  AccountsModel* getModel() const;
-  void setModel( AccountsModel *model );
+int NewAccountDialog::network() const
+{
+  return m_ui->comboBox->currentIndex();
+}
 
-public slots:
-  void addAccount();
-  void loadAccounts();
-  void retranslateUi();
+QString NewAccountDialog::login() const
+{
+  return m_ui->loginEdit->text();
+}
 
-signals:
-  void comboActive( bool isActive );
-  void accountDialogClosed( bool success );
+QString NewAccountDialog::password() const
+{
+  return m_ui->passwordEdit->text();
+}
 
-private slots:
-  void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
-  void updateCheckBox( const QModelIndex &index );
-  void togglePasswordStoring( int state );
-  void showPasswordDisclaimer();
-  void deleteAccount();
+#ifdef OAUTH
+void NewAccountDialog::toggleEdits( int index )
+{
+  bool enabled = ( index != TwitterAPI::SOCIALNETWORK_TWITTER );
+  m_ui->loginEdit->setEnabled( enabled );
+  m_ui->loginLabel->setEnabled( enabled );
+  m_ui->passwordEdit->setEnabled( enabled );
+  m_ui->passwordLabel->setEnabled( enabled );
+}
+#endif
 
-private:
-  void setAccountEnabled( bool state );
-  void setAccountDM( bool state );
-
-  AccountsModel *model;
-  AccountsView *view;
-  Ui::Accounts *ui;
-
-  QWidget *widget;
-
-  friend class AccountsDelegate;
-};
-
-#endif // ACCOUNTSCONTROLLER_H
+void NewAccountDialog::changeEvent(QEvent *e)
+{
+  QDialog::changeEvent(e);
+  switch (e->type()) {
+  case QEvent::LanguageChange:
+    m_ui->retranslateUi(this);
+    break;
+  default:
+    break;
+  }
+}

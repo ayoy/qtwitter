@@ -99,7 +99,6 @@ void OAuthWizard::setOkButtonEnabled()
 void OAuthWizard::openUrl()
 {
   QOAuth::ParamMap requestToken = qoauth->requestToken( TwitterRequestTokenURL, QOAuth::GET, QOAuth::HMAC_SHA1 );
-  qDebug() << requestToken;
 
   if ( qoauth->error() != QOAuth::NoError ) {
     ui_a->allowLabel->setText( tr( "There was a network-related problem with completing the request. Please try again later." ) );

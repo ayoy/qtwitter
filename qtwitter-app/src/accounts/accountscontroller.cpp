@@ -24,6 +24,7 @@
 #include "accountsmodel.h"
 #include "accountsview.h"
 #include "accountsdelegate.h"
+#include "newaccountdialog.h"
 #include <configfile.h>
 #include <qticonloader.h>
 
@@ -52,7 +53,7 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   ui->deleteAccountButton->setIcon(QtIconLoader::icon("list-remove", QIcon(":/icons/cancel_48.png")));
   //< freedesktop experiment end
 
-  ui->passwordsCheckBox->setChecked( settings.value( "General/savePasswords", Qt::Unchecked ).toInt() );
+  ui->passwordsCheckBox->setChecked( settings.value( "General/savePasswords", Qt::Checked ).toInt() );
 
   connect( view, SIGNAL(checkBoxClicked(QModelIndex)), this, SLOT(updateCheckBox(QModelIndex)) );
   connect( ui->addAccountButton, SIGNAL(clicked()), this, SLOT(addAccount()));
@@ -187,8 +188,15 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
         settings.setValue( QString("Accounts/%1/login").arg( i ), model->index(i,j).data() );
         break;
       case AccountsModel::COL_PASSWORD:
-        if ( ui->passwordsCheckBox->isChecked() )
+        if ( ui->passwordsCheckBox->isChecked()
+#ifdef OAUTH
+             || model->index(i, AccountsModel::COL_NETWORK ).data( Qt::EditRole ) == TwitterAPI::SOCIALNETWORK_TWITTER
+#endif
+           ) {
           settings.setValue( QString("Accounts/%1/password").arg( i ), ConfigFile::pwHash( model->index(i,j).data( Qt::EditRole ).toString() ) );
+        } else {
+          settings.setValue( QString("Accounts/%1/password").arg( i ), QString() );
+        }
         break;
       case AccountsModel::COL_DM:
         settings.setValue( QString("Accounts/%1/directmsgs").arg( i ), model->index(i,j).data( Qt::CheckStateRole ) != Qt::Unchecked );
@@ -255,29 +263,42 @@ void AccountsController::addAccount()
   if (!model)
     return;
 
+  int result;
+  int network;
+  QString login;
+  QString password;
+
+  if ( sender() == ui->addAccountButton ) {
 #if QT_VERSION < 0x040500
-  bool ok = false;
-  QString network = QInputDialog::getItem( view, tr( "Add account" ), tr( "Select social network:" ),
-                                           QStringList() << "Twitter" << "Identi.ca", 0, false, &ok );
-  int result = ok ? QDialog::Accepted : QDialog::Rejected;
+    bool ok = false;
+    QString network = QInputDialog::getItem( view, tr( "Add account" ), tr( "Select social network:" ),
+                                             QStringList() << "Twitter" << "Identi.ca", 0, false, &ok );
+    int result = ok ? QDialog::Accepted : QDialog::Rejected;
 #else
-  QInputDialog *dlg = new QInputDialog( view );
-  dlg->setWindowTitle( tr( "Add account" ) );
-  //: Select social network, i.e. Twitter or Identi.ca
-  dlg->setLabelText( tr( "Select social network:" ) );
-  dlg->setComboBoxItems( QStringList() << "Twitter" << "Identi.ca" );
-  dlg->setCancelButtonText( tr( "Cancel" ) );
-  dlg->setOkButtonText( tr( "OK" ) );
-  int result = dlg->exec();
-  QString network = dlg->textValue();
-  dlg->deleteLater();
+    QInputDialog *dlg = new QInputDialog( view );
+    dlg->setWindowTitle( tr( "Add account" ) );
+    //: Select social network, i.e. Twitter or Identi.ca
+    dlg->setLabelText( tr( "Select social network:" ) );
+    dlg->setComboBoxItems( QStringList() << "Twitter" << "Identi.ca" );
+    dlg->setCancelButtonText( tr( "Cancel" ) );
+    dlg->setOkButtonText( tr( "OK" ) );
+    result = dlg->exec();
+    network = dlg->textValue() == "Twitter" ? TwitterAPI::SOCIALNETWORK_TWITTER : TwitterAPI::SOCIALNETWORK_IDENTICA;
+    dlg->deleteLater();
 #endif
+  } else {
+    NewAccountDialog dlg;
+    result = dlg.exec();
+    network = dlg.network();
+    login = dlg.login();
+    password = dlg.password();
+  }
 
   if ( result == QDialog::Accepted ) {
     int index = model->rowCount();
 
 #ifdef OAUTH
-    if ( network == "Twitter" ) {
+    if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
       OAuthWizard *wizard = new OAuthWizard( view );
       wizard->exec();
       if ( wizard->authorized() ) {
@@ -290,19 +311,29 @@ void AccountsController::addAccount()
         settings.addAccount( index, model->account( index ) );
         view->setCurrentIndex( model->index( index, 0 ) );
         ui->deleteAccountButton->setEnabled( true );
+        emit accountDialogClosed( true );
+      } else {
+        emit accountDialogClosed( false );
       }
       wizard->deleteLater();
 
-    } else if ( network == "Identi.ca" ) {
+    } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
 #endif
       model->insertRow( index );
-      model->account( index ).network = network == "Twitter" ? TwitterAPI::SOCIALNETWORK_TWITTER : TwitterAPI::SOCIALNETWORK_IDENTICA;
+      model->account( index ).network = (TwitterAPI::SocialNetwork) network;
+      if ( sender() != ui->addAccountButton ) {
+        model->account( index ).login = login;
+        model->account( index ).password = password;
+      }
       settings.addAccount( index, model->account( index ) );
       view->setCurrentIndex( model->index( index, 0 ) );
       ui->deleteAccountButton->setEnabled( true );
+      emit accountDialogClosed( true );
 #ifdef OAUTH
     }
 #endif
+  } else {
+    emit accountDialogClosed( false );
   }
 }
 

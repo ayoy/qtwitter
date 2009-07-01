@@ -56,7 +56,6 @@ public:
   Core( MainWindow *parent = 0 );
   virtual ~Core();
 
-  void applySettings();
   bool setTimerInterval( int msecs );
 #ifdef Q_WS_X11
   void setBrowserPath( const QString& path );
@@ -85,6 +84,9 @@ public slots:
   void shortenUrl( const QString &url );
   void resetRequestsCount();
 
+  void addAccount();
+  void applySettings();
+
 
   void retranslateUi();
 
@@ -106,6 +108,8 @@ signals:
   void resizeData( int width, int oldWidth );
   void newRequest();
   void urlShortened( const QString &url);
+
+  void accountDialogClosed( bool success );
 
 private slots:
   void createAccounts( QWidget *view );
