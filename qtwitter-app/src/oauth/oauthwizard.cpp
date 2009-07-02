@@ -40,7 +40,7 @@ OAuthWizard::OAuthWizard(QWidget *parent) :
 
   ui_o->setupUi(this);
   ui_a->setupUi(ui_o->widget);
-  adjustSize();
+//  adjustSize();
 
   connect( ui_a->allowButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
 }
@@ -89,7 +89,7 @@ void OAuthWizard::changeEvent(QEvent *e)
 
 void OAuthWizard::setOkButtonEnabled()
 {
-  if ( ui_p->pinEdit->text().isEmpty() ) {
+  if ( ui_p->pinEdit->text().length() != 6 ) {
     ui_p->okButton->setEnabled( false );
   } else {
     ui_p->okButton->setEnabled( true );
@@ -101,11 +101,19 @@ void OAuthWizard::openUrl()
   QOAuth::ParamMap requestToken = qoauth->requestToken( TwitterRequestTokenURL, QOAuth::GET, QOAuth::HMAC_SHA1 );
 
   if ( qoauth->error() != QOAuth::NoError ) {
+    if ( sender() == ui_p->okButton ) {
+      delete ui_o->widget->layout();
+
+      ui_p->okButton->deleteLater();
+      ui_p->pinEdit->deleteLater();
+      ui_p->pinLabel->deleteLater();
+      ui_a->setupUi(ui_o->widget);
+    }
+
     ui_a->allowLabel->setText( tr( "There was a network-related problem with completing the request. Please try again later." ) );
-    ui_a->allowButton->setText( tr( "Close" ) );
+    ui_a->allowButton->setText( tr( "Retry" ) );
+    adjustSize();
     resize( width(), height() * 1.5 );
-    disconnect( ui_a->allowButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
-    connect( ui_a->allowButton, SIGNAL(clicked()), this, SLOT(reject()) );
     state = false;
     return;
   }
@@ -123,8 +131,17 @@ void OAuthWizard::openUrl()
 
   delete ui_o->widget->layout();
 
-  ui_a->allowLabel->deleteLater();
-  ui_a->allowButton->deleteLater();
+  if ( sender() == ui_p->okButton ) {
+    delete ui_o->widget->layout();
+
+    ui_p->okButton->deleteLater();
+    ui_p->pinEdit->deleteLater();
+    ui_p->pinLabel->deleteLater();
+  } else {
+    ui_a->allowLabel->deleteLater();
+    ui_a->allowButton->deleteLater();
+  }
+
   ui_p->setupUi(ui_o->widget);
   ui_p->pinEdit->setValidator( new QRegExpValidator( QRegExp( "\\d{6}" ), this ) );
   connect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(authorize()) );
@@ -142,10 +159,11 @@ void OAuthWizard::authorize()
   if ( qoauth->error() != QOAuth::NoError ) {
     ui_p->pinEdit->hide();
     ui_p->pinLabel->setText( tr( "Either the PIN you entered is incorrect, or a network-related problem occured. Please try again later." ) );
-    ui_p->okButton->setText( tr( "Close" ) );
+    ui_p->okButton->setText( tr( "Retry" ) );
+    adjustSize();
     resize( width(), height() * 1.5 );
     disconnect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(authorize()) );
-    connect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(reject()) );
+    connect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
     state = false;
     return;
   }

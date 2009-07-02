@@ -49,7 +49,7 @@ void WelcomeDialog::confirmAccountAdded( bool success )
     m_ui->infoLabel->setText( tr( "Account added successfully! You may add another or just start using program." ) );
     m_ui->addAccountButton->setText( tr( "Add one more" ) );
   } else {
-    m_ui->infoLabel->setText( tr( "There was a problem adding your account."
+    m_ui->infoLabel->setText( tr( "There was a problem adding your account. "
                                   "Please check your internet connection and try one more time." ) );
   }
   m_ui->addAccountButton->setEnabled( true );

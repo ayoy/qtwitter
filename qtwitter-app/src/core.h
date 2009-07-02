@@ -84,7 +84,6 @@ public slots:
   void shortenUrl( const QString &url );
   void resetRequestsCount();
 
-  void addAccount();
   void applySettings();
 
 
@@ -130,6 +129,8 @@ private slots:
 
   void setWaitForAccounts( bool wait );
   void markEverythingAsRead();
+
+  void addAccount();
 
 private:
   void destroyDontAsk( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, Entry::Type type );

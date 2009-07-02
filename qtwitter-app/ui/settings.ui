@@ -29,7 +29,7 @@
    <item>
     <widget class="QTabWidget" name="tabs">
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <property name="usesScrollButtons">
       <bool>false</bool>
@@ -38,18 +38,18 @@
       <attribute name="title">
        <string>General</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_3">
+      <layout class="QFormLayout" name="formLayout_2">
        <item row="0" column="0">
         <widget class="QLabel" name="refreshLabel">
          <property name="text">
-          <string>Refresh every (mins)</string>
+          <string>Refresh every (mins):</string>
          </property>
          <property name="buddy">
           <cstring>refreshCombo</cstring>
          </property>
         </widget>
        </item>
-       <item row="0" column="1" colspan="2">
+       <item row="0" column="1">
         <widget class="QComboBox" name="refreshCombo">
          <item>
           <property name="text">
@@ -88,64 +88,17 @@
          </item>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="tweetCountLabel">
+       <item row="1" column="0">
+        <widget class="QLabel" name="languageLabel">
          <property name="text">
-          <string>Status count:</string>
+          <string>Language:</string>
+         </property>
+         <property name="buddy">
+          <cstring>languageCombo</cstring>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="colorLabel">
-         <property name="text">
-          <string>Color scheme:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1" colspan="2">
-        <widget class="QComboBox" name="colorBox">
-         <property name="currentIndex">
-          <number>-1</number>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="3">
-        <widget class="QCheckBox" name="confirmDeletionBox">
-         <property name="text">
-          <string>Confirm messages deletion</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0" colspan="3">
-        <widget class="QCheckBox" name="notificationsBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>2</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Show tray notifications</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item row="7" column="0" colspan="3">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1" colspan="2">
+       <item row="1" column="1">
         <widget class="QComboBox" name="languageCombo">
          <property name="currentIndex">
           <number>-1</number>
@@ -155,17 +108,14 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="languageLabel">
+       <item row="2" column="0">
+        <widget class="QLabel" name="tweetCountLabel">
          <property name="text">
-          <string>Language</string>
-         </property>
-         <property name="buddy">
-          <cstring>languageCombo</cstring>
+          <string>Status count:</string>
          </property>
         </widget>
        </item>
-       <item row="3" column="1">
+       <item row="2" column="1">
         <widget class="QSpinBox" name="statusCountBox">
          <property name="maximumSize">
           <size>
@@ -183,6 +133,56 @@
           <number>200</number>
          </property>
         </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="colorLabel">
+         <property name="text">
+          <string>Color scheme:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="colorBox">
+         <property name="currentIndex">
+          <number>-1</number>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0" colspan="2">
+        <widget class="QCheckBox" name="confirmDeletionBox">
+         <property name="text">
+          <string>Confirm messages deletion</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0" colspan="2">
+        <widget class="QCheckBox" name="notificationsBox">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+           <horstretch>2</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Show tray notifications</string>
+         </property>
+         <property name="checked">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </widget>
@@ -337,11 +337,11 @@
       <attribute name="title">
        <string>URLs</string>
       </attribute>
-      <layout class="QGridLayout" name="gridLayout_2">
+      <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
         <widget class="QLabel" name="shortenLabel">
          <property name="text">
-          <string>Shorten links via</string>
+          <string>Shorten links via:</string>
          </property>
          <property name="buddy">
           <cstring>urlShortenerCombo</cstring>
@@ -351,53 +351,57 @@
        <item row="0" column="1">
         <widget class="QComboBox" name="urlShortenerCombo"/>
        </item>
-       <item row="1" column="0">
-        <widget class="QLabel" name="authenticationLabel">
-         <property name="text">
-          <string>Use authentication</string>
+       <item row="2" column="0" colspan="2">
+        <widget class="QGroupBox" name="urlAuthGroupBox">
+         <property name="title">
+          <string>Shortening service account</string>
          </property>
-        </widget>
-       </item>
-       <item row="1" column="1">
-        <widget class="QCheckBox" name="authenticationCheckBox">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="usernameLabel">
-         <property name="text">
-          <string>Username</string>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QLineEdit" name="usernameEdit"/>
-       </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="passwordLabel">
-         <property name="text">
-          <string>Password</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QLineEdit" name="passwordEdit"/>
-       </item>
-       <item row="4" column="1">
-        <widget class="QLabel" name="shortenerInfoLabel">
-         <property name="font">
-          <font>
-           <italic>true</italic>
-          </font>
-         </property>
-         <property name="text">
-          <string notr="true">TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="1" column="0">
+           <widget class="QLabel" name="urlUsernameLabel">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Username:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QLineEdit" name="urlUsernameEdit">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="urlPasswordLabel">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="text">
+             <string>Password:</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QLineEdit" name="urlPasswordEdit">
+            <property name="enabled">
+             <bool>false</bool>
+            </property>
+            <property name="echoMode">
+             <enum>QLineEdit::Password</enum>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="0">
+           <widget class="QCheckBox" name="urlAuthenticationCheckBox">
+            <property name="text">
+             <string>Use authentication</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
        <item row="5" column="0" colspan="2">
@@ -412,6 +416,21 @@
           </size>
          </property>
         </spacer>
+       </item>
+       <item row="1" column="0" colspan="2">
+        <widget class="QLabel" name="shortenerInfoLabel">
+         <property name="font">
+          <font>
+           <italic>true</italic>
+          </font>
+         </property>
+         <property name="text">
+          <string notr="true">TextLabel</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -506,6 +525,70 @@
     <hint type="destinationlabel">
      <x>121</x>
      <y>103</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>urlAuthenticationCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>urlUsernameLabel</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>166</x>
+     <y>83</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>40</x>
+     <y>111</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>urlAuthenticationCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>urlPasswordLabel</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>169</x>
+     <y>85</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>65</x>
+     <y>140</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>urlAuthenticationCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>urlUsernameEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>269</x>
+     <y>83</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>266</x>
+     <y>106</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>urlAuthenticationCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>urlPasswordEdit</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>314</x>
+     <y>77</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>313</x>
+     <y>140</y>
     </hint>
    </hints>
   </connection>

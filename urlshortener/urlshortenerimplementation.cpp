@@ -61,6 +61,10 @@ void IsgdShortener::replyFinished( QNetworkReply * reply )
   case 200:
     emit shortened( response );
     break;
+  // TODO: change
+  case 401:
+    emit errorMessage( tr( "The url shortening service couldn't authorize you. Please check your username and password." ) );
+  // \TODO
   case 500: {
       QString message = response.replace("Error: ", "");
       if( message == "The URL entered was not valid." ) {

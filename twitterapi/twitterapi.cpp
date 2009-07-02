@@ -933,9 +933,10 @@ void TwitterAPIInterface::slotAuthenticationRequired( QNetworkReply *reply, QAut
   if ( authenticator->user() != login || authenticator->password() != password ) {
     authenticator->setUser( login );
     authenticator->setPassword( password );
-  } else {
-    emitUnauthorized( reply );
   }
+//  else {
+//    emitUnauthorized( reply );
+//  }
 }
 
 void TwitterAPIInterface::emitUnauthorized( QNetworkReply *reply )

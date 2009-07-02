@@ -96,19 +96,21 @@ void AccountsController::loadAccounts()
     return;
 
   settings.beginGroup( "Accounts" );
+  int accountsCount = settings.childGroups().count();
 
   QList<Account> modelAccounts = model->getAccounts();
   QList<Account> settingsAccounts;
   QList<QString> passwords;
-  for ( int i = 0; i < settings.childGroups().count(); i++ ) {
+  for ( int i = 0; i < accountsCount; i++ ) {
     Account account;
-    account.isEnabled = settings.value( QString( "%1/enabled" ).arg(i), false ).toBool();
-    account.network = (TwitterAPI::SocialNetwork) settings.value( QString( "%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_TWITTER ).toInt();
-    account.login = settings.value( QString( "%1/login" ).arg(i), "" ).toString();
-    account.directMessages = settings.value( QString( "%1/directmsgs" ).arg(i), false ).toBool();
+    QString id = QString::number(i);
+    account.isEnabled = settings.value( QString( "%1/enabled" ).arg(id), false ).toBool();
+    account.network = (TwitterAPI::SocialNetwork) settings.value( QString( "%1/service" ).arg(id), TwitterAPI::SOCIALNETWORK_TWITTER ).toInt();
+    account.login = settings.value( QString( "%1/login" ).arg(id), "" ).toString();
+    account.directMessages = settings.value( QString( "%1/directmsgs" ).arg(id), false ).toBool();
 
     settingsAccounts << account;
-    account.password = settings.pwHash( settings.value( QString( "%1/password" ).arg(i), "" ).toString() );
+    account.password = settings.pwHash( settings.value( QString( "%1/password" ).arg(id), "" ).toString() );
     passwords << account.password;
   }
 
@@ -347,7 +349,7 @@ void AccountsController::deleteAccount()
 
   int row = view->selectionModel()->currentIndex().row();
   model->removeRow( row );
-  settings.deleteAccount( row, model->rowCount() );
+  settings.deleteAccount( row, model->rowCount() + 1 );
   if ( model->rowCount() <= 0 ) {
     ui->deleteAccountButton->setEnabled( false );
   } else {
