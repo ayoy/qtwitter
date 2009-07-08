@@ -78,8 +78,12 @@ void StatusModel::updateDisplay( int ind )
 {
   StatusWidget *widget = static_cast<StatusWidget*>( view->indexWidget( index( ind, 0 ) ) );
   Q_ASSERT(widget);
-  if ( statusList )
+  if ( statusList ) {
     widget->setStatusData( statusList->data( ind ) );
+    if ( statusList->active() == ind ) {
+      currentIndex = index( ind, 0 );
+    }
+  }
   item( ind )->setSizeHint( widget->size() );
 }
 

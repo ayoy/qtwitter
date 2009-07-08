@@ -254,6 +254,9 @@ int StatusListPrivate::addStatus( Entry entry )
       data.insert( i, status );
       if ( data.size() >= maxCount && data.takeLast() == status )
         return -1;
+      if ( active >= data.indexOf( status ) ) {
+        active++;
+      }
       return data.indexOf( status );
     }
   }
