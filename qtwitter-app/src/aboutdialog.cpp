@@ -54,11 +54,11 @@ void AboutDialog::populateAuthors()
                          "<body style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">" );
 
   authorsHtml.append( QString( "<p><b>%1</b></p>"
-                               "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Development team as for 0.7.1:" ) ) );
+                               "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Development team as for %1:" ).arg( ConfigFile::APP_VERSION ) ) );
 
   authorsHtml.append( contributor( "Dominik Kapusta", "d@ayoy.net", tr( "Application concept and main development" ) ) );
-  authorsHtml.append( contributor( "Anna Nowak", "wiorka@gmail.com", tr( "API library improvements and themes revisiting" ) ) );
   authorsHtml.append( contributor( "Mariusz Pietrzyk", "wijet@wijet.pl", tr( "URL shortening services support" ) ) );
+  authorsHtml.append( contributor( "Anna Nowak", "wiorka@gmail.com", tr( "API library improvements and themes revisiting" ) ) );
   authorsHtml.append( contributor( "Flavio Castelli", "flavio@castelli.name", tr( "Porting to Maemo platform" ) ) );
 
   authorsHtml.append( QString( "<br/><p><b>%1</b></p>"
@@ -67,6 +67,7 @@ void AboutDialog::populateAuthors()
   authorsHtml.append( contributor( "Anna Nowak", "wiorka@gmail.com") );
   authorsHtml.append( contributor( "Harry Bellemare", "behr62@gmail.com", tr( "French translation") ) );
   authorsHtml.append( contributor( "Jan Schummers", "darkadmiral@onlinehome.de", tr( "German translation" ) ) );
+  authorsHtml.append( contributor( "Francesco 3ck", "faster3ck@gmail.com", tr( "Italian translation" ) ) );
   authorsHtml.append( contributor( QString::fromUtf8( "Maciej Dębiński" ), "misanthroposs@gmail.com", tr( "Japanese translation" ) ) );
   authorsHtml.append( contributor( QString::fromUtf8( "Márcio Moraes" ), "marciopanto@gmail.com", tr( "Portugese translation" ) ) );
   authorsHtml.append( contributor( "Alvaro Ortiz", "fausto17@gmail.com", tr( "Spanish translation" ) ) );
@@ -100,10 +101,9 @@ void AboutDialog::populateCredits()
 
   creditsHtml.append( QString( "<br/><p><b>%1</b></p>"
                                "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Releasing:" ) ) );
-  creditsHtml.append( contributor( "Markos Chandras", "hwoarang@gentoo.org", "Gentoo" ) );
   creditsHtml.append( contributor( "Eugene Pivnev", "ti.eugene@gmail.com", "Mandriva, openSuse" ) );
   creditsHtml.append( contributor( "Nick B", "shirakawasuna@gmail.com", "Arch" ) );
-  creditsHtml.append( contributor( "Dominik Kapusta", "d@ayoy.net", "Ubuntu/Debian, Fedora, MacOS X, Windows" ) );
+  creditsHtml.append( contributor( "Dominik Kapusta", "d@ayoy.net", "Gentoo, Ubuntu/Debian, Fedora, MacOS X, Windows" ) );
 
   creditsHtml.append(   "</body>"
                       "</html>" );
@@ -119,7 +119,7 @@ void AboutDialog::displayAbout()
                                   "<style type=\"text/css\">p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }</style>"
                                 "</head>"
                                 "<body align=\"center\" style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">"
-                                  "<p>qTwitter - a Qt Twitter client</p>"
+                                  "<p>qTwitter - a Qt-based Twitter and Identi.ca client</p>"
                                   "<p>version %1</p>"
                                   "<p>Copyright &copy; 2008-2009</p>"
                                   "<p>by <a href=\"http://twitter.com/ayoy\"><span style=\" text-decoration: underline; color:#0000ff;\">Dominik Kapusta</span></a></p>"

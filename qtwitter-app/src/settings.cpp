@@ -292,27 +292,19 @@ void Settings::changeTheme( const QString &theme )
   core->setModelTheme( themes.value( theme ) );
 }
 
+void Settings::changeEvent( QEvent *e )
+{
+  switch (e->type()) {
+  case QEvent::LanguageChange:
+    ui.retranslateUi(this);
+    break;
+  default:;
+  }
+}
+
 void Settings::retranslateUi()
 {
   ui.languageCombo->setItemText( 0, tr( "Default" ) );
-
-//  ui.retranslateUi( this );
-  setWindowTitle( tr("Settings") );
-  ui.tabs->setTabText( 0, tr( "General" ) );
-  ui.refreshLabel->setText( tr("Refresh every (mins):") );
-  ui.languageLabel->setText( tr("Language:") );
-  ui.shortenLabel->setText( tr("Shorten links via:") );
-  ui.shortenerInfoLabel->setText( tr( "Tip: use %1 to shorten links" ).arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
-  ui.notificationsBox->setText( tr("Show tray notifications") );
-  ui.confirmDeletionBox->setText( tr("Confirm messages deletion") );
-  ui.tabs->setTabText( 1, tr( "Accounts" ) );
-  ui.tabs->setTabText( 2, tr( "Network" ) );
-  ui.proxyBox->setText( tr( "Use HTTP &proxy" ) );
-  ui.hostLabel->setText( tr( "Host:" ) );
-  ui.portLabel->setText( tr( "Port:" ) );
-  ui.tabs->setTabText( 3, tr( "Appearance" ) );
-  ui.tweetCountLabel->setText( tr( "Status count:" ) );
-  ui.colorLabel->setText( tr( "Color scheme:" ) );
 #ifdef Q_WS_X11
   useCustomBrowserCheckBox->setText( tr( "Use custom web browser" ) );
   selectBrowserButton->setText( tr( "Browse" ) );

@@ -66,6 +66,9 @@ public slots:
 signals:
   void createAccounts( QWidget *view );
 
+protected:
+  void changeEvent( QEvent *e );
+
 private slots:
   void changeTheme( const QString& );
   void readUpdateReply( bool available, const QString &version );

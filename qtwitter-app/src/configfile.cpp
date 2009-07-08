@@ -25,7 +25,7 @@
 
 #include <QFileInfo>
 
-const QString ConfigFile::APP_VERSION = "0.7.1";
+const QString ConfigFile::APP_VERSION = "0.8.0";
 
 
 ConfigFile settings;
