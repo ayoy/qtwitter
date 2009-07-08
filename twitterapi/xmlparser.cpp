@@ -138,7 +138,7 @@ bool XmlParser::characters( const QString &ch )
           /* In reply to status id exists and is not empty; Hack for dealing with tags that are opened and closed
            at the same time, e.g. <in_reply_to_screen_name/>  */
           entry.hasInReplyToStatusId = true;
-          entry.inReplyToStatusId = ch.toInt();
+          entry.inReplyToStatusId = ch.toULongLong();
         }
       } else if ( currentTag == TAG_INREPLYTO_SCREEN_NAME && entry.hasInReplyToStatusId ) {
         /* When hasInReplyToStatusId is true, inReplyToScreenName should be present, but it won't hurt to check it again
