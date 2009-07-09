@@ -25,7 +25,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="57"/>
         <source>Development team as for %1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Equipe de desenvolvimento como %1:</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="62"/>
@@ -50,7 +50,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="70"/>
         <source>Italian translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Italiano</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="71"/>
@@ -60,7 +60,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="72"/>
         <source>Portugese translation</source>
-        <translation>Portugês</translation>
+        <translation>Português brasileiro</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="73"/>
@@ -97,7 +97,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="117"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - um cliente para Twitter e Identi.ca baseado no Qt&lt;/p&gt;&lt;p&gt;versão %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distribuído sob a licença LGP&lt;/p&gt;&lt;p&gt;versão 2.1 ou superior&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -167,7 +167,7 @@
     <message>
         <location filename="../src/accounts/accountscontroller.cpp" line="250"/>
         <source>Please note:</source>
-        <translation>Por favor, note:</translation>
+        <translation>Por favor, observe:</translation>
     </message>
     <message>
         <location filename="../src/accounts/accountscontroller.cpp" line="251"/>
@@ -177,30 +177,30 @@
     <message>
         <location filename="../src/accounts/accountscontroller.cpp" line="256"/>
         <source>Note also that Twitter authorization keys are stored anyway. Remove the account from the list if you want the key to be deleted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Observe também que, as chaves de autorização Twitter são armazenados de qualquer maneira. Remova a conta a partir da lista, se quiser que a chave seja eliminada.</translation>
     </message>
     <message>
         <location filename="../src/accounts/accountscontroller.cpp" line="276"/>
         <location filename="../src/accounts/accountscontroller.cpp" line="281"/>
         <source>Add account</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar conta</translation>
     </message>
     <message>
         <location filename="../src/accounts/accountscontroller.cpp" line="276"/>
         <location filename="../src/accounts/accountscontroller.cpp" line="283"/>
         <source>Select social network:</source>
         <extracomment>Select social network, i.e. Twitter or Identi.ca</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Selecionar rede social:</translation>
     </message>
     <message>
         <location filename="../src/accounts/accountscontroller.cpp" line="285"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../src/accounts/accountscontroller.cpp" line="286"/>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
     </message>
 </context>
 <context>
@@ -208,7 +208,7 @@
     <message>
         <location filename="../src/accounts/accountsmodel.cpp" line="96"/>
         <source>authorized</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorizado</translation>
     </message>
     <message>
         <location filename="../src/accounts/accountsmodel.cpp" line="124"/>
@@ -241,7 +241,7 @@
         <location filename="../src/accounts/accountsmodel.cpp" line="279"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation>&lt;empty&gt;</translation>
+        <translation>&lt;vazio&gt;</translation>
     </message>
 </context>
 <context>
@@ -249,12 +249,12 @@
     <message>
         <location filename="../src/oauth/allowwidget.ui" line="23"/>
         <source>You must allow qTwitter accessing your Twitter account</source>
-        <translation type="unfinished"></translation>
+        <translation>Você deve permitir que qTwitter acesse sua conta Twitter</translation>
     </message>
     <message>
         <location filename="../src/oauth/allowwidget.ui" line="36"/>
         <source>Allow qTwitter access</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir acesso ao qTwitter</translation>
     </message>
 </context>
 <context>
@@ -320,18 +320,18 @@
     <message>
         <location filename="../src/core.cpp" line="244"/>
         <source>Welcome!</source>
-        <translation type="unfinished"></translation>
+        <translation>Bem-vindo!</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="246"/>
         <source>Welcome to qTwitter %1!</source>
         <extracomment>e.g. &quot;Welcome to qTwitter 0.8.0!&quot;</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Bem-vindo ao qTwitter %1!</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="247"/>
         <source>&lt;b&gt;Please note:&lt;/b&gt; we introduced the ultra-secure OAuth authorization scheme for Twitter accounts in this release. This means that you would never be asked again to enter your Twitter password in qTwitter. However, your existing qTwitter configuration will not work any more. Your Twitter accounts and passwords have been removed from qTwitter settings, please reconfigure them in Settings to have things working. Thanks and enjoy qTwitter!</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;b&gt;Por favor, observe:&lt;/b&gt; nós introduzimos o ultra-seguro esquema de autorização OAuth para as contas Twitter nesta versão. Isso significa que, você nunca será perguntado novamente para digitar a sua senha Twitter no qTwitter. No entanto, a sua atual configuração do qTwitter não irá funcionar mais. Suas senhas e contas Twitter foram retiradas das configurações do qTwitter. Por favor, reconfigure-as em Configurações para ter as coisas funcionando. Obrigado e aprecie o qTwitter!</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="380"/>
@@ -347,12 +347,12 @@
     <message>
         <location filename="../src/core.cpp" line="426"/>
         <source>Enter password</source>
-        <translation type="unfinished"></translation>
+        <translation>Digite a senha</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="426"/>
         <source>Enter your Twitter password.&lt;br&gt;We&apos;re not storing it anywhere</source>
-        <translation type="unfinished"></translation>
+        <translation>Digite sua senha Twitter.&lt;br&gt;Nós não vamos guardá-la em qualquer lugar</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="449"/>
@@ -368,7 +368,7 @@
         <location filename="../src/core.cpp" line="499"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation>&lt;empty&gt;</translation>
+        <translation>&lt;vazio&gt;</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="709"/>
@@ -388,7 +388,7 @@
     <message>
         <location filename="../src/core.cpp" line="722"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
-        <translation>A autenticação é necessário para obter atualizações de seus amigos.</translation>
+        <translation>A autenticação é necessária para obter atualizações de seus amigos.</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="743"/>
@@ -398,7 +398,7 @@
     <message>
         <location filename="../src/core.cpp" line="744"/>
         <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
-        <translation>Uma ou mais requisições não foram completadas. Verifique sua conexão e/ou configurações de contas.</translation>
+        <translation>Uma ou mais requisições não foram concluídas. Verifique sua conexão e/ou configurações das contas.</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="792"/>
@@ -434,8 +434,8 @@
         <location filename="../src/dmdialog.cpp" line="90"/>
         <source>%n characters over the limit</source>
         <translation>
-            <numerusform>%n caractere alé do limite</numerusform>
-            <numerusform>%n caracteres alé do limite</numerusform>
+            <numerusform>%n caractere além do limite</numerusform>
+            <numerusform>%n caracteres além do limite</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -493,7 +493,7 @@
     <message>
         <location filename="../src/dmdialog.cpp" line="142"/>
         <source>Message sending failed. Note that you cannot send a message to a user that doesn&apos;t follow you.</source>
-        <translation>Falha ao enviar mensagem. Note que você não pode enviar uma mensagem para um usuário que não segue você.</translation>
+        <translation>Falha ao enviar a mensagem. Note que você não pode enviar uma mensagem para um usuário que não segue você.</translation>
     </message>
     <message>
         <location filename="../ui/dmdialog.ui" line="20"/>
@@ -539,7 +539,7 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="66"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation type="unfinished"></translation>
+        <translation>O serviço de encurtamento de url não pôde autorizá-lo. Por favor, verifique seu usuário e senha.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="73"/>
@@ -554,7 +554,7 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="77"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation>A URL digitada é um potencial site de spam e está listada na lista negra URIBL ou na SUBBL.</translation>
+        <translation>A URL digitada é um site potencial de spam e está listada na lista negra URIBL ou na SUBBL.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="79"/>
@@ -653,7 +653,7 @@
         <location filename="../src/mainwindow.cpp" line="178"/>
         <location filename="../src/mainwindow.cpp" line="545"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificar por atualizações</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/mainwindow.cpp" line="274"/>
@@ -711,35 +711,35 @@
         <location filename="../src/mainwindow.cpp" line="474"/>
         <location filename="../src/mainwindow.cpp" line="496"/>
         <source>Update available</source>
-        <translation type="unfinished"></translation>
+        <translation>Atualização disponível</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="475"/>
         <location filename="../src/mainwindow.cpp" line="497"/>
         <source>An update to qTwitter is available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Um atualização para qTwitter está disponível!</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="477"/>
         <location filename="../src/mainwindow.cpp" line="499"/>
         <source>Current version is %1.&lt;br&gt;Download it from %2</source>
-        <translation type="unfinished"></translation>
+        <translation>A versão atual é %1.&lt;br&gt;Obtê-la de %2</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="481"/>
         <source>No updates available</source>
-        <translation type="unfinished"></translation>
+        <translation>Não há atualizações disponíveis</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="482"/>
         <source>Sorry, no updates for qTwitter are currently available</source>
-        <translation type="unfinished"></translation>
+        <translation>Desculpe, não há atualizações para qTwitter disponíveis atualmente</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="485"/>
         <location filename="../src/mainwindow.cpp" line="502"/>
         <source>Close</source>
-        <translation type="unfinished">Fechar</translation>
+        <translation>Fechar</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="526"/>
@@ -787,13 +787,13 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="314"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">A URL digitada não é válida.</translation>
+        <translation>A URL digitada não é válida.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="317"/>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="322"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -801,32 +801,32 @@
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="14"/>
         <source>New account</source>
-        <translation type="unfinished"></translation>
+        <translation>Nova conta</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="20"/>
         <source>Login:</source>
-        <translation type="unfinished">Usuário:</translation>
+        <translation>Usuário:</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="33"/>
         <source>Password:</source>
-        <translation type="unfinished">Senha:</translation>
+        <translation>Senha:</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="61"/>
         <source>Twitter</source>
-        <translation type="unfinished">Twitter</translation>
+        <translation>Twitter</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="66"/>
         <source>Identi.ca</source>
-        <translation type="unfinished">Identi.ca</translation>
+        <translation>Identi.ca</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="74"/>
         <source>Social network:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rede social:</translation>
     </message>
 </context>
 <context>
@@ -834,28 +834,28 @@
     <message>
         <location filename="../src/oauth/oauthwizard.cpp" line="113"/>
         <source>There was a network-related problem with completing the request. Please try again later.</source>
-        <translation type="unfinished"></translation>
+        <translation>Houve um problema relacionado com a rede ao completar a pedido. Por favor, tente novamente mais tarde.</translation>
     </message>
     <message>
         <location filename="../src/oauth/oauthwizard.cpp" line="114"/>
         <location filename="../src/oauth/oauthwizard.cpp" line="162"/>
         <source>Retry</source>
-        <translation type="unfinished"></translation>
+        <translation>Tentar novamente</translation>
     </message>
     <message>
         <location filename="../src/oauth/oauthwizard.cpp" line="161"/>
         <source>Either the PIN you entered is incorrect, or a network-related problem occured. Please try again later.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ou o PIN que você digitou está incorreto, ou ocorreu um problema relacionado com a rede. Por favor, tente novamente mais tarde.</translation>
     </message>
     <message>
         <location filename="../src/oauth/oauthwizard.ui" line="20"/>
         <source>Allow access</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir acesso</translation>
     </message>
     <message>
         <location filename="../src/oauth/oauthwizard.ui" line="37"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
 </context>
 <context>
@@ -863,12 +863,12 @@
     <message>
         <location filename="../src/oauth/pinwidget.ui" line="23"/>
         <source>Enter PIN number received from Twitter</source>
-        <translation type="unfinished"></translation>
+        <translation>Digite o número PIN recebido de Twitter</translation>
     </message>
     <message>
         <location filename="../src/oauth/pinwidget.ui" line="44"/>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
     </message>
 </context>
 <context>
@@ -893,37 +893,37 @@
     <message>
         <location filename="../src/settings.cpp" line="136"/>
         <source>never</source>
-        <translation type="unfinished"></translation>
+        <translation>nunca</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="246"/>
         <source>Update available</source>
-        <translation type="unfinished"></translation>
+        <translation>Atualização disponível</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="247"/>
         <source>An update to qTwitter is available!</source>
-        <translation type="unfinished"></translation>
+        <translation>Um atualização para qTwitter está disponível!</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="249"/>
         <source>Current version is %1.&lt;br&gt;Download it from %2</source>
-        <translation type="unfinished"></translation>
+        <translation>A versão atual é %1.&lt;br&gt;Obtê-la de %2</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="253"/>
         <source>No updates available</source>
-        <translation type="unfinished"></translation>
+        <translation>Não há atualizações disponíveis</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="254"/>
         <source>Sorry, no updates for qTwitter are currently available</source>
-        <translation type="unfinished"></translation>
+        <translation>Desculpe, não há atualizações para qTwitter disponíveis atualmente</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="257"/>
         <source>Close</source>
-        <translation type="unfinished">Fechar</translation>
+        <translation>Fechar</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="26"/>
@@ -1026,7 +1026,7 @@
         <location filename="../src/settings.cpp" line="389"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
-        <translation>Português</translation>
+        <translation>Português (Brasil)</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="307"/>
@@ -1052,22 +1052,22 @@
     <message>
         <location filename="../ui/settings.ui" line="262"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Atualizações</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="270"/>
         <source>Automatically check for updates at startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificar automaticamente se há atualizações na inicialização</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="287"/>
         <source>Last checked:</source>
-        <translation type="unfinished"></translation>
+        <translation>Última verificação:</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="312"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificar agora</translation>
     </message>
 </context>
 <context>
@@ -1110,7 +1110,7 @@
         <location filename="../src/statuswidget.cpp" line="129"/>
         <location filename="../src/statuswidget.cpp" line="444"/>
         <source>Mark everything as read</source>
-        <translation>Marcar tudo com lida</translation>
+        <translation>Marcar tudo como lida</translation>
     </message>
     <message>
         <location filename="../src/statuswidget.cpp" line="142"/>
@@ -1218,7 +1218,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="115"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Um erro desconhecido ocorreu ao  encurtar sua URL.</translation>
+        <translation>Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -1254,7 +1254,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../ui/twitpicnewphoto.ui" line="26"/>
         <source>Upload completed</source>
-        <translation>Envio completado</translation>
+        <translation>Envio concluído</translation>
     </message>
 </context>
 <context>
@@ -1376,52 +1376,52 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../src/welcomedialog.cpp" line="49"/>
         <source>Account added successfully! You may add another or just start using program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Conta adicionada com sucesso! Você pode adicionar outra ou simplesmente começar a usar o programa.</translation>
     </message>
     <message>
         <location filename="../src/welcomedialog.cpp" line="50"/>
         <source>Add one more</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar mais um</translation>
     </message>
     <message>
         <location filename="../src/welcomedialog.cpp" line="52"/>
         <source>There was a problem adding your account. Please check your internet connection and try one more time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Houve um problema ao adicionar sua conta. Por favor, verifique sua conexão com a Internet e tente mais uma vez.</translation>
     </message>
     <message>
         <location filename="../src/welcomedialog.cpp" line="62"/>
         <source>You can add more accounts at any time in Settings-&gt;Accounts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Você pode adicionar mais contas a qualquer momento em Configurações-&gt;Contas.</translation>
     </message>
     <message>
         <location filename="../src/welcomedialog.cpp" line="63"/>
         <source>OK</source>
-        <translation type="unfinished">Ok</translation>
+        <translation>Ok</translation>
     </message>
     <message>
         <location filename="../ui/welcomedialog.ui" line="20"/>
         <source>Welcome!</source>
-        <translation type="unfinished"></translation>
+        <translation>Bem-vindo!</translation>
     </message>
     <message>
         <location filename="../ui/welcomedialog.ui" line="59"/>
         <source>Welcome to qTwitter!</source>
-        <translation type="unfinished"></translation>
+        <translation>Bem-vindo ao qTwitter!</translation>
     </message>
     <message>
         <location filename="../ui/welcomedialog.ui" line="71"/>
         <source>To make the best use of this application you should setup one or more Twitter or Identi.ca accounts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para fazer o melhor uso deste aplicativo, você deverá configurar uma ou mais contas no Twitter ou na Identi.ca</translation>
     </message>
     <message>
         <location filename="../ui/welcomedialog.ui" line="96"/>
         <source>Add Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar Conta</translation>
     </message>
     <message>
         <location filename="../ui/welcomedialog.ui" line="116"/>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Continuar</translation>
     </message>
 </context>
 </TS>
