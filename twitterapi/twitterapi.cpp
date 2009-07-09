@@ -732,9 +732,9 @@ void TwitterAPIInterface::parseXml( const QByteArray &data, XmlParser *parser )
 */
 void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
 {
-  qDebug() << "request finished";
+//  qDebug() << "request finished";
   int replyCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
-  qDebug() << replyCode;
+//  qDebug() << replyCode;
   if ( replyCode == 0 ) {
     reply->close();
     return;

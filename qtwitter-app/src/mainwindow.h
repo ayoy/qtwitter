@@ -111,6 +111,7 @@ private:
 #endif
 
   bool resetUiWhenFinished;
+  bool updateInProgress;
 
   QMenu *buttonMenu;
   QAction *newstatusAction;

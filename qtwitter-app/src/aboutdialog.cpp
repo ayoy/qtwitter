@@ -64,10 +64,10 @@ void AboutDialog::populateAuthors()
   authorsHtml.append( QString( "<br/><p><b>%1</b></p>"
                                "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Translations:" ) ) );
 
-  authorsHtml.append( contributor( "Anna Nowak", "wiorka@gmail.com") );
+//  authorsHtml.append( contributor( "Anna Nowak", "wiorka@gmail.com") );
   authorsHtml.append( contributor( "Harry Bellemare", "behr62@gmail.com", tr( "French translation") ) );
   authorsHtml.append( contributor( "Jan Schummers", "darkadmiral@onlinehome.de", tr( "German translation" ) ) );
-  authorsHtml.append( contributor( "Francesco 3ck", "faster3ck@gmail.com", tr( "Italian translation" ) ) );
+  authorsHtml.append( contributor( "Faster", "faster3ck@gmail.com", tr( "Italian translation" ) ) );
   authorsHtml.append( contributor( QString::fromUtf8( "Maciej Dębiński" ), "misanthroposs@gmail.com", tr( "Japanese translation" ) ) );
   authorsHtml.append( contributor( QString::fromUtf8( "Márcio Moraes" ), "marciopanto@gmail.com", tr( "Portugese translation" ) ) );
   authorsHtml.append( contributor( "Alvaro Ortiz", "fausto17@gmail.com", tr( "Spanish translation" ) ) );

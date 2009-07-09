@@ -740,11 +740,11 @@ void Core::resetRequestsCount()
 {
   if ( requestCount > 0 ) {
     requestCount = 0;
-    QMessageBox::warning( parentMainWindow, tr( "Warning" ),
-                          tr( "One or more requests didn't complete. "
-                              "Check your connection and/or accounts settings." ),
-                          QMessageBox::Ok );
-    qDebug() << "warning: some requests may failed...";
+//    QMessageBox::warning( parentMainWindow, tr( "Warning" ),
+//                          tr( "One or more requests didn't complete. "
+//                              "Check your connection and/or accounts settings." ),
+//                          QMessageBox::Ok );
+    qDebug() << "warning: some requests may have failed...";
   }
 }
 
@@ -760,7 +760,7 @@ void Core::slotRequestDone( TwitterAPI::SocialNetwork network, const QString &lo
        && statusList->login() == login ){
     statusModel->updateDisplay();
   }
-  if ( role != TwitterAPI::ROLE_POST_DM ) {
+  if ( role != TwitterAPI::ROLE_POST_DM && requestCount > 0 ) {
     requestCount--;
   }
   qDebug() << requestCount;

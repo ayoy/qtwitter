@@ -305,6 +305,7 @@ void Settings::changeEvent( QEvent *e )
 void Settings::retranslateUi()
 {
   ui.languageCombo->setItemText( 0, tr( "Default" ) );
+  ui.shortenerInfoLabel->setText( tr( "Tip: use %1 to shorten links" ).arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
 #ifdef Q_WS_X11
   useCustomBrowserCheckBox->setText( tr( "Use custom web browser" ) );
   selectBrowserButton->setText( tr( "Browse" ) );

@@ -48,7 +48,8 @@ extern ConfigFile settings;
 
 MainWindow::MainWindow( QWidget *parent ) :
     QMainWindow( parent ),
-    resetUiWhenFinished( false )
+    resetUiWhenFinished( false ),
+    updateInProgress( false )
 {
   QWidget *centralWidget = new QWidget( this );
   ui.setupUi( centralWidget );
@@ -190,7 +191,7 @@ void MainWindow::createButtonMenu()
 
   QSignalMapper *mapper = new QSignalMapper( this );
   mapper->setMapping( gototwitterAction, "http://twitter.com/home" );
-  mapper->setMapping( gototwitterAction, "http://identi.ca" );
+  mapper->setMapping( gotoidenticaAction, "http://identi.ca" );
   mapper->setMapping( gototwitpicAction, "http://twitpic.com" );
 
   connect( newstatusAction, SIGNAL(triggered()), ui.statusEdit, SLOT(setFocus()) );
@@ -308,6 +309,7 @@ void MainWindow::resetStatusEdit()
     resetUiWhenFinished = false;
     ui.statusEdit->cancelEditing();
   }
+  updateInProgress = false;
   progressIcon->stop();
   emit iconStopped();
   changeLabel();
@@ -324,9 +326,12 @@ void MainWindow::showProgressIcon()
   ui.countdownLabel->clear();
   ui.countdownLabel->setMovie( progressIcon );
   progressIcon->start();
-  if ( !timer->isActive() )
+  if ( !timer->isActive() ) {
     timer->singleShot( 60000, this, SLOT(resetStatusEdit()) );
+    updateInProgress = true;
+  }
 }
+
 void MainWindow::show()
 {
   ui.statusListView->setUpdatesEnabled( false );
@@ -346,7 +351,6 @@ void MainWindow::configSaveCurrentModel( int index, bool unconditionally )
     emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
                       Account::fromString( ui.accountsComboBox->currentText() ).second );
   }
-//  ui.statusEdit->setEnabled( !( ui.accountsComboBox->currentText() == tr( "public timeline" ) ) );
 }
 
 void MainWindow::selectNextAccount()
@@ -367,7 +371,11 @@ void MainWindow::selectPrevAccount()
 
 void MainWindow::resetStatus()
 {
-  if ( ui.statusEdit->isStatusClean() ) {
+  if ( updateInProgress ) {
+    ui.countdownLabel->clear();
+    ui.countdownLabel->setMovie( progressIcon );
+    progressIcon->start();
+  } else if ( ui.statusEdit->isStatusClean() ) {
     changeLabel();
   }
 }
