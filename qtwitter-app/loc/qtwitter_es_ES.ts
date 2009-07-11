@@ -46,7 +46,7 @@
     <message>
         <location line="-3"/>
         <source>Development team as for %1:</source>
-        <translation type="unfinished"></translation>
+        <translation>Equipo de desarrolladores para %1:</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -66,7 +66,7 @@
     <message>
         <location line="+1"/>
         <source>Italian translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Traducción al italiano</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -88,7 +88,7 @@
     <message>
         <location line="+22"/>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - el cliente Qt de Twitter e Identi.ca&lt;/p&gt;&lt;p&gt;versión %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distribuido bajo la licencia LGPL&lt;/p&gt;&lt;p&gt;versión 2.1 o posterior&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -173,30 +173,30 @@
     <message>
         <location line="+5"/>
         <source>Note also that Twitter authorization keys are stored anyway. Remove the account from the list if you want the key to be deleted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tomese en cuenta que las llaves de autorización de Twitter son almacenadas de cualquier forma. Elimine la cuenta de la lista si quiere que sean borradas.</translation>
     </message>
     <message>
         <location line="+20"/>
         <location line="+5"/>
         <source>Add account</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar cuenta</translation>
     </message>
     <message>
         <location line="-5"/>
         <location line="+7"/>
         <source>Select social network:</source>
         <extracomment>Select social network, i.e. Twitter or Identi.ca</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Seleccione la red social, eg. Twitter o Identi.ca</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Cancel</source>
-        <translation type="unfinished">Anula</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OK</source>
-        <translation type="unfinished">Aceptar</translation>
+        <translation>Aceptar</translation>
     </message>
 </context>
 <context>
@@ -204,7 +204,7 @@
     <message>
         <location filename="../src/accounts/accountsmodel.cpp" line="+96"/>
         <source>authorized</source>
-        <translation type="unfinished"></translation>
+        <translation>Autorizado</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -248,12 +248,12 @@
     <message>
         <location filename="../src/oauth/allowwidget.ui" line="+23"/>
         <source>You must allow qTwitter accessing your Twitter account</source>
-        <translation type="unfinished"></translation>
+        <translation>Debe permitir a qTwitter acceder a su cuenta en Twitter</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Allow qTwitter access</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir acceso a qtwitter</translation>
     </message>
 </context>
 <context>
@@ -358,18 +358,19 @@
     <message>
         <location line="-465"/>
         <source>Welcome!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Bienvenido!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Welcome to qTwitter %1!</source>
         <extracomment>e.g. &quot;Welcome to qTwitter 0.8.0!&quot;</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>¡Bienvenidos a qTwitter %1!</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&lt;b&gt;Please note:&lt;/b&gt; we introduced the ultra-secure OAuth authorization scheme for Twitter accounts in this release. This means that you would never be asked again to enter your Twitter password in qTwitter. However, your existing qTwitter configuration will not work any more. Your Twitter accounts and passwords have been removed from qTwitter settings, please reconfigure them in Settings to have things working. Thanks and enjoy qTwitter!</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>El super ultra es un chiste</translatorcomment>
+        <translation>&lt;b&gt;Atención:&lt;/b&gt; Hemos implementado el super ultra seguro esquema de autorización OAuth de Twitter en esta versión. Esto significa que ya no se preguntara tu contraseña cada vez que inicies qTwitter. Sin embargo, la configuración existente no servirá más. Las cuentas de Twitter y sus contraseñas han sido removidas de la configuración del programa, por favor cámbielas en Ajustes para que funcione. Gracias y ¡disfrute qTwitter!</translation>
     </message>
     <message>
         <location line="+133"/>
@@ -380,12 +381,12 @@
     <message>
         <location line="+46"/>
         <source>Enter password</source>
-        <translation type="unfinished"></translation>
+        <translation>Su contraseña</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Enter your Twitter password.&lt;br&gt;We&apos;re not storing it anywhere</source>
-        <translation type="unfinished"></translation>
+        <translation>Su contraseña de Twitter.&lt;br&gt;No estamos almacenandola en ninguna parte</translation>
     </message>
     <message>
         <location line="+23"/>
@@ -538,7 +539,7 @@
     <message>
         <location line="-5"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation type="unfinished"></translation>
+        <translation>El servicio acortador de url no lo autoriza. Revise su nombre de usuario y contraseña.</translation>
     </message>
     <message>
         <location line="+7"/>
@@ -645,35 +646,35 @@
         <location line="+54"/>
         <location line="+22"/>
         <source>Update available</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualización disponible</translation>
     </message>
     <message>
         <location line="-21"/>
         <location line="+22"/>
         <source>An update to qTwitter is available!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Una actualizacin de qTwitter está disponible!</translation>
     </message>
     <message>
         <location line="-20"/>
         <location line="+22"/>
         <source>Current version is %1.&lt;br&gt;Download it from %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión actual %1.&lt;br&gt;Descárguela desde %2</translation>
     </message>
     <message>
         <location line="-18"/>
         <source>No updates available</source>
-        <translation type="unfinished"></translation>
+        <translation>No hay actualizaciones disponibles</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sorry, no updates for qTwitter are currently available</source>
-        <translation type="unfinished"></translation>
+        <translation>Lo siento, no hay actualizaciones de qTwitter</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+17"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerrar</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -737,7 +738,7 @@
         <location line="-366"/>
         <location line="+367"/>
         <source>Check for updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Revisar actualizaciones</translation>
     </message>
     <message numerus="yes">
         <location line="-277"/>
@@ -786,13 +787,13 @@
     <message>
         <location line="+175"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished"></translation>
+        <translation>La dirección no es válida.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un error desconocido ocurrio al acortar su URL.</translation>
     </message>
 </context>
 <context>
@@ -800,32 +801,32 @@
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="+14"/>
         <source>New account</source>
-        <translation type="unfinished"></translation>
+        <translation>Nueva cuenta</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Login:</source>
-        <translation type="unfinished">Inicio de sesión:</translation>
+        <translation>Inicio de sesión:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>Password:</source>
-        <translation type="unfinished">Contraseña:</translation>
+        <translation>Contraseña:</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>Twitter</source>
-        <translation type="unfinished"></translation>
+        <translation>Twitter</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>Identi.ca</source>
-        <translation type="unfinished">#Identi.ca</translation>
+        <translation>Identi.ca</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Social network:</source>
-        <translation type="unfinished"></translation>
+        <translation>Red Social:</translation>
     </message>
 </context>
 <context>
@@ -833,28 +834,28 @@
     <message>
         <location filename="../src/oauth/oauthwizard.cpp" line="+113"/>
         <source>There was a network-related problem with completing the request. Please try again later.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hay un problema relacionado con su Red al completar su solicitud. Por favor trate de nuevo en otra ocasión.</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+48"/>
         <source>Retry</source>
-        <translation type="unfinished"></translation>
+        <translation>Reintentar</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Either the PIN you entered is incorrect, or a network-related problem occured. Please try again later.</source>
-        <translation type="unfinished"></translation>
+        <translation>O su PIN es incorrecto o un problema relacionado con su red ha ocurrido. Trate en otra ocasión.</translation>
     </message>
     <message>
         <location filename="../src/oauth/oauthwizard.ui" line="+20"/>
         <source>Allow access</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir acceso</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Cancel</source>
-        <translation type="unfinished">Anula</translation>
+        <translation>Cancelar</translation>
     </message>
 </context>
 <context>
@@ -862,12 +863,12 @@
     <message>
         <location filename="../src/oauth/pinwidget.ui" line="+23"/>
         <source>Enter PIN number received from Twitter</source>
-        <translation type="unfinished"></translation>
+        <translation>Escriba el PIN recibido de Twitter</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>OK</source>
-        <translation type="unfinished">Aceptar</translation>
+        <translation>Aceptar</translation>
     </message>
 </context>
 <context>
@@ -911,22 +912,22 @@
     <message>
         <location line="+140"/>
         <source>Updates</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualizaciones</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Automatically check for updates at startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Revisar automaticamente actualizaciones al inicio</translation>
     </message>
     <message>
         <location line="+17"/>
         <source>Last checked:</source>
-        <translation type="unfinished"></translation>
+        <translation>Última vez revisada:</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Check now</source>
-        <translation type="unfinished"></translation>
+        <translation>Revisar ahora</translation>
     </message>
     <message>
         <location line="-147"/>
@@ -994,37 +995,37 @@
     <message>
         <location line="-192"/>
         <source>never</source>
-        <translation type="unfinished"></translation>
+        <translation>nunca</translation>
     </message>
     <message>
         <location line="+110"/>
         <source>Update available</source>
-        <translation type="unfinished"></translation>
+        <translation>Actualización disponible</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>An update to qTwitter is available!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Actualización de qTwitter disponible!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Current version is %1.&lt;br&gt;Download it from %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión actual %1.&lt;br&gt;Descargarla de aqui %2</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>No updates available</source>
-        <translation type="unfinished"></translation>
+        <translation>No hay actualizaciones disponibles</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sorry, no updates for qTwitter are currently available</source>
-        <translation type="unfinished"></translation>
+        <translation>Lo siento, no hay actualizaciones de qTwitter</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Close</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerrar</translation>
     </message>
     <message>
         <source>Refresh every (mins):</source>
@@ -1373,52 +1374,52 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../src/welcomedialog.cpp" line="+49"/>
         <source>Account added successfully! You may add another or just start using program.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cuenta añadida exitosamente. Puede agregar otra o sólo iniciar la aplicación.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add one more</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar una mas</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>There was a problem adding your account. Please check your internet connection and try one more time.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hay un problema agregando su cuenta. Revise su conexion de Internet e intente otra vez.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>You can add more accounts at any time in Settings-&gt;Accounts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Puede agregar más cuentas cuando quiera en Ajustes-&gt;Cuentas.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OK</source>
-        <translation type="unfinished">Aceptar</translation>
+        <translation>Aceptar</translation>
     </message>
     <message>
         <location filename="../ui/welcomedialog.ui" line="+20"/>
         <source>Welcome!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Bienvenido!</translation>
     </message>
     <message>
         <location line="+39"/>
         <source>Welcome to qTwitter!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Bienvenido a qTwitter!</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>To make the best use of this application you should setup one or more Twitter or Identi.ca accounts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para hacer un mejor uso de esta aplicación, deberia configurar una o más cuentas de Twitter o Identi.ca.</translation>
     </message>
     <message>
         <location line="+25"/>
         <source>Add Account</source>
-        <translation type="unfinished"></translation>
+        <translation>Agregar cuenta</translation>
     </message>
     <message>
         <location line="+20"/>
         <source>Continue</source>
-        <translation type="unfinished"></translation>
+        <translation>Continuar</translation>
     </message>
 </context>
 </TS>
