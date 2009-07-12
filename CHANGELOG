@@ -1,3 +1,10 @@
+v0.8.0 (2009/07/12):
+- OAuth authorization scheme for Twitter accounts,
+- added storing statuses lists between sessions,
+- added automatic checking for updates,
+- added Italian translation,
+- support for migre.me URL shortening service,
+- improved look and feel - layouts, colors and fixed some unwelcome behavior.
 v0.7.1 (2009/06/13):
 - CRITICAL: Fixed parsing of statuses' ids (after Twitter statuses count reached maximum for 32-bit integer),
 - added digg.com URL shortening service,

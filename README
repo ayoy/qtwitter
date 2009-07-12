@@ -1,11 +1,14 @@
 qTwitter is an application interacting with Twitter and Identi.ca social networks. Aims to be as compact as possible still providing outstanding usability. Since it's a Qt-based application with no other dependencies, it works wherever Qt does, i.e. Windows, Mac OS X and vast variety of Linuxes and Unices supporting X11 (including Nokia's Maemo platform).
 
-Features' summary as for v0.7.1:
+Features' summary as for v0.8.0:
+  - OAuth-based authentication scheme for Twitter accounts,
   - support for Twitter and Identi.ca for:
     * friends and public timeline,
     * posting, replying, retweeting, deleting and (dis)favoring statuses,
     * downloading, sending and deleting direct messages,
   - support for working with multiple accounts at the same time,
+  - storing statuses lists between sessions,
+  - automatic checks for updates,
   - integrated support for one-click URL shortening via 8 different services,
   - full interaction with TwitPic API, allowing for easy one-click image uploading and posting updates,
   - system tray notifications (via knotify and Growl),
@@ -13,7 +16,7 @@ Features' summary as for v0.7.1:
   - in-session passwords storing (can be disabled),
   - HTTP proxy support,
   - being recognized as a source of updates,
-  - translation to 8 languages in the run-time (sorry for my poor Catalan, I appreciate any help here :) ).
+  - translation to 8 languages in run-time (sorry for my poor Catalan, I appreciate any help here :) ).
 
 See CHANGELOG for details.
 
@@ -32,7 +35,17 @@ The qTwitter team
 
 HOW TO INSTALL:
 
-To compile qTwitter you'll need Qt libraries version 4.5.0 or newer. Follow the steps:
+You can either compile qTwitter with support for OAuth authorization you will need
+
+To compile qTwitter you'll need Qt libraries version 4.4.3 or newer. You will need QCA and QOAuth library to enable support for OAuth authorization. You'll find all needed info at http://wiki.github.com/ayoy/qoauth.
+
+NOTE: To compile qTwitter without OAuth support, you'll need just Qt libraries. Comment out the line in qtwitter.pri file that states:
+
+DEFINES += OAUTH
+
+and you're done.
+
+Follow the steps to compile qTwitter:
 
 1. Get the qTwitter source code from qt-apps.org or GitHub (http://github.com/ayoy/qtwitter).
 2. Enter the source code main directory.
