@@ -25,7 +25,7 @@
 
 #include <QFileInfo>
 
-const QString ConfigFile::APP_VERSION = "0.8.0";
+const QString ConfigFile::APP_VERSION = "0.8.1";
 
 
 ConfigFile settings;
@@ -67,8 +67,10 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
     } else if ( value( "General/version", QString() ).toString() != ConfigFile::APP_VERSION ) {
       setValue( "General/version", ConfigFile::APP_VERSION );
 #ifdef OAUTH
-      setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
-      setValue( "OAuth", true );
+      if ( !value( "OAuth", false ).toBool() ) {
+        setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
+        setValue( "OAuth", true );
+      }
 #endif
     }
   } else {

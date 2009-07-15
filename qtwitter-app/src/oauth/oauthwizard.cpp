@@ -89,7 +89,7 @@ void OAuthWizard::changeEvent(QEvent *e)
 
 void OAuthWizard::setOkButtonEnabled()
 {
-  if ( ui_p->pinEdit->text().length() != 6 ) {
+  if ( ui_p->pinEdit->text().length() < 6 ) {
     ui_p->okButton->setEnabled( false );
   } else {
     ui_p->okButton->setEnabled( true );
@@ -143,7 +143,7 @@ void OAuthWizard::openUrl()
   }
 
   ui_p->setupUi(ui_o->widget);
-  ui_p->pinEdit->setValidator( new QRegExpValidator( QRegExp( "\\d{6}" ), this ) );
+  ui_p->pinEdit->setValidator( new QRegExpValidator( QRegExp( "\\d+" ), this ) );
   connect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(authorize()) );
   connect( ui_p->pinEdit, SIGNAL(textChanged(QString)), this, SLOT(setOkButtonEnabled()) );
 }

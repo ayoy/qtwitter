@@ -242,7 +242,7 @@ void Core::applySettings()
       settings.removeOldTwitterAccounts();
       QMessageBox dlg;
       dlg.setWindowTitle( tr( "Welcome!" ) );
-      //: e.g. "Welcome to qTwitter 0.8.0!"
+      //: e.g. "Welcome to qTwitter 0.8.1!"
       dlg.setText( tr( "Welcome to qTwitter %1!" ).arg( ConfigFile::APP_VERSION ) );
       dlg.setInformativeText( tr( "<b>Please note:</b> we introduced the ultra-secure OAuth "
                                   "authorization scheme for Twitter accounts in this release. This "
