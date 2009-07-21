@@ -244,7 +244,7 @@ void StatusWidget::setStatusData( const Status &status )
   m_ui->favoriteReplyButton->disconnect();
 
   m_ui->userName->setText( statusData->userInfo.name );
-  m_ui->userStatus->setText( statusData->text );
+  m_ui->userStatus->setHtml( statusData->text );
   m_ui->userImage->setPixmap( status.image );
 
 
@@ -401,7 +401,7 @@ void StatusWidget::applyTheme()
 
   // this is strange, but style sheet will work only after resetting userStatus
   if ( statusData )
-    m_ui->userStatus->setText( statusData->text );
+    m_ui->userStatus->setHtml( statusData->text );
 }
 
 void StatusWidget::retranslateUi()
