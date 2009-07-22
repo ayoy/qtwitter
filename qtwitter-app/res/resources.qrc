@@ -25,5 +25,10 @@
         <file>loc/qtwitter_pl_PL.qm</file>
         <file>loc/qtwitter_pt_BR.qm</file>
         <file>loc/qtwitter_it_IT.qm</file>
+        <file>icons/friends_22.png</file>
+        <file>icons/inbox_22.png</file>
+        <file>icons/outbox_22.png</file>
+        <file>icons/you_22.png</file>
+        <file>icons/mentions_22.png</file>
     </qresource>
 </RCC>
