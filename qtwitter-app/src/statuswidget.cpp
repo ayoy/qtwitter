@@ -518,10 +518,6 @@ void StatusWidget::slotFavorite()
 {
   //if a status already is favorited, send a request to disfavor it
   bool setFavorited = !statusData->favorited;
-
-  if ( !setFavorited && currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
-    return;
-
   statusListModel->sendFavoriteRequest( statusData->id, setFavorited );
 }
 

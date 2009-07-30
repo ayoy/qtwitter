@@ -55,7 +55,7 @@ OAuthWizard::~OAuthWizard()
 QByteArray OAuthWizard::getScreenName() const
 {
   if ( screenName.isEmpty() ) {
-    qWarning() << __PRETTY_FUNCTION__ << "screenName is empty, did you finished the authorization procedure?";
+    qWarning() << __PRETTY_FUNCTION__ << "screenName is empty, did you finish the authorization procedure?";
   }
   return screenName;
 }
@@ -63,7 +63,7 @@ QByteArray OAuthWizard::getScreenName() const
 QByteArray OAuthWizard::getOAuthKey() const
 {
   if ( token.isEmpty() || tokenSecret.isEmpty() ) {
-    qWarning() << __PRETTY_FUNCTION__ << "token and/or tokenSecret are empty, did you finished the authorization procedure?";
+    qWarning() << __PRETTY_FUNCTION__ << "token and/or tokenSecret are empty, did you finish the authorization procedure?";
   }
   return token + "&" + tokenSecret;
 }
@@ -171,6 +171,8 @@ void OAuthWizard::authorize()
   screenName = accessToken.value( ParamScreenName );
   token = accessToken.value( QOAuth::ParamToken );
   tokenSecret = accessToken.value( QOAuth::ParamTokenSecret );
+//  qDebug() << "token:" << token;
+//  qDebug() << "tokensecret:" << tokenSecret;
   state = true;
   accept();
 }
