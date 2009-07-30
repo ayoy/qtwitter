@@ -24,8 +24,70 @@
 #include <twitterapi/twitterapi_global.h>
 
 #include <QFileInfo>
+#include <QStringList>
 
-const QString ConfigFile::APP_VERSION = "0.8.1";
+AppVersion::AppVersion( uint maj, uint min, uint pat ) :
+    major( maj ),
+    minor( min ),
+    patch( pat )
+{
+}
+
+AppVersion::AppVersion( const QString &version )
+{
+  fromString( version );
+}
+
+QString AppVersion::toString() const
+{
+  return QString( "%1.%2.%3" ).arg( QString::number(major),
+                                    QString::number(minor),
+                                    QString::number(patch) );
+}
+
+void AppVersion::fromString( const QString &version )
+{
+  QStringList parts = version.split( "." );
+  if ( parts.size() == 3 ) {
+    major = parts.at(0).toUInt();
+    minor = parts.at(1).toUInt();
+    patch = parts.at(2).toUInt();
+  }
+}
+
+bool AppVersion::operator ==( const AppVersion &other ) const
+{
+  return major == other.major && minor == other.minor && patch == other.patch;
+}
+
+bool AppVersion::operator !=( const AppVersion &other ) const
+{
+  return !( *this == other );
+}
+
+bool AppVersion::operator >( const AppVersion &other ) const
+{
+  if ( major != other.major ) {
+    return major > other.major;
+  } else if ( minor != other.minor ) {
+    return minor > other.minor;
+  } else {
+    return patch > other.patch;
+  }
+}
+
+bool AppVersion::operator <( const AppVersion &other ) const
+{
+  if ( *this != other ) {
+    return !( *this > other );
+  } else {
+    return false;
+  }
+}
+
+
+const QString ConfigFile::APP_VERSION = "0.8.2";
+const QString ConfigFile::FIRST_OAUTH_APP_VERSION = "0.8.0";
 
 
 ConfigFile settings;
@@ -51,7 +113,7 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
     if ( contains( "FIRSTRUN" ) ) {
       remove( "FIRSTRUN" );
     }
-    if ( value( "General/version", QString() ).toString() == "0.6.0" ) {
+    if ( AppVersion( value( "General/version", QString() ).toString() ) == AppVersion( "0.6.0" ) ) {
       convertSettingsToZeroSeven();
 #ifdef OAUTH
       setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
@@ -64,7 +126,7 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
       setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
       setValue( "OAuth", true );
 #endif
-    } else if ( value( "General/version", QString() ).toString() != ConfigFile::APP_VERSION ) {
+    } else if ( AppVersion( value( "General/version", QString() ).toString() ) != AppVersion( ConfigFile::APP_VERSION ) ) {
       setValue( "General/version", ConfigFile::APP_VERSION );
 #ifdef OAUTH
       if ( !value( "OAuth", false ).toBool() ) {

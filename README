@@ -1,6 +1,6 @@
 qTwitter is an application interacting with Twitter and Identi.ca social networks. Aims to be as compact as possible still providing outstanding usability. Since it's a Qt-based application with no other dependencies, it works wherever Qt does, i.e. Windows, Mac OS X and vast variety of Linuxes and Unices supporting X11 (including Nokia's Maemo platform).
 
-Features' summary as for v0.8.1:
+Features' summary as for v0.8.2:
   - OAuth-based authentication scheme for Twitter accounts,
   - support for Twitter and Identi.ca for:
     * friends and public timeline,

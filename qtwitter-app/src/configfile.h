@@ -25,12 +25,31 @@
 
 class Account;
 
+struct AppVersion
+{
+  uint major;
+  uint minor;
+  uint patch;
+
+  AppVersion( const QString &version );
+  AppVersion( uint maj, uint min, uint pat );
+
+  QString toString() const;
+  void fromString( const QString &version );
+
+  bool operator ==( const AppVersion &other ) const;
+  bool operator !=( const AppVersion &other ) const;
+  bool operator >( const AppVersion &other ) const;
+  bool operator <( const AppVersion &other ) const;
+};
+
 class ConfigFile : public QSettings
 {
 public:
   ConfigFile();
 
   static const QString APP_VERSION;
+  static const QString FIRST_OAUTH_APP_VERSION;
 
   static QString pwHash( const QString &text );
   void addAccount( int id, const Account &account );
