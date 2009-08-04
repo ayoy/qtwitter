@@ -112,7 +112,7 @@ private:
   QXmlInputSource *source;
 
 #ifdef OAUTH
-  QOAuth *qoauth;
+  QOAuth::QOAuth *qoauth;
 #endif
 
   static const QNetworkRequest::Attribute ATTR_SOCIALNETWORK;

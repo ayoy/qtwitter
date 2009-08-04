@@ -29,7 +29,7 @@ OAuthWizard::OAuthWizard(QWidget *parent) :
     screenName( QByteArray() ),
     token( QByteArray() ),
     tokenSecret( QByteArray() ),
-    qoauth( new QOAuth( this ) ),
+    qoauth( new QOAuth::QOAuth( this ) ),
     ui_o(new Ui::OAuthWizard),
     ui_a(new Ui::AllowWidget),
     ui_p(new Ui::PinWidget)
@@ -118,13 +118,13 @@ void OAuthWizard::openUrl()
     return;
   }
 
-  token = requestToken.value( QOAuth::ParamToken );
-  tokenSecret = requestToken.value( QOAuth::ParamTokenSecret );
+  token = requestToken.value( QOAuth::tokenParameterName() );
+  tokenSecret = requestToken.value( QOAuth::tokenSecretParameterName() );
 
   QString url = TwitterAuthorizeURL;
 
   url.append( "?" );
-  url.append( "&" + QOAuth::ParamToken + "=" + token );
+  url.append( "&" + QOAuth::tokenParameterName() + "=" + token );
   url.append( "&" + ParamCallback + "=" + ParamCallbackValue );
 
   QDesktopServices::openUrl( QUrl( url ) );
@@ -169,8 +169,8 @@ void OAuthWizard::authorize()
   }
 
   screenName = accessToken.value( ParamScreenName );
-  token = accessToken.value( QOAuth::ParamToken );
-  tokenSecret = accessToken.value( QOAuth::ParamTokenSecret );
+  token = accessToken.value( QOAuth::tokenParameterName() );
+  tokenSecret = accessToken.value( QOAuth::tokenSecretParameterName() );
 //  qDebug() << "token:" << token;
 //  qDebug() << "tokensecret:" << tokenSecret;
   state = true;

@@ -206,7 +206,7 @@ TwitterAPIInterface::TwitterAPIInterface( QObject *parent ) : QObject( parent )
   source = new QXmlInputSource;
 
 #ifdef OAUTH
-  qoauth = new QOAuth( this );
+  qoauth = new QOAuth::QOAuth( this );
 #endif
 }
 
@@ -319,7 +319,6 @@ void TwitterAPIInterface::postUpdate( TwitterAPI::SocialNetwork network, const Q
     request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
 
     content = qoauth->inlineParameters( map );
-    content.remove( 0, 1 );
 
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
@@ -420,7 +419,7 @@ void TwitterAPIInterface::friendsTimeline( TwitterAPI::SocialNetwork network, co
     QByteArray parameters = prepareOAuthString( url, QOAuth::GET, password, map );
 
     request.setRawHeader( "Authorization", parameters );
-    url.append( qoauth->inlineParameters(map) );
+    url.append( qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
@@ -474,7 +473,7 @@ void TwitterAPIInterface::directMessages( TwitterAPI::SocialNetwork network, con
 
     QByteArray parameters = prepareOAuthString( url, QOAuth::GET, password, map );
     request.setRawHeader( "Authorization", parameters );
-    url.append( qoauth->inlineParameters(map) );
+    url.append( qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
 
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
@@ -529,7 +528,6 @@ void TwitterAPIInterface::postDM( TwitterAPI::SocialNetwork network, const QStri
     request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
 
     content = qoauth->inlineParameters( map );
-    content.remove( 0, 1 );
 
   } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
     QByteArray auth = login.toUtf8() + ":" + password.toUtf8();

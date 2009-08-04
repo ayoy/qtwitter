@@ -9,7 +9,9 @@ namespace Ui {
   class PinWidget;
 }
 
-class QOAuth;
+namespace QOAuth {
+  class QOAuth;
+}
 
 class OAuthWizard : public QDialog {
   Q_OBJECT
@@ -40,7 +42,7 @@ private:
   QByteArray token;
   QByteArray tokenSecret;
 
-  QOAuth *qoauth;
+  QOAuth::QOAuth *qoauth;
   Ui::OAuthWizard *ui_o;
   Ui::AllowWidget *ui_a;
   Ui::PinWidget *ui_p;
