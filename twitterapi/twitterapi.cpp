@@ -206,7 +206,7 @@ TwitterAPIInterface::TwitterAPIInterface( QObject *parent ) : QObject( parent )
   source = new QXmlInputSource;
 
 #ifdef OAUTH
-  qoauth = new QOAuth::QOAuth( this );
+  qoauth = new QOAuth::Interface( this );
 #endif
 }
 
@@ -931,7 +931,7 @@ QByteArray TwitterAPIInterface::prepareRequest( const QString &screenName, const
 void TwitterAPIInterface::slotAuthenticationRequired( QNetworkReply *reply, QAuthenticator *authenticator )
 {
   qDebug() << "auth required";
-  
+
   QNetworkRequest request = reply->request();
 
   TwitterAPI::SocialNetwork network = (TwitterAPI::SocialNetwork) request.attribute( TwitterAPIInterface::ATTR_SOCIALNETWORK ).toInt();

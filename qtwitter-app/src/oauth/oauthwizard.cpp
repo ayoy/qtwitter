@@ -29,7 +29,7 @@ OAuthWizard::OAuthWizard(QWidget *parent) :
     screenName( QByteArray() ),
     token( QByteArray() ),
     tokenSecret( QByteArray() ),
-    qoauth( new QOAuth::QOAuth( this ) ),
+    qoauth( new QOAuth::Interface( this ) ),
     ui_o(new Ui::OAuthWizard),
     ui_a(new Ui::AllowWidget),
     ui_p(new Ui::PinWidget)
