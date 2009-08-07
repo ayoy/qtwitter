@@ -198,7 +198,9 @@ void Core::setWaitForAccounts( bool wait )
   if ( !settingsOpen && waitForAccounts && !wait ) {
     waitForAccounts = wait;
     applySettings();
-    get();
+    if ( accounts->isModified() ) {
+      get();
+    }
     return;
   }
   waitForAccounts = wait;
@@ -214,6 +216,9 @@ void Core::markEverythingAsRead()
 void Core::setSettingsOpen( bool open )
 {
   settingsOpen = open;
+  if ( open ) {
+    accounts->setModified( false );
+  }
 }
 
 QStringList Core::twitpicLogins() const
@@ -286,7 +291,9 @@ void Core::applySettings()
     emit resetUi();
     requestCount = 0;
 
-    get();
+    if ( accounts->isModified() ) {
+      get();
+    }
   }
 }
 

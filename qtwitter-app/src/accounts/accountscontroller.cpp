@@ -43,6 +43,7 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
     QObject( parent ),
     model( 0 ),
     ui( new Ui::Accounts ),
+    modified( false ),
     widget( widget )
 {
   ui->setupUi( widget );
@@ -88,6 +89,16 @@ void AccountsController::setModel( AccountsModel *accountsModel )
   view->setColumnWidth( 2, (int)(view->width() * 0.8 ));
   view->setColumnWidth( 3, (int)(view->width() * 0.8 ));
   view->setColumnWidth( 4, (int)(view->width() * 0.2 ));
+}
+
+bool AccountsController::isModified() const
+{
+  return modified;
+}
+
+void AccountsController::setModified( bool modified )
+{
+  this->modified = modified;
 }
 
 void AccountsController::loadAccounts()
@@ -166,6 +177,8 @@ void AccountsController::loadAccounts()
   } else {
     ui->deleteAccountButton->setEnabled( true );
   }
+
+  modified = true;
 }
 
 void AccountsController::updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight )
@@ -207,6 +220,7 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
       }
     }
   }
+  modified = true;
 }
 
 void AccountsController::updateCheckBox( const QModelIndex &index )
@@ -223,6 +237,7 @@ void AccountsController::updateCheckBox( const QModelIndex &index )
     setAccountDM( account.directMessages );
   }
   view->update( index );
+  modified = true;
 }
 
 void AccountsController::togglePasswordStoring( int state )

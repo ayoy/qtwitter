@@ -35,12 +35,17 @@ namespace Ui {
 class AccountsController : public QObject
 {
   Q_OBJECT
+  Q_PROPERTY( bool modified READ isModified WRITE setModified )
+
 public:
 
   AccountsController( QWidget *widget, QObject *parent );
   virtual ~AccountsController();
   AccountsModel* getModel() const;
   void setModel( AccountsModel *model );
+
+  bool isModified() const;
+  void setModified( bool modified );
 
 public slots:
   void addAccount();
@@ -65,6 +70,8 @@ private:
   AccountsModel *model;
   AccountsView *view;
   Ui::Accounts *ui;
+
+  bool modified;
 
   QWidget *widget;
 
