@@ -86,7 +86,7 @@ bool AppVersion::operator <( const AppVersion &other ) const
 }
 
 
-const QString ConfigFile::APP_VERSION = "0.8.2";
+const QString ConfigFile::APP_VERSION = "0.8.3";
 const QString ConfigFile::FIRST_OAUTH_APP_VERSION = "0.8.0";
 
 
