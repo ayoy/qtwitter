@@ -27,9 +27,9 @@
 #include <QStringList>
 
 AppVersion::AppVersion( uint maj, uint min, uint pat ) :
-    major( maj ),
-    minor( min ),
-    patch( pat )
+    majorVer( maj ),
+    minorVer( min ),
+    patchVer( pat )
 {
 }
 
@@ -40,24 +40,24 @@ AppVersion::AppVersion( const QString &version )
 
 QString AppVersion::toString() const
 {
-  return QString( "%1.%2.%3" ).arg( QString::number(major),
-                                    QString::number(minor),
-                                    QString::number(patch) );
+  return QString( "%1.%2.%3" ).arg( QString::number(majorVer),
+                                    QString::number(minorVer),
+                                    QString::number(patchVer) );
 }
 
 void AppVersion::fromString( const QString &version )
 {
   QStringList parts = version.split( "." );
   if ( parts.size() == 3 ) {
-    major = parts.at(0).toUInt();
-    minor = parts.at(1).toUInt();
-    patch = parts.at(2).toUInt();
+    majorVer = parts.at(0).toUInt();
+    minorVer = parts.at(1).toUInt();
+    patchVer = parts.at(2).toUInt();
   }
 }
 
 bool AppVersion::operator ==( const AppVersion &other ) const
 {
-  return major == other.major && minor == other.minor && patch == other.patch;
+  return majorVer == other.majorVer && minorVer == other.minorVer && patchVer == other.patchVer;
 }
 
 bool AppVersion::operator !=( const AppVersion &other ) const
@@ -67,12 +67,12 @@ bool AppVersion::operator !=( const AppVersion &other ) const
 
 bool AppVersion::operator >( const AppVersion &other ) const
 {
-  if ( major != other.major ) {
-    return major > other.major;
-  } else if ( minor != other.minor ) {
-    return minor > other.minor;
+  if ( majorVer != other.majorVer ) {
+    return majorVer > other.majorVer;
+  } else if ( minorVer != other.minorVer ) {
+    return minorVer > other.minorVer;
   } else {
-    return patch > other.patch;
+    return patchVer > other.patchVer;
   }
 }
 

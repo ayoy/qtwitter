@@ -27,9 +27,9 @@ class Account;
 
 struct AppVersion
 {
-  uint major;
-  uint minor;
-  uint patch;
+  uint majorVer;
+  uint minorVer;
+  uint patchVer;
 
   AppVersion( const QString &version );
   AppVersion( uint maj, uint min, uint pat );
