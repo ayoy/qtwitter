@@ -233,11 +233,11 @@ void Settings::saveConfig( int quitting )
 void Settings::checkForUpdate()
 {
   Updater *updater = new Updater( this );
-  connect( updater, SIGNAL(updateChecked(bool,QString)), this, SLOT(readUpdateReply(bool,QString)) );
+  connect( updater, SIGNAL(updateChecked(bool,QString,QString)), this, SLOT(readUpdateReply(bool,QString,QString)) );
   updater->checkForUpdate();
 }
 
-void Settings::readUpdateReply( bool available, const QString &version )
+void Settings::readUpdateReply( bool available, const QString &version, const QString &changes )
 {
   ui.lastChecked->setText( QDateTime::currentDateTime().toString( Qt::SystemLocaleShortDate ) );
   settings.setValue( "Network/updates/last", ui.lastChecked->text() );
@@ -248,7 +248,8 @@ void Settings::readUpdateReply( bool available, const QString &version )
                      QMessageBox::Close, this );
     messageBox->setInformativeText( tr( "Current version is %1.<br>Download it from %2" )
                                     .arg( version, "<a href='http://www.qt-apps.org/content/show.php/qTwitter?content=99087'>"
-                                                   "Qt-Apps.org</a>" ) );
+                                                   "qt-apps.org</a>." ) );
+    messageBox->setDetailedText( changes );
   } else {
     messageBox = new QMessageBox( QMessageBox::Information, tr( "No updates available" ),
                      tr( "Sorry, no updates for qTwitter are currently available" ),

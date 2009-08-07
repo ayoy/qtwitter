@@ -108,7 +108,7 @@ Core::Core( MainWindow *parent ) :
 
   accountsModel = new AccountsModel;
 
-#if defined Q_WS_MAC || Q_WS_WIN
+#if defined Q_WS_MAC || defined Q_WS_WIN
   QFile file( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/qTwitter/state" );
 #else
   QFile file( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) + "/.qtwitter/state" );
@@ -155,7 +155,7 @@ Core::Core( MainWindow *parent ) :
 
 Core::~Core()
 {
-#if defined Q_WS_MAC || Q_WS_WIN
+#if defined Q_WS_MAC || defined Q_WS_WIN
   QString path( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/qTwitter" );
 #else
   QString path( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) + "/.qtwitter" );

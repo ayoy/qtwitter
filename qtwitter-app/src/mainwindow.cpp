@@ -463,18 +463,18 @@ void MainWindow::emitOpenBrowser( QString address )
 void MainWindow::checkForUpdates()
 {
   Updater *updater = new Updater( this );
-  connect( updater, SIGNAL(updateChecked(bool,QString)), this, SLOT(readUpdateReply(bool,QString)) );
+  connect( updater, SIGNAL(updateChecked(bool,QString,QString)), this, SLOT(readUpdateReply(bool,QString,QString)) );
   updater->checkForUpdate();
 }
 
 void MainWindow::silentCheckForUpdates()
 {
   Updater *updater = new Updater( this );
-  connect( updater, SIGNAL(updateChecked(bool,QString)), this, SLOT(silentReadUpdateReply(bool,QString)) );
+  connect( updater, SIGNAL(updateChecked(bool,QString,QString)), this, SLOT(silentReadUpdateReply(bool,QString,QString)) );
   updater->checkForUpdate();
 }
 
-void MainWindow::readUpdateReply( bool available, const QString &version )
+void MainWindow::readUpdateReply( bool available, const QString &version, const QString &changes )
 {
   settings.setValue( "Network/updates/last", QDateTime::currentDateTime().toString( Qt::SystemLocaleShortDate ) );
   QMessageBox *messageBox;
@@ -484,7 +484,8 @@ void MainWindow::readUpdateReply( bool available, const QString &version )
                      QMessageBox::Close, this );
     messageBox->setInformativeText( tr( "Current version is %1.<br>Download it from %2" )
                                     .arg( version, "<a href='http://www.qt-apps.org/content/show.php/qTwitter?content=99087'>"
-                                                   "Qt-Apps.org</a>" ) );
+                                                   "qt-apps.org</a>." ) );
+    messageBox->setDetailedText( changes );
   } else {
     messageBox = new QMessageBox( QMessageBox::Information, tr( "No updates available" ),
                      tr( "Sorry, no updates for qTwitter are currently available" ),
@@ -496,7 +497,7 @@ void MainWindow::readUpdateReply( bool available, const QString &version )
   sender()->deleteLater();
 }
 
-void MainWindow::silentReadUpdateReply( bool available, const QString &version )
+void MainWindow::silentReadUpdateReply( bool available, const QString &version, const QString &changes )
 {
   settings.setValue( "Network/updates/last", QDateTime::currentDateTime().toString( Qt::SystemLocaleShortDate ) );
   if ( available ) {
@@ -506,7 +507,8 @@ void MainWindow::silentReadUpdateReply( bool available, const QString &version )
                      QMessageBox::Close, this );
     messageBox->setInformativeText( tr( "Current version is %1.<br>Download it from %2" )
                                     .arg( version, "<a href='http://www.qt-apps.org/content/show.php/qTwitter?content=99087'>"
-                                                   "Qt-Apps.org</a>" ) );
+                                                   "qt-apps.org</a>." ) );
+    messageBox->setDetailedText( changes );
     messageBox->setButtonText( QMessageBox::Close, tr( "Close" ) );
     messageBox->exec();
     messageBox->deleteLater();

@@ -16,7 +16,7 @@ public slots:
   void checkForUpdate();
 
 signals:
-  void updateChecked( bool available, const QString &version );
+  void updateChecked( bool available, const QString &version, const QString &changes );
 
 private slots:
   void readReply( QNetworkReply *reply );

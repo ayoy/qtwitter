@@ -93,8 +93,8 @@ private slots:
   void emitOpenBrowser( QString address );
   void checkForUpdates();
   void silentCheckForUpdates();
-  void readUpdateReply( bool available, const QString &version );
-  void silentReadUpdateReply( bool available, const QString &version );
+  void readUpdateReply( bool available, const QString &version, const QString &changes );
+  void silentReadUpdateReply( bool available, const QString &version, const QString &changes );
   void changeLabel();
   void sendStatus();
   void resetStatus();

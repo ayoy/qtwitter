@@ -106,39 +106,49 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
   if ( value( "OAuth", true ) == false ) {
     setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
   }
-#else
-  setValue( "OAuth", false );
-#endif
   if ( QFileInfo( fileName() ).exists() ) {
     if ( contains( "FIRSTRUN" ) ) {
       remove( "FIRSTRUN" );
     }
     if ( AppVersion( value( "General/version", QString() ).toString() ) == AppVersion( "0.6.0" ) ) {
       convertSettingsToZeroSeven();
-#ifdef OAUTH
       setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
       setValue( "OAuth", true );
-#endif
     } else if ( value( "General/version", QString() ).toString().isNull() ) {
       convertSettingsToZeroSix();
       convertSettingsToZeroSeven();
-#ifdef OAUTH
       setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
       setValue( "OAuth", true );
-#endif
     } else if ( AppVersion( value( "General/version", QString() ).toString() ) != AppVersion( ConfigFile::APP_VERSION ) ) {
       setValue( "General/version", ConfigFile::APP_VERSION );
-#ifdef OAUTH
       if ( !value( "OAuth", false ).toBool() ) {
         setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
         setValue( "OAuth", true );
       }
-#endif
     }
   } else {
     setValue( "General/version", ConfigFile::APP_VERSION );
     setValue( "FIRSTRUN", "ever" );
   }
+#else
+  setValue( "OAuth", false );
+  if ( QFileInfo( fileName() ).exists() ) {
+    if ( contains( "FIRSTRUN" ) ) {
+      remove( "FIRSTRUN" );
+    }
+    if ( AppVersion( value( "General/version", QString() ).toString() ) == AppVersion( "0.6.0" ) ) {
+      convertSettingsToZeroSeven();
+    } else if ( value( "General/version", QString() ).toString().isNull() ) {
+      convertSettingsToZeroSix();
+      convertSettingsToZeroSeven();
+    } else if ( AppVersion( value( "General/version", QString() ).toString() ) != AppVersion( ConfigFile::APP_VERSION ) ) {
+      setValue( "General/version", ConfigFile::APP_VERSION );
+    }
+  } else {
+    setValue( "General/version", ConfigFile::APP_VERSION );
+    setValue( "FIRSTRUN", "ever" );
+  }
+#endif
 }
 
 QString ConfigFile::pwHash( const QString &text )

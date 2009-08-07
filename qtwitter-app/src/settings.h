@@ -71,7 +71,7 @@ protected:
 
 private slots:
   void changeTheme( const QString& );
-  void readUpdateReply( bool available, const QString &version );
+  void readUpdateReply( bool available, const QString &version, const QString &changes );
   void retranslateUi();
 #ifdef Q_WS_X11
   void setBrowser();
