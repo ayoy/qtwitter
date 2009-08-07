@@ -1,6 +1,6 @@
 qTwitter is an application interacting with Twitter and Identi.ca social networks. Aims to be as compact as possible still providing outstanding usability. Since it's a Qt-based application with no other dependencies, it works wherever Qt does, i.e. Windows, Mac OS X and vast variety of Linuxes and Unices supporting X11 (including Nokia's Maemo platform).
 
-Features' summary as for v0.8.2:
+Features' summary as for v0.8.3:
   - OAuth-based authentication scheme for Twitter accounts,
   - support for Twitter and Identi.ca for:
     * friends and public timeline,
@@ -8,7 +8,7 @@ Features' summary as for v0.8.2:
     * downloading, sending and deleting direct messages,
   - support for working with multiple accounts at the same time,
   - storing statuses lists between sessions,
-  - automatic checks for updates,
+  - automatic checking for updates,
   - integrated support for one-click URL shortening via 8 different services,
   - full interaction with TwitPic API, allowing for easy one-click image uploading and posting updates,
   - system tray notifications (via knotify and Growl),
@@ -37,7 +37,7 @@ HOW TO INSTALL:
 
 You can either compile qTwitter with support for OAuth authorization you will need
 
-To compile qTwitter you'll need Qt libraries version 4.4.3 or newer. You will need QCA and QOAuth library to enable support for OAuth authorization. You'll find all needed info at http://wiki.github.com/ayoy/qoauth.
+To compile qTwitter you'll need Qt libraries version 4.4.3 or newer. You will need QCA and QOAuth library to enable support for OAuth authorization. From version 0.8.3 qTwitter depends on qoauth 1.0 or higher. You'll find all needed info at http://wiki.github.com/ayoy/qoauth.
 
 NOTE: To compile qTwitter without OAuth support, you'll need just Qt libraries. Comment out the line in qtwitter.pri file that states:
 
