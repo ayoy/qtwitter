@@ -58,8 +58,8 @@ struct TWITTERAPI_EXPORT UserInfo
 //    QString currentStatus;            //!< User's current status
 };
 
-QDataStream& operator<<( QDataStream & out, const UserInfo &userInfo );
-QDataStream& operator>>( QDataStream & in, UserInfo &userInfo );
+TWITTERAPI_EXPORT QDataStream& operator<<( QDataStream & out, const UserInfo &userInfo );
+TWITTERAPI_EXPORT QDataStream& operator>>( QDataStream & in, UserInfo &userInfo );
 
 Q_DECLARE_METATYPE(UserInfo)
 

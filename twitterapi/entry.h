@@ -59,8 +59,9 @@ struct TWITTERAPI_EXPORT Entry
 
 Q_DECLARE_METATYPE(Entry)
 
-//TWITTERAPI_EXPORT QDataStream& operator<<( QDataStream &out, const Entry &entry );
-//TWITTERAPI_EXPORT QDataStream& operator>>( QDataStream &in, Entry &entry );
+
+TWITTERAPI_EXPORT QDataStream& operator<<( QDataStream &out, const Entry &entry );
+TWITTERAPI_EXPORT QDataStream& operator>>( QDataStream &in, Entry &entry );
 
 
-#endif //ENTRY_H
+#endif // ENTRY_H

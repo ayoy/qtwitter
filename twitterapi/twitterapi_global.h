@@ -29,42 +29,6 @@
 #  define TWITTERAPI_EXPORT Q_DECL_IMPORT
 #endif
 
-namespace TwitterAPI {
-  enum SocialNetwork {
-    SOCIALNETWORK_TWITTER,
-    SOCIALNETWORK_IDENTICA
-  };
-
-  /*!
-    Set for sent requests, represents the activity performed by the specific request.
-  */
-  enum Role {
-    ROLE_PUBLIC_TIMELINE = 101,
-    ROLE_FRIENDS_TIMELINE,
-    ROLE_DIRECT_MESSAGES,
-    ROLE_POST_UPDATE,
-    ROLE_DELETE_UPDATE,
-    ROLE_POST_DM,
-    ROLE_DELETE_DM,
-    ROLE_FAVORITES_CREATE,
-    ROLE_FAVORITES_DESTROY
-  };
-
-  enum ErrorCode {
-    ERROR_NO_ERROR = 0,
-    ERROR_DM_NOT_ALLOWED,
-    ERROR_DM_USER_NOT_FOUND
-  };
-
-  /*!
-    A constant used as a "login" for public timeline requests.
-  */
-  const QString PUBLIC_TIMELINE = "public timeline";
-
-  const QString URL_IDENTICA = "http://identi.ca/api";
-  const QString URL_TWITTER = "http://twitter.com";
-}
-
 #endif // TWITTERAPI_GLOBAL_H
 
 /*!

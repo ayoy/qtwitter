@@ -108,78 +108,78 @@ Core::Core( MainWindow *parent ) :
 
   accountsModel = new AccountsModel;
 
-#if defined Q_WS_MAC || defined Q_WS_WIN
-  QFile file( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/qTwitter/state" );
-#else
-  QFile file( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) + "/.qtwitter/state" );
-#endif
-  bool ok = file.open(QIODevice::ReadOnly);
-  if (ok) {
-    QDataStream in(&file);
-    int count;
-    in >> count;
-//    qDebug() << "Stream status:" << in.status();
-    if ( in.status() == QDataStream::Ok ) {
-//      qDebug() << __FUNCTION__ << "Accounts count:" << count;
-
-      QList<Account> accountsList;
-
-      for( int i = 0; i < count; ++i ) {
-        Account account;
-        in >> account;
-        accountsList << account;
-        statusLists.insert( account, new StatusList( account.login, account.network, this ) );
-      }
-
-//      qDebug() << "Stream status:" << in.status();
-      if ( in.status() == QDataStream::Ok ) {
-        accountsModel->setAccounts( accountsList );
-
-        foreach( StatusList *statusList, statusLists.values() ) {
-          qint8 visible;
-          qint8 active;
-          QList<Status> list;
-          in >> visible;
-          in >> active;
-          in >> list;
-          statusList->setStatuses( list );
-          statusList->setVisible( (bool) visible );
-          statusList->setActive( active );
-        }
-      }
-//      qDebug() << "Stream status:" << in.status();
-    }
-  }
-  file.close();
+//#if defined Q_WS_MAC || defined Q_WS_WIN
+//  QFile file( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/qTwitter/state" );
+//#else
+//  QFile file( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) + "/.qtwitter/state" );
+//#endif
+//  bool ok = file.open(QIODevice::ReadOnly);
+//  if (ok) {
+//    QDataStream in(&file);
+//    int count;
+//    in >> count;
+////    qDebug() << "Stream status:" << in.status();
+//    if ( in.status() == QDataStream::Ok ) {
+////      qDebug() << __FUNCTION__ << "Accounts count:" << count;
+//
+//      QList<Account> accountsList;
+//
+//      for( int i = 0; i < count; ++i ) {
+//        Account account;
+//        in >> account;
+//        accountsList << account;
+//        statusLists.insert( account, new StatusList( account.login, account.network, this ) );
+//      }
+//
+////      qDebug() << "Stream status:" << in.status();
+//      if ( in.status() == QDataStream::Ok ) {
+//        accountsModel->setAccounts( accountsList );
+//
+//        foreach( StatusList *statusList, statusLists.values() ) {
+//          qint8 visible;
+//          qint8 active;
+//          QList<Status> list;
+//          in >> visible;
+//          in >> active;
+//          in >> list;
+//          statusList->setStatuses( list );
+//          statusList->setVisible( (bool) visible );
+//          statusList->setActive( active );
+//        }
+//      }
+////      qDebug() << "Stream status:" << in.status();
+//    }
+//  }
+//  file.close();
 }
 
 Core::~Core()
 {
-#if defined Q_WS_MAC || defined Q_WS_WIN
-  QString path( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/qTwitter" );
-#else
-  QString path( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) + "/.qtwitter" );
-#endif
-  QDir dir( path );
-  if ( !dir.exists() && !dir.mkpath( path ) ) {
-    return;
-  }
-  QFile file( path + "/state" );
-  bool ok = file.open(QIODevice::WriteOnly);
-  if (ok) {
-    QDataStream out(&file);
-    QList<Account> list = statusLists.keys();
-    out << list.size();
-    foreach ( Account account, list ) {
-      out << account;
-    }
-    foreach ( StatusList *statusList, statusLists.values() ) {
-      out << (qint8) statusList->isVisible();
-      out << (qint8) statusList->active();
-      out << statusList->getData();
-    }
-    file.close();
-  }
+//#if defined Q_WS_MAC || defined Q_WS_WIN
+//  QString path( QDesktopServices::storageLocation( QDesktopServices::DataLocation ) + "/qTwitter" );
+//#else
+//  QString path( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) + "/.qtwitter" );
+//#endif
+//  QDir dir( path );
+//  if ( !dir.exists() && !dir.mkpath( path ) ) {
+//    return;
+//  }
+//  QFile file( path + "/state" );
+//  bool ok = file.open(QIODevice::WriteOnly);
+//  if (ok) {
+//    QDataStream out(&file);
+//    QList<Account> list = statusLists.keys();
+//    out << list.size();
+//    foreach ( Account account, list ) {
+//      out << account;
+//    }
+//    foreach ( StatusList *statusList, statusLists.values() ) {
+//      out << (qint8) statusList->isVisible();
+//      out << (qint8) statusList->active();
+//      out << statusList->getData();
+//    }
+//    file.close();
+//  }
 }
 
 void Core::createAccounts( QWidget *view )
@@ -664,10 +664,13 @@ void Core::setupStatusLists()
     Account noPasswdAccount = account;
     noPasswdAccount.password = QString();
     if ( !passwordMap.keys().contains( noPasswdAccount ) ) {
+//      profiles[ accounts ]->deleteLater();
       statusLists[ account ]->deleteLater();
       qDebug() << "Deleting statusList for account:" << account.login << account.network;
+//      profiles.remove( account );
       statusLists.remove( account );
     } else {
+//      QList<Status> statuses = profiles.value( account )->getStatuses();
       QList<Status> statuses = statusLists.value( account )->getData();
       int active = statusLists.value( account )->active();
       statusLists[ account ]->deleteLater();

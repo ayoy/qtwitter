@@ -20,6 +20,7 @@
 
 
 #include "twitterapi.h"
+#include "twitterapi_p.h"
 #include "xmlparser.h"
 
 #include <QNetworkAccessManager>
@@ -77,7 +78,7 @@ struct Interface
 */
 
 /*!
-  \fn void TwitterAPIInterface::requestDone( const QString &login, int role )
+  \fn void TwitterAPI::requestDone( const QString &login, int role )
 
   Emitted when the request of a given \a role for a user identified
   by \a login is completed and its data is read. If the request
@@ -92,7 +93,7 @@ struct Interface
 */
 
 /*!
-  \fn void TwitterAPIInterface::newEntry( const QString &login, Entry entry )
+  \fn void TwitterAPI::newEntry( const QString &login, Entry entry )
 
   Emitted when a new status or direct message is parsed from a Twitter API's
   reply for a request for the user identified by \a login. Used for both
@@ -105,7 +106,7 @@ struct Interface
 */
 
 /*!
-  \fn void TwitterAPIInterface::deleteEntry( const QString &login, quint64 id )
+  \fn void TwitterAPI::deleteEntry( const QString &login, quint64 id )
 
   Emitted when a status of the given \a id was deleted from Twitter and
   can be deleted from locally stored list of the user specified by \a login.
@@ -117,7 +118,7 @@ struct Interface
 */
 
 /*!
-  \fn void TwitterAPIInterface::errorMessage( const QString &message )
+  \fn void TwitterAPI::errorMessage( const QString &message )
 
   Emitted every time when something goes wrong with processing a request.
   This includes connection errors as well as Twitter internal errors.
@@ -126,7 +127,7 @@ struct Interface
 */
 
 /*!
-  \fn void TwitterAPIInterface::unauthorized( const QString &login, const QString &password )
+  \fn void TwitterAPI::unauthorized( const QString &login, const QString &password )
 
   Emitted when the given credentials are rejected by Twitter. Aborts the pending
   request immediately.
@@ -140,7 +141,7 @@ struct Interface
 */
 
 /*!
-  \fn void TwitterAPIInterface::unauthorized( const QString &login, const QString &password, const QString &status, quint64 inReplyToStatusId )
+  \fn void TwitterAPI::unauthorized( const QString &login, const QString &password, const QString &status, quint64 inReplyToStatusId )
 
   Emitted when the given credentials are rejected by Twitter. Aborts the pending
   request immediately.
@@ -157,7 +158,7 @@ struct Interface
 */
 
 /*!
-  \fn void TwitterAPIInterface::unauthorized( const QString &login, const QString &password, int destroyId )
+  \fn void TwitterAPI::unauthorized( const QString &login, const QString &password, int destroyId )
 
   Emitted when the given credentials are rejected by Twitter. Aborts the pending
   request immediately.
@@ -172,48 +173,35 @@ struct Interface
   \sa deleteUpdate()
 */
 
+const QString TwitterAPI::PUBLIC_TIMELINE = "public timeline";
 
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_SOCIALNETWORK      = (QNetworkRequest::Attribute) QNetworkRequest::User;
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_ROLE               = (QNetworkRequest::Attribute) (QNetworkRequest::User + 1);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_LOGIN              = (QNetworkRequest::Attribute) (QNetworkRequest::User + 2);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_PASSWORD           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 3);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_STATUS             = (QNetworkRequest::Attribute) (QNetworkRequest::User + 4);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_STATUS_ID          = (QNetworkRequest::Attribute) (QNetworkRequest::User + 5);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DM_REQUESTED       = (QNetworkRequest::Attribute) (QNetworkRequest::User + 6);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DM_RECIPIENT       = (QNetworkRequest::Attribute) (QNetworkRequest::User + 7);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_DELETION_REQUESTED = (QNetworkRequest::Attribute) (QNetworkRequest::User + 8);
-const QNetworkRequest::Attribute TwitterAPIInterface::ATTR_MSGCOUNT           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 9);
-
-const QString TwitterAPIInterface::UrlStatusesPublicTimeline  = "/statuses/public_timeline.xml";
-const QString TwitterAPIInterface::UrlStatusesFriendsTimeline = "/statuses/friends_timeline.xml";
-const QString TwitterAPIInterface::UrlStatusesUpdate          = "/statuses/update.xml";
-const QString TwitterAPIInterface::UrlStatusesDestroy         = "/statuses/destroy/%1.xml";
-const QString TwitterAPIInterface::UrlDirectMessages          = "/direct_messages.xml";
-const QString TwitterAPIInterface::UrlDirectMessagesNew       = "/direct_messages/new.xml";
-const QString TwitterAPIInterface::UrlDirectMessagesDestroy   = "/direct_messages/destroy/%1.xml";
-const QString TwitterAPIInterface::UrlFavoritesCreate         = "/favorites/create/%1.xml";
-const QString TwitterAPIInterface::UrlFavoritesDestroy        = "/favorites/destroy/%1.xml";
+const QString TwitterAPI::URL_IDENTICA = "http://identi.ca/api";
+const QString TwitterAPI::URL_TWITTER = "http://twitter.com";
 
 
-/*!
-  Constructs a new instance with a given \a parent.
-*/
-TwitterAPIInterface::TwitterAPIInterface( QObject *parent ) : QObject( parent )
-{
-  services[ TwitterAPI::SOCIALNETWORK_TWITTER ] = TwitterAPI::URL_TWITTER;
-  services[ TwitterAPI::SOCIALNETWORK_IDENTICA ] = TwitterAPI::URL_IDENTICA;
-  xmlReader = new QXmlSimpleReader;
-  source = new QXmlInputSource;
+const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_SOCIALNETWORK      = (QNetworkRequest::Attribute) QNetworkRequest::User;
+const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_ROLE               = (QNetworkRequest::Attribute) (QNetworkRequest::User + 1);
+const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_LOGIN              = (QNetworkRequest::Attribute) (QNetworkRequest::User + 2);
+const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_PASSWORD           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 3);
+const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_STATUS             = (QNetworkRequest::Attribute) (QNetworkRequest::User + 4);
+const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_STATUS_ID          = (QNetworkRequest::Attribute) (QNetworkRequest::User + 5);
+const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_DM_REQUESTED       = (QNetworkRequest::Attribute) (QNetworkRequest::User + 6);
+const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_DM_RECIPIENT       = (QNetworkRequest::Attribute) (QNetworkRequest::User + 7);
+const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_DELETION_REQUESTED = (QNetworkRequest::Attribute) (QNetworkRequest::User + 8);
+const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_MSGCOUNT           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 9);
 
-#ifdef OAUTH
-  qoauth = new QOAuth::Interface( this );
-#endif
-}
+const QString TwitterAPIPrivate::UrlStatusesPublicTimeline  = "/statuses/public_timeline.xml";
+const QString TwitterAPIPrivate::UrlStatusesFriendsTimeline = "/statuses/friends_timeline.xml";
+const QString TwitterAPIPrivate::UrlStatusesUpdate          = "/statuses/update.xml";
+const QString TwitterAPIPrivate::UrlStatusesDestroy         = "/statuses/destroy/%1.xml";
+const QString TwitterAPIPrivate::UrlDirectMessages          = "/direct_messages.xml";
+const QString TwitterAPIPrivate::UrlDirectMessagesNew       = "/direct_messages/new.xml";
+const QString TwitterAPIPrivate::UrlDirectMessagesDestroy   = "/direct_messages/destroy/%1.xml";
+const QString TwitterAPIPrivate::UrlFavoritesCreate         = "/favorites/create/%1.xml";
+const QString TwitterAPIPrivate::UrlFavoritesDestroy        = "/favorites/destroy/%1.xml";
 
-/*!
-  A destructor.
-*/
-TwitterAPIInterface::~TwitterAPIInterface()
+
+TwitterAPIPrivate::~TwitterAPIPrivate()
 {
   if ( xmlReader ) {
     delete xmlReader;
@@ -224,65 +212,192 @@ TwitterAPIInterface::~TwitterAPIInterface()
     source = 0;
   }
 
-  QMap<QString,Interface*>::iterator i;
-  foreach ( TwitterAPI::SocialNetwork network, connections.keys() ) {
-    i = connections[ network ].begin();
-    while ( i != connections[ network ].end() ) {
-      delete (*i);
-      i++;
-    }
-  }
+  delete interface;
+  interface = 0;
 }
 
 #ifdef OAUTH
-QByteArray TwitterAPIInterface::consumerKey() const
+void TwitterAPIPrivate::init( const QString &serviceUrl, const QString &login,
+                              const QString &password, bool usingOAuth )
 {
-  return qoauth->consumerKey();
-}
+  xmlReader = new QXmlSimpleReader;
+  source = new QXmlInputSource;
+  createInterface();
 
-void TwitterAPIInterface::setConsumerKey( const QByteArray &consumerKey )
-{
-  qoauth->setConsumerKey( consumerKey );
-}
+  this->serviceUrl = serviceUrl;
+  this->login = login;
+  this->password = password;
+  this->usingOAuth = usingOAuth;
 
-QByteArray TwitterAPIInterface::consumerSecret() const
-{
-  return qoauth->consumerSecret();
+  if ( usingOAuth ) {
+    qoauth = new QOAuth::Interface( this );
+  }
 }
-
-void TwitterAPIInterface::setConsumerSecret( const QByteArray &consumerSecret )
+#else
+void TwitterAPIPrivate::init( const QString &serviceUrl, const QString &login,
+                              const QString &password )
 {
-  qoauth->setConsumerSecret( consumerSecret );
+  xmlReader = new QXmlSimpleReader;
+  source = new QXmlInputSource;
+  createInterface();
+
+  this->serviceUrl = serviceUrl;
+  this->login = login;
+  this->password = password;
 }
 #endif
 
-/*!
-  Creates an interface (i.e. a QNetworkAccessManager instance and a set
-  of XML parsers ) for connections to Twitter API for the user specified
-  with \a login.
-
-  \sa Interface
-*/
-Interface* TwitterAPIInterface::createInterface( TwitterAPI::SocialNetwork network, const QString &login )
+void TwitterAPIPrivate::createInterface()
 {
-  Interface *interface = new Interface;
+  Q_Q(TwitterAPI);
+
+  interface = new Interface;
   interface->connection = new QNetworkAccessManager( this );
-  interface->statusParser = new XmlParser( network, login, this );
+  interface->statusParser = new XmlParser( serviceUrl, login, this );
 
   interface->friendsInProgress = false;
   interface->authorized = false;
   interface->dmScheduled = false;
 
   if ( login != TwitterAPI::PUBLIC_TIMELINE ) {
-    interface->directMsgParser = new XmlParserDirectMsg( network, login, this );
-    connect( interface->directMsgParser, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)), this, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)) );
+    interface->directMsgParser = new XmlParserDirectMsg( serviceUrl, login, this );
+    connect( interface->directMsgParser, SIGNAL(newEntry(Entry)), q, SIGNAL(newEntry(Entry)) );
     connect( interface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
   }
   connect( interface->connection, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
-  connect( interface->statusParser, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)), this, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)) );
-  connections[ network ].insert( login, interface );
-  return interface;
+  connect( interface->statusParser, SIGNAL(newEntry(Entry)), q, SIGNAL(newEntry(Entry)) );
 }
+
+/*!
+  Constructs a new instance with a given \a parent.
+*/
+TwitterAPI::TwitterAPI( QObject *parent ) :
+    QObject( parent ),
+    d_ptr( new TwitterAPIPrivate )
+{
+  Q_D(TwitterAPI);
+
+  d->q_ptr = this;
+}
+
+#ifdef OAUTH
+TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
+                        const QString &password, bool usingOAuth, QObject *parent ) :
+    QObject( parent ),
+    d_ptr( new TwitterAPIPrivate )
+{
+  Q_D(TwitterAPI);
+
+  d->q_ptr = this;
+  d->init( serviceUrl, login, password, usingOAuth );
+}
+#else
+TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
+                        const QString &password, QObject *parent = 0 ) :
+    QObject( parent ),
+    d_ptr( new TwitterAPIPrivate )
+{
+  Q_D(TwitterAPI);
+
+  d->q_ptr = this;
+  d->init( serviceUrl, login, password );
+}
+#endif
+
+/*!
+  A destructor.
+*/
+TwitterAPI::~TwitterAPI()
+{
+  delete d_ptr;
+}
+
+QString TwitterAPI::login() const
+{
+  Q_D(const TwitterAPI);
+
+  return d->login;
+}
+
+void TwitterAPI::setLogin( const QString & login )
+{
+  Q_D(TwitterAPI);
+
+  d->login = login;
+}
+
+QString TwitterAPI::password() const
+{
+  Q_D(const TwitterAPI);
+
+  return d->password;
+}
+
+void TwitterAPI::setPassword( const QString &password )
+{
+  Q_D(TwitterAPI);
+
+  d->password = password;
+}
+
+QString TwitterAPI::serviceUrl() const
+{
+  Q_D(const TwitterAPI);
+
+  return d->serviceUrl;
+}
+
+void TwitterAPI::setServiceUrl( const QString &serviceUrl )
+{
+  Q_D(TwitterAPI);
+
+  d->serviceUrl = serviceUrl;
+}
+
+#ifdef OAUTH
+bool TwitterAPI::isUsingOAuth() const
+{
+  Q_D(const TwitterAPI);
+
+  return d->usingOAuth;
+}
+
+void TwitterAPI::setUsingOAuth( bool usingOAuth )
+{
+  Q_D(TwitterAPI);
+
+  d->usingOAuth = usingOAuth;
+}
+
+QByteArray TwitterAPI::consumerKey() const
+{
+  Q_D(const TwitterAPI);
+
+  return d->qoauth->consumerKey();
+}
+
+void TwitterAPI::setConsumerKey( const QByteArray &consumerKey )
+{
+  Q_D(TwitterAPI);
+
+  d->qoauth->setConsumerKey( consumerKey );
+}
+
+QByteArray TwitterAPI::consumerSecret() const
+{
+  Q_D(const TwitterAPI);
+
+  return d->qoauth->consumerSecret();
+}
+
+void TwitterAPI::setConsumerSecret( const QByteArray &consumerSecret )
+{
+  Q_D(TwitterAPI);
+
+  d->qoauth->setConsumerSecret( consumerSecret );
+}
+#endif
+
 
 /*!
   Sends a request to post a status update for the user identified by \a login
@@ -296,16 +411,18 @@ Interface* TwitterAPIInterface::createInterface( TwitterAPI::SocialNetwork netwo
 
   \sa newEntry(), deleteUpdate()
 */
-void TwitterAPIInterface::postUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &data, quint64 inReplyTo )
+void TwitterAPI::postUpdate( const QString &data, quint64 inReplyTo )
 {
-  QString url = services.value(network);
-  url.append( UrlStatusesUpdate );
+  Q_D(TwitterAPI);
+
+  QString url = d->serviceUrl;
+  url.append( TwitterAPIPrivate::UrlStatusesUpdate );
 
   QByteArray content;
   QNetworkRequest request;
 
 #ifdef OAUTH
-  if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
+  if ( d->usingOAuth ) {
     QOAuth::ParamMap map;
 
     map.insert( "status", data.toUtf8().toPercentEncoding() );
@@ -314,35 +431,30 @@ void TwitterAPIInterface::postUpdate( TwitterAPI::SocialNetwork network, const Q
       map.insert( "in_reply_to_status_id", QByteArray::number( inReplyTo ) );
     }
 
-    QByteArray parameters = prepareOAuthString( url, QOAuth::POST, password, map );
+    QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST, map );
     request.setRawHeader( "Authorization", parameters );
     request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
 
-    content = qoauth->inlineParameters( map );
+    content = d->qoauth->inlineParameters( map );
 
-  } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  } else {
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    content = prepareRequest( data, inReplyTo );
+    content = d->prepareRequest( data, inReplyTo );
   }
 #else
-  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   content = prepareRequest( data, inReplyTo );
 #endif
 
   request.setUrl( QUrl(url) );
 
-  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
-  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_POST_UPDATE );
-  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
-  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
-  request.setAttribute( TwitterAPIInterface::ATTR_STATUS, data );
-  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, inReplyTo );
-  if ( !connections[ network ].contains( login ) )
-    createInterface( network, login );
-  qDebug() << "TwitterAPIInterface::postUpdate(" + login + ")";
-  connections[ network ][ login ]->connection.data()->post( request, content );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_POST_UPDATE );
+  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS, data );
+  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS_ID, inReplyTo );
+
+  d->interface->connection.data()->post( request, content );
 }
 
 /*!
@@ -355,39 +467,36 @@ void TwitterAPIInterface::postUpdate( TwitterAPI::SocialNetwork network, const Q
 
   \sa deleteEntry(), postUpdate()
 */
-void TwitterAPIInterface::deleteUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id )
+void TwitterAPI::deleteUpdate( quint64 id )
 {
-  QString url = services.value(network);
-  url.append( UrlStatusesDestroy.arg( QString::number(id) ) );
+  Q_D(TwitterAPI);
+
+  QString url = d->serviceUrl;
+  url.append( TwitterAPIPrivate::UrlStatusesDestroy.arg( QString::number(id) ) );
 
   QNetworkRequest request;
 
 #ifdef OAUTH
-  if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    QByteArray parameters = prepareOAuthString( url, QOAuth::POST, password );
+  if ( d->usingOAuth ) {
+    QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
     request.setRawHeader( "Authorization", parameters );
     request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-  } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  } else {
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   }
 #else
-  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
 #endif
 
   request.setUrl( QUrl(url) );
 
-  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
-  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_DELETE_UPDATE );
-  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
-  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
-  request.setAttribute( TwitterAPIInterface::ATTR_DELETION_REQUESTED, true );
-  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, id );
-  if ( !connections[ network ].contains( login ) )
-    createInterface( network, login );
-  qDebug() << "TwitterAPIInterface::deleteUpdate(" + login + ")";
-  connections[ network ][ login ]->connection.data()->post( request, QByteArray() );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_DELETE_UPDATE );
+  request.setAttribute( TwitterAPIPrivate::ATTR_DELETION_REQUESTED, true );
+  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS_ID, id );
+
+  d->interface->connection.data()->post( request, QByteArray() );
 }
 
 /*!
@@ -402,47 +511,43 @@ void TwitterAPIInterface::deleteUpdate( TwitterAPI::SocialNetwork network, const
 
   \sa newEntry(), publicTimeline()
 */
-void TwitterAPIInterface::friendsTimeline( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int msgCount )
+void TwitterAPI::friendsTimeline( int msgCount )
 {
-  QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
+  Q_D(TwitterAPI);
 
-  QString url = services.value(network);
-  url.append( UrlStatusesFriendsTimeline );
+  QString url = d->serviceUrl;
+  QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
+  url.append( TwitterAPIPrivate::UrlStatusesFriendsTimeline );
 
   QNetworkRequest request;
 
 #ifdef OAUTH
-  if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
+  if ( d->usingOAuth ) {
     QOAuth::ParamMap map;
     map.insert( "count", statusCount.toUtf8() );
 
-    QByteArray parameters = prepareOAuthString( url, QOAuth::GET, password, map );
+    QByteArray parameters = d->prepareOAuthString( url, QOAuth::GET, map );
 
     request.setRawHeader( "Authorization", parameters );
-    url.append( qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
-  } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+    url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
+  } else {
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
     url.append( QString("?count=%1").arg( statusCount ) );
   }
 #else
-  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   url.append( QString("?count=%1").arg( statusCount ) );
 #endif
 
   request.setUrl( QUrl(url) );
-  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
-  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_FRIENDS_TIMELINE );
-  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
-  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
-  request.setAttribute( TwitterAPIInterface::ATTR_MSGCOUNT, statusCount );
-  qDebug() << "TwitterAPIInterface::friendsTimeline(" + login + ")";
+  request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_FRIENDS_TIMELINE );
+  request.setAttribute( TwitterAPIPrivate::ATTR_MSGCOUNT, statusCount );
+  qDebug() << "TwitterAPIPrivate::friendsTimeline(" + d->login + ")";
 
-  if ( !connections[ network ].contains( login ) )
-    createInterface( network, login );
-  connections[ network ][ login ]->friendsInProgress = true;
-  connections[ network ][ login ]->connection.data()->get( request );
+  d->interface->friendsInProgress = true;
+  d->interface->connection.data()->get( request );
 }
 
 /*!
@@ -457,140 +562,130 @@ void TwitterAPIInterface::friendsTimeline( TwitterAPI::SocialNetwork network, co
 
   \sa newEntry(), friendsTimeline()
 */
-void TwitterAPIInterface::directMessages( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int msgCount )
+void TwitterAPI::directMessages( int msgCount )
 {
-  QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
+  Q_D(TwitterAPI);
 
-  QString url = services.value(network);
-  url.append( UrlDirectMessages );
+  QString url = d->serviceUrl;
+  QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
+  url.append( TwitterAPIPrivate::UrlDirectMessages );
 
   QNetworkRequest request;
 
 #ifdef OAUTH
-  if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
+  if ( d->usingOAuth ) {
     QOAuth::ParamMap map;
     map.insert( "count", statusCount.toUtf8() );
 
-    QByteArray parameters = prepareOAuthString( url, QOAuth::GET, password, map );
+    QByteArray parameters = d->prepareOAuthString( url, QOAuth::GET, map );
     request.setRawHeader( "Authorization", parameters );
-    url.append( qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
+    url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
 
-  } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  } else {
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
     url.append( QString("?count=%1").arg( statusCount ) );
   }
 #else
-  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   url.append( QString("?count=%1").arg( statusCount ) );
 #endif
   request.setUrl( QUrl(url) );
 
-  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
-  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_DIRECT_MESSAGES );
-  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
-  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
-  request.setAttribute( TwitterAPIInterface::ATTR_DM_REQUESTED, true );
-  qDebug() << "TwitterAPIInterface::directMessages(" + login + ")";
+  request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_DIRECT_MESSAGES );
+  request.setAttribute( TwitterAPIPrivate::ATTR_DM_REQUESTED, true );
+  qDebug() << "TwitterAPI::directMessages(" + d->login + ")";
 
-  if ( !connections[ network ].contains( login ) )
-    createInterface( network, login );
-  if ( !connections[ network ][ login ]->friendsInProgress ||
-       connections[ network ][ login ]->authorized ||
-       connections[ network ][ login ]->dmScheduled ) {
-    connections[ network ][ login ]->connection.data()->get( request );
-    connections[ network ][ login ]->dmScheduled = false;
+  if ( !d->interface->friendsInProgress ||
+       d->interface->authorized ||
+       d->interface->dmScheduled ) {
+    d->interface->connection.data()->get( request );
+    d->interface->dmScheduled = false;
   }
   else
-    connections[ network ][ login ]->dmScheduled = true;
+    d->interface->dmScheduled = true;
 }
 
 /*!
   Not implemented yet.
 */
-void TwitterAPIInterface::postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text )
+void TwitterAPI::postDM( const QString &screenName, const QString &text )
 {
-  QString url = services.value(network);
-  url.append( UrlDirectMessagesNew );
+  Q_D(TwitterAPI);
+
+  QString url = d->serviceUrl;
+  url.append( TwitterAPIPrivate::UrlDirectMessagesNew );
 
   QByteArray content;
   QNetworkRequest request;
 
 #ifdef OAUTH
-  if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
+  if ( d->usingOAuth ) {
     QOAuth::ParamMap map;
     map.insert( "user", screenName.toUtf8() );
     map.insert( "text", text.toUtf8().toPercentEncoding() );
 
-    QByteArray parameters = prepareOAuthString( url, QOAuth::POST, password, map );
+    QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST, map );
     request.setRawHeader( "Authorization", parameters );
     request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
 
-    content = qoauth->inlineParameters( map );
+    content = d->qoauth->inlineParameters( map );
 
-  } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  } else {
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    content = prepareRequest( screenName, text );
+    content = d->prepareRequest( screenName, text );
   }
 #else
-  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-  content = prepareRequest( screenName, text );
+  content = d->prepareRequest( screenName, text );
 #endif
 
   request.setUrl( QUrl(url) );
 
-  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
-  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_POST_DM );
-  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
-  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
-  request.setAttribute( TwitterAPIInterface::ATTR_DM_RECIPIENT, screenName );
-  request.setAttribute( TwitterAPIInterface::ATTR_STATUS, text );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_POST_DM );
+  request.setAttribute( TwitterAPIPrivate::ATTR_DM_RECIPIENT, screenName );
+  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS, text );
 
-  if ( !connections[ network ].contains( login ) )
-    createInterface( network, login );
-  qDebug() << "TwitterAPIInterface::postDM(" << login << ")";
-  connections[ network ][ login ]->connection.data()->post( request, content );
+  qDebug() << "TwitterAPI::postDM(" << d->login << ")";
+  d->interface->connection.data()->post( request, content );
 }
 
 /*!
-  Not implemented yet.
+  Already implemented, lol.
 */
-void TwitterAPIInterface::deleteDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id )
+void TwitterAPI::deleteDM( quint64 id )
 {
-  QString url = services.value(network);
-  url.append( UrlDirectMessagesDestroy.arg( QString::number(id) ) );
+  Q_D(TwitterAPI);
+
+  QString url = d->serviceUrl;
+  url.append( TwitterAPIPrivate::UrlDirectMessagesDestroy.arg( QString::number(id) ) );
 
   QNetworkRequest request;
 
 #ifdef OAUTH
-  if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    QByteArray parameters = prepareOAuthString( url, QOAuth::POST, password );
+  if ( d->usingOAuth ) {
+    QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
     request.setRawHeader( "Authorization", parameters );
     request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-  } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  } else {
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   }
 #else
-  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
 #endif
 
   request.setUrl( QUrl(url) );
 
-  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
-  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_DELETE_DM );
-  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
-  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
-  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, id );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_DELETE_DM );
+  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS_ID, id );
 
-  if ( !connections[ network ].contains( login ) )
-    createInterface( network, login );
-  qDebug() << "TwitterAPIInterface::deleteDM(" << login << ")";
-  connections[ network ][ login ]->connection.data()->post( request, QByteArray() );
+  qDebug() << "TwitterAPI::deleteDM(" << d->login << ")";
+  d->interface->connection.data()->post( request, QByteArray() );
 }
 
 /*!
@@ -601,38 +696,36 @@ void TwitterAPIInterface::deleteDM( TwitterAPI::SocialNetwork network, const QSt
   \param id An id of the status to be favorited.
 
 */
-void TwitterAPIInterface::createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id )
+void TwitterAPI::createFavorite( quint64 id )
 {
-  QString url = services.value(network);
-  url.append( UrlFavoritesCreate.arg( QString::number(id) ) );
+  Q_D(TwitterAPI);
+
+  QString url = d->serviceUrl;
+  url.append( TwitterAPIPrivate::UrlFavoritesCreate.arg( QString::number(id) ) );
 
   QNetworkRequest request;
 
 #ifdef OAUTH
-  if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    QByteArray parameters = prepareOAuthString( url, QOAuth::POST, password );
+  if ( d->usingOAuth ) {
+    QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
     request.setRawHeader( "Authorization", parameters );
     request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-  } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  } else {
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   }
 #else
-  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
 #endif
 
   request.setUrl( QUrl(url) );
 
-  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
-  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_FAVORITES_CREATE );
-  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
-  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
-  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, id );
-  if ( !connections[ network ].contains( login ) )
-    createInterface( network, login );
-  qDebug() << "TwitterAPIInterface::createFavorite(" << login << ")";
-  connections[ network ][ login ]->connection.data()->post( request, QByteArray() );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_FAVORITES_CREATE );
+  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS_ID, id );
+
+  qDebug() << "TwitterAPI::createFavorite(" << d->login << ")";
+  d->interface->connection.data()->post( request, QByteArray() );
 }
 
 /*!
@@ -643,38 +736,36 @@ void TwitterAPIInterface::createFavorite( TwitterAPI::SocialNetwork network, con
   \param id An id of the status to be removed from favorites.
 
 */
-void TwitterAPIInterface::destroyFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id )
+void TwitterAPI::destroyFavorite( quint64 id )
 {
-  QString url = services.value(network);
-  url.append( UrlFavoritesDestroy.arg( QString::number(id) ) );
+  Q_D(TwitterAPI);
+
+  QString url = d->serviceUrl;
+  url.append( TwitterAPIPrivate::UrlFavoritesDestroy.arg( QString::number(id) ) );
 
   QNetworkRequest request;
 
 #ifdef OAUTH
-  if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-    QByteArray parameters = prepareOAuthString( url, QOAuth::POST, password );
+  if ( d->usingOAuth ) {
+    QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
     request.setRawHeader( "Authorization", parameters );
     request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-  } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  } else {
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
     request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
   }
 #else
-  QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+  QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
   request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
 #endif
 
   request.setUrl( QUrl(url) );
 
-  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
-  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_FAVORITES_DESTROY );
-  request.setAttribute( TwitterAPIInterface::ATTR_LOGIN, login );
-  request.setAttribute( TwitterAPIInterface::ATTR_PASSWORD, password );
-  request.setAttribute( TwitterAPIInterface::ATTR_STATUS_ID, id );
-  if ( !connections[ network ].contains( login ) )
-    createInterface( network, login );
-  qDebug() << "TwitterAPIInterface::destroyFavorite(" << login << ")";
-  connections[ network ][ login ]->connection.data()->post( request, QByteArray() );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_FAVORITES_DESTROY );
+  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS_ID, id );
+
+  qDebug() << "TwitterAPI::destroyFavorite(" << d->login << ")";
+  d->interface->connection.data()->post( request, QByteArray() );
 }
 
 /*!
@@ -683,59 +774,40 @@ void TwitterAPIInterface::destroyFavorite( TwitterAPI::SocialNetwork network, co
 
   \sa newEntry(), friendsTimeline()
 */
-void TwitterAPIInterface::publicTimeline( TwitterAPI::SocialNetwork network )
+void TwitterAPI::publicTimeline()
 {
-  QString url = services.value(network);
-  url.append( UrlStatusesPublicTimeline );
+  Q_D(TwitterAPI);
+
+  QString url = d->serviceUrl;
+  url.append( TwitterAPIPrivate::UrlStatusesPublicTimeline );
 
   QNetworkRequest request;
   request.setUrl( QUrl( url ) );
 
-  request.setAttribute( TwitterAPIInterface::ATTR_SOCIALNETWORK, network );
-  request.setAttribute( TwitterAPIInterface::ATTR_ROLE, TwitterAPI::ROLE_PUBLIC_TIMELINE );
-  if ( !connections[ network ].contains( TwitterAPI::PUBLIC_TIMELINE ) )
-    createInterface( network, TwitterAPI::PUBLIC_TIMELINE );
-  qDebug() << "TwitterAPIInterface::publicTimeline()";
-  connections[ network ][ TwitterAPI::PUBLIC_TIMELINE ]->connection.data()->get( request );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_PUBLIC_TIMELINE );
+
+  qDebug() << "TwitterAPI::publicTimeline()";
+  d->interface->connection.data()->get( request );
 }
 
 
 /*!
   Resets all connections to Twitter.
 */
-void TwitterAPIInterface::resetConnections() {
-  QMap<QString,Interface*>::iterator i;
-  foreach ( TwitterAPI::SocialNetwork network, connections.keys() ) {
-    i = connections[ network ].begin();
-    while ( i != connections[ network ].end() ) {
-      (*i)->connection->deleteLater();
-      (*i)->connection = new QNetworkAccessManager( this );
-      connect( (*i)->connection, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
-      if ( i.key() != TwitterAPI::PUBLIC_TIMELINE )
-        connect( (*i)->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
-      (*i)->dmScheduled = false;
-      (*i)->authorized = false;
-      (*i)->friendsInProgress = false;
-      i++;
-    }
+void TwitterAPI::resetConnections() {
+  Q_D(TwitterAPI);
+
+  d->interface->connection->deleteLater();
+  d->interface->connection = new QNetworkAccessManager( this );
+  connect( d->interface->connection, SIGNAL(finished(QNetworkReply*)), d, SLOT(requestFinished(QNetworkReply*)) );
+  if ( d->login != TwitterAPI::PUBLIC_TIMELINE ) {
+    connect( d->interface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
+             d, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
   }
+  d->interface->dmScheduled = false;
+  d->interface->authorized = false;
+  d->interface->friendsInProgress = false;
 }
-
-/*!
-  Parses the XML document given by \a data using \a parser.
-
-  \param data The XML document to be parsed.
-  \param parser The parser to parse the data.
-
-  \sa requestFinished()
-*/
-void TwitterAPIInterface::parseXml( const QByteArray &data, XmlParser *parser )
-{
-  source->setData( data );
-  xmlReader->setContentHandler( parser );
-  xmlReader->parse( source );
-}
-
 
 /*!
   Reads the reply code of a given \a reply, recognizes its type (with respect
@@ -744,8 +816,9 @@ void TwitterAPIInterface::parseXml( const QByteArray &data, XmlParser *parser )
 
   \param reply Reply received from Twitter API.
 */
-void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
+void TwitterAPIPrivate::requestFinished( QNetworkReply *reply )
 {
+  Q_Q(TwitterAPI);
 //  qDebug() << "request finished";
   int replyCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
 //  qDebug() << replyCode;
@@ -754,76 +827,77 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
     return;
   }
   QNetworkRequest request = reply->request();
-  int role = request.attribute( TwitterAPIInterface::ATTR_ROLE ).toInt();
-  TwitterAPI::SocialNetwork network = (TwitterAPI::SocialNetwork)request.attribute( TwitterAPIInterface::ATTR_SOCIALNETWORK ).toInt();
+  int role = request.attribute( TwitterAPIPrivate::ATTR_ROLE ).toInt();
 //  qDebug() << replyCode;
-  QVariant login = request.attribute( TwitterAPIInterface::ATTR_LOGIN );
+//  QVariant login = request.attribute( TwitterAPIPrivate::ATTR_LOGIN );
+
 //  QString ntwk = (network==TwitterAPI::SOCIALNETWORK_TWITTER) ? "Twitter" : "Identi.ca";
 //  qDebug() << ntwk << login.toString();
-  QVariant password = request.attribute( TwitterAPIInterface::ATTR_PASSWORD );
-  QVariant status = request.attribute( TwitterAPIInterface::ATTR_STATUS );
-  QVariant id = request.attribute( TwitterAPIInterface::ATTR_STATUS_ID );
-  QVariant dm = request.attribute( TwitterAPIInterface::ATTR_DM_REQUESTED );
-  QVariant del = request.attribute( TwitterAPIInterface::ATTR_DELETION_REQUESTED );
+
+//  QVariant password = request.attribute( TwitterAPIPrivate::ATTR_PASSWORD );
+  QVariant status = request.attribute( TwitterAPIPrivate::ATTR_STATUS );
+  QVariant id = request.attribute( TwitterAPIPrivate::ATTR_STATUS_ID );
+  QVariant dm = request.attribute( TwitterAPIPrivate::ATTR_DM_REQUESTED );
+  QVariant del = request.attribute( TwitterAPIPrivate::ATTR_DELETION_REQUESTED );
   switch ( replyCode ) {
   case 200: // Ok
     if ( role && role != TwitterAPI::ROLE_PUBLIC_TIMELINE )
-      connections[ network ][ login.toString() ]->authorized = true;
+      interface->authorized = true;
 
     switch ( role ) {
 
     case TwitterAPI::ROLE_PUBLIC_TIMELINE:
-      qDebug() << "TwitterAPIInterface::requestFinished()" << "parsing public timeline";
-      parseXml( reply->readAll(), connections[ network ][ TwitterAPI::PUBLIC_TIMELINE ]->statusParser );
-      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, role );
+      qDebug() << "TwitterAPI::requestFinished()" << "parsing public timeline";
+      parseXml( reply->readAll(), interface->statusParser );
+      emit q->requestDone( role );
       break;
 
     case TwitterAPI::ROLE_FRIENDS_TIMELINE:
-      qDebug() << "TwitterAPIInterface::requestFinished()" << "parsing friends timeline";
-      connections[ network ][ login.toString() ]->friendsInProgress = false;
-      if ( connections[ network ][ login.toString() ]->dmScheduled )
+      qDebug() << "TwitterAPI::requestFinished()" << "parsing friends timeline";
+      interface->friendsInProgress = false;
+      if ( interface->dmScheduled )
       {
-        if( int msgCount = request.attribute( TwitterAPIInterface::ATTR_MSGCOUNT ).toInt() )
-          directMessages( network, login.toString(), password.toString() , msgCount);
+        if( int msgCount = request.attribute( TwitterAPIPrivate::ATTR_MSGCOUNT ).toInt() )
+          q->directMessages( msgCount );
       }
-      parseXml( reply->readAll(), connections[ network ][ login.toString() ]->statusParser );
-      emit requestDone( network, login.toString(), role );
+      parseXml( reply->readAll(), interface->statusParser );
+      emit q->requestDone( role );
       break;
 
     case TwitterAPI::ROLE_DIRECT_MESSAGES:
-      qDebug() << "TwitterAPIInterface::requestFinished()" << "parsing direct messages";
-      parseXml( reply->readAll(), connections[ network ][ login.toString() ]->directMsgParser );
-      emit requestDone( network, login.toString(), role );
+      qDebug() << "TwitterAPI::requestFinished()" << "parsing direct messages";
+      parseXml( reply->readAll(), interface->directMsgParser );
+      emit q->requestDone( role );
       break;
 
     case TwitterAPI::ROLE_POST_UPDATE:
-      parseXml( reply->readAll(), connections[ network ][ login.toString() ]->statusParser );
-      emit requestDone( network, login.toString(), role );
+      parseXml( reply->readAll(), interface->statusParser );
+      emit q->requestDone( role );
       break;
 
     case TwitterAPI::ROLE_DELETE_UPDATE:
-      emit deleteEntry( network, login.toString(), id.toULongLong() );
-      emit requestDone( network, login.toString(), role );
+      emit q->deleteEntry( id.toULongLong() );
+      emit q->requestDone( role );
       break;
 
     case TwitterAPI::ROLE_POST_DM:
-      emit postDMDone( network, login.toString(), TwitterAPI::ERROR_NO_ERROR );
-      emit requestDone( network, login.toString(), role );
+      emit q->postDMDone( TwitterAPI::ERROR_NO_ERROR );
+      emit q->requestDone( role );
       break;
 
     case TwitterAPI::ROLE_DELETE_DM:
-      emit deleteDMDone( network, login.toString(), id.toULongLong(), TwitterAPI::ERROR_NO_ERROR );
-      emit requestDone( network, login.toString(), role );
+      emit q->deleteDMDone( id.toULongLong(), TwitterAPI::ERROR_NO_ERROR );
+      emit q->requestDone( role );
       break;
 
     case TwitterAPI::ROLE_FAVORITES_CREATE:
-      emit favoriteStatus( network, login.toString(), id.toULongLong(), true );
-      emit requestDone( network, login.toString(), role );
+      emit q->favoriteStatus( id.toULongLong(), true );
+      emit q->requestDone( role );
       break;
 
     case TwitterAPI::ROLE_FAVORITES_DESTROY:
-      emit favoriteStatus( network, login.toString(), id.toULongLong(), false );
-      emit requestDone( network, login.toString(), role );
+      emit q->favoriteStatus( id.toULongLong(), false );
+      emit q->requestDone( role );
       break;
 
     default:;
@@ -841,41 +915,38 @@ void TwitterAPIInterface::requestFinished( QNetworkReply *reply )
       qDebug() << "[TwitterAPI] favorites/create: status already favorited";
       break;
     case TwitterAPI::ROLE_POST_DM:
-      emit postDMDone( network, login.toString(), TwitterAPI::ERROR_DM_NOT_ALLOWED );
+      emit q->postDMDone( TwitterAPI::ERROR_DM_NOT_ALLOWED );
       qDebug() << "[TwitterAPI] direct_messages/new: you cannot send messages to users who are not following you, or recipient user not found.";
       break;
     default:;
     }
-    if ( login.isValid() )
-      emit requestDone( network, login.toString(), role );
-    else
-      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, role );
+    emit q->requestDone( role );
     break;
   case 404: // Not Found
     qDebug() << "[TwitterAPI] error:" << replyCode;
-    emit requestDone( network, login.toString(), role );
+    emit q->requestDone( role );
     break;
   case 502:
     if ( reply->operation() == QNetworkAccessManager::GetOperation ) {
-      if ( login.isValid() )
-        connections[ network ][ login.toString() ]->connection.data()->get( request );
-      else
-        connections[ network ][ TwitterAPI::PUBLIC_TIMELINE ]->connection.data()->get( request );
+        interface->connection.data()->get( request );
     }
     break;
   default:
     qDebug() << "[TwitterAPI] error:" << replyCode;
-//    if ( login.isValid() )
-//      emit requestDone( network, login.toString(), role );
-//    else
-//      emit requestDone( network, TwitterAPI::PUBLIC_TIMELINE, role );
   }
   reply->close();
 }
 
+void TwitterAPIPrivate::parseXml( const QByteArray &data, XmlParser *parser )
+{
+  source->setData( data );
+  xmlReader->setContentHandler( parser );
+  xmlReader->parse( source );
+}
+
 #ifdef OAUTH
-QByteArray TwitterAPIInterface::prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,
-                                                    const QString &password, const QOAuth::ParamMap &params )
+QByteArray TwitterAPIPrivate::prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,
+                                           const QOAuth::ParamMap &params )
 {
   int index = password.indexOf( '&' );
   QByteArray token = password.left( index ).toAscii();
@@ -892,7 +963,7 @@ QByteArray TwitterAPIInterface::prepareOAuthString( const QString &requestUrl, Q
   \param data Status message to be included in a request.
   \param inReplyTo Optional id of the status that the given status replies to.
 */
-QByteArray TwitterAPIInterface::prepareRequest( const QString &data, quint64 inReplyTo )
+QByteArray TwitterAPIPrivate::prepareRequest( const QString &data, quint64 inReplyTo )
 {
   QByteArray request( "status=" );
   request.append( data.toUtf8().toPercentEncoding() );
@@ -909,7 +980,7 @@ QByteArray TwitterAPIInterface::prepareRequest( const QString &data, quint64 inR
   \param data Status message to be included in a request.
   \param inReplyTo Optional id of the status that the given status replies to.
 */
-QByteArray TwitterAPIInterface::prepareRequest( const QString &screenName, const QString &text )
+QByteArray TwitterAPIPrivate::prepareRequest( const QString &screenName, const QString &text )
 {
   QByteArray request( "user=" );
   request.append( screenName );
@@ -928,24 +999,24 @@ QByteArray TwitterAPIInterface::prepareRequest( const QString &screenName, const
 
   \sa unauthorized()
 */
-void TwitterAPIInterface::slotAuthenticationRequired( QNetworkReply *reply, QAuthenticator *authenticator )
+void TwitterAPIPrivate::slotAuthenticationRequired( QNetworkReply *reply, QAuthenticator *authenticator )
 {
   qDebug() << "auth required";
 
   QNetworkRequest request = reply->request();
 
-  TwitterAPI::SocialNetwork network = (TwitterAPI::SocialNetwork) request.attribute( TwitterAPIInterface::ATTR_SOCIALNETWORK ).toInt();
+  TwitterAPI::SocialNetwork network = (TwitterAPI::SocialNetwork) request.attribute( TwitterAPIPrivate::ATTR_SOCIALNETWORK ).toInt();
 #ifdef OAUTH
   if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
 #endif
-    QString login = request.attribute( TwitterAPIInterface::ATTR_LOGIN ).toString();
-    QString password = request.attribute( TwitterAPIInterface::ATTR_PASSWORD ).toString();
+    QString login = request.attribute( TwitterAPIPrivate::ATTR_LOGIN ).toString();
+    QString password = request.attribute( TwitterAPIPrivate::ATTR_PASSWORD ).toString();
 
 //    QString ntwk = (network==TwitterAPI::SOCIALNETWORK_TWITTER) ? "Twitter" : "Identi.ca";
 //    qDebug() << ntwk << login;
 
-    if ( request.attribute( TwitterAPIInterface::ATTR_DM_REQUESTED ).isValid() && // if this is the auth request for dm download
-         connections[ network ][ login ]->friendsInProgress ) { // and we're downloading friends timeline (i.e. authorising) just now
+    if ( request.attribute( TwitterAPIPrivate::ATTR_DM_REQUESTED ).isValid() && // if this is the auth request for dm download
+         interface->friendsInProgress ) { // and we're downloading friends timeline (i.e. authorising) just now
       reply->close();
       return;
     }
@@ -961,42 +1032,41 @@ void TwitterAPIInterface::slotAuthenticationRequired( QNetworkReply *reply, QAut
 #endif
 }
 
-void TwitterAPIInterface::emitUnauthorized( QNetworkReply *reply )
+void TwitterAPIPrivate::emitUnauthorized( QNetworkReply *reply )
 {
+  Q_Q(TwitterAPI);
+
   QNetworkRequest request = reply->request();
 
-  TwitterAPI::Role role = (TwitterAPI::Role) request.attribute( TwitterAPIInterface::ATTR_ROLE ).toInt();
-  TwitterAPI::SocialNetwork network = (TwitterAPI::SocialNetwork) request.attribute( TwitterAPIInterface::ATTR_SOCIALNETWORK ).toInt();
-  QString login = request.attribute( TwitterAPIInterface::ATTR_LOGIN ).toString();
-  QString password = request.attribute( TwitterAPIInterface::ATTR_PASSWORD ).toString();
-  QVariant status = request.attribute( TwitterAPIInterface::ATTR_STATUS );
-  QVariant recipient = request.attribute( TwitterAPIInterface::ATTR_DM_RECIPIENT );
-  QVariant id = request.attribute( TwitterAPIInterface::ATTR_STATUS_ID );
-  QVariant del = request.attribute( TwitterAPIInterface::ATTR_DELETION_REQUESTED );
+  TwitterAPI::Role role = (TwitterAPI::Role) request.attribute( TwitterAPIPrivate::ATTR_ROLE ).toInt();
+  QVariant status = request.attribute( TwitterAPIPrivate::ATTR_STATUS );
+  QVariant recipient = request.attribute( TwitterAPIPrivate::ATTR_DM_RECIPIENT );
+  QVariant id = request.attribute( TwitterAPIPrivate::ATTR_STATUS_ID );
+  QVariant del = request.attribute( TwitterAPIPrivate::ATTR_DELETION_REQUESTED );
 
   // TODO: check if ATTR_DELETION_REQUESTED is needed
   if ( status.isValid() ) {
     switch ( role ) {
     case TwitterAPI::ROLE_POST_UPDATE:
-      emit unauthorized( network, login, password, status.toString(), id.toULongLong() );
+      emit q->unauthorized( status.toString(), id.toULongLong() );
       break;
     case TwitterAPI::ROLE_POST_DM:
-      emit unauthorized( network, login, password, recipient.toString(), status.toString() );
+      emit q->unauthorized( recipient.toString(), status.toString() );
       break;
     default:;
     }
   } else if ( /*del.isValid() && del.toBool()*/ id.isValid() ) {
     switch ( role ) {
     case TwitterAPI::ROLE_DELETE_UPDATE:
-      emit unauthorized( network, login, password, id.toULongLong(), Entry::Status );
+      emit q->unauthorized( id.toULongLong(), Entry::Status );
       break;
     case TwitterAPI::ROLE_DELETE_DM:
-      emit unauthorized( network, login, password, id.toULongLong(), Entry::DirectMessage );
+      emit q->unauthorized( id.toULongLong(), Entry::DirectMessage );
       break;
     default:;
     }
   } else {
-    emit unauthorized( network, login, password );
+    emit q->unauthorized();
   }
   reply->abort();
   //    reply->close();

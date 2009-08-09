@@ -93,28 +93,41 @@ bool Entry::operator== (const Entry &other )
            && favorited == other.favorited );
 }
 
-//QDataStream& operator<<( QDataStream & out, const Entry &entry )
-//{
-//  out << entry.type;
-//  out << entry.isOwn;
-//  out << entry.id;
-//  out << entry.text;
-//  out << entry.originalText;
-//  out << entry.timestamp;
-//  out << entry.localTime;
-//  out << entry.hasInReplyToStatusId;
-//  out << entry.inReplyToStatusId;
-//  out << entry.inReplyToScreenName;
-//  out << entry.favorited;
-//  out << entry.userInfo;
-//  return out;
-//}
+QDataStream& operator<<( QDataStream & out, const Entry &entry )
+{
+  out << entry.type;
+  out << entry.isOwn;
+  out << entry.id;
+  out << entry.text;
+  out << entry.originalText;
+  out << entry.timestamp;
+  out << entry.localTime;
+  out << entry.hasInReplyToStatusId;
+  out << entry.inReplyToStatusId;
+  out << entry.inReplyToScreenName;
+  out << entry.favorited;
+  out << entry.userInfo;
+  return out;
+}
 
-//QDataStream& operator>>( QDataStream & in, Entry &entry )
-//{
-//  Q_UNUSED(entry);
-//  return in;
-//}
+QDataStream& operator>>( QDataStream & in, Entry &entry )
+{
+  int type;
+  in >> type;
+  in >> entry.isOwn;
+  in >> entry.id;
+  in >> entry.text;
+  in >> entry.originalText;
+  in >> entry.timestamp;
+  in >> entry.localTime;
+  in >> entry.hasInReplyToStatusId;
+  in >> entry.inReplyToStatusId;
+  in >> entry.inReplyToScreenName;
+  in >> entry.favorited;
+  in >> entry.userInfo;
+  entry.type = (Entry::Type) type;
+  return in;
+}
 
 /*! \struct Entry
     \brief A struct containing status data.

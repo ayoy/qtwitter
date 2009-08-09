@@ -42,99 +42,112 @@ class QXmlInputSource;
 class XmlParser;
 struct Interface;
 
-class TWITTERAPI_EXPORT TwitterAPIInterface : public QObject
+class TwitterAPIPrivate;
+
+class TWITTERAPI_EXPORT TwitterAPI : public QObject
 {
   Q_OBJECT
+  Q_PROPERTY( QString login READ login WRITE setLogin )
+  Q_PROPERTY( QString password READ password WRITE setPassword )
+  Q_PROPERTY( QString serviceUrl READ serviceUrl WRITE setServiceUrl )
 #ifdef OAUTH
+  Q_PROPERTY( bool usingOAuth READ isUsingOAuth WRITE setUsingOAuth )
   Q_PROPERTY( QByteArray consumerKey READ consumerKey WRITE setConsumerKey )
   Q_PROPERTY( QByteArray consumerSecret READ consumerSecret WRITE setConsumerSecret )
 #endif
 
 public:
+  enum SocialNetwork {
+    SOCIALNETWORK_TWITTER,
+    SOCIALNETWORK_IDENTICA
+  };
 
-  TwitterAPIInterface( QObject *parent = 0 );
-  virtual ~TwitterAPIInterface();
+  /*!
+    Set for sent requests, represents the activity performed by the specific request.
+  */
+  enum Role {
+    ROLE_PUBLIC_TIMELINE = 101,
+    ROLE_FRIENDS_TIMELINE,
+    ROLE_DIRECT_MESSAGES,
+    ROLE_POST_UPDATE,
+    ROLE_DELETE_UPDATE,
+    ROLE_POST_DM,
+    ROLE_DELETE_DM,
+    ROLE_FAVORITES_CREATE,
+    ROLE_FAVORITES_DESTROY
+  };
 
+  enum ErrorCode {
+    ERROR_NO_ERROR = 0,
+    ERROR_DM_NOT_ALLOWED,
+    ERROR_DM_USER_NOT_FOUND
+  };
+
+  /*!
+    A constant used as a "login" for public timeline requests.
+  */
+  static const QString PUBLIC_TIMELINE;
+
+  static const QString URL_IDENTICA;
+  static const QString URL_TWITTER;
+
+  TwitterAPI( QObject *parent = 0 );
 #ifdef OAUTH
+  TwitterAPI( const QString &serviceUrl, const QString &login, const QString &password,
+              bool usingOAuth, QObject *parent = 0 );
+#else
+  TwitterAPI( const QString &serviceUrl, const QString &login, const QString &password,
+              QObject *parent = 0 );
+#endif
+  virtual ~TwitterAPI();
+
+  QString login() const;
+  void setLogin( const QString &login );
+  QString password() const;
+  void setPassword( const QString &password );
+  QString serviceUrl() const;
+  void setServiceUrl( const QString &serviceUrl );
+#ifdef OAUTH
+  bool isUsingOAuth() const;
+  void setUsingOAuth( bool usingOAuth );
   QByteArray consumerKey() const;
   void setConsumerKey( const QByteArray &consumerKey );
   QByteArray consumerSecret() const;
   void setConsumerSecret( const QByteArray &consumerSecret );
 #endif
 
-  void postUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &data, quint64 inReplyTo = 0 );
-  void deleteUpdate( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id );
-  void friendsTimeline( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int msgCount = 20 );
-  void directMessages( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, int msgCount = 20 );
-  void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text );
-  void deleteDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id );
-  void createFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id );
-  void destroyFavorite( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 id );
-  void publicTimeline( TwitterAPI::SocialNetwork network );
+  void postUpdate( const QString &data, quint64 inReplyTo = 0 );
+  void deleteUpdate( quint64 id );
+  void friendsTimeline( int msgCount = 20 );
+  void directMessages( int msgCount = 20 );
+  void postDM( const QString &screenName, const QString &text );
+  void deleteDM( quint64 id );
+  void createFavorite( quint64 id );
+  void destroyFavorite( quint64 id );
+  void publicTimeline();
 
 public slots:
   void resetConnections();
 
 signals:
-  void requestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );
-  void newEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
-  void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, quint64 id );
-  void favoriteStatus( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, bool favorited );
-  void postDMDone( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
-  void deleteDMDone( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, TwitterAPI::ErrorCode error );
+  void requestDone( int role );
+  void newEntry( Entry entry );
+  void deleteEntry( quint64 id );
+  void favoriteStatus( quint64 id, bool favorited );
+  void postDMDone( TwitterAPI::ErrorCode error );
+  void deleteDMDone( quint64 id, TwitterAPI::ErrorCode error );
 
-  void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
-  void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, quint64 inReplyToId );
-  void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text );
-  void unauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 destroyId, Entry::Type type );
+  void unauthorized();
+  void unauthorized( const QString &status, quint64 inReplyToId );
+  void unauthorized( const QString &screenName, const QString &text );
+  void unauthorized( quint64 destroyId, Entry::Type type );
   void errorMessage( const QString &message );
 
-private slots:
-  void requestFinished( QNetworkReply *reply );
-  void slotAuthenticationRequired( QNetworkReply *reply, QAuthenticator *authenticator );
-
 private:
-  void parseXml( const QByteArray &data, XmlParser *parser );
-  Interface* createInterface( TwitterAPI::SocialNetwork network, const QString &login );
-  void emitUnauthorized( QNetworkReply *reply );
+  TwitterAPIPrivate * const d_ptr;
 
-#ifdef OAUTH
-  QByteArray prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,
-                                 const QString &password, const QOAuth::ParamMap &params = QOAuth::ParamMap() );
-#endif
-
-  QByteArray prepareRequest( const QString &data, quint64 inReplyTo );
-  QByteArray prepareRequest( const QString &screenName, const QString & );
-
-  QMap< TwitterAPI::SocialNetwork, QMap<QString,Interface*> > connections;
-  QMap< TwitterAPI::SocialNetwork, QString > services;
-  QXmlSimpleReader *xmlReader;
-  QXmlInputSource *source;
-
-#ifdef OAUTH
-  QOAuth::Interface *qoauth;
-#endif
-
-  static const QNetworkRequest::Attribute ATTR_SOCIALNETWORK;
-  static const QNetworkRequest::Attribute ATTR_ROLE;
-  static const QNetworkRequest::Attribute ATTR_LOGIN;
-  static const QNetworkRequest::Attribute ATTR_PASSWORD;
-  static const QNetworkRequest::Attribute ATTR_STATUS;
-  static const QNetworkRequest::Attribute ATTR_STATUS_ID;
-  static const QNetworkRequest::Attribute ATTR_DM_REQUESTED;
-  static const QNetworkRequest::Attribute ATTR_DM_RECIPIENT;
-  static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
-  static const QNetworkRequest::Attribute ATTR_MSGCOUNT;
-
-  static const QString UrlStatusesPublicTimeline;
-  static const QString UrlStatusesFriendsTimeline;
-  static const QString UrlStatusesUpdate;
-  static const QString UrlStatusesDestroy;
-  static const QString UrlDirectMessages;
-  static const QString UrlDirectMessagesNew;
-  static const QString UrlDirectMessagesDestroy;
-  static const QString UrlFavoritesCreate;
-  static const QString UrlFavoritesDestroy;
+  Q_DISABLE_COPY(TwitterAPI);
+  Q_DECLARE_PRIVATE(TwitterAPI);
 
 };
 

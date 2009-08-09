@@ -30,42 +30,6 @@ QDataStream& operator<<( QDataStream & out, const Status &status )
   return out;
 }
 
-QDataStream& operator<<( QDataStream & out, const Entry &entry )
-{
-  out << entry.type;
-  out << entry.isOwn;
-  out << entry.id;
-  out << entry.text;
-  out << entry.originalText;
-  out << entry.timestamp;
-  out << entry.localTime;
-  out << entry.hasInReplyToStatusId;
-  out << entry.inReplyToStatusId;
-  out << entry.inReplyToScreenName;
-  out << entry.favorited;
-  out << entry.userInfo;
-  return out;
-}
-
-QDataStream& operator>>( QDataStream & in, Entry &entry )
-{
-  int type;
-  in >> type;
-  in >> entry.isOwn;
-  in >> entry.id;
-  in >> entry.text;
-  in >> entry.originalText;
-  in >> entry.timestamp;
-  in >> entry.localTime;
-  in >> entry.hasInReplyToStatusId;
-  in >> entry.inReplyToStatusId;
-  in >> entry.inReplyToScreenName;
-  in >> entry.favorited;
-  in >> entry.userInfo;
-  entry.type = (Entry::Type) type;
-  return in;
-}
-
 QDataStream& operator>>( QDataStream & in, Status &status )
 {
   int state;
@@ -79,15 +43,11 @@ QDataStream& operator>>( QDataStream & in, Status &status )
 class StatusListPrivate
 {
 public:
-  StatusListPrivate() :
-      visible( false ),
-      login( QString() ),
-      network( TwitterAPI::SOCIALNETWORK_TWITTER ),
-      active(-1)
-  {}
-
+  StatusListPrivate();
+  ~StatusListPrivate();
   int addStatus( Entry entry );
 
+  TwitterAPIInterface *twitterapi;
   QList<Status> data;
   bool visible;
   QString login;
@@ -99,6 +59,29 @@ public:
 
 const int StatusListPrivate::publicMaxCount = 20;
 int StatusListPrivate::maxCount = 0;
+
+StatusListPrivate::StatusListPrivate() :
+    twitterapi( new TwitterAPIInterface ),
+    visible( false ),
+    login( QString() ),
+    network( TwitterAPI::SOCIALNETWORK_TWITTER ),
+    active(-1)
+{
+//  connect( twitterapi, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)), this, SLOT(addEntry(TwitterAPI::SocialNetwork,QString,Entry)) );
+//  connect( twitterapi, SIGNAL(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)) );
+//  connect( twitterapi, SIGNAL(favoriteStatus(TwitterAPI::SocialNetwork,QString,quint64,bool)), this, SLOT(setFavorited(TwitterAPI::SocialNetwork,QString,quint64,bool)) );
+//  connect( twitterapi, SIGNAL(postDMDone(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)), this, SIGNAL(confirmDMSent(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)) );
+//  connect( twitterapi, SIGNAL(deleteDMDone(TwitterAPI::SocialNetwork,QString,quint64,TwitterAPI::ErrorCode)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)) );
+//  connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
+//  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString)) );
+//  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,quint64)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,quint64)) );
+//  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,quint64,Entry::Type)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,quint64,Entry::Type)) );
+}
+
+StatusListPrivate::~StatusListPrivate()
+{
+  twitterapi->deleteLater();
+}
 
 StatusList::StatusList( const QString &login , TwitterAPI::SocialNetwork network, QObject *parent ) :
     QObject( parent ),

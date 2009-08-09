@@ -43,9 +43,6 @@ struct Status {
   }
 };
 
-QDataStream& operator<<( QDataStream &out, const Entry &entry );
-QDataStream& operator>>( QDataStream &in, Entry &entry );
-
 QDataStream& operator<<( QDataStream & out, const Status &status );
 QDataStream& operator>>( QDataStream & in, Status &status );
 
@@ -79,28 +76,23 @@ public:
   bool remove( int from, int count );
   static void setMaxCount( int maxCount );
 
+  // status list accessors
   void setNetwork( SocialNetwork network );
   SocialNetwork network() const;
-
   void setLogin( const QString &login );
   const QString& login() const;
-
   void setVisible( bool visible );
   bool isVisible() const;
-
   void setData( int index, const Status &status );
   const Status& data( int index ) const;
-
   void setState( int index, StatusModel::StatusState state );
   StatusModel::StatusState state( int index ) const;
-
   void setImage( int index, const QPixmap &pixmap );
-
   const QList<Status>& getData() const;
   void setStatuses( const QList<Status> &statuses );
-
   int active() const;
   void setActive( int active );
+  // end of accessors
 
   int size() const;
 

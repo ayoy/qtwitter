@@ -40,6 +40,8 @@ class StatusListView;
 class UrlShortener;
 class AccountsController;
 
+class Profile;
+
 class Core : public QObject
 {
   Q_OBJECT
@@ -158,6 +160,7 @@ private:
   StatusModel *statusModel;
   StatusListView *listViewForModels;
 
+  QMap<Account,Profile*> profiles;
   QMap<Account,StatusList*> statusLists;
 
   QTimer *timer;

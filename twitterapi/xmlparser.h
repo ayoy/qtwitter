@@ -33,8 +33,8 @@ class XmlParser : public QObject, public QXmlDefaultHandler
 
 public:
 
-  XmlParser( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent = 0 );
-  XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Entry::Type entryType = Entry::Status, QObject *parent = 0 );
+  XmlParser( const QString &serviceUrl, const QString &login, QObject *parent = 0 );
+  XmlParser( const QString &serviceUrl, const QString &login, Entry::Type entryType = Entry::Status, QObject *parent = 0 );
 
   virtual bool startDocument();
   virtual bool endDocument();
@@ -47,10 +47,10 @@ public:
                            const QString &qName );
   virtual bool characters( const QString &ch );
 
-  static QString textToHtml( QString newText, TwitterAPI::SocialNetwork network );
+  QString textToHtml( QString newText );
 
 signals:
-  void newEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
+  void newEntry( Entry entry );
 
 protected:
   QDateTime toDateTime( const QString &timestamp );
@@ -58,7 +58,7 @@ protected:
   void parseUserInfo(const QString &ch);
   static inline int getTimeShift();
 
-  TwitterAPI::SocialNetwork network;
+  QString serviceUrl;
   QString login;
 
   QString currentTag;
@@ -98,7 +98,6 @@ protected:
 
 
 private:
-//  static void populateTagsSet();
   static int calculateTimeShift();
 
 };
@@ -106,7 +105,7 @@ private:
 class XmlParserDirectMsg : public XmlParser
 {
 public:
-  XmlParserDirectMsg( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent = 0 );
+  XmlParserDirectMsg( const QString &serviceUrl, const QString &login, QObject *parent = 0 );
 
   bool startElement( const QString &namespaceURI,
                      const QString &localName,
