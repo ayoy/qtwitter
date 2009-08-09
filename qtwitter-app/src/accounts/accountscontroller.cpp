@@ -115,14 +115,14 @@ void AccountsController::loadAccounts()
   for ( int i = 0; i < accountsCount; i++ ) {
     Account account;
     QString id = QString::number(i);
-    account.isEnabled = settings.value( QString( "%1/enabled" ).arg(id), false ).toBool();
-    account.network = (TwitterAPI::SocialNetwork) settings.value( QString( "%1/service" ).arg(id), TwitterAPI::SOCIALNETWORK_TWITTER ).toInt();
-    account.login = settings.value( QString( "%1/login" ).arg(id), "" ).toString();
-    account.directMessages = settings.value( QString( "%1/directmsgs" ).arg(id), false ).toBool();
+    account.setEnabled( settings.value( QString( "%1/enabled" ).arg(id), false ).toBool() );
+    account.setServiceUrl( settings.value( QString( "%1/service" ).arg(id), Account::NetworkUrlTwitter ).toString() );
+    account.setLogin( settings.value( QString( "%1/login" ).arg(id), "" ).toString() );
+    account.setDM( settings.value( QString( "%1/directmsgs" ).arg(id), false ).toBool() );
 
     settingsAccounts << account;
-    account.password = settings.pwHash( settings.value( QString( "%1/password" ).arg(id), "" ).toString() );
-    passwords << account.password;
+    account.setPassword( settings.pwHash( settings.value( QString( "%1/password" ).arg(id), "" ).toString() ) );
+    passwords << account.password();
   }
 
   for( int i = 0; i < modelAccounts.size(); ++i ) {
@@ -133,11 +133,11 @@ void AccountsController::loadAccounts()
       if ( ui->passwordsCheckBox->isChecked()
 #ifdef OAUTH
         || ( !ui->passwordsCheckBox->isChecked() &&
-             modelAccount.network == TwitterAPI::SOCIALNETWORK_TWITTER )
+             modelAccount.serviceUrl() == Account::NetworkUrlTwitter )
 #endif
         ) {
         int modelAccountIndex = settingsAccounts.indexOf( modelAccount );
-        modelAccount.password = passwords.at( modelAccountIndex );
+        modelAccount.setPassword( passwords.at( modelAccountIndex ) );
         passwords.removeAt( modelAccountIndex );
         settingsAccounts.removeAt( modelAccountIndex );
 //        qDebug() << __FUNCTION__ << "MODEL" << modelAccount.login << modelAccount.password;
@@ -151,10 +151,10 @@ void AccountsController::loadAccounts()
       if ( ui->passwordsCheckBox->isChecked()
 #ifdef OAUTH
         || ( !ui->passwordsCheckBox->isChecked() &&
-             settingsAccount.network == TwitterAPI::SOCIALNETWORK_TWITTER )
+             settingsAccount.serviceUrl() == Account::NetworkUrlTwitter )
 #endif
         ) {
-        settingsAccount.password = passwords.at( settingsAccounts.indexOf( settingsAccount ) );
+        settingsAccount.setPassword( passwords.at( settingsAccounts.indexOf( settingsAccount ) ) );
 //        qDebug() << __FUNCTION__ << "SETTINGS" << settingsAccount.login << settingsAccount.password;
         modelAccounts.insert( i, settingsAccount );
       }
@@ -205,7 +205,7 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
       case AccountsModel::COL_PASSWORD:
         if ( ui->passwordsCheckBox->isChecked()
 #ifdef OAUTH
-             || model->index(i, AccountsModel::COL_NETWORK ).data( Qt::EditRole ) == TwitterAPI::SOCIALNETWORK_TWITTER
+             || model->index(i, AccountsModel::COL_NETWORK ).data( Qt::EditRole ) == Account::NetworkUrlTwitter
 #endif
            ) {
           settings.setValue( QString("Accounts/%1/password").arg( i ), ConfigFile::pwHash( model->index(i,j).data( Qt::EditRole ).toString() ) );
@@ -230,11 +230,11 @@ void AccountsController::updateCheckBox( const QModelIndex &index )
 
   Account &account = model->account( index.row() );
   if ( index.column() == AccountsModel::COL_ENABLED ) {
-    account.isEnabled = !account.isEnabled;
-    setAccountEnabled( account.isEnabled );
+    account.setEnabled( !account.isEnabled() );
+    setAccountEnabled( account.isEnabled() );
   } else if ( index.column() == AccountsModel::COL_DM ) {
-    account.directMessages = !account.directMessages;
-    setAccountDM( account.directMessages );
+    account.setDM( !account.dm() );
+    setAccountDM( account.dm() );
   }
   view->update( index );
   modified = true;
@@ -252,7 +252,7 @@ void AccountsController::togglePasswordStoring( int state )
   } else {
     for ( int i = 0; i < model->rowCount(); ++i ) {
 #ifdef OAUTH
-      if ( model->account(i).network == TwitterAPI::SOCIALNETWORK_IDENTICA )
+      if ( model->account(i).serviceUrl() == Account::NetworkUrlIdentica )
 #endif
         settings.remove( QString( "Accounts/%1/password" ).arg(i) );
     }
@@ -281,7 +281,7 @@ void AccountsController::addAccount()
     return;
 
   int result;
-  int network;
+  QString networkName;
   QString login;
   QString password;
 
@@ -296,17 +296,17 @@ void AccountsController::addAccount()
     dlg->setWindowTitle( tr( "Add account" ) );
     //: Select social network, i.e. Twitter or Identi.ca
     dlg->setLabelText( tr( "Select social network:" ) );
-    dlg->setComboBoxItems( QStringList() << "Twitter" << "Identi.ca" );
+    dlg->setComboBoxItems( QStringList( Account::networkNames() ) );
     dlg->setCancelButtonText( tr( "Cancel" ) );
     dlg->setOkButtonText( tr( "OK" ) );
     result = dlg->exec();
-    network = dlg->textValue() == "Twitter" ? TwitterAPI::SOCIALNETWORK_TWITTER : TwitterAPI::SOCIALNETWORK_IDENTICA;
+    networkName = dlg->textValue();
     dlg->deleteLater();
 #endif
   } else {
     NewAccountDialog dlg;
     result = dlg.exec();
-    network = dlg.network();
+    networkName = dlg.networkName();
     login = dlg.login();
     password = dlg.password();
   }
@@ -315,16 +315,16 @@ void AccountsController::addAccount()
     int index = model->rowCount();
 
 #ifdef OAUTH
-    if ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) {
+    if ( networkName == Account::NetworkTwitter ) {
       OAuthWizard *wizard = new OAuthWizard( view );
       wizard->exec();
       if ( wizard->authorized() ) {
         model->insertRow( index );
 
         Account &account = model->account( index );
-        account.network = TwitterAPI::SOCIALNETWORK_TWITTER;
-        account.login = wizard->getScreenName();
-        account.password = wizard->getOAuthKey();
+        account.setServiceUrl( Account::NetworkUrlTwitter );
+        account.setLogin( wizard->getScreenName() );
+        account.setPassword( wizard->getOAuthKey() );
         settings.addAccount( index, model->account( index ) );
         view->setCurrentIndex( model->index( index, 0 ) );
         ui->deleteAccountButton->setEnabled( true );
@@ -334,13 +334,13 @@ void AccountsController::addAccount()
       }
       wizard->deleteLater();
 
-    } else if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+    } else if ( networkName == Account::NetworkIdentica ) {
 #endif
       model->insertRow( index );
-      model->account( index ).network = (TwitterAPI::SocialNetwork) network;
+      model->account( index ).setServiceUrl( Account::networkUrl( networkName ) );
       if ( sender() != ui->addAccountButton ) {
-        model->account( index ).login = login;
-        model->account( index ).password = password;
+        model->account( index ).setLogin( login );
+        model->account( index ).setPassword( password );
       }
       settings.addAccount( index, model->account( index ) );
       view->setCurrentIndex( model->index( index, 0 ) );
@@ -380,7 +380,7 @@ void AccountsController::setAccountEnabled( bool state )
   if ( !view->selectionModel()->currentIndex().isValid() )
     return;
 
-  model->account( view->currentIndex().row() ).isEnabled = state;
+  model->account( view->currentIndex().row() ).setEnabled( state );
   settings.setValue( QString("Accounts/%1/enabled").arg( view->currentIndex().row() ), state );
 }
 
@@ -392,7 +392,7 @@ void AccountsController::setAccountDM( bool state )
   if ( !view->selectionModel()->currentIndex().isValid() )
     return;
 
-  model->account( view->currentIndex().row() ).directMessages = state;
+  model->account( view->currentIndex().row() ).setDM( state );
   settings.setValue( QString("Accounts/%1/directmsgs").arg( view->currentIndex().row() ), state );
 }
 

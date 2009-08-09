@@ -31,7 +31,7 @@ class NewAccountDialog : public QDialog
 {
   Q_OBJECT
 
-  Q_PROPERTY( int network READ network );
+  Q_PROPERTY( QString networkName READ networkName );
   Q_PROPERTY( QString login READ login );
   Q_PROPERTY( QString password READ password );
 
@@ -39,7 +39,7 @@ public:
   NewAccountDialog( QWidget *parent = 0 );
   ~NewAccountDialog();
 
-  int network() const;
+  QString networkName() const;
   QString login() const;
   QString password() const;
 

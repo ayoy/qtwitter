@@ -43,7 +43,7 @@ QWidget* AccountsDelegate::createEditor( QWidget *parent, const QStyleOptionView
   switch ( index.column() ) {
   case AccountsModel::COL_NETWORK:
     comboBox = new QComboBox( parent );
-    comboBox->addItems( QStringList() << "Twitter" << "Identi.ca" );
+    comboBox->addItems( QStringList( Account::networkNames() ) );
     emit controller->comboActive( true );
     editor = comboBox;
     break;
@@ -97,7 +97,7 @@ void AccountsDelegate::setModelData( QWidget *editor, QAbstractItemModel *model,
   switch ( index.column() ) {
   case AccountsModel::COL_NETWORK:
     comboBox = static_cast<QComboBox*>(editor);
-    model->setData( index, comboBox->currentIndex(), Qt::EditRole );
+    model->setData( index, comboBox->currentText(), Qt::EditRole );
     emit controller->comboActive( false );
     break;
   case AccountsModel::COL_LOGIN:

@@ -20,7 +20,7 @@
 
 #include "newaccountdialog.h"
 #include "ui_newaccountdialog.h"
-#include <twitterapi/twitterapi_global.h>
+#include <twitterapi/twitterapi.h>
 
 NewAccountDialog::NewAccountDialog( QWidget *parent ) :
     QDialog( parent ),
@@ -38,9 +38,9 @@ NewAccountDialog::~NewAccountDialog()
   delete m_ui;
 }
 
-int NewAccountDialog::network() const
+QString NewAccountDialog::networkName() const
 {
-  return m_ui->comboBox->currentIndex();
+  return m_ui->comboBox->currentText();
 }
 
 QString NewAccountDialog::login() const

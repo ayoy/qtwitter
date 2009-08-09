@@ -67,25 +67,25 @@ Core::Core( MainWindow *parent ) :
   imageDownload = new ImageDownload( this );
   connect( imageDownload, SIGNAL(imageReadyForUrl(QString,QPixmap*)), this, SLOT(setImageForUrl(QString,QPixmap*)) );
 
-  twitterapi = new TwitterAPIInterface( this );
-
-#ifdef OAUTH
-  twitterapi->setConsumerKey( OAuthWizard::ConsumerKey );
-  twitterapi->setConsumerSecret( OAuthWizard::ConsumerSecret );
-#endif
-
-  connect( twitterapi, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)), this, SLOT(addEntry(TwitterAPI::SocialNetwork,QString,Entry)) );
-  connect( twitterapi, SIGNAL(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)) );
-  connect( twitterapi, SIGNAL(favoriteStatus(TwitterAPI::SocialNetwork,QString,quint64,bool)), this, SLOT(setFavorited(TwitterAPI::SocialNetwork,QString,quint64,bool)) );
-  connect( twitterapi, SIGNAL(postDMDone(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)), this, SIGNAL(confirmDMSent(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)) );
-  connect( twitterapi, SIGNAL(deleteDMDone(TwitterAPI::SocialNetwork,QString,quint64,TwitterAPI::ErrorCode)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)) );
-  connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
-  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString)) );
-  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,quint64)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,quint64)) );
-  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,quint64,Entry::Type)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,quint64,Entry::Type)) );
+//  twitterapi = new TwitterAPIInterface( this );
+//
+//#ifdef OAUTH
+//  twitterapi->setConsumerKey( OAuthWizard::ConsumerKey );
+//  twitterapi->setConsumerSecret( OAuthWizard::ConsumerSecret );
+//#endif
+//
+//  connect( twitterapi, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)), this, SLOT(addEntry(TwitterAPI::SocialNetwork,QString,Entry)) );
+//  connect( twitterapi, SIGNAL(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)) );
+//  connect( twitterapi, SIGNAL(favoriteStatus(TwitterAPI::SocialNetwork,QString,quint64,bool)), this, SLOT(setFavorited(TwitterAPI::SocialNetwork,QString,quint64,bool)) );
+//  connect( twitterapi, SIGNAL(postDMDone(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)), this, SIGNAL(confirmDMSent(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)) );
+//  connect( twitterapi, SIGNAL(deleteDMDone(TwitterAPI::SocialNetwork,QString,quint64,TwitterAPI::ErrorCode)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)) );
+//  connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
+//  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString)) );
+//  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,quint64)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,quint64)) );
+//  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,quint64,Entry::Type)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,quint64,Entry::Type)) );
 
   connect( this, SIGNAL(newRequest()), SLOT(slotNewRequest()) );
-  connect( twitterapi, SIGNAL(requestDone(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(slotRequestDone(TwitterAPI::SocialNetwork,QString,int)) );
+//  connect( twitterapi, SIGNAL(requestDone(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(slotRequestDone(TwitterAPI::SocialNetwork,QString,int)) );
 
   listViewForModels = parent->getListView();
 
@@ -286,7 +286,7 @@ void Core::applySettings()
     emit accountsUpdated( accountsModel->getAccounts() );
 
     // TODO: do this only when really needed
-    twitterapi->resetConnections();
+//    twitterapi->resetConnections();
 
     emit resetUi();
     requestCount = 0;
@@ -343,6 +343,15 @@ void Core::forceGet()
 
 void Core::get( TwitterAPI::SocialNetwork network, const QString &login, const QString &password )
 {
+  foreach( StatusList *statusList, statusLists.values() ) {
+    statusList->friendsTimeline();
+    emit newRequest();
+    if ( statusList->directMessages() ) {
+      statusList->directMessages();
+      emit newRequest();
+    }
+
+  }
 //  requestCount = 0;
   twitterapi->friendsTimeline( network, login, password, settings.value("Appearance/tweet count", 20).toInt() );
   emit newRequest();
@@ -678,7 +687,7 @@ void Core::setupStatusLists()
 
       account.password = passwordMap.value( account );
 
-      StatusList *statusList = new StatusList( account.login, account.network, this );
+      StatusList *statusList = new StatusList( account.login, account.network, account.password, this );
       statusList->setStatuses( statuses );
       statusList->setActive( active );
       statusLists.insert( account, statusList );

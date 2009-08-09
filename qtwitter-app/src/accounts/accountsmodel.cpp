@@ -61,54 +61,41 @@ QVariant AccountsModel::data( const QModelIndex &index, int role ) const
   switch ( index.column() ) {
   case COL_ENABLED:
     if ( role == Qt::CheckStateRole )
-      return accounts.at( index.row() ).isEnabled ? Qt::Checked : Qt::Unchecked;
+      return accounts.at( index.row() ).isEnabled() ? Qt::Checked : Qt::Unchecked;
     break;
   case COL_NETWORK:
-    if ( role == Qt::EditRole ) {
-      return accounts.at( index.row() ).network;
-    }
-    if ( role == Qt::DisplayRole ) {
-      switch ( accounts.at( index.row() ).network ) {
-      case TwitterAPI::SOCIALNETWORK_IDENTICA:
-        return "Identi.ca";
-      case TwitterAPI::SOCIALNETWORK_TWITTER:
-      default:
-        return "Twitter";
-      }
-    }
+    return Account::networkName( accounts.at( index.row() ).serviceUrl() );
     break;
   case COL_LOGIN:
-    if ( role == Qt::DisplayRole || role == Qt::EditRole )
-      return accounts.at( index.row() ).login;
+    if ( role == Qt::DisplayRole || role == Qt::EditRole ) {
+      return accounts.at( index.row() ).login();
+    }
     break;
   case COL_PASSWORD:
     if ( role == Qt::DisplayRole ) {
 #ifdef OAUTH
-      switch ( accounts.at( index.row() ).network ) {
-      case TwitterAPI::SOCIALNETWORK_IDENTICA:
-#ifdef Q_WS_HILDON
-      return QString( accounts.at( index.row() ).password.length(), '*' );
-#else
-      return QString( accounts.at( index.row() ).password.length(), QChar(0x25cf) );
-#endif
-      case TwitterAPI::SOCIALNETWORK_TWITTER:
-      default:
+      if ( Account::networkName( accounts.at( index.row() ).serviceUrl() ) == Account::NetworkTwitter ) {
         return tr( "authorized" );
       }
+#  ifdef Q_WS_HILDON
+      return QString( accounts.at( index.row() ).password().length(), '*' );
+#  else
+      return QString( accounts.at( index.row() ).password().length(), QChar(0x25cf) );
+#  endif
 #else
-#ifdef Q_WS_HILDON
-      return QString( accounts.at( index.row() ).password.length(), '*' );
-#else
-      return QString( accounts.at( index.row() ).password.length(), QChar(0x25cf) );
-#endif
+#  ifdef Q_WS_HILDON
+      return QString( accounts.at( index.row() ).password().length(), '*' );
+#  else
+      return QString( accounts.at( index.row() ).password().length(), QChar(0x25cf) );
+#  endif
 #endif
     }
     if ( role == Qt::EditRole )
-      return accounts.at( index.row() ).password;
+      return accounts.at( index.row() ).password();
     break;
   case COL_DM:
     if ( role == Qt::CheckStateRole )
-      return accounts.at( index.row() ).directMessages ? Qt::Checked : Qt::Unchecked;
+      return accounts.at( index.row() ).dm() ? Qt::Checked : Qt::Unchecked;
   default:;
   }
   return QVariant();
@@ -144,23 +131,23 @@ bool AccountsModel::setData( const QModelIndex &index, const QVariant &value, in
 
   switch ( index.column() ) {
   case COL_ENABLED:
-    accounts[ index.row() ].isEnabled = value.toBool();
+    accounts[ index.row() ].setEnabled( value.toBool() );
     emit dataChanged( index, index );
     return true;
   case COL_NETWORK:
-    accounts[ index.row() ].network = (TwitterAPI::SocialNetwork)value.toInt();
+    accounts[ index.row() ].setServiceUrl( Account::networkUrl( value.toString() ) );
     emit dataChanged( index, index );
     return true;
   case COL_LOGIN:
-    accounts[ index.row() ].login = value.toString();
+    accounts[ index.row() ].setLogin( value.toString() );
     emit dataChanged( index, index );
     return true;
   case COL_PASSWORD:
-    accounts[ index.row() ].password = value.toString();
+    accounts[ index.row() ].setPassword( value.toString() );
     emit dataChanged( index, index );
     return true;
   case COL_DM:
-    accounts[ index.row() ].directMessages = value.toBool();
+    accounts[ index.row() ].setDM( value.toBool() );
     emit dataChanged( index, index );
     return true;
   default:;
@@ -171,7 +158,7 @@ bool AccountsModel::setData( const QModelIndex &index, const QVariant &value, in
 Qt::ItemFlags AccountsModel::flags( const QModelIndex &index ) const
 {
 #ifdef OAUTH
-  if ( accounts.at( index.row() ).network != TwitterAPI::SOCIALNETWORK_TWITTER ) {
+  if ( Account::networkName( accounts.at( index.row() ).serviceUrl() ) != Account::NetworkTwitter ) {
 #endif
     if ( index.column() == COL_LOGIN || index.column() == COL_PASSWORD )
       return QAbstractItemModel::flags( index ) |= Qt::ItemIsEditable;
@@ -225,11 +212,11 @@ void AccountsModel::cleanUp()
     nextMeansDoubled = false;
 
     for ( int j = i + 1; j < accounts.size(); ) {
-      if ( accounts.at(i).network == accounts.at(j).network &&
-           accounts.at(i).login == accounts.at(j).login ) {
+      if ( accounts.at(i).serviceUrl() == accounts.at(j).serviceUrl() &&
+           accounts.at(i).login() == accounts.at(j).login() ) {
 
-        if ( accounts.at(j).isEnabled || accounts.at(i).isEnabled ) {
-          accounts[i].isEnabled = true;
+        if ( accounts.at(j).isEnabled() || accounts.at(i).isEnabled() ) {
+          accounts[i].setEnabled( true );
         }
         removeRow( j );
         settings.deleteAccount( j, rowCount() );
@@ -256,10 +243,10 @@ Account& AccountsModel::account( int index )
   return accounts[ index ];
 }
 
-Account* AccountsModel::account( TwitterAPI::SocialNetwork network, const QString &login )
+Account* AccountsModel::account( const QString &serviceUrl, const QString &login )
 {
   for ( int i = 0; i < accounts.size(); i++ ) {
-    if ( login == accounts[i].login && network == accounts[i].network )
+    if ( login == accounts[i].login() && serviceUrl == accounts[i].serviceUrl() )
       return &accounts[i];
   }
   return 0;
@@ -272,12 +259,6 @@ int AccountsModel::indexOf( const Account &account )
 
 Account AccountsModel::emptyAccount()
 {
-  Account empty;
-  empty.isEnabled = true;
-  empty.network = TwitterAPI::SOCIALNETWORK_TWITTER;
-  //: This is for newly created account - when the login isn't given yet
-  empty.login = tr( "<empty>" );
-  empty.password = "";
-  empty.directMessages = false;
+  Account empty( true, Account::networkUrl( Account::NetworkTwitter ), tr( "empty" ), QString(), false );
   return empty;
 }

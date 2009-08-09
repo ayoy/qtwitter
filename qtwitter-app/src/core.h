@@ -147,7 +147,7 @@ private:
   bool settingsOpen;
   bool checkForNew;
 
-  TwitterAPIInterface *twitterapi;
+//  TwitterAPIInterface *twitterapi;
 
   TwitPicEngine *twitpicUpload;
   UrlShortener *urlShortener;

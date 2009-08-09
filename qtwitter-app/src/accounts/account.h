@@ -23,25 +23,59 @@
 
 #include <QPair>
 #include <QMetaType>
-#include <twitterapi/twitterapi_global.h>
+#include <twitterapi/twitterapi.h>
 #include <QDataStream>
 
-struct Account
+class Account
 {
-  bool isEnabled;
-  TwitterAPI::SocialNetwork network;
-  QString login;
-  QString password;
-  bool directMessages;
+//  Q_PROPERTY( enabled READ isEnabled WRITE setEnabled )
+//  Q_PROPERTY( serviceUrl READ serviceUrl WRITE setServiceUrl )
+//  Q_PROPERTY( login READ login WRITE setLogin )
+//  Q_PROPERTY( password READ password WRITE setPassword )
+//  Q_PROPERTY( dm READ dm WRITE setDM )
 
-  static QPair<TwitterAPI::SocialNetwork,QString> fromString( const QString &name );
-  static TwitterAPI::SocialNetwork networkFromString( const QString &name );
-  static QString networkToString( TwitterAPI::SocialNetwork network );
+public:
+  Account();
+  Account( bool enabled, const QString &serviceUrl,
+           const QString &login, const QString &password, bool dm);
+  ~Account();
 
-  QString toString() const;
+  static const QList<QString> networkNames();
+  static QString networkUrl( const QString &name );
+  static QString networkName( const QString &serviceUrl );
+  static void setNetworkName( const QString &serviceUrl, const QString &name );
+  static const QString NetworkTwitter;
+  static const QString NetworkIdentica;
+  static const QString NetworkUrlTwitter;
+  static const QString NetworkUrlIdentica;
+
+  bool isEnabled() const;
+  void setEnabled( bool enabled );
+  QString serviceUrl() const;
+  void setServiceUrl( const QString &serviceUrl );
+  QString login() const;
+  void setLogin( const QString &login );
+  QString password() const;
+  void setPassword( const QString &password );
+  bool dm() const;
+  void setDM( bool dm );
+
+  static QPair<QString,QString> fromString( const QString &name );
+
   Account operator=( const Account &other );
   bool operator==( const Account &other ) const;
   bool operator<( const Account &other ) const;
+  QString toString() const;
+
+private:
+  // url/name
+  static QHash<QString,QString> networkNamesHash;
+
+  bool m_enabled;
+  QString m_serviceUrl;
+  QString m_login;
+  QString m_password;
+  bool m_dm;
 };
 
 QDataStream& operator<<( QDataStream &out, const Account &account );

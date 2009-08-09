@@ -26,7 +26,7 @@
 #include <QUrl>
 #include <QList>
 #include <QSystemTrayIcon>
-#include <twitterapi/twitterapi_global.h>
+#include <twitterapi/twitterapi.h>
 #include "ui_mainwindow.h"
 
 class QMovie;

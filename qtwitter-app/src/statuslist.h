@@ -29,6 +29,7 @@
 #include "statuswidget.h"
 
 class QPixmap;
+struct Account;
 
 struct Status {
   Entry entry;
@@ -58,12 +59,13 @@ class StatusList : public QObject
 
   Q_PROPERTY( SocialNetwork network READ network WRITE setNetwork )
   Q_PROPERTY( QString login READ login WRITE setLogin )
+  Q_PROPERTY( bool directMessages READ directMessages )
   Q_PROPERTY( bool visible READ isVisible WRITE setVisible )
   // index of the active status
   Q_PROPERTY( int active READ active WRITE setActive )
 
 public:
-  StatusList( const QString &login, TwitterAPI::SocialNetwork network, QObject *parent = 0 );
+  StatusList( const Account &account, QObject *parent = 0 );
   ~StatusList();
 
   bool hasUnread();
@@ -77,6 +79,7 @@ public:
   static void setMaxCount( int maxCount );
 
   // status list accessors
+  bool directMessages() const;
   void setNetwork( SocialNetwork network );
   SocialNetwork network() const;
   void setLogin( const QString &login );
@@ -92,6 +95,7 @@ public:
   void setStatuses( const QList<Status> &statuses );
   int active() const;
   void setActive( int active );
+  int
   // end of accessors
 
   int size() const;

@@ -20,6 +20,8 @@
 
 #include <QDebug>
 #include <QPixmap>
+
+#include <account.h>
 #include "statuslist.h"
 
 QDataStream& operator<<( QDataStream & out, const Status &status )
@@ -50,8 +52,7 @@ public:
   TwitterAPIInterface *twitterapi;
   QList<Status> data;
   bool visible;
-  QString login;
-  TwitterAPI::SocialNetwork network;
+  Account *account;
   int active;
   static int maxCount;
   static const int publicMaxCount;
@@ -61,21 +62,19 @@ const int StatusListPrivate::publicMaxCount = 20;
 int StatusListPrivate::maxCount = 0;
 
 StatusListPrivate::StatusListPrivate() :
-    twitterapi( new TwitterAPIInterface ),
+    twitterapi( new TwitterAPI ),
     visible( false ),
-    login( QString() ),
-    network( TwitterAPI::SOCIALNETWORK_TWITTER ),
     active(-1)
 {
-//  connect( twitterapi, SIGNAL(newEntry(TwitterAPI::SocialNetwork,QString,Entry)), this, SLOT(addEntry(TwitterAPI::SocialNetwork,QString,Entry)) );
-//  connect( twitterapi, SIGNAL(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)) );
-//  connect( twitterapi, SIGNAL(favoriteStatus(TwitterAPI::SocialNetwork,QString,quint64,bool)), this, SLOT(setFavorited(TwitterAPI::SocialNetwork,QString,quint64,bool)) );
-//  connect( twitterapi, SIGNAL(postDMDone(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)), this, SIGNAL(confirmDMSent(TwitterAPI::SocialNetwork,QString,TwitterAPI::ErrorCode)) );
-//  connect( twitterapi, SIGNAL(deleteDMDone(TwitterAPI::SocialNetwork,QString,quint64,TwitterAPI::ErrorCode)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)) );
-//  connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
-//  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString)) );
-//  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,quint64)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,QString,quint64)) );
-//  connect( twitterapi, SIGNAL(unauthorized(TwitterAPI::SocialNetwork,QString,QString,quint64,Entry::Type)), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString,quint64,Entry::Type)) );
+  connect( twitterapi, SIGNAL(newEntry(Entry)), this, SLOT(addEntry(Entry)) );
+  connect( twitterapi, SIGNAL(deleteEntry(quint64)), this, SLOT(deleteEntry(quint64)) );
+  connect( twitterapi, SIGNAL(favoriteStatus(quint64,bool)), this, SLOT(setFavorited(quint64,bool)) );
+  connect( twitterapi, SIGNAL(postDMDone(TwitterAPI::ErrorCode)), this, SIGNAL(confirmDMSent(TwitterAPI::ErrorCode)) );
+  connect( twitterapi, SIGNAL(deleteDMDone(quint64,TwitterAPI::ErrorCode)), this, SLOT(deleteEntry(quint64)) );
+  connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
+  connect( twitterapi, SIGNAL(unauthorized()), this, SLOT(slotUnauthorized(TwitterAPI::SocialNetwork,QString,QString)) );
+  connect( twitterapi, SIGNAL(unauthorized(QString,quint64)), this, SLOT(slotUnauthorized(QString,quint64)) );
+  connect( twitterapi, SIGNAL(unauthorized(quint64,Entry::Type)), this, SLOT(slotUnauthorized(quint64,Entry::Type)) );
 }
 
 StatusListPrivate::~StatusListPrivate()
@@ -83,12 +82,11 @@ StatusListPrivate::~StatusListPrivate()
   twitterapi->deleteLater();
 }
 
-StatusList::StatusList( const QString &login , TwitterAPI::SocialNetwork network, QObject *parent ) :
+StatusList::StatusList( const Account &account, QObject *parent ) :
     QObject( parent ),
     d( new StatusListPrivate )
 {
-  d->network = network;
-  d->login = login;
+  d->account = account;
 }
 
 StatusList::~StatusList()
@@ -114,24 +112,29 @@ void StatusList::markAllAsRead()
   }
 }
 
-void StatusList::setNetwork( SocialNetwork network )
+bool StatusList::directMessages() const
 {
-  d->network = network;
+  return d->account->directMessages;
 }
 
-StatusList::SocialNetwork StatusList::network() const
+void StatusList::setNetwork( SocialNetwork network )
 {
-  return d->network;
+  d->account->network = network;
+}
+
+QString StatusList::serviceUrl() const
+{
+  return d->account->network;
 }
 
 void StatusList::setLogin( const QString &login )
 {
-  d->login = login;
+  d->account->login = login;
 }
 
 const QString& StatusList::login() const
 {
-  return d->login;
+  return d->account->login;
 }
 
 void StatusList::setVisible( bool visible )
