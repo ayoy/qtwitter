@@ -55,35 +55,27 @@ class StatusList : public QObject
 {
   Q_OBJECT
 
-  typedef TwitterAPI::SocialNetwork SocialNetwork;
-
-  Q_PROPERTY( SocialNetwork network READ network WRITE setNetwork )
-  Q_PROPERTY( QString login READ login WRITE setLogin )
-  Q_PROPERTY( bool directMessages READ directMessages )
+  Q_PROPERTY( QString serviceUrl READ serviceUrl )
+  Q_PROPERTY( QString login READ login )
+  Q_PROPERTY( bool dm READ dm )
   Q_PROPERTY( bool visible READ isVisible WRITE setVisible )
   // index of the active status
   Q_PROPERTY( int active READ active WRITE setActive )
 
 public:
-  StatusList( const Account &account, QObject *parent = 0 );
+  StatusList( Account *account, QObject *parent );
   ~StatusList();
 
   bool hasUnread();
   void markAllAsRead();
 
-  void addStatus( Entry entry );
-  bool deleteStatus( quint64 id );
-  void setFavorited( quint64 id, bool favorited = true );
-
   bool remove( int from, int count );
   static void setMaxCount( int maxCount );
 
   // status list accessors
-  bool directMessages() const;
-  void setNetwork( SocialNetwork network );
-  SocialNetwork network() const;
-  void setLogin( const QString &login );
-  const QString& login() const;
+  bool dm() const;
+  QString serviceUrl() const;
+  QString login() const;
   void setVisible( bool visible );
   bool isVisible() const;
   void setData( int index, const Status &status );
@@ -95,10 +87,17 @@ public:
   void setStatuses( const QList<Status> &statuses );
   int active() const;
   void setActive( int active );
-  int
   // end of accessors
 
   int size() const;
+
+  void requestFriendsTimeline();
+  void requestDirectMessages();
+  void requestNewStatus( const QString &status, quint64 inReplyTo = 0 );
+  void requestNewDM( const QString &screenName, const QString &text );
+  void requestDestroy( quint64 id, Entry::Type type );
+  void requestCreateFavorite( quint64 id );
+  void requestDestroyFavorite( quint64 id );
 
 public slots:
   void slotDirectMessagesChanged( bool isEnabled );
@@ -111,8 +110,11 @@ signals:
   void favoriteChanged( int index );
   void imageChanged( int index );
 
+protected:
+  StatusListPrivate * const d_ptr;
+
 private:
-  StatusListPrivate * const d;
+  Q_DECLARE_PRIVATE(StatusList);
 };
 
 #endif // STATUSLIST_H

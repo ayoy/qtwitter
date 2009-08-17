@@ -49,6 +49,7 @@ HEADERS += src/mainwindow.h \
     src/qtwitter.h \
     src/aboutdialog.h \
     src/statuslist.h \
+    src/statuslist_p.h \
     src/userinfobutton.h \
     src/userinfopopup.h \
     src/dmdialog.h \

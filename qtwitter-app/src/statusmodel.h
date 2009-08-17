@@ -46,7 +46,9 @@ public:
     STATE_ACTIVE
   };
 
-  StatusModel( StatusListView *parentListView, QObject *parent = 0 );
+
+  static StatusModel* instance();
+  ~StatusModel();
 
   StatusWidget* currentStatus();
   void setTheme( const ThemeData &theme );
@@ -55,6 +57,7 @@ public:
   void setMaxStatusCount( int count );
   void populate();
   void clear();
+  void connectView( StatusListView *listView );
 
 public slots:
   void updateDisplay();
@@ -77,13 +80,15 @@ public slots:
 
 signals:
   void retweet( QString message );
-  void destroy( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, Entry::Type type );
-  void favorite( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, bool favorited );
-  void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName );
+  void destroy( const QString &serviceUrl, const QString &login, quint64 id, Entry::Type type );
+  void favorite( const QString &serviceUrl, const QString &login, quint64 id, bool favorited );
+  void postDM( const QString &serviceUrl, const QString &login, const QString &screenName );
   void openBrowser( QUrl address );
   void reply( const QString &name, quint64 inReplyTo );
-  void about();
   void markEverythingAsRead();
+
+protected:
+  StatusModel( QObject *parent = 0 );
 
 private slots:
   void emitOpenBrowser( QString address );
@@ -95,6 +100,8 @@ private:
   int maxStatusCount;
   QModelIndex currentIndex;
   StatusListView *view;
+
+  static StatusModel *m_instance;
 };
 
 #endif // STATUSMODEL_H

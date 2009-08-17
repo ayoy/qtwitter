@@ -28,16 +28,11 @@
 
 class Account
 {
-//  Q_PROPERTY( enabled READ isEnabled WRITE setEnabled )
-//  Q_PROPERTY( serviceUrl READ serviceUrl WRITE setServiceUrl )
-//  Q_PROPERTY( login READ login WRITE setLogin )
-//  Q_PROPERTY( password READ password WRITE setPassword )
-//  Q_PROPERTY( dm READ dm WRITE setDM )
-
 public:
   Account();
   Account( bool enabled, const QString &serviceUrl,
            const QString &login, const QString &password, bool dm);
+  Account( const Account &other );
   ~Account();
 
   static const QList<QString> networkNames();

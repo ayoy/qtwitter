@@ -57,6 +57,8 @@ public:
 #ifdef OAUTH
   void removeOldTwitterAccounts();
 #endif
+  // TODO: make private
+  int accountsCount() const;
 
 private:
   void convertSettingsToZeroSix();

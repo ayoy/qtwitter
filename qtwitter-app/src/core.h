@@ -40,7 +40,6 @@ class StatusListView;
 class UrlShortener;
 class AccountsController;
 
-class Profile;
 
 class Core : public QObject
 {
@@ -64,19 +63,24 @@ public:
 #endif
 
   void setModelTheme( const ThemeData &theme );
-  void setModelData( TwitterAPI::SocialNetwork network, const QString &login );
+  void setModelData( const QString &serviceUrl, const QString &login );
 
   void setSettingsOpen( bool open );
   QStringList twitpicLogins() const;
+  static inline void incrementRequestCount() { m_requestCount++; }
+  static inline void decrementRequestCount() { if ( m_requestCount > 0 ) m_requestCount--; }
+  static inline int requestCount() { return m_requestCount; }
+
+  bool retryAuthorizing( Account *account, int role );
 
 public slots:
   void forceGet();
   void get();
-  void get( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
-  void post( TwitterAPI::SocialNetwork network, const QString &login, const QString &status, quint64 inReplyTo );
-  void destroy( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, Entry::Type type );
-  void favoriteRequest( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, bool favorited );
-  void postDM( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName, const QString &text );
+  void get( const QString &serviceUrl, const QString &login, const QString &password );
+  void post( const QString &serviceUrl, const QString &login, const QString &status, quint64 inReplyTo );
+  void destroy( const QString &serviceUrl, const QString &login, quint64 id, Entry::Type type );
+  void favoriteRequest( const QString &serviceUrl, const QString &login, quint64 id, bool favorited );
+  void postDM( const QString &serviceUrl, const QString &login, const QString &screenName, const QString &text );
 
   void uploadPhoto( const QString &login, QString photoPath, QString status );
   void abortUploadPhoto();
@@ -101,12 +105,8 @@ signals:
   void pauseIcon();
   void timelineUpdated();
   void modelChanged( StatusModel *model );
-  void addReplyString( const QString &user, quint64 id );
-  void addRetweetString( QString message );
   void confirmDMSent( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
-  void about();
   void sendNewsReport( QString message );
-  void resizeData( int width, int oldWidth );
   void newRequest();
   void urlShortened( const QString &url);
 
@@ -114,20 +114,13 @@ signals:
 
 private slots:
   void createAccounts( QWidget *view );
-  void addEntry( TwitterAPI::SocialNetwork network, const QString &login, Entry entry );
-  void deleteEntry( TwitterAPI::SocialNetwork network, const QString &login, quint64 id );
-  void setFavorited( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, bool favorited = true );
 
-  void postDMDialog( TwitterAPI::SocialNetwork network, const QString &login, const QString &screenName );
+  void postDMDialog( const QString &serviceUrl, const QString &login, const QString &screenName );
   AuthDialogState authDataDialog( Account *account );
 
   void setImageForUrl( const QString& url, QPixmap *image );
-  void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password );
-  void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &status, quint64 inReplyToId );
-  void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, const QString &screenName, const QString &text );
-  void slotUnauthorized( TwitterAPI::SocialNetwork network, const QString &login, const QString &password, quint64 destroyId, Entry::Type type );
   void slotNewRequest();
-  void slotRequestDone( TwitterAPI::SocialNetwork network, const QString &login, int role );
+  void slotRequestDone( const QString &serviceUrl, const QString &login, int role );
 
   void setWaitForAccounts( bool wait );
   void markEverythingAsRead();
@@ -135,12 +128,11 @@ private slots:
   void addAccount();
 
 private:
-  void destroyDontAsk( TwitterAPI::SocialNetwork network, const QString &login, quint64 id, Entry::Type type );
+//  void destroyDontAsk( const QString &serviceUrl, const QString &login, quint64 id, Entry::Type type );
   void setupStatusLists();
   void checkUnreadStatuses();
-  bool retryAuthorizing( Account *account, int role );
   bool authDialogOpen;
-  int requestCount;
+  static int m_requestCount;
   int tempModelCount;
 
   bool waitForAccounts;
@@ -152,16 +144,10 @@ private:
   TwitPicEngine *twitpicUpload;
   UrlShortener *urlShortener;
 
-  ImageDownload* imageDownload;
-
   AccountsController *accounts;
   AccountsModel *accountsModel;
 
-  StatusModel *statusModel;
-  StatusListView *listViewForModels;
-
-  QMap<Account,Profile*> profiles;
-  QMap<Account,StatusList*> statusLists;
+  QMap<Account*,StatusList*> statusLists;
 
   QTimer *timer;
   MainWindow *parentMainWindow;

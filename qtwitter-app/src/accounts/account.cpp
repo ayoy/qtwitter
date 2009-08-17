@@ -26,6 +26,8 @@ const QString Account::NetworkIdentica = "Identi.ca";
 const QString Account::NetworkUrlTwitter = "http://twitter.com";
 const QString Account::NetworkUrlIdentica = "http://identi.ca/api";
 
+QHash<QString,QString> Account::networkNamesHash = QHash<QString,QString>();
+
 Account::Account() {}
 
 Account::Account( bool enabled, const QString &serviceUrl, const QString &login,
@@ -37,6 +39,17 @@ Account::Account( bool enabled, const QString &serviceUrl, const QString &login,
     m_dm( dm )
 {
 }
+
+Account::Account( const Account &other ) :
+    m_enabled( other.isEnabled() ),
+    m_serviceUrl( other.serviceUrl() ),
+    m_login( other.login() ),
+    m_password( other.password() ),
+    m_dm( other.dm() )
+{
+}
+
+Account::~Account() {}
 
 const QList<QString> Account::networkNames()
 {
@@ -65,6 +78,59 @@ void Account::setNetworkName( const QString &serviceUrl, const QString &name )
     networkNamesHash.insert( serviceUrl, name );
   }
 }
+
+
+bool Account::isEnabled() const
+{
+  return m_enabled;
+}
+
+void Account::setEnabled( bool enabled )
+{
+  m_enabled = enabled;
+}
+
+QString Account::serviceUrl() const
+{
+  return m_serviceUrl;
+}
+
+void Account::setServiceUrl( const QString &serviceUrl )
+{
+  m_serviceUrl = serviceUrl;
+}
+
+QString Account::login() const
+{
+  return m_login;
+}
+
+void Account::setLogin( const QString &login )
+{
+  m_login = login;
+}
+
+QString Account::password() const
+{
+  return m_password;
+}
+
+void Account::setPassword( const QString &password )
+{
+  m_password = password;
+}
+
+bool Account::dm() const
+{
+  return m_dm;
+}
+
+void Account::setDM( bool dm )
+{
+  m_dm = dm;
+}
+
+
 
 
 QPair<QString,QString> Account::fromString( const QString &name )
@@ -113,6 +179,7 @@ QDataStream& operator<<( QDataStream & out, const Account &account )
 // changed from qint8
   out << account.serviceUrl();
   out << account.login();
+  out << account.password();
   out << (qint8) account.dm();
   return out;
 }
@@ -123,14 +190,17 @@ QDataStream& operator>>( QDataStream & in, Account &account )
 // changed from qint8
   QString serviceUrl;
   QString login;
+  QString password;
   qint8 dm;
   in >> en;
   in >> serviceUrl;
   in >> login;
+  in >> password;
   in >> dm;
   account.setEnabled( (bool) en );
   account.setServiceUrl( serviceUrl );
   account.setLogin( login );
+  account.setPassword( password );
   account.setDM( (bool) dm );
   return in;
 }

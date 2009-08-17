@@ -20,12 +20,28 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QApplication>
 #include "imagedownload.h"
+
+ImageDownload* ImageDownload::m_inst = 0;
+
+ImageDownload* ImageDownload::instance()
+{
+  if ( !m_inst ) {
+    m_inst = new ImageDownload( qApp );
+  }
+  return m_inst;
+}
 
 ImageDownload::ImageDownload( QObject *parent ) :
     QObject( parent )
 {
   imageCache.setMaxCost( 50 );
+}
+
+ImageDownload::~ImageDownload()
+{
+  m_inst = 0;
 }
 
 void ImageDownload::imageGet( const QString &imageUrl )

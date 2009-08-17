@@ -162,11 +162,11 @@ QString ConfigFile::pwHash( const QString &text )
 void ConfigFile::addAccount( int id, const Account &account )
 {
   settings.beginGroup( QString( "Accounts/%1" ).arg( id ) );
-  settings.setValue( "enabled", account.isEnabled );
-  settings.setValue( "service", account.network );
-  settings.setValue( "login", account.login );
-  settings.setValue( "password", pwHash( account.password ) );
-  settings.setValue( "directmsgs", account.directMessages );
+  settings.setValue( "enabled", account.isEnabled() );
+  settings.setValue( "service", account.serviceUrl() );
+  settings.setValue( "login", account.login() );
+  settings.setValue( "password", pwHash( account.password() ) );
+  settings.setValue( "directmsgs", account.dm() );
   settings.endGroup();
 }
 
@@ -186,8 +186,7 @@ void ConfigFile::deleteAccount( int id, int rowCount )
   endGroup();
 }
 
-#ifdef OAUTH
-void ConfigFile::removeOldTwitterAccounts()
+int ConfigFile::accountsCount() const
 {
   int count = 0;
 
@@ -198,6 +197,14 @@ void ConfigFile::removeOldTwitterAccounts()
       break;
     }
   }
+
+  return count;
+}
+
+#ifdef OAUTH
+void ConfigFile::removeOldTwitterAccounts()
+{
+  int count = accountsCount();
 
   for( int i = 0; i < count; ++i ) {
     if ( value( QString( "Accounts/%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_IDENTICA ) ==

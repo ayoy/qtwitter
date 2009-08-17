@@ -216,36 +216,17 @@ TwitterAPIPrivate::~TwitterAPIPrivate()
   interface = 0;
 }
 
-#ifdef OAUTH
-void TwitterAPIPrivate::init( const QString &serviceUrl, const QString &login,
-                              const QString &password, bool usingOAuth )
+void TwitterAPIPrivate::init()
 {
   xmlReader = new QXmlSimpleReader;
   source = new QXmlInputSource;
   createInterface();
-
-  this->serviceUrl = serviceUrl;
-  this->login = login;
-  this->password = password;
-  this->usingOAuth = usingOAuth;
-
+#ifdef OAUTH
   if ( usingOAuth ) {
     qoauth = new QOAuth::Interface( this );
   }
-}
-#else
-void TwitterAPIPrivate::init( const QString &serviceUrl, const QString &login,
-                              const QString &password )
-{
-  xmlReader = new QXmlSimpleReader;
-  source = new QXmlInputSource;
-  createInterface();
-
-  this->serviceUrl = serviceUrl;
-  this->login = login;
-  this->password = password;
-}
 #endif
+}
 
 void TwitterAPIPrivate::createInterface()
 {
@@ -262,9 +243,10 @@ void TwitterAPIPrivate::createInterface()
   if ( login != TwitterAPI::PUBLIC_TIMELINE ) {
     interface->directMsgParser = new XmlParserDirectMsg( serviceUrl, login, this );
     connect( interface->directMsgParser, SIGNAL(newEntry(Entry)), q, SIGNAL(newEntry(Entry)) );
-    connect( interface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)), this, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
+    connect( interface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
+             SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
   }
-  connect( interface->connection, SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
+  connect( interface->connection, SIGNAL(finished(QNetworkReply*)), SLOT(requestFinished(QNetworkReply*)) );
   connect( interface->statusParser, SIGNAL(newEntry(Entry)), q, SIGNAL(newEntry(Entry)) );
 }
 
@@ -278,6 +260,7 @@ TwitterAPI::TwitterAPI( QObject *parent ) :
   Q_D(TwitterAPI);
 
   d->q_ptr = this;
+  d->init();
 }
 
 #ifdef OAUTH
@@ -289,7 +272,11 @@ TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
   Q_D(TwitterAPI);
 
   d->q_ptr = this;
-  d->init( serviceUrl, login, password, usingOAuth );
+
+  d->serviceUrl = serviceUrl;
+  d->login = login;
+  d->password = password;
+  d->usingOAuth = usingOAuth;
 }
 #else
 TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
@@ -300,7 +287,10 @@ TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
   Q_D(TwitterAPI);
 
   d->q_ptr = this;
-  d->init( serviceUrl, login, password );
+
+  d->serviceUrl = serviceUrl;
+  d->login = login;
+  d->password = password;
 }
 #endif
 
@@ -380,7 +370,7 @@ void TwitterAPI::setConsumerKey( const QByteArray &consumerKey )
 {
   Q_D(TwitterAPI);
 
-  d->qoauth->setConsumerKey( consumerKey );
+  d->qoauth->setConsumerKey( QByteArray(consumerKey) );
 }
 
 QByteArray TwitterAPI::consumerSecret() const

@@ -37,7 +37,7 @@ QWidget* AccountsDelegate::createEditor( QWidget *parent, const QStyleOptionView
 {
   Q_UNUSED(option);
 
-  QWidget *editor;
+  QWidget *editor = 0;
   QComboBox *comboBox;
   QLineEdit *lineEdit;
   switch ( index.column() ) {

@@ -61,8 +61,8 @@ void TwitPicView::setupAccounts( const QList<Account> &accounts )
 {
   m_ui->accountsComboBox->clear();
   foreach ( Account account, accounts ) {
-    if ( account.isEnabled && account.network == TwitterAPI::SOCIALNETWORK_TWITTER )
-      m_ui->accountsComboBox->addItem( account.login );
+    if ( account.isEnabled() && account.serviceUrl() == Account::NetworkUrlTwitter )
+      m_ui->accountsComboBox->addItem( account.login() );
   }
   int index = settings.value( "Accounts/visibleAccount", 0 ).toInt();
   if ( index >= m_ui->accountsComboBox->count() )

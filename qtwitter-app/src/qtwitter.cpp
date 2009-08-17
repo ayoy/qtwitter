@@ -31,6 +31,7 @@
 #include "mainwindow.h"
 #include "twitpicview.h"
 #include "statuswidget.h"
+#include "statusmodel.h"
 #include "settings.h"
 #include "account.h"
 
@@ -38,24 +39,24 @@ Qtwitter::Qtwitter( QWidget *parent ) :
     MainWindow( parent ),
     twitpic(0)
 {
-  connect( this, SIGNAL(switchModel(TwitterAPI::SocialNetwork,QString)), SLOT(setCurrentModel(TwitterAPI::SocialNetwork,QString)) );
+  connect( this, SIGNAL(switchModel(QString,QString)), SLOT(setCurrentModel(QString,QString)) );
   connect( this, SIGNAL(twitPicRequested()), SLOT(openTwitPic()) );
 
   core = new Core( this );
 
+  connect( StatusModel::instance(), SIGNAL(retweet(QString)), this, SIGNAL(addRetweetString(QString)) );
+  connect( StatusModel::instance(), SIGNAL(reply(QString,quint64)), this, SIGNAL(addReplyString(QString,quint64)) );
+
   connect( this, SIGNAL(updateStatuses()), core, SLOT(forceGet()) );
   connect( this, SIGNAL(openBrowser(QUrl)), core, SLOT(openBrowser(QUrl)) );
-  connect( this, SIGNAL(post(TwitterAPI::SocialNetwork,QString,QString,quint64)), core, SLOT(post(TwitterAPI::SocialNetwork,QString,QString,quint64)) );
-  connect( this, SIGNAL(resizeView(int,int)), core, SIGNAL(resizeData(int,int)));
+  connect( this, SIGNAL(post(QString,QString,QString,quint64)), core, SLOT(post(QString,QString,QString,quint64)) );
+  connect( this, SIGNAL(resizeView(int,int)), StatusModel::instance(), SLOT(resizeData(int,int)));
   connect( this, SIGNAL(shortenUrl(QString)), core, SLOT(shortenUrl(QString)));
   connect( this, SIGNAL(iconStopped()), core, SLOT(resetRequestsCount()) );
   connect( this, SIGNAL(statusMarkeverythingasreadAction()), core, SLOT(markEverythingAsRead()) );
   connect( core, SIGNAL(pauseIcon()), this, SLOT(pauseIcon()) );
   connect( core, SIGNAL(accountsUpdated(QList<Account>)), this, SLOT(setupAccounts(QList<Account>)) );
   connect( core, SIGNAL(urlShortened(QString)), this, SLOT(replaceUrl(QString)));
-  connect( core, SIGNAL(about()), this, SLOT(about()) );
-  connect( core, SIGNAL(addReplyString(QString,quint64)), this, SIGNAL(addReplyString(QString,quint64)) );
-  connect( core, SIGNAL(addRetweetString(QString)), this, SIGNAL(addRetweetString(QString)) );
   connect( core, SIGNAL(errorMessage(QString)), this, SLOT(popupError(QString)) );
   connect( core, SIGNAL(resetUi()), this, SLOT(resetStatusEdit()) );
   connect( core, SIGNAL(requestStarted()), this, SLOT(showProgressIcon()) );
@@ -72,9 +73,9 @@ Qtwitter::Qtwitter( QWidget *parent ) :
   connect( mapper, SIGNAL(mapped(int)), settingsDialog, SLOT(saveConfig(int)) );
 }
 
-void Qtwitter::setCurrentModel( TwitterAPI::SocialNetwork network, const QString &login )
+void Qtwitter::setCurrentModel( const QString &serviceUrl, const QString &login )
 {
-  core->setModelData( network, login );
+  core->setModelData( serviceUrl, login );
 }
 
 void Qtwitter::openTwitPic()

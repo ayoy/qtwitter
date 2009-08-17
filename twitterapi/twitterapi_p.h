@@ -27,6 +27,7 @@
 
 class TwitterAPIPrivate : public QObject
 {
+  Q_OBJECT
 public:
 
   ~TwitterAPIPrivate();
@@ -37,13 +38,11 @@ public:
   QByteArray prepareRequest( const QString &data, quint64 inReplyTo );
   QByteArray prepareRequest( const QString &screenName, const QString & );
 
+  void init();
 #ifdef OAUTH
   QByteArray prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,
                                  const QOAuth::ParamMap &params = QOAuth::ParamMap() );
   bool usingOAuth;
-  void init( const QString &serviceUrl, const QString &login, const QString &password, bool usingOAuth );
-#else
-  void init( const QString &serviceUrl, const QString &login, const QString &password );
 #endif
 
   QString login;

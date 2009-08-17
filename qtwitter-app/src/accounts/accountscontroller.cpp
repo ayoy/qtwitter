@@ -63,6 +63,9 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   connect( ui->disclaimerButton, SIGNAL(clicked()), this, SLOT(showPasswordDisclaimer()) );
 
   view->setItemDelegate( new AccountsDelegate( this ) );
+
+  Account::setNetworkName( Account::NetworkUrlTwitter, Account::NetworkTwitter );
+  Account::setNetworkName( Account::NetworkUrlIdentica, Account::NetworkIdentica );
 }
 
 AccountsController::~AccountsController()
@@ -116,7 +119,7 @@ void AccountsController::loadAccounts()
     Account account;
     QString id = QString::number(i);
     account.setEnabled( settings.value( QString( "%1/enabled" ).arg(id), false ).toBool() );
-    account.setServiceUrl( settings.value( QString( "%1/service" ).arg(id), Account::NetworkUrlTwitter ).toString() );
+    account.setServiceUrl( Account::networkUrl( settings.value( QString( "%1/service" ).arg(id), Account::NetworkTwitter ).toString() ) );
     account.setLogin( settings.value( QString( "%1/login" ).arg(id), "" ).toString() );
     account.setDM( settings.value( QString( "%1/directmsgs" ).arg(id), false ).toBool() );
 
