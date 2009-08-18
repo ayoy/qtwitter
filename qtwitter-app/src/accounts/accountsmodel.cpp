@@ -64,7 +64,11 @@ QVariant AccountsModel::data( const QModelIndex &index, int role ) const
       return accounts.at( index.row() ).isEnabled() ? Qt::Checked : Qt::Unchecked;
     break;
   case COL_NETWORK:
-    return Account::networkName( accounts.at( index.row() ).serviceUrl() );
+    if ( role == Qt::EditRole ) {
+      return accounts.at( index.row() ).serviceUrl();
+    } else if ( role == Qt::DisplayRole ) {
+      return Account::networkName( accounts.at( index.row() ).serviceUrl() );
+    }
     break;
   case COL_LOGIN:
     if ( role == Qt::DisplayRole || role == Qt::EditRole ) {

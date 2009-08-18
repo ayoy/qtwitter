@@ -133,7 +133,6 @@ private:
   void checkUnreadStatuses();
   bool authDialogOpen;
   static int m_requestCount;
-  int tempModelCount;
 
   bool waitForAccounts;
   bool settingsOpen;

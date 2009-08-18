@@ -53,6 +53,7 @@ public slots:
   void slotUnauthorized( const QString &status, quint64 inReplyToId );
   void slotUnauthorized( const QString &screenName, const QString &text );
   void slotUnauthorized( quint64 destroyId, Entry::Type type );
+  void slotRequestDone( int role );
 
 protected:
   StatusList *q_ptr;

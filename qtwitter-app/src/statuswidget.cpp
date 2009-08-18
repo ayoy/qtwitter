@@ -268,40 +268,29 @@ void StatusWidget::setStatusData( const Status &status )
   else
     deleteAction->setText( tr( "Delete message" ) );
 
-  if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE ) {
+  if ( statusData->type == Entry::DirectMessage ) {
 
-    if ( statusData->type == Entry::DirectMessage ) {
-
-      m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/reply_16.png" ) );
-      m_ui->favoriteReplyButton->setToolTip( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
-      connect( m_ui->favoriteReplyButton, SIGNAL(clicked()), this, SLOT(slotDM()) );
-
-    } else {
-
-      if ( statusData->favorited ) {
-        m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/star_on_16.png" ) );
-//        if ( currentServiceUrl == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-//          m_ui->favoriteReplyButton->setToolTip( QString() );
-//          favoriteAction->setText( tr( "Remove from Favorites" ) );
-//          favoriteAction->setEnabled( false );
-//        } else {
-          m_ui->favoriteReplyButton->setToolTip( tr( "Remove from Favorites" ) );
-          favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
-          favoriteAction->setEnabled( true );
-//        }
-      } else {
-        m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/star_off_16.png" ) );
-        m_ui->favoriteReplyButton->setToolTip( tr( "Add to Favorites" ) );
-        favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
-        favoriteAction->setEnabled( true );
-      }
-      connect( m_ui->favoriteReplyButton, SIGNAL(clicked()), this, SLOT(slotFavorite()) );
-
-    }
+    m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/reply_16.png" ) );
+    m_ui->favoriteReplyButton->setToolTip( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
+    connect( m_ui->favoriteReplyButton, SIGNAL(clicked()), this, SLOT(slotDM()) );
 
   } else {
-    favoriteAction->setEnabled( false );
+
+    if ( statusData->favorited ) {
+      m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/star_on_16.png" ) );
+      m_ui->favoriteReplyButton->setToolTip( tr( "Remove from Favorites" ) );
+      favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
+      favoriteAction->setEnabled( true );
+    } else {
+      m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/star_off_16.png" ) );
+      m_ui->favoriteReplyButton->setToolTip( tr( "Add to Favorites" ) );
+      favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
+      favoriteAction->setEnabled( true );
+    }
+    connect( m_ui->favoriteReplyButton, SIGNAL(clicked()), this, SLOT(slotFavorite()) );
+
   }
+
 
   //display status's send time
   if( statusData->localTime.date() >= QDateTime::currentDateTime().date()) //today

@@ -222,9 +222,7 @@ void TwitterAPIPrivate::init()
   source = new QXmlInputSource;
   createInterface();
 #ifdef OAUTH
-  if ( usingOAuth ) {
-    qoauth = new QOAuth::Interface( this );
-  }
+  qoauth = new QOAuth::Interface( this );
 #endif
 }
 
@@ -260,6 +258,9 @@ TwitterAPI::TwitterAPI( QObject *parent ) :
   Q_D(TwitterAPI);
 
   d->q_ptr = this;
+#ifdef OAUTH
+  d->usingOAuth = false;
+#endif
   d->init();
 }
 

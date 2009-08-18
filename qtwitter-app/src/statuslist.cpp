@@ -71,6 +71,8 @@ void StatusListPrivate::init()
     twitterapi->setUsingOAuth( true );
     twitterapi->setConsumerKey( OAuthWizard::ConsumerKey );
     twitterapi->setConsumerSecret( OAuthWizard::ConsumerSecret );
+  } else {
+    twitterapi->setUsingOAuth( false );
   }
 #endif
 
@@ -84,6 +86,7 @@ void StatusListPrivate::init()
   connect( twitterapi, SIGNAL(unauthorized()), this, SLOT(slotUnauthorized()) );
   connect( twitterapi, SIGNAL(unauthorized(QString,quint64)), this, SLOT(slotUnauthorized(QString,quint64)) );
   connect( twitterapi, SIGNAL(unauthorized(quint64,Entry::Type)), this, SLOT(slotUnauthorized(quint64,Entry::Type)) );
+  connect( twitterapi, SIGNAL(requestDone(int)), this, SLOT(slotRequestDone(int)) );
 }
 
 void StatusListPrivate::addEntry( Entry entry )
@@ -178,7 +181,22 @@ void StatusListPrivate::slotUnauthorized( quint64 destroyId, Entry::Type type )
   q->requestDestroy( destroyId, type );
 }
 
-
+void StatusListPrivate::slotRequestDone( int role )
+{
+  if ( visible ) {
+    StatusModel::instance()->updateDisplay();
+  }
+  if ( role != TwitterAPI::ROLE_POST_DM && Core::requestCount() > 0 ) {
+    Core::decrementRequestCount();
+  }
+  qDebug() << Core::requestCount();
+//  if ( Core::requestCount() == 0 ) {
+//    if ( checkForNew )
+//      core->checkUnreadStatuses();
+//    emit resetUi();
+//  }
+//  checkForNew = true;
+}
 
 void StatusListPrivate::setImageForUrl( const QString &url, QPixmap *pixmap )
 {

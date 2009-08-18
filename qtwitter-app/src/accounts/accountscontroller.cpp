@@ -200,7 +200,7 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
         settings.setValue( QString("Accounts/%1/enabled").arg( i ), model->index(i,j).data( Qt::CheckStateRole ) != Qt::Unchecked );
         break;
       case AccountsModel::COL_NETWORK:
-        settings.setValue( QString("Accounts/%1/service").arg( i ), model->index(i,j).data( Qt::EditRole ) );
+        settings.setValue( QString("Accounts/%1/service").arg( i ), model->index(i,j).data() );
         break;
       case AccountsModel::COL_LOGIN:
         settings.setValue( QString("Accounts/%1/login").arg( i ), model->index(i,j).data() );

@@ -76,7 +76,7 @@ void StatusModel::populate()
 void StatusModel::updateDisplay()
 {
   // statusList is meant to be the same size as model ( rowCount() ),
-  // but at the beginning we do have the statusList, but it's empty,
+  // at the beginning we do have the statusList, but it's empty,
   // so rowCount() would fail
   if ( statusList ) {
     for ( int i = 0; i <  qMin(maxStatusCount, statusList->size() ); ++i ) {
@@ -98,13 +98,18 @@ void StatusModel::updateDisplay( int ind )
 {
   StatusWidget *widget = static_cast<StatusWidget*>( view->indexWidget( index( ind, 0 ) ) );
   Q_ASSERT(widget);
+  int height = widget->size().height();
   if ( statusList ) {
     widget->setStatusData( statusList->data( ind ) );
     if ( statusList->active() == ind ) {
       currentIndex = index( ind, 0 );
     }
   }
+  int newHeight = widget->size().height();
+  int itemHeight = item( ind )->sizeHint().height();
   item( ind )->setSizeHint( widget->size() );
+  int newItemHeight = item( ind )->sizeHint().height();
+  height = 0;
 }
 
 void StatusModel::updateImage( int ind )
@@ -170,6 +175,7 @@ void StatusModel::setTheme( const ThemeData &theme )
 void StatusModel::setStatusList( StatusList *statusList )
 {
   if ( this->statusList ) {
+    this->statusList->setVisible( false );
     disconnect( this->statusList, SIGNAL(statusAdded(int)), this, SLOT(updateDisplay(int)) );
     disconnect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
     disconnect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );
@@ -179,6 +185,7 @@ void StatusModel::setStatusList( StatusList *statusList )
   }
 
   this->statusList = statusList;
+  this->statusList->setVisible( true );
   connect( this->statusList, SIGNAL(statusAdded(int)), this, SLOT(updateDisplay(int)) );
   connect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
   connect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );

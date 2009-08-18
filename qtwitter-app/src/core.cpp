@@ -55,7 +55,6 @@ int Core::m_requestCount = 0;
 Core::Core( MainWindow *parent ) :
     QObject( parent ),
     authDialogOpen( false ),
-    tempModelCount(0),
     waitForAccounts( false ),
     settingsOpen( false ),
     checkForNew( true ),
@@ -734,7 +733,6 @@ void Core::slotRequestDone( const QString &serviceUrl, const QString &login, int
   }
   qDebug() << m_requestCount;
   if ( m_requestCount == 0 ) {
-    tempModelCount = statusLists.count();
     if ( checkForNew )
       checkUnreadStatuses();
     emit resetUi();
