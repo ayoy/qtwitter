@@ -128,7 +128,8 @@ private slots:
   void addAccount();
 
 private:
-//  void destroyDontAsk( const QString &serviceUrl, const QString &login, quint64 id, Entry::Type type );
+  void storeSession();
+  void restoreSession();
   void setupStatusLists();
   void checkUnreadStatuses();
   bool authDialogOpen;
@@ -137,8 +138,6 @@ private:
   bool waitForAccounts;
   bool settingsOpen;
   bool checkForNew;
-
-//  TwitterAPIInterface *twitterapi;
 
   TwitPicEngine *twitpicUpload;
   UrlShortener *urlShortener;
