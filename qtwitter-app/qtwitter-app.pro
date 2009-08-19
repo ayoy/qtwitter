@@ -75,7 +75,8 @@ TRANSLATIONS += loc/qtwitter_ca_ES.ts \
     loc/qtwitter_it_IT.ts \
     loc/qtwitter_fr_FR.ts \
     loc/qtwitter_pl_PL.ts \
-    loc/qtwitter_pt_BR.ts
+    loc/qtwitter_pt_BR.ts \
+    loc/qtwitter_cs_CZ.ts
 UI_DIR = tmp
 MOC_DIR = tmp
 RCC_DIR = tmp
