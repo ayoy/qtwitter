@@ -55,13 +55,18 @@ StatusEdit::StatusEdit( QWidget * parent ) :
   QLineEdit( parent ),
   statusClean( true ),
   inReplyToId( 0 )
-  {}
+{
+  inactiveColor = palette().color( QPalette::Disabled, QPalette::Text );
+  activeColor = palette().color( QPalette::Active, QPalette::Text );
+}
 
 void StatusEdit::focusInEvent( QFocusEvent *event )
 {
   if ( statusClean ) {
     setText( "" );
-    setStyleSheet( "color: black" );
+    QPalette palette = this->palette();
+    palette.setColor( QPalette::Text, activeColor );
+    setPalette( palette );
     statusClean = false;
   }
   QLineEdit::focusInEvent( event );
@@ -78,7 +83,9 @@ void StatusEdit::focusOutEvent( QFocusEvent *event )
 void StatusEdit::initialize()
 {
   setText( tr( "What are you doing?" ) );
-  setStyleSheet( "color: gray" );
+  QPalette palette = this->palette();
+  palette.setColor( QPalette::Text, inactiveColor );
+  setPalette( palette );
   inReplyToId = 0;
   statusClean = true;
 }
@@ -108,7 +115,9 @@ void StatusEdit::addReplyString( const QString &name, quint64 inReplyTo )
 {
   if ( statusClean ) {
     setText( "@" + name + " ");
-    setStyleSheet( "color: black" );
+    QPalette palette = this->palette();
+    palette.setColor( QPalette::Text, activeColor );
+    setPalette( palette );
     statusClean = false;
   } else {
     insert( "@" + name + " ");
@@ -122,7 +131,9 @@ void StatusEdit::addReplyString( const QString &name, quint64 inReplyTo )
 void StatusEdit::addRetweetString( QString message )
 {
   setText( message );
-  setStyleSheet( "color: black" );
+  QPalette palette = this->palette();
+  palette.setColor( QPalette::Text, activeColor );
+  setPalette( palette );
   statusClean = false;
   setFocus();
   emit textChanged( text() );

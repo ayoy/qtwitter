@@ -23,6 +23,7 @@
 #define STATUSEDIT_H
 
 #include <QLineEdit>
+#include <QColor>
 
 class QEvent;
 class QFocusEvent;
@@ -74,6 +75,8 @@ private:
   bool statusClean;
   quint64 inReplyToId;
   QString selectedUrl;
+  QColor inactiveColor;
+  QColor activeColor;
 
 };
 
