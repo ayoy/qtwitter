@@ -53,6 +53,9 @@ void UrlShortener::shorten( const QString &url, UrlShortener::Shortener shorteni
   case UrlShortener::SHORTENER_TINYURL:
     shortenerInstance = new TinyurlShortener( this );
     break;
+  case UrlShortener::SHORTENER_BOOOOM:
+    shortenerInstance = new BoooomShortener( this );
+    break;
   case UrlShortener::SHORTENER_TINYARROWS:
     shortenerInstance = new TinyarrowsShortener( this );
     break;
@@ -117,6 +120,10 @@ void UrlShortener::shorten( const QString &url, UrlShortener::Shortener shorteni
 
 /*! \class IsgdShortener
     \brief This class is responsible for interacting with http://is.gd
+ */
+
+/*! \class BoooomShortener
+    \brief This class is responsible for interacting with http://b.oooom.net
  */
 
 /*! \class TrimShortener

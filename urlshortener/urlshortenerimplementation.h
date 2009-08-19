@@ -99,6 +99,17 @@ protected slots:
   virtual void replyFinished( QNetworkReply* );
 };
 
+class BoooomShortener : public UrlShortenerImplementation
+{
+  Q_OBJECT
+
+public:
+  BoooomShortener( QObject *parent = 0 );
+  UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_BOOOOM; }
+  void shorten( const QString &url );
+protected slots:
+  virtual void replyFinished( QNetworkReply* );
+};
 
 class TinyarrowsShortener : public UrlShortenerImplementation
 {

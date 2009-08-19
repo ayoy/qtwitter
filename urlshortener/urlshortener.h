@@ -43,7 +43,8 @@ public:
     SHORTENER_UNU,
     SHORTENER_BITLY,
     SHORTENER_DIGG,
-    SHORTENER_MIGREME
+    SHORTENER_MIGREME,
+    SHORTENER_BOOOOM
   };
 
   UrlShortener( QObject *parent = 0 );

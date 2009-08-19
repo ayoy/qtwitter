@@ -410,6 +410,7 @@ void Settings::switchLanguage( int index )
 void Settings::createUrlShortenerMenu()
 {
   ui.urlShortenerCombo->addItem( "bit.ly", UrlShortener::SHORTENER_BITLY );
+  ui.urlShortenerCombo->addItem( "Boooom!", UrlShortener::SHORTENER_BOOOOM );
   ui.urlShortenerCombo->addItem( "Digg", UrlShortener::SHORTENER_DIGG );
   ui.urlShortenerCombo->addItem( "is.gd", UrlShortener::SHORTENER_ISGD );
   ui.urlShortenerCombo->addItem( "MetaMark", UrlShortener::SHORTENER_METAMARK );

@@ -164,6 +164,43 @@ void TinyurlShortener::replyFinished( QNetworkReply *reply )
   }
 }
 
+BoooomShortener::BoooomShortener( QObject *parent ) : UrlShortenerImplementation( parent ) {}
+void BoooomShortener::shorten( const QString &url )
+{
+  QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
+  if( QRegExp( "http://b.oooom.net/" ).indexIn( newUrl ) == -1 ) {
+    connection->get( QNetworkRequest( QUrl( "http://b.oooom.net/shrink.php/" + newUrl ) ) );
+  }
+}
+
+void BoooomShortener::replyFinished( QNetworkReply *reply )
+{
+  QString response = QString::fromUtf8( reply->readAll() );
+  switch( replyStatus( reply ) ) {
+      case 200:
+      {
+          QString boom = "http://b.oooom.net/";
+          QString search = "<!--API--><a href=\"http://b.oooom.net/";
+          int j = response.indexOf(search);
+          if(j >= 0) {
+              for( int pos = j + search.length(); response[pos] != QChar('"'); pos++ )
+              {
+                  boom.append(response[pos]);
+              }
+              emit shortened( boom );
+          }
+          else if ( j == -1 ) {
+              qDebug() << "Got a bad response from b.oooom.net or something.";
+              qDebug() << response;
+              emit errorMessage( tr( "An error occured with b.oooom.net. Please file a bug.") );
+          }
+          break;
+      }
+      default:
+          emit errorMessage( tr( "An unknown error occured when shortening your URL." ) );
+  }
+}
+
 
 TinyarrowsShortener::TinyarrowsShortener( QObject *parent ) : UrlShortenerImplementation( parent ) {}
 
