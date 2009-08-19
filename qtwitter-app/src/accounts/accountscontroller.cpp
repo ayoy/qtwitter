@@ -114,7 +114,7 @@ void AccountsController::loadAccounts()
 
   QList<Account> modelAccounts = model->getAccounts();
   QList<Account> settingsAccounts;
-  QList<QString> passwords;
+//  QList<QString> passwords;
   for ( int i = 0; i < accountsCount; i++ ) {
     Account account;
     QString id = QString::number(i);
@@ -123,44 +123,23 @@ void AccountsController::loadAccounts()
     account.setLogin( settings.value( QString( "%1/login" ).arg(id), "" ).toString() );
     account.setDM( settings.value( QString( "%1/directmsgs" ).arg(id), false ).toBool() );
 
-    settingsAccounts << account;
     account.setPassword( settings.pwHash( settings.value( QString( "%1/password" ).arg(id), "" ).toString() ) );
-    passwords << account.password();
+    settingsAccounts << account;
+//    passwords << account.password();
   }
+  settings.endGroup(); //Accounts
 
   for( int i = 0; i < modelAccounts.size(); ++i ) {
     Account &modelAccount = modelAccounts[i];
     if ( !settingsAccounts.contains( modelAccount ) ) {
       modelAccounts.removeAll( modelAccount );
-    } else {
-      if ( ui->passwordsCheckBox->isChecked()
-#ifdef OAUTH
-        || ( !ui->passwordsCheckBox->isChecked() &&
-             modelAccount.serviceUrl() == Account::NetworkUrlTwitter )
-#endif
-        ) {
-        int modelAccountIndex = settingsAccounts.indexOf( modelAccount );
-        modelAccount.setPassword( passwords.at( modelAccountIndex ) );
-        passwords.removeAt( modelAccountIndex );
-        settingsAccounts.removeAt( modelAccountIndex );
-//        qDebug() << __FUNCTION__ << "MODEL" << modelAccount.login << modelAccount.password;
-      }
     }
   }
 
   for( int i = 0; i < settingsAccounts.size(); ++i ) {
     Account &settingsAccount = settingsAccounts[i];
     if ( !modelAccounts.contains( settingsAccount ) ) {
-      if ( ui->passwordsCheckBox->isChecked()
-#ifdef OAUTH
-        || ( !ui->passwordsCheckBox->isChecked() &&
-             settingsAccount.serviceUrl() == Account::NetworkUrlTwitter )
-#endif
-        ) {
-        settingsAccount.setPassword( passwords.at( settingsAccounts.indexOf( settingsAccount ) ) );
-//        qDebug() << __FUNCTION__ << "SETTINGS" << settingsAccount.login << settingsAccount.password;
-        modelAccounts.insert( i, settingsAccount );
-      }
+      modelAccounts.insert( i, settingsAccount );
     } else {
       int j = modelAccounts.indexOf( settingsAccount );
       modelAccounts.move(j, i);
@@ -171,7 +150,6 @@ void AccountsController::loadAccounts()
   qSort( modelAccounts );
 
   model->setAccounts( modelAccounts );
-  settings.endGroup(); //Accounts
 
   updateAccounts( model->index(0,0), model->index( model->rowCount() - 1, model->columnCount() - 1 ) );
 
@@ -223,6 +201,7 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
       }
     }
   }
+  settings.sync();
   modified = true;
 }
 

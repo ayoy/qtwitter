@@ -132,6 +132,9 @@ private:
   void restoreSession();
   void setupStatusLists();
   void checkUnreadStatuses();
+
+  Account* findAccount( const Account &account );
+
   bool authDialogOpen;
   static int m_requestCount;
 

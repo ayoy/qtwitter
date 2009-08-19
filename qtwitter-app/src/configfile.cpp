@@ -163,17 +163,18 @@ void ConfigFile::addAccount( int id, const Account &account )
 {
   settings.beginGroup( QString( "Accounts/%1" ).arg( id ) );
   settings.setValue( "enabled", account.isEnabled() );
-  settings.setValue( "service", account.serviceUrl() );
+  settings.setValue( "service", Account::networkName( account.serviceUrl() ) );
   settings.setValue( "login", account.login() );
   settings.setValue( "password", pwHash( account.password() ) );
   settings.setValue( "directmsgs", account.dm() );
   settings.endGroup();
+  sync();
 }
 
 void ConfigFile::deleteAccount( int id, int rowCount )
 {
-  beginGroup( "Accounts" );
   if ( id < rowCount ) {
+    beginGroup( "Accounts" );
     for (int i = id; i < rowCount - 1; i++ ) {
       setValue( QString( "%1/enabled" ).arg(i), value( QString( "%1/enabled" ).arg(i+1) ) );
       setValue( QString( "%1/service" ).arg(i), value( QString( "%1/service" ).arg(i+1) ) );
@@ -181,9 +182,10 @@ void ConfigFile::deleteAccount( int id, int rowCount )
       setValue( QString( "%1/password" ).arg(i), value( QString( "%1/password" ).arg(i+1) ) );
       setValue( QString( "%1/directmsgs" ).arg(i), value( QString( "%1/directmsgs" ).arg(i+1) ) );
     }
+    remove( QString::number( rowCount - 1) );
+    endGroup();
+    sync();
   }
-  remove( QString::number( rowCount - 1) );
-  endGroup();
 }
 
 int ConfigFile::accountsCount() const
@@ -236,6 +238,7 @@ void ConfigFile::convertSettingsToZeroSix()
   remove( "General/password" );
   remove( "General/directMessages" );
   remove( "General/timeline" );
+  sync();
 }
 
 void ConfigFile::convertSettingsToZeroSeven()
@@ -265,4 +268,5 @@ void ConfigFile::convertSettingsToZeroSeven()
   setValue( "Accounts/visibleAccount", value( "TwitterAccounts/currentModel" ).toInt() );
   setValue( "Appearance/color scheme", value( "Appearance/color scheme").toInt() - 1 );
   remove( "TwitterAccounts/currentModel" );
+  sync();
 }

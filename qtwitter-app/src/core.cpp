@@ -123,15 +123,15 @@ void Core::storeSession()
   bool ok = file.open(QIODevice::WriteOnly);
   if (ok) {
     QDataStream out(&file);
-    QList<Account*> list = statusLists.keys();
-    out << list.size();
-    foreach ( Account *account, list ) {
+    QList<Account*> accountsList = statusLists.keys();
+    StatusList *list = 0;
+    out << accountsList.size();
+    foreach ( Account *account, accountsList ) {
       out << *account;
-    }
-    foreach ( StatusList *statusList, statusLists.values() ) {
-      out << (qint8) statusList->isVisible();
-      out << (qint8) statusList->active();
-      out << statusList->getData();
+      list = statusLists.value( account );
+      out << (qint8) list->isVisible();
+      out << (qint8) list->active();
+      out << list->getData();
     }
     file.close();
   }
@@ -154,30 +154,41 @@ void Core::restoreSession()
 //      qDebug() << __FUNCTION__ << "Accounts count:" << count;
 
       QList<Account> accountsList;
+      StatusList* statusList = 0;
 
       for( int i = 0; i < count; ++i ) {
         Account *account = new Account;
         in >> *account;
         accountsList << *account;
-        statusLists.insert( account, new StatusList( account, this ) );
+        statusList = new StatusList( account, this );
+        qint8 visible;
+        qint8 active;
+        QList<Status> list;
+        in >> visible;
+        in >> active;
+        in >> list;
+        statusList->setVisible( (bool) visible );
+        statusList->setActive( active );
+        statusList->setStatuses( list );
+        statusLists.insert( account, statusList );
       }
 
 //      qDebug() << "Stream status:" << in.status();
-      if ( in.status() == QDataStream::Ok ) {
-        accountsModel->setAccounts( accountsList );
-
-        foreach( StatusList *statusList, statusLists.values() ) {
-          qint8 visible;
-          qint8 active;
-          QList<Status> list;
-          in >> visible;
-          in >> active;
-          in >> list;
-          statusList->setStatuses( list );
-          statusList->setVisible( (bool) visible );
-          statusList->setActive( active );
-        }
-      }
+//      if ( in.status() == QDataStream::Ok ) {
+//        accountsModel->setAccounts( accountsList );
+//
+//        foreach( StatusList *statusList, statusLists.values() ) {
+//          qint8 visible;
+//          qint8 active;
+//          QList<Status> list;
+//          in >> visible;
+//          in >> active;
+//          in >> list;
+//          statusList->setStatuses( list );
+//          statusList->setVisible( (bool) visible );
+//          statusList->setActive( active );
+//        }
+//      }
 //      qDebug() << "Stream status:" << in.status();
     }
   }
@@ -389,14 +400,30 @@ void Core::get()
   }
 }
 
+Account* Core::findAccount( const Account &account )
+{
+  Account *ret = 0;
+
+  foreach ( Account *a, statusLists.keys() ) {
+    if ( *a == account ) {
+      ret = a;
+      break;
+    }
+  }
+  return ret;
+}
+
 void Core::post( const QString &serviceUrl, const QString &login, const QString &status, quint64 inReplyTo )
 {
-  Account *account = accountsModel->account( serviceUrl, login );
-  if ( account ) {
-    StatusList *statusList = statusLists.value( account );
-    if ( statusList ) {
-      statusList->requestNewStatus( status, inReplyTo );
-      emit newRequest();
+  Account *a = accountsModel->account( serviceUrl, login );
+  if ( a ) {
+    Account *account = findAccount( *a );
+    if ( account ) {
+      StatusList *statusList = statusLists.value( account );
+      if ( statusList ) {
+        statusList->requestNewStatus( status, inReplyTo );
+        emit newRequest();
+      }
     }
   }
   emit requestStarted();
@@ -406,26 +433,29 @@ void Core::post( const QString &serviceUrl, const QString &login, const QString 
 
 void Core::destroy( const QString &serviceUrl, const QString &login, quint64 id, Entry::Type type )
 {
-  Account *account = accountsModel->account( serviceUrl, login );
-  if ( account ) {
-    StatusList *statusList = statusLists.value( account );
-    if ( statusList ) {
-      if ( settings.value( "General/confirmTweetDeletion", true ).toBool() ) {
-        QMessageBox *confirm = new QMessageBox( QMessageBox::Warning,
-                                                //: Are you sure to delete your message
-                                                tr( "Are you sure?" ),
-                                                tr( "Are you sure to delete this status?" ),
-                                                QMessageBox::Yes | QMessageBox::Cancel,
-                                                parentMainWindow );
-        int result = confirm->exec();
-        delete confirm;
-        if ( result == QMessageBox::Cancel )
-          return;
+  Account *a = accountsModel->account( serviceUrl, login );
+  if ( a ) {
+    Account *account = findAccount( *a );
+    if ( account ) {
+      StatusList *statusList = statusLists.value( account );
+      if ( statusList ) {
+        if ( settings.value( "General/confirmTweetDeletion", true ).toBool() ) {
+          QMessageBox *confirm = new QMessageBox( QMessageBox::Warning,
+                                                  //: Are you sure to delete your message
+                                                  tr( "Are you sure?" ),
+                                                  tr( "Are you sure to delete this status?" ),
+                                                  QMessageBox::Yes | QMessageBox::Cancel,
+                                                  parentMainWindow );
+          int result = confirm->exec();
+          delete confirm;
+          if ( result == QMessageBox::Cancel )
+            return;
+        }
+        statusList->requestDestroy( id, type );
+        emit newRequest();
+        emit requestStarted();
+        checkForNew = false;
       }
-      statusList->requestDestroy( id, type );
-      emit newRequest();
-      emit requestStarted();
-      checkForNew = false;
     }
   }
 }
@@ -444,18 +474,21 @@ void Core::destroy( const QString &serviceUrl, const QString &login, quint64 id,
 
 void Core::favoriteRequest( const QString &serviceUrl, const QString &login, quint64 id, bool favorited )
 {
-  Account *account = accountsModel->account( serviceUrl, login );
-  if ( account ) {
-    StatusList *statusList = statusLists.value( account );
-    if ( statusList ) {
-      if ( favorited ) {
-        statusList->requestCreateFavorite( id );
-      } else {
-        statusList->requestDestroyFavorite( id );
+  Account *a = accountsModel->account( serviceUrl, login );
+  if ( a ) {
+    Account *account = findAccount( *a );
+    if ( account ) {
+      StatusList *statusList = statusLists.value( account );
+      if ( statusList ) {
+        if ( favorited ) {
+          statusList->requestCreateFavorite( id );
+        } else {
+          statusList->requestDestroyFavorite( id );
+        }
+        checkForNew = false;
+        emit newRequest();
+        emit requestStarted();
       }
-      checkForNew = false;
-      emit newRequest();
-      emit requestStarted();
     }
   }
 }

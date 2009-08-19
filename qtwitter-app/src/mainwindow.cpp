@@ -289,7 +289,8 @@ void MainWindow::sendStatus()
     messageBox->deleteLater();
   }
   resetUiWhenFinished = true;
-  emit post( Account::fromString( ui.accountsComboBox->currentText() ).first, Account::fromString( ui.accountsComboBox->currentText() ).second, ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
+  emit post( Account::networkUrl( Account::fromString( ui.accountsComboBox->currentText() ).first ),
+             Account::fromString( ui.accountsComboBox->currentText() ).second, ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
   showProgressIcon();
 }
 

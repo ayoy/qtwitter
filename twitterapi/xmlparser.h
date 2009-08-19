@@ -22,6 +22,7 @@
 #ifndef XMLPARSER_H
 #define XMLPARSER_H
 
+#include <QObject>
 #include <QXmlDefaultHandler>
 #include <QSet>
 #include "twitterapi.h"
@@ -30,11 +31,18 @@
 class XmlParser : public QObject, public QXmlDefaultHandler
 {
   Q_OBJECT
+  Q_PROPERTY( QString login READ login WRITE setLogin );
+  Q_PROPERTY( QString serviceUrl READ serviceUrl WRITE setServiceUrl );
 
 public:
 
   XmlParser( const QString &serviceUrl, const QString &login, QObject *parent = 0 );
   XmlParser( const QString &serviceUrl, const QString &login, Entry::Type entryType = Entry::Status, QObject *parent = 0 );
+
+  QString login() const;
+  void setLogin( const QString &login );
+  QString serviceUrl() const;
+  void setServiceUrl( const QString &serviceUrl );
 
   virtual bool startDocument();
   virtual bool endDocument();
@@ -58,8 +66,8 @@ protected:
   void parseUserInfo(const QString &ch);
   static inline int getTimeShift();
 
-  QString serviceUrl;
-  QString login;
+  QString m_serviceUrl;
+  QString m_login;
 
   QString currentTag;
   Entry entry;

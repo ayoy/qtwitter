@@ -63,8 +63,8 @@ XmlParser::XmlParser( const QString &serviceUrl, const QString &login, QObject *
     important( false ),
     parsingUser( false )
 {
-  this->serviceUrl = serviceUrl;
-  this->login = login;
+  m_serviceUrl = serviceUrl;
+  m_login = login;
 }
 
 XmlParser::XmlParser( const QString &serviceUrl, const QString &login, Entry::Type entryType, QObject *parent) :
@@ -75,8 +75,28 @@ XmlParser::XmlParser( const QString &serviceUrl, const QString &login, Entry::Ty
     important( false ),
     parsingUser( false )
 {
-  this->serviceUrl = serviceUrl;
-  this->login = login;
+  m_serviceUrl = serviceUrl;
+  m_login = login;
+}
+
+QString XmlParser::login() const
+{
+  return m_login;
+}
+
+void XmlParser::setLogin( const QString &login )
+{
+  m_login = login;
+}
+
+QString XmlParser::serviceUrl() const
+{
+  return m_serviceUrl;
+}
+
+void XmlParser::setServiceUrl( const QString &serviceUrl )
+{
+  m_serviceUrl = serviceUrl;
 }
 
 bool XmlParser::startDocument()
@@ -169,7 +189,7 @@ void XmlParser::parseUserInfo(const QString &ch)
     entry.userInfo.name = ch;
   } else if ( currentTag == TAG_USER_SCREENNAME && entry.userInfo.screenName.isNull() ) {
     entry.userInfo.screenName = ch;
-    if ( entry.userInfo.screenName == login )
+    if ( entry.userInfo.screenName == m_login )
       entry.isOwn = true;
   } else if ( currentTag == TAG_USER_HOMEPAGE ) {
     if ( !ch.trimmed().isEmpty() ) {
@@ -249,7 +269,7 @@ int XmlParser::calculateTimeShift()
 QString XmlParser::textToHtml( QString newText )
 {
   // URL_IDENTICA = http://identi.ca/api
-  QString networkUrl = serviceUrl.replace( QRegExp( "/api$" ), "" );
+  QString networkUrl = m_serviceUrl.replace( QRegExp( "/api$" ), "" );
   QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
   newText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
   newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([\\w\\d]+)" ), QString( "\\1<a href=%1/\\2>@\\2</a>").arg( networkUrl ) );
@@ -258,8 +278,8 @@ QString XmlParser::textToHtml( QString newText )
   newText.replace( ahref, "\\1>" );
   QRegExp mailto( "([a-z0-9\\._%-]+@[a-z0-9\\.-]+\\.[a-z]{2,4})", Qt::CaseInsensitive );
   newText.replace( mailto, "<a href='mailto:\\1'>\\1</a>" );
-  QRegExp tag( "#([\\w\\d]+)( ?)", Qt::CaseInsensitive );
-  newText.replace( tag, serviceUrl == TwitterAPI::URL_TWITTER ?
+  QRegExp tag( "#([\\w\\d-]+)( ?)", Qt::CaseInsensitive );
+  newText.replace( tag, m_serviceUrl == TwitterAPI::URL_TWITTER ?
                    "<a href='http://search.twitter.com/search?q=\\1'>#\\1</a>\\2" :
                    "<a href='http://identi.ca/tag/\\1'>#\\1</a>\\2" );
   return newText;

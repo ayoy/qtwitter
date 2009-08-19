@@ -278,6 +278,7 @@ TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
   d->login = login;
   d->password = password;
   d->usingOAuth = usingOAuth;
+  d->init();
 }
 #else
 TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
@@ -292,6 +293,7 @@ TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
   d->serviceUrl = serviceUrl;
   d->login = login;
   d->password = password;
+  d->init();
 }
 #endif
 
@@ -315,6 +317,8 @@ void TwitterAPI::setLogin( const QString & login )
   Q_D(TwitterAPI);
 
   d->login = login;
+  d->interface->statusParser->setLogin( login );
+  d->interface->directMsgParser->setLogin( login );
 }
 
 QString TwitterAPI::password() const
@@ -343,6 +347,8 @@ void TwitterAPI::setServiceUrl( const QString &serviceUrl )
   Q_D(TwitterAPI);
 
   d->serviceUrl = serviceUrl;
+  d->interface->statusParser->setServiceUrl( serviceUrl );
+  d->interface->directMsgParser->setServiceUrl( serviceUrl );
 }
 
 #ifdef OAUTH
