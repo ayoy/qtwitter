@@ -82,7 +82,6 @@ signals:
   void retweet( QString message );
   void destroy( const QString &serviceUrl, const QString &login, quint64 id, Entry::Type type );
   void favorite( const QString &serviceUrl, const QString &login, quint64 id, bool favorited );
-  void postDM( const QString &serviceUrl, const QString &login, const QString &screenName );
   void openBrowser( QUrl address );
   void reply( const QString &name, quint64 inReplyTo );
   void markEverythingAsRead();

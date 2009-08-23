@@ -91,15 +91,17 @@ public:
 
   int size() const;
 
+
+public slots:
   void requestFriendsTimeline();
   void requestDirectMessages();
   void requestNewStatus( const QString &status, quint64 inReplyTo = 0 );
   void requestNewDM( const QString &screenName, const QString &text );
+  void postDMDialog( const QString &screenName );
   void requestDestroy( quint64 id, Entry::Type type );
   void requestCreateFavorite( quint64 id );
   void requestDestroyFavorite( quint64 id );
 
-public slots:
   void slotDirectMessagesChanged( bool isEnabled );
 
 signals:

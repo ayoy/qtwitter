@@ -114,7 +114,6 @@ void AccountsController::loadAccounts()
 
   QList<Account> modelAccounts = model->getAccounts();
   QList<Account> settingsAccounts;
-//  QList<QString> passwords;
   for ( int i = 0; i < accountsCount; i++ ) {
     Account account;
     QString id = QString::number(i);

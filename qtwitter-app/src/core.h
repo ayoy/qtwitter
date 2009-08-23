@@ -54,6 +54,20 @@ public:
     STATE_REMOVE_ACCOUNT
   };
 
+  enum CheckingForUnread {
+    CheckForUnread,
+    DontCheckForUnread
+  };
+
+  static Core* instance()
+  {
+    if ( !m_instance ) {
+      qFatal( "Construct Core object first!" );
+    }
+    return m_instance;
+  }
+
+
   Core( MainWindow *parent = 0 );
   virtual ~Core();
 
@@ -67,9 +81,26 @@ public:
 
   void setSettingsOpen( bool open );
   QStringList twitpicLogins() const;
-  static inline void incrementRequestCount() { m_requestCount++; }
-  static inline void decrementRequestCount() { if ( m_requestCount > 0 ) m_requestCount--; }
-  static inline int requestCount() { return m_requestCount; }
+  inline void incrementRequestCount( CheckingForUnread check = CheckForUnread )
+  {
+    if ( m_requestCount == 0 || check == CheckForUnread ) {
+      m_checkForUnread = check;
+    }
+    m_requestCount++;
+  }
+  inline void decrementRequestCount()
+  {
+    if ( m_requestCount > 0 ) {
+      m_requestCount--;
+    }
+    if ( m_requestCount == 0 ) {
+      if ( m_checkForUnread == CheckForUnread )
+        checkUnreadStatuses();
+      emit resetUi();
+      m_checkForUnread = CheckForUnread;
+    }
+  }
+  inline int requestCount() { return m_requestCount; }
 
   bool retryAuthorizing( Account *account, int role );
 
@@ -78,9 +109,6 @@ public slots:
   void get();
   void get( const QString &serviceUrl, const QString &login, const QString &password );
   void post( const QString &serviceUrl, const QString &login, const QString &status, quint64 inReplyTo );
-  void destroy( const QString &serviceUrl, const QString &login, quint64 id, Entry::Type type );
-  void favoriteRequest( const QString &serviceUrl, const QString &login, quint64 id, bool favorited );
-  void postDM( const QString &serviceUrl, const QString &login, const QString &screenName, const QString &text );
 
   void uploadPhoto( const QString &login, QString photoPath, QString status );
   void abortUploadPhoto();
@@ -115,7 +143,6 @@ signals:
 private slots:
   void createAccounts( QWidget *view );
 
-  void postDMDialog( const QString &serviceUrl, const QString &login, const QString &screenName );
   AuthDialogState authDataDialog( Account *account );
 
   void setImageForUrl( const QString& url, QPixmap *image );
@@ -137,10 +164,10 @@ private:
 
   bool authDialogOpen;
   static int m_requestCount;
+  static CheckingForUnread m_checkForUnread;
 
   bool waitForAccounts;
   bool settingsOpen;
-  bool checkForNew;
 
   TwitPicEngine *twitpicUpload;
   UrlShortener *urlShortener;
@@ -152,6 +179,8 @@ private:
 
   QTimer *timer;
   MainWindow *parentMainWindow;
+
+  static Core *m_instance;
 
 #ifdef Q_WS_X11
   QString browserPath;

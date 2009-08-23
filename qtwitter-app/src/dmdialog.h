@@ -35,17 +35,17 @@ class DMDialog : public QDialog {
   Q_DISABLE_COPY(DMDialog)
 
 public:
-  explicit DMDialog( const QString &serviceUrl, const QString &login, const QString &recipient, QWidget *parent = 0);
+  explicit DMDialog( const QString &recipient, QWidget *parent = 0);
   virtual ~DMDialog();
 
 public slots:
-  void showResult( const QString &serviceUrl, const QString &login, TwitterAPI::ErrorCode error );
+  void showResult( TwitterAPI::ErrorCode error );
 
 protected:
   virtual void changeEvent( QEvent *e );
 
 signals:
-  void dmRequest( const QString &serviceUrl, const QString &login, const QString &screenName, const QString &text );
+  void dmRequest( const QString &screenName, const QString &text );
 
 private slots:
   void sendDM();

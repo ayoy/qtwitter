@@ -27,11 +27,9 @@
 #include <QTimer>
 #include <QMovie>
 
-DMDialog::DMDialog( const QString &serviceUrl, const QString &login, const QString &screenName, QWidget *parent) :
+DMDialog::DMDialog( const QString &screenName, QWidget *parent) :
     QDialog(parent),
     progress( new QMovie( ":/icons/progress.gif", "", this ) ),
-    serviceUrl( serviceUrl ),
-    login( login ),
     screenName( screenName ),
     m_ui(new Ui::DMDialog)
 {
@@ -115,7 +113,7 @@ void DMDialog::sendDM()
     messageBox->deleteLater();
   }
 
-  emit dmRequest( serviceUrl, login, screenName, m_ui->messageTextEdit->toPlainText() );
+  emit dmRequest( screenName, m_ui->messageTextEdit->toPlainText() );
 
   progress->start();
   m_ui->sendingLabel->setText( tr( "Sending..." ) );
@@ -128,11 +126,8 @@ void DMDialog::sendDM()
   m_ui->closeButton->setFocus();
 }
 
-void DMDialog::showResult( const QString &serviceUrl, const QString &login, TwitterAPI::ErrorCode error )
+void DMDialog::showResult( TwitterAPI::ErrorCode error )
 {
-  Q_UNUSED(serviceUrl);
-  Q_UNUSED(login);
-
   progress->stop();
   m_ui->progressLabel->hide();
   if ( error == TwitterAPI::ERROR_NO_ERROR ) {

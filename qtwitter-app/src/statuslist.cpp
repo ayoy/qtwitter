@@ -28,6 +28,8 @@
 #include <oauthwizard.h>
 #include "imagedownload.h"
 #include "core.h"
+#include "dmdialog.h"
+#include "qtwitter.h"
 
 QDataStream& operator<<( QDataStream & out, const Status &status )
 {
@@ -80,7 +82,6 @@ void StatusListPrivate::init()
   connect( twitterapi, SIGNAL(deleteEntry(quint64)), this, SLOT(deleteEntry(quint64)) );
   connect( twitterapi, SIGNAL(favoriteStatus(quint64,bool)), this, SLOT(setFavorited(quint64,bool)) );
 
-//  connect( twitterapi, SIGNAL(postDMDone(TwitterAPI::ErrorCode)), this, SIGNAL(confirmDMSent(TwitterAPI::ErrorCode)) );
   connect( twitterapi, SIGNAL(deleteDMDone(quint64,TwitterAPI::ErrorCode)), this, SLOT(deleteEntry(quint64)) );
   connect( twitterapi, SIGNAL(errorMessage(QString)), core, SIGNAL(errorMessage(QString)) );
   connect( twitterapi, SIGNAL(unauthorized()), this, SLOT(slotUnauthorized()) );
@@ -126,7 +127,8 @@ void StatusListPrivate::setFavorited( quint64 id, bool favorited )
 {
   Q_Q(StatusList);
 
-  foreach( Status status, data ) {
+  for ( int i = 0; i < data.size(); i++ ) {
+    Status &status = data[i];
     if ( id == status.entry.id ) {
       int index = data.indexOf( status );
       status.entry.favorited = favorited;
@@ -139,12 +141,14 @@ void StatusListPrivate::slotUnauthorized()
 {
   Q_Q(StatusList);
 
-  Core::decrementRequestCount();
+  bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE );
+  Core::instance()->decrementRequestCount();
   if ( account->dm() ) {
-    Core::decrementRequestCount();
+    Core::instance()->decrementRequestCount();
   }
-  if ( !core->retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE ) )
+  if ( !result ) {
     return;
+  }
   q->requestFriendsTimeline();
   if ( account->dm() ) {
     q->requestDirectMessages();
@@ -155,9 +159,11 @@ void StatusListPrivate::slotUnauthorized( const QString &status, quint64 inReply
 {
   Q_Q(StatusList);
 
-  Core::decrementRequestCount();
-  if ( !core->retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE ) )
+  bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE );
+  Core::instance()->decrementRequestCount();
+  if ( !result ) {
     return;
+  }
   q->requestNewStatus( status, inReplyToId );
 }
 
@@ -165,9 +171,11 @@ void StatusListPrivate::slotUnauthorized( const QString &screenName, const QStri
 {
   Q_Q(StatusList);
 
-  Core::decrementRequestCount();
-  if ( !core->retryAuthorizing( account, TwitterAPI::ROLE_POST_DM ) )
+  bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_POST_DM );
+  Core::instance()->decrementRequestCount();
+  if ( !result ) {
     return;
+  }
   q->requestNewDM( screenName, text );
 }
 
@@ -175,9 +183,11 @@ void StatusListPrivate::slotUnauthorized( quint64 destroyId, Entry::Type type )
 {
   Q_Q(StatusList);
 
-  Core::decrementRequestCount();
-  if ( !core->retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE ) )
+  bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE );
+  Core::instance()->decrementRequestCount();
+  if ( !result ) {
     return;
+  }
   q->requestDestroy( destroyId, type );
 }
 
@@ -186,10 +196,10 @@ void StatusListPrivate::slotRequestDone( int role )
   if ( visible ) {
     StatusModel::instance()->updateDisplay();
   }
-  if ( role != TwitterAPI::ROLE_POST_DM && Core::requestCount() > 0 ) {
-    Core::decrementRequestCount();
+  if ( role != TwitterAPI::ROLE_POST_DM && Core::instance()->requestCount() > 0 ) {
+    Core::instance()->decrementRequestCount();
   }
-  qDebug() << Core::requestCount();
+  qDebug() << Core::instance()->requestCount();
 //  if ( Core::requestCount() == 0 ) {
 //    if ( checkForNew )
 //      core->checkUnreadStatuses();
@@ -380,6 +390,7 @@ void StatusList::requestFriendsTimeline()
   Q_D(StatusList);
 
   d->twitterapi->friendsTimeline( StatusListPrivate::maxCount );
+  Core::instance()->incrementRequestCount();
 }
 
 void StatusList::requestDirectMessages()
@@ -387,6 +398,7 @@ void StatusList::requestDirectMessages()
   Q_D(StatusList);
 
   d->twitterapi->directMessages( StatusListPrivate::maxCount );
+  Core::instance()->incrementRequestCount();
 }
 
 void StatusList::requestNewStatus( const QString &status, quint64 inReplyTo )
@@ -394,6 +406,7 @@ void StatusList::requestNewStatus( const QString &status, quint64 inReplyTo )
   Q_D(StatusList);
 
   d->twitterapi->postUpdate( status, inReplyTo );
+  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
 }
 
 void StatusList::requestNewDM( const QString &screenName, const QString &text )
@@ -401,6 +414,18 @@ void StatusList::requestNewDM( const QString &screenName, const QString &text )
   Q_D(StatusList);
 
   d->twitterapi->postDM( screenName, text );
+  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
+}
+
+void StatusList::postDMDialog( const QString &screenName )
+{
+  Q_D(StatusList);
+  DMDialog *dlg = new DMDialog( screenName, Qtwitter::instance() );
+  connect( dlg, SIGNAL(dmRequest(QString,QString)), this, SLOT(requestNewDM(QString,QString)) );
+  connect( d->twitterapi, SIGNAL(postDMDone(TwitterAPI::ErrorCode)), dlg, SLOT(showResult(TwitterAPI::ErrorCode)) );
+
+  dlg->exec();
+  dlg->deleteLater();
 }
 
 void StatusList::requestDestroy( quint64 id, Entry::Type type )
@@ -412,6 +437,7 @@ void StatusList::requestDestroy( quint64 id, Entry::Type type )
   } else {
     d->twitterapi->deleteDM( id );
   }
+  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
 }
 
 void StatusList::requestCreateFavorite( quint64 id )
@@ -419,6 +445,7 @@ void StatusList::requestCreateFavorite( quint64 id )
   Q_D(StatusList);
 
   d->twitterapi->createFavorite( id );
+  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
 }
 
 void StatusList::requestDestroyFavorite( quint64 id )
@@ -426,6 +453,7 @@ void StatusList::requestDestroyFavorite( quint64 id )
   Q_D(StatusList);
 
   d->twitterapi->destroyFavorite( id );
+  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
 }
 
 
@@ -492,7 +520,6 @@ void StatusList::slotDirectMessagesChanged( bool isEnabled )
   for ( int i = 0; i < d->data.size(); i++ ) {
     if ( d->data.at(i).entry.type == Entry::DirectMessage ) {
       d->data.removeAt(i);
-      // TODO: not sure about it
       i--;
     }
   }

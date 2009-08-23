@@ -837,6 +837,7 @@ void TwitterAPIPrivate::requestFinished( QNetworkReply *reply )
   QVariant dm = request.attribute( TwitterAPIPrivate::ATTR_DM_REQUESTED );
   QVariant del = request.attribute( TwitterAPIPrivate::ATTR_DELETION_REQUESTED );
   switch ( replyCode ) {
+  case 400: // temporary, weird Twitter behavior with deleting statuses
   case 200: // Ok
     if ( role && role != TwitterAPI::ROLE_PUBLIC_TIMELINE )
       interface->authorized = true;

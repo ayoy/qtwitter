@@ -35,10 +35,24 @@
 #include "settings.h"
 #include "account.h"
 
+Qtwitter* Qtwitter::m_instance = 0;
+
+Qtwitter* Qtwitter::instance()
+{
+  if ( !m_instance ) {
+    qFatal( "Construct Qtwitter object before calling Qtwitter::instance()!" );
+  }
+  return m_instance;
+}
+
 Qtwitter::Qtwitter( QWidget *parent ) :
     MainWindow( parent ),
     twitpic(0)
 {
+  if ( m_instance ) {
+    qFatal( "Only one instance of Qtwitter class is allowed!" );
+  }
+
   connect( this, SIGNAL(switchModel(QString,QString)), SLOT(setCurrentModel(QString,QString)) );
   connect( this, SIGNAL(twitPicRequested()), SLOT(openTwitPic()) );
 
@@ -71,6 +85,8 @@ Qtwitter::Qtwitter( QWidget *parent ) :
   mapper->setMapping( qApp, 1 );
   connect( qApp, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(int)), settingsDialog, SLOT(saveConfig(int)) );
+
+  m_instance = this;
 }
 
 void Qtwitter::setCurrentModel( const QString &serviceUrl, const QString &login )

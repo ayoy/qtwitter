@@ -33,6 +33,7 @@ class Qtwitter : public MainWindow
 {
   Q_OBJECT
 public:
+  static Qtwitter* instance();
   Qtwitter( QWidget *parent = 0 );
 
 public slots:
@@ -43,6 +44,8 @@ private:
   Core *core;
   TwitPicView *twitpic;
   Settings *settingsDialog;
+
+  static Qtwitter *m_instance;
 
 };
 

@@ -20,11 +20,16 @@
 
 #include <QPixmap>
 #include <QDebug>
+#include <QMessageBox>
 #include "statuslistview.h"
 #include "statuslist.h"
 #include "statuswidget.h"
 #include "configfile.h"
 #include "statusmodel.h"
+#include "qtwitter.h"
+#include "core.h"
+
+extern ConfigFile settings;
 
 StatusModel* StatusModel::m_instance = 0;
 
@@ -98,18 +103,13 @@ void StatusModel::updateDisplay( int ind )
 {
   StatusWidget *widget = static_cast<StatusWidget*>( view->indexWidget( index( ind, 0 ) ) );
   Q_ASSERT(widget);
-  int height = widget->size().height();
   if ( statusList ) {
     widget->setStatusData( statusList->data( ind ) );
     if ( statusList->active() == ind ) {
       currentIndex = index( ind, 0 );
     }
   }
-  int newHeight = widget->size().height();
-  int itemHeight = item( ind )->sizeHint().height();
   item( ind )->setSizeHint( widget->size() );
-  int newItemHeight = item( ind )->sizeHint().height();
-  height = 0;
 }
 
 void StatusModel::updateImage( int ind )
@@ -254,19 +254,37 @@ void StatusModel::clear()
 void StatusModel::sendDeleteRequest( quint64 id, Entry::Type type )
 {
   qDebug() << "StatusModel::sendDeleteRequest";
-  emit destroy( statusList->serviceUrl(), statusList->login(), id, type );
+  if ( settings.value( "General/confirmTweetDeletion", true ).toBool() ) {
+    QMessageBox *confirm = new QMessageBox( QMessageBox::Warning,
+                                            //: Are you sure to delete your message
+                                            tr( "Are you sure?" ),
+                                            tr( "Are you sure to delete this status?" ),
+                                            QMessageBox::Yes | QMessageBox::Cancel,
+                                            Qtwitter::instance() );
+    int result = confirm->exec();
+    delete confirm;
+    if ( result == QMessageBox::Cancel )
+      return;
+  }
+  statusList->requestDestroy( id, type );
+//  emit requestStarted();
 }
 
 void StatusModel::sendFavoriteRequest( quint64 id, bool favorited )
 {
   qDebug() << "StatusModel::sendFavoriteRequest";
-  emit favorite( statusList->serviceUrl(), statusList->login(), id, favorited );
+  if ( favorited ) {
+    statusList->requestCreateFavorite( id );
+  } else {
+    statusList->requestDestroyFavorite( id );
+  }
+//  emit requestStarted();
 }
 
 void StatusModel::sendDMRequest( const QString &screenName )
 {
   qDebug() << "StatusModel::sendDMRequest";
-  emit postDM( statusList->serviceUrl(), statusList->login(), screenName );
+  statusList->postDMDialog( screenName );
 }
 
 void StatusModel::selectStatus( const QModelIndex &index )
