@@ -149,6 +149,8 @@ void StatusListPrivate::slotUnauthorized()
   if ( !result ) {
     return;
   }
+  twitterapi->setLogin( account->login() );
+  twitterapi->setPassword( account->password() );
   q->requestFriendsTimeline();
   if ( account->dm() ) {
     q->requestDirectMessages();
@@ -164,6 +166,8 @@ void StatusListPrivate::slotUnauthorized( const QString &status, quint64 inReply
   if ( !result ) {
     return;
   }
+  twitterapi->setLogin( account->login() );
+  twitterapi->setPassword( account->password() );
   q->requestNewStatus( status, inReplyToId );
 }
 
@@ -176,6 +180,8 @@ void StatusListPrivate::slotUnauthorized( const QString &screenName, const QStri
   if ( !result ) {
     return;
   }
+  twitterapi->setLogin( account->login() );
+  twitterapi->setPassword( account->password() );
   q->requestNewDM( screenName, text );
 }
 
@@ -188,6 +194,8 @@ void StatusListPrivate::slotUnauthorized( quint64 destroyId, Entry::Type type )
   if ( !result ) {
     return;
   }
+  twitterapi->setLogin( account->login() );
+  twitterapi->setPassword( account->password() );
   q->requestDestroy( destroyId, type );
 }
 

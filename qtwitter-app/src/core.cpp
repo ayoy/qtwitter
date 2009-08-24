@@ -488,23 +488,16 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
       delete dlg;
       return Core::STATE_REMOVE_ACCOUNT;
     }
-//    if ( account->login() != ui.loginEdit->text() ) {
-//      Account newAccount = *account;
-//      newAccount.setLogin( ui.loginEdit->text() );
-//      statusLists[ newAccount ] = statusLists[ *account ];
-//      statusLists[ newAccount ]->setLogin( newAccount.login() );
-//      statusLists.remove( *account );
-//      account->setLogin( ui.loginEdit->text() );
-//      settings.setValue( QString("Accounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login() );
-//      emit accountsUpdated( accountsModel->getAccounts() );
-//    }
     account->setLogin( ui.loginEdit->text() );
     account->setPassword( ui.passwordEdit->text() );
+    accountsModel->account( row ).setLogin( ui.loginEdit->text() );
+    accountsModel->account( row ).setPassword( ui.passwordEdit->text() );
 
-    settings.setValue( QString("Accounts/%1/login").arg( accountsModel->indexOf( *account ) ), account->login() );
+    settings.setValue( QString("Accounts/%1/login").arg( row ), account->login() );
 
-    if ( settings.value( "General/savePasswords", Qt::Unchecked ).toInt() == Qt::Checked )
-      settings.setValue( QString("Accounts/%1/password").arg( accountsModel->indexOf( *account ) ), ConfigFile::pwHash( account->password() ) );
+    if ( settings.value( "General/savePasswords", false ).toBool() )
+      settings.setValue( QString("Accounts/%1/password").arg( row ), ConfigFile::pwHash( account->password() ) );
+    settings.sync();
 
     authDialogOpen = false;
     emit requestStarted();

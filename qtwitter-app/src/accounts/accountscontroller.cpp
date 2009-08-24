@@ -54,7 +54,14 @@ AccountsController::AccountsController( QWidget *widget, QObject *parent ) :
   ui->deleteAccountButton->setIcon(QtIconLoader::icon("list-remove", QIcon(":/icons/cancel_48.png")));
   //< freedesktop experiment end
 
-  ui->passwordsCheckBox->setChecked( settings.value( "General/savePasswords", Qt::Checked ).toInt() );
+  bool savePasswords = true;
+  if ( settings.contains( "General/savePasswords" ) ) {
+    savePasswords = settings.value( "General/savePasswords", true ).toBool();
+  } else {
+    settings.setValue( "General/savePasswords", savePasswords );
+    settings.sync();
+  }
+  ui->passwordsCheckBox->setChecked( savePasswords );
 
   connect( view, SIGNAL(checkBoxClicked(QModelIndex)), this, SLOT(updateCheckBox(QModelIndex)) );
   connect( ui->addAccountButton, SIGNAL(clicked()), this, SLOT(addAccount()));
@@ -238,7 +245,9 @@ void AccountsController::togglePasswordStoring( int state )
         settings.remove( QString( "Accounts/%1/password" ).arg(i) );
     }
   }
-  settings.setValue( "General/savePasswords", state );
+  bool checked = ( state == Qt::Checked ) ? true : false;
+  settings.setValue( "General/savePasswords", checked );
+  settings.sync();
 }
 
 void AccountsController::showPasswordDisclaimer()

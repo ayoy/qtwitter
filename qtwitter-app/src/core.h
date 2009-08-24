@@ -85,6 +85,7 @@ public:
   {
     if ( m_requestCount == 0 || check == CheckForUnread ) {
       m_checkForUnread = check;
+      emit requestStarted();
     }
     m_requestCount++;
   }

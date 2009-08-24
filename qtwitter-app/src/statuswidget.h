@@ -26,7 +26,6 @@
 
 class QMenu;
 class QSignalMapper;
-class StatusModel;
 class Entry;
 class ThemeData;
 class Status;
@@ -42,7 +41,7 @@ class StatusWidget : public QWidget
 
 public:
 
-  explicit StatusWidget( StatusModel *parentModel, QWidget *parent = 0 );
+  explicit StatusWidget( QWidget *parent = 0 );
   virtual ~StatusWidget();
 
   const Entry& data() const;
@@ -122,7 +121,6 @@ private:
   static StatusWidget *activeStatus;
 
   QSignalMapper *signalMapper;
-  StatusModel *statusListModel;
   Ui::StatusWidget *m_ui;
 };
 

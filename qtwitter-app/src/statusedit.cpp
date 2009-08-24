@@ -88,7 +88,7 @@ bool StatusEdit::isStatusClean() const
   return statusClean;
 }
 
-int StatusEdit::getInReplyTo() const
+quint64 StatusEdit::getInReplyTo() const
 {
   return inReplyToId;
 }

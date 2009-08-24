@@ -67,7 +67,7 @@ void StatusModel::populate()
 {
   if ( rowCount() < maxStatusCount ) {
     for ( int i = rowCount(); i < maxStatusCount; ++i ) {
-      StatusWidget *widget = new StatusWidget( this );
+      StatusWidget *widget = new StatusWidget;
       QStandardItem *newItem = new QStandardItem;
       newItem->setSizeHint( widget->size() );
       appendRow( newItem );
@@ -193,6 +193,9 @@ void StatusModel::setStatusList( StatusList *statusList )
   connect( this->statusList, SIGNAL(favoriteChanged(int)), this, SLOT(updateDisplay(int)) );
   connect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
 
+  StatusWidget::setCurrentLogin( this->statusList->login() );
+  StatusWidget::setCurrentServiceUrl( this->statusList->serviceUrl() );
+
   // for cleaning up the list when switching to public timeline that could have
   // less statuses than requested maximum
   StatusWidget *widget;
@@ -216,12 +219,10 @@ void StatusModel::setStatusList( StatusList *statusList )
     view->scrollTo( currentIndex );
   }
 
-  StatusWidget::setCurrentLogin( this->statusList->login() );
-  StatusWidget::setCurrentServiceUrl( this->statusList->serviceUrl() );
   updateDisplay();
 }
 
-StatusList * StatusModel::getStatusList() const
+StatusList* StatusModel::getStatusList() const
 {
   return statusList;
 }
