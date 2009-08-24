@@ -125,7 +125,7 @@ void AccountsController::loadAccounts()
     Account account;
     QString id = QString::number(i);
     account.setEnabled( settings.value( QString( "%1/enabled" ).arg(id), false ).toBool() );
-    account.setServiceUrl( Account::networkUrl( settings.value( QString( "%1/service" ).arg(id), Account::NetworkTwitter ).toString() ) );
+    account.setServiceUrl( settings.value( QString( "%1/service" ).arg(id), Account::NetworkUrlTwitter ).toString() );
     account.setLogin( settings.value( QString( "%1/login" ).arg(id), "" ).toString() );
     account.setDM( settings.value( QString( "%1/directmsgs" ).arg(id), false ).toBool() );
 
@@ -184,7 +184,7 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
         settings.setValue( QString("Accounts/%1/enabled").arg( i ), model->index(i,j).data( Qt::CheckStateRole ) != Qt::Unchecked );
         break;
       case AccountsModel::COL_NETWORK:
-        settings.setValue( QString("Accounts/%1/service").arg( i ), model->index(i,j).data() );
+        settings.setValue( QString("Accounts/%1/service").arg( i ), model->index(i,j).data( Qt::EditRole ) );
         break;
       case AccountsModel::COL_LOGIN:
         settings.setValue( QString("Accounts/%1/login").arg( i ), model->index(i,j).data() );

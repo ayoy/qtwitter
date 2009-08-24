@@ -41,6 +41,8 @@ struct AppVersion
   bool operator !=( const AppVersion &other ) const;
   bool operator >( const AppVersion &other ) const;
   bool operator <( const AppVersion &other ) const;
+  bool operator >=( const AppVersion &other ) const;
+  bool operator <=( const AppVersion &other ) const;
 };
 
 class ConfigFile : public QSettings
@@ -63,6 +65,7 @@ public:
 private:
   void convertSettingsToZeroSix();
   void convertSettingsToZeroSeven();
+  void convertSettingsToZeroNine();
 };
 
 #endif // CONFIGFILE_H
