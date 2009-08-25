@@ -26,6 +26,7 @@
 #include "accountsdelegate.h"
 #include "newaccountdialog.h"
 #include <configfile.h>
+#include <qtwitter.h>
 #include <qticonloader.h>
 
 #ifdef OAUTH
@@ -109,6 +110,17 @@ bool AccountsController::isModified() const
 void AccountsController::setModified( bool modified )
 {
   this->modified = modified;
+}
+
+void AccountsController::loadCustomNetworks()
+{
+  settings.beginGroup( "Services" );
+  QList<QString> keys = settings.childKeys();
+  settings.endGroup();
+  foreach( QString key, keys ) {
+    Account::setNetworkName( settings.value( QString("Services/%1").arg(key),
+                                             "other/unknown" ).toString(), key );
+  }
 }
 
 void AccountsController::loadAccounts()
@@ -272,36 +284,24 @@ void AccountsController::addAccount()
 
   int result;
   QString networkName;
+  QString serviceUrl;
   QString login;
   QString password;
 
-  if ( sender() == ui->addAccountButton ) {
-#if QT_VERSION < 0x040500
-    bool ok = false;
-    QString network = QInputDialog::getItem( view, tr( "Add account" ), tr( "Select social network:" ),
-                                             QStringList() << "Twitter" << "Identi.ca", 0, false, &ok );
-    int result = ok ? QDialog::Accepted : QDialog::Rejected;
-#else
-    QInputDialog *dlg = new QInputDialog( view );
-    dlg->setWindowTitle( tr( "Add account" ) );
-    //: Select social network, i.e. Twitter or Identi.ca
-    dlg->setLabelText( tr( "Select social network:" ) );
-    dlg->setComboBoxItems( QStringList( Account::networkNames() ) );
-    dlg->setCancelButtonText( tr( "Cancel" ) );
-    dlg->setOkButtonText( tr( "OK" ) );
-    result = dlg->exec();
-    networkName = dlg->textValue();
-    dlg->deleteLater();
-#endif
-  } else {
-    NewAccountDialog dlg;
-    result = dlg.exec();
-    networkName = dlg.networkName();
-    login = dlg.login();
-    password = dlg.password();
-  }
+  NewAccountDialog *dlg = new NewAccountDialog;
+  result = dlg->exec();
+  networkName = dlg->networkName();
+  serviceUrl = dlg->serviceUrl();
+  login = dlg->login();
+  password = dlg->password();
+  delete dlg;
 
   if ( result == QDialog::Accepted ) {
+
+    if ( networkName != Account::NetworkTwitter &&
+         networkName != Account::NetworkIdentica ) {
+      Account::setNetworkName( serviceUrl, networkName );
+    }
     int index = model->rowCount();
 
 #ifdef OAUTH
@@ -315,7 +315,7 @@ void AccountsController::addAccount()
         account.setServiceUrl( Account::NetworkUrlTwitter );
         account.setLogin( wizard->getScreenName() );
         account.setPassword( wizard->getOAuthKey() );
-        settings.addAccount( index, model->account( index ) );
+        settings.addAccount( index, account );
         view->setCurrentIndex( model->index( index, 0 ) );
         ui->deleteAccountButton->setEnabled( true );
         emit accountDialogClosed( true );
@@ -324,15 +324,14 @@ void AccountsController::addAccount()
       }
       wizard->deleteLater();
 
-    } else if ( networkName == Account::NetworkIdentica ) {
+    } else {
 #endif
       model->insertRow( index );
-      model->account( index ).setServiceUrl( Account::networkUrl( networkName ) );
-      if ( sender() != ui->addAccountButton ) {
-        model->account( index ).setLogin( login );
-        model->account( index ).setPassword( password );
-      }
-      settings.addAccount( index, model->account( index ) );
+      Account &account = model->account( index );
+      account.setServiceUrl( Account::networkUrl( networkName ) );
+      account.setLogin( login );
+      account.setPassword( password );
+      settings.addAccount( index, account );
       view->setCurrentIndex( model->index( index, 0 ) );
       ui->deleteAccountButton->setEnabled( true );
       emit accountDialogClosed( true );

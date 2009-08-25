@@ -20,17 +20,25 @@
 
 #include "newaccountdialog.h"
 #include "ui_newaccountdialog.h"
-#include <twitterapi/twitterapi.h>
+#include <account.h>
+#include <QTimer>
 
 NewAccountDialog::NewAccountDialog( QWidget *parent ) :
     QDialog( parent ),
     m_ui(new Ui::NewAccountDialog)
 {
   m_ui->setupUi( this );
-#ifdef OAUTH
+
+  foreach ( QString network, Account::networkNames() ) {
+    if ( network != Account::NetworkTwitter &&
+         network != Account::NetworkIdentica ) {
+      m_ui->comboBox->addItem( network );
+    }
+  }
+  m_ui->comboBox->addItem( tr( "Other laconi.ca" ) );
+
   connect( m_ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(toggleEdits(int)) );
   toggleEdits( 0 );
-#endif
 }
 
 NewAccountDialog::~NewAccountDialog()
@@ -40,7 +48,30 @@ NewAccountDialog::~NewAccountDialog()
 
 QString NewAccountDialog::networkName() const
 {
-  return m_ui->comboBox->currentText();
+  if ( m_ui->comboBox->currentIndex() <= 1 ) {
+    return m_ui->comboBox->currentText();
+  }
+  return m_ui->nameEdit->text();
+}
+
+QString NewAccountDialog::serviceUrl() const
+{
+  if ( m_ui->comboBox->currentIndex() <= 1 ) {
+    return Account::networkUrl( m_ui->comboBox->currentText() );
+  }
+  QString url = m_ui->urlEdit->text();
+  if ( url.endsWith( '/' ) ) {
+    url.append( "api" );
+  } else {
+    url.append( "/api" );
+  }
+  if ( !url.startsWith( "http://" ) ) {
+    return url.prepend( "http://" );
+  }
+  if ( !url.startsWith( "https://" ) ) {
+    return url.prepend( "https://" );
+  }
+  return url;
 }
 
 QString NewAccountDialog::login() const
@@ -53,16 +84,46 @@ QString NewAccountDialog::password() const
   return m_ui->passwordEdit->text();
 }
 
-#ifdef OAUTH
 void NewAccountDialog::toggleEdits( int index )
 {
-  bool enabled = ( index != TwitterAPI::SOCIALNETWORK_TWITTER );
-  m_ui->loginEdit->setEnabled( enabled );
-  m_ui->loginLabel->setEnabled( enabled );
-  m_ui->passwordEdit->setEnabled( enabled );
-  m_ui->passwordLabel->setEnabled( enabled );
-}
+  bool enabled = true;
+
+  switch ( index ) {
+  case 0: // Twitter
+  case 1: // Identi.ca
+    m_ui->nameEdit->setVisible( false );
+    m_ui->nameLabel->setVisible( false );
+    m_ui->urlEdit->setVisible( false );
+    m_ui->urlLabel->setVisible( false );
+#ifdef OAUTH
+    enabled = ( index != 0 ); // Twitter
 #endif
+    m_ui->loginEdit->setVisible( enabled );
+    m_ui->loginLabel->setVisible( enabled );
+    m_ui->passwordEdit->setVisible( enabled );
+    m_ui->passwordLabel->setVisible( enabled );
+    break;
+  default:
+    if ( index < m_ui->comboBox->count() ) {
+      m_ui->nameEdit->setText( m_ui->comboBox->currentText() );
+      m_ui->urlEdit->setText( Account::networkUrl( m_ui->comboBox->currentText() ) );
+    }
+    m_ui->nameEdit->setVisible( true );
+    m_ui->nameLabel->setVisible( true );
+    m_ui->urlEdit->setVisible( true );
+    m_ui->urlLabel->setVisible( true );
+    m_ui->loginEdit->setVisible( true );
+    m_ui->loginLabel->setVisible( true );
+    m_ui->passwordEdit->setVisible( true );
+    m_ui->passwordLabel->setVisible( true );
+  }
+  QTimer::singleShot(0, this, SLOT(shrink()) );
+}
+
+void NewAccountDialog::shrink()
+{
+  resize( width(), 0 );
+}
 
 void NewAccountDialog::changeEvent(QEvent *e)
 {

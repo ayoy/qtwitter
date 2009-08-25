@@ -249,6 +249,7 @@ void Core::applySettings()
 
   static bool appStartup = true;
   if ( appStartup ) {
+    accounts->loadCustomNetworks();
     accounts->loadAccounts();
     appStartup = false;
   }

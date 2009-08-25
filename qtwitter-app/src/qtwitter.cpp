@@ -40,7 +40,7 @@ Qtwitter* Qtwitter::m_instance = 0;
 Qtwitter* Qtwitter::instance()
 {
   if ( !m_instance ) {
-    qFatal( "Construct Qtwitter object before calling Qtwitter::instance()!" );
+    return 0;
   }
   return m_instance;
 }

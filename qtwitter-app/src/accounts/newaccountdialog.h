@@ -32,6 +32,7 @@ class NewAccountDialog : public QDialog
   Q_OBJECT
 
   Q_PROPERTY( QString networkName READ networkName );
+  Q_PROPERTY( QString serviceUrl READ serviceUrl );
   Q_PROPERTY( QString login READ login );
   Q_PROPERTY( QString password READ password );
 
@@ -40,16 +41,16 @@ public:
   ~NewAccountDialog();
 
   QString networkName() const;
+  QString serviceUrl() const;
   QString login() const;
   QString password() const;
 
 protected:
   void changeEvent(QEvent *e);
 
-#ifdef OAUTH
 private slots:
   void toggleEdits( int index );
-#endif
+  void shrink();
 
 private:
   Ui::NewAccountDialog *m_ui;

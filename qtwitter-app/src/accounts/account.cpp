@@ -20,6 +20,7 @@
 
 #include <QRegExp>
 #include "account.h"
+#include <configfile.h>
 
 const QString Account::NetworkTwitter = "Twitter";
 const QString Account::NetworkIdentica = "Identi.ca";
@@ -27,6 +28,8 @@ const QString Account::NetworkUrlTwitter = "http://twitter.com";
 const QString Account::NetworkUrlIdentica = "http://identi.ca/api";
 
 QHash<QString,QString> Account::networkNamesHash = QHash<QString,QString>();
+
+extern ConfigFile settings;
 
 Account::Account() {}
 
@@ -74,8 +77,28 @@ QString Account::networkName( const QString &serviceUrl )
 
 void Account::setNetworkName( const QString &serviceUrl, const QString &name )
 {
-  if ( !networkNamesHash.contains( serviceUrl ) ) {
-    networkNamesHash.insert( serviceUrl, name );
+  if ( name != NetworkTwitter &&
+       name != NetworkIdentica ) {
+
+    if ( networkNamesHash.keys().contains( name ) ) {
+      networkNamesHash.remove( networkNamesHash.key( name ) );
+    }
+    if ( networkNamesHash.contains( serviceUrl ) ) {
+      settings.remove( QString( "Services/%1" ).arg( networkNamesHash.value( serviceUrl ) ) );
+    }
+    if ( !networkNamesHash.contains( serviceUrl ) ) {
+      networkNamesHash.insert( serviceUrl, name );
+    }
+    settings.setValue( QString( "Services/%1" ).arg( name ), serviceUrl );
+    settings.sync();
+
+  } else {
+    if ( networkNamesHash.keys().contains( name ) ) {
+      networkNamesHash.remove( networkNamesHash.key( name ) );
+    }
+    if ( !networkNamesHash.contains( serviceUrl ) ) {
+      networkNamesHash.insert( serviceUrl, name );
+    }
   }
 }
 
