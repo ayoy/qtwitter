@@ -39,6 +39,7 @@ public:
   static QString networkUrl( const QString &name );
   static QString networkName( const QString &serviceUrl );
   static void setNetworkName( const QString &serviceUrl, const QString &name );
+  static void removeNetwork( const QString &serviceUrl );
   static const QString NetworkTwitter;
   static const QString NetworkIdentica;
   static const QString NetworkUrlTwitter;

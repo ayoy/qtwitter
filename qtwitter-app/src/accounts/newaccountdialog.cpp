@@ -22,10 +22,11 @@
 #include "ui_newaccountdialog.h"
 #include <account.h>
 #include <QTimer>
+#include <QPushButton>
 
 NewAccountDialog::NewAccountDialog( QWidget *parent ) :
     QDialog( parent ),
-    m_ui(new Ui::NewAccountDialog)
+    m_ui( new Ui::NewAccountDialog )
 {
   m_ui->setupUi( this );
 
@@ -37,13 +38,61 @@ NewAccountDialog::NewAccountDialog( QWidget *parent ) :
   }
   m_ui->comboBox->addItem( tr( "Other laconi.ca" ) );
 
-  connect( m_ui->comboBox, SIGNAL(currentIndexChanged(int)), this, SLOT(toggleEdits(int)) );
+
+  connect( m_ui->nameEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
+  connect( m_ui->urlEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
+  connect( m_ui->loginEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
+  connect( m_ui->passwordEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
+  connect( m_ui->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(checkFields()) );
+
+#ifndef OAUTH
+  m_ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( false );
+#endif
+  connect( m_ui->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(toggleEdits(int)) );
   toggleEdits( 0 );
 }
 
 NewAccountDialog::~NewAccountDialog()
 {
   delete m_ui;
+}
+
+void NewAccountDialog::checkFields()
+{
+  QPushButton *okButton = m_ui->buttonBox->button( QDialogButtonBox::Ok );
+  bool enabled = false;
+  switch ( m_ui->comboBox->currentIndex() ) {
+  case 0: // Twitter
+#ifndef OAUTH
+    if ( !m_ui->loginEdit->text().isEmpty() &&
+         !m_ui->passwordEdit->text().isEmpty() ) {
+      enabled = true;
+    } else {
+      enabled = false;
+    }
+#else
+    enabled = true;
+#endif
+    break;
+  case 1: // Identi.ca
+    if ( !m_ui->loginEdit->text().isEmpty() &&
+         !m_ui->passwordEdit->text().isEmpty() ) {
+      enabled = true;
+    } else {
+      enabled = false;
+    }
+    break;
+  default:
+    if ( !m_ui->nameEdit->text().isEmpty() &&
+         !m_ui->urlEdit->text().isEmpty() &&
+         !m_ui->loginEdit->text().isEmpty() &&
+         !m_ui->passwordEdit->text().isEmpty() ) {
+      enabled = true;
+    } else {
+      enabled = false;
+    }
+  }
+  okButton->setEnabled( enabled );
 }
 
 QString NewAccountDialog::networkName() const
@@ -65,11 +114,9 @@ QString NewAccountDialog::serviceUrl() const
   } else {
     url.append( "/api" );
   }
-  if ( !url.startsWith( "http://" ) ) {
+  if ( !url.startsWith( "http://" ) &&
+       !url.startsWith( "https://" ) ) {
     return url.prepend( "http://" );
-  }
-  if ( !url.startsWith( "https://" ) ) {
-    return url.prepend( "https://" );
   }
   return url;
 }
@@ -104,9 +151,13 @@ void NewAccountDialog::toggleEdits( int index )
     m_ui->passwordLabel->setVisible( enabled );
     break;
   default:
-    if ( index < m_ui->comboBox->count() ) {
+    if ( index < m_ui->comboBox->count() - 1 ) {
       m_ui->nameEdit->setText( m_ui->comboBox->currentText() );
-      m_ui->urlEdit->setText( Account::networkUrl( m_ui->comboBox->currentText() ) );
+      m_ui->urlEdit->setText( Account::networkUrl(
+          m_ui->comboBox->currentText() ).remove( QRegExp( "/api$", Qt::CaseInsensitive ) ) );
+    } else if ( index = m_ui->comboBox->count() - 1 ) {
+      m_ui->nameEdit->clear();
+      m_ui->urlEdit->clear();
     }
     m_ui->nameEdit->setVisible( true );
     m_ui->nameLabel->setVisible( true );

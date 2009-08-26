@@ -102,6 +102,15 @@ void Account::setNetworkName( const QString &serviceUrl, const QString &name )
   }
 }
 
+void Account::removeNetwork( const QString &serviceUrl )
+{
+  if ( networkNamesHash.contains( serviceUrl ) ) {
+    networkNamesHash.remove( serviceUrl );
+    settings.remove( QString( "Services/%1" ).arg( networkNamesHash.value( serviceUrl ) ) );
+    settings.sync();
+  }
+}
+
 
 bool Account::isEnabled() const
 {

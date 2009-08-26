@@ -50,6 +50,7 @@ protected:
 
 private slots:
   void toggleEdits( int index );
+  void checkFields();
   void shrink();
 
 private:

@@ -341,6 +341,7 @@ void AccountsController::addAccount()
   } else {
     emit accountDialogClosed( false );
   }
+  modified = true;
 }
 
 void AccountsController::deleteAccount()
@@ -352,12 +353,23 @@ void AccountsController::deleteAccount()
     return;
 
   int row = view->selectionModel()->currentIndex().row();
+  QString networkName = Account::networkName( model->account( row ).serviceUrl() );
   model->removeRow( row );
   settings.deleteAccount( row, model->rowCount() + 1 );
   if ( model->rowCount() <= 0 ) {
     ui->deleteAccountButton->setEnabled( false );
   } else {
     ui->deleteAccountButton->setEnabled( true );
+  }
+  bool exists = false;
+  foreach ( Account account, model->getAccounts() ) {
+    if ( networkName == Account::networkName( account.serviceUrl() ) ) {
+      exists = true;
+      break;
+    }
+  }
+  if ( !exists ) {
+    Account::removeNetwork( Account::networkUrl( networkName ) );
   }
 }
 
@@ -383,6 +395,7 @@ void AccountsController::setAccountDM( bool state )
 
   model->account( view->currentIndex().row() ).setDM( state );
   settings.setValue( QString("Accounts/%1/directmsgs").arg( view->currentIndex().row() ), state );
+  modified = true;
 }
 
 void AccountsController::retranslateUi()
