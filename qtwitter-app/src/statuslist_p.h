@@ -18,47 +18,45 @@
  ***************************************************************************/
 
 
-#ifndef DMDIALOG_H
-#define DMDIALOG_H
+#ifndef STATUSLIST_P_H
+#define STATUSLIST_P_H
 
-#include <QDialog>
-#include <twitterapi/twitterapi.h>
+#include <QObject>
+#include "statuslist.h"
+#include "core.h"
 
-class QMovie;
-
-namespace Ui {
-  class DMDialog;
-}
-
-class DMDialog : public QDialog {
+class StatusListPrivate : public QObject
+{
   Q_OBJECT
-  Q_DISABLE_COPY(DMDialog)
-
+  Q_DECLARE_PUBLIC(StatusList);
 public:
-  explicit DMDialog( const QString &recipient, QWidget *parent = 0);
-  virtual ~DMDialog();
+  StatusListPrivate();
+  ~StatusListPrivate();
+  void init();
+  int addStatus( Entry entry );
+  void setImageForUrl( const QString &url, QPixmap *pixmap );
+
+  TwitterAPI *twitterapi;
+  QList<Status> data;
+  bool visible;
+  Account *account;
+  int active;
+  static int maxCount;
+  static const int publicMaxCount;
+  Core *core;
 
 public slots:
-  void showResult( TwitterAPI::ErrorCode error );
+  void addEntry( Entry entry );
+  void deleteEntry( quint64 id );
+  void setFavorited( quint64 id, bool favorited = true );
+  void slotUnauthorized();
+  void slotUnauthorized( const QString &status, quint64 inReplyToId );
+  void slotUnauthorized( const QString &screenName, const QString &text );
+  void slotUnauthorized( quint64 destroyId, Entry::Type type );
+  void slotRequestDone( int role );
 
 protected:
-  virtual void changeEvent( QEvent *e );
-
-signals:
-  void dmRequest( const QString &screenName, const QString &text );
-
-private slots:
-  void sendDM();
-  void updateCharsLeft();
-  void resetDisplay();
-
-private:
-  int charsLeft();
-  QMovie *progress;
-  QString serviceUrl;
-  QString login;
-  QString screenName;
-  Ui::DMDialog *m_ui;
+  StatusList *q_ptr;
 };
 
-#endif // DMDIALOG_H
+#endif // STATUSLIST_P_H

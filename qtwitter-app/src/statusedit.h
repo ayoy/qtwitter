@@ -57,7 +57,7 @@ public:
   void focusOutEvent( QFocusEvent * event );
   void initialize();
   bool isStatusClean() const;
-  int getInReplyTo() const;
+  quint64 getInReplyTo() const;
   QString getSelectedUrl() const;
   int charsLeft() const;
 

@@ -47,9 +47,11 @@ public:
   bool isModified() const;
   void setModified( bool modified );
 
+  void loadCustomNetworks();
+  void loadAccounts();
+
 public slots:
   void addAccount();
-  void loadAccounts();
   void retranslateUi();
 
 signals:

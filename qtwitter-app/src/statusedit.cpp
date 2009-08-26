@@ -95,7 +95,7 @@ bool StatusEdit::isStatusClean() const
   return statusClean;
 }
 
-int StatusEdit::getInReplyTo() const
+quint64 StatusEdit::getInReplyTo() const
 {
   return inReplyToId;
 }
@@ -160,97 +160,3 @@ int StatusEdit::charsLeft() const
 {
   return isStatusClean() ? STATUS_MAX_LENGTH : STATUS_MAX_LENGTH - text().length();
 }
-
-/*! \class StatusFilter
-    \brief A class for filtering the StatusEdit input.
-
-    This class provides a filter for the StatusEdit class. It performs key press
-    filtering and emits appropriate signals when receives Enter or Esc key presses.
-*/
-
-/*! \fn StatusFilter::StatusFilter( QObject *parent = 0 )
-    Creates an new status filter object with a given \a parent.
-*/
-
-/*! \fn void StatusFilter::enterPressed()
-    Emitted upon receiving an Enter key press event.
-*/
-
-/*! \fn void StatusFilter::escPressed()
-    Emitted upon receiving an Esc key press event.
-*/
-
-/*! \fn bool StatusFilter::eventFilter( QObject *dist, QEvent *event )
-    Event filter method that filters Esc and Enter key presses from all the
-    events received by the filtered object.
-    \param dist A filtered object.
-    \param event A event to be processed.
-    \returns True if the event was processed.
-*/
-
-/*! \class StatusEdit
-    \brief A customized QLineEdit class.
-
-    This class inherits from QLineEdit and reimplements focus events so as to fit
-    to the application requirements.
-*/
-
-/*! \var static const int StatusEdit::STATUS_MAX_LENGTH
-    This value stores maximum length of the posted update.
-*/
-
-/*! \fn StatusEdit::StatusEdit( QWidget * parent = 0 );
-    Creates a new status edit field object, with a given \a parent.
-*/
-
-/*! \fn void StatusEdit::focusInEvent( QFocusEvent * event )
-    Clears the status edit field if it contained "What are you doing?" when entering.
-    \param event A QFocusEvent event's representation.
-    \sa focusOutEvent(), initialize()
-*/
-
-/*! \fn void StatusEdit::focusOutEvent( QFocusEvent * event )
-    Makes the status edit field initialized if it contains an empty
-    string when losing focus.
-    \param event A QFocusEvent event's representation.
-    \sa focusInEvent(), initialize()
-*/
-
-/*! \fn void StatusEdit::initialize()
-  Clears status and sets the status edit field to initial "What are you doing?".
-*/
-
-/*! \fn bool StatusEdit::isStatusClean() const
-    Checks wether the status edit field is initialized.
-    \returns true when the status edit field is initialized, otherwise returns false.
-*/
-
-/*! \fn int StatusEdit::getInReplyTo() const
-    Gets the reply status Id if exists.
-    \returns Id of the status to which a reply is posted. If the status is not a reply, returns -1.
-*/
-
-/*! \fn void StatusEdit::cancelEditing()
-    Initializes status edit field and clears focus.
-*/
-
-/*! \fn void StatusEdit::addReplyString( const QString &name, quint64 inReplyTo )
-    Adds user login in Twitter replying convention (\a \@user).
-    \param name User login to be added to status edit field.
-    \param inReplyTo Id of the existing status to which the reply is posted.
-*/
-
-/*! \fn void StatusEdit::addRetweetString( QString message )
-    Adds a retweet message to status field.
-    \param message Message to be added to status edit field.
-*/
-
-/*! \fn void StatusEdit::errorMessage( const QString &message )
-    Emitted to inform user about encountered problems.
-    \param message Error message.
-*/
-
-/*! \fn int StatusEdit::charsLeft()
-    Counts number of characters left
-    \returns number of characters left
-*/

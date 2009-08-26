@@ -85,8 +85,17 @@ bool AppVersion::operator <( const AppVersion &other ) const
   }
 }
 
+bool AppVersion::operator >=( const AppVersion &other ) const
+{
+  return ( *this == other ) || ( *this > other );
+}
 
-const QString ConfigFile::APP_VERSION = "0.8.3";
+bool AppVersion::operator <=( const AppVersion &other ) const
+{
+  return ( *this == other ) || ( *this < other );
+}
+
+const QString ConfigFile::APP_VERSION = "0.8.9999";
 const QString ConfigFile::FIRST_OAUTH_APP_VERSION = "0.8.0";
 
 
@@ -110,15 +119,25 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
     if ( contains( "FIRSTRUN" ) ) {
       remove( "FIRSTRUN" );
     }
-    if ( AppVersion( value( "General/version", QString() ).toString() ) == AppVersion( "0.6.0" ) ) {
+    QString ver = value( "General/version", QString() ).toString();
+    if ( AppVersion( ver ) == AppVersion( "0.6.0" ) ) {
       convertSettingsToZeroSeven();
+      convertSettingsToZeroNine();
       setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
       setValue( "OAuth", true );
-    } else if ( value( "General/version", QString() ).toString().isNull() ) {
+    } else if ( ver.isNull() ) {
       convertSettingsToZeroSix();
       convertSettingsToZeroSeven();
+      convertSettingsToZeroNine();
       setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
       setValue( "OAuth", true );
+    } else if ( AppVersion( ver ) >= AppVersion( "0.7.0" ) &&
+                AppVersion( ver ) < AppVersion( APP_VERSION ) ) {
+      convertSettingsToZeroNine();
+      if ( !value( "OAuth", false ).toBool() ) {
+        setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
+        setValue( "OAuth", true );
+      }
     } else if ( AppVersion( value( "General/version", QString() ).toString() ) != AppVersion( ConfigFile::APP_VERSION ) ) {
       setValue( "General/version", ConfigFile::APP_VERSION );
       if ( !value( "OAuth", false ).toBool() ) {
@@ -129,6 +148,7 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
   } else {
     setValue( "General/version", ConfigFile::APP_VERSION );
     setValue( "FIRSTRUN", "ever" );
+    setValue( "OAuth", true );
   }
 #else
   setValue( "OAuth", false );
@@ -141,6 +161,8 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
     } else if ( value( "General/version", QString() ).toString().isNull() ) {
       convertSettingsToZeroSix();
       convertSettingsToZeroSeven();
+    } else if ( AppVersion( value( "General/version", QString() ).toString() ) >= AppVersion( "0.7.0" ) ) {
+      convertSettingsToZeroNine();
     } else if ( AppVersion( value( "General/version", QString() ).toString() ) != AppVersion( ConfigFile::APP_VERSION ) ) {
       setValue( "General/version", ConfigFile::APP_VERSION );
     }
@@ -161,19 +183,20 @@ QString ConfigFile::pwHash( const QString &text )
 
 void ConfigFile::addAccount( int id, const Account &account )
 {
-  settings.beginGroup( QString( "Accounts/%1" ).arg( id ) );
-  settings.setValue( "enabled", account.isEnabled );
-  settings.setValue( "service", account.network );
-  settings.setValue( "login", account.login );
-  settings.setValue( "password", pwHash( account.password ) );
-  settings.setValue( "directmsgs", account.directMessages );
-  settings.endGroup();
+  beginGroup( QString( "Accounts/%1" ).arg( id ) );
+  setValue( "enabled", account.isEnabled() );
+  setValue( "service", account.serviceUrl() );
+  setValue( "login", account.login() );
+  setValue( "password", pwHash( account.password() ) );
+  setValue( "directmsgs", account.dm() );
+  endGroup();
+  sync();
 }
 
 void ConfigFile::deleteAccount( int id, int rowCount )
 {
-  beginGroup( "Accounts" );
   if ( id < rowCount ) {
+    beginGroup( "Accounts" );
     for (int i = id; i < rowCount - 1; i++ ) {
       setValue( QString( "%1/enabled" ).arg(i), value( QString( "%1/enabled" ).arg(i+1) ) );
       setValue( QString( "%1/service" ).arg(i), value( QString( "%1/service" ).arg(i+1) ) );
@@ -181,13 +204,13 @@ void ConfigFile::deleteAccount( int id, int rowCount )
       setValue( QString( "%1/password" ).arg(i), value( QString( "%1/password" ).arg(i+1) ) );
       setValue( QString( "%1/directmsgs" ).arg(i), value( QString( "%1/directmsgs" ).arg(i+1) ) );
     }
+    remove( QString::number( rowCount - 1) );
+    endGroup();
+    sync();
   }
-  remove( QString::number( rowCount - 1) );
-  endGroup();
 }
 
-#ifdef OAUTH
-void ConfigFile::removeOldTwitterAccounts()
+int ConfigFile::accountsCount() const
 {
   int count = 0;
 
@@ -198,6 +221,14 @@ void ConfigFile::removeOldTwitterAccounts()
       break;
     }
   }
+
+  return count;
+}
+
+#ifdef OAUTH
+void ConfigFile::removeOldTwitterAccounts()
+{
+  int count = accountsCount();
 
   for( int i = 0; i < count; ++i ) {
     if ( value( QString( "Accounts/%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_IDENTICA ) ==
@@ -229,11 +260,12 @@ void ConfigFile::convertSettingsToZeroSix()
   remove( "General/password" );
   remove( "General/directMessages" );
   remove( "General/timeline" );
+  sync();
 }
 
 void ConfigFile::convertSettingsToZeroSeven()
 {
-  setValue( "General/version", ConfigFile::APP_VERSION );
+  setValue( "General/version", "0.7.0" );
 
   QString id;
   for( int i = 0;; ++i ) {
@@ -258,4 +290,28 @@ void ConfigFile::convertSettingsToZeroSeven()
   setValue( "Accounts/visibleAccount", value( "TwitterAccounts/currentModel" ).toInt() );
   setValue( "Appearance/color scheme", value( "Appearance/color scheme").toInt() - 1 );
   remove( "TwitterAccounts/currentModel" );
+  sync();
+}
+
+void ConfigFile::convertSettingsToZeroNine()
+{
+  setValue( "General/version", ConfigFile::APP_VERSION );
+
+  QString id;
+  for( int i = 0;; ++i ) {
+    id = QString::number(i);
+    if ( contains( QString( "Accounts/%1/service" ).arg(id) ) ) {
+      int network = value( QString( "Accounts/%1/service" ).arg(id), 0 ).toInt();
+      switch ( network ) {
+      case 0:
+        setValue( QString( "Accounts/%1/service" ).arg(id), "http://twitter.com" );
+        break;
+      case 1:
+        setValue( QString( "Accounts/%1/service" ).arg(id), "http://identi.ca/api" );
+        break;
+      }
+    } else
+      break;
+  }
+  sync();
 }

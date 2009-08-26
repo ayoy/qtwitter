@@ -46,6 +46,7 @@ SOURCES += xmlparser.cpp \
 HEADERS += twitterapi_global.h \
     xmlparser.h \
     twitterapi.h \
+    twitterapi_p.h \
     entry.h \
     userinfo.h
 MOC_DIR = tmp

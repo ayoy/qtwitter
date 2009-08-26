@@ -35,6 +35,7 @@
 #include <qticonloader.h>
 #include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
+#include "statusmodel.h"
 #include "statuswidget.h"
 #include "aboutdialog.h"
 #include "account.h"
@@ -57,7 +58,8 @@ MainWindow::MainWindow( QWidget *parent ) :
 
   StatusWidget::setScrollBarWidth( ui.statusListView->verticalScrollBar()->width() );
 
-//  ui.accountsComboBox->setVisible( false );
+  StatusModel::instance()->setParent(this);
+  StatusModel::instance()->connectView( ui.statusListView );
 
   timer = new QTimer( this );
   progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
@@ -215,11 +217,6 @@ void MainWindow::createButtonMenu()
   ui.moreButton->setMenu( buttonMenu );
 }
 
-StatusListView* MainWindow::getListView()
-{
-  return ui.statusListView;
-}
-
 int MainWindow::getScrollBarWidth()
 {
   return ui.statusListView->verticalScrollBar()->size().width();
@@ -230,8 +227,8 @@ void MainWindow::setupAccounts( const QList<Account> &accounts )
   ui.accountsComboBox->clear();
   ui.statusEdit->setEnabled( false );
   foreach ( Account account, accounts ) {
-    if ( account.isEnabled )
-      ui.accountsComboBox->addItem( QString( "%1 @%2" ).arg( account.login, Account::networkToString( account.network ) ) );
+    if ( account.isEnabled() )
+      ui.accountsComboBox->addItem( QString( "%1 @%2" ).arg( account.login(), Account::networkName( account.serviceUrl() ) ) );
   }
 
   if ( ui.accountsComboBox->count() == 0 ) {
@@ -248,16 +245,9 @@ void MainWindow::setupAccounts( const QList<Account> &accounts )
 
     ui.accountsComboBox->setVisible( true );
     ui.statusEdit->setEnabled( true );
-    emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
+    emit switchModel( Account::networkUrl( Account::fromString( ui.accountsComboBox->currentText() ).first ),
                       Account::fromString( ui.accountsComboBox->currentText() ).second );
   }
-}
-
-void MainWindow::setListViewModel( StatusModel *model )
-{
-  if ( !model )
-    return;
-  ui.statusListView->setModel( model );
 }
 
 void MainWindow::changeLabel()
@@ -299,7 +289,8 @@ void MainWindow::sendStatus()
     messageBox->deleteLater();
   }
   resetUiWhenFinished = true;
-  emit post( Account::fromString( ui.accountsComboBox->currentText() ).first, Account::fromString( ui.accountsComboBox->currentText() ).second, ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
+  emit post( Account::networkUrl( Account::fromString( ui.accountsComboBox->currentText() ).first ),
+             Account::fromString( ui.accountsComboBox->currentText() ).second, ui.statusEdit->text(), ui.statusEdit->getInReplyTo() );
   showProgressIcon();
 }
 
@@ -348,7 +339,7 @@ void MainWindow::configSaveCurrentModel( int index, bool unconditionally )
     QRegExp rx( "(.+) @(.+)" );
     if ( rx.indexIn( ui.accountsComboBox->currentText() ) == -1 )
       return;
-    emit switchModel( Account::fromString( ui.accountsComboBox->currentText() ).first,
+    emit switchModel( Account::networkUrl( Account::fromString( ui.accountsComboBox->currentText() ).first ),
                       Account::fromString( ui.accountsComboBox->currentText() ).second );
   }
 }
@@ -648,21 +639,10 @@ void MainWindow::statusGotohomepageAction()
     A default destructor.
 */
 
-/*! \fn StatusListView* MainWindow::getListView()
-    A method for external access to the list view used for displaying Statuses.
-    Used for initialization of StatusModel class's instance.
-    \returns A pointer to the list view instance of MainWindow.
-*/
-
 /*! \fn int MainWindow::getScrollBarWidth()
     A method for accessing the list view scrollbar's width, needed for computing width
     of StatusWidget class instances.
     \returns List view scrollbar's width.
-*/
-
-/*! \fn void MainWindow::setListViewModel( StatusModel *model )
-    Assigns the \a model to be a list view model.
-    \param model The model for the list view.
 */
 
 /*! \fn void MainWindow::changeListBackgroundColor( const QColor &newColor )

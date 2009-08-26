@@ -26,7 +26,7 @@
 #include <QUrl>
 #include <QList>
 #include <QSystemTrayIcon>
-#include <twitterapi/twitterapi_global.h>
+#include <twitterapi/twitterapi.h>
 #include "ui_mainwindow.h"
 
 class QMovie;
@@ -41,7 +41,6 @@ public:
   MainWindow( QWidget *parent = 0 );
   virtual ~MainWindow();
 
-  StatusListView* getListView();
   int getScrollBarWidth();
 
 
@@ -56,7 +55,6 @@ public slots:
   void showProgressIcon();
   void show();
   void about();
-  void setListViewModel( StatusModel *model );
   void replaceUrl( const QString &url );
 
   void statusReplyAction();
@@ -70,13 +68,13 @@ public slots:
 signals:
   void updateStatuses();
   void twitPicRequested();
-  void post( TwitterAPI::SocialNetwork network, const QString &login, QString status, quint64 inReplyTo );
+  void post( const QString &serviceUrl, const QString &login, QString status, quint64 inReplyTo );
   void openBrowser( QUrl address );
   void settingsDialogRequested();
   void addReplyString( const QString& user, quint64 inReplyTo );
   void addRetweetString( QString message );
   void resizeView( int width, int oldWidth );
-  void switchModel( TwitterAPI::SocialNetwork network, const QString &login );
+  void switchModel( const QString &serviceUrl, const QString &login );
   void shortenUrl( const QString &url );
   void iconStopped();
 

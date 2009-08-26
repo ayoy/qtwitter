@@ -35,6 +35,7 @@ private slots:
   void openUrl();
   void authorize();
   void setOkButtonEnabled();
+  void shrink();
 
 private:
   bool state;

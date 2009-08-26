@@ -64,7 +64,7 @@ public:
 
   // TODO: do we really need these two?
   Account& account( int index );
-  Account* account( TwitterAPI::SocialNetwork network, const QString &login );
+  Account* account( const QString &serviceUrl, const QString &login );
 
   int indexOf( const Account &account );
 

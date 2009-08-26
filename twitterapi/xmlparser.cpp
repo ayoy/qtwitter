@@ -55,7 +55,7 @@ const QSet<QString> XmlParser::tags = QSet<QString>() << TAG_STATUS_ID << TAG_US
 
 const int XmlParser::timeShift = XmlParser::calculateTimeShift();
 
-XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent) :
+XmlParser::XmlParser( const QString &serviceUrl, const QString &login, QObject *parent) :
     QObject( parent ),
     QXmlDefaultHandler(),
     currentTag( QString() ),
@@ -63,11 +63,11 @@ XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Q
     important( false ),
     parsingUser( false )
 {
-  this->network = network;
-  this->login = login;
+  m_serviceUrl = serviceUrl;
+  m_login = login;
 }
 
-XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, Entry::Type entryType, QObject *parent) :
+XmlParser::XmlParser( const QString &serviceUrl, const QString &login, Entry::Type entryType, QObject *parent) :
     QObject( parent ),
     QXmlDefaultHandler(),
     currentTag( QString() ),
@@ -75,8 +75,28 @@ XmlParser::XmlParser( TwitterAPI::SocialNetwork network, const QString &login, E
     important( false ),
     parsingUser( false )
 {
-  this->network = network;
-  this->login = login;
+  m_serviceUrl = serviceUrl;
+  m_login = login;
+}
+
+QString XmlParser::login() const
+{
+  return m_login;
+}
+
+void XmlParser::setLogin( const QString &login )
+{
+  m_login = login;
+}
+
+QString XmlParser::serviceUrl() const
+{
+  return m_serviceUrl;
+}
+
+void XmlParser::setServiceUrl( const QString &serviceUrl )
+{
+  m_serviceUrl = serviceUrl;
 }
 
 bool XmlParser::startDocument()
@@ -107,7 +127,7 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
 bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
   if ( qName == TAG_STATUS ) {
-    emit newEntry( network, login, entry );
+    emit newEntry( entry );
   }
   if( qName == TAG_USER) {
     parsingUser = false;
@@ -127,7 +147,7 @@ bool XmlParser::characters( const QString &ch )
         entry.originalText = ch;
         entry.originalText.replace( "&lt;", "<" );
         entry.originalText.replace( "&gt;", ">" );
-        entry.text = textToHtml( entry.originalText, network );
+        entry.text = textToHtml( entry.originalText );
       } else if ( currentTag == TAG_USER_TIMESTAMP && entry.timestamp.isNull() ) {
         entry.timestamp = toDateTime( ch ); //utc
         /* It's better to leave UTC timestamp alone; Additional member localTime is added to store local time when
@@ -169,7 +189,7 @@ void XmlParser::parseUserInfo(const QString &ch)
     entry.userInfo.name = ch;
   } else if ( currentTag == TAG_USER_SCREENNAME && entry.userInfo.screenName.isNull() ) {
     entry.userInfo.screenName = ch;
-    if ( entry.userInfo.screenName == login )
+    if ( entry.userInfo.screenName == m_login )
       entry.isOwn = true;
   } else if ( currentTag == TAG_USER_HOMEPAGE ) {
     if ( !ch.trimmed().isEmpty() ) {
@@ -246,11 +266,10 @@ int XmlParser::calculateTimeShift()
   return utc.secsTo(now);
 }
 
-QString XmlParser::textToHtml( QString newText, TwitterAPI::SocialNetwork network)
+QString XmlParser::textToHtml( QString newText )
 {
-  QString networkUrl = ( network == TwitterAPI::SOCIALNETWORK_TWITTER ) ? TwitterAPI::URL_TWITTER : TwitterAPI::URL_IDENTICA;
   // URL_IDENTICA = http://identi.ca/api
-  networkUrl.replace( QRegExp( "/api$" ), "" );
+  QString networkUrl = m_serviceUrl.replace( QRegExp( "/api$" ), "" );
   QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
   newText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
   newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([\\w\\d]+)" ), QString( "\\1<a href=%1/\\2>@\\2</a>").arg( networkUrl ) );
@@ -259,16 +278,16 @@ QString XmlParser::textToHtml( QString newText, TwitterAPI::SocialNetwork networ
   newText.replace( ahref, "\\1>" );
   QRegExp mailto( "([a-z0-9\\._%-]+@[a-z0-9\\.-]+\\.[a-z]{2,4})", Qt::CaseInsensitive );
   newText.replace( mailto, "<a href='mailto:\\1'>\\1</a>" );
-  QRegExp tag( "#([\\w\\d]+)( ?)", Qt::CaseInsensitive );
-  newText.replace( tag, network == TwitterAPI::SOCIALNETWORK_TWITTER ?
+  QRegExp tag( "#([\\w\\d-]+)( ?)", Qt::CaseInsensitive );
+  newText.replace( tag, m_serviceUrl == TwitterAPI::URL_TWITTER ?
                    "<a href='http://search.twitter.com/search?q=\\1'>#\\1</a>\\2" :
                    "<a href='http://identi.ca/tag/\\1'>#\\1</a>\\2" );
   return newText;
 }
 
 
-XmlParserDirectMsg::XmlParserDirectMsg( TwitterAPI::SocialNetwork network, const QString &login, QObject *parent ) :
-    XmlParser( network, login, Entry::DirectMessage, parent ),
+XmlParserDirectMsg::XmlParserDirectMsg( const QString &serviceUrl, const QString &login, QObject *parent ) :
+    XmlParser( serviceUrl, login, Entry::DirectMessage, parent ),
     parsingSender( false )
 {}
 
@@ -289,7 +308,7 @@ bool XmlParserDirectMsg::startElement( const QString & /* namespaceURI */, const
 bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
   if ( qName == TAG_DIRECT_MESSAGE ) {
-    emit newEntry( network, login, entry );
+    emit newEntry( entry );
   }
   if ( qName == TAG_SENDER ) {
     parsingSender = false;
@@ -307,7 +326,7 @@ bool XmlParserDirectMsg::characters( const QString &ch )
       entry.id = ch.toULongLong();
     } else if ( currentTag == TAG_USER_TEXT && entry.text.isNull() ) {
       entry.originalText = ch;
-      entry.text = textToHtml( ch, network );
+      entry.text = textToHtml( ch );
     } else if ( currentTag == TAG_USER_TIMESTAMP && entry.timestamp.isNull() ) {
       entry.timestamp = toDateTime( ch );
       entry.localTime = entry.timestamp.addSecs( timeShift );

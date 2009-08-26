@@ -41,6 +41,8 @@ struct AppVersion
   bool operator !=( const AppVersion &other ) const;
   bool operator >( const AppVersion &other ) const;
   bool operator <( const AppVersion &other ) const;
+  bool operator >=( const AppVersion &other ) const;
+  bool operator <=( const AppVersion &other ) const;
 };
 
 class ConfigFile : public QSettings
@@ -57,10 +59,13 @@ public:
 #ifdef OAUTH
   void removeOldTwitterAccounts();
 #endif
+  // TODO: make private
+  int accountsCount() const;
 
 private:
   void convertSettingsToZeroSix();
   void convertSettingsToZeroSeven();
+  void convertSettingsToZeroNine();
 };
 
 #endif // CONFIGFILE_H

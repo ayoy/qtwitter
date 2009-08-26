@@ -18,9 +18,18 @@
  ***************************************************************************/
 
 
+#include "statuslist.h"
+#include "statuslist_p.h"
+
 #include <QDebug>
 #include <QPixmap>
-#include "statuslist.h"
+
+#include <account.h>
+#include <oauthwizard.h>
+#include "imagedownload.h"
+#include "core.h"
+#include "dmdialog.h"
+#include "qtwitter.h"
 
 QDataStream& operator<<( QDataStream & out, const Status &status )
 {
@@ -28,42 +37,6 @@ QDataStream& operator<<( QDataStream & out, const Status &status )
   out << status.image;
   out << status.state;
   return out;
-}
-
-QDataStream& operator<<( QDataStream & out, const Entry &entry )
-{
-  out << entry.type;
-  out << entry.isOwn;
-  out << entry.id;
-  out << entry.text;
-  out << entry.originalText;
-  out << entry.timestamp;
-  out << entry.localTime;
-  out << entry.hasInReplyToStatusId;
-  out << entry.inReplyToStatusId;
-  out << entry.inReplyToScreenName;
-  out << entry.favorited;
-  out << entry.userInfo;
-  return out;
-}
-
-QDataStream& operator>>( QDataStream & in, Entry &entry )
-{
-  int type;
-  in >> type;
-  in >> entry.isOwn;
-  in >> entry.id;
-  in >> entry.text;
-  in >> entry.originalText;
-  in >> entry.timestamp;
-  in >> entry.localTime;
-  in >> entry.hasInReplyToStatusId;
-  in >> entry.inReplyToStatusId;
-  in >> entry.inReplyToScreenName;
-  in >> entry.favorited;
-  in >> entry.userInfo;
-  entry.type = (Entry::Type) type;
-  return in;
 }
 
 QDataStream& operator>>( QDataStream & in, Status &status )
@@ -76,45 +49,208 @@ QDataStream& operator>>( QDataStream & in, Status &status )
   return in;
 }
 
-class StatusListPrivate
-{
-public:
-  StatusListPrivate() :
-      visible( false ),
-      login( QString() ),
-      network( TwitterAPI::SOCIALNETWORK_TWITTER ),
-      active(-1)
-  {}
-
-  int addStatus( Entry entry );
-
-  QList<Status> data;
-  bool visible;
-  QString login;
-  TwitterAPI::SocialNetwork network;
-  int active;
-  static int maxCount;
-  static const int publicMaxCount;
-};
-
 const int StatusListPrivate::publicMaxCount = 20;
 int StatusListPrivate::maxCount = 0;
 
-StatusList::StatusList( const QString &login , TwitterAPI::SocialNetwork network, QObject *parent ) :
-    QObject( parent ),
-    d( new StatusListPrivate )
+StatusListPrivate::StatusListPrivate() :
+    twitterapi( new TwitterAPI ),
+    visible( false ),
+    active(-1)
+{}
+
+StatusListPrivate::~StatusListPrivate()
 {
-  d->network = network;
-  d->login = login;
+  twitterapi->deleteLater();
+}
+
+void StatusListPrivate::init()
+{
+  twitterapi->setServiceUrl( account->serviceUrl() );
+  twitterapi->setLogin( account->login() );
+  twitterapi->setPassword( account->password() );
+#ifdef OAUTH
+  if ( account->serviceUrl() == Account::NetworkUrlTwitter ) {
+    twitterapi->setUsingOAuth( true );
+    twitterapi->setConsumerKey( OAuthWizard::ConsumerKey );
+    twitterapi->setConsumerSecret( OAuthWizard::ConsumerSecret );
+  } else {
+    twitterapi->setUsingOAuth( false );
+  }
+#endif
+
+  connect( twitterapi, SIGNAL(newEntry(Entry)), this, SLOT(addEntry(Entry)) );
+  connect( twitterapi, SIGNAL(deleteEntry(quint64)), this, SLOT(deleteEntry(quint64)) );
+  connect( twitterapi, SIGNAL(favoriteStatus(quint64,bool)), this, SLOT(setFavorited(quint64,bool)) );
+
+  connect( twitterapi, SIGNAL(deleteDMDone(quint64,TwitterAPI::ErrorCode)), this, SLOT(deleteEntry(quint64)) );
+  connect( twitterapi, SIGNAL(errorMessage(QString)), core, SIGNAL(errorMessage(QString)) );
+  connect( twitterapi, SIGNAL(unauthorized()), this, SLOT(slotUnauthorized()) );
+  connect( twitterapi, SIGNAL(unauthorized(QString,quint64)), this, SLOT(slotUnauthorized(QString,quint64)) );
+  connect( twitterapi, SIGNAL(unauthorized(quint64,Entry::Type)), this, SLOT(slotUnauthorized(quint64,Entry::Type)) );
+  connect( twitterapi, SIGNAL(requestDone(int)), this, SLOT(slotRequestDone(int)) );
+}
+
+void StatusListPrivate::addEntry( Entry entry )
+{
+  Q_Q(StatusList);
+
+  int index = addStatus( entry );
+  if ( index >= 0 )
+    emit q->statusAdded( index );
+
+  if ( entry.type == Entry::Status ) {
+    if ( ImageDownload::instance()->contains( entry.userInfo.imageUrl ) ) {
+      if ( !ImageDownload::instance()->imageFromUrl( entry.userInfo.imageUrl )->isNull() )
+        setImageForUrl( entry.userInfo.imageUrl, ImageDownload::instance()->imageFromUrl( entry.userInfo.imageUrl ) );
+    } else {
+      ImageDownload::instance()->imageGet( entry.userInfo.imageUrl );
+    }
+  }
+}
+
+void StatusListPrivate::deleteEntry( quint64 id )
+{
+  Q_Q(StatusList);
+
+  foreach( Status status, data ) {
+    if ( id == status.entry.id ) {
+      int index = data.indexOf( status );
+      data.removeAt( index );
+      emit q->statusDeleted( index );
+
+      return;
+    }
+  }
+}
+
+void StatusListPrivate::setFavorited( quint64 id, bool favorited )
+{
+  Q_Q(StatusList);
+
+  for ( int i = 0; i < data.size(); i++ ) {
+    Status &status = data[i];
+    if ( id == status.entry.id ) {
+      int index = data.indexOf( status );
+      status.entry.favorited = favorited;
+      emit q->favoriteChanged( index );
+    }
+  }
+}
+
+void StatusListPrivate::slotUnauthorized()
+{
+  Q_Q(StatusList);
+
+  bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE );
+  Core::instance()->decrementRequestCount();
+  if ( account->dm() ) {
+    Core::instance()->decrementRequestCount();
+  }
+  if ( !result ) {
+    return;
+  }
+  twitterapi->setLogin( account->login() );
+  twitterapi->setPassword( account->password() );
+  q->requestFriendsTimeline();
+  if ( account->dm() ) {
+    q->requestDirectMessages();
+  }
+}
+
+void StatusListPrivate::slotUnauthorized( const QString &status, quint64 inReplyToId )
+{
+  Q_Q(StatusList);
+
+  bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE );
+  Core::instance()->decrementRequestCount();
+  if ( !result ) {
+    return;
+  }
+  twitterapi->setLogin( account->login() );
+  twitterapi->setPassword( account->password() );
+  q->requestNewStatus( status, inReplyToId );
+}
+
+void StatusListPrivate::slotUnauthorized( const QString &screenName, const QString &text )
+{
+  Q_Q(StatusList);
+
+  bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_POST_DM );
+  Core::instance()->decrementRequestCount();
+  if ( !result ) {
+    return;
+  }
+  twitterapi->setLogin( account->login() );
+  twitterapi->setPassword( account->password() );
+  q->requestNewDM( screenName, text );
+}
+
+void StatusListPrivate::slotUnauthorized( quint64 destroyId, Entry::Type type )
+{
+  Q_Q(StatusList);
+
+  bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE );
+  Core::instance()->decrementRequestCount();
+  if ( !result ) {
+    return;
+  }
+  twitterapi->setLogin( account->login() );
+  twitterapi->setPassword( account->password() );
+  q->requestDestroy( destroyId, type );
+}
+
+void StatusListPrivate::slotRequestDone( int role )
+{
+  if ( visible ) {
+    StatusModel::instance()->updateDisplay();
+  }
+  if ( role != TwitterAPI::ROLE_POST_DM && Core::instance()->requestCount() > 0 ) {
+    Core::instance()->decrementRequestCount();
+  }
+  qDebug() << Core::instance()->requestCount();
+//  if ( Core::requestCount() == 0 ) {
+//    if ( checkForNew )
+//      core->checkUnreadStatuses();
+//    emit resetUi();
+//  }
+//  checkForNew = true;
+}
+
+void StatusListPrivate::setImageForUrl( const QString &url, QPixmap *pixmap )
+{
+  Q_Q(StatusList);
+  for( int i = 0; i < data.size(); ++i ) {
+    if ( data.at(i).entry.type == Entry::Status && url == data.at(i).entry.userInfo.imageUrl ) {
+      data[i].image = *pixmap;
+      emit q->imageChanged( i );
+    }
+  }
+}
+
+StatusList::StatusList( Account *account, QObject *parent ) :
+    QObject( parent ),
+    d_ptr( new StatusListPrivate )
+{
+  Q_D(StatusList);
+
+  d->q_ptr = this;
+  d->account = account;
+  d->core = qobject_cast<Core*>( parent );
+  if ( !d->core ) {
+    qFatal( "StatusList objects MUST be childern of Core" );
+  }
+  d->init();
 }
 
 StatusList::~StatusList()
 {
-  delete d;
+  delete d_ptr;
 }
 
 bool StatusList::hasUnread()
 {
+  Q_D(StatusList);
+
   for ( QList<Status>::iterator i = d->data.begin(); i != d->data.end(); ++i ) {
     if ( (*i).state == StatusModel::STATE_UNREAD ) {
       return true;
@@ -125,44 +261,53 @@ bool StatusList::hasUnread()
 
 void StatusList::markAllAsRead()
 {
+  Q_D(StatusList);
+
   for ( int i = 0; i < d->data.size(); ++i ) {
     d->data[i].state = StatusModel::STATE_READ;
     emit stateChanged(i);
   }
 }
 
-void StatusList::setNetwork( SocialNetwork network )
+bool StatusList::dm() const
 {
-  d->network = network;
+  Q_D(const StatusList);
+
+  return d->account->dm();
 }
 
-StatusList::SocialNetwork StatusList::network() const
+QString StatusList::serviceUrl() const
 {
-  return d->network;
+  Q_D(const StatusList);
+
+  return d->account->serviceUrl();
 }
 
-void StatusList::setLogin( const QString &login )
+QString StatusList::login() const
 {
-  d->login = login;
-}
+  Q_D(const StatusList);
 
-const QString& StatusList::login() const
-{
-  return d->login;
+  return d->account->login();
 }
 
 void StatusList::setVisible( bool visible )
 {
+  Q_D(StatusList);
+
   d->visible = visible;
 }
 
 bool StatusList::isVisible() const
 {
+  Q_D(const StatusList);
+
   return d->visible;
 }
 
 void StatusList::setData( int index, const Status &status )
 {
+  Q_D(StatusList);
+
   d->data[ index ] = status;
   if ( status.state == StatusModel::STATE_ACTIVE ) {
     d->active = index;
@@ -173,11 +318,15 @@ void StatusList::setData( int index, const Status &status )
 
 const Status& StatusList::data( int index ) const
 {
+  Q_D(const StatusList);
+
   return d->data.at( index );
 }
 
 void StatusList::setState( int index, StatusModel::StatusState state )
 {
+  Q_D(StatusList);
+
   if ( d->data[ index ].state == state )
     return;
 
@@ -194,40 +343,127 @@ void StatusList::setState( int index, StatusModel::StatusState state )
 
 StatusModel::StatusState StatusList::state( int index ) const
 {
+  Q_D(const StatusList);
+
   return d->data[ index ].state;
 }
 
 void StatusList::setImage( int index, const QPixmap &pixmap )
 {
+  Q_D(StatusList);
+
   d->data[ index ].image = pixmap;
   emit imageChanged( index );
 }
 
 const QList<Status>& StatusList::getData() const
 {
+  Q_D(const StatusList);
+
   return d->data;
 }
 
 void StatusList::setStatuses( const QList<Status> &statuses )
 {
+  Q_D(StatusList);
+
   d->data = statuses;
 }
 
 
 int StatusList::active() const
 {
+  Q_D(const StatusList);
+
   return d->active;
 }
 
 void StatusList::setActive( int active )
 {
+  Q_D(StatusList);
+
   d->active = active;
 }
 
 int StatusList::size() const
 {
+  Q_D(const StatusList);
+
   return d->data.size();
 }
+
+
+void StatusList::requestFriendsTimeline()
+{
+  Q_D(StatusList);
+
+  d->twitterapi->friendsTimeline( StatusListPrivate::maxCount );
+  Core::instance()->incrementRequestCount();
+}
+
+void StatusList::requestDirectMessages()
+{
+  Q_D(StatusList);
+
+  d->twitterapi->directMessages( StatusListPrivate::maxCount );
+  Core::instance()->incrementRequestCount();
+}
+
+void StatusList::requestNewStatus( const QString &status, quint64 inReplyTo )
+{
+  Q_D(StatusList);
+
+  d->twitterapi->postUpdate( status, inReplyTo );
+  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
+}
+
+void StatusList::requestNewDM( const QString &screenName, const QString &text )
+{
+  Q_D(StatusList);
+
+  d->twitterapi->postDM( screenName, text );
+  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
+}
+
+void StatusList::postDMDialog( const QString &screenName )
+{
+  Q_D(StatusList);
+  DMDialog *dlg = new DMDialog( screenName, Qtwitter::instance() );
+  connect( dlg, SIGNAL(dmRequest(QString,QString)), this, SLOT(requestNewDM(QString,QString)) );
+  connect( d->twitterapi, SIGNAL(postDMDone(TwitterAPI::ErrorCode)), dlg, SLOT(showResult(TwitterAPI::ErrorCode)) );
+
+  dlg->exec();
+  dlg->deleteLater();
+}
+
+void StatusList::requestDestroy( quint64 id, Entry::Type type )
+{
+  Q_D(StatusList);
+
+  if ( type == Entry::Status ) {
+    d->twitterapi->deleteUpdate( id );
+  } else {
+    d->twitterapi->deleteDM( id );
+  }
+  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
+}
+
+void StatusList::requestCreateFavorite( quint64 id )
+{
+  Q_D(StatusList);
+
+  d->twitterapi->createFavorite( id );
+  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
+}
+
+void StatusList::requestDestroyFavorite( quint64 id )
+{
+  Q_D(StatusList);
+
+  d->twitterapi->destroyFavorite( id );
+  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
+}
+
 
 int StatusListPrivate::addStatus( Entry entry )
 {
@@ -270,38 +506,10 @@ int StatusListPrivate::addStatus( Entry entry )
   return -1;
 }
 
-void StatusList::addStatus( Entry entry )
-{
-  int index = d->addStatus( entry );
-  if ( index >= 0 )
-    emit statusAdded( index );
-}
-
-bool StatusList::deleteStatus( quint64 id )
-{
-  for ( QList<Status>::const_iterator i = d->data.begin(); i != d->data.end(); ++i) {
-    if ( id == (*i).entry.id ) {
-      int index = d->data.indexOf(*i);
-      d->data.removeOne(*i);
-      emit statusDeleted( index );
-      return true;
-    }
-  }
-  return false;
-}
-
-void StatusList::setFavorited( quint64 id, bool favorited )
-{
-  for ( QList<Status>::iterator i = d->data.begin(); i != d->data.end(); ++i) {
-    if ( id == (*i).entry.id ) {
-      (*i).entry.favorited = favorited;
-      emit favoriteChanged( d->data.indexOf(*i) );
-    }
-  }
-}
-
 bool StatusList::remove( int from, int count )
 {
+  Q_D(StatusList);
+
   if ( d->data.size() < from )
     return false;
 
@@ -312,13 +520,14 @@ bool StatusList::remove( int from, int count )
 
 void StatusList::slotDirectMessagesChanged( bool isEnabled )
 {
+  Q_D(StatusList);
+
   if ( isEnabled )
     return;
 
   for ( int i = 0; i < d->data.size(); i++ ) {
     if ( d->data.at(i).entry.type == Entry::DirectMessage ) {
       d->data.removeAt(i);
-      // TODO: not sure about it
       i--;
     }
   }

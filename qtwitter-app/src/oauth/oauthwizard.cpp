@@ -9,6 +9,7 @@
 #include <QDateTime>
 #include <QDebug>
 #include <QRegExpValidator>
+#include <QTimer>
 
 const QByteArray OAuthWizard::TwitterRequestTokenURL = "http://twitter.com/oauth/request_token";
 const QByteArray OAuthWizard::TwitterAccessTokenURL  = "http://twitter.com/oauth/access_token";
@@ -113,7 +114,7 @@ void OAuthWizard::openUrl()
     ui_a->allowLabel->setText( tr( "There was a network-related problem with completing the request. Please try again later." ) );
     ui_a->allowButton->setText( tr( "Retry" ) );
     adjustSize();
-    resize( width(), height() * 1.5 );
+    QTimer::singleShot(0, this, SLOT(shrink()) );
     state = false;
     return;
   }
@@ -161,7 +162,7 @@ void OAuthWizard::authorize()
     ui_p->pinLabel->setText( tr( "Either the PIN you entered is incorrect, or a network-related problem occured. Please try again later." ) );
     ui_p->okButton->setText( tr( "Retry" ) );
     adjustSize();
-    resize( width(), height() * 1.5 );
+    QTimer::singleShot( 0, this, SLOT(shrink()) );
     disconnect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(authorize()) );
     connect( ui_p->okButton, SIGNAL(clicked()), this, SLOT(openUrl()) );
     state = false;
@@ -175,4 +176,9 @@ void OAuthWizard::authorize()
 //  qDebug() << "tokensecret:" << tokenSecret;
   state = true;
   accept();
+}
+
+void OAuthWizard::shrink()
+{
+  resize( width(), 0 );
 }

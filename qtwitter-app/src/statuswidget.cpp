@@ -24,6 +24,7 @@
 #include <QMenu>
 #include <QSignalMapper>
 #include <twitterapi/twitterapi_global.h>
+#include <account.h>
 #include "statuswidget.h"
 #include "settings.h"
 #include "statuslist.h"
@@ -32,11 +33,11 @@
 int StatusWidget::scrollBarWidth = 0;
 int StatusWidget::currentWidth = 0;
 ThemeData StatusWidget::currentTheme = ThemeData();
-TwitterAPI::SocialNetwork StatusWidget::currentNetwork = TwitterAPI::SOCIALNETWORK_TWITTER;
+QString StatusWidget::currentServiceUrl = QString();//Account::NetworkUrlTwitter;
 QString StatusWidget::currentLogin = QString();
 StatusWidget* StatusWidget::activeStatus = 0;
 
-StatusWidget::StatusWidget( StatusModel *parentModel, QWidget *parent ) :
+StatusWidget::StatusWidget( QWidget *parent ) :
   QWidget(parent),
   replyAction(0),
   gotohomepageAction(0),
@@ -44,7 +45,6 @@ StatusWidget::StatusWidget( StatusModel *parentModel, QWidget *parent ) :
   deleteAction(0),
   statusState( StatusModel::STATE_DISABLED ),
   statusData(0),
-  statusListModel( parentModel ),
   m_ui(new Ui::StatusWidget)
 {
   m_ui->setupUi( this );
@@ -64,7 +64,7 @@ StatusWidget::StatusWidget( StatusModel *parentModel, QWidget *parent ) :
 
   connect( m_ui->replyDeleteButton, SIGNAL(clicked()), this, SLOT(handleReplyDeleteButton()));
   connect( m_ui->userStatus, SIGNAL(mousePressed()), this, SLOT(focusRequest()) );
-  connect( this, SIGNAL(selectMe(StatusWidget*)), statusListModel, SLOT(selectStatus(StatusWidget*)) );
+  connect( this, SIGNAL(selectMe(StatusWidget*)), StatusModel::instance(), SLOT(selectStatus(StatusWidget*)) );
 
   applyTheme();
   m_ui->userName->setText( "" );
@@ -91,13 +91,13 @@ void StatusWidget::createMenu()
   replyAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ) );
   menu->addAction( replyAction );
   connect( replyAction, SIGNAL(triggered()), this, SLOT(slotReply()) );
-  connect( this, SIGNAL(reply(QString,quint64)), statusListModel, SIGNAL(reply(QString,quint64)) );
+  connect( this, SIGNAL(reply(QString,quint64)), StatusModel::instance(), SIGNAL(reply(QString,quint64)) );
 
   retweetAction = new QAction( tr( "Retweet" ), this );
   retweetAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ) );
   menu->addAction( retweetAction );
   connect( retweetAction, SIGNAL(triggered()), this, SLOT(slotRetweet()) );
-  connect( this, SIGNAL(retweet(QString)), statusListModel, SIGNAL(retweet(QString)) );
+  connect( this, SIGNAL(retweet(QString)), StatusModel::instance(), SIGNAL(retweet(QString)) );
 
   dmAction = new QAction( this );
   dmAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_D ) );
@@ -124,12 +124,12 @@ void StatusWidget::createMenu()
   markallasreadAction = new QAction( tr( "Mark list as read" ), this );
   markallasreadAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_A ) );
   menu->addAction( markallasreadAction );
-  connect( markallasreadAction, SIGNAL(triggered()), statusListModel, SLOT(markAllAsRead()) );
+  connect( markallasreadAction, SIGNAL(triggered()), StatusModel::instance(), SLOT(markAllAsRead()) );
 
   markeverythingasreadAction = new QAction( tr( "Mark everything as read" ), this );
   markeverythingasreadAction->setShortcut( QKeySequence( Qt::CTRL + Qt::ALT + Qt::Key_A ) );
   menu->addAction( markeverythingasreadAction );
-  connect( markeverythingasreadAction, SIGNAL(triggered()), statusListModel, SIGNAL(markEverythingAsRead()) );
+  connect( markeverythingasreadAction, SIGNAL(triggered()), StatusModel::instance(), SIGNAL(markEverythingAsRead()) );
 
   menu->addSeparator();
 
@@ -137,7 +137,7 @@ void StatusWidget::createMenu()
   gototwitterpageAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ) );
   menu->addAction( gototwitterpageAction );
   connect( gototwitterpageAction, SIGNAL(triggered()), signalMapper, SLOT(map()) );
-  connect( signalMapper, SIGNAL(mapped(QString)), statusListModel, SLOT(emitOpenBrowser(QString)) );
+  connect( signalMapper, SIGNAL(mapped(QString)), StatusModel::instance(), SLOT(emitOpenBrowser(QString)) );
 
   gotohomepageAction = new QAction( tr( "Go to User's homepage" ), this);
   gotohomepageAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_H ) );
@@ -151,32 +151,36 @@ void StatusWidget::setupMenu()
     return;
 
   replyAction->setText( tr("Reply to %1" ).arg( statusData->userInfo.screenName ) );
-  // TODO: enable replying when at least one account is configured
-  if ( statusData->type != Entry::Status || currentLogin == TwitterAPI::PUBLIC_TIMELINE ) {
+  if ( statusData->type != Entry::Status ) {
     replyAction->setEnabled( false );
   } else {
     replyAction->setEnabled( true );
   }
 
-  // TODO: enable retweeting when at least one account is configured
-  if ( statusData->type != Entry::Status || currentLogin == TwitterAPI::PUBLIC_TIMELINE ) {
+  if ( statusData->type != Entry::Status ) {
     retweetAction->setEnabled( false );
   } else {
     retweetAction->setEnabled( true );
   }
 
   dmAction->setText( tr( "Direct message %1" ).arg( statusData->userInfo.screenName ) );
-  dmAction->setEnabled( !(currentLogin == TwitterAPI::PUBLIC_TIMELINE) && !statusData->isOwn );
+  dmAction->setEnabled( !statusData->isOwn );
 
   menu->addSeparator();
 
-  if ( statusData->type != Entry::Status ) {
-    copylinkAction->setEnabled( false );
-  } else {
+  if ( statusData->type == Entry::Status ) {
     copylinkAction->setEnabled( true );
+    favoriteAction->setEnabled( true );
+    deleteAction->setText( tr( "Delete status" ) );
+  } else {
+    copylinkAction->setEnabled( false );
+    favoriteAction->setEnabled( false );
+    deleteAction->setText( tr( "Delete message" ) );
   }
+  favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
 
-  if ( statusData->isOwn || statusData->type == Entry::DirectMessage ) {
+  if ( statusData->isOwn || ( statusData->type == Entry::DirectMessage &&
+                            currentServiceUrl != Account::NetworkUrlTwitter ) ) {
     deleteAction->setEnabled( true );
   } else {
     deleteAction->setEnabled( false );
@@ -185,13 +189,11 @@ void StatusWidget::setupMenu()
   menu->addSeparator();
 
   signalMapper->removeMappings( gototwitterpageAction );
-  if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-    gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
-    signalMapper->setMapping( gototwitterpageAction, "http://identi.ca/" + statusData->userInfo.screenName );
-  } else {
-    gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
-    signalMapper->setMapping( gototwitterpageAction, "http://twitter.com/" + statusData->userInfo.screenName );
-  }
+  gototwitterpageAction->setText( tr( "Go to User's %1 page" ).arg( Account::networkName( currentServiceUrl ) ) );
+  QString url = currentServiceUrl;
+  signalMapper->setMapping( gototwitterpageAction,
+                            url.remove( QRegExp("/api$", Qt::CaseInsensitive) ).append( "/" )
+                            + statusData->userInfo.screenName );
 
   signalMapper->removeMappings( gotohomepageAction );
   if ( !statusData->userInfo.homepage.compare("") ) {
@@ -248,8 +250,8 @@ void StatusWidget::setStatusData( const Status &status )
   m_ui->userImage->setPixmap( status.image );
 
 
-  //adjust tooltip for reply/delete button
   if ( statusData->type == Entry::Status ) {
+    //adjust tooltip for reply/delete button
     if ( statusData->isOwn ) {
       m_ui->replyDeleteButton->setIcon( QIcon(":/icons/cross_16.png") );
       m_ui->replyDeleteButton->setToolTip( tr( "Delete status" ) );
@@ -257,50 +259,36 @@ void StatusWidget::setStatusData( const Status &status )
       m_ui->replyDeleteButton->setIcon( QIcon(":/icons/reply_16.png") );
       m_ui->replyDeleteButton->setToolTip( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
     }
-  } else {
-    m_ui->replyDeleteButton->setIcon( QIcon(":/icons/cross_16.png") );
-    m_ui->replyDeleteButton->setToolTip( tr( "Delete message" ) );
-  }
 
-  if ( statusData->type == Entry::Status )
-    deleteAction->setText( tr( "Delete status" ) );
-  else
-    deleteAction->setText( tr( "Delete message" ) );
-
-  if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE ) {
-
-    if ( statusData->type == Entry::DirectMessage ) {
-
-      m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/reply_16.png" ) );
-      m_ui->favoriteReplyButton->setToolTip( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
-      connect( m_ui->favoriteReplyButton, SIGNAL(clicked()), this, SLOT(slotDM()) );
-
+    // favorite button
+    if ( statusData->favorited ) {
+      m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/star_on_16.png" ) );
+      m_ui->favoriteReplyButton->setToolTip( tr( "Remove from Favorites" ) );
     } else {
+      m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/star_off_16.png" ) );
+      m_ui->favoriteReplyButton->setToolTip( tr( "Add to Favorites" ) );
+    }
+    connect( m_ui->favoriteReplyButton, SIGNAL(clicked()), this, SLOT(slotFavorite()) );
 
-      if ( statusData->favorited ) {
-        m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/star_on_16.png" ) );
-        if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-          m_ui->favoriteReplyButton->setToolTip( QString() );
-          favoriteAction->setText( tr( "Remove from Favorites" ) );
-          favoriteAction->setEnabled( false );
-        } else {
-          m_ui->favoriteReplyButton->setToolTip( tr( "Remove from Favorites" ) );
-          favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
-          favoriteAction->setEnabled( true );
-        }
-      } else {
-        m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/star_off_16.png" ) );
-        m_ui->favoriteReplyButton->setToolTip( tr( "Add to Favorites" ) );
-        favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
-        favoriteAction->setEnabled( true );
-      }
-      connect( m_ui->favoriteReplyButton, SIGNAL(clicked()), this, SLOT(slotFavorite()) );
-
+    // delete action
+  } else {
+    //adjust tooltip for reply/delete button and delete action
+    m_ui->replyDeleteButton->setIcon( QIcon(":/icons/cross_16.png") );
+    if ( currentServiceUrl == Account::NetworkUrlTwitter ) {
+      m_ui->replyDeleteButton->setToolTip( tr( "Delete message" ) );
+      m_ui->replyDeleteButton->setEnabled( true );
+    } else {
+      m_ui->replyDeleteButton->setToolTip( tr( "Deleting messages not supported by laconi.ca" ) );
+      m_ui->replyDeleteButton->setEnabled( false );
     }
 
-  } else {
-    favoriteAction->setEnabled( false );
+    // favorite button
+    m_ui->favoriteReplyButton->setIcon( QIcon( ":/icons/reply_16.png" ) );
+    m_ui->favoriteReplyButton->setToolTip( tr( "Reply to %1" ).arg( statusData->userInfo.screenName ) );
+    connect( m_ui->favoriteReplyButton, SIGNAL(clicked()), this, SLOT(slotDM()) );
+
   }
+
 
   //display status's send time
   if( statusData->localTime.date() >= QDateTime::currentDateTime().date()) //today
@@ -310,17 +298,16 @@ void StatusWidget::setStatusData( const Status &status )
 
   //display in_reply_to link
   if( statusData->hasInReplyToStatusId ) {
-    QString inReplyToUrl;
-    if ( this->currentNetwork == TwitterAPI::SOCIALNETWORK_TWITTER ) {
-      inReplyToUrl = "http://twitter.com/" + statusData->inReplyToScreenName + "/statuses/" + QString::number( statusData->inReplyToStatusId );
+    QString inReplyToUrl = currentServiceUrl;
+    if ( currentServiceUrl == Account::NetworkUrlTwitter ) {
+      inReplyToUrl.append( "/" + statusData->inReplyToScreenName + "/statuses/" + QString::number( statusData->inReplyToStatusId ) );
     }
-    else if ( this->currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
+    else {
       //for identica it works as is
-      inReplyToUrl = "http://identi.ca/notice/" + QString::number( statusData->inReplyToStatusId );
-
+      inReplyToUrl.append( "/notice/" + QString::number( statusData->inReplyToStatusId ) );
+    }
     m_ui->timeStamp->setText( m_ui->timeStamp->text().append( " " )
                               .append( tr( "in reply to %1" )
-                                       // TODO: links theming
                                        .arg( QString( "<a style=\"color:rgb(255, 248, 140)\" href=%1>%2</a>" )
                                              .arg( inReplyToUrl, statusData->inReplyToScreenName ) ) ) );
   }
@@ -411,15 +398,15 @@ void StatusWidget::retranslateUi()
     dmAction->setEnabled( !(currentLogin == TwitterAPI::PUBLIC_TIMELINE) && !statusData->isOwn );
 
     if ( statusData->favorited ) {
-      if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-        m_ui->favoriteReplyButton->setToolTip( QString() );
-        favoriteAction->setText( tr( "Remove from Favorites" ) );
-        favoriteAction->setEnabled( false );
-      } else {
+//      if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+//        m_ui->favoriteReplyButton->setToolTip( QString() );
+//        favoriteAction->setText( tr( "Remove from Favorites" ) );
+//        favoriteAction->setEnabled( false );
+//      } else {
         m_ui->favoriteReplyButton->setToolTip( tr( "Remove from Favorites" ) );
         favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
         favoriteAction->setEnabled( true );
-      }
+//      }
     } else {
       m_ui->favoriteReplyButton->setToolTip( tr( "Add to Favorites" ) );
     }
@@ -444,11 +431,13 @@ void StatusWidget::retranslateUi()
     markeverythingasreadAction->setText( tr( "Mark everything as read" ) );
     gotohomepageAction->setText( tr( "Go to User's homepage" ) );
 
-    if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-      gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
-    } else {
-      gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
-    }
+    gototwitterpageAction->setText( tr( "Go to User's %1 page" ).arg( Account::networkName( currentServiceUrl ) ) );
+
+//    if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
+//      gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
+//    } else {
+//      gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
+//    }
   }
 }
 
@@ -470,9 +459,9 @@ void StatusWidget::setCurrentLogin( const QString &login )
 {
   currentLogin = login;
 }
-void StatusWidget::setCurrentNetwork( TwitterAPI::SocialNetwork network )
+void StatusWidget::setCurrentServiceUrl( const QString &serviceUrl )
 {
-  currentNetwork = network;
+  currentServiceUrl = serviceUrl;
 }
 // static_end
 
@@ -483,7 +472,7 @@ void StatusWidget::adjustSize()
   m_ui->userStatus->resize( m_ui->userStatus->size().width(), (int)m_ui->userStatus->document()->size().height() );
   m_ui->frame->resize( m_ui->frame->width(), qMax(82, m_ui->userStatus->geometry().y() + m_ui->userStatus->size().height() + m_ui->timeStamp->height() + 8) );
   resize( m_ui->frame->size() );
-  m_ui->timeStamp->move( m_ui->timeStamp->x(), height() - m_ui->timeStamp->height() - 6 );//m_ui->userStatus->geometry().y() + m_ui->userStatus->height() );
+  m_ui->timeStamp->move( m_ui->timeStamp->x(), height() - m_ui->timeStamp->height() - 6 );
 }
 
 void StatusWidget::slotReply()
@@ -498,27 +487,29 @@ void StatusWidget::slotRetweet()
 
 void StatusWidget::slotDM()
 {
-  statusListModel->sendDMRequest( statusData->userInfo.screenName );
+  StatusModel::instance()->sendDMRequest( statusData->userInfo.screenName );
 }
 
 void StatusWidget::slotCopyLink()
 {
-  if ( currentNetwork == TwitterAPI::SOCIALNETWORK_TWITTER )
+  if ( currentServiceUrl == Account::NetworkUrlTwitter ) {
     QApplication::clipboard()->setText( "http://twitter.com/" + statusData->userInfo.screenName + "/statuses/" + QString::number( statusData->id ) );
-  else if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA )
-    QApplication::clipboard()->setText( "http://identi.ca/notice/" + QString::number( statusData->id ) );
+  } else {
+    // TODO: WON'T WORK!
+    QApplication::clipboard()->setText( currentServiceUrl + "/notice/" + QString::number( statusData->id ) );
+  }
 }
 
 void StatusWidget::slotDelete()
 {
-  statusListModel->sendDeleteRequest( statusData->id, statusData->type );
+  StatusModel::instance()->sendDeleteRequest( statusData->id, statusData->type );
 }
 
 void StatusWidget::slotFavorite()
 {
   //if a status already is favorited, send a request to disfavor it
   bool setFavorited = !statusData->favorited;
-  statusListModel->sendFavoriteRequest( statusData->id, setFavorited );
+  StatusModel::instance()->sendFavoriteRequest( statusData->id, setFavorited );
 }
 
 void StatusWidget::changeEvent( QEvent *e )
@@ -571,168 +562,3 @@ void StatusWidget::handleReplyDeleteButton()
   else
     slotReply();
 }
-
-/*! \class StatusWidget
-    \brief A widget representation of an Entry class.
-
-    This widget class contains the status data displayed in a custom widget that is put
-    on the status list view.
-*/
-
-/*! \enum StatusWidget::State
-    \brief A StatusWidget's state.
-
-    Used to specify the StatusWidget's current state, based on the User's selection.
-*/
-
-/*! \var StatusWidget::State StatusWidget::Unread
-    The StatusWidget is unread.
-*/
-
-/*! \var StatusWidget::State StatusWidget::Read
-    The StatusWidget is read.
-*/
-
-/*! \var StatusWidget::State StatusWidget::Active
-    The StatusWidget is active, i.e. currently highlighted.
-*/
-
-/*! \fn explicit StatusWidget::StatusWidget( const Entry &entry, const QPixmap &image, QWidget *parent = 0 )
-    Creates a new StatusWidget with a given \a parent, fills its data with the given
-    \a entry and sets its user image to \a image.
-*/
-
-/*! \fn virtual StatusWidget::~StatusWidget()
-    A virtual destructor.
-*/
-
-/*! \fn void StatusWidget::resize( const QSize& size )
-    Resizes a StatusWidget to the given \a size.
-    \param size New size of the StatusWidget.
-    \sa adjustSize()
-*/
-
-/*! \fn void StatusWidget::resize( int w, int h )
-    Resizes a StatusWidget to the width given by \a w and height given by \a h.
-    Invokes adjustSize() to additionally correct the height of the StatusWidget.
-    \param w New width of the StatusWidget.
-    \param h New height of the StatusWidget.
-    \sa adjustSize()
-*/
-
-/*! \fn void StatusWidget::setIcon( const QPixmap &image )
-    Sets the StatusWidget's User profile image to \a image.
-    \param image An image to be set.
-*/
-
-/*! \fn void StatusWidget::applyTheme()
-    Applies a theme to the StatusWidget, according to its current state.
-    \sa setState(), getState()
-*/
-
-/*! \fn void StatusWidget::retranslateUi()
-    Retranslates all the translatable GUI elements of the StatusWidget.
-    Used when changing UI language on the fly.
-*/
-
-/*! \fn bool StatusWidget::isRead() const
-    Used to figure out if the StatusWidget is already read.
-    \returns True when StatusWidget's state is \ref Read or \ref Active, false when StatusWidget's
-             state is \ref Unread.
-    \sa getState()
-*/
-
-/*! \fn StatusWidget::State StatusWidget::getState() const
-    Used to figure out the actual state of the StatusWidget.
-    \returns The current state of the StatusWidget.
-    \sa setState(), isRead()
-*/
-
-/*! \fn void StatusWidget::setState( StatusWidget::State state );
-    Sets StatusWidget's current state to \a state.
-    \param state A \ref State to set for the StatusWidget.
-*/
-
-/*! \fn static ThemeData StatusWidget::getTheme();
-    Provides information about the theme that is currently set to all the Statuses.
-    \returns Current Statuses' theme.
-    \sa setTheme()
-*/
-
-/*! \fn static void StatusWidget::setTheme( const ThemeData &theme )
-    Sets the current theme for all the Statuses.
-    \param theme A theme to be set.
-    \sa getTheme()
-*/
-
-/*! \fn static void StatusWidget::setStatusListModel( StatusModel *statusModel )
-    Sets a StatusWidget list model. The model is used by a StatusWidget to receive signals
-    from a StatusWidget menu.
-    \param statusModel The model to be set.
-*/
-
-/*! \fn void StatusWidget:adjustSize()
-    Adjusts height of the StatusWidget widget to fit the whole status.
-    \sa resize()
-*/
-
-/*! \fn void StatusWidget::menuRequested()
-    Opens a StatusWidget menu.
-*/
-
-/*! \fn void StatusWidget::slotReply()
-    Prepares and emits a \ref reply() signal.
-    \sa reply()
-*/
-
-/*! \fn void StatusWidget::slotRetweet()
-    Prepares a retweet (citation of other user's status) and emits a
-    \ref retweet() signal to post it.
-    \sa retweet()
-*/
-
-/*! \fn void StatusWidget::slotCopyLink()
-    Copies a link to the StatusWidget to system clipboard.
-*/
-
-/*! \fn void StatusWidget::reply( const QString &name, quint64 inReplyTo )
-    Emitted to notify the MainWindow class instance about the User's request
-    to send a reply.
-    \param name Login of the User to whom a reply is addressed.
-    \param inReplyTo Id of the existing status to which the reply is posted.
-    \sa slotReply()
-*/
-
-/*! \fn void StatusWidget::retweet( QString message )
-    Emitted to notify the Core class instance about the User's request
-    to retweet a status.
-    \param message A retweet status message prepared by \ref slotRetweet().
-    \sa slotRetweet()
-*/
-
-/*! \fn void StatusWidget::markAllAsRead()
-    Emitted to notify the StatusModel class instance about User's request
-    to mark all the Statuses in a list as read.
-*/
-
-/*! \fn void StatusWidget::selectMe( StatusWidget *statuswidget )
-    Emitted to notify the StatusModel class instance about User's request
-    to select (highlight) the current StatusWidget.
-    \param status A StatusWidget to be highlighted. Usually \a this.
-*/
-
-/*! \fn void StatusWidget::changeEvent( QEvent *e )
-    Reimplemented to force \ref retranslateUi() upon a language change.
-    \param e A QEvent event's representation.
-    \sa retranslateUi()
-*/
-
-/*! \fn void StatusWidget::enterEvent( QEvent *e )
-    Reimplemented to show the menu icon when hovered by mouse.
-    \param e A QEvent event's representation.
-*/
-
-/*! \fn void StatusWidget::leaveEvent( QEvent *e )
-    Reimplemented to hide the menu icon when mouse leaves the StatusWidget.
-    \param e A QEvent event's representation.
-*/

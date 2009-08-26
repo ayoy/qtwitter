@@ -26,7 +26,6 @@
 
 class QMenu;
 class QSignalMapper;
-class StatusModel;
 class Entry;
 class ThemeData;
 class Status;
@@ -42,7 +41,7 @@ class StatusWidget : public QWidget
 
 public:
 
-  explicit StatusWidget( StatusModel *parentModel, QWidget *parent = 0 );
+  explicit StatusWidget( QWidget *parent = 0 );
   virtual ~StatusWidget();
 
   const Entry& data() const;
@@ -66,7 +65,7 @@ public:
   static void setScrollBarWidth( int width );
   static void setCurrentWidth( int width );
   static void setCurrentLogin( const QString &login );
-  static void setCurrentNetwork( TwitterAPI::SocialNetwork network );
+  static void setCurrentServiceUrl( const QString &serviceUrl );
 
 public slots:
   void slotReply();
@@ -118,11 +117,10 @@ private:
   static int currentWidth;
   static ThemeData currentTheme;
   static QString currentLogin;
-  static TwitterAPI::SocialNetwork currentNetwork;
+  static QString currentServiceUrl;
   static StatusWidget *activeStatus;
 
   QSignalMapper *signalMapper;
-  StatusModel *statusListModel;
   Ui::StatusWidget *m_ui;
 };
 
