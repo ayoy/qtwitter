@@ -164,11 +164,8 @@ void AccountsController::loadAccounts()
     }
   }
 
-  // TODO: Probably doesn't work
   qSort( modelAccounts );
-
   model->setAccounts( modelAccounts );
-
   updateAccounts( model->index(0,0), model->index( model->rowCount() - 1, model->columnCount() - 1 ) );
 
   if ( view->model()->rowCount() <= 0 ) {

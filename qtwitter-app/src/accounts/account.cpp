@@ -178,10 +178,14 @@ QString Account::toString() const
   return QString( "%1 @ %2" ).arg( m_login, networkName( m_serviceUrl ) );
 }
 
-Account Account::operator=( const Account &other )
+Account& Account::operator=( const Account &other )
 {
-  Account account( other.isEnabled(), other.serviceUrl(), other.login(), other.password(), other.dm() );
-  return account;
+  m_enabled = other.isEnabled();
+  m_serviceUrl = other.serviceUrl();
+  m_login = other.login();
+  m_password = other.password();
+  m_dm = other.dm();
+  return *this;
 }
 
 bool Account::operator==( const Account &other ) const
@@ -191,6 +195,14 @@ bool Account::operator==( const Account &other ) const
            m_login == other.login() &&
            m_password == other.password() &&
            m_dm == other.dm() );
+}
+
+bool Account::fuzzyCompare( const Account &other ) const
+{
+  return ( m_enabled == other.isEnabled() &&
+           m_serviceUrl == other.serviceUrl() &&
+           m_login == other.login() &&
+           m_password == other.password() );
 }
 
 bool Account::operator<( const Account &other ) const

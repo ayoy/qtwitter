@@ -268,9 +268,6 @@ void Core::applySettings()
 
     emit accountsUpdated( accountsModel->getAccounts() );
 
-    // TODO: do this only when really needed
-//    twitterapi->resetConnections();
-
     emit resetUi();
     m_requestCount = 0;
 
@@ -341,11 +338,8 @@ void Core::get( const QString &serviceUrl, const QString &login, const QString &
     StatusList *statusList = statusLists.value( account );
     if ( statusList ) {
       statusList->requestFriendsTimeline();
-      // TODO: newRequest from StatusList or TwitterAPI
-//      emit newRequest();
       if ( statusList->dm() ) {
         statusList->requestDirectMessages();
-//        emit newRequest();
       }
     }
   }
@@ -355,13 +349,10 @@ void Core::get()
 {
   bool started = false;
   foreach( StatusList *statusList, statusLists.values() ) {
-    // TODO: WTF?
     started = true;
     statusList->requestFriendsTimeline();
-//    emit newRequest();
     if ( statusList->dm() ) {
       statusList->requestDirectMessages();
-//      emit newRequest();
     }
   }
 
@@ -392,13 +383,10 @@ void Core::post( const QString &serviceUrl, const QString &login, const QString 
       StatusList *statusList = statusLists.value( account );
       if ( statusList ) {
         statusList->requestNewStatus( status, inReplyTo );
-//        emit newRequest();
       }
     }
   }
   emit requestStarted();
-  // TODO: WTF?
-//  m_checkForUnread = DontCheckForUnread;
 }
 
 void Core::uploadPhoto( const QString &login, QString photoPath, QString status )
@@ -537,13 +525,20 @@ void Core::setupStatusLists()
   accountsModel->cleanUp();
   QList<Account> modelAccounts = accountsModel->getAccounts(); // get accounts from model
 
+  Account dmAccount;
   // delete status lists for accounts removed from model
   foreach( Account *account, statusLists.keys() ) {
+    dmAccount = *account;
+    dmAccount.setDM( !account->dm() );
     if ( !modelAccounts.contains( *account ) ) {
-      statusLists[ account ]->deleteLater();
-      delete account;
-      qDebug() << "Deleting statusList for account:" << account->login() << account->serviceUrl();
-      statusLists.remove( account );
+      if ( modelAccounts.contains( dmAccount ) ) {
+        account->setDM( !account->dm() );
+      } else {
+        statusLists[ account ]->deleteLater();
+        delete account;
+        qDebug() << "Deleting statusList for account:" << account->login() << account->serviceUrl();
+        statusLists.remove( account );
+      }
     }
   }
 
@@ -552,7 +547,7 @@ void Core::setupStatusLists()
     if ( modelAccount.isEnabled() ) {    // if it's enabled
       bool contains = false;             // check if a status list for it exists
       foreach( Account *account, statusLists.keys() ) {
-        if ( *account == modelAccount ) {
+        if ( (*account).fuzzyCompare( modelAccount ) ) {
           contains = true;
           break;
         }

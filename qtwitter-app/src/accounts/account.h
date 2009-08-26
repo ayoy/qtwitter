@@ -58,8 +58,9 @@ public:
 
   static QPair<QString,QString> fromString( const QString &name );
 
-  Account operator=( const Account &other );
+  Account& operator=( const Account &other );
   bool operator==( const Account &other ) const;
+  bool fuzzyCompare( const Account &other ) const;
   bool operator<( const Account &other ) const;
   QString toString() const;
 

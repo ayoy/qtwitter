@@ -155,7 +155,7 @@ void NewAccountDialog::toggleEdits( int index )
       m_ui->nameEdit->setText( m_ui->comboBox->currentText() );
       m_ui->urlEdit->setText( Account::networkUrl(
           m_ui->comboBox->currentText() ).remove( QRegExp( "/api$", Qt::CaseInsensitive ) ) );
-    } else if ( index = m_ui->comboBox->count() - 1 ) {
+    } else if ( index == m_ui->comboBox->count() - 1 ) {
       m_ui->nameEdit->clear();
       m_ui->urlEdit->clear();
     }
