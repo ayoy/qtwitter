@@ -270,6 +270,8 @@ QString XmlParser::textToHtml( QString newText )
 {
   // URL_IDENTICA = http://identi.ca/api
   QString networkUrl = m_serviceUrl.replace( QRegExp( "/api$" ), "" );
+  newText.replace( "<", "&lt;" );
+  newText.replace( ">", "&gt;" );
   QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
   newText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
   newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([\\w\\d]+)" ), QString( "\\1<a href=%1/\\2>@\\2</a>").arg( networkUrl ) );
