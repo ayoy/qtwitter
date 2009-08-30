@@ -62,7 +62,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>The credentials you provided are incorrect</string>
+        <string extracomment="e.g. The credentials you provided for ayoy @Identi.ca are incorrect">The credentials you provided for %1 are incorrect</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>

@@ -454,6 +454,9 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
   QDialog *dlg = new QDialog( Qtwitter::instance() );
   Ui::AuthDialog ui;
   ui.setupUi( dlg );
+  QString ident = QString( "<br>%1 @%2<br>" ).arg( account->login(),
+                                                   Account::networkName( account->serviceUrl() ) );
+  ui.titleLabel->setText( ui.titleLabel->text().arg( ident ) );
   //: This is for newly created account - when the login isn't given yet
   ui.loginEdit->setText( ( account->login() == tr( "<empty>" ) ) ? QString() : account->login() );
   ui.loginEdit->selectAll();

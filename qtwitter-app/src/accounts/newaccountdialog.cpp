@@ -133,24 +133,12 @@ QString NewAccountDialog::password() const
 
 void NewAccountDialog::toggleEdits( int index )
 {
+  bool visible = true;
   bool enabled = true;
 
-  switch ( index ) {
-  case 0: // Twitter
-  case 1: // Identi.ca
-    m_ui->nameEdit->setVisible( false );
-    m_ui->nameLabel->setVisible( false );
-    m_ui->urlEdit->setVisible( false );
-    m_ui->urlLabel->setVisible( false );
 #ifdef OAUTH
-    enabled = ( index != 0 ); // Twitter
+  if ( index != 0 ) { // Twitter
 #endif
-    m_ui->loginEdit->setVisible( enabled );
-    m_ui->loginLabel->setVisible( enabled );
-    m_ui->passwordEdit->setVisible( enabled );
-    m_ui->passwordLabel->setVisible( enabled );
-    break;
-  default:
     if ( index < m_ui->comboBox->count() - 1 ) {
       m_ui->nameEdit->setText( m_ui->comboBox->currentText() );
       m_ui->urlEdit->setText( Account::networkUrl(
@@ -159,15 +147,35 @@ void NewAccountDialog::toggleEdits( int index )
       m_ui->nameEdit->clear();
       m_ui->urlEdit->clear();
     }
-    m_ui->nameEdit->setVisible( true );
-    m_ui->nameLabel->setVisible( true );
-    m_ui->urlEdit->setVisible( true );
-    m_ui->urlLabel->setVisible( true );
-    m_ui->loginEdit->setVisible( true );
-    m_ui->loginLabel->setVisible( true );
-    m_ui->passwordEdit->setVisible( true );
-    m_ui->passwordLabel->setVisible( true );
+#ifdef OAUTH
   }
+#endif
+
+  switch ( index ) {
+  case 0: // Twitter
+  case 1: // Identi.ca
+#ifdef OAUTH
+    visible = ( index != 0 ); // Twitter
+#endif
+    enabled = false;
+    break;
+  default:;
+  }
+  m_ui->nameEdit->setVisible( visible );
+  m_ui->nameLabel->setVisible( visible );
+  m_ui->urlEdit->setVisible( visible );
+  m_ui->urlLabel->setVisible( visible );
+
+  m_ui->nameEdit->setEnabled( enabled );
+  m_ui->nameLabel->setEnabled( enabled );
+  m_ui->urlEdit->setEnabled( enabled );
+  m_ui->urlLabel->setEnabled( enabled );
+
+  m_ui->loginEdit->setVisible( visible );
+  m_ui->loginLabel->setVisible( visible );
+  m_ui->passwordEdit->setVisible( visible );
+  m_ui->passwordLabel->setVisible( visible );
+
   QTimer::singleShot(0, this, SLOT(shrink()) );
 }
 
