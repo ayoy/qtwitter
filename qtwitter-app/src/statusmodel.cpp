@@ -133,13 +133,15 @@ void StatusModel::removeStatus( int ind )
 
   StatusWidget *widget;
 
-  for ( int i = ind; i < statusList->size() - 1; ++i ) {
+  int i = ind;
+  for ( ; i < statusList->size() - 1; ++i ) {
     widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
     widget->setStatusData( statusList->data(i + 1) );
   }
-  widget = static_cast<StatusWidget*>( view->indexWidget( index( statusList->size() - 1, 0 ) ) );
-  Q_ASSERT(widget);
-  widget->initialize();
+  for ( ; i < maxStatusCount - 1; ++i ) {
+    widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
+    widget->initialize();
+  }
 }
 
 StatusWidget* StatusModel::currentStatus()
