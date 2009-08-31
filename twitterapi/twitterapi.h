@@ -74,7 +74,9 @@ public:
     ROLE_POST_DM,
     ROLE_DELETE_DM,
     ROLE_FAVORITES_CREATE,
-    ROLE_FAVORITES_DESTROY
+    ROLE_FAVORITES_DESTROY,
+    ROLE_FRIENDSHIP_CREATE,
+    ROLE_FRIENDSHIP_DESTROY
   };
 
   enum ErrorCode {
@@ -126,6 +128,11 @@ public:
   void destroyFavorite( quint64 id );
   void publicTimeline();
 
+  void follow( quint64 userId );
+//  void follow( const QString &userLogin );
+  void unfollow( quint64 userId );
+//  void unfollow( const QString &userLogin );
+
 public slots:
   void resetConnections();
 
@@ -136,6 +143,8 @@ signals:
   void favoriteStatus( quint64 id, bool favorited );
   void postDMDone( TwitterAPI::ErrorCode error );
   void deleteDMDone( quint64 id, TwitterAPI::ErrorCode error );
+  void followed( quint64 userId );
+  void unfollowed( quint64 userId );
 
   void unauthorized();
   void unauthorized( const QString &status, quint64 inReplyToId );

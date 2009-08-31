@@ -112,6 +112,18 @@ void StatusListPrivate::deleteEntry( quint64 id )
 {
   Q_Q(StatusList);
 
+  for ( int i = 0; i < data.size(); ++i ) {
+    if ( id == data.at(i).entry.id ) {
+      data.removeAt(i);
+      if ( active > i ) {
+        active--;
+      } else if ( i < data.size() && active == i ) {
+        data[active].state = StatusModel::STATE_ACTIVE;
+      }
+      emit q->statusDeleted(i);
+      return;
+    }
+  }
   foreach( Status status, data ) {
     if ( id == status.entry.id ) {
       int index = data.indexOf( status );
@@ -422,7 +434,7 @@ void StatusList::requestNewDM( const QString &screenName, const QString &text )
   Q_D(StatusList);
 
   d->twitterapi->postDM( screenName, text );
-  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
+// DMDialog has it's own spinner icon, so don't increment core's request count
 }
 
 void StatusList::postDMDialog( const QString &screenName )
@@ -487,6 +499,10 @@ int StatusListPrivate::addStatus( Entry entry )
   }
   for ( QList<Status>::iterator i = data.begin(); i != data.end(); ++i ) {
     if ( status.entry.timestamp > (*i).entry.timestamp ) {
+      // TODO: HACK!
+      if ( data.at( data.size() - 1 ).state != StatusModel::STATE_UNREAD ) {
+        status.state = StatusModel::STATE_READ;
+      }
       data.insert( i, status );
       if ( data.size() >= maxCount && data.takeLast() == status )
         return -1;
@@ -497,6 +513,7 @@ int StatusListPrivate::addStatus( Entry entry )
     }
   }
   if ( data.size() < maxCount ) {
+    // TODO: HACK!
     if ( data.at( data.size() - 1 ).state != StatusModel::STATE_UNREAD ) {
       status.state = StatusModel::STATE_READ;
     }

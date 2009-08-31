@@ -133,12 +133,15 @@ void StatusModel::removeStatus( int ind )
 
   StatusWidget *widget;
 
+  if ( currentIndex.isValid() ) {
+    currentIndex = index( statusList->active(), 0 );
+  }
   int i = ind;
   for ( ; i < statusList->size() - 1; ++i ) {
     widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
     widget->setStatusData( statusList->data(i + 1) );
   }
-  for ( ; i < maxStatusCount - 1; ++i ) {
+  for ( ; i < maxStatusCount; ++i ) {
     widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
     widget->initialize();
   }
@@ -178,12 +181,13 @@ void StatusModel::setStatusList( StatusList *statusList )
 {
   if ( this->statusList ) {
     this->statusList->setVisible( false );
-    disconnect( this->statusList, SIGNAL(statusAdded(int)), this, SLOT(updateDisplay(int)) );
-    disconnect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
-    disconnect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );
-    disconnect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
-    disconnect( this->statusList, SIGNAL(favoriteChanged(int)), this, SLOT(updateDisplay(int)) );
-    disconnect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
+    this->statusList->disconnect();
+//    disconnect( this->statusList, SIGNAL(statusAdded(int)), this, SLOT(updateDisplay(int)) );
+//    disconnect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
+//    disconnect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );
+//    disconnect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
+//    disconnect( this->statusList, SIGNAL(favoriteChanged(int)), this, SLOT(updateDisplay(int)) );
+//    disconnect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
   }
 
   this->statusList = statusList;

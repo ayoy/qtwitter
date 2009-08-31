@@ -180,7 +180,7 @@ void StatusWidget::setupMenu()
   favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
 
   if ( statusData->isOwn || ( statusData->type == Entry::DirectMessage &&
-                            currentServiceUrl != Account::NetworkUrlTwitter ) ) {
+                            currentServiceUrl == Account::NetworkUrlTwitter ) ) {
     deleteAction->setEnabled( true );
   } else {
     deleteAction->setEnabled( false );

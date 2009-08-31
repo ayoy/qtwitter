@@ -63,7 +63,7 @@ public:
   static const QNetworkRequest::Attribute ATTR_LOGIN;
   static const QNetworkRequest::Attribute ATTR_PASSWORD;
   static const QNetworkRequest::Attribute ATTR_STATUS;
-  static const QNetworkRequest::Attribute ATTR_STATUS_ID;
+  static const QNetworkRequest::Attribute ATTR_ID;
   static const QNetworkRequest::Attribute ATTR_DM_REQUESTED;
   static const QNetworkRequest::Attribute ATTR_DM_RECIPIENT;
   static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
@@ -78,6 +78,8 @@ public:
   static const QString UrlDirectMessagesDestroy;
   static const QString UrlFavoritesCreate;
   static const QString UrlFavoritesDestroy;
+  static const QString UrlFriendshipCreate;
+  static const QString UrlFriendshipDestroy;
 
 public slots:
   void requestFinished( QNetworkReply *reply );

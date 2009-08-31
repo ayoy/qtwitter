@@ -184,7 +184,7 @@ const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_ROLE               = (Q
 const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_LOGIN              = (QNetworkRequest::Attribute) (QNetworkRequest::User + 2);
 const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_PASSWORD           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 3);
 const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_STATUS             = (QNetworkRequest::Attribute) (QNetworkRequest::User + 4);
-const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_STATUS_ID          = (QNetworkRequest::Attribute) (QNetworkRequest::User + 5);
+const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_ID                 = (QNetworkRequest::Attribute) (QNetworkRequest::User + 5);
 const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_DM_REQUESTED       = (QNetworkRequest::Attribute) (QNetworkRequest::User + 6);
 const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_DM_RECIPIENT       = (QNetworkRequest::Attribute) (QNetworkRequest::User + 7);
 const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_DELETION_REQUESTED = (QNetworkRequest::Attribute) (QNetworkRequest::User + 8);
@@ -199,6 +199,8 @@ const QString TwitterAPIPrivate::UrlDirectMessagesNew       = "/direct_messages/
 const QString TwitterAPIPrivate::UrlDirectMessagesDestroy   = "/direct_messages/destroy/%1.xml";
 const QString TwitterAPIPrivate::UrlFavoritesCreate         = "/favorites/create/%1.xml";
 const QString TwitterAPIPrivate::UrlFavoritesDestroy        = "/favorites/destroy/%1.xml";
+const QString TwitterAPIPrivate::UrlFriendshipCreate        = "/friendships/create/%1.xml";
+const QString TwitterAPIPrivate::UrlFriendshipDestroy       = "/friendships/destroy/%1.xml";
 
 
 TwitterAPIPrivate::~TwitterAPIPrivate()
@@ -449,7 +451,7 @@ void TwitterAPI::postUpdate( const QString &data, quint64 inReplyTo )
 
   request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_POST_UPDATE );
   request.setAttribute( TwitterAPIPrivate::ATTR_STATUS, data );
-  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS_ID, inReplyTo );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ID, inReplyTo );
 
   d->interface->connection.data()->post( request, content );
 }
@@ -491,7 +493,7 @@ void TwitterAPI::deleteUpdate( quint64 id )
 
   request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_DELETE_UPDATE );
   request.setAttribute( TwitterAPIPrivate::ATTR_DELETION_REQUESTED, true );
-  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS_ID, id );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ID, id );
 
   d->interface->connection.data()->post( request, QByteArray() );
 }
@@ -679,7 +681,7 @@ void TwitterAPI::deleteDM( quint64 id )
   request.setUrl( QUrl(url) );
 
   request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_DELETE_DM );
-  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS_ID, id );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ID, id );
 
   qDebug() << "TwitterAPI::deleteDM(" << d->login << ")";
   d->interface->connection.data()->post( request, QByteArray() );
@@ -719,7 +721,7 @@ void TwitterAPI::createFavorite( quint64 id )
   request.setUrl( QUrl(url) );
 
   request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_FAVORITES_CREATE );
-  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS_ID, id );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ID, id );
 
   qDebug() << "TwitterAPI::createFavorite(" << d->login << ")";
   d->interface->connection.data()->post( request, QByteArray() );
@@ -759,7 +761,7 @@ void TwitterAPI::destroyFavorite( quint64 id )
   request.setUrl( QUrl(url) );
 
   request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_FAVORITES_DESTROY );
-  request.setAttribute( TwitterAPIPrivate::ATTR_STATUS_ID, id );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ID, id );
 
   qDebug() << "TwitterAPI::destroyFavorite(" << d->login << ")";
   d->interface->connection.data()->post( request, QByteArray() );
@@ -786,6 +788,79 @@ void TwitterAPI::publicTimeline()
   qDebug() << "TwitterAPI::publicTimeline()";
   d->interface->connection.data()->get( request );
 }
+
+
+void TwitterAPI::follow( quint64 userId )
+{
+  Q_D(TwitterAPI);
+
+  QString url = d->serviceUrl;
+  url.append( TwitterAPIPrivate::UrlFriendshipCreate.arg( QString::number(userId) ) );
+
+  QNetworkRequest request;
+
+#ifdef OAUTH
+  if ( d->usingOAuth ) {
+    QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
+    request.setRawHeader( "Authorization", parameters );
+    request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
+  } else {
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
+    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+  }
+#else
+  QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
+  request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+#endif
+
+  request.setUrl( QUrl(url) );
+
+  request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_FRIENDSHIP_CREATE );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ID, userId );
+
+  qDebug() << "TwitterAPI::follow(" << d->login << ")";
+  d->interface->connection.data()->post( request, QByteArray() );
+}
+
+//void TwitterAPI::follow( const QString &userLogin )
+//{
+//}
+
+void TwitterAPI::unfollow( quint64 userId )
+{
+  Q_D(TwitterAPI);
+
+  QString url = d->serviceUrl;
+  url.append( TwitterAPIPrivate::UrlFriendshipDestroy.arg( QString::number(userId) ) );
+
+  QNetworkRequest request;
+
+#ifdef OAUTH
+  if ( d->usingOAuth ) {
+    QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
+    request.setRawHeader( "Authorization", parameters );
+    request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
+  } else {
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
+    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+  }
+#else
+  QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
+  request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+#endif
+
+  request.setUrl( QUrl(url) );
+
+  request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_FRIENDSHIP_DESTROY );
+  request.setAttribute( TwitterAPIPrivate::ATTR_ID, userId );
+
+  qDebug() << "TwitterAPI::unfollow(" << d->login << ")";
+  d->interface->connection.data()->post( request, QByteArray() );
+}
+
+//void TwitterAPI::unfollow( const QString &userLogin )
+//{
+//}
 
 
 /*!
@@ -833,9 +908,10 @@ void TwitterAPIPrivate::requestFinished( QNetworkReply *reply )
 
 //  QVariant password = request.attribute( TwitterAPIPrivate::ATTR_PASSWORD );
   QVariant status = request.attribute( TwitterAPIPrivate::ATTR_STATUS );
-  QVariant id = request.attribute( TwitterAPIPrivate::ATTR_STATUS_ID );
+  QVariant id = request.attribute( TwitterAPIPrivate::ATTR_ID );
   QVariant dm = request.attribute( TwitterAPIPrivate::ATTR_DM_REQUESTED );
   QVariant del = request.attribute( TwitterAPIPrivate::ATTR_DELETION_REQUESTED );
+  QString searchString;
   switch ( replyCode ) {
   case 400: // temporary, weird Twitter behavior with deleting statuses
   case 200: // Ok
@@ -895,6 +971,22 @@ void TwitterAPIPrivate::requestFinished( QNetworkReply *reply )
 
     case TwitterAPI::ROLE_FAVORITES_DESTROY:
       emit q->favoriteStatus( id.toULongLong(), false );
+      emit q->requestDone( role );
+      break;
+
+    case TwitterAPI::ROLE_FRIENDSHIP_CREATE:
+      searchString = QString( "<id>%1</id>" ).arg( id.toString() );
+      if ( reply->readAll().contains( searchString.toUtf8() ) ) {
+        emit q->followed( id.toULongLong() );
+      }
+      emit q->requestDone( role );
+      break;
+
+    case TwitterAPI::ROLE_FRIENDSHIP_DESTROY:
+      searchString = QString( "<id>%1</id>" ).arg( id.toString() );
+      if ( reply->readAll().contains( searchString.toUtf8() ) ) {
+        emit q->unfollowed( id.toULongLong() );
+      }
       emit q->requestDone( role );
       break;
 
@@ -1039,7 +1131,7 @@ void TwitterAPIPrivate::emitUnauthorized( QNetworkReply *reply )
   TwitterAPI::Role role = (TwitterAPI::Role) request.attribute( TwitterAPIPrivate::ATTR_ROLE ).toInt();
   QVariant status = request.attribute( TwitterAPIPrivate::ATTR_STATUS );
   QVariant recipient = request.attribute( TwitterAPIPrivate::ATTR_DM_RECIPIENT );
-  QVariant id = request.attribute( TwitterAPIPrivate::ATTR_STATUS_ID );
+  QVariant id = request.attribute( TwitterAPIPrivate::ATTR_ID );
   QVariant del = request.attribute( TwitterAPIPrivate::ATTR_DELETION_REQUESTED );
 
   // TODO: check if ATTR_DELETION_REQUESTED is needed
