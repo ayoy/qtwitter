@@ -241,7 +241,6 @@ void StatusWidget::initialize()
 
 void StatusWidget::setStatusData( const Status &status )
 {
-  qDebug() << status.state;
   statusData = &status.entry;
   retranslateUi();
   m_ui->favoriteReplyButton->disconnect();
