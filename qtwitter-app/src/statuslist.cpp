@@ -500,7 +500,8 @@ int StatusListPrivate::addStatus( Entry entry )
   for ( QList<Status>::iterator i = data.begin(); i != data.end(); ++i ) {
     if ( status.entry.timestamp > (*i).entry.timestamp ) {
       // TODO: HACK!
-      if ( data.at( data.size() - 1 ).state != StatusModel::STATE_UNREAD ) {
+      int index = data.indexOf(*i);
+      if ( index > 1 && data.at( index - 1 ).state != StatusModel::STATE_UNREAD ) {
         status.state = StatusModel::STATE_READ;
       }
       data.insert( i, status );
