@@ -283,7 +283,11 @@ QString XmlParser::textToHtml( QString newText )
   QRegExp tag( "#([\\w\\d-]+)( ?)", Qt::CaseInsensitive );
   newText.replace( tag, m_serviceUrl == TwitterAPI::URL_TWITTER ?
                    "<a href='http://search.twitter.com/search?q=\\1'>#\\1</a>\\2" :
-                   "<a href='http://identi.ca/tag/\\1'>#\\1</a>\\2" );
+                   QString( "<a href='%1/tag/\\1'>#\\1</a>\\2" ).arg(networkUrl) );
+  if ( m_serviceUrl != TwitterAPI::URL_TWITTER ) {
+    QRegExp group( "!([\\w\\d-]+)( ?)", Qt::CaseInsensitive );
+    newText.replace( group, QString( "<a href='%1/group/\\1'>!\\1</a>\\2" ).arg(networkUrl) );
+  }
   return newText;
 }
 
