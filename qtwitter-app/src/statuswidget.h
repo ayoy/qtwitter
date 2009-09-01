@@ -52,6 +52,7 @@ public:
   void setStatusData( const Status &status );
   void setImage( const QPixmap &pixmap );
   void setState( StatusModel::StatusState state );
+  void setDisplayMode( StatusModel::DisplayMode mode );
   StatusModel::StatusState getState() const;
 
   static ThemeData getTheme();

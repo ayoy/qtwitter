@@ -110,6 +110,7 @@ void Core::storeSession()
   bool ok = file.open(QIODevice::WriteOnly);
   if (ok) {
     QDataStream out(&file);
+    out << ConfigFile::APP_VERSION;
     QList<Account*> accountsList = statusLists.keys();
     StatusList *list = 0;
     out << accountsList.size();
@@ -134,6 +135,12 @@ void Core::restoreSession()
   bool ok = file.open(QIODevice::ReadOnly);
   if (ok) {
     QDataStream in(&file);
+    QString version;
+    in >> version;
+    if ( version != ConfigFile::APP_VERSION ) {
+      file.close();
+      return;
+    }
     int count;
     in >> count;
 //    qDebug() << "Stream status:" << in.status();

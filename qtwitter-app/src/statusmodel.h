@@ -46,6 +46,12 @@ public:
     STATE_ACTIVE
   };
 
+  enum DisplayMode {
+    DisplayNames,
+    DisplayNicks,
+    DisplayBoth
+  };
+
 
   static StatusModel* instance();
   ~StatusModel();
@@ -53,6 +59,8 @@ public:
   StatusWidget* currentStatus();
   void setTheme( const ThemeData &theme );
   void setStatusList( StatusList *statusList );
+  DisplayMode displayMode() const;
+  void setDisplayMode( DisplayMode mode );
   StatusList * getStatusList() const;
   void setMaxStatusCount( int count );
   void populate();
@@ -99,6 +107,7 @@ private:
   int maxStatusCount;
   QModelIndex currentIndex;
   StatusListView *view;
+  DisplayMode m_displayMode;
 
   static StatusModel *m_instance;
 };

@@ -241,11 +241,12 @@ void StatusWidget::initialize()
 
 void StatusWidget::setStatusData( const Status &status )
 {
+  qDebug() << status.state;
   statusData = &status.entry;
   retranslateUi();
   m_ui->favoriteReplyButton->disconnect();
 
-  m_ui->userName->setText( statusData->userInfo.name );
+  setDisplayMode( StatusModel::instance()->displayMode() );
   m_ui->userStatus->setHtml( statusData->text );
   m_ui->userImage->setPixmap( status.image );
 
@@ -329,6 +330,22 @@ void StatusWidget::setState( StatusModel::StatusState state )
 {
   statusState = state;
   applyTheme();
+}
+
+void StatusWidget::setDisplayMode( StatusModel::DisplayMode mode )
+{
+  switch ( mode ) {
+  case StatusModel::DisplayNames:
+    m_ui->userName->setText( statusData->userInfo.name );
+    break;
+  case StatusModel::DisplayNicks:
+    m_ui->userName->setText( statusData->userInfo.screenName );
+    break;
+  case StatusModel::DisplayBoth:
+    m_ui->userName->setText( QString( "%1 (%2)" ).arg( statusData->userInfo.screenName,
+                                                       statusData->userInfo.name ) );
+    break;
+  }
 }
 
 StatusModel::StatusState StatusWidget::getState() const

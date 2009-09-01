@@ -99,7 +99,6 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, QWidget *pa
   connect( selectBrowserButton, SIGNAL(clicked()), this, SLOT(setBrowser()) );
 #endif
 
-  connect( ui.buttonBox->button( QDialogButtonBox::Apply ), SIGNAL(clicked()), this, SLOT(saveConfig()) );
   connect( ui.languageCombo, SIGNAL( currentIndexChanged( int )), this, SLOT( switchLanguage( int ) ) );
   connect( ui.colorBox, SIGNAL(currentIndexChanged(QString)), this, SLOT(changeTheme(QString)) );
   connect( ui.checkNowButton, SIGNAL(clicked()), this, SLOT(checkForUpdate()) );
@@ -143,6 +142,18 @@ void Settings::loadConfig( bool dialogRejected )
   settings.beginGroup( "Appearance" );
     ui.statusCountBox->setValue( settings.value( "tweet count", 20 ).toInt() );
     ui.colorBox->setCurrentIndex( settings.value( "color scheme", 2 ).toInt() );
+    int displayMode = settings.value( "display-mode", 0 ).toInt();
+    switch (displayMode) {
+    case StatusModel::DisplayNames:
+      ui.displayNamesButton->setChecked( true );
+      break;
+    case StatusModel::DisplayNicks:
+      ui.displayNicksButton->setChecked( true );
+      break;
+    case StatusModel::DisplayBoth:
+      ui.displayBothButton->setChecked( true );
+      break;
+    }
   settings.endGroup();
 
   ui.hostEdit->setEnabled( (bool) ui.proxyBox->checkState() );
@@ -222,7 +233,15 @@ void Settings::saveConfig( int quitting )
   settings.beginGroup( "Appearance" );
     settings.setValue( "tweet count", ui.statusCountBox->value() );
     settings.setValue( "color scheme", ui.colorBox->currentIndex() );
+    if ( ui.displayNamesButton->isChecked() ) {
+      settings.setValue( "display-mode", 0 );
+    } else if ( ui.displayNicksButton->isChecked() ) {
+      settings.setValue( "display-mode", 1 );
+    } else if ( ui.displayBothButton->isChecked() ) {
+      settings.setValue( "display-mode", 2 );
+    }
   settings.endGroup();
+  settings.sync();
 
   if ( !quitting ) {
     applySettings();
@@ -313,7 +332,9 @@ void Settings::retranslateUi()
 #endif
   ui.buttonBox->clear();
   ui.buttonBox->addButton("OK", QDialogButtonBox::AcceptRole)->setText( tr( "OK" ) );
-  ui.buttonBox->addButton("Apply", QDialogButtonBox::ApplyRole)->setText( tr( "Apply" ) );
+  QPushButton *applyButton = ui.buttonBox->addButton("Apply", QDialogButtonBox::ApplyRole);
+  applyButton->setText( tr( "Apply" ) );
+  connect( applyButton, SIGNAL(clicked()), this, SLOT(saveConfig()) );
   ui.buttonBox->addButton("Cancel", QDialogButtonBox::RejectRole)->setText( tr( "Cancel" ) );
   update();
 }
@@ -332,6 +353,13 @@ void Settings::applySettings()
 {
   setProxy();
   core->applySettings();
+  if ( ui.displayNamesButton->isChecked() ) {
+    StatusModel::instance()->setDisplayMode( StatusModel::DisplayNames );
+  } else if ( ui.displayNicksButton->isChecked() ) {
+    StatusModel::instance()->setDisplayMode( StatusModel::DisplayNicks );
+  } else if ( ui.displayBothButton->isChecked() ) {
+    StatusModel::instance()->setDisplayMode( StatusModel::DisplayBoth );
+  }
   changeTheme( ui.colorBox->currentText() );
 #ifdef Q_WS_X11
   if ( useCustomBrowserCheckBox->isChecked() ) {

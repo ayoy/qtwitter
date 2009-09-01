@@ -45,7 +45,8 @@ StatusModel::StatusModel( QObject *parent ) :
     QStandardItemModel( 0, 0, parent ),
     statusList(0),
     maxStatusCount( 20 ),
-    currentIndex( QModelIndex() )
+    currentIndex( QModelIndex() ),
+    m_displayMode( DisplayNames )
 {
 }
 
@@ -239,6 +240,25 @@ void StatusModel::setMaxStatusCount( int count )
     statusList->remove( count, maxStatusCount - count );
   maxStatusCount = count;
   populate();
+}
+
+StatusModel::DisplayMode StatusModel::displayMode() const
+{
+  return m_displayMode;
+}
+
+void StatusModel::setDisplayMode( DisplayMode mode )
+{
+  if ( mode != m_displayMode ) {
+    m_displayMode = mode;
+    if ( statusList ) {
+      StatusWidget *widget;
+      for ( int i = 0; i < statusList->size() - 1; ++i ) {
+        widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
+        widget->setDisplayMode( m_displayMode );
+      }
+    }
+  }
 }
 
 void StatusModel::clear()
