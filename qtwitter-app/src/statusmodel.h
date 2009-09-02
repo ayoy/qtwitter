@@ -84,6 +84,7 @@ public slots:
   void retranslateUi();
   void resizeData( int width, int oldWidth );
   void moveFocus( bool up );
+  void moveFocusToUnread( bool up );
   void setImageForUrl( const QString& url, QPixmap *image );
 
 signals:

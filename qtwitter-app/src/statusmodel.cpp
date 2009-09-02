@@ -61,6 +61,7 @@ void StatusModel::connectView( StatusListView *listView )
   view->setModel( this );
   connect( view, SIGNAL(clicked(QModelIndex)), this, SLOT(selectStatus(QModelIndex)) );
   connect( view, SIGNAL(moveFocus(bool)), this, SLOT(moveFocus(bool)) );
+  connect( view, SIGNAL(moveFocusToUnread(bool)), this, SLOT(moveFocusToUnread(bool)) );
   connect( view, SIGNAL(deselectAll()), this, SLOT(deselectCurrentIndex()) );
 }
 
@@ -434,6 +435,50 @@ void StatusModel::moveFocus( bool up )
     if ( currentIndex.row() < rowCount() - 1 ) {
       selectStatus( currentIndex.sibling( currentIndex.row() + 1, 0 ) );
     }
+  }
+}
+
+void StatusModel::moveFocusToUnread( bool up )
+{
+  int diff;
+  int start = currentIndex.row();
+  int row;
+  int count = qMin( statusList->size(), rowCount() );
+
+  if ( !rowCount() )
+    return;
+  if ( up ) {
+    if ( !currentIndex.isValid() ) {
+      start = count - 1;
+    }
+    diff = -1;
+  } else {
+    if ( !currentIndex.isValid() ) {
+      start = 0;
+    }
+    diff = 1;
+  }
+
+  row = start;
+
+  do {
+    StatusModel::StatusState state;
+    state = statusList->state( row );
+    if ( state != StatusModel::STATE_UNREAD ) {
+      row += diff;
+      if ( row < 0 ) {
+        row = count - 1;
+      }
+      if ( row >= count ) {
+        row = 0;
+      }
+    } else {
+      break;
+    }
+  } while ( row != start );
+
+  if (row != start) {
+    selectStatus( currentIndex.sibling( row, 0 ) );
   }
 }
 

@@ -40,6 +40,14 @@ public:
     case Qt::Key_Down:
       emit moveFocus( false );
       e->accept();
+      break;
+    case Qt::Key_Left:
+      emit moveFocusToUnread( true );
+      e->accept();
+      break;
+    case Qt::Key_Right:
+      emit moveFocusToUnread( false );
+      e->accept();
     default:;
     }
     QListView::keyPressEvent( e );
@@ -53,6 +61,7 @@ public slots:
 
 signals:
   void moveFocus( bool up );
+  void moveFocusToUnread( bool up );
   void deselectAll();
 
 };
@@ -72,13 +81,8 @@ signals:
 */
 
 /*! \fn void StatusListView::keyPressEvent( QKeyEvent *e )
-    This event handler emits moveFocus() when an up or down arrow key was pressed.
+    This event handler emits moveFocus() when an up or down arrow key was pressed
+    or moveFocusToUnread() when an left or right arrow key was pressed.
     \param e A QKeyEvent event's representation.
-    \sa moveFocus()
-*/
-
-/*! \fn void StatusListView::moveFocus( bool up )
-    Emitted when an up or down arrow key was pressed.
-    \param up True when up arrow key was pressed, false when it was down arrow key.
-    \sa keyPressEvent()
+    \sa moveFocus(), moveFocusToUnread()
 */
