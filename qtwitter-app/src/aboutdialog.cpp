@@ -26,6 +26,8 @@ AboutDialog::AboutDialog( QWidget *parent ) :
     ui( new Ui::AboutDialog )
 {
   ui->setupUi( this );
+  fontSize = font().pointSize();
+  fontFamily = font().family();
   populateAuthors();
   populateCredits();
   displayAbout();
@@ -47,24 +49,30 @@ QString AboutDialog::contributor( const QString &name, const QString &email, con
 
 void AboutDialog::populateAuthors()
 {
-  QString authorsHtml( "<html>"
+  QString authorsHtml( QString( "<html>"
                          "<head>"
                            "<style type=\"text/css\">p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }</style>"
                          "</head>"
-                         "<body style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">" );
+                         "<body style=\" font-family:'%1'; font-size:%2pt; font-weight:400; font-style:normal;\">" ).arg(fontFamily, QString::number(fontSize)) );
 
   authorsHtml.append( QString( "<p><b>%1</b></p>"
                                "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Development team as for %1:" ).arg( ConfigFile::APP_VERSION ) ) );
 
   authorsHtml.append( contributor( "Dominik Kapusta", "d@ayoy.net", tr( "Application concept and main development" ) ) );
-  authorsHtml.append( contributor( "Mariusz Pietrzyk", "wijet@wijet.pl", tr( "URL shortening services support" ) ) );
-  authorsHtml.append( contributor( "Anna Nowak", "wiorka@gmail.com", tr( "API library improvements and themes revisiting" ) ) );
-  authorsHtml.append( contributor( "Flavio Castelli", "flavio@castelli.name", tr( "Porting to Maemo platform" ) ) );
+  authorsHtml.append( contributor( "Mariusz Pietrzyk", "wijet@wijet.pl", tr( "URL shortening library" ) ) );
+
+  authorsHtml.append( QString( "<p>%1</p>"
+                               "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Other contributions:" ) ) );
+  authorsHtml.append( contributor( "Stephan Beyer", "s-beyer@gmx.net" ) );
+  authorsHtml.append( contributor( "Flavio Castelli", "flavio@castelli.name" ) );
+  authorsHtml.append( contributor( "Thulio Costa", "thulio.costa@gmail.com" ) );
+  authorsHtml.append( contributor( "Anna Nowak", "wiorka@gmail.com" ) );
+  authorsHtml.append( contributor( "Daniel Reidy", "dreidy@sigterm.us" ) );
 
   authorsHtml.append( QString( "<br/><p><b>%1</b></p>"
                                "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Translations:" ) ) );
 
-//  authorsHtml.append( contributor( "Anna Nowak", "wiorka@gmail.com") );
+  authorsHtml.append( contributor( "Dragon Jake", "", tr( "Czech translation") ) );
   authorsHtml.append( contributor( "Harry Bellemare", "behr62@gmail.com", tr( "French translation") ) );
   authorsHtml.append( contributor( "Jan Schummers", "darkadmiral@onlinehome.de", tr( "German translation" ) ) );
   authorsHtml.append( contributor( "Faster", "faster3ck@gmail.com", tr( "Italian translation" ) ) );
@@ -82,11 +90,11 @@ void AboutDialog::populateAuthors()
 
 void AboutDialog::populateCredits()
 {
-  QString creditsHtml( "<html>"
+  QString creditsHtml( QString( "<html>"
                          "<head>"
                            "<style type=\"text/css\">p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }</style>"
                          "</head>"
-                         "<body style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">" );
+                         "<body style=\" font-family:'%1'; font-size:%2pt; font-weight:400; font-style:normal;\">" ).arg(fontFamily, QString::number(fontSize)) );
 
   //: qTwitter icon design by thedesignsuperhero.com
   creditsHtml.append( "<p>" + tr( "qTwitter icon design by %1" ).arg( "<a href=\"http://thedesignsuperhero.com/2008/10/free-psds-give-away-high-resolution-twitter-bird-icons/\">thedesignsuperhero.com</span></a>" ) + "</p><p style=\"-qt-paragraph-type:empty; \"></p>" );
@@ -114,18 +122,22 @@ void AboutDialog::populateCredits()
 
 void AboutDialog::displayAbout()
 {
-  ui->aboutText->setHtml( tr( "<html>"
-                                "<head>"
-                                  "<style type=\"text/css\">p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }</style>"
-                                "</head>"
-                                "<body align=\"center\" style=\" font-family:'Lucida Grande'; font-size:10pt; font-weight:400; font-style:normal;\">"
-                                  "<p>qTwitter - a Qt-based Twitter and Identi.ca client</p>"
-                                  "<p>version %1</p>"
-                                  "<p>Copyright &copy; 2008-2009</p>"
-                                  "<p>by <a href=\"http://twitter.com/ayoy\"><span style=\" text-decoration: underline; color:#0000ff;\">Dominik Kapusta</span></a></p>"
-                                  "<p style=\"-qt-paragraph-type:empty; \"></p>"
-                                  "<p>Distributed under the LGPL license</p>"
-                                  "<p>version 2.1 or later</p>"
-                                "</body>"
-                              "</html>" ).arg( ConfigFile::APP_VERSION ) );
+  QString html( QString(  "<html>"
+                            "<head>"
+                              "<style type=\"text/css\">p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }</style>"
+                            "</head>"
+                            "<body align=\"center\" style=\" font-family:'%1'; font-size:%2pt; font-weight:400; font-style:normal;\">" ).arg(fontFamily, QString::number(fontSize)) );
+
+  html.append( tr( "<p>qTwitter - a Qt-based Twitter and Identi.ca client</p>"
+                   "<p>version %1</p>"
+                   "<p>Copyright &copy; 2008-2009</p>"
+                   "<p>by <a href=\"http://twitter.com/ayoy\"><span style=\" text-decoration: underline; color:#0000ff;\">Dominik Kapusta</span></a></p>"
+                   "<p style=\"-qt-paragraph-type:empty; \"></p>"
+                   "<p>Distributed under the LGPL license</p>"
+                   "<p>version 2.1 or later</p>" ).arg( ConfigFile::APP_VERSION ) );
+
+  html.append(   "</body>"
+               "</html>" );
+
+  ui->aboutText->setHtml( html );
 }

@@ -278,7 +278,7 @@ void StatusWidget::setStatusData( const Status &status )
       m_ui->replyDeleteButton->setToolTip( tr( "Delete message" ) );
       m_ui->replyDeleteButton->setEnabled( true );
     } else {
-      m_ui->replyDeleteButton->setToolTip( tr( "Deleting messages not supported by laconi.ca" ) );
+      m_ui->replyDeleteButton->setToolTip( tr( "Deleting messages is not supported by StatusNet" ) );
       m_ui->replyDeleteButton->setEnabled( false );
     }
 

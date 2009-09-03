@@ -4,96 +4,112 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="57"/>
+        <location filename="../src/aboutdialog.cpp" line="59"/>
         <source>Development team as for %1:</source>
         <translation>Vývojový tým verze %1:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="59"/>
+        <location filename="../src/aboutdialog.cpp" line="61"/>
         <source>Application concept and main development</source>
         <translation>Koncepce a hlavní vývoj</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="60"/>
         <source>URL shortening services support</source>
-        <translation>Podpora služeb pro zkracování URL</translation>
+        <translation type="obsolete">Podpora služeb pro zkracování URL</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="61"/>
         <source>API library improvements and themes revisiting</source>
-        <translation>Vylepšení API knihoven a přepracování vzhledů</translation>
+        <translation type="obsolete">Vylepšení API knihoven a přepracování vzhledů</translation>
+    </message>
+    <message>
+        <source>Porting to Maemo platform</source>
+        <translation type="obsolete">Portování na platformu Maemo</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="62"/>
-        <source>Porting to Maemo platform</source>
-        <translation>Portování na platformu Maemo</translation>
+        <source>URL shortening library</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="65"/>
+        <source>Other contributions:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="73"/>
         <source>Translations:</source>
         <translation>Překlady:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="68"/>
+        <location filename="../src/aboutdialog.cpp" line="75"/>
+        <source>Czech translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="76"/>
         <source>French translation</source>
         <translation>Francouzský překlad</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="69"/>
+        <location filename="../src/aboutdialog.cpp" line="77"/>
         <source>German translation</source>
         <translation>Německý překlad</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="70"/>
+        <location filename="../src/aboutdialog.cpp" line="78"/>
         <source>Italian translation</source>
         <translation>Italský překlad</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="71"/>
+        <location filename="../src/aboutdialog.cpp" line="79"/>
         <source>Japanese translation</source>
         <translation>Japonský překlad</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="72"/>
+        <location filename="../src/aboutdialog.cpp" line="80"/>
         <source>Portugese translation</source>
         <translation>Portugalský překlad</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="73"/>
+        <location filename="../src/aboutdialog.cpp" line="81"/>
         <source>Spanish translation</source>
         <translation>Španělský překlad</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="74"/>
+        <location filename="../src/aboutdialog.cpp" line="82"/>
         <source>Polish and Catalan translation</source>
         <translation>Polský a katalánský překlad</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="92"/>
+        <location filename="../src/aboutdialog.cpp" line="100"/>
         <source>qTwitter icon design by %1</source>
         <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
         <translation>Návrh qTwitter ikon od %1</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="95"/>
+        <location filename="../src/aboutdialog.cpp" line="103"/>
         <source>Other icons by %1</source>
         <extracomment>Other icons by wefunction.com</extracomment>
         <translation>Další ikony od %1</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="98"/>
+        <location filename="../src/aboutdialog.cpp" line="106"/>
         <source>Testing:</source>
         <translation>Testování:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="103"/>
+        <location filename="../src/aboutdialog.cpp" line="111"/>
         <source>Releasing:</source>
         <translation>Vydávání:</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="117"/>
+        <location filename="../src/aboutdialog.cpp" line="131"/>
+        <source>&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - Qt Twitter a Identi.ca klient&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distribuováno pod licencí LGPL&lt;/p&gt;&lt;p&gt;verze 2.1 a vyšší&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - Qt Twitter a Identi.ca klient&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distribuováno pod licencí LGPL&lt;/p&gt;&lt;p&gt;verze 2.1 a vyšší&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../ui/aboutdialog.ui" line="26"/>
@@ -132,88 +148,86 @@
 <context>
     <name>AccountsController</name>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="265"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="264"/>
         <source>Password security</source>
         <translation>Bezpečnost hesel</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="265"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="264"/>
         <source>Please note:</source>
         <translation>Důležité upozornění:</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="266"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="265"/>
         <source>Although passwords are stored as human unreadable data, they can be easily decoded using the application&apos;s source code, which is publicly available. You have been warned.</source>
         <translation>Přestože jsou hesla uložena jako nečitelná data, mohou být jednodušše dekódována prostřednictvím zdrojového kódu aplikace, který je veřejně dostupný. Byli jste varováni.</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="271"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="270"/>
         <source>Note also that Twitter authorization keys are stored anyway. Remove the account from the list if you want the key to be deleted.</source>
         <translation>Berte také v úvahu, že autorizační klíče Twitteru jsou beztak uloženy. Odeberte účet ze seznamu, chcete-li je vymazat.</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="291"/>
-        <location filename="../src/accounts/accountscontroller.cpp" line="296"/>
         <source>Add account</source>
-        <translation>Přidat účet</translation>
+        <translation type="obsolete">Přidat účet</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="291"/>
-        <location filename="../src/accounts/accountscontroller.cpp" line="298"/>
         <source>Select social network:</source>
         <extracomment>Select social network, i.e. Twitter or Identi.ca</extracomment>
-        <translation>Vyberte sociální síť:</translation>
+        <translation type="obsolete">Vyberte sociální síť:</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="300"/>
         <source>Cancel</source>
-        <translation>Zrušit</translation>
+        <translation type="obsolete">Zrušit</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="301"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
 </context>
 <context>
     <name>AccountsModel</name>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="96"/>
+        <location filename="../src/accounts/accountsmodel.cpp" line="82"/>
         <source>authorized</source>
         <translation>přihlášen</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="124"/>
+        <location filename="../src/accounts/accountsmodel.cpp" line="115"/>
         <source>Enabled</source>
         <translation>Aktivní</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="127"/>
+        <location filename="../src/accounts/accountsmodel.cpp" line="118"/>
         <source>Service</source>
         <extracomment>&quot;Service&quot;, i.e. Twitter or Identi.ca</extracomment>
         <translation>Síť</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="129"/>
+        <location filename="../src/accounts/accountsmodel.cpp" line="120"/>
         <source>Login</source>
         <translation>Uživ. jméno</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="131"/>
+        <location filename="../src/accounts/accountsmodel.cpp" line="122"/>
         <source>Password</source>
         <translation>Heslo</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="134"/>
+        <location filename="../src/accounts/accountsmodel.cpp" line="125"/>
         <source>Direct msgs</source>
         <extracomment>This should be as short as possible (e.g. PW in Polish)</extracomment>
         <translation>Zprávy</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="279"/>
+        <location filename="../src/accounts/accountsmodel.cpp" line="266"/>
+        <source>empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation>&lt;prázdné&gt;</translation>
+        <translation type="obsolete">&lt;prázdné&gt;</translation>
     </message>
 </context>
 <context>
@@ -237,9 +251,14 @@
         <translation>Přihlášení vyžádáno</translation>
     </message>
     <message>
-        <location filename="../ui/authdialog.ui" line="65"/>
         <source>The credentials you provided are incorrect</source>
-        <translation>Poskytnuté přístupové údaje jsou nesprávné</translation>
+        <translation type="obsolete">Poskytnuté přístupové údaje jsou nesprávné</translation>
+    </message>
+    <message>
+        <location filename="../ui/authdialog.ui" line="65"/>
+        <source>The credentials you provided for %1 are incorrect</source>
+        <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../ui/authdialog.ui" line="78"/>
@@ -276,100 +295,111 @@
 <context>
     <name>BitlyShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="247"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="284"/>
         <source>The URL entered was not valid.</source>
-        <translation>Zadaná adresa není validní.</translation>
+        <translation type="unfinished">Zadaná adresa není validní.</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="250"/>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="255"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="287"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="292"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+    </message>
+</context>
+<context>
+    <name>BoooomShortener</name>
+    <message>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="195"/>
+        <source>An error occured with b.oooom.net. Please file a bug.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="200"/>
+        <source>An unknown error occured when shortening your URL.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="249"/>
+        <location filename="../src/core.cpp" line="238"/>
         <source>Welcome!</source>
         <translation>Vítejte!</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="251"/>
+        <location filename="../src/core.cpp" line="240"/>
         <source>Welcome to qTwitter %1!</source>
         <extracomment>e.g. &quot;Welcome to qTwitter 0.8.1!&quot;</extracomment>
         <translation>Vítejte v aplikaci qTwitter %1!</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="252"/>
+        <location filename="../src/core.cpp" line="241"/>
         <source>&lt;b&gt;Please note:&lt;/b&gt; we introduced the ultra-secure OAuth authorization scheme for Twitter accounts in this release. This means that you would never be asked again to enter your Twitter password in qTwitter. However, your existing qTwitter configuration will not work any more. Your Twitter accounts and passwords have been removed from qTwitter settings, please reconfigure them in Settings to have things working. Thanks and enjoy qTwitter!</source>
         <translation>&lt;b&gt;Důležité upozornění:&lt;/b&gt; v této verzi jsme uvedli vysoce bezpečné OAuth přihlášení na službu Twitter. To znamená, že qTwitter již nikdy nebude vyžadovat vaše Twitter heslo. Avšak vaše existující nastavení nebude nadále fungovat. Vaše Twitter účty a hesla byly odstraněny z nastavení aplikace, prosím zadejte je znovu v Nastavení. Děkujeme a přejeme příjemné používání aplikace qTwitter!</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="387"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation>Jste si jisti?</translation>
+        <translation type="obsolete">Jste si jisti?</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="388"/>
         <source>Are you sure to delete this status?</source>
-        <translation>Opravdu chcete smazat tento stav?</translation>
+        <translation type="obsolete">Opravdu chcete smazat tento stav?</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="433"/>
+        <location filename="../src/core.cpp" line="402"/>
         <source>Enter password</source>
         <translation>Zadejte heslo</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="433"/>
+        <location filename="../src/core.cpp" line="402"/>
         <source>Enter your Twitter password.&lt;br&gt;We&apos;re not storing it anywhere</source>
         <translation>Zadejte vaše Twitter heslo.&lt;br&gt;Heslo nebude nikam uloženo</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="456"/>
+        <location filename="../src/core.cpp" line="425"/>
         <source>There was a problem uploading your photo:</source>
         <translation>Došlo k problému během nahrávání fotografie:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="467"/>
+        <location filename="../src/core.cpp" line="436"/>
         <source>Photo available at:</source>
         <translation>Fotografie dostupná na:</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="506"/>
+        <location filename="../src/core.cpp" line="468"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;prázdné&gt;</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="716"/>
+        <location filename="../src/core.cpp" line="605"/>
         <source>Authentication is required to post updates.</source>
         <translation>Pro aktualizaci stavu se musíte přihlásit.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="719"/>
+        <location filename="../src/core.cpp" line="608"/>
         <source>Authentication is required to send direct messages.</source>
         <translation>Pro zasílání přímých zpráv se musíte přihlásit.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="722"/>
+        <location filename="../src/core.cpp" line="611"/>
         <source>Authentication is required to delete updates.</source>
         <translation>Pro smazání stavu se musíte přihlásit.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="729"/>
+        <location filename="../src/core.cpp" line="614"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>Pro získávání novinek od přátel se musíte přihlásit.</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="799"/>
+        <location filename="../src/core.cpp" line="683"/>
         <source>For %1</source>
         <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
         <translation>Pro %1</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="803"/>
+        <location filename="../src/core.cpp" line="687"/>
         <source>For:
 %1</source>
         <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
@@ -380,8 +410,8 @@
 <context>
     <name>DMDialog</name>
     <message numerus="yes">
-        <location filename="../src/dmdialog.cpp" line="48"/>
-        <location filename="../src/dmdialog.cpp" line="96"/>
+        <location filename="../src/dmdialog.cpp" line="46"/>
+        <location filename="../src/dmdialog.cpp" line="94"/>
         <source>%n characters left</source>
         <translation>
             <numerusform>%n znaků zbývá</numerusform>
@@ -390,12 +420,12 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="53"/>
+        <location filename="../src/dmdialog.cpp" line="51"/>
         <source>Direct message %1</source>
         <translation>Přímá zpráva %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/dmdialog.cpp" line="88"/>
+        <location filename="../src/dmdialog.cpp" line="86"/>
         <source>%n character over the limit</source>
         <translation>
             <numerusform>%n znak přes limit</numerusform>
@@ -404,7 +434,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/dmdialog.cpp" line="90"/>
+        <location filename="../src/dmdialog.cpp" line="88"/>
         <source>%n characters over the limit</source>
         <translation>
             <numerusform>%n znaků přes limit</numerusform>
@@ -413,7 +443,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/dmdialog.cpp" line="94"/>
+        <location filename="../src/dmdialog.cpp" line="92"/>
         <source>%n character left</source>
         <translation>
             <numerusform>%n znak zbývá</numerusform>
@@ -422,42 +452,42 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="106"/>
+        <location filename="../src/dmdialog.cpp" line="104"/>
         <source>Message too long</source>
         <translation>Zpráva příliš dlouhá</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="106"/>
+        <location filename="../src/dmdialog.cpp" line="104"/>
         <source>Your message is too long.</source>
         <translation>Vaše zpráva je příliš dlouhá.</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="107"/>
+        <location filename="../src/dmdialog.cpp" line="105"/>
         <source>Cool</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="108"/>
+        <location filename="../src/dmdialog.cpp" line="106"/>
         <source>Oops...</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="109"/>
+        <location filename="../src/dmdialog.cpp" line="107"/>
         <source>You can still post it like this, but it will be truncated.</source>
         <translation>Má být zpráva zkrácena a odeslána?</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="121"/>
+        <location filename="../src/dmdialog.cpp" line="119"/>
         <source>Sending...</source>
         <translation>Odesílám...</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="139"/>
+        <location filename="../src/dmdialog.cpp" line="134"/>
         <source>Message sent!</source>
         <translation>Zpráva odeslána!</translation>
     </message>
     <message>
-        <location filename="../src/dmdialog.cpp" line="142"/>
+        <location filename="../src/dmdialog.cpp" line="137"/>
         <source>Message sending failed. Note that you cannot send a message to a user that doesn&apos;t follow you.</source>
         <translation>Odesílání zprávy selhalo. Pamatujte, že nelze odeslat zprávu uživateli, který vás nenásleduje.</translation>
     </message>
@@ -490,9 +520,9 @@
 <context>
     <name>DiggShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="282"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="319"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -500,49 +530,49 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="66"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation>Přihlášení ke službě zkracování adresy selhalo. Prosím ověřte vaše uživatelské jméno a heslo.</translation>
+        <translation type="unfinished">Přihlášení ke službě zkracování adresy selhalo. Prosím ověřte vaše uživatelské jméno a heslo.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="71"/>
         <source>The URL entered was not valid.</source>
-        <translation>Zadaná adresa není validní.</translation>
+        <translation type="unfinished">Zadaná adresa není validní.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="73"/>
         <source>The URL entered was too long.</source>
-        <translation>Zadaná adresa je příliš dlouhá.</translation>
+        <translation type="unfinished">Zadaná adresa je příliš dlouhá.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="75"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation>Adresa, kterou chcete zkrátit, byla zakázána blacklistem SpamHaus (SBL/XBL) nebo Spamcop.</translation>
+        <translation type="unfinished">Adresa, kterou chcete zkrátit, byla zakázána blacklistem SpamHaus (SBL/XBL) nebo Spamcop.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="77"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation>Adresa, kterou chcete zkrátit, je potenciální spam stránka a je zaznamenána na SURBL nebo URIBL blacklistu.</translation>
+        <translation type="unfinished">Adresa, kterou chcete zkrátit, je potenciální spam stránka a je zaznamenána na SURBL nebo URIBL blacklistu.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="79"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation>Adresa, kterou chcete zkrátit, se nachází na is.gd blacklistu (adresy na jiné služby zkracování adres nebo is.gd samotné jsou zakázané z důvodu předcházení nesprávného použití služby).</translation>
+        <translation type="unfinished">Adresa, kterou chcete zkrátit, se nachází na is.gd blacklistu (adresy na jiné služby zkracování adres nebo is.gd samotné jsou zakázané z důvodu předcházení nesprávného použití služby).</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="81"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation>Požadavek z vašeho počítače byl na is.gd zablokován (běžný výsledek porušení podmínek používání).</translation>
+        <translation type="unfinished">Požadavek z vašeho počítače byl na is.gd zablokován (běžný výsledek porušení podmínek používání).</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="86"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="65"/>
-        <location filename="../src/mainwindow.cpp" line="270"/>
+        <location filename="../src/mainwindow.cpp" line="67"/>
+        <location filename="../src/mainwindow.cpp" line="260"/>
         <source>%n characters left</source>
         <translation>
             <numerusform>%n znaků zbývá</numerusform>
@@ -551,67 +581,67 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="136"/>
+        <location filename="../src/mainwindow.cpp" line="138"/>
         <source>&amp;File</source>
         <translation>&amp;Soubor</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="152"/>
-        <location filename="../src/mainwindow.cpp" line="181"/>
-        <location filename="../src/mainwindow.cpp" line="557"/>
+        <location filename="../src/mainwindow.cpp" line="154"/>
+        <location filename="../src/mainwindow.cpp" line="183"/>
+        <location filename="../src/mainwindow.cpp" line="548"/>
         <source>Quit</source>
         <translation>Ukončit</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="153"/>
-        <location filename="../src/mainwindow.cpp" line="537"/>
+        <location filename="../src/mainwindow.cpp" line="155"/>
+        <location filename="../src/mainwindow.cpp" line="528"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="174"/>
-        <location filename="../src/mainwindow.cpp" line="550"/>
+        <location filename="../src/mainwindow.cpp" line="176"/>
+        <location filename="../src/mainwindow.cpp" line="541"/>
         <source>New tweet</source>
         <translation>Nový tweet</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="175"/>
-        <location filename="../src/mainwindow.cpp" line="551"/>
+        <location filename="../src/mainwindow.cpp" line="177"/>
+        <location filename="../src/mainwindow.cpp" line="542"/>
         <source>Upload a photo to TwitPic</source>
         <translation>Nahrát fotografii na TwitPic</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="176"/>
-        <location filename="../src/mainwindow.cpp" line="552"/>
+        <location filename="../src/mainwindow.cpp" line="178"/>
+        <location filename="../src/mainwindow.cpp" line="543"/>
         <source>Go to Twitter</source>
         <translation>Jít na Twitter</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="177"/>
-        <location filename="../src/mainwindow.cpp" line="553"/>
+        <location filename="../src/mainwindow.cpp" line="179"/>
+        <location filename="../src/mainwindow.cpp" line="544"/>
         <source>Go to Identi.ca</source>
         <translation>Jít na Identi.ca</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="178"/>
-        <location filename="../src/mainwindow.cpp" line="554"/>
+        <location filename="../src/mainwindow.cpp" line="180"/>
+        <location filename="../src/mainwindow.cpp" line="545"/>
         <source>Go to TwitPic</source>
         <translation>Jít na TwitPic</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="179"/>
-        <location filename="../src/mainwindow.cpp" line="555"/>
+        <location filename="../src/mainwindow.cpp" line="181"/>
+        <location filename="../src/mainwindow.cpp" line="546"/>
         <source>Check for updates</source>
         <translation>Zkontrolovat aktualizace</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="180"/>
-        <location filename="../src/mainwindow.cpp" line="556"/>
+        <location filename="../src/mainwindow.cpp" line="182"/>
+        <location filename="../src/mainwindow.cpp" line="547"/>
         <source>About qTwitter...</source>
         <translation>O qTwitter...</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="269"/>
+        <location filename="../src/mainwindow.cpp" line="259"/>
         <source>%n character left</source>
         <translation>
             <numerusform>%n znak zbývá</numerusform>
@@ -620,7 +650,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="275"/>
+        <location filename="../src/mainwindow.cpp" line="265"/>
         <source>%n character over the limit</source>
         <translation>
             <numerusform>%n znak přes limit</numerusform>
@@ -629,7 +659,7 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/mainwindow.cpp" line="276"/>
+        <location filename="../src/mainwindow.cpp" line="266"/>
         <source>%n characters over the limit</source>
         <translation>
             <numerusform>%n znaků přes limit</numerusform>
@@ -638,93 +668,93 @@
         </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="290"/>
+        <location filename="../src/mainwindow.cpp" line="280"/>
         <source>Message too long</source>
         <translation>Zpráva příliš dlouhá</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="290"/>
+        <location filename="../src/mainwindow.cpp" line="280"/>
         <source>Your message is too long.</source>
         <translation>Vaše zpráva je příliš dlouhá.</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="291"/>
+        <location filename="../src/mainwindow.cpp" line="281"/>
         <source>Cool</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="292"/>
+        <location filename="../src/mainwindow.cpp" line="282"/>
         <source>Oops...</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="293"/>
+        <location filename="../src/mainwindow.cpp" line="283"/>
         <source>You can still post it like this, but it will be truncated.</source>
         <translation>Má být zpráva zkrácena a odeslána?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="428"/>
+        <location filename="../src/mainwindow.cpp" line="419"/>
         <source>New tweets</source>
         <extracomment>New tweets received (this pops up in tray)</extracomment>
         <translation>Nové tweety</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="434"/>
+        <location filename="../src/mainwindow.cpp" line="425"/>
         <source>Error</source>
         <translation>Chyba</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="482"/>
-        <location filename="../src/mainwindow.cpp" line="505"/>
+        <location filename="../src/mainwindow.cpp" line="473"/>
+        <location filename="../src/mainwindow.cpp" line="496"/>
         <source>Update available</source>
         <translation>Dostupná aktualizace</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="483"/>
-        <location filename="../src/mainwindow.cpp" line="506"/>
+        <location filename="../src/mainwindow.cpp" line="474"/>
+        <location filename="../src/mainwindow.cpp" line="497"/>
         <source>An update to qTwitter is available!</source>
         <translation>Aktualizace programu qTwitter je k dispozici!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="485"/>
-        <location filename="../src/mainwindow.cpp" line="508"/>
+        <location filename="../src/mainwindow.cpp" line="476"/>
+        <location filename="../src/mainwindow.cpp" line="499"/>
         <source>Current version is %1.&lt;br&gt;Download it from %2</source>
         <translation>Aktuální verze je %1.&lt;br&gt;Stáhněte ji z %2</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="490"/>
+        <location filename="../src/mainwindow.cpp" line="481"/>
         <source>No updates available</source>
         <translation>Žádné aktualizace</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="491"/>
+        <location filename="../src/mainwindow.cpp" line="482"/>
         <source>Sorry, no updates for qTwitter are currently available</source>
         <translation>Žádné aktualizace programu qTwitter nejsou momentálně k dispozici</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="494"/>
-        <location filename="../src/mainwindow.cpp" line="512"/>
+        <location filename="../src/mainwindow.cpp" line="485"/>
+        <location filename="../src/mainwindow.cpp" line="503"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="536"/>
+        <location filename="../src/mainwindow.cpp" line="527"/>
         <source>Update tweets</source>
         <translation>Aktualizovat tweety</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="540"/>
+        <location filename="../src/mainwindow.cpp" line="531"/>
         <source>Navigate using %1 and %2</source>
         <translation>Přepněte pomocí %1 a %2</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="545"/>
+        <location filename="../src/mainwindow.cpp" line="536"/>
         <location filename="../ui/mainwindow.ui" line="179"/>
         <source>More...</source>
         <translation>Více...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="549"/>
+        <location filename="../src/mainwindow.cpp" line="540"/>
         <location filename="../ui/mainwindow.ui" line="251"/>
         <source>What are you doing?</source>
         <translation>Co právě děláte?</translation>
@@ -745,21 +775,21 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="139"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
     <name>MigremeShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="314"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="351"/>
         <source>The URL entered was not valid.</source>
-        <translation>Zadaná adresa není validní.</translation>
+        <translation type="unfinished">Zadaná adresa není validní.</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="317"/>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="322"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="354"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="359"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -770,14 +800,22 @@
         <translation>Nový účet</translation>
     </message>
     <message>
-        <location filename="../src/accounts/newaccountdialog.ui" line="20"/>
         <source>Login:</source>
-        <translation>Uživ. jméno:</translation>
+        <translation type="obsolete">Uživ. jméno:</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="obsolete">Heslo:</translation>
+    </message>
+    <message>
+        <location filename="../src/accounts/newaccountdialog.ui" line="20"/>
+        <source>&amp;Login:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="33"/>
-        <source>Password:</source>
-        <translation>Heslo:</translation>
+        <source>&amp;Password:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="61"/>
@@ -791,25 +829,44 @@
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="74"/>
+        <source>&amp;Social network:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/accounts/newaccountdialog.ui" line="90"/>
+        <source>Network &amp;name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/accounts/newaccountdialog.ui" line="100"/>
+        <source>&amp;Website:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Social network:</source>
-        <translation>Sociální síť:</translation>
+        <translation type="obsolete">Sociální síť:</translation>
+    </message>
+    <message>
+        <location filename="../src/accounts/newaccountdialog.cpp" line="39"/>
+        <source>Other StatusNet</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>OAuthWizard</name>
     <message>
-        <location filename="../src/oauth/oauthwizard.cpp" line="113"/>
+        <location filename="../src/oauth/oauthwizard.cpp" line="114"/>
         <source>There was a network-related problem with completing the request. Please try again later.</source>
         <translation>Při zpracování požadavku došlo k problému ve spojení. Zkuste to prosím později.</translation>
     </message>
     <message>
-        <location filename="../src/oauth/oauthwizard.cpp" line="114"/>
-        <location filename="../src/oauth/oauthwizard.cpp" line="162"/>
+        <location filename="../src/oauth/oauthwizard.cpp" line="115"/>
+        <location filename="../src/oauth/oauthwizard.cpp" line="163"/>
         <source>Retry</source>
         <translation>Opakovat</translation>
     </message>
     <message>
-        <location filename="../src/oauth/oauthwizard.cpp" line="161"/>
+        <location filename="../src/oauth/oauthwizard.cpp" line="162"/>
         <source>Either the PIN you entered is incorrect, or a network-related problem occured. Please try again later.</source>
         <translation>Zadaný PIN je nesprávný, nebo došlo k problému ve spojení. Zkuste to prosím později.</translation>
     </message>
@@ -841,90 +898,90 @@
     <name>Settings</name>
     <message>
         <location filename="../src/settings.cpp" line="66"/>
-        <location filename="../src/settings.cpp" line="309"/>
+        <location filename="../src/settings.cpp" line="328"/>
         <source>Tip: use %1 to shorten links</source>
         <translation>Tip: stiskněte %1 pro zkrácení adres</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="84"/>
-        <location filename="../src/settings.cpp" line="311"/>
+        <location filename="../src/settings.cpp" line="330"/>
         <source>Use custom web browser</source>
         <translation>Použít vlastní prohlížeč</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="86"/>
-        <location filename="../src/settings.cpp" line="312"/>
+        <location filename="../src/settings.cpp" line="331"/>
         <source>Browse</source>
         <translation>Procházet</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="136"/>
+        <location filename="../src/settings.cpp" line="135"/>
         <source>never</source>
         <translation>nikdy</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="246"/>
+        <location filename="../src/settings.cpp" line="265"/>
         <source>Update available</source>
         <translation>Dostupná aktualizace</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="247"/>
+        <location filename="../src/settings.cpp" line="266"/>
         <source>An update to qTwitter is available!</source>
         <translation>Aktualizace programu qTwitter je k dispozici!</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="249"/>
+        <location filename="../src/settings.cpp" line="268"/>
         <source>Current version is %1.&lt;br&gt;Download it from %2</source>
         <translation>Aktuální verze je %1.&lt;br&gt;Stáhněte ji z %2</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="254"/>
+        <location filename="../src/settings.cpp" line="273"/>
         <source>No updates available</source>
         <translation>Žádné aktualizace</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="255"/>
+        <location filename="../src/settings.cpp" line="274"/>
         <source>Sorry, no updates for qTwitter are currently available</source>
         <translation>Žádné aktualizace programu qTwitter nejsou momentálně k dispozici</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="258"/>
+        <location filename="../src/settings.cpp" line="277"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="308"/>
-        <location filename="../src/settings.cpp" line="379"/>
+        <location filename="../src/settings.cpp" line="327"/>
+        <location filename="../src/settings.cpp" line="407"/>
         <source>Default</source>
         <translation>Výchozí</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="315"/>
+        <location filename="../src/settings.cpp" line="334"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="316"/>
+        <location filename="../src/settings.cpp" line="336"/>
         <source>Apply</source>
         <translation>Použít</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="317"/>
+        <location filename="../src/settings.cpp" line="338"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="327"/>
+        <location filename="../src/settings.cpp" line="348"/>
         <source>Select your browser executable</source>
         <translation>Vyberte spustitelný soubor prohlížeče</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="327"/>
+        <location filename="../src/settings.cpp" line="348"/>
         <source>All files (*)</source>
         <translation>Všechny soubory (*)</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="373"/>
+        <location filename="../src/settings.cpp" line="401"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Česky</translation>
@@ -1015,14 +1072,34 @@
         <translation>Vzhled</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="345"/>
+        <location filename="../ui/settings.ui" line="342"/>
         <source>Status count:</source>
         <translation>Počet stavů:</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="371"/>
+        <location filename="../ui/settings.ui" line="368"/>
         <source>Color scheme:</source>
         <translation>Barevné schéma:</translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="382"/>
+        <source>Statuses display mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="388"/>
+        <source>display authors&apos; names</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="398"/>
+        <source>display authors&apos; nicks (logins)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../ui/settings.ui" line="405"/>
+        <source>display both authors&apos; names and nicks</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1034,101 +1111,120 @@
     </message>
 </context>
 <context>
+    <name>StatusModel</name>
+    <message>
+        <location filename="../src/statusmodel.cpp" line="288"/>
+        <source>Are you sure?</source>
+        <extracomment>Are you sure to delete your message</extracomment>
+        <translation type="unfinished">Jste si jisti?</translation>
+    </message>
+    <message>
+        <location filename="../src/statusmodel.cpp" line="289"/>
+        <source>Are you sure to delete this status?</source>
+        <translation type="unfinished">Opravdu chcete smazat tento stav?</translation>
+    </message>
+</context>
+<context>
     <name>StatusWidget</name>
     <message>
         <location filename="../src/statuswidget.cpp" line="55"/>
         <location filename="../src/statuswidget.cpp" line="109"/>
-        <location filename="../src/statuswidget.cpp" line="293"/>
-        <location filename="../src/statuswidget.cpp" line="424"/>
+        <location filename="../src/statuswidget.cpp" line="269"/>
+        <location filename="../src/statuswidget.cpp" line="427"/>
         <source>Add to Favorites</source>
         <translation>Přidat do oblíbených</translation>
     </message>
     <message>
         <location filename="../src/statuswidget.cpp" line="96"/>
-        <location filename="../src/statuswidget.cpp" line="440"/>
+        <location filename="../src/statuswidget.cpp" line="443"/>
         <source>Retweet</source>
         <translation>Přeposlat tweet</translation>
     </message>
     <message>
         <location filename="../src/statuswidget.cpp" line="114"/>
-        <location filename="../src/statuswidget.cpp" line="441"/>
+        <location filename="../src/statuswidget.cpp" line="444"/>
         <source>Copy link to this status</source>
         <translation>Zkopírovat odkaz na tento tweet</translation>
     </message>
     <message>
         <location filename="../src/statuswidget.cpp" line="124"/>
-        <location filename="../src/statuswidget.cpp" line="443"/>
+        <location filename="../src/statuswidget.cpp" line="446"/>
         <source>Mark list as read</source>
         <translation>Označit jako přečtené</translation>
     </message>
     <message>
         <location filename="../src/statuswidget.cpp" line="129"/>
-        <location filename="../src/statuswidget.cpp" line="444"/>
+        <location filename="../src/statuswidget.cpp" line="447"/>
         <source>Mark everything as read</source>
         <translation>Označit vše jako přečtené</translation>
     </message>
     <message>
         <location filename="../src/statuswidget.cpp" line="142"/>
-        <location filename="../src/statuswidget.cpp" line="445"/>
+        <location filename="../src/statuswidget.cpp" line="448"/>
         <source>Go to User&apos;s homepage</source>
         <translation>Jít na domovskou stránku</translation>
     </message>
     <message>
         <location filename="../src/statuswidget.cpp" line="153"/>
-        <location filename="../src/statuswidget.cpp" line="258"/>
-        <location filename="../src/statuswidget.cpp" line="275"/>
-        <location filename="../src/statuswidget.cpp" line="428"/>
+        <location filename="../src/statuswidget.cpp" line="260"/>
+        <location filename="../src/statuswidget.cpp" line="287"/>
+        <location filename="../src/statuswidget.cpp" line="431"/>
         <source>Reply to %1</source>
         <translation>Odpovědět %1</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="168"/>
-        <location filename="../src/statuswidget.cpp" line="410"/>
+        <location filename="../src/statuswidget.cpp" line="166"/>
+        <location filename="../src/statuswidget.cpp" line="413"/>
         <source>Direct message %1</source>
         <translation>Poslat přímou zprávu %1</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="189"/>
-        <location filename="../src/statuswidget.cpp" line="448"/>
+        <location filename="../src/statuswidget.cpp" line="281"/>
+        <source>Deleting messages is not supported by StatusNet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Go to User&apos;s Identi.ca page</source>
-        <translation>Jít na Identi.ca stránku</translation>
+        <translation type="obsolete">Jít na Identi.ca stránku</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="192"/>
-        <location filename="../src/statuswidget.cpp" line="450"/>
         <source>Go to User&apos;s Twitter page</source>
-        <translation>Jít na Twitter stránku</translation>
+        <translation type="obsolete">Jít na Twitter stránku</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="255"/>
-        <location filename="../src/statuswidget.cpp" line="266"/>
-        <location filename="../src/statuswidget.cpp" line="431"/>
-        <location filename="../src/statuswidget.cpp" line="442"/>
+        <location filename="../src/statuswidget.cpp" line="174"/>
+        <location filename="../src/statuswidget.cpp" line="257"/>
+        <location filename="../src/statuswidget.cpp" line="434"/>
+        <location filename="../src/statuswidget.cpp" line="445"/>
         <source>Delete status</source>
         <translation>Smazat stav</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="262"/>
-        <location filename="../src/statuswidget.cpp" line="268"/>
-        <location filename="../src/statuswidget.cpp" line="433"/>
+        <location filename="../src/statuswidget.cpp" line="178"/>
+        <location filename="../src/statuswidget.cpp" line="278"/>
+        <location filename="../src/statuswidget.cpp" line="436"/>
         <source>Delete message</source>
         <translation>Smazat zprávu</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="284"/>
-        <location filename="../src/statuswidget.cpp" line="287"/>
-        <location filename="../src/statuswidget.cpp" line="416"/>
-        <location filename="../src/statuswidget.cpp" line="419"/>
+        <location filename="../src/statuswidget.cpp" line="192"/>
+        <location filename="../src/statuswidget.cpp" line="450"/>
+        <source>Go to User&apos;s %1 page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/statuswidget.cpp" line="266"/>
+        <location filename="../src/statuswidget.cpp" line="422"/>
         <source>Remove from Favorites</source>
         <translation>Odebrat z oblíbených</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="322"/>
+        <location filename="../src/statuswidget.cpp" line="310"/>
         <source>in reply to %1</source>
         <translation>odpovídá %1</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="427"/>
+        <location filename="../src/statuswidget.cpp" line="430"/>
         <source>About %1</source>
         <translation>O %1</translation>
     </message>
@@ -1150,9 +1246,9 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TinyarrowsShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="187"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="224"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -1160,7 +1256,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="163"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -1168,12 +1264,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="109"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation>Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
+        <translation type="unfinished">Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="115"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -1270,14 +1366,14 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UnuShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="210"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="247"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation>Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
+        <translation type="unfinished">Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
     </message>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="215"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="252"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>

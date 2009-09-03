@@ -39,6 +39,8 @@ private:
   void populateCredits();
   void displayAbout();
 
+  int fontSize;
+  QString fontFamily;
   Ui::AboutDialog *ui;
 };
 

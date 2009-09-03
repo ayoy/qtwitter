@@ -29,24 +29,32 @@
         <translation>Schließen</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="+59"/>
+        <location filename="../src/aboutdialog.cpp" line="+61"/>
         <source>Application concept and main development</source>
         <translation>Programmkonzept und Hauptentwicklung</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>API library improvements and themes revisiting</source>
-        <translation>API-Bibliotheks- und Theme-Verbesserungen</translation>
+        <translation type="obsolete">API-Bibliotheks- und Theme-Verbesserungen</translation>
     </message>
     <message>
-        <location line="-1"/>
         <source>URL shortening services support</source>
-        <translation>URL-Kürzungsdienst</translation>
+        <translation type="obsolete">URL-Kürzungsdienst</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="-2"/>
         <source>Development team as for %1:</source>
         <translation>Entwickler Team für %1:</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>URL shortening library</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Other contributions:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+8"/>
@@ -54,7 +62,12 @@
         <translation>Übersetzungen:</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>Czech translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>French translation</source>
         <translation>Französische Übersetzung</translation>
     </message>
@@ -86,16 +99,20 @@
         <translation>Andere Icons von %1</translation>
     </message>
     <message>
-        <location line="+22"/>
+        <location line="+28"/>
+        <source>&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - ein Qt-basierter Twitter und Identi.ca Client&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Veröffentlicht unter der LGPL Lizens&lt;/p&gt;&lt;p&gt;Version 2.1 oder neuer&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - ein Qt-basierter Twitter und Identi.ca Client&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Veröffentlicht unter der LGPL Lizens&lt;/p&gt;&lt;p&gt;Version 2.1 oder neuer&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - ein Qt-Twitter-Client&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;von &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Verbreitet unter der LGPL-Lizenz&lt;/p&gt;&lt;p&gt;Version 2.1 oder später&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location line="-19"/>
+        <location line="-25"/>
         <source>Testing:</source>
         <translation>Tests:</translation>
     </message>
@@ -104,12 +121,11 @@
         <translation type="obsolete">Entwicklerteam für 0.7.1:</translation>
     </message>
     <message>
-        <location line="-36"/>
         <source>Porting to Maemo platform</source>
-        <translation>Portierung zur Maemo-Plattform</translation>
+        <translation type="obsolete">Portierung zur Maemo-Plattform</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location line="-26"/>
         <source>Portugese translation</source>
         <translation>Portugiesische Übersetzung</translation>
     </message>
@@ -152,7 +168,7 @@
 <context>
     <name>AccountsController</name>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="+250"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="+264"/>
         <source>Password security</source>
         <translation>Passwortsicherheit</translation>
     </message>
@@ -172,38 +188,32 @@
         <translation>Vorsicht: Twitter Schlüssel bleiben gespeichert. Löschen Sie den Account aus der Liste, um die Schlüssel zu entfernen.</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <location line="+5"/>
         <source>Add account</source>
-        <translation>Konto hinzufügen</translation>
+        <translation type="obsolete">Konto hinzufügen</translation>
     </message>
     <message>
-        <location line="-5"/>
-        <location line="+7"/>
         <source>Select social network:</source>
         <extracomment>Select social network, i.e. Twitter or Identi.ca</extracomment>
-        <translation>Social Network wählen:</translation>
+        <translation type="obsolete">Social Network wählen:</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Cancel</source>
-        <translation>Abbrechen</translation>
+        <translation type="obsolete">Abbrechen</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
 </context>
 <context>
     <name>AccountsModel</name>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="+96"/>
+        <location filename="../src/accounts/accountsmodel.cpp" line="+82"/>
         <source>authorized</source>
         <translation>authorisiert</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+33"/>
         <source>Enabled</source>
         <translation>Aktiviert</translation>
     </message>
@@ -230,10 +240,14 @@
         <translation>Direktnachricht</translation>
     </message>
     <message>
-        <location line="+145"/>
+        <location line="+141"/>
+        <source>empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation>&lt;leer&gt;</translation>
+        <translation type="obsolete">&lt;leer&gt;</translation>
     </message>
 </context>
 <context>
@@ -257,9 +271,14 @@
         <translation>Authentifizierung notwendig</translation>
     </message>
     <message>
-        <location line="+33"/>
         <source>The credentials you provided are incorrect</source>
-        <translation>Die Benutzerdaten sind inkorrekt</translation>
+        <translation type="obsolete">Die Benutzerdaten sind inkorrekt</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>The credentials you provided for %1 are incorrect</source>
+        <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
@@ -296,32 +315,44 @@
 <context>
     <name>BitlyShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+247"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+284"/>
         <source>The URL entered was not valid.</source>
-        <translation>Die eingegebene URL ist nicht korrekt.</translation>
+        <translation type="unfinished">Die eingegebene URL ist nicht korrekt.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Ein Fehler trat auf beim Kürzen der URL.</translation>
+        <translation type="unfinished">Ein Fehler trat auf beim Kürzen der URL.</translation>
+    </message>
+</context>
+<context>
+    <name>BoooomShortener</name>
+    <message>
+        <location line="-97"/>
+        <source>An error occured with b.oooom.net. Please file a bug.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>An unknown error occured when shortening your URL.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="+381"/>
         <source>Are you sure to delete this status?</source>
-        <translation>Wollen Sie diesen Status wirklich löschen?</translation>
+        <translation type="obsolete">Wollen Sie diesen Status wirklich löschen?</translation>
     </message>
     <message>
-        <location line="+118"/>
+        <location filename="../src/core.cpp" line="+468"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;leer&gt;</translation>
     </message>
     <message>
-        <location line="+213"/>
+        <location line="+140"/>
         <source>Authentication is required to send direct messages.</source>
         <translation>Authentifizierung erforderlich, um Direktnachrichten zu senden.</translation>
     </message>
@@ -331,12 +362,12 @@
         <translation>Authentifizierung erforderlich, um Updates zu löschen.</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location line="+3"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>Authentifizierung erforderlich, um Updates von Freunden zu erhalten.</translation>
     </message>
     <message>
-        <location line="+74"/>
+        <location line="+73"/>
         <source>For:
 %1</source>
         <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
@@ -344,19 +375,19 @@
 %1</translation>
     </message>
     <message>
-        <location line="-87"/>
+        <location line="-82"/>
         <source>Authentication is required to post updates.</source>
         <translation>Authentifizierung erforderlich, um Updates zu senden.</translation>
     </message>
     <message>
-        <location line="-465"/>
+        <location line="-367"/>
         <source>Welcome!</source>
         <translation>Willkommen!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Welcome to qTwitter %1!</source>
-        <extracomment>e.g. &quot;Welcome to qTwitter 0.8.0!&quot;</extracomment>
+        <extracomment>e.g. &quot;Welcome to qTwitter 0.8.1!&quot;</extracomment>
         <translation>Willkommen bei qTwitter %1!</translation>
     </message>
     <message>
@@ -365,13 +396,12 @@
         <translation>&lt;b&gt;Bitte beachten Sie:&lt;/b&gt; Wir haben in diesem Release das ultra sichere OAuth Schema eingeführt. Somit werden Sie nicht mehr nach ihrem Twitter Passwort gefragt. Leider wird ihre aktuelle Konfiguration nicht mehr funktionieren. Ihre Twitter Konten und zugehörige Passwörter wurden aus den Einstellungen entfernt, bitte konfigurieren Sie diese unter den Einstellungen neu. Vielen Dank und viel Spaß mit qTwitter!</translation>
     </message>
     <message>
-        <location line="+133"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation>Sind Sie sicher?</translation>
+        <translation type="obsolete">Sind Sie sicher?</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+161"/>
         <source>Enter password</source>
         <translation>Passwort eingeben</translation>
     </message>
@@ -391,17 +421,15 @@
         <translation>Foto hier verfügbar:</translation>
     </message>
     <message>
-        <location line="+283"/>
         <source>Warning</source>
-        <translation>Warnung</translation>
+        <translation type="obsolete">Warnung</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
-        <translation>Eine oder mehrere Anfragen konnten nicht durchgeführt werden. Überprüfen Sie Ihre Verbindung und/oder Kontoeinstellungen.</translation>
+        <translation type="obsolete">Eine oder mehrere Anfragen konnten nicht durchgeführt werden. Überprüfen Sie Ihre Verbindung und/oder Kontoeinstellungen.</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+247"/>
         <source>For %1</source>
         <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
         <translation>Für %1</translation>
@@ -410,7 +438,7 @@
 <context>
     <name>DMDialog</name>
     <message>
-        <location filename="../src/dmdialog.cpp" line="+53"/>
+        <location filename="../src/dmdialog.cpp" line="+51"/>
         <source>Direct message %1</source>
         <translation>Direktnachricht %1</translation>
     </message>
@@ -479,7 +507,7 @@
         <translation>Sende...</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+15"/>
         <source>Message sent!</source>
         <translation>Nachricht versendet!</translation>
     </message>
@@ -517,58 +545,58 @@
 <context>
     <name>DiggShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+27"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+119"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
+        <translation type="unfinished">Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
     <name>IsgdShortener</name>
     <message>
-        <location line="-211"/>
+        <location line="-248"/>
         <source>The URL entered was not valid.</source>
-        <translation>Die eingegebene URL ist nicht korrekt.</translation>
+        <translation type="unfinished">Die eingegebene URL ist nicht korrekt.</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation>Der URL-Kürzungsdienst konnte Sie nicht authorisieren. Bitte checken Sie Benutzername und Passwort.</translation>
+        <translation type="unfinished">Der URL-Kürzungsdienst konnte Sie nicht authorisieren. Bitte checken Sie Benutzername und Passwort.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>The URL entered was too long.</source>
-        <translation>Die eingegebene URL ist zu lang.</translation>
+        <translation type="unfinished">Die eingegebene URL ist zu lang.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation>Die Anfrage dieser Adresse wurde gesperrt durch Spamhaus (SBL/XBL) oder Spamcop.</translation>
+        <translation type="unfinished">Die Anfrage dieser Adresse wurde gesperrt durch Spamhaus (SBL/XBL) oder Spamcop.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation>Die eingegebene URL ist eine potenzielle Spamseite und ist entweder bei SURBL oder URIBL aufgelistet.</translation>
+        <translation type="unfinished">Die eingegebene URL ist eine potenzielle Spamseite und ist entweder bei SURBL oder URIBL aufgelistet.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation>Die eingegebene URL ist auf is.gds schwarzer Liste (Links auf URL-Verkürzungsdienste oder zu is.gd selbst wurden deaktiviert, um Missbrauch zu vermeiden).</translation>
+        <translation type="unfinished">Die eingegebene URL ist auf is.gds schwarzer Liste (Links auf URL-Verkürzungsdienste oder zu is.gd selbst wurden deaktiviert, um Missbrauch zu vermeiden).</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation>Die Anfrage dieser Adresse wurde geblockt durch is.gd (wahrscheinlich aufgrund einer Verletzung ihrer Nutzungsbedingungen).</translation>
+        <translation type="unfinished">Die Anfrage dieser Adresse wurde geblockt durch is.gd (wahrscheinlich aufgrund einer Verletzung ihrer Nutzungsbedingungen).</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
+        <translation type="unfinished">Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="+426"/>
+        <location filename="../src/mainwindow.cpp" line="+425"/>
         <source>Error</source>
         <translation>Fehler</translation>
     </message>
@@ -583,20 +611,20 @@
         <translation>&lt;span style=&quot;color: black&quot;&gt;Verwenden Sie &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; um Links zu kürzen&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="+113"/>
+        <location filename="../src/mainwindow.cpp" line="+115"/>
         <location filename="../ui/mainwindow.ui" line="+6"/>
         <source>What are you doing?</source>
         <translation>Was tun Sie gerade?</translation>
     </message>
     <message>
-        <location line="-387"/>
-        <location line="+375"/>
+        <location line="-385"/>
+        <location line="+373"/>
         <source>Settings</source>
         <translation>Einstellungen</translation>
     </message>
     <message>
-        <location line="-348"/>
-        <location line="+367"/>
+        <location line="-346"/>
+        <location line="+365"/>
         <source>About qTwitter...</source>
         <translation>Über qTwitter...</translation>
     </message>
@@ -605,7 +633,7 @@
         <translation type="obsolete">Öffentliche Zeitleiste</translation>
     </message>
     <message>
-        <location line="-257"/>
+        <location line="-267"/>
         <source>Your message is too long.</source>
         <translation>Die Nachricht ist zu lang.</translation>
     </message>
@@ -630,26 +658,26 @@
         <translation>Es kann so gesendet werden, wird jedoch abgeschnitten.</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+136"/>
         <source>New tweets</source>
         <extracomment>New tweets received (this pops up in tray)</extracomment>
         <translation>Neue Tweets</translation>
     </message>
     <message>
         <location line="+54"/>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Update available</source>
         <translation>Update verfügbar</translation>
     </message>
     <message>
-        <location line="-21"/>
-        <location line="+22"/>
+        <location line="-22"/>
+        <location line="+23"/>
         <source>An update to qTwitter is available!</source>
         <translation>Ein Update für qTwitter ist verfügbar!</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+22"/>
+        <location line="-21"/>
+        <location line="+23"/>
         <source>Current version is %1.&lt;br&gt;Download it from %2</source>
         <translation>Aktuelle Version ist %1.&lt;br&gt;Download von %2</translation>
     </message>
@@ -665,7 +693,7 @@
     </message>
     <message>
         <location line="+3"/>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>Close</source>
         <translation>Schließen</translation>
     </message>
@@ -686,55 +714,55 @@
         <translation>Aktualisiere Tweets</translation>
     </message>
     <message>
-        <location line="-375"/>
+        <location line="-373"/>
         <location line="+29"/>
-        <location line="+367"/>
+        <location line="+365"/>
         <source>Quit</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location line="-374"/>
-        <location line="+367"/>
+        <location line="-372"/>
+        <location line="+365"/>
         <source>New tweet</source>
         <translation>Neuer Tweet</translation>
     </message>
     <message>
-        <location line="-405"/>
+        <location line="-403"/>
         <source>&amp;File</source>
         <translation>&amp;Datei</translation>
     </message>
     <message>
         <location line="+39"/>
-        <location line="+367"/>
+        <location line="+365"/>
         <source>Upload a photo to TwitPic</source>
         <translation>Ein Foto bei TwitPic hochladen</translation>
     </message>
     <message>
-        <location line="-366"/>
-        <location line="+367"/>
+        <location line="-364"/>
+        <location line="+365"/>
         <source>Go to Twitter</source>
         <translation>Gehe zu Twitter</translation>
     </message>
     <message>
-        <location line="-366"/>
-        <location line="+367"/>
+        <location line="-364"/>
+        <location line="+365"/>
         <source>Go to Identi.ca</source>
         <translation>Gehe zu Identi.ca</translation>
     </message>
     <message>
-        <location line="-366"/>
-        <location line="+367"/>
+        <location line="-364"/>
+        <location line="+365"/>
         <source>Go to TwitPic</source>
         <translation>Gehe zu TwitPic</translation>
     </message>
     <message>
-        <location line="-366"/>
-        <location line="+367"/>
+        <location line="-364"/>
+        <location line="+365"/>
         <source>Check for updates</source>
         <translation>Nach Updates suchen</translation>
     </message>
     <message numerus="yes">
-        <location line="-277"/>
+        <location line="-287"/>
         <source>%n character left</source>
         <translation>
             <numerusform>%n Zeichen übrig</numerusform>
@@ -742,8 +770,8 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location line="-204"/>
-        <location line="+205"/>
+        <location line="-192"/>
+        <location line="+193"/>
         <source>%n characters left</source>
         <translation>
             <numerusform>%n Zeichen übrig</numerusform>
@@ -772,21 +800,21 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+53"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
+        <translation type="unfinished">Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
     <name>MigremeShortener</name>
     <message>
-        <location line="+175"/>
+        <location line="+212"/>
         <source>The URL entered was not valid.</source>
-        <translation>Die eingegebene URL ist nicht korrekt.</translation>
+        <translation type="unfinished">Die eingegebene URL ist nicht korrekt.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
+        <translation type="unfinished">Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
@@ -797,14 +825,18 @@
         <translation>Neues Konto</translation>
     </message>
     <message>
+        <source>Password:</source>
+        <translation type="obsolete">Passwort:</translation>
+    </message>
+    <message>
         <location line="+6"/>
-        <source>Login:</source>
-        <translation></translation>
+        <source>&amp;Login:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Password:</source>
-        <translation>Passwort:</translation>
+        <source>&amp;Password:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+28"/>
@@ -818,14 +850,29 @@
     </message>
     <message>
         <location line="+8"/>
-        <source>Social network:</source>
-        <translation></translation>
+        <source>&amp;Social network:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Network &amp;name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>&amp;Website:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/accounts/newaccountdialog.cpp" line="+39"/>
+        <source>Other StatusNet</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>OAuthWizard</name>
     <message>
-        <location filename="../src/oauth/oauthwizard.cpp" line="+113"/>
+        <location filename="../src/oauth/oauthwizard.cpp" line="+114"/>
         <source>There was a network-related problem with completing the request. Please try again later.</source>
         <translation>Es trat ein Fehler beim Bearbeiten der Anfrage auf. Bitte versuchen Sie es später erneut.</translation>
     </message>
@@ -882,7 +929,7 @@
         <translation>Sprache</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+389"/>
+        <location filename="../src/settings.cpp" line="+401"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Deutsch</translation>
@@ -893,12 +940,12 @@
         <translation>Netzwerk</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="-253"/>
+        <location filename="../src/settings.cpp" line="-266"/>
         <source>never</source>
         <translation>nie</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+130"/>
         <source>Update available</source>
         <translation>Update verfügbar</translation>
     </message>
@@ -913,7 +960,7 @@
         <translation>Aktuelle Version ist %1.&lt;br&gt;Download von %2</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>No updates available</source>
         <translation>Keine Updates verfügbar</translation>
     </message>
@@ -956,45 +1003,45 @@
         <translation></translation>
     </message>
     <message>
-        <location line="+111"/>
+        <location line="+108"/>
         <source>Status count:</source>
         <translation>Statusanzahl:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+75"/>
+        <location filename="../src/settings.cpp" line="+59"/>
         <source>Apply</source>
         <translation>Anwenden</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location line="-26"/>
-        <location line="+88"/>
+        <location line="-11"/>
+        <location line="+80"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location line="-64"/>
+        <location line="-73"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location line="-247"/>
-        <location line="+243"/>
+        <location line="-250"/>
+        <location line="+246"/>
         <source>Use custom web browser</source>
         <translation>Anderen Web-Browser verwenden</translation>
     </message>
     <message>
-        <location line="-241"/>
-        <location line="+242"/>
+        <location line="-244"/>
+        <location line="+245"/>
         <source>Browse</source>
         <translation>Suche</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="-292"/>
+        <location filename="../ui/settings.ui" line="-289"/>
         <source>Refresh every (mins)</source>
         <translation>Aktualisiere alle (Minuten)</translation>
     </message>
@@ -1024,12 +1071,32 @@
         <translation>Jetzt suchen</translation>
     </message>
     <message>
-        <location line="-147"/>
+        <location line="+70"/>
+        <source>Statuses display mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>display authors&apos; names</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>display authors&apos; nicks (logins)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>display both authors&apos; names and nicks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-240"/>
         <source>Show tray notifications</source>
         <translation>Tray-Benachrichtigungen aktivieren</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+15"/>
+        <location filename="../src/settings.cpp" line="+17"/>
         <source>Select your browser executable</source>
         <translation>Wähle die ausführbare Datei des Browsers</translation>
     </message>
@@ -1044,7 +1111,8 @@
         <translation>Erscheinungsbild</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="-277"/>
+        <location filename="../src/settings.cpp" line="-282"/>
+        <location line="+262"/>
         <source>Tip: use %1 to shorten links</source>
         <translation>Hinweis: %1 zum Kürzen von Links benutzen</translation>
     </message>
@@ -1058,7 +1126,7 @@
         <translation>Konten</translation>
     </message>
     <message>
-        <location line="+182"/>
+        <location line="+179"/>
         <source>Color scheme:</source>
         <translation>Farbschema:</translation>
     </message>
@@ -1066,9 +1134,23 @@
 <context>
     <name>StatusEdit</name>
     <message>
-        <location filename="../src/statusedit.cpp" line="+80"/>
+        <location filename="../src/statusedit.cpp" line="+85"/>
         <source>What are you doing?</source>
         <translation>Was tun Sie gerade?</translation>
+    </message>
+</context>
+<context>
+    <name>StatusModel</name>
+    <message>
+        <location filename="../src/statusmodel.cpp" line="+288"/>
+        <source>Are you sure?</source>
+        <extracomment>Are you sure to delete your message</extracomment>
+        <translation type="unfinished">Sind Sie sicher?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Are you sure to delete this status?</source>
+        <translation type="unfinished">Wollen Sie diesen Status wirklich löschen?</translation>
     </message>
 </context>
 <context>
@@ -1076,97 +1158,102 @@
     <message>
         <location filename="../src/statuswidget.cpp" line="+55"/>
         <location line="+54"/>
-        <location line="+184"/>
-        <location line="+131"/>
+        <location line="+160"/>
+        <location line="+158"/>
         <source>Add to Favorites</source>
         <translation>Zu Favoriten hinzufügen</translation>
     </message>
     <message>
-        <location line="-328"/>
-        <location line="+344"/>
+        <location line="-331"/>
+        <location line="+347"/>
         <source>Retweet</source>
         <translation>Retweet</translation>
     </message>
     <message>
-        <location line="-326"/>
-        <location line="+327"/>
+        <location line="-329"/>
+        <location line="+330"/>
         <source>Copy link to this status</source>
         <translation>Kopiere Link zu dieser Nachricht</translation>
     </message>
     <message>
-        <location line="-317"/>
-        <location line="+319"/>
+        <location line="-320"/>
+        <location line="+322"/>
         <source>Mark list as read</source>
         <translation>Markiere Liste als gelesen</translation>
     </message>
     <message>
-        <location line="-314"/>
-        <location line="+315"/>
+        <location line="-317"/>
+        <location line="+318"/>
         <source>Mark everything as read</source>
         <translation>Alles als gelesen markieren</translation>
     </message>
     <message>
-        <location line="-302"/>
-        <location line="+303"/>
+        <location line="-305"/>
+        <location line="+306"/>
         <source>Go to User&apos;s homepage</source>
         <translation>Zur Homepage des Benutzers</translation>
     </message>
     <message>
-        <location line="-292"/>
-        <location line="+105"/>
-        <location line="+17"/>
-        <location line="+153"/>
+        <location line="-295"/>
+        <location line="+107"/>
+        <location line="+27"/>
+        <location line="+144"/>
         <source>Reply to %1</source>
         <translation>Antworte auf %1</translation>
     </message>
     <message>
-        <location line="-260"/>
-        <location line="+242"/>
+        <location line="-265"/>
+        <location line="+247"/>
         <source>Direct message %1</source>
         <translation>Direktnachricht %1</translation>
     </message>
     <message>
-        <location line="-221"/>
-        <location line="+259"/>
+        <location line="-132"/>
+        <source>Deleting messages is not supported by StatusNet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Go to User&apos;s Identi.ca page</source>
-        <translation>Zur Identi.ca Seite des Benutzers</translation>
+        <translation type="obsolete">Zur Identi.ca Seite des Benutzers</translation>
     </message>
     <message>
-        <location line="-256"/>
-        <location line="+258"/>
         <source>Go to User&apos;s Twitter page</source>
-        <translation>Zur Twitter-Seite des Benutzers</translation>
+        <translation type="obsolete">Zur Twitter-Seite des Benutzers</translation>
     </message>
     <message>
-        <location line="-195"/>
-        <location line="+11"/>
-        <location line="+165"/>
+        <location line="-107"/>
+        <location line="+83"/>
+        <location line="+177"/>
         <location line="+11"/>
         <source>Delete status</source>
         <translation>Status löschen</translation>
     </message>
     <message>
-        <location line="-180"/>
-        <location line="+6"/>
-        <location line="+165"/>
+        <location line="-267"/>
+        <location line="+100"/>
+        <location line="+158"/>
         <source>Delete message</source>
         <translation>Nachricht löschen</translation>
     </message>
     <message>
-        <location line="-149"/>
-        <location line="+3"/>
-        <location line="+129"/>
-        <location line="+3"/>
+        <location line="-244"/>
+        <location line="+258"/>
+        <source>Go to User&apos;s %1 page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-184"/>
+        <location line="+156"/>
         <source>Remove from Favorites</source>
         <translation>Aus Favoriten entfernen</translation>
     </message>
     <message>
-        <location line="-97"/>
+        <location line="-112"/>
         <source>in reply to %1</source>
         <translation>Antwort auf %1</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+120"/>
         <source>About %1</source>
         <translation>Über %1</translation>
     </message>
@@ -1186,15 +1273,15 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="-135"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
+        <translation type="unfinished">Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
     <name>TinyurlShortener</name>
     <message>
-        <location line="-24"/>
+        <location line="-61"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
+        <translation type="unfinished">Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
@@ -1202,12 +1289,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-54"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation>Die URL wurde durch tr.im zurückgewiesen</translation>
+        <translation type="unfinished">Die URL wurde durch tr.im zurückgewiesen</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
+        <translation type="unfinished">Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>
@@ -1304,14 +1391,14 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UnuShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+95"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+132"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation>Die URL wurde durch u.nu zurückgewiesen</translation>
+        <translation type="unfinished">Die URL wurde durch u.nu zurückgewiesen</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
+        <translation type="unfinished">Ein unbekannter Fehler trat auf beim Kürzen der URL.</translation>
     </message>
 </context>
 <context>

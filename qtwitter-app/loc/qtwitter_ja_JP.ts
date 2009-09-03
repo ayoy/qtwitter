@@ -29,41 +29,53 @@
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="+59"/>
+        <location filename="../src/aboutdialog.cpp" line="+61"/>
         <source>Application concept and main development</source>
         <translation>アプリケーションの着想と主要開発</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>API library improvements and themes revisiting</source>
-        <translation>APIライブラリの改善やテーマの再考</translation>
+        <translation type="obsolete">APIライブラリの改善やテーマの再考</translation>
     </message>
     <message>
-        <location line="-1"/>
         <source>URL shortening services support</source>
-        <translation>URLを短縮するサービスのサポート</translation>
+        <translation type="obsolete">URLを短縮するサービスのサポート</translation>
     </message>
     <message>
         <source>Development team as for 0.7.1:</source>
         <translation type="obsolete">0.7.1バージョンの開発チーム:</translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location line="-2"/>
         <source>Development team as for %1:</source>
         <translation>%1バージョンの開発チーム:</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>Porting to Maemo platform</source>
-        <translation>マエモプラットホームへのポーティング</translation>
+        <translation type="obsolete">マエモプラットホームへのポーティング</translation>
     </message>
     <message>
         <location line="+3"/>
+        <source>URL shortening library</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <source>Other contributions:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+8"/>
         <source>Translations:</source>
         <translation>翻訳:</translation>
     </message>
     <message>
-        <location line="+3"/>
+        <location line="+2"/>
+        <source>Czech translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
         <source>French translation</source>
         <translation>フランス語への翻訳</translation>
     </message>
@@ -120,9 +132,13 @@
         <translation>リリース:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location line="+20"/>
+        <source>&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;キｭｰツイッター - QtによるトゥウィータとIdenti.caのクライアント&lt;/p&gt;&lt;p&gt;バージョン %1&lt;/p&gt;&lt;p&gt;著作権 &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;バージョン2.1以上のLGPLのライセンスにより配布されています&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;キｭｰツイッター - QtによるトゥウィータとIdenti.caのクライアント&lt;/p&gt;&lt;p&gt;バージョン %1&lt;/p&gt;&lt;p&gt;著作権 &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;バージョン2.1以上のLGPLのライセンスにより配布されています&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -160,7 +176,7 @@
 <context>
     <name>AccountsController</name>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="+250"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="+264"/>
         <source>Password security</source>
         <translation>パスワードの安全度</translation>
     </message>
@@ -180,38 +196,32 @@
         <translation>いずれにせよツイッターのユーザー認証の鍵が保存されるということにご注意ください。鍵を削除するためには、アカウントを一覧表からお取り除きください。</translation>
     </message>
     <message>
-        <location line="+20"/>
-        <location line="+5"/>
         <source>Add account</source>
-        <translation>アカウントを追加する</translation>
+        <translation type="obsolete">アカウントを追加する</translation>
     </message>
     <message>
-        <location line="-5"/>
-        <location line="+7"/>
         <source>Select social network:</source>
         <extracomment>Select social network, i.e. Twitter or Identi.ca</extracomment>
-        <translation>ソーシャルネットワークを選択してください:</translation>
+        <translation type="obsolete">ソーシャルネットワークを選択してください:</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Cancel</source>
-        <translation>取り消し</translation>
+        <translation type="obsolete">取り消し</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>OK</source>
-        <translation>OK</translation>
+        <translation type="obsolete">OK</translation>
     </message>
 </context>
 <context>
     <name>AccountsModel</name>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="+96"/>
+        <location filename="../src/accounts/accountsmodel.cpp" line="+82"/>
         <source>authorized</source>
         <translation>認定されている</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+33"/>
         <source>Enabled</source>
         <translation>使用可能</translation>
     </message>
@@ -238,10 +248,14 @@
         <translation>PM</translation>
     </message>
     <message>
-        <location line="+145"/>
+        <location line="+141"/>
+        <source>empty</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation>&lt;なし&gt;</translation>
+        <translation type="obsolete">&lt;なし&gt;</translation>
     </message>
 </context>
 <context>
@@ -265,9 +279,14 @@
         <translation>ユーザー認証が必要です</translation>
     </message>
     <message>
-        <location line="+33"/>
         <source>The credentials you provided are incorrect</source>
-        <translation>ご提供の信用証明書は不正確です</translation>
+        <translation type="obsolete">ご提供の信用証明書は不正確です</translation>
+    </message>
+    <message>
+        <location line="+33"/>
+        <source>The credentials you provided for %1 are incorrect</source>
+        <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
@@ -304,38 +323,51 @@
 <context>
     <name>BitlyShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+247"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+284"/>
         <source>The URL entered was not valid.</source>
-        <translation>ご入力のURLは正しくありません。</translation>
+        <translation type="unfinished">ご入力のURLは正しくありません。</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>URLを短執する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短執する際に未知のエラーが発生しました。</translation>
+    </message>
+</context>
+<context>
+    <name>BoooomShortener</name>
+    <message>
+        <location line="-97"/>
+        <source>An error occured with b.oooom.net. Please file a bug.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>An unknown error occured when shortening your URL.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="+722"/>
+        <location filename="../src/core.cpp" line="+614"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>ご友人の更新情報をお読みになるには、ユーザー認証が必要です。</translation>
     </message>
     <message>
-        <location line="-13"/>
+        <location line="-9"/>
         <source>Authentication is required to post updates.</source>
         <translation>最新情報を掲示するには、ユーザー認証が必要となります。</translation>
     </message>
     <message>
-        <location line="-465"/>
+        <location line="-367"/>
         <source>Welcome!</source>
         <translation>ようこそ!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Welcome to qTwitter %1!</source>
-        <extracomment>e.g. &quot;Welcome to qTwitter 0.8.0!&quot;</extracomment>
+        <extracomment>e.g. &quot;Welcome to qTwitter 0.8.1!&quot;</extracomment>
         <translation>%1バージョンのキｭｰツイッターへようこそ!</translation>
     </message>
     <message>
@@ -344,18 +376,16 @@
         <translation>&lt;b&gt;注意:&lt;/b&gt; このリリースではOAuthという超安全なユーザー認証の仕組みがツイッターアカウントに導入されました。おかげで、キューツイッターでツイッターのパスワードを入力する必要がなくなったので、これから二度と入力するように頼まれることはありません。しかし、そのために今までお使いになったキューツイッターの設定が使用できなくなります。全てのツイッターのアカウントとパスワードがキューツイッターの設定から削除されますので、設定の画面で再びセットするようにお願いします。これからもキューツイッターを使うのを楽しめますように!</translation>
     </message>
     <message>
-        <location line="+133"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation>よろしいですか?</translation>
+        <translation type="obsolete">よろしいですか?</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>Are you sure to delete this status?</source>
-        <translation>このステータスを削除してよろしいですか?</translation>
+        <translation type="obsolete">このステータスを削除してよろしいですか?</translation>
     </message>
     <message>
-        <location line="+45"/>
+        <location line="+161"/>
         <source>Enter password</source>
         <translation>パスワードを入力してください</translation>
     </message>
@@ -375,13 +405,13 @@
         <translation>写真が次のところから入手できます:</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location line="+32"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;空&gt;</translation>
     </message>
     <message>
-        <location line="+213"/>
+        <location line="+140"/>
         <source>Authentication is required to send direct messages.</source>
         <translation>直接なメッセージを送信するには、ユーザー認証が必要となります。</translation>
     </message>
@@ -391,17 +421,15 @@
         <translation>更新情報を削除するには、ユーザー認証が必要です。</translation>
     </message>
     <message>
-        <location line="+28"/>
         <source>Warning</source>
-        <translation>注意</translation>
+        <translation type="obsolete">注意</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
-        <translation>一つ以上の要請が完成されませんでした。インターネット接続が可能なことや、アカウントの設定が正しいことをお確かめください。</translation>
+        <translation type="obsolete">一つ以上の要請が完成されませんでした。インターネット接続が可能なことや、アカウントの設定が正しいことをお確かめください。</translation>
     </message>
     <message>
-        <location line="+48"/>
+        <location line="+72"/>
         <source>For %1</source>
         <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
         <translation>%1に</translation>
@@ -418,7 +446,7 @@
 <context>
     <name>DMDialog</name>
     <message>
-        <location filename="../src/dmdialog.cpp" line="+53"/>
+        <location filename="../src/dmdialog.cpp" line="+51"/>
         <source>Direct message %1</source>
         <translation>%1にPMを送る</translation>
     </message>
@@ -482,7 +510,7 @@
         <translation>送信中...</translation>
     </message>
     <message>
-        <location line="+18"/>
+        <location line="+15"/>
         <source>Message sent!</source>
         <translation>メッセージが送信されました!</translation>
     </message>
@@ -520,101 +548,101 @@
 <context>
     <name>DiggShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+27"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+119"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>URLを短執する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短執する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>IsgdShortener</name>
     <message>
-        <location line="-211"/>
+        <location line="-248"/>
         <source>The URL entered was not valid.</source>
-        <translation>ご入力のURLは正しくありません。</translation>
+        <translation type="unfinished">ご入力のURLは正しくありません。</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation>URLを短縮するサービスにはユーザー認証に関する問題が発生しました。ユーザー名とパスワードをご確認ください。</translation>
+        <translation type="unfinished">URLを短縮するサービスにはユーザー認証に関する問題が発生しました。ユーザー名とパスワードをご確認ください。</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>The URL entered was too long.</source>
-        <translation>ご入力のURLは長すぎます。</translation>
+        <translation type="unfinished">ご入力のURLは長すぎます。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation>この要請を送られたアドレスは、スパムハウス(SBL/XBL)またはスパムコプによりブラックリストに載せられています。</translation>
+        <translation type="unfinished">この要請を送られたアドレスは、スパムハウス(SBL/XBL)またはスパムコプによりブラックリストに載せられています。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation>ご入力のURLは迷惑メールサイトの可能性があり、SURBLまたはURIBLのブラックリストに載せられています。</translation>
+        <translation type="unfinished">ご入力のURLは迷惑メールサイトの可能性があり、SURBLまたはURIBLのブラックリストに載せられています。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation>ご入力のURLはis.gdのブラックリストに載せられています(悪用を避けるために、URLアドレスを短縮するサイトへのリンクは使用不可能になっております)。</translation>
+        <translation type="unfinished">ご入力のURLはis.gdのブラックリストに載せられています(悪用を避けるために、URLアドレスを短縮するサイトへのリンクは使用不可能になっております)。</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation>要請を送られたアドレスは、is.gdによりブロックされています(たいていの原因は使用条件の違反行為です)。</translation>
+        <translation type="unfinished">要請を送られたアドレスは、is.gdによりブロックされています(たいていの原因は使用条件の違反行為です)。</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="+173"/>
-        <location line="+367"/>
+        <location filename="../src/mainwindow.cpp" line="+176"/>
+        <location line="+365"/>
         <source>New tweet</source>
         <translation>新着トゥウィート</translation>
     </message>
     <message>
-        <location line="-366"/>
-        <location line="+367"/>
+        <location line="-364"/>
+        <location line="+365"/>
         <source>Upload a photo to TwitPic</source>
         <translation>トゥウィートピックに写真をアップロードする</translation>
     </message>
     <message>
-        <location line="-366"/>
-        <location line="+367"/>
+        <location line="-364"/>
+        <location line="+365"/>
         <source>Go to Twitter</source>
         <translation>ツイッターを開く</translation>
     </message>
     <message>
-        <location line="-366"/>
-        <location line="+367"/>
+        <location line="-364"/>
+        <location line="+365"/>
         <source>Go to Identi.ca</source>
         <translation>Identi.caを開く</translation>
     </message>
     <message>
-        <location line="-366"/>
-        <location line="+367"/>
+        <location line="-364"/>
+        <location line="+365"/>
         <source>Go to TwitPic</source>
         <translation>トゥウィートピックを開く</translation>
     </message>
     <message>
-        <location line="-393"/>
+        <location line="-391"/>
         <location line="+29"/>
-        <location line="+367"/>
+        <location line="+365"/>
         <source>Quit</source>
         <translation>終了</translation>
     </message>
     <message>
-        <location line="-412"/>
+        <location line="-410"/>
         <source>&amp;File</source>
         <translation>&amp;ファイル</translation>
     </message>
     <message>
         <location line="+17"/>
-        <location line="+375"/>
+        <location line="+373"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
@@ -623,13 +651,13 @@
         <translation type="obsolete">公共の年表</translation>
     </message>
     <message>
-        <location line="-348"/>
-        <location line="+367"/>
+        <location line="-346"/>
+        <location line="+365"/>
         <source>About qTwitter...</source>
         <translation>キｭｰツイッターに関して...</translation>
     </message>
     <message>
-        <location line="-257"/>
+        <location line="-267"/>
         <source>Your message is too long.</source>
         <translation>メッセージは長すぎます。</translation>
     </message>
@@ -654,7 +682,7 @@
         <translation>そのままご送信なさっても構いませんが、メッセージが切り詰められてしまいます。</translation>
     </message>
     <message>
-        <location line="+128"/>
+        <location line="+136"/>
         <source>New tweets</source>
         <extracomment>New tweets received (this pops up in tray)</extracomment>
         <translation>新着トゥウィート</translation>
@@ -666,19 +694,19 @@
     </message>
     <message>
         <location line="+48"/>
-        <location line="+22"/>
+        <location line="+23"/>
         <source>Update available</source>
         <translation>更新が見つかりました</translation>
     </message>
     <message>
-        <location line="-21"/>
-        <location line="+22"/>
+        <location line="-22"/>
+        <location line="+23"/>
         <source>An update to qTwitter is available!</source>
         <translation>キューツイッターの更新が見つかりました!</translation>
     </message>
     <message>
-        <location line="-20"/>
-        <location line="+22"/>
+        <location line="-21"/>
+        <location line="+23"/>
         <source>Current version is %1.&lt;br&gt;Download it from %2</source>
         <translation>最新版は%1です。&lt;br&gt;%2からダウンロードすることができます</translation>
     </message>
@@ -694,7 +722,7 @@
     </message>
     <message>
         <location line="+3"/>
-        <location line="+17"/>
+        <location line="+18"/>
         <source>Close</source>
         <translation>終了</translation>
     </message>
@@ -710,28 +738,28 @@
         <translation>トゥウィートの更新</translation>
     </message>
     <message numerus="yes">
-        <location line="-258"/>
+        <location line="-268"/>
         <source>%n character left</source>
         <translation>
             <numerusform>残りの文字数：%n</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location line="-204"/>
-        <location line="+205"/>
+        <location line="-192"/>
+        <location line="+193"/>
         <source>%n characters left</source>
         <translation>
             <numerusform>残りの文字数：%n</numerusform>
         </translation>
     </message>
     <message>
-        <location line="-91"/>
-        <location line="+367"/>
+        <location line="-79"/>
+        <location line="+365"/>
         <source>Check for updates</source>
         <translation>更新を確認する</translation>
     </message>
     <message numerus="yes">
-        <location line="-271"/>
+        <location line="-281"/>
         <source>%n character over the limit</source>
         <translation>
             <numerusform>制限された文字数を%n文字超えています</numerusform>
@@ -745,7 +773,7 @@
         </translation>
     </message>
     <message>
-        <location line="+255"/>
+        <location line="+265"/>
         <source>Navigate using %1 and %2</source>
         <translation>%1あるいは%2を使用してナビゲートする</translation>
     </message>
@@ -771,21 +799,21 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+53"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>MigremeShortener</name>
     <message>
-        <location line="+175"/>
+        <location line="+212"/>
         <source>The URL entered was not valid.</source>
-        <translation>ご入力のURLは正しくありません。</translation>
+        <translation type="unfinished">ご入力のURLは正しくありません。</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
@@ -796,14 +824,22 @@
         <translation>新しいアカウント</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>Login:</source>
-        <translation>ログイン:</translation>
+        <translation type="obsolete">ログイン:</translation>
+    </message>
+    <message>
+        <source>Password:</source>
+        <translation type="obsolete">パスワード:</translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Login:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+13"/>
-        <source>Password:</source>
-        <translation>パスワード:</translation>
+        <source>&amp;Password:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location line="+28"/>
@@ -817,14 +853,33 @@
     </message>
     <message>
         <location line="+8"/>
+        <source>&amp;Social network:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+16"/>
+        <source>Network &amp;name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>&amp;Website:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Social network:</source>
-        <translation>ソーシャルネットワーク:</translation>
+        <translation type="obsolete">ソーシャルネットワーク:</translation>
+    </message>
+    <message>
+        <location filename="../src/accounts/newaccountdialog.cpp" line="+39"/>
+        <source>Other StatusNet</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>OAuthWizard</name>
     <message>
-        <location filename="../src/oauth/oauthwizard.cpp" line="+113"/>
+        <location filename="../src/oauth/oauthwizard.cpp" line="+114"/>
         <source>There was a network-related problem with completing the request. Please try again later.</source>
         <translation>要請を完成するときにネットワークに関連した問題が発生しました。後ほどもう一度お試しください。</translation>
     </message>
@@ -867,13 +922,13 @@
     <name>Settings</name>
     <message>
         <location filename="../src/settings.cpp" line="+84"/>
-        <location line="+243"/>
+        <location line="+246"/>
         <source>Use custom web browser</source>
         <translation>カスタムのブラウザーを使用する</translation>
     </message>
     <message>
-        <location line="-241"/>
-        <location line="+242"/>
+        <location line="-244"/>
+        <location line="+245"/>
         <source>Browse</source>
         <translation>閲覧</translation>
     </message>
@@ -970,37 +1025,58 @@
         <translation>外見</translation>
     </message>
     <message>
-        <location line="+35"/>
+        <location line="+32"/>
         <source>Color scheme:</source>
         <translation>カラー図式:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+4"/>
+        <location line="+14"/>
+        <source>Statuses display mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>display authors&apos; names</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>display authors&apos; nicks (logins)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>display both authors&apos; names and nicks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/settings.cpp" line="+5"/>
         <source>Apply</source>
         <translation>適用</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+2"/>
         <source>Cancel</source>
         <translation>取り消し</translation>
     </message>
     <message>
-        <location line="-2"/>
+        <location line="-4"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location line="-265"/>
+        <location line="-268"/>
+        <location line="+262"/>
         <source>Tip: use %1 to shorten links</source>
         <translation>リンクを短縮するには %1 をご使用ください</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="-193"/>
         <source>never</source>
         <translation>なし</translation>
     </message>
     <message>
-        <location line="+110"/>
+        <location line="+130"/>
         <source>Update available</source>
         <translation>更新が見つかりました</translation>
     </message>
@@ -1015,7 +1091,7 @@
         <translation>最新版は%1です。&lt;br&gt;%2からダウンロードすることができます</translation>
     </message>
     <message>
-        <location line="+4"/>
+        <location line="+5"/>
         <source>No updates available</source>
         <translation>更新が見つかりませんでした</translation>
     </message>
@@ -1030,17 +1106,17 @@
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="-182"/>
+        <location filename="../ui/settings.ui" line="-216"/>
         <source>Accounts</source>
         <translation>アカウント</translation>
     </message>
     <message>
-        <location line="+156"/>
+        <location line="+153"/>
         <source>Status count:</source>
         <translation>ステータス数:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+86"/>
+        <location filename="../src/settings.cpp" line="+71"/>
         <source>Select your browser executable</source>
         <translation>ご使用のブラウザーの実行ファイルをご指摘ください</translation>
     </message>
@@ -1050,14 +1126,14 @@
         <translation>すべてのファイル (*)</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location line="+53"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>日本語</translation>
     </message>
     <message>
-        <location line="-82"/>
-        <location line="+88"/>
+        <location line="-74"/>
+        <location line="+80"/>
         <source>Default</source>
         <translation>初期設定</translation>
     </message>
@@ -1065,9 +1141,23 @@
 <context>
     <name>StatusEdit</name>
     <message>
-        <location filename="../src/statusedit.cpp" line="+80"/>
+        <location filename="../src/statusedit.cpp" line="+85"/>
         <source>What are you doing?</source>
         <translation>今何しているの?</translation>
+    </message>
+</context>
+<context>
+    <name>StatusModel</name>
+    <message>
+        <location filename="../src/statusmodel.cpp" line="+288"/>
+        <source>Are you sure?</source>
+        <extracomment>Are you sure to delete your message</extracomment>
+        <translation type="unfinished">よろしいですか?</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Are you sure to delete this status?</source>
+        <translation type="unfinished">このステータスを削除してよろしいですか?</translation>
     </message>
 </context>
 <context>
@@ -1075,97 +1165,102 @@
     <message>
         <location filename="../src/statuswidget.cpp" line="+55"/>
         <location line="+54"/>
-        <location line="+184"/>
-        <location line="+131"/>
+        <location line="+160"/>
+        <location line="+158"/>
         <source>Add to Favorites</source>
         <translation>お気に入りに追加する</translation>
     </message>
     <message>
-        <location line="-328"/>
-        <location line="+344"/>
+        <location line="-331"/>
+        <location line="+347"/>
         <source>Retweet</source>
         <translation>再トゥウィートする</translation>
     </message>
     <message>
-        <location line="-326"/>
-        <location line="+327"/>
+        <location line="-329"/>
+        <location line="+330"/>
         <source>Copy link to this status</source>
         <translation>リンクをこのステータスにコピーする</translation>
     </message>
     <message>
-        <location line="-317"/>
-        <location line="+319"/>
+        <location line="-320"/>
+        <location line="+322"/>
         <source>Mark list as read</source>
         <translation>この一覧表を既読にする</translation>
     </message>
     <message>
-        <location line="-314"/>
-        <location line="+315"/>
+        <location line="-317"/>
+        <location line="+318"/>
         <source>Mark everything as read</source>
         <translation>すべての一覧表を既読にする</translation>
     </message>
     <message>
-        <location line="-302"/>
-        <location line="+303"/>
+        <location line="-305"/>
+        <location line="+306"/>
         <source>Go to User&apos;s homepage</source>
         <translation>このユーザーのホームページを開く</translation>
     </message>
     <message>
-        <location line="-292"/>
-        <location line="+105"/>
-        <location line="+17"/>
-        <location line="+153"/>
+        <location line="-295"/>
+        <location line="+107"/>
+        <location line="+27"/>
+        <location line="+144"/>
         <source>Reply to %1</source>
         <translation>%1に返信する</translation>
     </message>
     <message>
-        <location line="-260"/>
-        <location line="+242"/>
+        <location line="-265"/>
+        <location line="+247"/>
         <source>Direct message %1</source>
         <translation>%1にPMを送る</translation>
     </message>
     <message>
-        <location line="-221"/>
-        <location line="+259"/>
+        <location line="-132"/>
+        <source>Deleting messages is not supported by StatusNet</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Go to User&apos;s Identi.ca page</source>
-        <translation>このユーザーのIdenti.caページを開く</translation>
+        <translation type="obsolete">このユーザーのIdenti.caページを開く</translation>
     </message>
     <message>
-        <location line="-256"/>
-        <location line="+258"/>
         <source>Go to User&apos;s Twitter page</source>
-        <translation>このユーザーのツイッターページを開く</translation>
+        <translation type="obsolete">このユーザーのツイッターページを開く</translation>
     </message>
     <message>
-        <location line="-195"/>
-        <location line="+11"/>
-        <location line="+165"/>
+        <location line="-107"/>
+        <location line="+83"/>
+        <location line="+177"/>
         <location line="+11"/>
         <source>Delete status</source>
         <translation>ステータスを削除する</translation>
     </message>
     <message>
-        <location line="-180"/>
-        <location line="+6"/>
-        <location line="+165"/>
+        <location line="-267"/>
+        <location line="+100"/>
+        <location line="+158"/>
         <source>Delete message</source>
         <translation>メッセージを削除する</translation>
     </message>
     <message>
-        <location line="-149"/>
-        <location line="+3"/>
-        <location line="+129"/>
-        <location line="+3"/>
+        <location line="-244"/>
+        <location line="+258"/>
+        <source>Go to User&apos;s %1 page</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="-184"/>
+        <location line="+156"/>
         <source>Remove from Favorites</source>
         <translation>お気に入りから削除する</translation>
     </message>
     <message>
-        <location line="-97"/>
+        <location line="-112"/>
         <source>in reply to %1</source>
         <translation>%1のメッセージに答えて</translation>
     </message>
     <message>
-        <location line="+105"/>
+        <location line="+120"/>
         <source>About %1</source>
         <translation>%1に関して</translation>
     </message>
@@ -1189,15 +1284,15 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="-135"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>TinyurlShortener</name>
     <message>
-        <location line="-24"/>
+        <location line="-61"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
@@ -1205,12 +1300,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-54"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation>URLはtr.imにより拒絶されました</translation>
+        <translation type="unfinished">URLはtr.imにより拒絶されました</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
@@ -1307,14 +1402,14 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UnuShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+95"/>
+        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+132"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation>URLはu.nuにより拒絶されました</translation>
+        <translation type="unfinished">URLはu.nuにより拒絶されました</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>

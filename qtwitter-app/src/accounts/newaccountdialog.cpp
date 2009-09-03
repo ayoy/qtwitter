@@ -36,7 +36,7 @@ NewAccountDialog::NewAccountDialog( QWidget *parent ) :
       m_ui->comboBox->addItem( network );
     }
   }
-  m_ui->comboBox->addItem( tr( "Other laconi.ca" ) );
+  m_ui->comboBox->addItem( tr( "Other StatusNet" ) );
 
 
   connect( m_ui->nameEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
