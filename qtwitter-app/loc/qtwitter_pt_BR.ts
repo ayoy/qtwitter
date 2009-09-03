@@ -32,12 +32,12 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="62"/>
         <source>URL shortening library</source>
-        <translation type="unfinished"></translation>
+        <translation>Biblioteca de encurtamento de URL</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="65"/>
         <source>Other contributions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Outras contribuições:</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="73"/>
@@ -47,42 +47,42 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="75"/>
         <source>Czech translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Tradução para o tcheco</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="76"/>
         <source>French translation</source>
-        <translation>Francês</translation>
+        <translation>Tradução para o francês</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="77"/>
         <source>German translation</source>
-        <translation>Alemão</translation>
+        <translation>Tradução para o alemão</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="78"/>
         <source>Italian translation</source>
-        <translation>Italiano</translation>
+        <translation>Tradução para o italiano</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="79"/>
         <source>Japanese translation</source>
-        <translation>Japonês</translation>
+        <translation>Tradução para o japonês</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="80"/>
         <source>Portugese translation</source>
-        <translation>Português brasileiro</translation>
+        <translation>Tradução para o Português do Brasil</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="81"/>
         <source>Spanish translation</source>
-        <translation>Espanhol</translation>
+        <translation>Tradução para o espanhol</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="82"/>
         <source>Polish and Catalan translation</source>
-        <translation>Polonês e Catalão</translation>
+        <translation>Tradução para o polonês e catalão</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="100"/>
@@ -109,7 +109,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="131"/>
         <source>&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;qTwitter - a cliente Identi.ca e Twitter baseado no QT&lt;/p&gt;&lt;p&gt;versão %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;por &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distribuído sob a licença LGPL&lt;/p&gt;&lt;p&gt;versão 2.1 oo superior&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -250,7 +250,7 @@
     <message>
         <location filename="../src/accounts/accountsmodel.cpp" line="266"/>
         <source>empty</source>
-        <translation type="unfinished"></translation>
+        <translation>vazio</translation>
     </message>
     <message>
         <source>&lt;empty&gt;</source>
@@ -286,7 +286,7 @@
         <location filename="../ui/authdialog.ui" line="65"/>
         <source>The credentials you provided for %1 are incorrect</source>
         <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>As credenciais fornecidas por %1 estão incorretos</translation>
     </message>
     <message>
         <location filename="../ui/authdialog.ui" line="78"/>
@@ -325,13 +325,13 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="284"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">A URL digitada não é válida.</translation>
+        <translation>A URL digitada não é válida.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="287"/>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="292"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
+        <translation>Ocorreu um erro desconhecido ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -339,12 +339,12 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="195"/>
         <source>An error occured with b.oooom.net. Please file a bug.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocorreu um erro com o b.oooom.net. Por favor, envie o erro.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="200"/>
         <source>An unknown error occured when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ocorreu um erro desconhecido ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -554,7 +554,7 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="319"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
+        <translation>Ocorreu um erro desconhecido ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -562,42 +562,42 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="71"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">A URL digitada não é válida.</translation>
+        <translation>A URL digitada não é válida.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="66"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation type="unfinished">O serviço de encurtamento de url não pôde autorizá-lo. Por favor, verifique seu usuário e senha.</translation>
+        <translation>O serviço de encurtamento de url não pôde autorizá-lo. Por favor, verifique seu usuário e senha.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="73"/>
         <source>The URL entered was too long.</source>
-        <translation type="unfinished">A URL digitada é muito longa.</translation>
+        <translation>A URL digitada é muito longa.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="75"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="unfinished">O endereço executado por esta requisição foi listado na lista negra por Spamhaus (SBL/XBL) ou Spamcop.</translation>
+        <translation>O endereço executado por esta requisição foi listado na lista negra por Spamhaus (SBL/XBL) ou Spamcop.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="77"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="unfinished">A URL digitada é um site potencial de spam e está listada na lista negra URIBL ou na SUBBL.</translation>
+        <translation>A URL digitada é um site potencial de spam e está listada na lista negra URIBL ou SUBBL.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="79"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="unfinished">A URL que você digitou está na lista negra is.gd (links para sites de encurtar URL ou o próprio is.gd são desabilitados para previnir abusos).</translation>
+        <translation>A URL que você digitou está na lista negra is.gd (links para sites de encurtar URL ou o próprio is.gd são desabilitados para previnir abusos).</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="81"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="unfinished">O endereço executado por esta requisição foi bloqueado por is.gd (normalmente o resultado de uma violação dos seus termos de uso).</translation>
+        <translation>O endereço executado por esta requisição foi bloqueado por is.gd (normalmente o resultado de uma violação dos seus termos de uso).</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="86"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
+        <translation>Ocorreu um erro desconhecido ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -807,7 +807,7 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="139"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
+        <translation>Ocorreu um erro desconhecido ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -815,13 +815,13 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="351"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">A URL digitada não é válida.</translation>
+        <translation>A URL digitada não é válida.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="354"/>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="359"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
+        <translation>Ocorreu um erro desconhecido ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -842,12 +842,12 @@
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="20"/>
         <source>&amp;Login:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Usuário:</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="33"/>
         <source>&amp;Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Senha:</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="61"/>
@@ -862,17 +862,17 @@
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="74"/>
         <source>&amp;Social network:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rede &amp;social:</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="90"/>
         <source>Network &amp;name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nome da rede:</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="100"/>
         <source>&amp;Website:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Website:</translation>
     </message>
     <message>
         <source>Social network:</source>
@@ -881,7 +881,7 @@
     <message>
         <location filename="../src/accounts/newaccountdialog.cpp" line="39"/>
         <source>Other StatusNet</source>
-        <translation type="unfinished"></translation>
+        <translation>Outro StatusNet</translation>
     </message>
 </context>
 <context>
@@ -932,7 +932,7 @@
         <location filename="../src/settings.cpp" line="66"/>
         <location filename="../src/settings.cpp" line="328"/>
         <source>Tip: use %1 to shorten links</source>
-        <translation>Sugestão: utilizar %1 para encurtar links</translation>
+        <translation>Dica: utilizar %1 para encurtar links</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="84"/>
@@ -1056,22 +1056,22 @@
     <message>
         <location filename="../ui/settings.ui" line="382"/>
         <source>Statuses display mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Estatutos de modo de exibição</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="388"/>
         <source>display authors&apos; names</source>
-        <translation type="unfinished"></translation>
+        <translation>mostrar nomes dos autores</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="398"/>
         <source>display authors&apos; nicks (logins)</source>
-        <translation type="unfinished"></translation>
+        <translation>mostrar nicks (logins) dos autores</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="405"/>
         <source>display both authors&apos; names and nicks</source>
-        <translation type="unfinished"></translation>
+        <translation>mostrar nicks e nomes dos autores</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="334"/>
@@ -1160,12 +1160,12 @@
         <location filename="../src/statusmodel.cpp" line="288"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation type="unfinished">Você tem certeza?</translation>
+        <translation>Você tem certeza?</translation>
     </message>
     <message>
         <location filename="../src/statusmodel.cpp" line="289"/>
         <source>Are you sure to delete this status?</source>
-        <translation type="unfinished">Você tem certeza que deseja excluir esse status?</translation>
+        <translation>Você tem certeza que deseja excluir esse status?</translation>
     </message>
 </context>
 <context>
@@ -1225,7 +1225,7 @@
     <message>
         <location filename="../src/statuswidget.cpp" line="281"/>
         <source>Deleting messages is not supported by StatusNet</source>
-        <translation type="unfinished"></translation>
+        <translation>Exclusão de mensagens não é suportado por StatusNet</translation>
     </message>
     <message>
         <source>Go to User&apos;s Identi.ca page</source>
@@ -1254,7 +1254,7 @@
         <location filename="../src/statuswidget.cpp" line="192"/>
         <location filename="../src/statuswidget.cpp" line="450"/>
         <source>Go to User&apos;s %1 page</source>
-        <translation type="unfinished"></translation>
+        <translation>Ir para a página %1 do usuário</translation>
     </message>
     <message>
         <location filename="../src/statuswidget.cpp" line="266"/>
@@ -1292,7 +1292,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="224"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
+        <translation>Ocorreu um erro desconhecido ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -1300,7 +1300,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="163"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
+        <translation>Ocorreu um erro desconhecido ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -1308,12 +1308,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="109"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="unfinished">A URL foi rejeitada por tr.im</translation>
+        <translation>A URL foi rejeitada por tr.im</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="115"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
+        <translation>Ocorreu um erro desconhecido ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -1412,12 +1412,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="247"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation type="unfinished">Sua URL foi rejeitada por u.nu</translation>
+        <translation>Sua URL foi rejeitada por u.nu</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="252"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Um erro desconhecido ocorreu ao encurtar sua URL.</translation>
+        <translation>Ocorreu um erro desconhecido ao encurtar sua URL.</translation>
     </message>
 </context>
 <context>
@@ -1427,8 +1427,8 @@ background-color: rgba(255,255,255,0);
         <source>friend</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
         <translation>
-            <numerusform>Amigo</numerusform>
-            <numerusform>Amigos</numerusform>
+            <numerusform>%nAmigo</numerusform>
+            <numerusform>%nAmigos</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -1436,8 +1436,8 @@ background-color: rgba(255,255,255,0);
         <source>friends</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
         <translation>
-            <numerusform>Amigo</numerusform>
-            <numerusform>Amigos</numerusform>
+            <numerusform>%nAmigo</numerusform>
+            <numerusform>%nAmigos</numerusform>
         </translation>
     </message>
     <message>
@@ -1476,7 +1476,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../src/welcomedialog.cpp" line="50"/>
         <source>Add one more</source>
-        <translation>Adicionar mais um</translation>
+        <translation>Adicionar mais uma</translation>
     </message>
     <message>
         <location filename="../src/welcomedialog.cpp" line="52"/>
@@ -1506,7 +1506,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../ui/welcomedialog.ui" line="71"/>
         <source>To make the best use of this application you should setup one or more Twitter or Identi.ca accounts.</source>
-        <translation>Para fazer o melhor uso deste aplicativo, você deverá configurar uma ou mais contas no Twitter ou na Identi.ca</translation>
+        <translation>Para fazer o melhor uso deste aplicativo, você deverá configurar uma ou mais contas no Twitter ou na Identi.ca.</translation>
     </message>
     <message>
         <location filename="../ui/welcomedialog.ui" line="96"/>

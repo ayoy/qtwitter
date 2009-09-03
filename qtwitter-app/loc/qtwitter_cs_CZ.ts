@@ -28,12 +28,12 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="62"/>
         <source>URL shortening library</source>
-        <translation type="unfinished"></translation>
+        <translation>Podpora pro zkracování URL</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="65"/>
         <source>Other contributions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Přispěvatelé:</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="73"/>
@@ -43,7 +43,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="75"/>
         <source>Czech translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Český překlad</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="76"/>
@@ -105,7 +105,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="131"/>
         <source>&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;qTwitter -Qt Twitter a Identi.ca klient&lt;/p&gt;&lt;p&gt;verze %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt; &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distribuováno pod licencí LGPL&lt;/p&gt;&lt;p&gt;verze 2.1 a vyšší&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -222,7 +222,7 @@
     <message>
         <location filename="../src/accounts/accountsmodel.cpp" line="266"/>
         <source>empty</source>
-        <translation type="unfinished"></translation>
+        <translation>prázdné</translation>
     </message>
     <message>
         <source>&lt;empty&gt;</source>
@@ -248,7 +248,7 @@
     <message>
         <location filename="../ui/authdialog.ui" line="32"/>
         <source>Authentication required</source>
-        <translation>Přihlášení vyžádáno</translation>
+        <translation>Přihlášení vyžadováno</translation>
     </message>
     <message>
         <source>The credentials you provided are incorrect</source>
@@ -258,7 +258,7 @@
         <location filename="../ui/authdialog.ui" line="65"/>
         <source>The credentials you provided for %1 are incorrect</source>
         <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Přístupové údaje pro %1 nejsou správné</translation>
     </message>
     <message>
         <location filename="../ui/authdialog.ui" line="78"/>
@@ -297,13 +297,13 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="284"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">Zadaná adresa není validní.</translation>
+        <translation>Zadaná adresa není validní.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="287"/>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="292"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -311,12 +311,12 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="195"/>
         <source>An error occured with b.oooom.net. Please file a bug.</source>
-        <translation type="unfinished"></translation>
+        <translation>Chyba při komunikaci s b.oooom.net. Prosím nahlašte chybu.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="200"/>
         <source>An unknown error occured when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -464,17 +464,17 @@
     <message>
         <location filename="../src/dmdialog.cpp" line="105"/>
         <source>Cool</source>
-        <translation>OK</translation>
+        <translation>Dobře</translation>
     </message>
     <message>
         <location filename="../src/dmdialog.cpp" line="106"/>
         <source>Oops...</source>
-        <translation>Zrušit</translation>
+        <translation>Jejda...</translation>
     </message>
     <message>
         <location filename="../src/dmdialog.cpp" line="107"/>
         <source>You can still post it like this, but it will be truncated.</source>
-        <translation>Má být zpráva zkrácena a odeslána?</translation>
+        <translation>Zpráva přesto může být odeslána, ale bude zkrácena.</translation>
     </message>
     <message>
         <location filename="../src/dmdialog.cpp" line="119"/>
@@ -522,7 +522,7 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="319"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -530,42 +530,42 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="66"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation type="unfinished">Přihlášení ke službě zkracování adresy selhalo. Prosím ověřte vaše uživatelské jméno a heslo.</translation>
+        <translation>Přihlášení ke službě zkracování adresy selhalo. Prosím ověřte vaše uživatelské jméno a heslo.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="71"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">Zadaná adresa není validní.</translation>
+        <translation>Zadaná adresa není validní.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="73"/>
         <source>The URL entered was too long.</source>
-        <translation type="unfinished">Zadaná adresa je příliš dlouhá.</translation>
+        <translation>Zadaná adresa je příliš dlouhá.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="75"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="unfinished">Adresa, kterou chcete zkrátit, byla zakázána blacklistem SpamHaus (SBL/XBL) nebo Spamcop.</translation>
+        <translation>Adresa, kterou chcete zkrátit, byla zakázána blacklistem SpamHaus (SBL/XBL) nebo Spamcop.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="77"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="unfinished">Adresa, kterou chcete zkrátit, je potenciální spam stránka a je zaznamenána na SURBL nebo URIBL blacklistu.</translation>
+        <translation>Adresa, kterou chcete zkrátit, je potenciální spam stránka a je zaznamenána na SURBL nebo URIBL blacklistu.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="79"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="unfinished">Adresa, kterou chcete zkrátit, se nachází na is.gd blacklistu (adresy na jiné služby zkracování adres nebo is.gd samotné jsou zakázané z důvodu předcházení nesprávného použití služby).</translation>
+        <translation>Adresa, kterou chcete zkrátit, se nachází na is.gd blacklistu (adresy na jiné služby zkracování adres nebo is.gd samotné jsou zakázané z důvodu předcházení nesprávného použití služby).</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="81"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="unfinished">Požadavek z vašeho počítače byl na is.gd zablokován (běžný výsledek porušení podmínek používání).</translation>
+        <translation>Požadavek z vašeho počítače byl na is.gd zablokován (běžný výsledek porušení podmínek používání).</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="86"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -680,17 +680,17 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="281"/>
         <source>Cool</source>
-        <translation>OK</translation>
+        <translation>Dobře</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="282"/>
         <source>Oops...</source>
-        <translation>Zrušit</translation>
+        <translation>Jejda...</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="283"/>
         <source>You can still post it like this, but it will be truncated.</source>
-        <translation>Má být zpráva zkrácena a odeslána?</translation>
+        <translation>Zpráva přesto může být odeslána, ale bude zkrácena.</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="419"/>
@@ -775,7 +775,7 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="139"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -783,13 +783,13 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="351"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">Zadaná adresa není validní.</translation>
+        <translation>Zadaná adresa není validní.</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="354"/>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="359"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -810,12 +810,12 @@
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="20"/>
         <source>&amp;Login:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Uživ. jméno:</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="33"/>
         <source>&amp;Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Heslo:</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="61"/>
@@ -830,17 +830,17 @@
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="74"/>
         <source>&amp;Social network:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Síť:</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="90"/>
         <source>Network &amp;name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Jméno sítě:</translation>
     </message>
     <message>
         <location filename="../src/accounts/newaccountdialog.ui" line="100"/>
         <source>&amp;Website:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Webová adresa:</translation>
     </message>
     <message>
         <source>Social network:</source>
@@ -849,7 +849,7 @@
     <message>
         <location filename="../src/accounts/newaccountdialog.cpp" line="39"/>
         <source>Other StatusNet</source>
-        <translation type="unfinished"></translation>
+        <translation>Jiný StatusNet</translation>
     </message>
 </context>
 <context>
@@ -1084,22 +1084,22 @@
     <message>
         <location filename="../ui/settings.ui" line="382"/>
         <source>Statuses display mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Zobrazení stavů</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="388"/>
         <source>display authors&apos; names</source>
-        <translation type="unfinished"></translation>
+        <translation>zobrazit jména autorů</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="398"/>
         <source>display authors&apos; nicks (logins)</source>
-        <translation type="unfinished"></translation>
+        <translation>zobrazit přezdívky (loginy) autorů</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="405"/>
         <source>display both authors&apos; names and nicks</source>
-        <translation type="unfinished"></translation>
+        <translation>zobrazit jména i přezdívky autorů</translation>
     </message>
 </context>
 <context>
@@ -1116,12 +1116,12 @@
         <location filename="../src/statusmodel.cpp" line="288"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation type="unfinished">Jste si jisti?</translation>
+        <translation>Jste si jisti?</translation>
     </message>
     <message>
         <location filename="../src/statusmodel.cpp" line="289"/>
         <source>Are you sure to delete this status?</source>
-        <translation type="unfinished">Opravdu chcete smazat tento stav?</translation>
+        <translation>Opravdu chcete smazat tento stav?</translation>
     </message>
 </context>
 <context>
@@ -1179,11 +1179,6 @@
         <translation>Poslat přímou zprávu %1</translation>
     </message>
     <message>
-        <location filename="../src/statuswidget.cpp" line="281"/>
-        <source>Deleting messages is not supported by StatusNet</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Go to User&apos;s Identi.ca page</source>
         <translation type="obsolete">Jít na Identi.ca stránku</translation>
     </message>
@@ -1210,13 +1205,18 @@
         <location filename="../src/statuswidget.cpp" line="192"/>
         <location filename="../src/statuswidget.cpp" line="450"/>
         <source>Go to User&apos;s %1 page</source>
-        <translation type="unfinished"></translation>
+        <translation>Jít na %1 stránku</translation>
     </message>
     <message>
         <location filename="../src/statuswidget.cpp" line="266"/>
         <location filename="../src/statuswidget.cpp" line="422"/>
         <source>Remove from Favorites</source>
         <translation>Odebrat z oblíbených</translation>
+    </message>
+    <message>
+        <location filename="../src/statuswidget.cpp" line="281"/>
+        <source>Deleting messages is not supported by StatusNet</source>
+        <translation>Mazání zpráv není podporováno službou StatusNet</translation>
     </message>
     <message>
         <location filename="../src/statuswidget.cpp" line="310"/>
@@ -1248,7 +1248,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="224"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -1256,7 +1256,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="163"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -1264,12 +1264,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="109"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="unfinished">Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
+        <translation>Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="115"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -1297,7 +1297,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../src/twitpicengine.cpp" line="167"/>
         <source>We&apos;re sorry, but due to some mysterious error your image failed to upload</source>
-        <translation>Omlouváme se, pokud selhalo nahrávání obrázku v důsledku nějaké záhadné chyby</translation>
+        <translation>Omlouváme se, nahrávání obrázku selhalo v důsledku nějaké záhadné chyby</translation>
     </message>
 </context>
 <context>
@@ -1368,12 +1368,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="247"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation type="unfinished">Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
+        <translation>Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
     </message>
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="252"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -1444,7 +1444,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../src/welcomedialog.cpp" line="62"/>
         <source>You can add more accounts at any time in Settings-&gt;Accounts.</source>
-        <translation>Další účty můžete kdykoli přidav v Nastavení-&gt;Účty.</translation>
+        <translation>Další účty můžete kdykoli přidat v Nastavení-&gt;Účty.</translation>
     </message>
     <message>
         <location filename="../src/welcomedialog.cpp" line="63"/>

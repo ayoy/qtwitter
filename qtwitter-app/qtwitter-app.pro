@@ -67,8 +67,6 @@ FORMS += ui/mainwindow.ui \
     ui/userinfopopup.ui \
     ui/dmdialog.ui \
     ui/welcomedialog.ui
-linux-*:RESOURCES = res/resources_x11.qrc
-else:RESOURCES = res/resources.qrc
 TRANSLATIONS += loc/qtwitter_ca_ES.ts \
     loc/qtwitter_de_DE.ts \
     loc/qtwitter_es_ES.ts \
@@ -78,6 +76,19 @@ TRANSLATIONS += loc/qtwitter_ca_ES.ts \
     loc/qtwitter_pl_PL.ts \
     loc/qtwitter_pt_BR.ts \
     loc/qtwitter_cs_CZ.ts
+
+linux-* {
+    RESOURCES = res/resources_x11.qrc
+    i18n.commands = lrelease $${_PRO_FILE_} && mv $${_PRO_FILE_PWD_}/loc/*.qm $${_PRO_FILE_PWD_}/res/loc
+    QMAKE_EXTRA_TARGETS += i18n
+    POST_TARGETDEPS += i18n
+} else {
+    # systems other than linux provide translations inside the binary
+    # - they have to exist at compile time
+    system("lrelease $${_PRO_FILE_} && mv $${_PRO_FILE_PWD_}/loc/*.qm $${_PRO_FILE_PWD_}/res/loc")
+    RESOURCES = res/resources.qrc
+}
+
 UI_DIR = tmp
 MOC_DIR = tmp
 RCC_DIR = tmp
@@ -85,6 +96,8 @@ OBJECTS_DIR = tmp
 INCLUDEPATH += $${TOP} \
     src \
     tmp
+
+
 macx {
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
