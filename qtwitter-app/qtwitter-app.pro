@@ -85,7 +85,7 @@ linux-* {
 } else {
     # systems other than linux provide translations inside the binary
     # - they have to exist at compile time
-    system("lrelease $${_PRO_FILE_} && mv $${_PRO_FILE_PWD_}/loc/*.qm $${_PRO_FILE_PWD_}/res/loc")
+    system("lrelease $${_PRO_FILE_} && mkdir $${_PRO_FILE_PWD_}/res/loc && mv $${_PRO_FILE_PWD_}/loc/*.qm $${_PRO_FILE_PWD_}/res/loc")
     RESOURCES = res/resources.qrc
 }
 
