@@ -49,12 +49,12 @@
     <message>
         <location line="+3"/>
         <source>URL shortening library</source>
-        <translation type="unfinished"></translation>
+        <translation>Biblioteca d&apos;escurçament d&apos;enllaços</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Other contributions:</source>
-        <translation type="unfinished"></translation>
+        <translation>Altres aportacions:</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -64,7 +64,7 @@
     <message>
         <location line="+2"/>
         <source>Czech translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Traducció al txec</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -101,7 +101,7 @@
     <message>
         <location line="+28"/>
         <source>&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;qTwitter -el client Qt de Twitter i Identi.ca&lt;/p&gt;&lt;p&gt;versió %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distribuint sota la licéncia LGPL&lt;/p&gt;&lt;p&gt;versió 2.1 o posteriores&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -250,7 +250,7 @@
     <message>
         <location line="+141"/>
         <source>empty</source>
-        <translation type="unfinished"></translation>
+        <translation>buit</translation>
     </message>
     <message>
         <source>&lt;empty&gt;</source>
@@ -286,7 +286,7 @@
         <location line="+33"/>
         <source>The credentials you provided for %1 are incorrect</source>
         <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Les dades d&apos;autenticació per a %1 són incorrectes</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -325,13 +325,13 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+284"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">La URL introduida no és vàlida.</translation>
+        <translation>La URL introduida no és vàlida.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
 </context>
 <context>
@@ -339,12 +339,12 @@
     <message>
         <location line="-97"/>
         <source>An error occured with b.oooom.net. Please file a bug.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un error ha estat trobat amb b.oooom.net.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occured when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
 </context>
 <context>
@@ -558,7 +558,7 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+119"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
 </context>
 <context>
@@ -566,42 +566,42 @@
     <message>
         <location line="-248"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">La URL introduida no és vàlida.</translation>
+        <translation>La URL introduida no és vàlida.</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation type="unfinished">El servei d&apos;escurçament no us pot autoritzar. Si us plau, comproveu el vostre nom d&apos;usuari i la contrasenya.</translation>
+        <translation>El servei d&apos;escurçament no us pot autoritzar. Si us plau, comproveu el vostre nom d&apos;usuari i la contrasenya.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>The URL entered was too long.</source>
-        <translation type="unfinished">La URL introduïda és massa llarga.</translation>
+        <translation>La URL introduïda és massa llarga.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="unfinished">La seva adreça IP és a la llista negre de Spamhaus (SBL/XBL) o Spamcop.</translation>
+        <translation>La seva adreça IP és a la llista negre de Spamhaus (SBL/XBL) o Spamcop.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="unfinished">La URL introduïda semble una pàgina web de spam i és a la llista negre de SURBL o URIBL.</translation>
+        <translation>La URL introduïda semble una pàgina web de spam i és a la llista negre de SURBL o URIBL.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="unfinished">La URL introduïda és a la llista negre de is.gd (enllaços a serveis d&apos;escurçament de URLs o a is.gd en si mateix són deshabilitats).</translation>
+        <translation>La URL introduïda és a la llista negre de is.gd (enllaços a serveis d&apos;escurçament de URLs o a is.gd en si mateix són deshabilitats).</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="unfinished">La seva adreça IP és barrada per is.gd (normalment això és una conseqüencia de violació de les seves condicions d&apos;us).</translation>
+        <translation>La seva adreça IP és barrada per is.gd (normalment això és una conseqüencia de violació de les seves condicions d&apos;us).</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
 </context>
 <context>
@@ -815,7 +815,7 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+53"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
 </context>
 <context>
@@ -823,13 +823,13 @@
     <message>
         <location line="+212"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">La URL introduida no és vàlida.</translation>
+        <translation>La URL introduida no és vàlida.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
 </context>
 <context>
@@ -850,12 +850,12 @@
     <message>
         <location line="+6"/>
         <source>&amp;Login:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nom d&apos;usuari:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&amp;Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Contrasenya:</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -870,17 +870,17 @@
     <message>
         <location line="+8"/>
         <source>&amp;Social network:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Xarxa social:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Network &amp;name:</source>
-        <translation type="unfinished"></translation>
+        <translation>No&amp;m de la xarxa</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Website:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Adreça URL:</translation>
     </message>
     <message>
         <source>Social network:</source>
@@ -889,7 +889,7 @@
     <message>
         <location filename="../src/accounts/newaccountdialog.cpp" line="+39"/>
         <source>Other StatusNet</source>
-        <translation type="unfinished"></translation>
+        <translation>Altre StatusNet</translation>
     </message>
 </context>
 <context>
@@ -995,22 +995,22 @@
     <message>
         <location line="+70"/>
         <source>Statuses display mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Moda de visualització dels estatuts</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>display authors&apos; names</source>
-        <translation type="unfinished"></translation>
+        <translation>mostrar noms d&apos;autors</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>display authors&apos; nicks (logins)</source>
-        <translation type="unfinished"></translation>
+        <translation>mostrar nicks (logins) dels autors</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>display both authors&apos; names and nicks</source>
-        <translation type="unfinished"></translation>
+        <translation>mostrar noms i nicks d&apos;autors</translation>
     </message>
     <message>
         <location line="-240"/>
@@ -1168,12 +1168,12 @@
         <location filename="../src/statusmodel.cpp" line="+288"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation type="unfinished">Esteu segur?</translation>
+        <translation>Esteu segur?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure to delete this status?</source>
-        <translation type="unfinished">Esteu segur de suprimir aquest missatge?</translation>
+        <translation>Esteu segur de suprimir aquest missatge?</translation>
     </message>
 </context>
 <context>
@@ -1233,7 +1233,7 @@
     <message>
         <location line="-132"/>
         <source>Deleting messages is not supported by StatusNet</source>
-        <translation type="unfinished"></translation>
+        <translation>Supriment dels missatges no és compatible amb StatusNet</translation>
     </message>
     <message>
         <source>Go to User&apos;s Identi.ca page</source>
@@ -1262,7 +1262,7 @@
         <location line="-244"/>
         <location line="+258"/>
         <source>Go to User&apos;s %1 page</source>
-        <translation type="unfinished"></translation>
+        <translation>Anar-hi a la pàgina de %1 d&apos;usuari</translation>
     </message>
     <message>
         <location line="-184"/>
@@ -1296,7 +1296,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="-135"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
 </context>
 <context>
@@ -1304,7 +1304,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-61"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
 </context>
 <context>
@@ -1312,12 +1312,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-54"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="unfinished">La URL ha estat rebutjat per tr.im</translation>
+        <translation>La URL ha estat rebutjat per tr.im</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
 </context>
 <context>
@@ -1416,12 +1416,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+132"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation type="unfinished">La URL ha estat rebutjat per u.nu</translation>
+        <translation>La URL ha estat rebutjat per u.nu</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
     </message>
 </context>
 <context>
