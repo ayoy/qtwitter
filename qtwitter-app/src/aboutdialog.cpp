@@ -72,7 +72,7 @@ void AboutDialog::populateAuthors()
   authorsHtml.append( QString( "<br/><p><b>%1</b></p>"
                                "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Translations:" ) ) );
 
-  authorsHtml.append( contributor( "Dragon Jake", "", tr( "Czech translation") ) );
+  authorsHtml.append( contributor( "Dragon Jake", "wjake@wjake.com", tr( "Czech translation") ) );
   authorsHtml.append( contributor( "Harry Bellemare", "behr62@gmail.com", tr( "French translation") ) );
   authorsHtml.append( contributor( "Jan Schummers", "darkadmiral@onlinehome.de", tr( "German translation" ) ) );
   authorsHtml.append( contributor( "Faster", "faster3ck@gmail.com", tr( "Italian translation" ) ) );
