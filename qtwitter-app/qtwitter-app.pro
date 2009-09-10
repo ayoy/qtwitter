@@ -79,15 +79,20 @@ TRANSLATIONS += loc/qtwitter_ca_ES.ts \
 
 linux-* {
     RESOURCES = res/resources_x11.qrc
-    i18n.commands = lrelease $${_PRO_FILE_} && mkdir -p $${_PRO_FILE_PWD_}/res/loc && mv $${_PRO_FILE_PWD_}/loc/*.qm $${_PRO_FILE_PWD_}/res/loc
-    QMAKE_EXTRA_TARGETS += i18n
-    PRE_TARGETDEPS += i18n
 } else {
-    # systems other than linux provide translations inside the binary
-    # - they have to exist at compile time
-    system("lrelease $${_PRO_FILE_} && mkdir -p $${_PRO_FILE_PWD_}/res/loc && mv $${_PRO_FILE_PWD_}/loc/*.qm $${_PRO_FILE_PWD_}/res/loc")
     RESOURCES = res/resources.qrc
 }
+#linux-* {
+#    RESOURCES = res/resources_x11.qrc
+#    i18n.commands = lrelease $${_PRO_FILE_} && mkdir -p $${_PRO_FILE_PWD_}/res/loc && mv $${_PRO_FILE_PWD_}/loc/*.qm $${_PRO_FILE_PWD_}/res/loc
+#    QMAKE_EXTRA_TARGETS += i18n
+#    PRE_TARGETDEPS += i18n
+#} else {
+#    # systems other than linux provide translations inside the binary
+#    # - they have to exist at compile time
+#    system("lrelease $${_PRO_FILE_} && mkdir -p $${_PRO_FILE_PWD_}/res/loc && mv $${_PRO_FILE_PWD_}/loc/*.qm $${_PRO_FILE_PWD_}/res/loc")
+#    RESOURCES = res/resources.qrc
+#}
 
 UI_DIR = tmp
 MOC_DIR = tmp
@@ -115,10 +120,6 @@ else:unix {
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
-    doc.path = $${INSTALL_PREFIX}/share/doc/$${TARGET}
-    doc.files = ../CHANGELOG \
-        ../README \
-        ../LICENSE
     SHARE_DIR = $${INSTALL_PREFIX}/share/$${TARGET}
     DEFINES += SHARE_DIR='\\\"$${SHARE_DIR}\\\"'
     translations.path = $${SHARE_DIR}/loc
@@ -144,7 +145,6 @@ else:unix {
     desktop.path = $${INSTALL_PREFIX}/share/applications
     desktop.files = x11/qtwitter.desktop
     INSTALLS += target \
-        doc \
         translations \
         icons \
         icons16 \
