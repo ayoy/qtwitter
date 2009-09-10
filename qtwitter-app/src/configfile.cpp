@@ -124,27 +124,24 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
       convertSettingsToZeroSeven();
       convertSettingsToZeroNine();
       setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
-      setValue( "OAuth", true );
     } else if ( ver.isNull() ) {
       convertSettingsToZeroSix();
       convertSettingsToZeroSeven();
       convertSettingsToZeroNine();
       setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
-      setValue( "OAuth", true );
     } else if ( AppVersion( ver ) >= AppVersion( "0.7.0" ) &&
-                AppVersion( ver ) < AppVersion( APP_VERSION ) ) {
+                AppVersion( ver ) < AppVersion( "0.8.9999" ) ) {
       convertSettingsToZeroNine();
-      if ( !value( "OAuth", false ).toBool() ) {
+      if ( !value( "OAuth", true ).toBool() ) {
         setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
-        setValue( "OAuth", true );
       }
-    } else if ( AppVersion( value( "General/version", QString() ).toString() ) != AppVersion( ConfigFile::APP_VERSION ) ) {
+    } else if ( AppVersion( ver ) != AppVersion( ConfigFile::APP_VERSION ) ) {
       setValue( "General/version", ConfigFile::APP_VERSION );
-      if ( !value( "OAuth", false ).toBool() ) {
+      if ( !value( "OAuth", true ).toBool() ) {
         setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
-        setValue( "OAuth", true );
       }
     }
+    setValue( "OAuth", true );
   } else {
     setValue( "General/version", ConfigFile::APP_VERSION );
     setValue( "FIRSTRUN", "ever" );

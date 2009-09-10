@@ -160,13 +160,22 @@ void AccountsController::loadAccounts()
       modelAccounts.insert( i, settingsAccount );
     } else {
       int j = modelAccounts.indexOf( settingsAccount );
-      modelAccounts.move(j, i);
+      if ( j != -1 && i < modelAccounts.size() - 1 ) {
+        modelAccounts.move(j, i);
+      }
     }
   }
 
   qSort( modelAccounts );
   model->setAccounts( modelAccounts );
   updateAccounts( model->index(0,0), model->index( model->rowCount() - 1, model->columnCount() - 1 ) );
+  int size = settingsAccounts.size();
+  if ( size > modelAccounts.size() ) {
+    for ( int k = modelAccounts.size(); k < size; ++k ) {
+      settings.deleteAccount( k, size );
+      size--;
+    }
+  }
 
   if ( view->model()->rowCount() <= 0 ) {
     ui->deleteAccountButton->setEnabled( false );
