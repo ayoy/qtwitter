@@ -95,7 +95,7 @@ bool AppVersion::operator <=( const AppVersion &other ) const
   return ( *this == other ) || ( *this < other );
 }
 
-const QString ConfigFile::APP_VERSION = "0.8.9999";
+const QString ConfigFile::APP_VERSION = "0.9.0";
 const QString ConfigFile::FIRST_OAUTH_APP_VERSION = "0.8.0";
 
 
