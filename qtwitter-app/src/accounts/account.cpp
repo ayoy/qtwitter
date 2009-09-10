@@ -19,6 +19,7 @@
 
 
 #include <QRegExp>
+#include <QHash>
 #include "account.h"
 #include <configfile.h>
 
