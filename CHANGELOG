@@ -1,3 +1,15 @@
+v0.9.0 (2009/09/07):
+- provided support for custom StatusNet (former laconica) services (#60),
+- left/right arrow key goes to next/prev unread status (by Stephan Beyer),
+- status author's display mode made customizable (name, nick or name+nick),
+- added parsing StatusNet groups (!sth),
+- fixed unwanted 'new statuses' on the bottom of the list (#63),
+- applied system palette to status edit field (#61),
+- added Czech translation (by DragonJake - #62),
+- added b.oooom.net URL shortening (by dubkat - #57),
+- improved storing data between sessions,
+- improvements in Twitter API library,
+- numerous minor UI, performance, architectural and build system fixes.
 v0.8.3 (2009/08/07):
 - updated Twitter API library and OAuth authorization process's internals to make use of qoauth-1.0 library,
 - status lists now updated after closing settings dialog only when accounts settings were changed,

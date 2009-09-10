@@ -1,22 +1,22 @@
-qTwitter is an application interacting with Twitter and Identi.ca social networks. Aims to be as compact as possible still providing outstanding usability. Since it's a Qt-based application with no other dependencies, it works wherever Qt does, i.e. Windows, Mac OS X and vast variety of Linuxes and Unices supporting X11 (including Nokia's Maemo platform).
+qTwitter is an application interacting with microblogging services, such as Twitter, Identi.ca and others based on StatusNet application (former laconica). It aims to be as compact as possible still providing outstanding usability. Since it's a Qt-based application with no other dependencies, it works wherever Qt does, i.e. Windows, Mac OS X and vast variety of Linuxes and Unices supporting X11 (including Nokia's Maemo platform).
 
-Features' summary as for v0.8.3:
+Features' summary as for v0.9.0:
   - OAuth-based authentication scheme for Twitter accounts,
-  - support for Twitter and Identi.ca for:
+  - support for Twitter, Identi.ca and StatusNet for:
     * friends and public timeline,
     * posting, replying, retweeting, deleting and (dis)favoring statuses,
     * downloading, sending and deleting direct messages,
   - support for working with multiple accounts at the same time,
   - storing statuses lists between sessions,
   - automatic checking for updates,
-  - integrated support for one-click URL shortening via 8 different services,
+  - integrated support for one-click URL shortening via 9 different services,
   - full interaction with TwitPic API, allowing for easy one-click image uploading and posting updates,
   - system tray notifications (via knotify and Growl),
   - customizable statuses list length and look (via the use of themes),
   - in-session passwords storing (can be disabled),
   - HTTP proxy support,
   - being recognized as a source of updates,
-  - translation to 8 languages in run-time (sorry for my poor Catalan, I appreciate any help here :) ).
+  - translation to 9 languages in run-time (sorry for my poor Catalan, I appreciate any help here :) ).
 
 See CHANGELOG for details.
 
@@ -24,9 +24,9 @@ If you wish to report an issue, request a feature, provide a translation (yay!) 
 
 http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all
 
-If you wish, you can also contact me either via e-mail (d AT ayoy DOT net) or at Twitter (http://twitter.com/ayoy).
+If you wish, you can also contact me either via e-mail (d AT ayoy DOT net) or at Identi.ca (http://identi.ca/ayoy).
 
-Happy tweeting!
+Happy twitting!
 
 The qTwitter team
 

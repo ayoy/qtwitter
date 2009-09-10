@@ -49,12 +49,12 @@
     <message>
         <location line="+3"/>
         <source>URL shortening library</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Bibliothèque pour raccourcir des URLs</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Other contributions:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Les autres contributions :</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -64,7 +64,7 @@
     <message>
         <location line="+2"/>
         <source>Czech translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Traduction en tchèque</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -253,7 +253,7 @@
     <message>
         <location line="+141"/>
         <source>empty</source>
-        <translation type="unfinished"></translation>
+        <translation>vide</translation>
     </message>
     <message>
         <source>&lt;empty&gt;</source>
@@ -289,7 +289,7 @@
         <location line="+33"/>
         <source>The credentials you provided for %1 are incorrect</source>
         <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Les informations saisies pour %1 sont erronées</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -329,13 +329,13 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+284"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">L&apos;URL saisi n&apos;est pas valide.</translation>
+        <translation>L&apos;URL saisi n&apos;est pas valide.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
+        <translation>Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
     </message>
 </context>
 <context>
@@ -348,7 +348,7 @@
     <message>
         <location line="+5"/>
         <source>An unknown error occured when shortening your URL.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -824,7 +824,7 @@
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+53"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
+        <translation>Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
     </message>
 </context>
 <context>
@@ -832,13 +832,13 @@
     <message>
         <location line="+212"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">L&apos;URL saisi n&apos;est pas valide.</translation>
+        <translation>L&apos;URL saisi n&apos;est pas valide.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
+        <translation>Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
     </message>
 </context>
 <context>
@@ -859,12 +859,12 @@
     <message>
         <location line="+6"/>
         <source>&amp;Login:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Identifiant :</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&amp;Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mot de passe :</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -879,17 +879,17 @@
     <message>
         <location line="+8"/>
         <source>&amp;Social network:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Réseau social :</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Network &amp;name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nom de réseau :</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Website:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Page de web :</translation>
     </message>
     <message>
         <source>Social network:</source>
@@ -898,7 +898,8 @@
     <message>
         <location filename="../src/accounts/newaccountdialog.cpp" line="+39"/>
         <source>Other StatusNet</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>context please</translatorcomment>
+        <translation type="unfinished">Autre StatusNet</translation>
     </message>
 </context>
 <context>
@@ -1007,22 +1008,22 @@
     <message>
         <location line="+70"/>
         <source>Statuses display mode</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Mode de affichage des mises à jour</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>display authors&apos; names</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">afficher les noms des auteurs</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>display authors&apos; nicks (logins)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">afficher les identifiants des auteurs</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>display both authors&apos; names and nicks</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">afficher les identifiants et les nomes des auteurs</translation>
     </message>
     <message>
         <location line="-240"/>
@@ -1249,7 +1250,7 @@
     <message>
         <location line="-132"/>
         <source>Deleting messages is not supported by StatusNet</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Suppression des messages n&apos;est pas supportée par StatusNet</translation>
     </message>
     <message>
         <source>Go to User&apos;s Identi.ca page</source>
@@ -1278,7 +1279,7 @@
         <location line="-244"/>
         <location line="+258"/>
         <source>Go to User&apos;s %1 page</source>
-        <translation type="unfinished"></translation>
+        <translation>Visiter la page de cet utilisateur sur %1</translation>
     </message>
     <message>
         <location line="-184"/>
@@ -1312,7 +1313,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="-135"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
+        <translation>Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
     </message>
 </context>
 <context>
@@ -1320,7 +1321,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-61"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
+        <translation>Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
     </message>
 </context>
 <context>
@@ -1328,12 +1329,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-54"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="unfinished">L&apos;URL a été rejeté par tr.im</translation>
+        <translation>L&apos;URL a été rejeté par tr.im</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
+        <translation>Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
     </message>
 </context>
 <context>
@@ -1435,12 +1436,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+132"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation type="unfinished">L&apos;URL a été rejeté par u.nu</translation>
+        <translation>L&apos;URL a été rejeté par u.nu</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
+        <translation>Une erreur inconnue est survenue pendant la raccourcissement de votre URL.</translation>
     </message>
 </context>
 <context>
