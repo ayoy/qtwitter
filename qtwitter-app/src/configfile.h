@@ -56,16 +56,9 @@ public:
   static QString pwHash( const QString &text );
   void addAccount( int id, const Account &account );
   void deleteAccount( int id, int rowCount );
-#ifdef OAUTH
-  void removeOldTwitterAccounts();
-#endif
+
   // TODO: make private
   int accountsCount() const;
-
-private:
-  void convertSettingsToZeroSix();
-  void convertSettingsToZeroSeven();
-  void convertSettingsToZeroNine();
 };
 
 #endif // CONFIGFILE_H

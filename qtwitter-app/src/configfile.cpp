@@ -111,63 +111,22 @@ QSettings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" )
 QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
 #endif
 {
-#ifdef OAUTH
-  if ( value( "OAuth", true ) == false ) {
-    setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
-  }
   if ( QFileInfo( fileName() ).exists() ) {
     if ( contains( "FIRSTRUN" ) ) {
       remove( "FIRSTRUN" );
     }
+    remove( "OAuth" );
     QString ver = value( "General/version", QString() ).toString();
-    if ( AppVersion( ver ) == AppVersion( "0.6.0" ) ) {
-      convertSettingsToZeroSeven();
-      convertSettingsToZeroNine();
-      setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
-    } else if ( ver.isNull() ) {
-      convertSettingsToZeroSix();
-      convertSettingsToZeroSeven();
-      convertSettingsToZeroNine();
-      setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
-    } else if ( AppVersion( ver ) >= AppVersion( "0.7.0" ) &&
-                AppVersion( ver ) < AppVersion( "0.8.9999" ) ) {
-      convertSettingsToZeroNine();
-      if ( !value( "OAuth", true ).toBool() ) {
-        setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
-      }
-    } else if ( AppVersion( ver ) != AppVersion( ConfigFile::APP_VERSION ) ) {
-      setValue( "General/version", ConfigFile::APP_VERSION );
-      if ( !value( "OAuth", true ).toBool() ) {
-        setValue( "FIRSTRUN", ConfigFile::APP_VERSION );
-      }
-    }
-    setValue( "OAuth", true );
-  } else {
-    setValue( "General/version", ConfigFile::APP_VERSION );
-    setValue( "FIRSTRUN", "ever" );
-    setValue( "OAuth", true );
-  }
-#else
-  setValue( "OAuth", false );
-  if ( QFileInfo( fileName() ).exists() ) {
-    if ( contains( "FIRSTRUN" ) ) {
-      remove( "FIRSTRUN" );
-    }
-    if ( AppVersion( value( "General/version", QString() ).toString() ) == AppVersion( "0.6.0" ) ) {
-      convertSettingsToZeroSeven();
-    } else if ( value( "General/version", QString() ).toString().isNull() ) {
-      convertSettingsToZeroSix();
-      convertSettingsToZeroSeven();
-    } else if ( AppVersion( value( "General/version", QString() ).toString() ) >= AppVersion( "0.7.0" ) ) {
-      convertSettingsToZeroNine();
-    } else if ( AppVersion( value( "General/version", QString() ).toString() ) != AppVersion( ConfigFile::APP_VERSION ) ) {
-      setValue( "General/version", ConfigFile::APP_VERSION );
+    if ( AppVersion( ver ) < AppVersion( "0.9.0" ) ) {
+      beginGroup( "Accounts" );
+      remove("");
+      endGroup();
     }
   } else {
-    setValue( "General/version", ConfigFile::APP_VERSION );
     setValue( "FIRSTRUN", "ever" );
   }
-#endif
+  setValue( "General/version", ConfigFile::APP_VERSION );
+  sync();
 }
 
 QString ConfigFile::pwHash( const QString &text )
@@ -220,95 +179,4 @@ int ConfigFile::accountsCount() const
   }
 
   return count;
-}
-
-#ifdef OAUTH
-void ConfigFile::removeOldTwitterAccounts()
-{
-  int count = accountsCount();
-
-  for( int i = 0; i < count; ++i ) {
-    if ( value( QString( "Accounts/%1/service" ).arg(i), TwitterAPI::SOCIALNETWORK_IDENTICA ) ==
-         TwitterAPI::SOCIALNETWORK_TWITTER ) {
-      deleteAccount( i, count );
-      count--;
-      i--;
-    }
-  }
-  sync();
-}
-#endif
-
-void ConfigFile::convertSettingsToZeroSix()
-{
-  setValue( "General/version", "0.6.0" );
-  if ( contains( "General/username" ) ) {
-    setValue( "TwitterAccounts/0/enabled", true );
-    setValue( "TwitterAccounts/0/service", TwitterAPI::SOCIALNETWORK_TWITTER );
-    setValue( "TwitterAccounts/0/login", value( "General/username", "<empty>" ).toString() );
-    setValue( "TwitterAccounts/0/password", value( "General/password", "" ).toString() );
-    setValue( "TwitterAccounts/0/directmsgs", value( "General/directMessages", false ).toBool() );
-  }
-  if ( value( "General/timeline", false ).toBool() ) {
-    setValue( "TwitterAccounts/currentModel", 1 );
-  }
-  remove( "TwitterAccounts/publicTimeline" );
-  remove( "General/username" );
-  remove( "General/password" );
-  remove( "General/directMessages" );
-  remove( "General/timeline" );
-  sync();
-}
-
-void ConfigFile::convertSettingsToZeroSeven()
-{
-  setValue( "General/version", "0.7.0" );
-
-  QString id;
-  for( int i = 0;; ++i ) {
-    id = QString::number(i);
-    if ( contains( QString( "TwitterAccounts/%1/enabled" ).arg(id) ) ) {
-      setValue( QString( "Accounts/%1/enabled" ).arg(id),
-                value( QString( "TwitterAccounts/%1/enabled" ).arg(id) ).toBool() );
-      setValue( QString( "Accounts/%1/service" ).arg(id),
-                value( QString( "TwitterAccounts/%1/service" ).arg(id) ).toInt() );
-      setValue( QString( "Accounts/%1/login" ).arg(id),
-                value( QString( "TwitterAccounts/%1/login" ).arg(id) ).toString() );
-      setValue( QString( "Accounts/%1/password" ).arg(id),
-                value( QString( "TwitterAccounts/%1/password" ).arg(id) ).toString() );
-      setValue( QString( "Accounts/%1/directmsgs" ).arg(id),
-                value( QString( "TwitterAccounts/%1/directmsgs" ).arg(id) ).toString() );
-
-      remove( QString( "TwitterAccounts/%1" ).arg(id) );
-    } else
-      break;
-  }
-
-  setValue( "Accounts/visibleAccount", value( "TwitterAccounts/currentModel" ).toInt() );
-  setValue( "Appearance/color scheme", value( "Appearance/color scheme").toInt() - 1 );
-  remove( "TwitterAccounts/currentModel" );
-  sync();
-}
-
-void ConfigFile::convertSettingsToZeroNine()
-{
-  setValue( "General/version", ConfigFile::APP_VERSION );
-
-  QString id;
-  for( int i = 0;; ++i ) {
-    id = QString::number(i);
-    if ( contains( QString( "Accounts/%1/service" ).arg(id) ) ) {
-      int network = value( QString( "Accounts/%1/service" ).arg(id), 0 ).toInt();
-      switch ( network ) {
-      case 0:
-        setValue( QString( "Accounts/%1/service" ).arg(id), "http://twitter.com" );
-        break;
-      case 1:
-        setValue( QString( "Accounts/%1/service" ).arg(id), "http://identi.ca/api" );
-        break;
-      }
-    } else
-      break;
-  }
-  sync();
 }

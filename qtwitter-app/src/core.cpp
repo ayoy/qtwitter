@@ -223,34 +223,12 @@ QStringList Core::twitpicLogins() const
 
 void Core::applySettings()
 {
-  if ( settings.contains( "FIRSTRUN" ) || settings.value( "OAuth", true ) == false ) {
-    QString val = settings.value( "FIRSTRUN" ).toString();
-    if ( val == "ever" ) {
-      WelcomeDialog dlg;
-      connect( &dlg, SIGNAL(addAccount()), this, SLOT(addAccount()) );
-      connect( this, SIGNAL(accountDialogClosed(bool)), &dlg, SLOT(confirmAccountAdded(bool)) );
-      dlg.exec();
-    }
-#ifdef OAUTH
-    else if ( val == ConfigFile::APP_VERSION || settings.value( "OAuth", true ) == false ) {
-      settings.removeOldTwitterAccounts();
-      QMessageBox dlg;
-      dlg.setWindowTitle( tr( "Welcome!" ) );
-      //: e.g. "Welcome to qTwitter 0.8.1!"
-      dlg.setText( tr( "Welcome to qTwitter %1!" ).arg( ConfigFile::APP_VERSION ) );
-      dlg.setInformativeText( tr( "<b>Please note:</b> we introduced the ultra-secure OAuth "
-                                  "authorization scheme for Twitter accounts in this release. This "
-                                  "means that you would never be asked again to enter your Twitter "
-                                  "password in qTwitter. However, your existing qTwitter "
-                                  "configuration will not work any more. Your Twitter accounts and "
-                                  "passwords have been removed from qTwitter settings, please "
-                                  "reconfigure them in Settings to have things working. "
-                                  "Thanks and enjoy qTwitter!" ) );
-      dlg.setIconPixmap( QPixmap( ":icons/twitter_48.png" ) );
-      dlg.exec();
-      settings.setValue( "OAuth", true );
-    }
-#endif
+  // TODO: Execute on startup only
+  if ( settings.contains( "FIRSTRUN" ) ) {
+    WelcomeDialog dlg;
+    connect( &dlg, SIGNAL(addAccount()), this, SLOT(addAccount()) );
+    connect( this, SIGNAL(accountDialogClosed(bool)), &dlg, SLOT(confirmAccountAdded(bool)) );
+    dlg.exec();
     settings.remove( "FIRSTRUN" );
   }
 
