@@ -31,9 +31,7 @@
 #include <QNetworkRequest>
 #include <QPointer>
 
-#ifdef OAUTH
-#  include <QtOAuth>
-#endif
+#include <QtOAuth>
 
 class QNetworkReply;
 class QAuthenticator;
@@ -50,11 +48,9 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
   Q_PROPERTY( QString login READ login WRITE setLogin )
   Q_PROPERTY( QString password READ password WRITE setPassword )
   Q_PROPERTY( QString serviceUrl READ serviceUrl WRITE setServiceUrl )
-#ifdef OAUTH
   Q_PROPERTY( bool usingOAuth READ isUsingOAuth WRITE setUsingOAuth )
   Q_PROPERTY( QByteArray consumerKey READ consumerKey WRITE setConsumerKey )
   Q_PROPERTY( QByteArray consumerSecret READ consumerSecret WRITE setConsumerSecret )
-#endif
 
 public:
   enum SocialNetwork {
@@ -94,13 +90,9 @@ public:
   static const QString URL_TWITTER;
 
   TwitterAPI( QObject *parent = 0 );
-#ifdef OAUTH
   TwitterAPI( const QString &serviceUrl, const QString &login, const QString &password,
               bool usingOAuth, QObject *parent = 0 );
-#else
-  TwitterAPI( const QString &serviceUrl, const QString &login, const QString &password,
-              QObject *parent = 0 );
-#endif
+
   virtual ~TwitterAPI();
 
   QString login() const;
@@ -109,14 +101,13 @@ public:
   void setPassword( const QString &password );
   QString serviceUrl() const;
   void setServiceUrl( const QString &serviceUrl );
-#ifdef OAUTH
+
   bool isUsingOAuth() const;
   void setUsingOAuth( bool usingOAuth );
   QByteArray consumerKey() const;
   void setConsumerKey( const QByteArray &consumerKey );
   QByteArray consumerSecret() const;
   void setConsumerSecret( const QByteArray &consumerSecret );
-#endif
 
   void postUpdate( const QString &data, quint64 inReplyTo = 0 );
   void deleteUpdate( quint64 id );

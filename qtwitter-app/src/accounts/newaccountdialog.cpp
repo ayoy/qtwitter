@@ -45,9 +45,6 @@ NewAccountDialog::NewAccountDialog( QWidget *parent ) :
   connect( m_ui->passwordEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
   connect( m_ui->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(checkFields()) );
 
-#ifndef OAUTH
-  m_ui->buttonBox->button( QDialogButtonBox::Ok )->setEnabled( false );
-#endif
   connect( m_ui->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(toggleEdits(int)) );
   toggleEdits( 0 );
 }
@@ -63,16 +60,7 @@ void NewAccountDialog::checkFields()
   bool enabled = false;
   switch ( m_ui->comboBox->currentIndex() ) {
   case 0: // Twitter
-#ifndef OAUTH
-    if ( !m_ui->loginEdit->text().isEmpty() &&
-         !m_ui->passwordEdit->text().isEmpty() ) {
-      enabled = true;
-    } else {
-      enabled = false;
-    }
-#else
     enabled = true;
-#endif
     break;
   case 1: // Identi.ca
     if ( !m_ui->loginEdit->text().isEmpty() &&
@@ -136,9 +124,7 @@ void NewAccountDialog::toggleEdits( int index )
   bool visible = true;
   bool enabled = true;
 
-#ifdef OAUTH
   if ( index != 0 ) { // Twitter
-#endif
     if ( index < m_ui->comboBox->count() - 1 ) {
       m_ui->nameEdit->setText( m_ui->comboBox->currentText() );
       m_ui->urlEdit->setText( Account::networkUrl(
@@ -147,16 +133,12 @@ void NewAccountDialog::toggleEdits( int index )
       m_ui->nameEdit->clear();
       m_ui->urlEdit->clear();
     }
-#ifdef OAUTH
   }
-#endif
 
   switch ( index ) {
   case 0: // Twitter
   case 1: // Identi.ca
-#ifdef OAUTH
     visible = ( index != 0 ); // Twitter
-#endif
     enabled = false;
     break;
   default:;

@@ -29,9 +29,7 @@
 #include <qtwitter.h>
 #include <qticonloader.h>
 
-#ifdef OAUTH
-#  include <oauthwizard.h>
-#endif
+#include <oauthwizard.h>
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -208,11 +206,8 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
         settings.setValue( QString("Accounts/%1/login").arg( i ), model->index(i,j).data() );
         break;
       case AccountsModel::COL_PASSWORD:
-        if ( ui->passwordsCheckBox->isChecked()
-#ifdef OAUTH
-             || model->index(i, AccountsModel::COL_NETWORK ).data( Qt::EditRole ) == Account::NetworkUrlTwitter
-#endif
-           ) {
+        if ( ui->passwordsCheckBox->isChecked() ||
+             model->index(i, AccountsModel::COL_NETWORK ).data( Qt::EditRole ) == Account::NetworkUrlTwitter ) {
           settings.setValue( QString("Accounts/%1/password").arg( i ), ConfigFile::pwHash( model->index(i,j).data( Qt::EditRole ).toString() ) );
         } else {
           settings.setValue( QString("Accounts/%1/password").arg( i ), QString() );
@@ -257,10 +252,9 @@ void AccountsController::togglePasswordStoring( int state )
     }
   } else {
     for ( int i = 0; i < model->rowCount(); ++i ) {
-#ifdef OAUTH
-      if ( model->account(i).serviceUrl() == Account::NetworkUrlIdentica )
-#endif
+      if ( model->account(i).serviceUrl() == Account::NetworkUrlIdentica ) {
         settings.remove( QString( "Accounts/%1/password" ).arg(i) );
+      }
     }
   }
   bool checked = ( state == Qt::Checked ) ? true : false;
@@ -274,12 +268,10 @@ void AccountsController::showPasswordDisclaimer()
   messageBox.setInformativeText( tr( "Although passwords are stored as human unreadable data, "
                                      "they can be easily decoded using the application's source code, "
                                      "which is publicly available. You have been warned." ) );
-#ifdef OAUTH
   messageBox.setInformativeText( messageBox.informativeText().append( "<br><br>" )
                                  .append( tr( "Note also that Twitter authorization keys are stored anyway. "
                                               "Remove the account from the list if you want the key to be deleted."
                                               /*"They can't be reused outside this application."*/ ) ) );
-#endif
   messageBox.exec();
 }
 
@@ -310,7 +302,6 @@ void AccountsController::addAccount()
     }
     int index = model->rowCount();
 
-#ifdef OAUTH
     if ( networkName == Account::NetworkTwitter ) {
       OAuthWizard *wizard = new OAuthWizard( view );
       wizard->exec();
@@ -331,7 +322,6 @@ void AccountsController::addAccount()
       wizard->deleteLater();
 
     } else {
-#endif
       model->insertRow( index );
       Account &account = model->account( index );
       account.setServiceUrl( Account::networkUrl( networkName ) );
@@ -341,9 +331,7 @@ void AccountsController::addAccount()
       view->setCurrentIndex( model->index( index, 0 ) );
       ui->deleteAccountButton->setEnabled( true );
       emit accountDialogClosed( true );
-#ifdef OAUTH
     }
-#endif
   } else {
     emit accountDialogClosed( false );
   }

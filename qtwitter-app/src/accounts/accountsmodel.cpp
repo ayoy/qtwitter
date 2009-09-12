@@ -77,21 +77,13 @@ QVariant AccountsModel::data( const QModelIndex &index, int role ) const
     break;
   case COL_PASSWORD:
     if ( role == Qt::DisplayRole ) {
-#ifdef OAUTH
       if ( Account::networkName( accounts.at( index.row() ).serviceUrl() ) == Account::NetworkTwitter ) {
         return tr( "authorized" );
       }
-#  ifdef Q_WS_HILDON
+#ifdef Q_WS_HILDON
       return QString( accounts.at( index.row() ).password().length(), '*' );
-#  else
-      return QString( accounts.at( index.row() ).password().length(), QChar(0x25cf) );
-#  endif
 #else
-#  ifdef Q_WS_HILDON
-      return QString( accounts.at( index.row() ).password().length(), '*' );
-#  else
       return QString( accounts.at( index.row() ).password().length(), QChar(0x25cf) );
-#  endif
 #endif
     }
     if ( role == Qt::EditRole )
@@ -161,14 +153,10 @@ bool AccountsModel::setData( const QModelIndex &index, const QVariant &value, in
 
 Qt::ItemFlags AccountsModel::flags( const QModelIndex &index ) const
 {
-#ifdef OAUTH
   if ( Account::networkName( accounts.at( index.row() ).serviceUrl() ) != Account::NetworkTwitter ) {
-#endif
     if ( index.column() == COL_LOGIN || index.column() == COL_PASSWORD )
       return QAbstractItemModel::flags( index ) |= Qt::ItemIsEditable;
-#ifdef OAUTH
   }
-#endif
   return QAbstractItemModel::flags( index );
 }
 

@@ -45,9 +45,7 @@
 #include "ui_authdialog.h"
 #include "ui_twitpicnewphoto.h"
 
-#ifdef OAUTH
-#  include <oauthwizard.h>
-#endif
+#include <oauthwizard.h>
 
 extern ConfigFile settings;
 
