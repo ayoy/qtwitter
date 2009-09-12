@@ -299,6 +299,7 @@ void StatusWidget::setStatusData( const Status &status )
   //display in_reply_to link
   if( statusData->hasInReplyToStatusId ) {
     QString inReplyToUrl = currentServiceUrl;
+    inReplyToUrl.remove( QRegExp("/api$", Qt::CaseInsensitive) );
     if ( currentServiceUrl == Account::NetworkUrlTwitter ) {
       inReplyToUrl.append( "/" + statusData->inReplyToScreenName + "/statuses/" + QString::number( statusData->inReplyToStatusId ) );
     }
