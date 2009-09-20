@@ -167,7 +167,7 @@ void MainWindow::createTrayIcon()
 
   trayIcon->setToolTip( "qTwitter" );
 #endif
-  trayIcon->show();
+  setTrayIconMode( (TrayIconMode) settings.value( "Appearance/tray-icon", VisibleAlways ).toInt() );
 }
 
 void MainWindow::createButtonMenu()
@@ -220,6 +220,24 @@ void MainWindow::createButtonMenu()
 int MainWindow::getScrollBarWidth()
 {
   return ui.statusListView->verticalScrollBar()->size().width();
+}
+
+void MainWindow::setTrayIconMode( MainWindow::TrayIconMode mode )
+{
+  m_trayIconMode = mode;
+  switch (mode) {
+  case VisibleAlways:
+    trayIcon->show();
+    break;
+  case VisibleWhenMinimized:
+    if ( isMinimized() ) {
+      trayIcon->show();
+    } else {
+      trayIcon->hide();
+    }
+    break;
+  default:;
+  }
 }
 
 void MainWindow::setupAccounts( const QList<Account> &accounts )
@@ -331,6 +349,12 @@ void MainWindow::show()
   ui.statusListView->setUpdatesEnabled( true );
 }
 
+void MainWindow::minimize()
+{
+  trayIcon->show();
+  hide();
+}
+
 void MainWindow::configSaveCurrentModel( int index, bool unconditionally )
 {
   if ( settings.value( "Accounts/visibleAccount", 0 ).toInt() != index
@@ -377,7 +401,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if ( ui.statusListView->selectionModel()->hasSelection() ) {
       ui.statusListView->clearSelection();
     } else if(isVisible()) {
-      hide();
+      minimize();
     }
     event->accept();
   }
@@ -398,12 +422,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::closeEvent( QCloseEvent *event )
 {
-  if ( trayIcon->isVisible()) {
-    hide();
-    event->ignore();
-    return;
-  }
-  QWidget::closeEvent( event );
+  minimize();
+  event->ignore();
 }
 
 void MainWindow::resizeEvent( QResizeEvent *event )
@@ -414,9 +434,11 @@ void MainWindow::resizeEvent( QResizeEvent *event )
 
 void MainWindow::popupMessage( QString message )
 {
-  if( settings.value( "General/notifications" ).toBool() ) {
-    //: New tweets received (this pops up in tray)
-    trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
+  if ( trayIcon->isVisible() ) {
+    if( settings.value( "General/notifications" ).toBool() ) {
+      //: New tweets received (this pops up in tray)
+      trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
+    }
   }
 }
 
@@ -437,8 +459,11 @@ void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
       show();
       raise();
       activateWindow();
+      if ( m_trayIconMode == VisibleWhenMinimized ) {
+        QTimer::singleShot( 0, trayIcon, SLOT(hide()) );
+      }
     } else {
-      hide();
+      minimize();
     }
     break;
   default:

@@ -39,6 +39,7 @@
 #include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
 #include "settings.h"
+#include "qtwitter.h"
 #include "configfile.h"
 #include "core.h"
 #include "mainwindow.h"
@@ -154,6 +155,16 @@ void Settings::loadConfig( bool dialogRejected )
       ui.displayBothButton->setChecked( true );
       break;
     }
+    int trayIcon = settings.value( "tray-icon", 0 ).toInt();
+    switch (trayIcon) {
+    case Qtwitter::VisibleAlways:
+      ui.trayIconAlwaysVisible->setChecked( true );
+      break;
+    case Qtwitter::VisibleWhenMinimized:
+      ui.trayIconVisibleWhenMinimized->setChecked( true );
+      break;
+    default:;
+    }
   settings.endGroup();
 
   ui.hostEdit->setEnabled( (bool) ui.proxyBox->checkState() );
@@ -234,12 +245,19 @@ void Settings::saveConfig( int quitting )
     settings.setValue( "tweet count", ui.statusCountBox->value() );
     settings.setValue( "color scheme", ui.colorBox->currentIndex() );
     if ( ui.displayNamesButton->isChecked() ) {
-      settings.setValue( "display-mode", 0 );
+      settings.setValue( "display-mode", StatusModel::DisplayNames );
     } else if ( ui.displayNicksButton->isChecked() ) {
-      settings.setValue( "display-mode", 1 );
+      settings.setValue( "display-mode", StatusModel::DisplayNicks );
     } else if ( ui.displayBothButton->isChecked() ) {
-      settings.setValue( "display-mode", 2 );
+      settings.setValue( "display-mode", StatusModel::DisplayBoth );
     }
+
+    if ( ui.trayIconAlwaysVisible->isChecked() ) {
+      settings.setValue( "tray-icon", Qtwitter::VisibleAlways );
+    } else if ( ui.trayIconVisibleWhenMinimized->isChecked() ) {
+      settings.setValue( "tray-icon", Qtwitter::VisibleWhenMinimized );
+    }
+
   settings.endGroup();
   settings.sync();
 
@@ -361,6 +379,13 @@ void Settings::applySettings()
     StatusModel::instance()->setDisplayMode( StatusModel::DisplayBoth );
   }
   changeTheme( ui.colorBox->currentText() );
+  if ( Qtwitter::instance() ) {
+    if ( ui.trayIconAlwaysVisible->isChecked() ) {
+      Qtwitter::instance()->setTrayIconMode( Qtwitter::VisibleAlways );
+    } else if ( ui.trayIconVisibleWhenMinimized->isChecked() ) {
+      Qtwitter::instance()->setTrayIconMode( Qtwitter::VisibleWhenMinimized );
+    }
+  }
 #ifdef Q_WS_X11
   if ( useCustomBrowserCheckBox->isChecked() ) {
     QDesktopServices::setUrlHandler( "http", core, "openBrowser");

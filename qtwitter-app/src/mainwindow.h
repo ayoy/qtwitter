@@ -38,10 +38,17 @@ class MainWindow : public QMainWindow
   Q_OBJECT
 
 public:
+
+  enum TrayIconMode {
+    VisibleAlways,
+    VisibleWhenMinimized
+  };
+
   MainWindow( QWidget *parent = 0 );
   virtual ~MainWindow();
 
   int getScrollBarWidth();
+  void setTrayIconMode( TrayIconMode mode );
 
 
 public slots:
@@ -56,6 +63,7 @@ public slots:
   void show();
   void about();
   void replaceUrl( const QString &url );
+  void minimize();
 
   void statusReplyAction();
   void statusRetweetAction();
@@ -110,6 +118,7 @@ private:
 
   bool resetUiWhenFinished;
   bool updateInProgress;
+  TrayIconMode m_trayIconMode;
 
   QMenu *buttonMenu;
   QAction *newstatusAction;

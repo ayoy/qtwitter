@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>390</width>
-    <height>345</height>
+    <height>382</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -403,6 +403,32 @@
            <widget class="QRadioButton" name="displayBothButton">
             <property name="text">
              <string>display both authors' names and nicks</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QGroupBox" name="trayIconGroupBox">
+         <property name="title">
+          <string>Tray icon</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <item>
+           <widget class="QRadioButton" name="trayIconAlwaysVisible">
+            <property name="text">
+             <string>always visible</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="trayIconVisibleWhenMinimized">
+            <property name="text">
+             <string>visible only when minimized</string>
             </property>
            </widget>
           </item>
