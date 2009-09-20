@@ -121,6 +121,8 @@ void Core::storeSession()
     }
     file.close();
   }
+  settings.setValue( "cleanexit", true );
+  settings.sync();
 }
 
 void Core::restoreSession()
@@ -130,6 +132,38 @@ void Core::restoreSession()
 #else
   QFile file( QDesktopServices::storageLocation( QDesktopServices::HomeLocation ) + "/.qtwitter/state" );
 #endif
+
+  if ( settings.value( "cleanexit", true ).toBool() == false ) {
+    QMessageBox *mbox = new QMessageBox;
+
+    mbox->setWindowTitle( tr( "Warning" ) );
+    mbox->setText( tr( "It seems like qTwitter wasn't closed properly last time. "
+                       "If the application crashed, it may be due to "
+                       "inconsistency in accounts settings. Do you want "
+                       "to reset accounts in qTwitter?" ) );
+    mbox->setInformativeText( tr( "If you think that it's a bug, please report it "
+                                  "<a href=\"http://ayoy.lighthouseapp.com/projects/"
+                                  "27230-qtwitter/tickets?q=all\">here</a>" ) );
+    mbox->setIconPixmap( QPixmap( ":/icons/twitter_48.png" ) );
+
+    QAbstractButton *yes = mbox->addButton( tr( "Yes, reset accounts settings" ), QMessageBox::AcceptRole );
+    mbox->addButton( tr( "No, thanks" ), QMessageBox::RejectRole );
+
+    mbox->exec();
+    QAbstractButton *clicked = mbox->clickedButton();
+    delete mbox;
+
+    if ( clicked == yes ) {
+      if ( file.exists() ) {
+        file.remove();
+      }
+      settings.beginGroup( "Accounts" );
+      settings.remove("");
+      settings.endGroup();
+      settings.sync();
+    }
+  }
+
   bool ok = file.open(QIODevice::ReadOnly);
   if (ok) {
     QDataStream in(&file);
@@ -167,6 +201,9 @@ void Core::restoreSession()
     }
   }
   file.close();
+
+  settings.setValue( "cleanexit", false );
+  settings.sync();
 }
 
 void Core::createAccounts( QWidget *view )

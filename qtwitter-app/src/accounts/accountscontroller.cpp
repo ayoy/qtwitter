@@ -286,7 +286,12 @@ void AccountsController::addAccount()
   QString login;
   QString password;
 
-  NewAccountDialog *dlg = new NewAccountDialog;
+  QWidget *parent = 0;
+  if ( sender() ) {
+    parent = qobject_cast<QWidget*>( sender() );
+  }
+
+  NewAccountDialog *dlg = new NewAccountDialog( parent ? parent : Qtwitter::instance() );
   result = dlg->exec();
   networkName = dlg->networkName();
   serviceUrl = dlg->serviceUrl();
