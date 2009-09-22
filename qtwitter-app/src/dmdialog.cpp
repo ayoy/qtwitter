@@ -102,8 +102,8 @@ void DMDialog::sendDM()
 {
   if( charsLeft() < 0 ) {
     QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Message too long" ), tr( "Your message is too long." ) );
-    QPushButton *accept = messageBox->addButton( tr( "Cool" ), QMessageBox::AcceptRole );
-    QPushButton *reject = messageBox->addButton( tr( "Oops..." ), QMessageBox::RejectRole );
+    QPushButton *accept = messageBox->addButton( tr( "Truncate" ), QMessageBox::AcceptRole );
+    QPushButton *reject = messageBox->addButton( tr( "Edit" ), QMessageBox::RejectRole );
     messageBox->setInformativeText( tr( "You can still post it like this, but it will be truncated." ) );
     messageBox->setDefaultButton( accept );
     messageBox->setEscapeButton( reject );
