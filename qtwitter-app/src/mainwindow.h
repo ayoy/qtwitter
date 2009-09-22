@@ -44,11 +44,17 @@ public:
     VisibleWhenMinimized
   };
 
+  enum CloseButtonMode {
+    CloseButtonHidesApp,
+    CloseButtonClosesApp
+  };
+
   MainWindow( QWidget *parent = 0 );
   virtual ~MainWindow();
 
   int getScrollBarWidth();
   void setTrayIconMode( TrayIconMode mode );
+  void setCloseButtonMode( CloseButtonMode mode );
 
 
 public slots:
@@ -119,6 +125,7 @@ private:
   bool resetUiWhenFinished;
   bool updateInProgress;
   TrayIconMode m_trayIconMode;
+  CloseButtonMode m_closeButtonMode;
 
   QMenu *buttonMenu;
   QAction *newstatusAction;

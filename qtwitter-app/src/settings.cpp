@@ -165,6 +165,16 @@ void Settings::loadConfig( bool dialogRejected )
       break;
     default:;
     }
+    int closeButton = settings.value( "close-button", 0 ).toInt();
+    switch (closeButton) {
+    case Qtwitter::CloseButtonHidesApp:
+      ui.radioHide->setChecked(true);
+      break;
+    case Qtwitter::CloseButtonClosesApp:
+      ui.radioClose->setChecked(true);
+      break;
+    default:;
+    }
   settings.endGroup();
 
   ui.hostEdit->setEnabled( (bool) ui.proxyBox->checkState() );
@@ -256,6 +266,12 @@ void Settings::saveConfig( int quitting )
       settings.setValue( "tray-icon", Qtwitter::VisibleAlways );
     } else if ( ui.trayIconVisibleWhenMinimized->isChecked() ) {
       settings.setValue( "tray-icon", Qtwitter::VisibleWhenMinimized );
+    }
+
+    if ( ui.radioClose->isChecked() ) {
+      settings.setValue( "close-button", Qtwitter::CloseButtonClosesApp );
+    } else if ( ui.radioHide->isChecked() ) {
+      settings.setValue( "close-button", Qtwitter::CloseButtonHidesApp );
     }
 
   settings.endGroup();
@@ -384,6 +400,11 @@ void Settings::applySettings()
       Qtwitter::instance()->setTrayIconMode( Qtwitter::VisibleAlways );
     } else if ( ui.trayIconVisibleWhenMinimized->isChecked() ) {
       Qtwitter::instance()->setTrayIconMode( Qtwitter::VisibleWhenMinimized );
+    }
+    if ( ui.radioClose->isChecked() ) {
+      Qtwitter::instance()->setCloseButtonMode( Qtwitter::CloseButtonClosesApp );
+    } else if ( ui.radioHide->isChecked() ) {
+      Qtwitter::instance()->setCloseButtonMode( Qtwitter::CloseButtonHidesApp );
     }
   }
 #ifdef Q_WS_X11

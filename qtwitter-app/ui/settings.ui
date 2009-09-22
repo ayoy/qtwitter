@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>390</width>
-    <height>382</height>
+    <height>435</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -38,149 +38,139 @@
       <attribute name="title">
        <string>General</string>
       </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_3">
-       <item>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <property name="bottomMargin">
-          <number>0</number>
+      <layout class="QFormLayout" name="formLayout_2">
+       <property name="fieldGrowthPolicy">
+        <enum>QFormLayout::ExpandingFieldsGrow</enum>
+       </property>
+       <item row="1" column="0">
+        <widget class="QLabel" name="refreshLabel">
+         <property name="text">
+          <string>Refresh every (mins)</string>
          </property>
-         <property name="verticalSpacing">
+         <property name="buddy">
+          <cstring>refreshCombo</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QComboBox" name="refreshCombo">
+         <item>
+          <property name="text">
+           <string notr="true">3</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string notr="true">5</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string notr="true">10</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string notr="true">15</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string notr="true">30</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string notr="true">45</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string notr="true">60</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+       <item row="2" column="0">
+        <widget class="QLabel" name="tweetCountLabel">
+         <property name="text">
+          <string>Status count:</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QSpinBox" name="statusCountBox">
+         <property name="maximumSize">
+          <size>
+           <width>63</width>
+           <height>16777215</height>
+          </size>
+         </property>
+         <property name="accelerated">
+          <bool>true</bool>
+         </property>
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="maximum">
+          <number>200</number>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QLabel" name="languageLabel">
+         <property name="text">
+          <string>Language</string>
+         </property>
+         <property name="buddy">
+          <cstring>languageCombo</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="1">
+        <widget class="QComboBox" name="languageCombo">
+         <property name="currentIndex">
           <number>-1</number>
          </property>
-         <item row="0" column="0">
-          <widget class="QLabel" name="refreshLabel">
-           <property name="text">
-            <string>Refresh every (mins)</string>
-           </property>
-           <property name="buddy">
-            <cstring>refreshCombo</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="refreshCombo">
-           <item>
-            <property name="text">
-             <string notr="true">3</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">5</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">10</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">15</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">30</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">45</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string notr="true">60</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="languageLabel">
-           <property name="text">
-            <string>Language</string>
-           </property>
-           <property name="buddy">
-            <cstring>languageCombo</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QComboBox" name="languageCombo">
-           <property name="currentIndex">
-            <number>-1</number>
-           </property>
-           <property name="insertPolicy">
-            <enum>QComboBox::InsertAlphabetically</enum>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="shortenLabel">
-           <property name="text">
-            <string>Shorten links via</string>
-           </property>
-           <property name="buddy">
-            <cstring>urlShortenerCombo</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="1">
-          <widget class="QComboBox" name="urlShortenerCombo"/>
-         </item>
-         <item row="3" column="0" colspan="2">
-          <widget class="QLabel" name="shortenerInfoLabel">
-           <property name="font">
-            <font>
-             <italic>true</italic>
-            </font>
-           </property>
-           <property name="text">
-            <string notr="true">TextLabel</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-        </layout>
+         <property name="insertPolicy">
+          <enum>QComboBox::InsertAlphabetically</enum>
+         </property>
+        </widget>
        </item>
-       <item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="shortenLabel">
+         <property name="text">
+          <string>Shorten links via</string>
+         </property>
+         <property name="buddy">
+          <cstring>urlShortenerCombo</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QComboBox" name="urlShortenerCombo"/>
+       </item>
+       <item row="8" column="0" colspan="2">
         <widget class="QCheckBox" name="confirmDeletionBox">
          <property name="text">
           <string>Confirm messages deletion</string>
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QCheckBox" name="notificationsBox">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>2</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+       <item row="6" column="0">
+        <widget class="QLabel" name="shortenerInfoLabel">
+         <property name="font">
+          <font>
+           <italic>true</italic>
+          </font>
          </property>
          <property name="text">
-          <string>Show tray notifications</string>
+          <string notr="true">TextLabel</string>
          </property>
-         <property name="checked">
-          <bool>true</bool>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
-       </item>
-       <item>
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
       </layout>
      </widget>
@@ -337,46 +327,20 @@
       </attribute>
       <layout class="QFormLayout" name="formLayout">
        <item row="0" column="0">
-        <widget class="QLabel" name="tweetCountLabel">
-         <property name="text">
-          <string>Status count:</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <widget class="QSpinBox" name="statusCountBox">
-         <property name="maximumSize">
-          <size>
-           <width>63</width>
-           <height>16777215</height>
-          </size>
-         </property>
-         <property name="accelerated">
-          <bool>true</bool>
-         </property>
-         <property name="minimum">
-          <number>1</number>
-         </property>
-         <property name="maximum">
-          <number>200</number>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
         <widget class="QLabel" name="colorLabel">
          <property name="text">
           <string>Color scheme:</string>
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
+       <item row="0" column="1">
         <widget class="QComboBox" name="colorBox">
          <property name="currentIndex">
           <number>-1</number>
          </property>
         </widget>
        </item>
-       <item row="2" column="0" colspan="2">
+       <item row="1" column="0" colspan="2">
         <widget class="QGroupBox" name="displayModeGroupBox">
          <property name="title">
           <string>Statuses display mode</string>
@@ -409,10 +373,10 @@
          </layout>
         </widget>
        </item>
-       <item row="3" column="0" colspan="2">
+       <item row="2" column="0" colspan="2">
         <widget class="QGroupBox" name="trayIconGroupBox">
          <property name="title">
-          <string>Tray icon</string>
+          <string>Tray icon and notifications</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_5">
           <item>
@@ -429,6 +393,48 @@
            <widget class="QRadioButton" name="trayIconVisibleWhenMinimized">
             <property name="text">
              <string>visible only when minimized</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QCheckBox" name="notificationsBox">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+              <horstretch>2</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="text">
+             <string>Show tray notifications</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item row="3" column="0" colspan="2">
+        <widget class="QGroupBox" name="closeButtonGroupBox">
+         <property name="title">
+          <string>Close button</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_3">
+          <item>
+           <widget class="QRadioButton" name="radioHide">
+            <property name="text">
+             <string>Hides the application</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QRadioButton" name="radioClose">
+            <property name="text">
+             <string>Closes the application</string>
             </property>
            </widget>
           </item>
@@ -455,17 +461,12 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>refreshCombo</tabstop>
-  <tabstop>languageCombo</tabstop>
-  <tabstop>urlShortenerCombo</tabstop>
   <tabstop>confirmDeletionBox</tabstop>
-  <tabstop>notificationsBox</tabstop>
   <tabstop>proxyBox</tabstop>
   <tabstop>hostEdit</tabstop>
   <tabstop>portEdit</tabstop>
   <tabstop>updatesCheckBox</tabstop>
   <tabstop>checkNowButton</tabstop>
-  <tabstop>statusCountBox</tabstop>
   <tabstop>colorBox</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>

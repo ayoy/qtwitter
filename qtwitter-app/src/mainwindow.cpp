@@ -240,6 +240,11 @@ void MainWindow::setTrayIconMode( MainWindow::TrayIconMode mode )
   }
 }
 
+void MainWindow::setCloseButtonMode( MainWindow::CloseButtonMode mode )
+{
+  m_closeButtonMode = mode;
+}
+
 void MainWindow::setupAccounts( const QList<Account> &accounts )
 {
   ui.accountsComboBox->clear();
@@ -422,8 +427,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::closeEvent( QCloseEvent *event )
 {
-  minimize();
-  event->ignore();
+  if ( m_closeButtonMode == CloseButtonHidesApp ) {
+    minimize();
+    event->ignore();
+  } else {
+    qApp->quit();
+  }
 }
 
 void MainWindow::resizeEvent( QResizeEvent *event )
