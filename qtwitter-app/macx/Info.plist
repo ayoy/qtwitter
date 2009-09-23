@@ -2,17 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>LSUIElement</key>
-	<true/>
+	<key>CFBundleExecutable</key>
+	<string>qtwitter</string>
+	<key>CFBundleGetInfoString</key>
+	<string>qTwitter - a Qt microblogging client</string>
 	<key>CFBundleIconFile</key>
 	<string>qtwitter.icns</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
-	<key>CFBundleGetInfoString</key>
-	<string>qTwitter - a Qt client for Twitter</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
-	<key>CFBundleExecutable</key>
-	<string>qtwitter</string>
 </dict>
 </plist>
