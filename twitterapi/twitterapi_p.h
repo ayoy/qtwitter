@@ -39,10 +39,12 @@ public:
   QByteArray prepareRequest( const QString &screenName, const QString & );
 
   void init();
+#ifdef HAVE_OAUTH
   QByteArray prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,
                                  const QOAuth::ParamMap &params = QOAuth::ParamMap() );
-
   bool usingOAuth;
+#endif
+
   QString login;
   QString password;
   QString serviceUrl;
@@ -52,7 +54,9 @@ public:
   QXmlSimpleReader *xmlReader;
   QXmlInputSource *source;
 
+#ifdef HAVE_OAUTH
   QOAuth::Interface *qoauth;
+#endif
 
   static const QNetworkRequest::Attribute ATTR_SOCIALNETWORK;
   static const QNetworkRequest::Attribute ATTR_ROLE;

@@ -4,7 +4,7 @@ TARGET = qtwitter
 CONFIG += oauth
 
 # sets the TOP variable to the root source code dir
-include(../qtwitter.pri)
+include(../common.pri)
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)

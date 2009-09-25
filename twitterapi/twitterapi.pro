@@ -1,9 +1,11 @@
 TARGET = twitterapi
 
-include(../qtwitter.pri)
+include(../common.pri)
 include(twitterapi.pri)
 
-CONFIG += oauth
+contains( DEFINES, HAVE_OAUTH ) {
+    CONFIG += oauth
+}
 
 TEMPLATE = lib
 QT += network \

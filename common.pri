@@ -1,0 +1,2 @@
+TOP = $${PWD}
+DEFINES += HAVE_OAUTH

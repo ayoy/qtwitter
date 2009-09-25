@@ -1,6 +1,6 @@
 TARGET = urlshortener
 
-include(../qtwitter.pri)
+include(../common.pri)
 include(urlshortener.pri)
 
 TEMPLATE = lib
