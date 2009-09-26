@@ -52,6 +52,7 @@ Qtwitter::Qtwitter( QWidget *parent ) :
   if ( m_instance ) {
     qFatal( "Only one instance of Qtwitter class is allowed!" );
   }
+  m_instance = this;
 
   connect( this, SIGNAL(switchModel(QString,QString)), SLOT(setCurrentModel(QString,QString)) );
   connect( this, SIGNAL(twitPicRequested()), SLOT(openTwitPic()) );
@@ -86,7 +87,6 @@ Qtwitter::Qtwitter( QWidget *parent ) :
   connect( qApp, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(int)), settingsDialog, SLOT(saveConfig(int)) );
 
-  m_instance = this;
 }
 
 void Qtwitter::setCurrentModel( const QString &serviceUrl, const QString &login )
