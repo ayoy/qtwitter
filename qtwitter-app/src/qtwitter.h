@@ -36,7 +36,7 @@ public:
   static Qtwitter* instance();
   Qtwitter( QWidget *parent = 0 );
 
-public slots:
+private slots:
   void setCurrentModel( const QString &serviceUrl, const QString &login );
   void openTwitPic();
 

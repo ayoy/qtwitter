@@ -412,7 +412,7 @@ void Settings::applySettings()
     QDesktopServices::setUrlHandler( "http", core, "openBrowser");
     QDesktopServices::setUrlHandler( "https", core, "openBrowser");
     QDesktopServices::setUrlHandler( "ftp", core, "openBrowser");
-    core->setBrowserPath( this->selectBrowserEdit->text() );
+    core->setBrowserPath( selectBrowserEdit->text() );
   } else {
     QDesktopServices::unsetUrlHandler( "http" );
     QDesktopServices::unsetUrlHandler( "https" );

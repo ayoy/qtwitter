@@ -21,9 +21,21 @@
 #include <QApplication>
 #include "qtwitter.h"
 
+#ifdef QT_DBUS
+#   include <QDBusConnection>
+#endif
+
 int main( int argc, char **argv )
 {
   QApplication app( argc, argv );
+
+#ifdef QT_DBUS
+  QDBusConnection connection = QDBusConnection::sessionBus();
+  bool res = connection.registerService( "net.ayoy.qTwitter" );
+  if ( !res ) {
+    return 1;
+  }
+#endif
 
   qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
   Qtwitter qtwitter;
