@@ -37,7 +37,7 @@ public:
   QTwitterApp( int & argc, char **argv );
   virtual ~QTwitterApp();
 
-  static const Core* core();
+  static Core* core();
   static MainWindow* mainWindow();
 
 public slots:

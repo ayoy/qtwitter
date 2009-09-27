@@ -152,9 +152,9 @@ void StatusListPrivate::slotUnauthorized()
   Q_Q(StatusList);
 
   bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE );
-  Core::instance()->decrementRequestCount();
+  QTwitterApp::core()->decrementRequestCount();
   if ( account->dm() ) {
-    Core::instance()->decrementRequestCount();
+    QTwitterApp::core()->decrementRequestCount();
   }
   if ( !result ) {
     return;
@@ -172,7 +172,7 @@ void StatusListPrivate::slotUnauthorized( const QString &status, quint64 inReply
   Q_Q(StatusList);
 
   bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE );
-  Core::instance()->decrementRequestCount();
+  QTwitterApp::core()->decrementRequestCount();
   if ( !result ) {
     return;
   }
@@ -186,7 +186,7 @@ void StatusListPrivate::slotUnauthorized( const QString &screenName, const QStri
   Q_Q(StatusList);
 
   bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_POST_DM );
-  Core::instance()->decrementRequestCount();
+  QTwitterApp::core()->decrementRequestCount();
   if ( !result ) {
     return;
   }
@@ -200,7 +200,7 @@ void StatusListPrivate::slotUnauthorized( quint64 destroyId, Entry::Type type )
   Q_Q(StatusList);
 
   bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE );
-  Core::instance()->decrementRequestCount();
+  QTwitterApp::core()->decrementRequestCount();
   if ( !result ) {
     return;
   }
@@ -214,10 +214,10 @@ void StatusListPrivate::slotRequestDone( int role )
   if ( visible ) {
     StatusModel::instance()->updateDisplay();
   }
-  if ( role != TwitterAPI::ROLE_POST_DM && Core::instance()->requestCount() > 0 ) {
-    Core::instance()->decrementRequestCount();
+  if ( role != TwitterAPI::ROLE_POST_DM && QTwitterApp::core()->requestCount() > 0 ) {
+    QTwitterApp::core()->decrementRequestCount();
   }
-  qDebug() << Core::instance()->requestCount();
+  qDebug() << QTwitterApp::core()->requestCount();
 //  if ( Core::requestCount() == 0 ) {
 //    if ( checkForNew )
 //      core->checkUnreadStatuses();
@@ -408,7 +408,7 @@ void StatusList::requestFriendsTimeline()
   Q_D(StatusList);
 
   d->twitterapi->friendsTimeline( StatusListPrivate::maxCount );
-  Core::instance()->incrementRequestCount();
+  QTwitterApp::core()->incrementRequestCount();
 }
 
 void StatusList::requestDirectMessages()
@@ -416,7 +416,7 @@ void StatusList::requestDirectMessages()
   Q_D(StatusList);
 
   d->twitterapi->directMessages( StatusListPrivate::maxCount );
-  Core::instance()->incrementRequestCount();
+  QTwitterApp::core()->incrementRequestCount();
 }
 
 void StatusList::requestNewStatus( const QString &status, quint64 inReplyTo )
@@ -424,7 +424,7 @@ void StatusList::requestNewStatus( const QString &status, quint64 inReplyTo )
   Q_D(StatusList);
 
   d->twitterapi->postUpdate( status, inReplyTo );
-  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
+  QTwitterApp::core()->incrementRequestCount( Core::DontCheckForUnread );
 }
 
 void StatusList::requestNewDM( const QString &screenName, const QString &text )
@@ -455,7 +455,7 @@ void StatusList::requestDestroy( quint64 id, Entry::Type type )
   } else {
     d->twitterapi->deleteDM( id );
   }
-  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
+  QTwitterApp::core()->incrementRequestCount( Core::DontCheckForUnread );
 }
 
 void StatusList::requestCreateFavorite( quint64 id )
@@ -463,7 +463,7 @@ void StatusList::requestCreateFavorite( quint64 id )
   Q_D(StatusList);
 
   d->twitterapi->createFavorite( id );
-  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
+  QTwitterApp::core()->incrementRequestCount( Core::DontCheckForUnread );
 }
 
 void StatusList::requestDestroyFavorite( quint64 id )
@@ -471,7 +471,7 @@ void StatusList::requestDestroyFavorite( quint64 id )
   Q_D(StatusList);
 
   d->twitterapi->destroyFavorite( id );
-  Core::instance()->incrementRequestCount( Core::DontCheckForUnread );
+  QTwitterApp::core()->incrementRequestCount( Core::DontCheckForUnread );
 }
 
 

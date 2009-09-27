@@ -53,7 +53,7 @@ QTwitterApp* QTwitterApp::instance()
   return static_cast<QTwitterApp*>( QApplication::instance() );
 }
 
-const Core* QTwitterApp::core()
+Core* QTwitterApp::core()
 {
   return instance()->m_core;
 }
@@ -90,6 +90,7 @@ void QTwitterApp::registerMainWindow( MainWindow *mainWindow )
 {
   if ( !instance()->m_mainWindow ) {
     instance()->m_mainWindow = mainWindow;
+    instance()->m_core->restoreSession();
   }
 }
 

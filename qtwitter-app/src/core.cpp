@@ -50,13 +50,11 @@
 
 extern ConfigFile settings;
 
-Core* Core::m_instance = 0;
-int Core::m_requestCount = 0;
-Core::CheckingForUnread Core::m_checkForUnread = Core::CheckForUnread;
-
 Core::Core( QObject *parent ) :
     QObject( parent ),
     authDialogOpen( false ),
+    m_requestCount(0),
+    m_checkForUnread(CheckForUnread),
     waitForAccounts( false ),
     settingsOpen( false ),
     twitpicUpload(0),
@@ -64,17 +62,7 @@ Core::Core( QObject *parent ) :
     accountsModel(0),
     timer(0)
 {
-  if ( m_instance ) {
-    qFatal( "Multiple instances of Core class are not allowed!" );
-  }
-  m_instance = this;
-
   connect( ImageDownload::instance(), SIGNAL(imageReadyForUrl(QString,QPixmap*)), this, SLOT(setImageForUrl(QString,QPixmap*)) );
-//  connect( twitterapi, SIGNAL(deleteDMDone(TwitterAPI::SocialNetwork,QString,quint64,TwitterAPI::ErrorCode)), this, SLOT(deleteEntry(TwitterAPI::SocialNetwork,QString,quint64)) );
-//  connect( twitterapi, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
-
-  connect( this, SIGNAL(newRequest()), SLOT(slotNewRequest()) );
-//  connect( twitterapi, SIGNAL(requestDone(TwitterAPI::SocialNetwork,QString,int)), this, SLOT(slotRequestDone(TwitterAPI::SocialNetwork,QString,int)) );
 
   urlShortener = new UrlShortener( this );
   connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
@@ -84,8 +72,6 @@ Core::Core( QObject *parent ) :
   connect( StatusModel::instance(), SIGNAL(markEverythingAsRead()), this, SLOT(markEverythingAsRead()) );
 
   accountsModel = new AccountsModel;
-
-  restoreSession();
 }
 
 void Core::storeSession()
@@ -632,12 +618,6 @@ bool Core::retryAuthorizing( Account *account, int role )
   default:;
   }
   return false;
-}
-
-void Core::slotNewRequest()
-{
-  m_requestCount++;
-  qDebug() << m_requestCount << "request(s) pending";
 }
 
 void Core::resetRequestsCount()

@@ -59,15 +59,6 @@ public:
     DontCheckForUnread
   };
 
-  static Core* instance()
-  {
-    if ( !m_instance ) {
-      qFatal( "Construct Core object first!" );
-    }
-    return m_instance;
-  }
-
-
   Core( QObject *parent = 0 );
 
   bool setTimerInterval( int msecs );
@@ -135,7 +126,6 @@ signals:
   void modelChanged( StatusModel *model );
   void confirmDMSent( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
   void sendNewsReport( QString message );
-  void newRequest();
   void urlShortened( const QString &url);
 
   void accountDialogClosed( bool success );
@@ -146,7 +136,6 @@ private slots:
   AuthDialogState authDataDialog( Account *account );
 
   void setImageForUrl( const QString& url, QPixmap *image );
-  void slotNewRequest();
   void slotRequestDone( const QString &serviceUrl, const QString &login, int role );
 
   void setWaitForAccounts( bool wait );
@@ -163,8 +152,8 @@ private:
   Account* findAccount( const Account &account );
 
   bool authDialogOpen;
-  static int m_requestCount;
-  static CheckingForUnread m_checkForUnread;
+  int m_requestCount;
+  CheckingForUnread m_checkForUnread;
 
   bool waitForAccounts;
   bool settingsOpen;
@@ -178,8 +167,6 @@ private:
   QMap<Account*,StatusList*> statusLists;
 
   QTimer *timer;
-
-  static Core *m_instance;
 
 #ifdef Q_WS_X11
   QString browserPath;
