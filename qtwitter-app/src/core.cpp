@@ -23,6 +23,7 @@
 #include <QDesktopServices>
 #include <QProcess>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QInputDialog>
 #include <QDebug>
 #include <QDataStream>
@@ -35,7 +36,7 @@
 #include "imagedownload.h"
 #include "dmdialog.h"
 #include "configfile.h"
-#include "qtwitter.h"
+#include "qtwitterapp.h"
 #include "twitpicengine.h"
 #include "statusmodel.h"
 #include "statuswidget.h"
@@ -53,7 +54,7 @@ Core* Core::m_instance = 0;
 int Core::m_requestCount = 0;
 Core::CheckingForUnread Core::m_checkForUnread = Core::CheckForUnread;
 
-Core::Core( MainWindow *parent ) :
+Core::Core( QObject *parent ) :
     QObject( parent ),
     authDialogOpen( false ),
     waitForAccounts( false ),
@@ -61,8 +62,7 @@ Core::Core( MainWindow *parent ) :
     twitpicUpload(0),
     accounts(0),
     accountsModel(0),
-    timer(0),
-    parentMainWindow( parent )
+    timer(0)
 {
   if ( m_instance ) {
     qFatal( "Multiple instances of Core class are not allowed!" );
@@ -86,11 +86,6 @@ Core::Core( MainWindow *parent ) :
   accountsModel = new AccountsModel;
 
   restoreSession();
-}
-
-Core::~Core()
-{
-  storeSession();
 }
 
 void Core::storeSession()
@@ -146,8 +141,8 @@ void Core::restoreSession()
                                   "27230-qtwitter/tickets?q=all\">here</a>" ) );
     mbox->setIconPixmap( QPixmap( ":/icons/twitter_48.png" ) );
 
-    QAbstractButton *yes = mbox->addButton( tr( "Yes, reset accounts settings" ), QMessageBox::AcceptRole );
-    mbox->addButton( tr( "No, thanks" ), QMessageBox::RejectRole );
+    QAbstractButton *yes = mbox->addButton( tr( "&Yes, reset accounts settings" ), QMessageBox::AcceptRole );
+    mbox->addButton( tr( "&No, thanks" ), QMessageBox::RejectRole );
 
     mbox->exec();
     QAbstractButton *clicked = mbox->clickedButton();
@@ -471,7 +466,7 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
   if ( authDialogOpen )
     return Core::STATE_DIALOG_OPEN;
   emit pauseIcon();
-  QDialog *dlg = new QDialog( Qtwitter::instance() );
+  QDialog *dlg = new QDialog( QTwitterApp::instance()->activeWindow() );
   Ui::AuthDialog ui;
   ui.setupUi( dlg );
   QString ident = QString( "<br>%1 @%2<br>" ).arg( account->login(),

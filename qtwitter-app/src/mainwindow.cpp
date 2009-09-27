@@ -43,6 +43,8 @@
 #include "accountscontroller.h"
 #include "configfile.h"
 #include "updater.h"
+#include "qtwitterapp.h"
+#include "core.h"
 
 extern ConfigFile settings;
 
@@ -73,9 +75,11 @@ MainWindow::MainWindow( QWidget *parent ) :
   ui.updateButton->setIcon( QtIconLoader::icon("reload", QIcon(":icons/refresh_48.png")) );
   //< experiment end
 
-  createConnections();
+  createInternalConnections();
+  createExternalConnections();
   createButtonMenu();
   createTrayIcon();
+  QTwitterApp::registerMainWindow( this );
 
 // create menu bar only on maemo
 #ifdef Q_WS_HILDON
@@ -88,9 +92,10 @@ MainWindow::MainWindow( QWidget *parent ) :
 
 MainWindow::~MainWindow() {
   settings.setValue( "Accounts/visibleAccount", ui.accountsComboBox->currentIndex() );
+  QTwitterApp::unregisterMainWindow( this );
 }
 
-void MainWindow::createConnections()
+void MainWindow::createInternalConnections()
 {
   new QShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_R ), this, SLOT(statusReplyAction()) );
   new QShortcut( QKeySequence( Qt::CTRL + Qt::Key_T ), this, SLOT(statusRetweetAction()) );
@@ -105,7 +110,7 @@ void MainWindow::createConnections()
   ui.statusEdit->installEventFilter( filter );
 
   connect( ui.updateButton, SIGNAL( clicked() ), this, SIGNAL( updateStatuses() ) );
-  connect( ui.settingsButton, SIGNAL( clicked() ), this, SIGNAL(settingsDialogRequested()) );
+  connect( ui.settingsButton, SIGNAL( clicked() ), QTwitterApp::instance(), SLOT(openSettings()) );
   connect( ui.statusEdit, SIGNAL( textChanged( QString ) ), this, SLOT( changeLabel() ) );
   connect( ui.statusEdit, SIGNAL( editingFinished() ), this, SLOT( resetStatus() ) );
   connect( ui.statusEdit, SIGNAL(errorMessage(QString)), this, SLOT(popupError(QString)) );
@@ -130,6 +135,30 @@ void MainWindow::createConnections()
   ui.settingsButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
 #endif
   ui.updateButton->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_R ) );
+}
+
+void MainWindow::createExternalConnections()
+{
+  const Core *core = QTwitterApp::core();
+  connect( this, SIGNAL(switchModel(QString,QString)),          core, SLOT(setModelData(QString,QString)) );
+  connect( this, SIGNAL(updateStatuses()),                      core, SLOT(forceGet()) );
+  connect( this, SIGNAL(openBrowser(QUrl)),                     core, SLOT(openBrowser(QUrl)) );
+  connect( this, SIGNAL(post(QString,QString,QString,quint64)), core, SLOT(post(QString,QString,QString,quint64)) );
+  connect( this, SIGNAL(shortenUrl(QString)),                   core, SLOT(shortenUrl(QString)));
+  connect( this, SIGNAL(iconStopped()),                         core, SLOT(resetRequestsCount()) );
+  connect( this, SIGNAL(statusMarkeverythingasreadAction()),    core, SLOT(markEverythingAsRead()) );
+  connect( core, SIGNAL(pauseIcon()),                           this, SLOT(pauseIcon()) );
+  connect( core, SIGNAL(accountsUpdated(QList<Account>)),       this, SLOT(setupAccounts(QList<Account>)) );
+  connect( core, SIGNAL(urlShortened(QString)),                 this, SLOT(replaceUrl(QString)));
+  connect( core, SIGNAL(errorMessage(QString)),                 this, SLOT(popupError(QString)) );
+  connect( core, SIGNAL(resetUi()),                             this, SLOT(resetStatusEdit()) );
+  connect( core, SIGNAL(requestStarted()),                      this, SLOT(showProgressIcon()) );
+
+  connect( StatusModel::instance(), SIGNAL(retweet(QString)),       this, SIGNAL(addRetweetString(QString)) );
+  connect( StatusModel::instance(), SIGNAL(reply(QString,quint64)), this, SIGNAL(addReplyString(QString,quint64)) );
+
+  if ( QSystemTrayIcon::supportsMessages() )
+    connect( core, SIGNAL(sendNewsReport(QString)), this, SLOT(popupMessage(QString)) );
 }
 
 #ifdef Q_WS_HILDON
@@ -157,7 +186,7 @@ void MainWindow::createTrayIcon()
   quitaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
 
   connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
-  connect( settingsaction, SIGNAL(triggered()), this, SIGNAL(settingsDialogRequested()) );
+  connect( settingsaction, SIGNAL(triggered()), QTwitterApp::instance(), SLOT(openSettings()) );
   connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
 
   trayMenu->addAction(settingsaction);
@@ -197,7 +226,7 @@ void MainWindow::createButtonMenu()
   mapper->setMapping( gototwitpicAction, "http://twitpic.com" );
 
   connect( newstatusAction, SIGNAL(triggered()), ui.statusEdit, SLOT(setFocus()) );
-  connect( newtwitpicAction, SIGNAL(triggered()), this, SIGNAL(twitPicRequested()) );
+  connect( newtwitpicAction, SIGNAL(triggered()), QTwitterApp::instance(), SLOT(openTwitPic()) );
   connect( gototwitterAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( gototwitpicAction, SIGNAL(triggered()), mapper, SLOT(map()) );
   connect( mapper, SIGNAL(mapped(QString)), this, SLOT(emitOpenBrowser(QString)) );
@@ -438,7 +467,7 @@ void MainWindow::closeEvent( QCloseEvent *event )
 void MainWindow::resizeEvent( QResizeEvent *event )
 {
   StatusWidget::setCurrentWidth( width() );
-  emit resizeView( event->size().width(), event->oldSize().width() );
+  StatusModel::instance()->resizeData( event->size().width(), event->oldSize().width() );
 }
 
 void MainWindow::popupMessage( QString message )

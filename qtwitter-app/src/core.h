@@ -68,8 +68,7 @@ public:
   }
 
 
-  Core( MainWindow *parent = 0 );
-  virtual ~Core();
+  Core( QObject *parent = 0 );
 
   bool setTimerInterval( int msecs );
 #ifdef Q_WS_X11
@@ -77,7 +76,6 @@ public:
 #endif
 
   void setModelTheme( const ThemeData &theme );
-  void setModelData( const QString &serviceUrl, const QString &login );
 
   void setSettingsOpen( bool open );
   QStringList twitpicLogins() const;
@@ -120,6 +118,7 @@ public slots:
   void resetRequestsCount();
 
   void applySettings();
+  void setModelData( const QString &serviceUrl, const QString &login );
 
 
   void retranslateUi();
@@ -179,13 +178,14 @@ private:
   QMap<Account*,StatusList*> statusLists;
 
   QTimer *timer;
-  MainWindow *parentMainWindow;
 
   static Core *m_instance;
 
 #ifdef Q_WS_X11
   QString browserPath;
 #endif
+
+  friend class QTwitterApp;
 };
 
 #endif //CORE_H

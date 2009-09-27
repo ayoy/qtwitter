@@ -26,7 +26,7 @@
 #include "statuswidget.h"
 #include "configfile.h"
 #include "statusmodel.h"
-#include "qtwitter.h"
+#include "qtwitterapp.h"
 #include "core.h"
 
 extern ConfigFile settings;
@@ -288,7 +288,7 @@ void StatusModel::sendDeleteRequest( quint64 id, Entry::Type type )
                                             tr( "Are you sure?" ),
                                             tr( "Are you sure to delete this status?" ),
                                             QMessageBox::Yes | QMessageBox::Cancel,
-                                            Qtwitter::instance() );
+                                            QTwitterApp::instance()->activeWindow() );
     int result = confirm->exec();
     delete confirm;
     if ( result == QMessageBox::Cancel )

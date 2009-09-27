@@ -26,7 +26,7 @@
 #include "accountsdelegate.h"
 #include "newaccountdialog.h"
 #include <configfile.h>
-#include <qtwitter.h>
+#include <qtwitterapp.h>
 #include <qticonloader.h>
 
 #include <oauthwizard.h>
@@ -206,7 +206,7 @@ void AccountsController::updateAccounts( const QModelIndex &topLeft, const QMode
         settings.setValue( QString("Accounts/%1/login").arg( i ), model->index(i,j).data() );
         break;
       case AccountsModel::COL_PASSWORD:
-        if ( ui->passwordsCheckBox->isChecked() ||
+        if ( settings.value( "General/savePasswords", true ).toBool() ||
              model->index(i, AccountsModel::COL_NETWORK ).data( Qt::EditRole ) == Account::NetworkUrlTwitter ) {
           settings.setValue( QString("Accounts/%1/password").arg( i ), ConfigFile::pwHash( model->index(i,j).data( Qt::EditRole ).toString() ) );
         } else {
@@ -291,7 +291,7 @@ void AccountsController::addAccount()
     parent = qobject_cast<QWidget*>( sender() );
   }
 
-  NewAccountDialog *dlg = new NewAccountDialog( parent ? parent : Qtwitter::instance() );
+  NewAccountDialog *dlg = new NewAccountDialog( parent ? parent : QTwitterApp::instance()->activeWindow() );
   result = dlg->exec();
   networkName = dlg->networkName();
   serviceUrl = dlg->serviceUrl();

@@ -29,7 +29,7 @@
 #include "imagedownload.h"
 #include "core.h"
 #include "dmdialog.h"
-#include "qtwitter.h"
+#include "qtwitterapp.h"
 
 QDataStream& operator<<( QDataStream & out, const Status &status )
 {
@@ -438,7 +438,7 @@ void StatusList::requestNewDM( const QString &screenName, const QString &text )
 void StatusList::postDMDialog( const QString &screenName )
 {
   Q_D(StatusList);
-  DMDialog *dlg = new DMDialog( screenName, Qtwitter::instance() );
+  DMDialog *dlg = new DMDialog( screenName, QTwitterApp::instance()->activeWindow() );
   connect( dlg, SIGNAL(dmRequest(QString,QString)), this, SLOT(requestNewDM(QString,QString)) );
   connect( d->twitterapi, SIGNAL(postDMDone(TwitterAPI::ErrorCode)), dlg, SLOT(showResult(TwitterAPI::ErrorCode)) );
 

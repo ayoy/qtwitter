@@ -17,6 +17,7 @@ QT += network \
     xml
 
 SOURCES += src/main.cpp \
+    src/qtwitterapp.cpp \
     src/mainwindow.cpp \
     src/statusedit.cpp \
     src/imagedownload.cpp \
@@ -26,7 +27,6 @@ SOURCES += src/main.cpp \
     src/statusmodel.cpp \
     src/twitpicview.cpp \
     src/twitpicengine.cpp \
-    src/qtwitter.cpp \
     src/aboutdialog.cpp \
     src/statuslist.cpp \
     src/userinfobutton.cpp \
@@ -36,7 +36,8 @@ SOURCES += src/main.cpp \
     src/themes.cpp \
     src/updater.cpp \
     src/welcomedialog.cpp
-HEADERS += src/mainwindow.h \
+HEADERS += src/qtwitterapp.h \
+    src/mainwindow.h \
     src/statusedit.h \
     src/imagedownload.h \
     src/core.h \
@@ -48,7 +49,6 @@ HEADERS += src/mainwindow.h \
     src/twitpicview.h \
     src/twitpicengine.h \
     src/twitpictextedit.h \
-    src/qtwitter.h \
     src/aboutdialog.h \
     src/statuslist.h \
     src/statuslist_p.h \

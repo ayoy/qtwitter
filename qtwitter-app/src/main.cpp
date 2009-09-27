@@ -18,8 +18,9 @@
  ***************************************************************************/
 
 
-#include <QApplication>
-#include "qtwitter.h"
+#include "qtwitterapp.h"
+#include "mainwindow.h"
+#include <QIcon>
 
 #ifdef QT_DBUS
 #   include <QDBusConnection>
@@ -27,19 +28,23 @@
 
 int main( int argc, char **argv )
 {
-  QApplication app( argc, argv );
+  QTwitterApp app( argc, argv );
 
 #ifdef QT_DBUS
   QDBusConnection connection = QDBusConnection::sessionBus();
-  bool res = connection.registerService( "net.ayoy.qTwitter" );
-  if ( !res ) {
-    return 1;
+  if ( connection.isConnected() ) {
+    bool res = connection.registerService( "net.ayoy.qTwitter" );
+    if ( !res ) {
+      return 1;
+    }
   }
 #endif
 
+  MainWindow qtwitter;
+
+  app.loadConfig();
   qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
-  Qtwitter qtwitter;
-  QApplication::setQuitOnLastWindowClosed( false );
+  qApp->setQuitOnLastWindowClosed( false );
 
   qtwitter.show();
   return app.exec();

@@ -49,7 +49,7 @@ class Settings : public QDialog
 
 public:
 
-  Settings( MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent = 0 );
+  Settings( Core *coreSettings, QWidget *parent = 0 );
   ~Settings();
 
   void loadConfig( bool dialogRejected = false );
@@ -82,7 +82,6 @@ private:
   void createLanguageMenu();
   void createUrlShortenerMenu();
   bool updateAccountsOnExit;
-  MainWindow *mainWindow;
   Core *core;
   QMap<QString,ThemeData> themes;
   Ui::Settings ui;

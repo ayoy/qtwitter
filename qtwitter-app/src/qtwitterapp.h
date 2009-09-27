@@ -18,35 +18,43 @@
  ***************************************************************************/
 
 
-#ifndef QTWITTER_H
-#define QTWITTER_H
+#ifndef QTWITTERAPP_H
+#define QTWITTERAPP_H
 
-#include "mainwindow.h"
-#include <twitterapi/twitterapi_global.h>
-#include "settings.h"
+#include <QApplication>
 
 class Core;
+class MainWindow;
 class TwitPicView;
 class Settings;
 
-class Qtwitter : public MainWindow
+class QTwitterApp : public QApplication
 {
   Q_OBJECT
 public:
-  static Qtwitter* instance();
-  Qtwitter( QWidget *parent = 0 );
+  static QTwitterApp* instance();
 
-private slots:
-  void setCurrentModel( const QString &serviceUrl, const QString &login );
+  QTwitterApp( int & argc, char **argv );
+  virtual ~QTwitterApp();
+
+  static const Core* core();
+  static MainWindow* mainWindow();
+
+public slots:
+  void openSettings();
   void openTwitPic();
+  void loadConfig();
 
 private:
-  Core *core;
-  TwitPicView *twitpic;
-  Settings *settingsDialog;
+  static void registerMainWindow( MainWindow *mainWindow );
+  static void unregisterMainWindow( MainWindow *mainWindow );
 
-  static Qtwitter *m_instance;
+  Core *m_core;
+  MainWindow *m_mainWindow;
+  TwitPicView *m_twitPic;
+  Settings *m_settingsDialog;
 
+  friend class MainWindow;
 };
 
-#endif // QTWITTER_H
+#endif // QTWITTERAPP_H

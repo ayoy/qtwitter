@@ -81,7 +81,6 @@ public slots:
 
 signals:
   void updateStatuses();
-  void twitPicRequested();
   void post( const QString &serviceUrl, const QString &login, QString status, quint64 inReplyTo );
   void openBrowser( QUrl address );
   void settingsDialogRequested();
@@ -115,7 +114,8 @@ private slots:
   void selectPrevAccount();
 
 private:
-  void createConnections();
+  void createExternalConnections();
+  void createInternalConnections();
   void createButtonMenu();
   void createTrayIcon();
 #ifdef Q_WS_HILDON

@@ -19,6 +19,17 @@
  ***************************************************************************/
 
 
+#include "settings.h"
+
+#include <urlshortener/urlshortener.h>
+#include <twitterapi/twitterapi_global.h>
+#include <qticonloader.h>
+#include "qtwitterapp.h"
+#include "mainwindow.h"
+#include "configfile.h"
+#include "core.h"
+#include "updater.h"
+
 #include <QNetworkProxy>
 #include <QTranslator>
 #include <QFile>
@@ -35,23 +46,13 @@
 #include <QSettings>
 #include <QApplication>
 #include <QMessageBox>
-#include <urlshortener/urlshortener.h>
-#include <twitterapi/twitterapi_global.h>
-#include <qticonloader.h>
-#include "settings.h"
-#include "qtwitter.h"
-#include "configfile.h"
-#include "core.h"
-#include "mainwindow.h"
-#include "updater.h"
 
 extern ConfigFile settings;
 
 
-Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, QWidget *parent ) :
+Settings::Settings( Core *coreSettings, QWidget *parent ) :
     QDialog( parent ),
     updateAccountsOnExit( false ),
-    mainWindow( mainwinSettings ),
     core( coreSettings )
 {
   // Sorry, but this has to be here and not in Qtwitter::Qtwitter() for the core to be aware
@@ -106,7 +107,7 @@ Settings::Settings( MainWindow *mainwinSettings, Core *coreSettings, QWidget *pa
   ui.portEdit->setValidator( new QIntValidator( 1, 65535, this ) );
 
   emit createAccounts( ui.widget );
-  loadConfig();
+//  loadConfig();
 }
 
 Settings::~Settings() {}
@@ -157,20 +158,20 @@ void Settings::loadConfig( bool dialogRejected )
     }
     int trayIcon = settings.value( "tray-icon", 0 ).toInt();
     switch (trayIcon) {
-    case Qtwitter::VisibleAlways:
+    case MainWindow::VisibleAlways:
       ui.trayIconAlwaysVisible->setChecked( true );
       break;
-    case Qtwitter::VisibleWhenMinimized:
+    case MainWindow::VisibleWhenMinimized:
       ui.trayIconVisibleWhenMinimized->setChecked( true );
       break;
     default:;
     }
     int closeButton = settings.value( "close-button", 0 ).toInt();
     switch (closeButton) {
-    case Qtwitter::CloseButtonHidesApp:
+    case MainWindow::CloseButtonHidesApp:
       ui.radioHide->setChecked(true);
       break;
-    case Qtwitter::CloseButtonClosesApp:
+    case MainWindow::CloseButtonClosesApp:
       ui.radioClose->setChecked(true);
       break;
     default:;
@@ -182,17 +183,19 @@ void Settings::loadConfig( bool dialogRejected )
 
   if ( !dialogRejected ) {
     settings.beginGroup( "MainWindow" );
-    mainWindow->resize( settings.value( "size", QSize(350,450) ).toSize() );
-    QPoint offset( settings.value( "pos", QPoint(500,200) ).toPoint() );
-    if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
-      offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
+    if ( QTwitterApp::mainWindow() ) {
+      QPoint offset( settings.value( "pos", QPoint(500,200) ).toPoint() );
+      if ( QApplication::desktop()->width() < offset.x() + settings.value( "size" ).toSize().width() ) {
+        offset.setX( QApplication::desktop()->width() - settings.value( "size" ).toSize().width() );
+      }
+      if ( QApplication::desktop()->height() < offset.y() + settings.value( "size" ).toSize().height() ) {
+        offset.setY( QApplication::desktop()->height() - settings.value( "size" ).toSize().height() );
+      }
+      QTwitterApp::mainWindow()->resize( settings.value( "size", QSize(350,450) ).toSize() );
+      QTwitterApp::mainWindow()->move( offset );
     }
-    if ( QApplication::desktop()->height() < offset.y() + settings.value( "size" ).toSize().height() ) {
-      offset.setY( QApplication::desktop()->height() - settings.value( "size" ).toSize().height() );
-    }
-    mainWindow->move( offset );
     settings.endGroup();
-    offset = settings.value( "SettingsWindow/pos", QPoint(350,200) ).toPoint();
+    QPoint offset = settings.value( "SettingsWindow/pos", QPoint(350,200) ).toPoint();
     if ( QApplication::desktop()->width() < offset.x() + size().width() ) {
       offset.setX( QApplication::desktop()->width() - size().width() );
     }
@@ -220,10 +223,12 @@ void Settings::setProxy()
 
 void Settings::saveConfig( int quitting )
 {
-  settings.beginGroup( "MainWindow" );
-    settings.setValue( "size", mainWindow->size() );
-    settings.setValue( "pos", mainWindow->pos() );
-  settings.endGroup();
+  if ( QTwitterApp::mainWindow() ) {
+    settings.beginGroup( "MainWindow" );
+      settings.setValue( "size", QTwitterApp::mainWindow()->size() );
+      settings.setValue( "pos", QTwitterApp::mainWindow()->pos() );
+    settings.endGroup();
+  }
   settings.setValue( "SettingsWindow/pos", pos() );
   settings.beginGroup( "General" );
     settings.setValue( "refresh-index", ui.refreshCombo->currentIndex() );
@@ -263,15 +268,15 @@ void Settings::saveConfig( int quitting )
     }
 
     if ( ui.trayIconAlwaysVisible->isChecked() ) {
-      settings.setValue( "tray-icon", Qtwitter::VisibleAlways );
+      settings.setValue( "tray-icon", MainWindow::VisibleAlways );
     } else if ( ui.trayIconVisibleWhenMinimized->isChecked() ) {
-      settings.setValue( "tray-icon", Qtwitter::VisibleWhenMinimized );
+      settings.setValue( "tray-icon", MainWindow::VisibleWhenMinimized );
     }
 
     if ( ui.radioClose->isChecked() ) {
-      settings.setValue( "close-button", Qtwitter::CloseButtonClosesApp );
+      settings.setValue( "close-button", MainWindow::CloseButtonClosesApp );
     } else if ( ui.radioHide->isChecked() ) {
-      settings.setValue( "close-button", Qtwitter::CloseButtonHidesApp );
+      settings.setValue( "close-button", MainWindow::CloseButtonHidesApp );
     }
 
   settings.endGroup();
@@ -342,7 +347,9 @@ void Settings::reject()
 
 void Settings::changeTheme( const QString &theme )
 {
-  mainWindow->changeListBackgroundColor( themes.value( theme ).listBackgroundColor );
+  if ( QTwitterApp::mainWindow() ) {
+    QTwitterApp::mainWindow()->changeListBackgroundColor( themes.value( theme ).listBackgroundColor );
+  }
   core->setModelTheme( themes.value( theme ) );
 }
 
@@ -395,16 +402,17 @@ void Settings::applySettings()
     StatusModel::instance()->setDisplayMode( StatusModel::DisplayBoth );
   }
   changeTheme( ui.colorBox->currentText() );
-  if ( Qtwitter::instance() ) {
+  if ( QTwitterApp::mainWindow() ) {
+    MainWindow *mw = QTwitterApp::mainWindow();
     if ( ui.trayIconAlwaysVisible->isChecked() ) {
-      Qtwitter::instance()->setTrayIconMode( Qtwitter::VisibleAlways );
+      mw->setTrayIconMode( MainWindow::VisibleAlways );
     } else if ( ui.trayIconVisibleWhenMinimized->isChecked() ) {
-      Qtwitter::instance()->setTrayIconMode( Qtwitter::VisibleWhenMinimized );
+      mw->setTrayIconMode( MainWindow::VisibleWhenMinimized );
     }
     if ( ui.radioClose->isChecked() ) {
-      Qtwitter::instance()->setCloseButtonMode( Qtwitter::CloseButtonClosesApp );
+      mw->setCloseButtonMode( MainWindow::CloseButtonClosesApp );
     } else if ( ui.radioHide->isChecked() ) {
-      Qtwitter::instance()->setCloseButtonMode( Qtwitter::CloseButtonHidesApp );
+      mw->setCloseButtonMode( MainWindow::CloseButtonHidesApp );
     }
   }
 #ifdef Q_WS_X11
@@ -476,7 +484,9 @@ void Settings::switchLanguage( int index )
   qApp->installTranslator( &translator );
 
   retranslateUi();
-  mainWindow->retranslateUi();
+  if ( QTwitterApp::mainWindow() ) {
+    QTwitterApp::mainWindow()->retranslateUi();
+  }
   core->retranslateUi();
   adjustSize();
 }
