@@ -8,8 +8,7 @@ include(../common.pri)
 DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
-#include(src/dbus/dbus.pri)
-unix:!mac: QT += dbus
+include(src/dbus/dbus.pri)
 include(src/oauth/oauth.pri)
 include(src/accounts/accounts.pri)
 include(src/qticonloader/qticonloader.pri)

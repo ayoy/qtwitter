@@ -32,6 +32,7 @@
 #include <QSignalMapper>
 #include <QTreeView>
 #include <QTimer>
+
 #include <qticonloader.h>
 #include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
@@ -45,6 +46,13 @@
 #include "updater.h"
 #include "qtwitterapp.h"
 #include "core.h"
+
+#ifdef QT_DBUS
+#   include <QDBusConnection>
+#   include <QDBusInterface>
+#   include <QDBusPendingCall>
+#   include <knotification_interface.h>
+#endif
 
 extern ConfigFile settings;
 
@@ -472,11 +480,23 @@ void MainWindow::resizeEvent( QResizeEvent *event )
 
 void MainWindow::popupMessage( QString message )
 {
-  if ( trayIcon->isVisible() ) {
-    if( settings.value( "General/notifications" ).toBool() ) {
-      //: New tweets received (this pops up in tray)
-      trayIcon->showMessage( tr( "New tweets" ), message, QSystemTrayIcon::Information );
+  if( settings.value( "General/notifications" ).toBool() ) {
+    //: New statuses received (this pops up in tray)
+    QString title = tr( "New statuses" );
+#ifdef QT_DBUS
+    KNotificationInterface iface( "org.kde.VisualNotifications", "/VisualNotifications",
+                                  QDBusConnection::sessionBus() );
+    if ( iface.isValid() ) {
+      iface.Notify( "qTwitter", 0, "", "qtwitter.png", title, message,
+                    QStringList(), QVariantMap(), 10000 );
+    } else {
+#endif
+      if ( trayIcon->isVisible() ) {
+        trayIcon->showMessage( title, message, QSystemTrayIcon::Information );
+      }
+#ifdef QT_DBUS
     }
+#endif
   }
 }
 

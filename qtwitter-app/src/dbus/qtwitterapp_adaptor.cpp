@@ -18,43 +18,31 @@
  ***************************************************************************/
 
 
-#include "qtwitterapp.h"
-#include "mainwindow.h"
-#include <QIcon>
+#include "qtwitterapp_adaptor.h"
 
-#ifdef QT_DBUS
-#   include <QDBusConnection>
-#   include <QDBusInterface>
-#   include <QDBusMessage>
-#   include <QDBusPendingCall>
-#   include <qtwitterapp_adaptor.h>
-#endif
+#include <qtwitterapp.h>
+#include <mainwindow.h>
+#include <core.h>
 
-int main( int argc, char **argv )
+QTwitterAppAdaptor::QTwitterAppAdaptor( QTwitterApp *app ) :
+    QDBusAbstractAdaptor( app ),
+    app( app )
 {
-  QTwitterApp app( argc, argv );
+}
 
-#ifdef QT_DBUS
-  QDBusConnection connection = QDBusConnection::sessionBus();
-  if ( connection.isConnected() ) {
-    bool res = connection.registerService( "net.ayoy.qTwitter" );
-    if ( !res ) {
-      QDBusInterface remoteApp( "net.ayoy.qTwitter", "/Application",
-                                "net.ayoy.qTwitter.Application" );
-      remoteApp.asyncCall( "show" );
-      return 0;
-    }
-    new QTwitterAppAdaptor( &app );
-    connection.registerObject( "/Application", &app );
-  }
-#endif
+void QTwitterAppAdaptor::quit()
+{
+  app->quit();
+}
 
-  MainWindow qtwitter;
+void QTwitterAppAdaptor::show()
+{
+  app->mainWindow()->show();
+  app->mainWindow()->raise();
+  app->mainWindow()->activateWindow();
+}
 
-  app.loadConfig();
-  qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
-  qApp->setQuitOnLastWindowClosed( false );
-
-  qtwitter.show();
-  return app.exec();
+void QTwitterAppAdaptor::updateStatuses()
+{
+  app->core()->forceGet();
 }
