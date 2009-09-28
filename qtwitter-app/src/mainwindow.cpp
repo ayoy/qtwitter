@@ -529,7 +529,7 @@ void MainWindow::popupMessage( QString message )
     if ( knotificationIface->isValid() ) {
       notificationId = (uint) rand();
       knotificationIface->Notify( "qTwitter", notificationId, "", "qtwitter.png", title, message,
-                                  QStringList(), QVariantMap(), 10000 );
+                                  QStringList(), QVariantMap(), 5000 );
     } else {
 #endif
       if ( trayIcon->isVisible() ) {

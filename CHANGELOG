@@ -1,3 +1,14 @@
+v0.9.1 (2009/09/30):
+- in KDE4: notifications displayed using Plasma notification services,
+- on *NIX: prevented spawning multiple instances of the application (#73),
+- on OSX: now showing icon in Dock,
+- added look&feel customisation options, like visibility of the tray icon (#70)
+  and behavior of the close button,
+- added crash detection, bug reporting link and reseting configuration to the working state (#68),
+- removed (not really working well) settings compatibility with older versions,
+- removed non-OAuth app version (#66),
+- added Norwegian translation (by Egil Hanger),
+- lots of minor fixes as usual.
 v0.9.0 (2009/09/07):
 - provided support for custom StatusNet (former laconica) services (#60),
 - left/right arrow key goes to next/prev unread status (by Stephan Beyer),
