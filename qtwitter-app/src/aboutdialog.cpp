@@ -77,6 +77,7 @@ void AboutDialog::populateAuthors()
   authorsHtml.append( contributor( "Jan Schummers", "darkadmiral@onlinehome.de", tr( "German translation" ) ) );
   authorsHtml.append( contributor( "Faster", "faster3ck@gmail.com", tr( "Italian translation" ) ) );
   authorsHtml.append( contributor( QString::fromUtf8( "Maciej Dębiński" ), "misanthroposs@gmail.com", tr( "Japanese translation" ) ) );
+  authorsHtml.append( contributor( "Egil Hanger", "egilkh@gmail.com", tr( "Norwegian translation" ) ) );
   authorsHtml.append( contributor( QString::fromUtf8( "Márcio Moraes" ), "marciopanto@gmail.com", tr( "Portugese translation" ) ) );
   authorsHtml.append( contributor( "Alvaro Ortiz", "fausto17@gmail.com", tr( "Spanish translation" ) ) );
   authorsHtml.append( contributor( "Dominik Kapusta", "d@ayoy.net", tr( "Polish and Catalan translation" ) ) );
@@ -128,7 +129,7 @@ void AboutDialog::displayAbout()
                             "</head>"
                             "<body align=\"center\" style=\" font-family:'%1'; font-size:%2pt; font-weight:400; font-style:normal;\">" ).arg(fontFamily, QString::number(fontSize)) );
 
-  html.append( tr( "<p>qTwitter - a Qt-based Twitter and Identi.ca client</p>"
+  html.append( tr( "<p>qTwitter - a Qt-based microblogging client</p>"
                    "<p>version %1</p>"
                    "<p>Copyright &copy; 2008-2009</p>"
                    "<p>by <a href=\"http://twitter.com/ayoy\"><span style=\" text-decoration: underline; color:#0000ff;\">Dominik Kapusta</span></a></p>"

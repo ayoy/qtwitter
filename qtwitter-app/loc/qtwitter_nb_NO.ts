@@ -87,6 +87,11 @@
         <translation>Japansk oversettelse</translation>
     </message>
     <message>
+        <location line="+1"/>
+        <source>Norwegian translation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location line="+21"/>
         <source>qTwitter icon design by %1</source>
         <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
@@ -100,8 +105,12 @@
     </message>
     <message>
         <location line="+28"/>
+        <source>&lt;p&gt;qTwitter - a Qt-based microblogging client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
-        <translation>&lt;p&gt;qTwitter -en Qt-basert Twitter og Identi.ca Klient&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Utgitt under LGPL lisens&lt;/p&gt;&lt;p&gt;Versjon 2.1 eller senere&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;p&gt;qTwitter -en Qt-basert Twitter og Identi.ca Klient&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Utgitt under LGPL lisens&lt;/p&gt;&lt;p&gt;Versjon 2.1 eller senere&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -168,7 +177,7 @@
 <context>
     <name>AccountsController</name>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="+264"/>
+        <location filename="../src/accounts/accountscontroller.cpp" line="+267"/>
         <source>Password security</source>
         <translation>Passord sikkerhet</translation>
     </message>
@@ -183,7 +192,7 @@
         <translation>Selv om passord lagres i format som ikke er leselig av mennesker så kan man benytte programmets kildekode, som er offentlig tilgjengelig, til å dekode passordene. Du har blitt advart.</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location line="+4"/>
         <source>Note also that Twitter authorization keys are stored anyway. Remove the account from the list if you want the key to be deleted.</source>
         <translation>Husk at Twitter tilgangs nøkler blir lagret. Fjern kontoen fra listen om du vil fjerne nøkkelen.</translation>
     </message>
@@ -208,12 +217,12 @@
 <context>
     <name>AccountsModel</name>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="+82"/>
+        <location filename="../src/accounts/accountsmodel.cpp" line="+81"/>
         <source>authorized</source>
         <translation>autorisert</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+26"/>
         <source>Enabled</source>
         <translation>Aktivert</translation>
     </message>
@@ -240,7 +249,7 @@
         <translation>Direkte Melding</translation>
     </message>
     <message>
-        <location line="+141"/>
+        <location line="+137"/>
         <source>empty</source>
         <translation>tom</translation>
     </message>
@@ -315,28 +324,23 @@
 <context>
     <name>BitlyShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+284"/>
         <source>The URL entered was not valid.</source>
-        <translation>URL oppgitt er ikke gyldig.</translation>
+        <translation type="obsolete">URL oppgitt er ikke gyldig.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>En ukjent feil oppstod ved forkortelsen av din URL.</translation>
+        <translation type="obsolete">En ukjent feil oppstod ved forkortelsen av din URL.</translation>
     </message>
 </context>
 <context>
     <name>BoooomShortener</name>
     <message>
-        <location line="-97"/>
         <source>An error occured with b.oooom.net. Please file a bug.</source>
-        <translation>En feil oppstod ved bruk av b.oooom.net. Vennligst raporten feilen.</translation>
+        <translation type="obsolete">En feil oppstod ved bruk av b.oooom.net. Vennligst raporten feilen.</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>An unknown error occured when shortening your URL.</source>
-        <translation>En ukjent feil oppstod ved forkortelsen av din URL.</translation>
+        <translation type="obsolete">En ukjent feil oppstod ved forkortelsen av din URL.</translation>
     </message>
 </context>
 <context>
@@ -346,7 +350,27 @@
         <translation type="obsolete">Er du sikker paa at du vil slette denne statusen?</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="+468"/>
+        <location filename="../src/core.cpp" line="+121"/>
+        <source>It seems like qTwitter wasn&apos;t closed properly last time. If the application crashed, it may be due to inconsistency in accounts settings. Do you want to reset accounts in qTwitter?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+4"/>
+        <source>If you think that it&apos;s a bug, please report it &lt;a href=&quot;http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all&quot;&gt;here&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>&amp;Yes, reset accounts settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;No, thanks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+331"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;tom&gt;</translation>
@@ -367,7 +391,7 @@
         <translation>Du må være logget inn for å få dine venners oppdateringer.</translation>
     </message>
     <message>
-        <location line="+73"/>
+        <location line="+67"/>
         <source>For:
 %1</source>
         <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
@@ -375,25 +399,22 @@
 %1</translation>
     </message>
     <message>
-        <location line="-82"/>
+        <location line="-76"/>
         <source>Authentication is required to post updates.</source>
         <translation>Du må være logget inn for å oppdatere.</translation>
     </message>
     <message>
-        <location line="-367"/>
         <source>Welcome!</source>
-        <translation>Velkommen!</translation>
+        <translation type="obsolete">Velkommen!</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>Welcome to qTwitter %1!</source>
         <extracomment>e.g. &quot;Welcome to qTwitter 0.8.1!&quot;</extracomment>
-        <translation>Velkommen til qTwitter %1!</translation>
+        <translation type="obsolete">Velkommen til qTwitter %1!</translation>
     </message>
     <message>
-        <location line="+1"/>
         <source>&lt;b&gt;Please note:&lt;/b&gt; we introduced the ultra-secure OAuth authorization scheme for Twitter accounts in this release. This means that you would never be asked again to enter your Twitter password in qTwitter. However, your existing qTwitter configuration will not work any more. Your Twitter accounts and passwords have been removed from qTwitter settings, please reconfigure them in Settings to have things working. Thanks and enjoy qTwitter!</source>
-        <translation>&lt;b&gt;Informasjon:&lt;/b&gt; det ble introdusert OAuth for autorisering med Twitter kontoer i denne utgivelsen. Dette betyr at du aldri skal være nødst til å benytte ditt Twitter passord i qTwitter. Men, din eldre qTwitter konfigurasjon vil ikke virke lengre. Dine Twitter kontoer og passord er blitt fjernet fra qTwitter, vær vennlig og sett dine kontoer opp igjen i Instillingene for å få ting til å virke. Takk og nyt qTwitter!</translation>
+        <translation type="obsolete">&lt;b&gt;Informasjon:&lt;/b&gt; det ble introdusert OAuth for autorisering med Twitter kontoer i denne utgivelsen. Dette betyr at du aldri skal være nødst til å benytte ditt Twitter passord i qTwitter. Men, din eldre qTwitter konfigurasjon vil ikke virke lengre. Dine Twitter kontoer og passord er blitt fjernet fra qTwitter, vær vennlig og sett dine kontoer opp igjen i Instillingene for å få ting til å virke. Takk og nyt qTwitter!</translation>
     </message>
     <message>
         <source>Are you sure?</source>
@@ -401,7 +422,7 @@
         <translation type="obsolete">Er du sikker på at du vil slette meldingen?</translation>
     </message>
     <message>
-        <location line="+161"/>
+        <location line="-203"/>
         <source>Enter password</source>
         <translation>Skriv inn passord</translation>
     </message>
@@ -421,15 +442,16 @@
         <translation>Bildet er tilgjengelig på:</translation>
     </message>
     <message>
+        <location line="-310"/>
         <source>Warning</source>
-        <translation type="obsolete">Advarsel</translation>
+        <translation type="unfinished">Advarsel</translation>
     </message>
     <message>
         <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
         <translation type="obsolete">Eine oder mehrere Anfragen konnten nicht durchgeführt werden. Überprüfen Sie Ihre Verbindung und/oder Kontoeinstellungen.</translation>
     </message>
     <message>
-        <location line="+247"/>
+        <location line="+551"/>
         <source>For %1</source>
         <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
         <translation>For %1</translation>
@@ -466,8 +488,18 @@
             <numerusform>%n tegn igjen</numerusform>
         </translation>
     </message>
+    <message>
+        <location line="+13"/>
+        <source>&amp;Truncate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message numerus="yes">
-        <location line="-46"/>
+        <location line="-60"/>
         <location line="+48"/>
         <source>%n characters left</source>
         <translation>
@@ -486,18 +518,11 @@
         <translation>Din melding er for lang.</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Cool</source>
-        <translatorcomment>Cool is used in the same context in norwegian.</translatorcomment>
-        <translation></translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Oops...</source>
-        <translation>Oppsann...</translation>
+        <translation type="obsolete">Oppsann...</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>You can still post it like this, but it will be truncated.</source>
         <translation>Du kan fortsatt sende slik, men meldingen vil bli forkortet.</translation>
     </message>
@@ -545,58 +570,49 @@
 <context>
     <name>DiggShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+119"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>En ukjent feil oppstod ved forkortelsen av din URL.</translation>
+        <translation type="obsolete">En ukjent feil oppstod ved forkortelsen av din URL.</translation>
     </message>
 </context>
 <context>
     <name>IsgdShortener</name>
     <message>
-        <location line="-248"/>
         <source>The URL entered was not valid.</source>
-        <translation>URL oppgitt er ikke gyldig.</translation>
+        <translation type="obsolete">URL oppgitt er ikke gyldig.</translation>
     </message>
     <message>
-        <location line="-5"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation>URL forkortelse tjenesten kunne ikke autorisere deg. Vennligst sjekk ditt brukernavn og passord.</translation>
+        <translation type="obsolete">URL forkortelse tjenesten kunne ikke autorisere deg. Vennligst sjekk ditt brukernavn og passord.</translation>
     </message>
     <message>
-        <location line="+7"/>
         <source>The URL entered was too long.</source>
-        <translation>URL oppgitt er for lang.</translation>
+        <translation type="obsolete">URL oppgitt er for lang.</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation>Adressen som prøver å forkorte er blitt svartelistet av Spamhaus (SBL/XBL) eller Spamcop.</translation>
+        <translation type="obsolete">Adressen som prøver å forkorte er blitt svartelistet av Spamhaus (SBL/XBL) eller Spamcop.</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation>URL oppgitt er en potensiell spam side og er listet i SURBL eller URIBL svartelistene.</translation>
+        <translation type="obsolete">URL oppgitt er en potensiell spam side og er listet i SURBL eller URIBL svartelistene.</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation>URL oppgitt er på gd sin svarteliste (linker til URL forkortelses tjenester og gd selv er deaktivert for å motvirke misbruk).</translation>
+        <translation type="obsolete">URL oppgitt er på gd sin svarteliste (linker til URL forkortelses tjenester og gd selv er deaktivert for å motvirke misbruk).</translation>
     </message>
     <message>
-        <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation>Adressen som prøver å forkorte er blitt blokkert av gd (normalt er dette et resultat av misbruk av tjenesten).</translation>
+        <translation type="obsolete">Adressen som prøver å forkorte er blitt blokkert av gd (normalt er dette et resultat av misbruk av tjenesten).</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>En ukjent feil oppstod ved forkortelsen av din URL.</translation>
+        <translation type="obsolete">En ukjent feil oppstod ved forkortelsen av din URL.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="+425"/>
+        <location filename="../src/mainwindow.cpp" line="+546"/>
         <source>Error</source>
         <translation>Feil</translation>
     </message>
@@ -611,20 +627,21 @@
         <translation>&lt;span style=&quot;color: black&quot;&gt;Bruk &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; til å forkorte linker</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="+115"/>
-        <location filename="../ui/mainwindow.ui" line="+6"/>
+        <location line="+6"/>
+        <location filename="../src/mainwindow.cpp" line="+116"/>
         <source>What are you doing?</source>
         <translation>Hva driver du med?</translation>
     </message>
     <message>
-        <location line="-385"/>
-        <location line="+373"/>
+        <location filename="../src/mainwindow.cpp" line="-457"/>
+        <location line="+445"/>
+        <location line="+22"/>
         <source>Settings</source>
         <translation>Innstillinger</translation>
     </message>
     <message>
-        <location line="-346"/>
-        <location line="+365"/>
+        <location line="-437"/>
+        <location line="+434"/>
         <source>About qTwitter...</source>
         <translation>Om qTwitter...</translation>
     </message>
@@ -633,7 +650,7 @@
         <translation type="obsolete">offentlig tidslinje</translation>
     </message>
     <message>
-        <location line="-267"/>
+        <location line="-313"/>
         <source>Your message is too long.</source>
         <translation>Din melding er for lang.</translation>
     </message>
@@ -643,28 +660,37 @@
         <translation>Meldingen er for lang</translation>
     </message>
     <message>
-        <location line="+1"/>
-        <source>Cool</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location line="+1"/>
         <source>Oops...</source>
-        <translation>Oppsann...</translation>
+        <translation type="obsolete">Oppsann...</translation>
     </message>
     <message>
-        <location line="+1"/>
+        <location line="+3"/>
         <source>You can still post it like this, but it will be truncated.</source>
         <translation>Du kan fortsatt sende slik, men meldingen vil bli forkortet.</translation>
     </message>
     <message>
-        <location line="+136"/>
         <source>New tweets</source>
         <extracomment>New tweets received (this pops up in tray)</extracomment>
-        <translation>Nye tweets</translation>
+        <translation type="obsolete">Nye tweets</translation>
     </message>
     <message>
-        <location line="+54"/>
+        <location line="-2"/>
+        <source>&amp;Truncate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Edit</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+169"/>
+        <source>New statuses</source>
+        <extracomment>New statuses received (this pops up in tray)</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+68"/>
         <location line="+23"/>
         <source>Update available</source>
         <translation>Oppdatering tilgjengelig</translation>
@@ -703,66 +729,67 @@
         <translation>Naviger ved bruk av %1 og %2</translation>
     </message>
     <message>
-        <location line="+5"/>
         <location filename="../ui/mainwindow.ui" line="-72"/>
+        <location filename="../src/mainwindow.cpp" line="+5"/>
         <source>More...</source>
         <translation>Mer...</translation>
     </message>
     <message>
-        <location line="-9"/>
+        <location filename="../src/mainwindow.cpp" line="-9"/>
         <source>Update tweets</source>
         <translation>Oppdater tweets</translation>
     </message>
     <message>
-        <location line="-373"/>
-        <location line="+29"/>
-        <location line="+365"/>
+        <location line="-446"/>
+        <location line="+33"/>
+        <location line="+434"/>
         <source>Quit</source>
         <translation>Avslutt</translation>
     </message>
     <message>
-        <location line="-372"/>
-        <location line="+365"/>
+        <location line="-441"/>
+        <location line="+434"/>
         <source>New tweet</source>
         <translation>Ny tweet</translation>
     </message>
     <message>
-        <location line="-403"/>
+        <location line="-476"/>
         <source>&amp;File</source>
         <translation>&amp;Fil</translation>
     </message>
     <message>
-        <location line="+39"/>
-        <location line="+365"/>
+        <location line="+43"/>
+        <location line="+434"/>
         <source>Upload a photo to TwitPic</source>
         <translation>Last opp bilde til TwitPic</translation>
     </message>
     <message>
-        <location line="-364"/>
-        <location line="+365"/>
+        <location line="-433"/>
+        <location line="+434"/>
         <source>Go to Twitter</source>
         <translation>Gå til Twitter</translation>
     </message>
     <message>
-        <location line="-364"/>
-        <location line="+365"/>
+        <location line="-433"/>
+        <location line="+434"/>
         <source>Go to Identi.ca</source>
         <translation>Gå til Identi.ca</translation>
     </message>
     <message>
-        <location line="-364"/>
-        <location line="+365"/>
+        <location line="-433"/>
+        <location line="+434"/>
         <source>Go to TwitPic</source>
         <translation>Gå til TwitPic</translation>
     </message>
     <message>
-        <location line="-364"/>
-        <location line="+365"/>
+        <location line="-463"/>
+        <location line="+30"/>
+        <location line="+434"/>
         <source>Check for updates</source>
         <translation>Sjekk for oppdateringer</translation>
     </message>
     <message numerus="yes">
-        <location line="-287"/>
+        <location line="-333"/>
         <source>%n character left</source>
         <translation>
             <numerusform>%n tegn igjen</numerusform>
@@ -770,8 +797,8 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location line="-192"/>
-        <location line="+193"/>
+        <location line="-253"/>
+        <location line="+254"/>
         <source>%n characters left</source>
         <translation>
             <numerusform>%n tegn igjen</numerusform>
@@ -798,23 +825,19 @@
 <context>
     <name>MetamarkShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+53"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>En ukjent feil oppstod ved forkortelsen av din URL.</translation>
+        <translation type="obsolete">En ukjent feil oppstod ved forkortelsen av din URL.</translation>
     </message>
 </context>
 <context>
     <name>MigremeShortener</name>
     <message>
-        <location line="+212"/>
         <source>The URL entered was not valid.</source>
-        <translation>URL oppgitt er ikke gyldig.</translation>
+        <translation type="obsolete">URL oppgitt er ikke gyldig.</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>En ukjent feil oppstod ved forkortelsen av din URL.</translation>
+        <translation type="obsolete">En ukjent feil oppstod ved forkortelsen av din URL.</translation>
     </message>
 </context>
 <context>
@@ -924,28 +947,28 @@
         <translation>Generelt</translation>
     </message>
     <message>
-        <location line="+63"/>
+        <location line="+84"/>
         <source>Language</source>
         <translation>Språk</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+401"/>
+        <location filename="../src/settings.cpp" line="+455"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Norsk</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="+97"/>
+        <location filename="../ui/settings.ui" line="+66"/>
         <source>Network</source>
         <translation>Nettverk</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="-266"/>
+        <location filename="../src/settings.cpp" line="-318"/>
         <source>never</source>
         <translation>aldri</translation>
     </message>
     <message>
-        <location line="+130"/>
+        <location line="+167"/>
         <source>Update available</source>
         <translation>Oppdatering tilgjengelig</translation>
     </message>
@@ -983,12 +1006,12 @@
         <translation type="obsolete">Språk:</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="-47"/>
+        <location filename="../ui/settings.ui" line="-33"/>
         <source>Confirm messages deletion</source>
         <translation>Bekreft sletting av meldinger</translation>
     </message>
     <message>
-        <location line="+53"/>
+        <location line="+39"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Bruk en HTTP &amp;proxy</translation>
     </message>
@@ -1003,12 +1026,12 @@
         <translation>Port:</translation>
     </message>
     <message>
-        <location line="+108"/>
+        <location line="-127"/>
         <source>Status count:</source>
         <translation>Antall status å vise:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+59"/>
+        <location filename="../src/settings.cpp" line="+61"/>
         <source>Apply</source>
         <translation>Bruk</translation>
     </message>
@@ -1019,39 +1042,39 @@
     </message>
     <message>
         <location line="-11"/>
-        <location line="+80"/>
+        <location line="+93"/>
         <source>Default</source>
         <translation>Standard</translation>
     </message>
     <message>
-        <location line="-73"/>
+        <location line="-86"/>
         <source>OK</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-250"/>
-        <location line="+246"/>
+        <location line="-289"/>
+        <location line="+285"/>
         <source>Use custom web browser</source>
         <translation>Bruk egen definert nettleser</translation>
     </message>
     <message>
-        <location line="-244"/>
-        <location line="+245"/>
+        <location line="-283"/>
+        <location line="+284"/>
         <source>Browse</source>
         <translation>Bla gjennom</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="-289"/>
+        <location filename="../ui/settings.ui" line="-49"/>
         <source>Refresh every (mins)</source>
         <translation>Oppdater hvert (minutt)</translation>
     </message>
     <message>
-        <location line="+69"/>
+        <location line="+95"/>
         <source>Shorten links via</source>
         <translation>Tjeneste for å forkort linker </translation>
     </message>
     <message>
-        <location line="+140"/>
+        <location line="+109"/>
         <source>Updates</source>
         <translation>Oppdateringer</translation>
     </message>
@@ -1071,7 +1094,7 @@
         <translation>Sjekk nå</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="+44"/>
         <source>Statuses display mode</source>
         <translation>Status visning</translation>
     </message>
@@ -1091,9 +1114,39 @@
         <translation>vis forfatters navn og kallenavn</translation>
     </message>
     <message>
-        <location line="-240"/>
+        <location line="+10"/>
+        <source>Tray icon and notifications</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>always visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>visible only when minimized</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+13"/>
         <source>Show tray notifications</source>
         <translation>Vis meldinger i trayet</translation>
+    </message>
+    <message>
+        <location line="+13"/>
+        <source>Close button</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>Hides the application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+10"/>
+        <source>Closes the application</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="+17"/>
@@ -1106,13 +1159,13 @@
         <translation>Alle filer (*)</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="+171"/>
+        <location filename="../ui/settings.ui" line="-111"/>
         <source>Appearance</source>
         <translation>Utseende</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="-282"/>
-        <location line="+262"/>
+        <location filename="../src/settings.cpp" line="-321"/>
+        <location line="+301"/>
         <source>Tip: use %1 to shorten links</source>
         <translation>Tips: bruk %1 til å forkorte linker</translation>
     </message>
@@ -1126,7 +1179,7 @@
         <translation>Kontoer</translation>
     </message>
     <message>
-        <location line="+179"/>
+        <location line="+153"/>
         <source>Color scheme:</source>
         <translation>Farge valg:</translation>
     </message>
@@ -1159,56 +1212,56 @@
         <location filename="../src/statuswidget.cpp" line="+55"/>
         <location line="+54"/>
         <location line="+160"/>
-        <location line="+158"/>
+        <location line="+159"/>
         <source>Add to Favorites</source>
         <translation>Legg til i Favoritter</translation>
     </message>
     <message>
-        <location line="-331"/>
-        <location line="+347"/>
+        <location line="-332"/>
+        <location line="+348"/>
         <source>Retweet</source>
         <translation>Retweet</translation>
     </message>
     <message>
-        <location line="-329"/>
-        <location line="+330"/>
+        <location line="-330"/>
+        <location line="+331"/>
         <source>Copy link to this status</source>
         <translation>Kopier link til denne statusen</translation>
     </message>
     <message>
-        <location line="-320"/>
-        <location line="+322"/>
+        <location line="-321"/>
+        <location line="+323"/>
         <source>Mark list as read</source>
         <translation>Marker listen som lest</translation>
     </message>
     <message>
-        <location line="-317"/>
-        <location line="+318"/>
+        <location line="-318"/>
+        <location line="+319"/>
         <source>Mark everything as read</source>
         <translation>Marker alt lest</translation>
     </message>
     <message>
-        <location line="-305"/>
-        <location line="+306"/>
+        <location line="-306"/>
+        <location line="+307"/>
         <source>Go to User&apos;s homepage</source>
         <translation>Gå til Brukeren sin nettside</translation>
     </message>
     <message>
-        <location line="-295"/>
+        <location line="-296"/>
         <location line="+107"/>
         <location line="+27"/>
-        <location line="+144"/>
+        <location line="+145"/>
         <source>Reply to %1</source>
         <translation>Svar til %1</translation>
     </message>
     <message>
-        <location line="-265"/>
-        <location line="+247"/>
+        <location line="-266"/>
+        <location line="+248"/>
         <source>Direct message %1</source>
         <translation>Send direkte melding til %1</translation>
     </message>
     <message>
-        <location line="-132"/>
+        <location line="-133"/>
         <source>Deleting messages is not supported by StatusNet</source>
         <translation>Å slette meldinger er ikke søttet av StatusNet</translation>
     </message>
@@ -1223,27 +1276,27 @@
     <message>
         <location line="-107"/>
         <location line="+83"/>
-        <location line="+177"/>
+        <location line="+178"/>
         <location line="+11"/>
         <source>Delete status</source>
         <translation>Slett status</translation>
     </message>
     <message>
-        <location line="-267"/>
+        <location line="-268"/>
         <location line="+100"/>
-        <location line="+158"/>
+        <location line="+159"/>
         <source>Delete message</source>
         <translation>Slett melding</translation>
     </message>
     <message>
-        <location line="-244"/>
-        <location line="+258"/>
+        <location line="-245"/>
+        <location line="+259"/>
         <source>Go to User&apos;s %1 page</source>
         <translation>Gå til Brukeren sin %1 side</translation>
     </message>
     <message>
-        <location line="-184"/>
-        <location line="+156"/>
+        <location line="-185"/>
+        <location line="+157"/>
         <source>Remove from Favorites</source>
         <translation>Fjern fra Favoritter</translation>
     </message>
@@ -1271,30 +1324,26 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TinyarrowsShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="-135"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>En ukjent feil oppstod ved forkortelsen av din URL.</translation>
+        <translation type="obsolete">En ukjent feil oppstod ved forkortelsen av din URL.</translation>
     </message>
 </context>
 <context>
     <name>TinyurlShortener</name>
     <message>
-        <location line="-61"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>En ukjent feil oppstod ved forkortelsen av din URL.</translation>
+        <translation type="obsolete">En ukjent feil oppstod ved forkortelsen av din URL.</translation>
     </message>
 </context>
 <context>
     <name>TrimShortener</name>
     <message>
-        <location line="-54"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation>URL oppgitt ble avvist av tr.im</translation>
+        <translation type="obsolete">URL oppgitt ble avvist av tr.im</translation>
     </message>
     <message>
-        <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>En ukjent feil oppstod ved forkortelsen av din URL.</translation>
+        <translation type="obsolete">En ukjent feil oppstod ved forkortelsen av din URL.</translation>
     </message>
 </context>
 <context>
@@ -1336,15 +1385,15 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicView</name>
     <message>
+        <location filename="../ui/twitpicview.ui" line="+151"/>
         <location filename="../src/twitpicview.cpp" line="+89"/>
         <location line="+39"/>
         <location line="+10"/>
-        <location filename="../ui/twitpicview.ui" line="+151"/>
         <source>Upload</source>
         <translation>Last opp</translation>
     </message>
     <message>
-        <location line="-4"/>
+        <location filename="../src/twitpicview.cpp" line="-4"/>
         <location line="+2"/>
         <source>Abort</source>
         <translation>Avbryt</translation>
@@ -1360,15 +1409,15 @@ background-color: rgba(255,255,255,0);
         <translation>Bilde filer</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location filename="../ui/twitpicview.ui" line="-41"/>
+        <location filename="../src/twitpicview.cpp" line="+6"/>
         <location line="+5"/>
         <location line="+12"/>
-        <location filename="../ui/twitpicview.ui" line="-41"/>
         <source>Select a photo to upload</source>
         <translation>Velg ett bilde å laste opp</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="-90"/>
+        <location line="-90"/>
         <source>Upload a photo to Twitpic</source>
         <translation>Last opp bilde til TwitPic</translation>
     </message>
@@ -1391,14 +1440,12 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UnuShortener</name>
     <message>
-        <location filename="../../urlshortener/urlshortenerimplementation.cpp" line="+132"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation>URL oppgitt ble avvist av u.nu</translation>
+        <translation type="obsolete">URL oppgitt ble avvist av u.nu</translation>
     </message>
     <message>
-        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>En ukjent feil oppstod ved forkortelsen av din URL.</translation>
+        <translation type="obsolete">En ukjent feil oppstod ved forkortelsen av din URL.</translation>
     </message>
 </context>
 <context>
