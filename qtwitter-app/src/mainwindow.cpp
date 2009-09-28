@@ -33,6 +33,8 @@
 #include <QTreeView>
 #include <QTimer>
 
+#include <stdlib.h>
+
 #include <qticonloader.h>
 #include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
@@ -47,11 +49,13 @@
 #include "qtwitterapp.h"
 #include "core.h"
 
-#ifdef QT_DBUS
+#ifdef Q_WS_X11
 #   include <QDBusConnection>
 #   include <QDBusInterface>
 #   include <QDBusPendingCall>
 #   include <knotification_interface.h>
+#   include <QX11Info>
+#   include <X11/Xlib.h>
 #endif
 
 extern ConfigFile settings;
@@ -60,7 +64,8 @@ extern ConfigFile settings;
 MainWindow::MainWindow( QWidget *parent ) :
     QMainWindow( parent ),
     resetUiWhenFinished( false ),
-    updateInProgress( false )
+    updateInProgress( false ),
+    notificationId(0)
 {
   QWidget *centralWidget = new QWidget( this );
   ui.setupUi( centralWidget );
@@ -96,6 +101,13 @@ MainWindow::MainWindow( QWidget *parent ) :
   if ( settings.value( "Network/updates/check", true ).toBool() ) {
     silentCheckForUpdates();
   }
+
+#ifdef Q_WS_X11
+  knotificationIface =
+      new KNotificationInterface( "org.kde.VisualNotifications", "/VisualNotifications",
+                                  QDBusConnection::sessionBus(), this );
+  connect(knotificationIface, SIGNAL(NotificationClosed(uint,uint)), SLOT(bringToFront(uint,uint)));
+#endif
 }
 
 MainWindow::~MainWindow() {
@@ -184,22 +196,26 @@ void MainWindow::createTrayIcon()
   trayIcon->setIcon( QIcon( ":/icons/twitter_48.png" ) );
 
   connect( trayIcon, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), this, SLOT(iconActivated(QSystemTrayIcon::ActivationReason)) );
-  connect( trayIcon, SIGNAL(messageClicked()), this, SLOT(show()) );
+  connect( trayIcon, SIGNAL(messageClicked()), this, SLOT(bringToFront()) );
 #ifndef Q_WS_MAC
   QMenu *trayMenu = new QMenu( this );
   trayMenu = new QMenu( this );
-  QAction *quitaction = new QAction( tr( "Quit" ), trayMenu);
-  QAction *settingsaction = new QAction( tr( "Settings" ), trayMenu);
-  settingsaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
-  quitaction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
+  trayquitAction = new QAction( tr( "Quit" ), trayMenu);
+  traycheckAction = new QAction( tr( "Check for updates" ), trayMenu);
+  traysettingsAction = new QAction( tr( "Settings" ), trayMenu);
+  traycheckAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_R ) );
+  traysettingsAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_S ) );
+  trayquitAction->setShortcut( QKeySequence( Qt::CTRL + Qt::Key_Q ) );
 
-  connect( quitaction, SIGNAL(triggered()), qApp, SLOT(quit()) );
-  connect( settingsaction, SIGNAL(triggered()), QTwitterApp::instance(), SLOT(openSettings()) );
-  connect( settingsaction, SIGNAL(triggered()), this, SLOT(show()) );
+  connect( trayquitAction, SIGNAL(triggered()), qApp, SLOT(quit()) );
+  connect( traysettingsAction, SIGNAL(triggered()), this, SLOT(bringToFront()) );
+  connect( traysettingsAction, SIGNAL(triggered()), QTwitterApp::instance(), SLOT(openSettings()) );
+  connect( traycheckAction, SIGNAL(triggered()), SIGNAL(updateStatuses()) );
 
-  trayMenu->addAction(settingsaction);
+  trayMenu->addAction(traycheckAction);
+  trayMenu->addAction(traysettingsAction);
   trayMenu->addSeparator();
-  trayMenu->addAction(quitaction);
+  trayMenu->addAction(trayquitAction);
   trayIcon->setContextMenu( trayMenu );
 
   trayIcon->setToolTip( "qTwitter" );
@@ -338,8 +354,8 @@ void MainWindow::sendStatus()
 {
   if( ui.statusEdit->charsLeft() < 0 ) {
     QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Message too long" ), tr( "Your message is too long." ) );
-    QPushButton *accept = messageBox->addButton( tr( "Truncate" ), QMessageBox::AcceptRole );
-    QPushButton *reject = messageBox->addButton( tr( "Edit" ), QMessageBox::RejectRole );
+    QPushButton *accept = messageBox->addButton( tr( "&Truncate" ), QMessageBox::AcceptRole );
+    QPushButton *reject = messageBox->addButton( tr( "&Edit" ), QMessageBox::RejectRole );
     messageBox->setInformativeText( tr( "You can still post it like this, but it will be truncated." ) );
     messageBox->setDefaultButton( accept );
     messageBox->setEscapeButton( reject );
@@ -389,6 +405,32 @@ void MainWindow::show()
   QMainWindow::show();
   configSaveCurrentModel( ui.accountsComboBox->currentIndex(), true );
   ui.statusListView->setUpdatesEnabled( true );
+}
+
+void MainWindow::bringToFront( uint id, uint reason )
+{
+  Q_UNUSED(reason);
+
+  if ( id == notificationId ) {
+    show();
+    raise();
+    activateWindow();
+#ifdef Q_WS_X11
+    Display *dpy = QX11Info::display();
+    XRaiseWindow( dpy, winId() );
+#endif
+  }
+}
+
+void MainWindow::bringToFront()
+{
+  show();
+  raise();
+  activateWindow();
+#ifdef Q_WS_X11
+  Display *dpy = QX11Info::display();
+  XRaiseWindow( dpy, winId() );
+#endif
 }
 
 void MainWindow::minimize()
@@ -480,21 +522,20 @@ void MainWindow::resizeEvent( QResizeEvent *event )
 
 void MainWindow::popupMessage( QString message )
 {
-  if( settings.value( "General/notifications" ).toBool() ) {
+  if( settings.value( "General/notifications", false ).toBool() ) {
     //: New statuses received (this pops up in tray)
     QString title = tr( "New statuses" );
-#ifdef QT_DBUS
-    KNotificationInterface iface( "org.kde.VisualNotifications", "/VisualNotifications",
-                                  QDBusConnection::sessionBus() );
-    if ( iface.isValid() ) {
-      iface.Notify( "qTwitter", 0, "", "qtwitter.png", title, message,
-                    QStringList(), QVariantMap(), 10000 );
+#ifdef Q_WS_X11
+    if ( knotificationIface->isValid() ) {
+      notificationId = (uint) rand();
+      knotificationIface->Notify( "qTwitter", notificationId, "", "qtwitter.png", title, message,
+                                  QStringList() << tr( "View" ) , QVariantMap(), 10000 );
     } else {
 #endif
       if ( trayIcon->isVisible() ) {
         trayIcon->showMessage( title, message, QSystemTrayIcon::Information );
       }
-#ifdef QT_DBUS
+#ifdef Q_WS_X11
     }
 #endif
   }
@@ -514,9 +555,7 @@ void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
 #else
     if ( !isVisible() || !QApplication::activeWindow() ) {
 #endif
-      show();
-      raise();
-      activateWindow();
+      bringToFront();
       if ( m_trayIconMode == VisibleWhenMinimized ) {
         QTimer::singleShot( 0, trayIcon, SLOT(hide()) );
       }
@@ -629,6 +668,9 @@ void MainWindow::retranslateUi()
   checkforupdatesAction->setText( tr( "Check for updates" ) );
   aboutAction->setText( tr( "About qTwitter..." ) );
   quitAction->setText( tr( "Quit" ) );
+  traycheckAction->setText( checkforupdatesAction->text() );
+  traysettingsAction->setText( tr( "Settings" ) );
+  trayquitAction->setText( quitAction->text() );
 }
 
 void MainWindow::replaceUrl( const QString &url )

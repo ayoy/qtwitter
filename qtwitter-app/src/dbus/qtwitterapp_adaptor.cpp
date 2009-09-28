@@ -37,9 +37,7 @@ void QTwitterAppAdaptor::quit()
 
 void QTwitterAppAdaptor::show()
 {
-  app->mainWindow()->show();
-  app->mainWindow()->raise();
-  app->mainWindow()->activateWindow();
+  app->mainWindow()->bringToFront();
 }
 
 void QTwitterAppAdaptor::updateStatuses()

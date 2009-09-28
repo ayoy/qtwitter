@@ -32,6 +32,7 @@
 class QMovie;
 class StatusModel;
 class Account;
+class KNotificationInterface;
 
 class MainWindow : public QMainWindow
 {
@@ -67,6 +68,8 @@ public slots:
   void pauseIcon();
   void showProgressIcon();
   void show();
+  void bringToFront(uint, uint);
+  void bringToFront();
   void about();
   void replaceUrl( const QString &url );
   void minimize();
@@ -136,11 +139,19 @@ private:
   QAction *checkforupdatesAction;
   QAction *aboutAction;
   QAction *quitAction;
+
+  QAction *trayquitAction;
+  QAction *traysettingsAction;
+  QAction *traycheckAction;
+
   QMovie *progressIcon;
 
   QTimer *timer;
 
   QSystemTrayIcon *trayIcon;
+
+  KNotificationInterface *knotificationIface;
+  uint notificationId;
 };
 
 #endif //MAINWINDOW_H

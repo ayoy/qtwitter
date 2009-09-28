@@ -22,7 +22,7 @@
 #include "mainwindow.h"
 #include <QIcon>
 
-#ifdef QT_DBUS
+#ifdef Q_WS_X11
 #   include <QDBusConnection>
 #   include <QDBusInterface>
 #   include <QDBusMessage>
@@ -34,7 +34,7 @@ int main( int argc, char **argv )
 {
   QTwitterApp app( argc, argv );
 
-#ifdef QT_DBUS
+#ifdef Q_WS_X11
   QDBusConnection connection = QDBusConnection::sessionBus();
   if ( connection.isConnected() ) {
     bool res = connection.registerService( "net.ayoy.qTwitter" );
