@@ -531,12 +531,10 @@ void MainWindow::popupMessage( QString message )
       knotificationIface->Notify( "qTwitter", notificationId, "", "qtwitter.png", title, message,
                                   QStringList(), QVariantMap(), 5000 );
     } else {
-#endif
-      if ( trayIcon->isVisible() ) {
-        trayIcon->showMessage( title, message, QSystemTrayIcon::Information );
-      }
-#ifdef Q_WS_X11
+      trayIcon->showMessage( title, message, QSystemTrayIcon::Information );
     }
+#else
+    trayIcon->showMessage( title, message, QSystemTrayIcon::Information );
 #endif
   }
 }
@@ -668,9 +666,11 @@ void MainWindow::retranslateUi()
   checkforupdatesAction->setText( tr( "Check for updates" ) );
   aboutAction->setText( tr( "About qTwitter..." ) );
   quitAction->setText( tr( "Quit" ) );
+#ifndef Q_WS_MAC
   traycheckAction->setText( checkforupdatesAction->text() );
   traysettingsAction->setText( tr( "Settings" ) );
   trayquitAction->setText( quitAction->text() );
+#endif
 }
 
 void MainWindow::replaceUrl( const QString &url )
