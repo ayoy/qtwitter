@@ -512,8 +512,9 @@ void StatusWidget::slotCopyLink()
   if ( currentServiceUrl == Account::NetworkUrlTwitter ) {
     QApplication::clipboard()->setText( "http://twitter.com/" + statusData->userInfo.screenName + "/statuses/" + QString::number( statusData->id ) );
   } else {
-    // TODO: WON'T WORK!
-    QApplication::clipboard()->setText( currentServiceUrl + "/notice/" + QString::number( statusData->id ) );
+    QString serviceUrl = currentServiceUrl;
+    serviceUrl.remove( QRegExp("/api$", Qt::CaseInsensitive) );
+    QApplication::clipboard()->setText( serviceUrl + "/notice/" + QString::number( statusData->id ) );
   }
 }
 
