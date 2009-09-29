@@ -49,7 +49,7 @@ public:
   QString password;
   QString serviceUrl;
 
-  Interface *interface;
+  Interface *iface;
 
   QXmlSimpleReader *xmlReader;
   QXmlInputSource *source;

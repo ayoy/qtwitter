@@ -140,9 +140,11 @@ private:
   QAction *aboutAction;
   QAction *quitAction;
 
+#ifndef Q_WS_MAC
   QAction *trayquitAction;
   QAction *traysettingsAction;
   QAction *traycheckAction;
+#endif
 
   QMovie *progressIcon;
 
