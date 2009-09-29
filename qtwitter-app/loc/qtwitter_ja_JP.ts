@@ -57,12 +57,12 @@
     <message>
         <location line="+3"/>
         <source>URL shortening library</source>
-        <translation type="unfinished"></translation>
+        <translation>URL短縮化のライブラリー</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Other contributions:</source>
-        <translation type="unfinished"></translation>
+        <translation>その他の貢献:</translation>
     </message>
     <message>
         <location line="+8"/>
@@ -72,7 +72,7 @@
     <message>
         <location line="+2"/>
         <source>Czech translation</source>
-        <translation type="unfinished"></translation>
+        <translation>チェコ語への翻訳</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -97,7 +97,7 @@
     <message>
         <location line="+1"/>
         <source>Norwegian translation</source>
-        <translation type="unfinished"></translation>
+        <translation>ノルウェー語への翻訳</translation>
     </message>
     <message>
         <location line="+1"/>
@@ -139,7 +139,7 @@
     <message>
         <location line="+20"/>
         <source>&lt;p&gt;qTwitter - a Qt-based microblogging client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;キｭｰツイッター - Qtによるマイクロブログクライアント&lt;/p&gt;&lt;p&gt;バージョン %1&lt;/p&gt;&lt;p&gt;著作権 &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;により&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;バージョン2.1以上のLGPLのライセンスにより&lt;/p&gt;&lt;p&gt;配布されています&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -255,7 +255,7 @@
     <message>
         <location line="+137"/>
         <source>empty</source>
-        <translation type="unfinished"></translation>
+        <translation>なし</translation>
     </message>
     <message>
         <source>&lt;empty&gt;</source>
@@ -291,7 +291,7 @@
         <location line="+33"/>
         <source>The credentials you provided for %1 are incorrect</source>
         <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>ご提供した%1の信用証明書は不正確です</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -373,22 +373,22 @@
     <message>
         <location line="-478"/>
         <source>It seems like qTwitter wasn&apos;t closed properly last time. If the application crashed, it may be due to inconsistency in accounts settings. Do you want to reset accounts in qTwitter?</source>
-        <translation type="unfinished"></translation>
+        <translation>前回キューツイッターの終了時に問題が発生したようです。アプリケーションがクラッシュしたのならば、原因はアカウントの設定の不一致だったという可能性があります。キューツイッターのアカウントをリセットしますか?</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>If you think that it&apos;s a bug, please report it &lt;a href=&quot;http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all&quot;&gt;here&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>バグだと思った場合は、&lt;a href=&quot;http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all&quot;&gt;ここ&lt;/a&gt;へご報告ください</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Yes, reset accounts settings</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;はい、アカウントの設定を元に戻します</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;No, thanks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;いいえ、設定をリセットしません</translation>
     </message>
     <message>
         <location line="+265"/>
@@ -429,7 +429,7 @@
     <message>
         <location line="-485"/>
         <source>Warning</source>
-        <translation type="unfinished">注意</translation>
+        <translation>注意</translation>
     </message>
     <message>
         <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
@@ -481,12 +481,12 @@
     <message>
         <location line="+13"/>
         <source>&amp;Truncate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;切り詰める</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;編集する</translation>
     </message>
     <message numerus="yes">
         <location line="-60"/>
@@ -780,18 +780,18 @@
     <message>
         <location line="+15"/>
         <source>&amp;Truncate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;切り詰める</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;編集する</translation>
     </message>
     <message>
         <location line="+169"/>
         <source>New statuses</source>
         <extracomment>New statuses received (this pops up in tray)</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>新着のステータスがあります</translation>
     </message>
     <message>
         <location line="+126"/>
@@ -851,12 +851,12 @@
     <message>
         <location line="+6"/>
         <source>&amp;Login:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ログイン:</translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&amp;Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;パスワード:</translation>
     </message>
     <message>
         <location line="+28"/>
@@ -871,17 +871,17 @@
     <message>
         <location line="+8"/>
         <source>&amp;Social network:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ソーシャルネットワーク:</translation>
     </message>
     <message>
         <location line="+16"/>
         <source>Network &amp;name:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ネットワーク名:</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>&amp;Website:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;ウエブサイト:</translation>
     </message>
     <message>
         <source>Social network:</source>
@@ -890,7 +890,7 @@
     <message>
         <location filename="../src/accounts/newaccountdialog.cpp" line="+39"/>
         <source>Other StatusNet</source>
-        <translation type="unfinished"></translation>
+        <translation>他のステータスネット</translation>
     </message>
 </context>
 <context>
@@ -1049,52 +1049,52 @@
     <message>
         <location line="+14"/>
         <source>Statuses display mode</source>
-        <translation type="unfinished"></translation>
+        <translation>ステータスを表示するモード</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>display authors&apos; names</source>
-        <translation type="unfinished"></translation>
+        <translation>著者名を表示する</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>display authors&apos; nicks (logins)</source>
-        <translation type="unfinished"></translation>
+        <translation>著者のニックネーム（ログイン）を表示する</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>display both authors&apos; names and nicks</source>
-        <translation type="unfinished"></translation>
+        <translation>著者のニックネームと名前を両方表示する</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Tray icon and notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>トレイのアイコンと通知</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>always visible</source>
-        <translation type="unfinished"></translation>
+        <translation>いつも表示する</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>visible only when minimized</source>
-        <translation type="unfinished"></translation>
+        <translation>プログラムが最小化されているときにしか表示しない</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Close button</source>
-        <translation type="unfinished"></translation>
+        <translation>終了のボタン</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hides the application</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションを隠します</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Closes the application</source>
-        <translation type="unfinished"></translation>
+        <translation>アプリケーションを終了します</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="+5"/>
@@ -1199,12 +1199,12 @@
         <location filename="../src/statusmodel.cpp" line="+288"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation type="unfinished">よろしいですか?</translation>
+        <translation>よろしいですか?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure to delete this status?</source>
-        <translation type="unfinished">このステータスを削除してよろしいですか?</translation>
+        <translation>このステータスを削除してよろしいですか?</translation>
     </message>
 </context>
 <context>
@@ -1264,7 +1264,7 @@
     <message>
         <location line="-133"/>
         <source>Deleting messages is not supported by StatusNet</source>
-        <translation type="unfinished"></translation>
+        <translation>ステータスネットではメッセージの削除が不可能となっています</translation>
     </message>
     <message>
         <source>Go to User&apos;s Identi.ca page</source>
@@ -1293,7 +1293,7 @@
         <location line="-245"/>
         <location line="+259"/>
         <source>Go to User&apos;s %1 page</source>
-        <translation type="unfinished"></translation>
+        <translation>このユーザーの%1ページを開く</translation>
     </message>
     <message>
         <location line="-185"/>
