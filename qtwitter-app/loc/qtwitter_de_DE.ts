@@ -89,7 +89,7 @@
     <message>
         <location line="+1"/>
         <source>Norwegian translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Norwegische Übersetzung</translation>
     </message>
     <message>
         <location line="+21"/>
@@ -106,7 +106,7 @@
     <message>
         <location line="+28"/>
         <source>&lt;p&gt;qTwitter - a Qt-based microblogging client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;qTwitter - ein Qt-basierter MicroBlogging Client&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Veröffentlichter unter der LGPL Lizens&lt;/p&gt;&lt;p&gt;Version 2.1 oder neuer&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
@@ -352,22 +352,22 @@
     <message>
         <location filename="../src/core.cpp" line="+121"/>
         <source>It seems like qTwitter wasn&apos;t closed properly last time. If the application crashed, it may be due to inconsistency in accounts settings. Do you want to reset accounts in qTwitter?</source>
-        <translation type="unfinished"></translation>
+        <translation>Es scheint als wäre qTwitter nicht sauber beendet worden. Wenn das Programm abgestürzt ist, kann es an den Kontoeinstellungen liegen. Sollen die Konten in qTwitter zurückgesetzt werden?</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>If you think that it&apos;s a bug, please report it &lt;a href=&quot;http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all&quot;&gt;here&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn es ein Bug sein könnte, bitte &lt;a href=&quot;http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all&quot;&gt;hier&lt;/a&gt; melden</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Yes, reset accounts settings</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ja, Accounts zurücksetzen</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;No, thanks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Nein, danke</translation>
     </message>
     <message>
         <location line="+331"/>
@@ -444,7 +444,7 @@
     <message>
         <location line="-310"/>
         <source>Warning</source>
-        <translation type="unfinished">Warnung</translation>
+        <translation>Warnung</translation>
     </message>
     <message>
         <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
@@ -491,12 +491,12 @@
     <message>
         <location line="+13"/>
         <source>&amp;Truncate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Abschneiden</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bearbeiten</translation>
     </message>
     <message numerus="yes">
         <location line="-60"/>
@@ -676,18 +676,18 @@
     <message>
         <location line="-2"/>
         <source>&amp;Truncate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Abschneiden</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
         <location line="+169"/>
         <source>New statuses</source>
         <extracomment>New statuses received (this pops up in tray)</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Neue Nachrichten</translation>
     </message>
     <message>
         <location line="+68"/>
@@ -1116,17 +1116,17 @@
     <message>
         <location line="+10"/>
         <source>Tray icon and notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Trayicon und Benachrichtigungen</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>always visible</source>
-        <translation type="unfinished"></translation>
+        <translation>immer sichtbar</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>visible only when minimized</source>
-        <translation type="unfinished"></translation>
+        <translation>sichtbar wenn minimiert</translation>
     </message>
     <message>
         <location line="+13"/>
@@ -1136,17 +1136,17 @@
     <message>
         <location line="+13"/>
         <source>Close button</source>
-        <translation type="unfinished"></translation>
+        <translation>Schließen Button</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>Hides the application</source>
-        <translation type="unfinished"></translation>
+        <translation>Versteckt das Programm</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Closes the application</source>
-        <translation type="unfinished"></translation>
+        <translation>Schließt das Programm</translation>
     </message>
     <message>
         <location filename="../src/settings.cpp" line="+17"/>
