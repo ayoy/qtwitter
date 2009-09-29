@@ -214,8 +214,8 @@ TwitterAPIPrivate::~TwitterAPIPrivate()
     source = 0;
   }
 
-  delete interface;
-  interface = 0;
+  delete iface;
+  iface = 0;
 }
 
 void TwitterAPIPrivate::init()
@@ -232,22 +232,22 @@ void TwitterAPIPrivate::createInterface()
 {
   Q_Q(TwitterAPI);
 
-  interface = new Interface;
-  interface->connection = new QNetworkAccessManager( this );
-  interface->statusParser = new XmlParser( serviceUrl, login, this );
+  iface = new Interface;
+  iface->connection = new QNetworkAccessManager( this );
+  iface->statusParser = new XmlParser( serviceUrl, login, this );
 
-  interface->friendsInProgress = false;
-  interface->authorized = false;
-  interface->dmScheduled = false;
+  iface->friendsInProgress = false;
+  iface->authorized = false;
+  iface->dmScheduled = false;
 
   if ( login != TwitterAPI::PUBLIC_TIMELINE ) {
-    interface->directMsgParser = new XmlParserDirectMsg( serviceUrl, login, this );
-    connect( interface->directMsgParser, SIGNAL(newEntry(Entry)), q, SIGNAL(newEntry(Entry)) );
-    connect( interface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
+    iface->directMsgParser = new XmlParserDirectMsg( serviceUrl, login, this );
+    connect( iface->directMsgParser, SIGNAL(newEntry(Entry)), q, SIGNAL(newEntry(Entry)) );
+    connect( iface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
              SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
   }
-  connect( interface->connection, SIGNAL(finished(QNetworkReply*)), SLOT(requestFinished(QNetworkReply*)) );
-  connect( interface->statusParser, SIGNAL(newEntry(Entry)), q, SIGNAL(newEntry(Entry)) );
+  connect( iface->connection, SIGNAL(finished(QNetworkReply*)), SLOT(requestFinished(QNetworkReply*)) );
+  connect( iface->statusParser, SIGNAL(newEntry(Entry)), q, SIGNAL(newEntry(Entry)) );
 }
 
 /*!
@@ -319,8 +319,8 @@ void TwitterAPI::setLogin( const QString & login )
   Q_D(TwitterAPI);
 
   d->login = login;
-  d->interface->statusParser->setLogin( login );
-  d->interface->directMsgParser->setLogin( login );
+  d->iface->statusParser->setLogin( login );
+  d->iface->directMsgParser->setLogin( login );
 }
 
 QString TwitterAPI::password() const
@@ -349,8 +349,8 @@ void TwitterAPI::setServiceUrl( const QString &serviceUrl )
   Q_D(TwitterAPI);
 
   d->serviceUrl = serviceUrl;
-  d->interface->statusParser->setServiceUrl( serviceUrl );
-  d->interface->directMsgParser->setServiceUrl( serviceUrl );
+  d->iface->statusParser->setServiceUrl( serviceUrl );
+  d->iface->directMsgParser->setServiceUrl( serviceUrl );
 }
 
 #ifdef HAVE_OAUTH
@@ -453,7 +453,7 @@ void TwitterAPI::postUpdate( const QString &data, quint64 inReplyTo )
   request.setAttribute( TwitterAPIPrivate::ATTR_STATUS, data );
   request.setAttribute( TwitterAPIPrivate::ATTR_ID, inReplyTo );
 
-  d->interface->connection.data()->post( request, content );
+  d->iface->connection.data()->post( request, content );
 }
 
 /*!
@@ -495,7 +495,7 @@ void TwitterAPI::deleteUpdate( quint64 id )
   request.setAttribute( TwitterAPIPrivate::ATTR_DELETION_REQUESTED, true );
   request.setAttribute( TwitterAPIPrivate::ATTR_ID, id );
 
-  d->interface->connection.data()->post( request, QByteArray() );
+  d->iface->connection.data()->post( request, QByteArray() );
 }
 
 /*!
@@ -545,8 +545,8 @@ void TwitterAPI::friendsTimeline( int msgCount )
   request.setAttribute( TwitterAPIPrivate::ATTR_MSGCOUNT, statusCount );
   qDebug() << "TwitterAPIPrivate::friendsTimeline(" + d->login + ")";
 
-  d->interface->friendsInProgress = true;
-  d->interface->connection.data()->get( request );
+  d->iface->friendsInProgress = true;
+  d->iface->connection.data()->get( request );
 }
 
 /*!
@@ -596,14 +596,14 @@ void TwitterAPI::directMessages( int msgCount )
   request.setAttribute( TwitterAPIPrivate::ATTR_DM_REQUESTED, true );
   qDebug() << "TwitterAPI::directMessages(" + d->login + ")";
 
-  if ( !d->interface->friendsInProgress ||
-       d->interface->authorized ||
-       d->interface->dmScheduled ) {
-    d->interface->connection.data()->get( request );
-    d->interface->dmScheduled = false;
+  if ( !d->iface->friendsInProgress ||
+       d->iface->authorized ||
+       d->iface->dmScheduled ) {
+    d->iface->connection.data()->get( request );
+    d->iface->dmScheduled = false;
   }
   else
-    d->interface->dmScheduled = true;
+    d->iface->dmScheduled = true;
 }
 
 /*!
@@ -649,7 +649,7 @@ void TwitterAPI::postDM( const QString &screenName, const QString &text )
   request.setAttribute( TwitterAPIPrivate::ATTR_STATUS, text );
 
   qDebug() << "TwitterAPI::postDM(" << d->login << ")";
-  d->interface->connection.data()->post( request, content );
+  d->iface->connection.data()->post( request, content );
 }
 
 /*!
@@ -684,7 +684,7 @@ void TwitterAPI::deleteDM( quint64 id )
   request.setAttribute( TwitterAPIPrivate::ATTR_ID, id );
 
   qDebug() << "TwitterAPI::deleteDM(" << d->login << ")";
-  d->interface->connection.data()->post( request, QByteArray() );
+  d->iface->connection.data()->post( request, QByteArray() );
 }
 
 /*!
@@ -724,7 +724,7 @@ void TwitterAPI::createFavorite( quint64 id )
   request.setAttribute( TwitterAPIPrivate::ATTR_ID, id );
 
   qDebug() << "TwitterAPI::createFavorite(" << d->login << ")";
-  d->interface->connection.data()->post( request, QByteArray() );
+  d->iface->connection.data()->post( request, QByteArray() );
 }
 
 /*!
@@ -764,7 +764,7 @@ void TwitterAPI::destroyFavorite( quint64 id )
   request.setAttribute( TwitterAPIPrivate::ATTR_ID, id );
 
   qDebug() << "TwitterAPI::destroyFavorite(" << d->login << ")";
-  d->interface->connection.data()->post( request, QByteArray() );
+  d->iface->connection.data()->post( request, QByteArray() );
 }
 
 /*!
@@ -786,7 +786,7 @@ void TwitterAPI::publicTimeline()
   request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_PUBLIC_TIMELINE );
 
   qDebug() << "TwitterAPI::publicTimeline()";
-  d->interface->connection.data()->get( request );
+  d->iface->connection.data()->get( request );
 }
 
 
@@ -819,7 +819,7 @@ void TwitterAPI::follow( quint64 userId )
   request.setAttribute( TwitterAPIPrivate::ATTR_ID, userId );
 
   qDebug() << "TwitterAPI::follow(" << d->login << ")";
-  d->interface->connection.data()->post( request, QByteArray() );
+  d->iface->connection.data()->post( request, QByteArray() );
 }
 
 //void TwitterAPI::follow( const QString &userLogin )
@@ -855,7 +855,7 @@ void TwitterAPI::unfollow( quint64 userId )
   request.setAttribute( TwitterAPIPrivate::ATTR_ID, userId );
 
   qDebug() << "TwitterAPI::unfollow(" << d->login << ")";
-  d->interface->connection.data()->post( request, QByteArray() );
+  d->iface->connection.data()->post( request, QByteArray() );
 }
 
 //void TwitterAPI::unfollow( const QString &userLogin )
@@ -869,16 +869,16 @@ void TwitterAPI::unfollow( quint64 userId )
 void TwitterAPI::resetConnections() {
   Q_D(TwitterAPI);
 
-  d->interface->connection->deleteLater();
-  d->interface->connection = new QNetworkAccessManager( this );
-  connect( d->interface->connection, SIGNAL(finished(QNetworkReply*)), d, SLOT(requestFinished(QNetworkReply*)) );
+  d->iface->connection->deleteLater();
+  d->iface->connection = new QNetworkAccessManager( this );
+  connect( d->iface->connection, SIGNAL(finished(QNetworkReply*)), d, SLOT(requestFinished(QNetworkReply*)) );
   if ( d->login != TwitterAPI::PUBLIC_TIMELINE ) {
-    connect( d->interface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
+    connect( d->iface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
              d, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
   }
-  d->interface->dmScheduled = false;
-  d->interface->authorized = false;
-  d->interface->friendsInProgress = false;
+  d->iface->dmScheduled = false;
+  d->iface->authorized = false;
+  d->iface->friendsInProgress = false;
 }
 
 /*!
@@ -916,36 +916,36 @@ void TwitterAPIPrivate::requestFinished( QNetworkReply *reply )
   case 400: // temporary, weird Twitter behavior with deleting statuses
   case 200: // Ok
     if ( role && role != TwitterAPI::ROLE_PUBLIC_TIMELINE )
-      interface->authorized = true;
+      iface->authorized = true;
 
     switch ( role ) {
 
     case TwitterAPI::ROLE_PUBLIC_TIMELINE:
       qDebug() << "TwitterAPI::requestFinished()" << "parsing public timeline";
-      parseXml( reply->readAll(), interface->statusParser );
+      parseXml( reply->readAll(), iface->statusParser );
       emit q->requestDone( role );
       break;
 
     case TwitterAPI::ROLE_FRIENDS_TIMELINE:
       qDebug() << "TwitterAPI::requestFinished()" << "parsing friends timeline";
-      interface->friendsInProgress = false;
-      if ( interface->dmScheduled )
+      iface->friendsInProgress = false;
+      if ( iface->dmScheduled )
       {
         if( int msgCount = request.attribute( TwitterAPIPrivate::ATTR_MSGCOUNT ).toInt() )
           q->directMessages( msgCount );
       }
-      parseXml( reply->readAll(), interface->statusParser );
+      parseXml( reply->readAll(), iface->statusParser );
       emit q->requestDone( role );
       break;
 
     case TwitterAPI::ROLE_DIRECT_MESSAGES:
       qDebug() << "TwitterAPI::requestFinished()" << "parsing direct messages";
-      parseXml( reply->readAll(), interface->directMsgParser );
+      parseXml( reply->readAll(), iface->directMsgParser );
       emit q->requestDone( role );
       break;
 
     case TwitterAPI::ROLE_POST_UPDATE:
-      parseXml( reply->readAll(), interface->statusParser );
+      parseXml( reply->readAll(), iface->statusParser );
       emit q->requestDone( role );
       break;
 
@@ -1018,7 +1018,7 @@ void TwitterAPIPrivate::requestFinished( QNetworkReply *reply )
     break;
   case 502:
     if ( reply->operation() == QNetworkAccessManager::GetOperation ) {
-        interface->connection.data()->get( request );
+        iface->connection.data()->get( request );
     }
     break;
   default:
@@ -1106,7 +1106,7 @@ void TwitterAPIPrivate::slotAuthenticationRequired( QNetworkReply *reply, QAuthe
 //    qDebug() << ntwk << login;
 
     if ( request.attribute( TwitterAPIPrivate::ATTR_DM_REQUESTED ).isValid() && // if this is the auth request for dm download
-         interface->friendsInProgress ) { // and we're downloading friends timeline (i.e. authorising) just now
+         iface->friendsInProgress ) { // and we're downloading friends timeline (i.e. authorising) just now
       reply->close();
       return;
     }
