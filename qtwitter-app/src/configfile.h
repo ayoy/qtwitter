@@ -51,7 +51,7 @@ public:
   ConfigFile();
 
   static const QString APP_VERSION;
-  static const QString FIRST_OAUTH_APP_VERSION;
+  static const QString COMPAT_SETTINGS_APP_VERSION;
 
   static QString pwHash( const QString &text );
   void addAccount( int id, const Account &account );
