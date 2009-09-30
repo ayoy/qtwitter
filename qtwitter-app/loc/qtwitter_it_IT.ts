@@ -89,7 +89,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="80"/>
         <source>Norwegian translation</source>
-        <translation type="unfinished"></translation>
+        <translation>Traduzione norvegese</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="101"/>
@@ -106,7 +106,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="132"/>
         <source>&lt;p&gt;qTwitter - a Qt-based microblogging client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;qTwitter - un client per il microblogging basato su Qt&lt;/p&gt;&lt;p&gt;versione %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;di &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;distribuito sotto la licenza LGPL&lt;/p&gt;&lt;p&gt;versione 2.1 o maggiore&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
@@ -354,22 +354,22 @@
     <message>
         <location filename="../src/core.cpp" line="121"/>
         <source>It seems like qTwitter wasn&apos;t closed properly last time. If the application crashed, it may be due to inconsistency in accounts settings. Do you want to reset accounts in qTwitter?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sembra che qTwitter non sia stato chiuso in modo appropriato l&apos;ultima volta. Se l&apos;applicazione ha avuto un crash, questo potrebbe essere causato da inconsistenze nelle impostazioni degli account. Vuoi reimpostare gli accounts in qTwitter?</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="125"/>
         <source>If you think that it&apos;s a bug, please report it &lt;a href=&quot;http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all&quot;&gt;here&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Se pensi che questo sia un bug, per favore riportalo &lt;a href=&quot;http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all&quot;&gt;qui&lt;/a&gt;</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="130"/>
         <source>&amp;Yes, reset accounts settings</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Si, reimposta i settaggi degli account</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="131"/>
         <source>&amp;No, thanks</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;No, grazie</translation>
     </message>
     <message>
         <location filename="../src/core.cpp" line="462"/>
@@ -444,7 +444,7 @@
     <message>
         <location filename="../src/core.cpp" line="120"/>
         <source>Warning</source>
-        <translation type="unfinished">Attenzione</translation>
+        <translation>Attenzione</translation>
     </message>
     <message>
         <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
@@ -491,12 +491,12 @@
     <message>
         <location filename="../src/dmdialog.cpp" line="105"/>
         <source>&amp;Truncate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tronca</translation>
     </message>
     <message>
         <location filename="../src/dmdialog.cpp" line="106"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Modifica</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/dmdialog.cpp" line="46"/>
@@ -684,18 +684,18 @@
     <message>
         <location filename="../src/mainwindow.cpp" line="357"/>
         <source>&amp;Truncate</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tronca</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="358"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Modifica</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="527"/>
         <source>New statuses</source>
         <extracomment>New statuses received (this pops up in tray)</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Nuovi status</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="595"/>
@@ -1031,17 +1031,17 @@
     <message>
         <location filename="../ui/settings.ui" line="379"/>
         <source>Tray icon and notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Tray icon e notifiche</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="385"/>
         <source>always visible</source>
-        <translation type="unfinished"></translation>
+        <translation>sempre visibile</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="395"/>
         <source>visible only when minimized</source>
-        <translation type="unfinished"></translation>
+        <translation>visibile solo se minimizzato</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="408"/>
@@ -1051,17 +1051,17 @@
     <message>
         <location filename="../ui/settings.ui" line="421"/>
         <source>Close button</source>
-        <translation type="unfinished"></translation>
+        <translation>Pulsante di chiusura</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="427"/>
         <source>Hides the application</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascone l&apos;applicazione</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="437"/>
         <source>Closes the application</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiude l&apos;applicazione</translation>
     </message>
     <message>
         <location filename="../ui/settings.ui" line="156"/>
