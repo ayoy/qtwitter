@@ -360,15 +360,18 @@ void AccountsController::deleteAccount()
   } else {
     ui->deleteAccountButton->setEnabled( true );
   }
-  bool exists = false;
-  foreach ( Account account, model->getAccounts() ) {
-    if ( networkName == Account::networkName( account.serviceUrl() ) ) {
-      exists = true;
-      break;
+  if ( networkName != Account::NetworkIdentica &&
+       networkName != Account::NetworkTwitter ) {
+    bool exists = false;
+    foreach ( Account account, model->getAccounts() ) {
+      if ( networkName == Account::networkName( account.serviceUrl() ) ) {
+        exists = true;
+        break;
+      }
     }
-  }
-  if ( !exists ) {
-    Account::removeNetwork( Account::networkUrl( networkName ) );
+    if ( !exists ) {
+      Account::removeNetwork( Account::networkUrl( networkName ) );
+    }
   }
 }
 

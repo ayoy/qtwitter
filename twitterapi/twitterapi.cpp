@@ -175,8 +175,8 @@ struct Interface
 
 const QString TwitterAPI::PUBLIC_TIMELINE = "public timeline";
 
-const QString TwitterAPI::URL_IDENTICA = "http://identi.ca/api";
-const QString TwitterAPI::URL_TWITTER = "http://twitter.com";
+const QString TwitterAPI::URL_IDENTICA = "https://identi.ca/api";
+const QString TwitterAPI::URL_TWITTER = "https://twitter.com";
 
 
 const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_SOCIALNETWORK      = (QNetworkRequest::Attribute) QNetworkRequest::User;
@@ -246,8 +246,17 @@ void TwitterAPIPrivate::createInterface()
     connect( iface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
              SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
   }
+  connect( iface->connection, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)) );
   connect( iface->connection, SIGNAL(finished(QNetworkReply*)), SLOT(requestFinished(QNetworkReply*)) );
   connect( iface->statusParser, SIGNAL(newEntry(Entry)), q, SIGNAL(newEntry(Entry)) );
+}
+
+void TwitterAPIPrivate::sslErrors(QNetworkReply *reply, const QList<QSslError> &errors )
+{
+  Q_UNUSED(errors);
+
+  // TODO:
+  reply->ignoreSslErrors();
 }
 
 /*!
@@ -872,6 +881,7 @@ void TwitterAPI::resetConnections() {
   d->iface->connection->deleteLater();
   d->iface->connection = new QNetworkAccessManager( this );
   connect( d->iface->connection, SIGNAL(finished(QNetworkReply*)), d, SLOT(requestFinished(QNetworkReply*)) );
+  connect( d->iface->connection, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), d, SLOT(sslErrors(QNetworkReply*,QList<QSslError>)) );
   if ( d->login != TwitterAPI::PUBLIC_TIMELINE ) {
     connect( d->iface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
              d, SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );

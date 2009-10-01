@@ -57,8 +57,10 @@ public:
   void addAccount( int id, const Account &account );
   void deleteAccount( int id, int rowCount );
 
-  // TODO: make private
+
+private:
   int accountsCount() const;
+  void fixForSsl();
 };
 
 #endif // CONFIGFILE_H

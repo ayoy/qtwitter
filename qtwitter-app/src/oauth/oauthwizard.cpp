@@ -11,9 +11,9 @@
 #include <QRegExpValidator>
 #include <QTimer>
 
-const QByteArray OAuthWizard::TwitterRequestTokenURL = "http://twitter.com/oauth/request_token";
-const QByteArray OAuthWizard::TwitterAccessTokenURL  = "http://twitter.com/oauth/access_token";
-const QByteArray OAuthWizard::TwitterAuthorizeURL    = "http://twitter.com/oauth/authorize";
+const QByteArray OAuthWizard::TwitterRequestTokenURL = "https://twitter.com/oauth/request_token";
+const QByteArray OAuthWizard::TwitterAccessTokenURL  = "https://twitter.com/oauth/access_token";
+const QByteArray OAuthWizard::TwitterAuthorizeURL    = "https://twitter.com/oauth/authorize";
 
 const QByteArray OAuthWizard::ConsumerKey    = "tIFvBZ10xbiOq5p60EcEdA";
 const QByteArray OAuthWizard::ConsumerSecret = "5gXfCncW8qEilc3kAw05db2bbfw8RNsDhEAEl9iijdA";

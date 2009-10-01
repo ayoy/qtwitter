@@ -24,6 +24,7 @@
 #include <QObject>
 
 #include "twitterapi.h"
+#include <QSslError>
 
 class TwitterAPIPrivate : public QObject
 {
@@ -84,6 +85,7 @@ public:
 public slots:
   void requestFinished( QNetworkReply *reply );
   void slotAuthenticationRequired( QNetworkReply *reply, QAuthenticator *authenticator );
+  void sslErrors( QNetworkReply *reply, const QList<QSslError> &errors );
 
 protected:
   TwitterAPI *q_ptr;

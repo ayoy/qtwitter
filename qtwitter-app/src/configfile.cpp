@@ -95,7 +95,7 @@ bool AppVersion::operator <=( const AppVersion &other ) const
   return ( *this == other ) || ( *this < other );
 }
 
-const QString ConfigFile::APP_VERSION = "0.9.1";
+const QString ConfigFile::APP_VERSION = "0.9.2";
 const QString ConfigFile::COMPAT_SETTINGS_APP_VERSION = "0.9.0";
 
 
@@ -121,6 +121,9 @@ QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" 
       beginGroup( "Accounts" );
       remove("");
       endGroup();
+    }
+    if ( AppVersion( ver ) < AppVersion( APP_VERSION ) ) {
+      fixForSsl();
     }
   } else {
     setValue( "FIRSTRUN", "ever" );
@@ -179,4 +182,22 @@ int ConfigFile::accountsCount() const
   }
 
   return count;
+}
+
+void ConfigFile::fixForSsl()
+{
+  beginGroup( "Accounts" );
+
+  int accountsCount = childGroups().count();
+  for ( int i = 0; i < accountsCount; i++ ) {
+    QString name = value( QString( "%1/service" ).arg(i) ).toString();
+    if ( !name.isNull() &&
+         ( name == "http://twitter.com" || name == "http://identi.ca/api" ) ) {
+      name.replace( QRegExp( "^http" ), "https" );
+    }
+    setValue( QString( "%1/service" ).arg(i), name );
+  }
+
+  endGroup();
+  sync();
 }

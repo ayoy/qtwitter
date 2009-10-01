@@ -1,3 +1,7 @@
+v0.9.2 (2009/10/01):
+- SSL encryption for connections to Twitter and Identi.ca (#75),
+- fixed incomplete Norwegian translation (#74),
+- fixed minor bug with disappearing Identi.ca URL when removing all of its accounts.
 v0.9.1 (2009/09/30):
 - in KDE4: notifications displayed using Plasma notification services,
 - on *NIX: prevented spawning multiple instances of the application (#73),

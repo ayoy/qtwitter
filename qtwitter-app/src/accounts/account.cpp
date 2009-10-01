@@ -25,8 +25,8 @@
 
 const QString Account::NetworkTwitter = "Twitter";
 const QString Account::NetworkIdentica = "Identi.ca";
-const QString Account::NetworkUrlTwitter = "http://twitter.com";
-const QString Account::NetworkUrlIdentica = "http://identi.ca/api";
+const QString Account::NetworkUrlTwitter = "https://twitter.com";
+const QString Account::NetworkUrlIdentica = "https://identi.ca/api";
 
 QHash<QString,QString> Account::networkNamesHash = QHash<QString,QString>();
 
