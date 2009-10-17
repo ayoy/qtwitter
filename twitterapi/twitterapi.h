@@ -138,7 +138,7 @@ public slots:
 
 signals:
     void requestDone( int role );
-    void newEntry( Entry entry );
+    void newEntries( const QList<Entry> &entries );
     void deleteEntry( quint64 id );
     void favoriteStatus( quint64 id, bool favorited );
     void postDMDone( TwitterAPI::ErrorCode error );

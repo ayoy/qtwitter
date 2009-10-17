@@ -242,13 +242,13 @@ void TwitterAPIPrivate::createInterface()
 
     if ( login != TwitterAPI::PUBLIC_TIMELINE ) {
         iface->directMsgParser = new XmlParserDirectMsg( serviceUrl, login, this );
-        connect( iface->directMsgParser, SIGNAL(newEntry(Entry)), q, SIGNAL(newEntry(Entry)) );
+        connect( iface->statusParser, SIGNAL(parsed(QList<Entry>)), q, SIGNAL(newEntries(QList<Entry>)) );
         connect( iface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
                  SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
     }
     connect( iface->connection, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)) );
     connect( iface->connection, SIGNAL(finished(QNetworkReply*)), SLOT(requestFinished(QNetworkReply*)) );
-    connect( iface->statusParser, SIGNAL(newEntry(Entry)), q, SIGNAL(newEntry(Entry)) );
+    connect( iface->statusParser, SIGNAL(parsed(QList<Entry>)), q, SIGNAL(newEntries(QList<Entry>)) );
 }
 
 void TwitterAPIPrivate::sslErrors(QNetworkReply *reply, const QList<QSslError> &errors )

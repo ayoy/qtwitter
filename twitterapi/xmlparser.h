@@ -58,7 +58,7 @@ public:
     QString textToHtml( QString newText );
 
 signals:
-    void newEntry( Entry entry );
+    void parsed( const QList<Entry> &entries );
 
 protected:
     QDateTime toDateTime( const QString &timestamp );
@@ -71,6 +71,7 @@ protected:
 
     QString currentTag;
     Entry entry;
+    QList<Entry> data;
     bool important;
     bool parsingUser;
     bool favoritedSet;

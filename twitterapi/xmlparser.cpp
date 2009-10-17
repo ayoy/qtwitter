@@ -101,11 +101,13 @@ void XmlParser::setServiceUrl( const QString &serviceUrl )
 
 bool XmlParser::startDocument()
 {
+    data.clear();
     return true;
 }
 
 bool XmlParser::endDocument()
 {
+    emit parsed(data);
     return true;
 }
 
@@ -127,7 +129,7 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
 bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
     if ( qName == TAG_STATUS ) {
-        emit newEntry( entry );
+        data << entry;
     }
     if( qName == TAG_USER) {
         parsingUser = false;
@@ -314,7 +316,7 @@ bool XmlParserDirectMsg::startElement( const QString & /* namespaceURI */, const
 bool XmlParserDirectMsg::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
     if ( qName == TAG_DIRECT_MESSAGE ) {
-        emit newEntry( entry );
+        data << entry;
     }
     if ( qName == TAG_SENDER ) {
         parsingSender = false;

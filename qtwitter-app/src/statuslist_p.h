@@ -33,7 +33,7 @@ public:
     StatusListPrivate();
     ~StatusListPrivate();
     void init();
-    int addStatus( Entry entry );
+    int addStatus( const Entry &entry );
     void setImageForUrl( const QString &url, QPixmap *pixmap );
 
     TwitterAPI *twitterapi;
@@ -46,7 +46,8 @@ public:
     Core *core;
 
 public slots:
-    void addEntry( Entry entry );
+    void addEntry( const Entry &entry );
+    void addEntries( const QList<Entry> &entries );
     void deleteEntry( quint64 id );
     void setFavorited( quint64 id, bool favorited = true );
     void slotUnauthorized();

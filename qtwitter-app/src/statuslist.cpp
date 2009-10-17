@@ -76,7 +76,7 @@ void StatusListPrivate::init()
         twitterapi->setUsingOAuth( false );
     }
 
-    connect( twitterapi, SIGNAL(newEntry(Entry)), this, SLOT(addEntry(Entry)) );
+    connect( twitterapi, SIGNAL(newEntries(QList<Entry>)), this, SLOT(addEntries(QList<Entry>)));
     connect( twitterapi, SIGNAL(deleteEntry(quint64)), this, SLOT(deleteEntry(quint64)) );
     connect( twitterapi, SIGNAL(favoriteStatus(quint64,bool)), this, SLOT(setFavorited(quint64,bool)) );
 
@@ -88,7 +88,14 @@ void StatusListPrivate::init()
     connect( twitterapi, SIGNAL(requestDone(int)), this, SLOT(slotRequestDone(int)) );
 }
 
-void StatusListPrivate::addEntry( Entry entry )
+void StatusListPrivate::addEntries( const QList<Entry> &entries )
+{
+    foreach( const Entry &entry, entries ) {
+        addEntry(entry);
+    }
+}
+
+void StatusListPrivate::addEntry( const Entry &entry )
 {
     Q_Q(StatusList);
 
@@ -475,7 +482,7 @@ void StatusList::requestDestroyFavorite( quint64 id )
 }
 
 
-int StatusListPrivate::addStatus( Entry entry )
+int StatusListPrivate::addStatus( const Entry &entry )
 {
     for ( QList<Status>::const_iterator i = data.begin(); i != data.end(); ++i) {
         if ( entry.id == (*i).entry.id ) {

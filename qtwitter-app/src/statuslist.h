@@ -54,15 +54,15 @@ class StatusList : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY( QString serviceUrl READ serviceUrl )
-            Q_PROPERTY( QString login READ login )
-            Q_PROPERTY( bool dm READ dm )
-            Q_PROPERTY( bool visible READ isVisible WRITE setVisible )
-            // index of the active status
-            Q_PROPERTY( int active READ active WRITE setActive )
-
-        public:
-            StatusList( Account *account, QObject *parent );
+    Q_PROPERTY( QString serviceUrl READ serviceUrl );
+    Q_PROPERTY( QString login READ login );
+    Q_PROPERTY( bool dm READ dm );
+    Q_PROPERTY( bool visible READ isVisible WRITE setVisible );
+    // index of the active status
+    Q_PROPERTY( int active READ active WRITE setActive );
+    
+public:
+    StatusList( Account *account, QObject *parent );
     ~StatusList();
 
     bool hasUnread();
