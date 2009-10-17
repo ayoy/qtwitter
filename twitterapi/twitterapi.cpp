@@ -193,6 +193,7 @@ const QNetworkRequest::Attribute TwitterAPIPrivate::ATTR_MSGCOUNT           = (Q
 
 const QString TwitterAPIPrivate::UrlStatusesPublicTimeline  = "/statuses/public_timeline.xml";
 const QString TwitterAPIPrivate::UrlStatusesFriendsTimeline = "/statuses/friends_timeline.xml";
+const QString TwitterAPIPrivate::UrlStatusesMentions        = "/statuses/mentions.xml";
 const QString TwitterAPIPrivate::UrlStatusesUpdate          = "/statuses/update.xml";
 const QString TwitterAPIPrivate::UrlStatusesDestroy         = "/statuses/destroy/%1.xml";
 const QString TwitterAPIPrivate::UrlDirectMessages          = "/direct_messages.xml";
@@ -206,15 +207,6 @@ const QString TwitterAPIPrivate::UrlFriendshipDestroy       = "/friendships/dest
 
 TwitterAPIPrivate::~TwitterAPIPrivate()
 {
-    if ( xmlReader ) {
-        delete xmlReader;
-        xmlReader = 0;
-    }
-    if ( source ) {
-        delete source;
-        source = 0;
-    }
-
     delete iface;
     iface = 0;
 }
@@ -222,8 +214,6 @@ TwitterAPIPrivate::~TwitterAPIPrivate()
 void TwitterAPIPrivate::init()
 {
     qRegisterMetaType<EntryList>( "EntryList" );
-    xmlReader = new QXmlSimpleReader;
-    source = new QXmlInputSource;
     createInterface();
 #ifdef HAVE_OAUTH
     qoauth = new QOAuth::Interface( this );
@@ -250,7 +240,7 @@ void TwitterAPIPrivate::createInterface()
     }
     connect( iface->connection, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)) );
     connect( iface->connection, SIGNAL(finished(QNetworkReply*)), SLOT(requestFinished(QNetworkReply*)) );
-    connect( iface->statusParser, SIGNAL(parsed(EntryList)), q, SIGNAL(newEntries(EntryList)) );
+    connect( iface->statusParser, SIGNAL(parsed(EntryList)), q, SIGNAL(newEntries(EntryList)), Qt::QueuedConnection );
 }
 
 void TwitterAPIPrivate::sslErrors(QNetworkReply *reply, const QList<QSslError> &errors )
@@ -557,6 +547,56 @@ void TwitterAPI::friendsTimeline( int msgCount )
     qDebug() << "TwitterAPIPrivate::friendsTimeline(" + d->login + ")";
 
     d->iface->friendsInProgress = true;
+    d->iface->connection.data()->get( request );
+}
+
+/*!
+  Sends a request for getting mentions timeline (@user) for the user identified
+  by \a login and \a password. Length of the timeline can be adjusted by
+  \a msgCount.
+
+  \param login User's login.
+  \param password User's password.
+  \param msgCount Optional argument specifying length of requested timeline.
+                  Twitter API currently accepts values up to 200.
+
+  \sa newEntry(), friendsTimeline()
+*/
+void TwitterAPI::mentions( int msgCount )
+{
+    Q_D(TwitterAPI);
+
+    QString url = d->serviceUrl;
+    QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
+    url.append( TwitterAPIPrivate::UrlStatusesMentions );
+
+    QNetworkRequest request;
+
+#ifdef HAVE_OAUTH
+    if ( d->usingOAuth ) {
+        QOAuth::ParamMap map;
+        map.insert( "count", statusCount.toUtf8() );
+
+        QByteArray parameters = d->prepareOAuthString( url, QOAuth::GET, map );
+
+        request.setRawHeader( "Authorization", parameters );
+        url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
+    } else {
+        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
+        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        url.append( QString("?count=%1").arg( statusCount ) );
+    }
+#else
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
+    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+    url.append( QString("?count=%1").arg( statusCount ) );
+#endif
+
+    request.setUrl( QUrl(url) );
+    request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_MENTIONS );
+    request.setAttribute( TwitterAPIPrivate::ATTR_MSGCOUNT, statusCount );
+    qDebug() << "TwitterAPIPrivate::mentions(" + d->login + ")";
+
     d->iface->connection.data()->get( request );
 }
 
@@ -946,6 +986,12 @@ void TwitterAPIPrivate::requestFinished( QNetworkReply *reply )
                 if( int msgCount = request.attribute( TwitterAPIPrivate::ATTR_MSGCOUNT ).toInt() )
                     q->directMessages( msgCount );
             }
+            parseXml( reply->readAll(), iface->statusParser );
+            emit q->requestDone( role );
+            break;
+
+        case TwitterAPI::ROLE_MENTIONS:
+            qDebug() << "TwitterAPI::requestFinished()" << "parsing mentions timeline";
             parseXml( reply->readAll(), iface->statusParser );
             emit q->requestDone( role );
             break;

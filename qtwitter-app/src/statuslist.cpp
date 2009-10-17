@@ -98,11 +98,7 @@ void StatusListPrivate::addEntries( const EntryList &entries )
 
 void StatusListPrivate::addEntry( const Entry &entry )
 {
-    Q_Q(StatusList);
-
-    int index = addStatus( entry );
-//    if ( index >= 0 )
-//        emit q->statusAdded( index );
+    addStatus( entry );
 
     if ( entry.type == Entry::Status ) {
         if ( ImageDownload::instance()->contains( entry.userInfo.imageUrl ) ) {
@@ -167,6 +163,7 @@ void StatusListPrivate::slotUnauthorized()
     twitterapi->setLogin( account->login() );
     twitterapi->setPassword( account->password() );
     q->requestFriendsTimeline();
+    q->requestMentions();
     if ( account->dm() )
         q->requestDirectMessages();
 }
@@ -216,7 +213,7 @@ void StatusListPrivate::slotRequestDone( int role )
         StatusModel::instance()->updateDisplay();
     if ( role != TwitterAPI::ROLE_POST_DM && QTwitterApp::core()->requestCount() > 0 )
         QTwitterApp::core()->decrementRequestCount();
-    qDebug() << QTwitterApp::core()->requestCount();
+    qDebug() << QTwitterApp::core()->requestCount() << visible;
     //  if ( Core::requestCount() == 0 ) {
     //    if ( checkForNew )
     //      core->checkUnreadStatuses();
@@ -403,6 +400,14 @@ void StatusList::requestFriendsTimeline()
     Q_D(StatusList);
 
     d->twitterapi->friendsTimeline( StatusListPrivate::maxCount );
+    QTwitterApp::core()->incrementRequestCount();
+}
+
+void StatusList::requestMentions()
+{
+    Q_D(StatusList);
+
+    d->twitterapi->mentions( StatusListPrivate::maxCount );
     QTwitterApp::core()->incrementRequestCount();
 }
 

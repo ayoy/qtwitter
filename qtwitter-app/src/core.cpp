@@ -339,6 +339,7 @@ void Core::get( const QString &serviceUrl, const QString &login, const QString &
         StatusList *statusList = statusLists.value( account );
         if ( statusList ) {
             statusList->requestFriendsTimeline();
+            statusList->requestMentions();
             if ( statusList->dm() ) {
                 statusList->requestDirectMessages();
             }
@@ -352,6 +353,7 @@ void Core::get()
     foreach( StatusList *statusList, statusLists.values() ) {
         started = true;
         statusList->requestFriendsTimeline();
+        statusList->requestMentions();
         if ( statusList->dm() ) {
             statusList->requestDirectMessages();
         }

@@ -70,6 +70,7 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
     enum Role {
         ROLE_PUBLIC_TIMELINE = 101,
         ROLE_FRIENDS_TIMELINE,
+        ROLE_MENTIONS,
         ROLE_DIRECT_MESSAGES,
         ROLE_POST_UPDATE,
         ROLE_DELETE_UPDATE,
@@ -123,6 +124,7 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
     void postUpdate( const QString &data, quint64 inReplyTo = 0 );
     void deleteUpdate( quint64 id );
     void friendsTimeline( int msgCount = 20 );
+    void mentions( int msgCount = 20 );
     void directMessages( int msgCount = 20 );
     void postDM( const QString &screenName, const QString &text );
     void deleteDM( quint64 id );
