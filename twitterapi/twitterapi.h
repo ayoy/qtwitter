@@ -42,6 +42,8 @@ class QXmlInputSource;
 class XmlParser;
 struct Interface;
 
+typedef QList<Entry> EntryList;
+
 class TwitterAPIPrivate;
 
 class TWITTERAPI_EXPORT TwitterAPI : public QObject
@@ -138,7 +140,7 @@ public slots:
 
 signals:
     void requestDone( int role );
-    void newEntries( const QList<Entry> &entries );
+    void newEntries( const EntryList &entries );
     void deleteEntry( quint64 id );
     void favoriteStatus( quint64 id, bool favorited );
     void postDMDone( TwitterAPI::ErrorCode error );

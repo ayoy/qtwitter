@@ -30,6 +30,7 @@
 #include <QXmlInputSource>
 #include <QAuthenticator>
 #include <QDebug>
+#include <QThreadPool>
 
 struct Interface
 {
@@ -220,6 +221,7 @@ TwitterAPIPrivate::~TwitterAPIPrivate()
 
 void TwitterAPIPrivate::init()
 {
+    qRegisterMetaType<EntryList>( "EntryList" );
     xmlReader = new QXmlSimpleReader;
     source = new QXmlInputSource;
     createInterface();
@@ -242,13 +244,13 @@ void TwitterAPIPrivate::createInterface()
 
     if ( login != TwitterAPI::PUBLIC_TIMELINE ) {
         iface->directMsgParser = new XmlParserDirectMsg( serviceUrl, login, this );
-        connect( iface->statusParser, SIGNAL(parsed(QList<Entry>)), q, SIGNAL(newEntries(QList<Entry>)) );
+        connect( iface->statusParser, SIGNAL(parsed(EntryList)), q, SIGNAL(newEntries(EntryList)) );
         connect( iface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
                  SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
     }
     connect( iface->connection, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)) );
     connect( iface->connection, SIGNAL(finished(QNetworkReply*)), SLOT(requestFinished(QNetworkReply*)) );
-    connect( iface->statusParser, SIGNAL(parsed(QList<Entry>)), q, SIGNAL(newEntries(QList<Entry>)) );
+    connect( iface->statusParser, SIGNAL(parsed(EntryList)), q, SIGNAL(newEntries(EntryList)) );
 }
 
 void TwitterAPIPrivate::sslErrors(QNetworkReply *reply, const QList<QSslError> &errors )
@@ -1039,9 +1041,12 @@ void TwitterAPIPrivate::requestFinished( QNetworkReply *reply )
 
 void TwitterAPIPrivate::parseXml( const QByteArray &data, XmlParser *parser )
 {
-    source->setData( data );
-    xmlReader->setContentHandler( parser );
-    xmlReader->parse( source );
+    ParserRunnable *runnable = new ParserRunnable( data, parser );
+    runnable->setAutoDelete(true);
+    QThreadPool::globalInstance()->start( runnable );
+//    source->setData( data );
+//    xmlReader->setContentHandler( parser );
+//    xmlReader->parse( source );
 }
 
 #ifdef HAVE_OAUTH

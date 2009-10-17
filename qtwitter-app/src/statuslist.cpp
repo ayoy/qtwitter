@@ -76,23 +76,24 @@ void StatusListPrivate::init()
         twitterapi->setUsingOAuth( false );
     }
 
-    connect( twitterapi, SIGNAL(newEntries(QList<Entry>)), this, SLOT(addEntries(QList<Entry>)));
+    connect( twitterapi, SIGNAL(newEntries(EntryList)), this, SLOT(addEntries(EntryList)));
     connect( twitterapi, SIGNAL(deleteEntry(quint64)), this, SLOT(deleteEntry(quint64)) );
     connect( twitterapi, SIGNAL(favoriteStatus(quint64,bool)), this, SLOT(setFavorited(quint64,bool)) );
 
     connect( twitterapi, SIGNAL(deleteDMDone(quint64,TwitterAPI::ErrorCode)), this, SLOT(deleteEntry(quint64)) );
-    connect( twitterapi, SIGNAL(errorMessage(QString)), core, SIGNAL(errorMessage(QString)) );
+    connect( twitterapi, SIGNAL(errorMessage(QString)), QTwitterApp::core(), SIGNAL(errorMessage(QString)) );
     connect( twitterapi, SIGNAL(unauthorized()), this, SLOT(slotUnauthorized()) );
     connect( twitterapi, SIGNAL(unauthorized(QString,quint64)), this, SLOT(slotUnauthorized(QString,quint64)) );
     connect( twitterapi, SIGNAL(unauthorized(quint64,Entry::Type)), this, SLOT(slotUnauthorized(quint64,Entry::Type)) );
     connect( twitterapi, SIGNAL(requestDone(int)), this, SLOT(slotRequestDone(int)) );
 }
 
-void StatusListPrivate::addEntries( const QList<Entry> &entries )
+void StatusListPrivate::addEntries( const EntryList &entries )
 {
     foreach( const Entry &entry, entries ) {
         addEntry(entry);
     }
+    StatusModel::instance()->updateDisplay();
 }
 
 void StatusListPrivate::addEntry( const Entry &entry )
@@ -100,8 +101,8 @@ void StatusListPrivate::addEntry( const Entry &entry )
     Q_Q(StatusList);
 
     int index = addStatus( entry );
-    if ( index >= 0 )
-        emit q->statusAdded( index );
+//    if ( index >= 0 )
+//        emit q->statusAdded( index );
 
     if ( entry.type == Entry::Status ) {
         if ( ImageDownload::instance()->contains( entry.userInfo.imageUrl ) ) {
@@ -120,11 +121,10 @@ void StatusListPrivate::deleteEntry( quint64 id )
     for ( int i = 0; i < data.size(); ++i ) {
         if ( id == data.at(i).entry.id ) {
             data.removeAt(i);
-            if ( active > i ) {
+            if ( active > i )
                 active--;
-            } else if ( i < data.size() && active == i ) {
+            else if ( i < data.size() && active == i )
                 data[active].state = StatusModel::STATE_ACTIVE;
-            }
             emit q->statusDeleted(i);
             return;
         }
@@ -158,31 +158,27 @@ void StatusListPrivate::slotUnauthorized()
 {
     Q_Q(StatusList);
 
-    bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE );
     QTwitterApp::core()->decrementRequestCount();
-    if ( account->dm() ) {
+    if ( account->dm() )
         QTwitterApp::core()->decrementRequestCount();
-    }
-    if ( !result ) {
+    if ( !result )
         return;
-    }
     twitterapi->setLogin( account->login() );
     twitterapi->setPassword( account->password() );
     q->requestFriendsTimeline();
-    if ( account->dm() ) {
+    if ( account->dm() )
         q->requestDirectMessages();
-    }
 }
 
 void StatusListPrivate::slotUnauthorized( const QString &status, quint64 inReplyToId )
 {
     Q_Q(StatusList);
 
-    bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE );
     QTwitterApp::core()->decrementRequestCount();
-    if ( !result ) {
+    if ( !result )
         return;
-    }
     twitterapi->setLogin( account->login() );
     twitterapi->setPassword( account->password() );
     q->requestNewStatus( status, inReplyToId );
@@ -192,11 +188,10 @@ void StatusListPrivate::slotUnauthorized( const QString &screenName, const QStri
 {
     Q_Q(StatusList);
 
-    bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_POST_DM );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_POST_DM );
     QTwitterApp::core()->decrementRequestCount();
-    if ( !result ) {
+    if ( !result )
         return;
-    }
     twitterapi->setLogin( account->login() );
     twitterapi->setPassword( account->password() );
     q->requestNewDM( screenName, text );
@@ -206,11 +201,10 @@ void StatusListPrivate::slotUnauthorized( quint64 destroyId, Entry::Type type )
 {
     Q_Q(StatusList);
 
-    bool result = core->retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE );
     QTwitterApp::core()->decrementRequestCount();
-    if ( !result ) {
+    if ( !result )
         return;
-    }
     twitterapi->setLogin( account->login() );
     twitterapi->setPassword( account->password() );
     q->requestDestroy( destroyId, type );
@@ -218,12 +212,10 @@ void StatusListPrivate::slotUnauthorized( quint64 destroyId, Entry::Type type )
 
 void StatusListPrivate::slotRequestDone( int role )
 {
-    if ( visible ) {
+    if ( visible )
         StatusModel::instance()->updateDisplay();
-    }
-    if ( role != TwitterAPI::ROLE_POST_DM && QTwitterApp::core()->requestCount() > 0 ) {
+    if ( role != TwitterAPI::ROLE_POST_DM && QTwitterApp::core()->requestCount() > 0 )
         QTwitterApp::core()->decrementRequestCount();
-    }
     qDebug() << QTwitterApp::core()->requestCount();
     //  if ( Core::requestCount() == 0 ) {
     //    if ( checkForNew )
@@ -252,10 +244,6 @@ StatusList::StatusList( Account *account, QObject *parent ) :
 
     d->q_ptr = this;
     d->account = account;
-    d->core = qobject_cast<Core*>( parent );
-    if ( !d->core ) {
-        qFatal( "StatusList objects MUST be childern of Core" );
-    }
     d->init();
 }
 
