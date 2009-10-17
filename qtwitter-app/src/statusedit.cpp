@@ -140,7 +140,7 @@ void StatusEdit::addRetweetString( QString message )
 }
 
 void StatusEdit::shortenUrl()
-{ 
+{
     if( hasSelectedText() ) {
         selectedUrl = selectedText();
         emit shortenUrl( selectedUrl );
