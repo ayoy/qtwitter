@@ -26,43 +26,43 @@
 #include <QDebug>
 class StatusListView : public QListView
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  StatusListView( QWidget *parent = 0 ) : QListView( parent ) {}
+    StatusListView( QWidget *parent = 0 ) : QListView( parent ) {}
 
-  void keyPressEvent( QKeyEvent *e ) {
-    switch ( e->key() ) {
-    case Qt::Key_Up:
-      emit moveFocus( true );
-      e->accept();
-      break;
-    case Qt::Key_Down:
-      emit moveFocus( false );
-      e->accept();
-      break;
-    case Qt::Key_Left:
-      emit moveFocusToUnread( true );
-      e->accept();
-      break;
-    case Qt::Key_Right:
-      emit moveFocusToUnread( false );
-      e->accept();
-    default:;
+    void keyPressEvent( QKeyEvent *e ) {
+        switch ( e->key() ) {
+        case Qt::Key_Up:
+            emit moveFocus( true );
+            e->accept();
+            break;
+        case Qt::Key_Down:
+            emit moveFocus( false );
+            e->accept();
+            break;
+        case Qt::Key_Left:
+            emit moveFocusToUnread( true );
+            e->accept();
+            break;
+        case Qt::Key_Right:
+            emit moveFocusToUnread( false );
+            e->accept();
+        default:;
+        }
+        QListView::keyPressEvent( e );
     }
-    QListView::keyPressEvent( e );
-  }
 
 public slots:
-  void clearSelection() {
-    emit deselectAll();
-    QListView::clearSelection();
-  }
+    void clearSelection() {
+        emit deselectAll();
+        QListView::clearSelection();
+    }
 
 signals:
-  void moveFocus( bool up );
-  void moveFocusToUnread( bool up );
-  void deselectAll();
+    void moveFocus( bool up );
+    void moveFocusToUnread( bool up );
+    void deselectAll();
 
 };
 

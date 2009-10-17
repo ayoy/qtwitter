@@ -30,31 +30,31 @@ class Settings;
 
 class QTwitterApp : public QApplication
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  static QTwitterApp* instance();
+    static QTwitterApp* instance();
 
-  QTwitterApp( int & argc, char **argv );
-  virtual ~QTwitterApp();
+    QTwitterApp( int & argc, char **argv );
+    virtual ~QTwitterApp();
 
-  static Core* core();
-  static MainWindow* mainWindow();
+    static Core* core();
+    static MainWindow* mainWindow();
 
 public slots:
-  void openSettings();
-  void openTwitPic();
-  void loadConfig();
+    void openSettings();
+    void openTwitPic();
+    void loadConfig();
 
 private:
-  static void registerMainWindow( MainWindow *mainWindow );
-  static void unregisterMainWindow( MainWindow *mainWindow );
+    static void registerMainWindow( MainWindow *mainWindow );
+    static void unregisterMainWindow( MainWindow *mainWindow );
 
-  Core *m_core;
-  MainWindow *m_mainWindow;
-  TwitPicView *m_twitPic;
-  Settings *m_settingsDialog;
+    Core *m_core;
+    MainWindow *m_mainWindow;
+    TwitPicView *m_twitPic;
+    Settings *m_settingsDialog;
 
-  friend class MainWindow;
+    friend class MainWindow;
 };
 
 #endif // QTWITTERAPP_H

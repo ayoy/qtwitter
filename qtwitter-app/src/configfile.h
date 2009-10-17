@@ -27,40 +27,40 @@ class Account;
 
 struct AppVersion
 {
-  uint majorVer;
-  uint minorVer;
-  uint patchVer;
+    uint majorVer;
+    uint minorVer;
+    uint patchVer;
 
-  AppVersion( const QString &version );
-  AppVersion( uint maj, uint min, uint pat );
+    AppVersion( const QString &version );
+    AppVersion( uint maj, uint min, uint pat );
 
-  QString toString() const;
-  void fromString( const QString &version );
+    QString toString() const;
+    void fromString( const QString &version );
 
-  bool operator ==( const AppVersion &other ) const;
-  bool operator !=( const AppVersion &other ) const;
-  bool operator >( const AppVersion &other ) const;
-  bool operator <( const AppVersion &other ) const;
-  bool operator >=( const AppVersion &other ) const;
-  bool operator <=( const AppVersion &other ) const;
+    bool operator ==( const AppVersion &other ) const;
+    bool operator !=( const AppVersion &other ) const;
+    bool operator >( const AppVersion &other ) const;
+    bool operator <( const AppVersion &other ) const;
+    bool operator >=( const AppVersion &other ) const;
+    bool operator <=( const AppVersion &other ) const;
 };
 
 class ConfigFile : public QSettings
 {
 public:
-  ConfigFile();
+    ConfigFile();
 
-  static const QString APP_VERSION;
-  static const QString COMPAT_SETTINGS_APP_VERSION;
+    static const QString APP_VERSION;
+    static const QString COMPAT_SETTINGS_APP_VERSION;
 
-  static QString pwHash( const QString &text );
-  void addAccount( int id, const Account &account );
-  void deleteAccount( int id, int rowCount );
+    static QString pwHash( const QString &text );
+    void addAccount( int id, const Account &account );
+    void deleteAccount( int id, int rowCount );
 
 
 private:
-  int accountsCount() const;
-  void fixForSsl();
+    int accountsCount() const;
+    void fixForSsl();
 };
 
 #endif // CONFIGFILE_H

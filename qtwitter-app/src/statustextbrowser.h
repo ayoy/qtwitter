@@ -28,50 +28,50 @@
 
 class StatusTextBrowser : public QTextBrowser
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  StatusTextBrowser( QWidget *parent = 0 ) :
-      QTextBrowser( parent )
-  {}
+    StatusTextBrowser( QWidget *parent = 0 ) :
+            QTextBrowser( parent )
+    {}
 
-  void mousePressEvent( QMouseEvent * e )
-  {
-    if ( e->button() == Qt::LeftButton )
-      emit mousePressed();
-    QTextBrowser::mousePressEvent( e );
-  }
-
-
-  void contextMenuEvent( QContextMenuEvent *e )
-  {
-    Q_UNUSED(e);
-
-    if ( toPlainText().isEmpty() )
-      return;
-
-    QMenu *menu = createStandardContextMenu( QCursor::pos() );
-    menu->addSeparator();
-    menu->addActions( statusMenu->actions() );
-    menu->exec( QCursor::pos() );
-    delete menu;
-  }
+    void mousePressEvent( QMouseEvent * e )
+    {
+        if ( e->button() == Qt::LeftButton )
+            emit mousePressed();
+        QTextBrowser::mousePressEvent( e );
+    }
 
 
-  void keyPressEvent( QKeyEvent *e )
-  {
-    e->ignore();
-  }
+    void contextMenuEvent( QContextMenuEvent *e )
+    {
+        Q_UNUSED(e);
 
-  void setMenu( QMenu *statusMenu )
-  {
-    this->statusMenu = statusMenu;
-  }
+        if ( toPlainText().isEmpty() )
+            return;
+
+        QMenu *menu = createStandardContextMenu( QCursor::pos() );
+        menu->addSeparator();
+        menu->addActions( statusMenu->actions() );
+        menu->exec( QCursor::pos() );
+        delete menu;
+    }
+
+
+    void keyPressEvent( QKeyEvent *e )
+    {
+        e->ignore();
+    }
+
+    void setMenu( QMenu *statusMenu )
+    {
+        this->statusMenu = statusMenu;
+    }
 
 signals:
-  void mousePressed();
+    void mousePressed();
 
 private:
-  QMenu *statusMenu;
+    QMenu *statusMenu;
 
 };
 

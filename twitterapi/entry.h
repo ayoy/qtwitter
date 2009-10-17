@@ -31,33 +31,33 @@
 
 struct TWITTERAPI_EXPORT Entry
 {
-  enum Type {
-    Status,
-    DirectMessage
-  };
+    enum Type {
+        Status,
+        DirectMessage
+    };
 
-  Entry( Entry::Type entryType = Entry::Status );
+    Entry( Entry::Type entryType = Entry::Status );
 
-  void initialize();
-  bool checkContents();
+    void initialize();
+    bool checkContents();
 
-  bool operator == ( const Entry &other );
+    bool operator == ( const Entry &other );
 
-  Type type;
-  bool isOwn;
-  quint64 id;
-  QString text;
-  QString originalText;
-  QDateTime timestamp;
-  QDateTime localTime;
-  bool hasInReplyToStatusId;
-  quint64 inReplyToStatusId;
-  QString inReplyToScreenName;
-  bool favorited;
-  UserInfo userInfo;
+    Type type;
+    bool isOwn;
+    quint64 id;
+    QString text;
+    QString originalText;
+    QDateTime timestamp;
+    QDateTime localTime;
+    bool hasInReplyToStatusId;
+    quint64 inReplyToStatusId;
+    QString inReplyToScreenName;
+    bool favorited;
+    UserInfo userInfo;
 };
 
-Q_DECLARE_METATYPE(Entry)
+Q_DECLARE_METATYPE(Entry);
 
 
 TWITTERAPI_EXPORT QDataStream& operator<<( QDataStream &out, const Entry &entry );

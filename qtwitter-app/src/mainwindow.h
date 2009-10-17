@@ -36,124 +36,124 @@ class KNotificationInterface;
 
 class MainWindow : public QMainWindow
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
 
-  enum TrayIconMode {
-    VisibleAlways,
-    VisibleWhenMinimized
-  };
+    enum TrayIconMode {
+        VisibleAlways,
+        VisibleWhenMinimized
+    };
 
-  enum CloseButtonMode {
-    CloseButtonHidesApp,
-    CloseButtonClosesApp
-  };
+    enum CloseButtonMode {
+        CloseButtonHidesApp,
+        CloseButtonClosesApp
+    };
 
-  MainWindow( QWidget *parent = 0 );
-  virtual ~MainWindow();
+    MainWindow( QWidget *parent = 0 );
+    virtual ~MainWindow();
 
-  int getScrollBarWidth();
-  void setTrayIconMode( TrayIconMode mode );
-  void setCloseButtonMode( CloseButtonMode mode );
+    int getScrollBarWidth();
+    void setTrayIconMode( TrayIconMode mode );
+    void setCloseButtonMode( CloseButtonMode mode );
 
 
 public slots:
-  void setupAccounts( const QList<Account> &accounts );
-  void changeListBackgroundColor( const QColor &newColor );
-  void popupMessage( QString message );
-  void popupError( const QString &message );
-  void retranslateUi();
-  void resetStatusEdit();
-  void pauseIcon();
-  void showProgressIcon();
-  void show();
-  void bringToFront(uint, uint);
-  void bringToFront();
-  void about();
-  void replaceUrl( const QString &url );
-  void minimize();
+    void setupAccounts( const QList<Account> &accounts );
+    void changeListBackgroundColor( const QColor &newColor );
+    void popupMessage( QString message );
+    void popupError( const QString &message );
+    void retranslateUi();
+    void resetStatusEdit();
+    void pauseIcon();
+    void showProgressIcon();
+    void show();
+    void bringToFront(uint, uint);
+    void bringToFront();
+    void about();
+    void replaceUrl( const QString &url );
+    void minimize();
 
-  void statusReplyAction();
-  void statusRetweetAction();
-  void statusCopylinkAction();
-  void statusDeleteAction();
-  void statusMarkallasreadAction();
-  void statusGototwitterpageAction();
-  void statusGotohomepageAction();
+    void statusReplyAction();
+    void statusRetweetAction();
+    void statusCopylinkAction();
+    void statusDeleteAction();
+    void statusMarkallasreadAction();
+    void statusGototwitterpageAction();
+    void statusGotohomepageAction();
 
 signals:
-  void updateStatuses();
-  void post( const QString &serviceUrl, const QString &login, QString status, quint64 inReplyTo );
-  void openBrowser( QUrl address );
-  void settingsDialogRequested();
-  void addReplyString( const QString& user, quint64 inReplyTo );
-  void addRetweetString( QString message );
-  void resizeView( int width, int oldWidth );
-  void switchModel( const QString &serviceUrl, const QString &login );
-  void shortenUrl( const QString &url );
-  void iconStopped();
+    void updateStatuses();
+    void post( const QString &serviceUrl, const QString &login, QString status, quint64 inReplyTo );
+    void openBrowser( QUrl address );
+    void settingsDialogRequested();
+    void addReplyString( const QString& user, quint64 inReplyTo );
+    void addRetweetString( QString message );
+    void resizeView( int width, int oldWidth );
+    void switchModel( const QString &serviceUrl, const QString &login );
+    void shortenUrl( const QString &url );
+    void iconStopped();
 
-  void statusMarkeverythingasreadAction();
+    void statusMarkeverythingasreadAction();
 
 protected:
-  void resizeEvent( QResizeEvent *event );
-  void closeEvent( QCloseEvent *event );
-  void keyPressEvent ( QKeyEvent *event );
-  Ui::MainWindow ui;
+    void resizeEvent( QResizeEvent *event );
+    void closeEvent( QCloseEvent *event );
+    void keyPressEvent ( QKeyEvent *event );
+    Ui::MainWindow ui;
 
 private slots:
-  void iconActivated( QSystemTrayIcon::ActivationReason reason );
-  void emitOpenBrowser( QString address );
-  void checkForUpdates();
-  void silentCheckForUpdates();
-  void readUpdateReply( bool available, const QString &version, const QString &changes );
-  void silentReadUpdateReply( bool available, const QString &version, const QString &changes );
-  void changeLabel();
-  void sendStatus();
-  void resetStatus();
-  void configSaveCurrentModel( int index, bool unconditionally = false );
-  void selectNextAccount();
-  void selectPrevAccount();
+    void iconActivated( QSystemTrayIcon::ActivationReason reason );
+    void emitOpenBrowser( QString address );
+    void checkForUpdates();
+    void silentCheckForUpdates();
+    void readUpdateReply( bool available, const QString &version, const QString &changes );
+    void silentReadUpdateReply( bool available, const QString &version, const QString &changes );
+    void changeLabel();
+    void sendStatus();
+    void resetStatus();
+    void configSaveCurrentModel( int index, bool unconditionally = false );
+    void selectNextAccount();
+    void selectPrevAccount();
 
 private:
-  void createExternalConnections();
-  void createInternalConnections();
-  void createButtonMenu();
-  void createTrayIcon();
+    void createExternalConnections();
+    void createInternalConnections();
+    void createButtonMenu();
+    void createTrayIcon();
 #ifdef Q_WS_HILDON
-  void createHildonMenu();
+    void createHildonMenu();
 #endif
 
-  bool resetUiWhenFinished;
-  bool updateInProgress;
-  TrayIconMode m_trayIconMode;
-  CloseButtonMode m_closeButtonMode;
+    bool resetUiWhenFinished;
+    bool updateInProgress;
+    TrayIconMode m_trayIconMode;
+    CloseButtonMode m_closeButtonMode;
 
-  QMenu *buttonMenu;
-  QAction *newstatusAction;
-  QAction *newtwitpicAction;
-  QAction *gototwitterAction;
-  QAction *gotoidenticaAction;
-  QAction *gototwitpicAction;
-  QAction *checkforupdatesAction;
-  QAction *aboutAction;
-  QAction *quitAction;
+    QMenu *buttonMenu;
+    QAction *newstatusAction;
+    QAction *newtwitpicAction;
+    QAction *gototwitterAction;
+    QAction *gotoidenticaAction;
+    QAction *gototwitpicAction;
+    QAction *checkforupdatesAction;
+    QAction *aboutAction;
+    QAction *quitAction;
 
 #ifndef Q_WS_MAC
-  QAction *trayquitAction;
-  QAction *traysettingsAction;
-  QAction *traycheckAction;
+    QAction *trayquitAction;
+    QAction *traysettingsAction;
+    QAction *traycheckAction;
 #endif
 
-  QMovie *progressIcon;
+    QMovie *progressIcon;
 
-  QTimer *timer;
+    QTimer *timer;
 
-  QSystemTrayIcon *trayIcon;
+    QSystemTrayIcon *trayIcon;
 
-  KNotificationInterface *knotificationIface;
-  uint notificationId;
+    KNotificationInterface *knotificationIface;
+    uint notificationId;
 };
 
 #endif //MAINWINDOW_H

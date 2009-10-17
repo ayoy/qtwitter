@@ -30,39 +30,39 @@ class Core;
 
 class TwitPicEngine : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  TwitPicEngine( Core *coreParent, QObject *parent = 0 );
-  ~TwitPicEngine();
+    TwitPicEngine( Core *coreParent, QObject *parent = 0 );
+    ~TwitPicEngine();
 
-  void postContent( const QString &login, const QString &password, QString photoPath, QString status );
+    void postContent( const QString &login, const QString &password, QString photoPath, QString status );
 
 public slots:
-  void abort();
+    void abort();
 
 signals:
-  void finished();
-  void errorMessage( const QString &message );
-  void completed( bool responseStatus, QString message, bool newStatus );
+    void finished();
+    void errorMessage( const QString &message );
+    void completed( bool responseStatus, QString message, bool newStatus );
 
 private slots:
-  void readReply( QNetworkReply *reply );
+    void readReply( QNetworkReply *reply );
 
 private:
-  void parseReply( const QByteArray &reply );
+    void parseReply( const QByteArray &reply );
 
 private:
-  enum ErrorId {
-    ErrInvalidLogin = 1001,
-    ErrImageNotFound = 1002,
-    ErrInvalidType = 1003,
-    ErrOversized = 1004
-  };
+    enum ErrorId {
+        ErrInvalidLogin = 1001,
+        ErrImageNotFound = 1002,
+        ErrInvalidType = 1003,
+        ErrOversized = 1004
+    };
 
-  QNetworkAccessManager *manager;
-  QNetworkReply *reply;
-  Core *coreParent;
+    QNetworkAccessManager *manager;
+    QNetworkReply *reply;
+    Core *coreParent;
 };
 
 #endif // TWITPICENGINE_H

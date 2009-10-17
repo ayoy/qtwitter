@@ -26,58 +26,58 @@
 
 struct ThemeElement
 {
-  QString styleSheet;
-  QString linkColor;
-  ThemeElement() :
-      styleSheet( QString() ),
-      linkColor( QString() )
-  {}
+    QString styleSheet;
+    QString linkColor;
+    ThemeElement() :
+            styleSheet( QString() ),
+            linkColor( QString() )
+    {}
 
-  ThemeElement( const QString &newStyleSheet, const QString &newLinkColor ) :
-      styleSheet( newStyleSheet ),
-      linkColor( newLinkColor )
-  {}
+    ThemeElement( const QString &newStyleSheet, const QString &newLinkColor ) :
+            styleSheet( newStyleSheet ),
+            linkColor( newLinkColor )
+    {}
 
-  ThemeElement( const ThemeElement &other ) :
-      styleSheet( other.styleSheet ),
-      linkColor( other.linkColor )
-  {}
+    ThemeElement( const ThemeElement &other ) :
+            styleSheet( other.styleSheet ),
+            linkColor( other.linkColor )
+    {}
 };
 
 struct ThemeData
 {
-  ThemeElement unread;
-  ThemeElement active;
-  ThemeElement read;
-  ThemeElement disabled;
-  QColor listBackgroundColor;
-  ThemeData() :
-      unread(),
-      active(),
-      read(),
-      disabled(),
-      listBackgroundColor()
-  {}
+    ThemeElement unread;
+    ThemeElement active;
+    ThemeElement read;
+    ThemeElement disabled;
+    QColor listBackgroundColor;
+    ThemeData() :
+            unread(),
+            active(),
+            read(),
+            disabled(),
+            listBackgroundColor()
+    {}
 
-  ThemeData( const ThemeElement &unread, const ThemeElement &active,
-             const ThemeElement &read, const ThemeElement &disabled,
-             const QColor &listBackgroundColor ) :
-      unread( unread ),
-      active( active ),
-      read( read ),
-      disabled( disabled ),
-      listBackgroundColor( listBackgroundColor )
-  {}
+    ThemeData( const ThemeElement &unread, const ThemeElement &active,
+               const ThemeElement &read, const ThemeElement &disabled,
+               const QColor &listBackgroundColor ) :
+    unread( unread ),
+    active( active ),
+    read( read ),
+    disabled( disabled ),
+    listBackgroundColor( listBackgroundColor )
+    {}
 };
 
 typedef QPair<QString,ThemeData> ThemeInfo;
 
 struct Themes {
-  static const ThemeInfo STYLESHEET_COCOA;
-  static const ThemeInfo STYLESHEET_GRAY;
-  static const ThemeInfo STYLESHEET_GREEN;
-  static const ThemeInfo STYLESHEET_PURPLE;
-  static const ThemeInfo STYLESHEET_SKY;
+    static const ThemeInfo STYLESHEET_COCOA;
+    static const ThemeInfo STYLESHEET_GRAY;
+    static const ThemeInfo STYLESHEET_GREEN;
+    static const ThemeInfo STYLESHEET_PURPLE;
+    static const ThemeInfo STYLESHEET_SKY;
 };
 
 

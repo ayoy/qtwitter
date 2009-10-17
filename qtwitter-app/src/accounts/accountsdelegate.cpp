@@ -27,85 +27,85 @@
 #include "accountsdelegate.h"
 
 AccountsDelegate::AccountsDelegate( QObject *parent ) :
-    QStyledItemDelegate( parent )
+        QStyledItemDelegate( parent )
 {
-  controller = static_cast<AccountsController*>(parent);
-  Q_ASSERT(controller);
+    controller = static_cast<AccountsController*>(parent);
+    Q_ASSERT(controller);
 }
 
 QWidget* AccountsDelegate::createEditor( QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
-  Q_UNUSED(option);
+    Q_UNUSED(option);
 
-  QWidget *editor = 0;
-  QComboBox *comboBox;
-  QLineEdit *lineEdit;
-  switch ( index.column() ) {
-  case AccountsModel::COL_NETWORK:
-    comboBox = new QComboBox( parent );
-    comboBox->addItems( QStringList( Account::networkNames() ) );
-    emit controller->comboActive( true );
-    editor = comboBox;
-    break;
-  case AccountsModel::COL_LOGIN:
-    lineEdit = new QLineEdit( parent );
-    editor = lineEdit;
-    break;
-  case AccountsModel::COL_PASSWORD:
-    lineEdit = new QLineEdit( parent );
-    editor = lineEdit;
-    lineEdit->setEchoMode( QLineEdit::Password );
-  default:
-    break;
-  }
-  return editor;
+    QWidget *editor = 0;
+    QComboBox *comboBox;
+    QLineEdit *lineEdit;
+    switch ( index.column() ) {
+    case AccountsModel::COL_NETWORK:
+        comboBox = new QComboBox( parent );
+        comboBox->addItems( QStringList( Account::networkNames() ) );
+        emit controller->comboActive( true );
+        editor = comboBox;
+        break;
+    case AccountsModel::COL_LOGIN:
+        lineEdit = new QLineEdit( parent );
+        editor = lineEdit;
+        break;
+    case AccountsModel::COL_PASSWORD:
+        lineEdit = new QLineEdit( parent );
+        editor = lineEdit;
+        lineEdit->setEchoMode( QLineEdit::Password );
+    default:
+        break;
+    }
+    return editor;
 }
 
 void AccountsDelegate::setEditorData( QWidget *editor, const QModelIndex &index ) const
 {
-  QString text;
-  QComboBox *comboBox;
-  QLineEdit *lineEdit;
-  switch ( index.column() ) {
-  case AccountsModel::COL_NETWORK:
-    text = index.model()->data( index, Qt::DisplayRole ).toString();
-    comboBox = static_cast<QComboBox*>(editor);
-    comboBox->setCurrentIndex( comboBox->findText( text ) );
-    break;
-  case AccountsModel::COL_LOGIN:
-  case AccountsModel::COL_PASSWORD:
-    text = index.model()->data( index, Qt::EditRole ).toString();
-    lineEdit = static_cast<QLineEdit*>(editor);
-    lineEdit->setText( text );
-  default:
-    break;
-  }
-  return;
+    QString text;
+    QComboBox *comboBox;
+    QLineEdit *lineEdit;
+    switch ( index.column() ) {
+    case AccountsModel::COL_NETWORK:
+        text = index.model()->data( index, Qt::DisplayRole ).toString();
+        comboBox = static_cast<QComboBox*>(editor);
+        comboBox->setCurrentIndex( comboBox->findText( text ) );
+        break;
+    case AccountsModel::COL_LOGIN:
+    case AccountsModel::COL_PASSWORD:
+        text = index.model()->data( index, Qt::EditRole ).toString();
+        lineEdit = static_cast<QLineEdit*>(editor);
+        lineEdit->setText( text );
+    default:
+        break;
+    }
+    return;
 }
 
 void AccountsDelegate::updateEditorGeometry( QWidget *editor, const QStyleOptionViewItem &option, const QModelIndex &index ) const
 {
-  Q_UNUSED(index);
-  editor->setGeometry( option.rect );
-  return;
+    Q_UNUSED(index);
+    editor->setGeometry( option.rect );
+    return;
 }
 
 void AccountsDelegate::setModelData( QWidget *editor, QAbstractItemModel *model, const QModelIndex &index ) const
 {
-  QComboBox *comboBox;
-  QLineEdit *lineEdit;
-  switch ( index.column() ) {
-  case AccountsModel::COL_NETWORK:
-    comboBox = static_cast<QComboBox*>(editor);
-    model->setData( index, comboBox->currentText(), Qt::EditRole );
-    emit controller->comboActive( false );
-    break;
-  case AccountsModel::COL_LOGIN:
-  case AccountsModel::COL_PASSWORD:
-    lineEdit = static_cast<QLineEdit*>(editor);
-    model->setData( index, lineEdit->text(), Qt::EditRole );
-  default:
-    break;
-  }
-  return;
+    QComboBox *comboBox;
+    QLineEdit *lineEdit;
+    switch ( index.column() ) {
+    case AccountsModel::COL_NETWORK:
+        comboBox = static_cast<QComboBox*>(editor);
+        model->setData( index, comboBox->currentText(), Qt::EditRole );
+        emit controller->comboActive( false );
+        break;
+    case AccountsModel::COL_LOGIN:
+    case AccountsModel::COL_PASSWORD:
+        lineEdit = static_cast<QLineEdit*>(editor);
+        model->setData( index, lineEdit->text(), Qt::EditRole );
+    default:
+        break;
+    }
+    return;
 }

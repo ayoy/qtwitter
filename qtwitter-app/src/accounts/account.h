@@ -29,50 +29,50 @@
 class Account
 {
 public:
-  Account();
-  Account( bool enabled, const QString &serviceUrl,
-           const QString &login, const QString &password, bool dm);
-  Account( const Account &other );
-  ~Account();
+    Account();
+    Account( bool enabled, const QString &serviceUrl,
+             const QString &login, const QString &password, bool dm);
+    Account( const Account &other );
+    ~Account();
 
-  static const QList<QString> networkNames();
-  static QString networkUrl( const QString &name );
-  static QString networkName( const QString &serviceUrl );
-  static void setNetworkName( const QString &serviceUrl, const QString &name );
-  static void removeNetwork( const QString &serviceUrl );
-  static const QString NetworkTwitter;
-  static const QString NetworkIdentica;
-  static const QString NetworkUrlTwitter;
-  static const QString NetworkUrlIdentica;
+    static const QList<QString> networkNames();
+    static QString networkUrl( const QString &name );
+    static QString networkName( const QString &serviceUrl );
+    static void setNetworkName( const QString &serviceUrl, const QString &name );
+    static void removeNetwork( const QString &serviceUrl );
+    static const QString NetworkTwitter;
+    static const QString NetworkIdentica;
+    static const QString NetworkUrlTwitter;
+    static const QString NetworkUrlIdentica;
 
-  bool isEnabled() const;
-  void setEnabled( bool enabled );
-  QString serviceUrl() const;
-  void setServiceUrl( const QString &serviceUrl );
-  QString login() const;
-  void setLogin( const QString &login );
-  QString password() const;
-  void setPassword( const QString &password );
-  bool dm() const;
-  void setDM( bool dm );
+    bool isEnabled() const;
+    void setEnabled( bool enabled );
+    QString serviceUrl() const;
+    void setServiceUrl( const QString &serviceUrl );
+    QString login() const;
+    void setLogin( const QString &login );
+    QString password() const;
+    void setPassword( const QString &password );
+    bool dm() const;
+    void setDM( bool dm );
 
-  static QPair<QString,QString> fromString( const QString &name );
+    static QPair<QString,QString> fromString( const QString &name );
 
-  Account& operator=( const Account &other );
-  bool operator==( const Account &other ) const;
-  bool fuzzyCompare( const Account &other ) const;
-  bool operator<( const Account &other ) const;
-  QString toString() const;
+    Account& operator=( const Account &other );
+    bool operator==( const Account &other ) const;
+    bool fuzzyCompare( const Account &other ) const;
+    bool operator<( const Account &other ) const;
+    QString toString() const;
 
 private:
-  // url/name
-  static QHash<QString,QString> networkNamesHash;
+    // url/name
+    static QHash<QString,QString> networkNamesHash;
 
-  bool m_enabled;
-  QString m_serviceUrl;
-  QString m_login;
-  QString m_password;
-  bool m_dm;
+    bool m_enabled;
+    QString m_serviceUrl;
+    QString m_login;
+    QString m_password;
+    bool m_dm;
 };
 
 QDataStream& operator<<( QDataStream &out, const Account &account );

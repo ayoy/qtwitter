@@ -34,96 +34,96 @@
 
 
 TwitPicEngine::TwitPicEngine( Core *coreParent, QObject *parent ) :
-    QObject( parent ),
-    manager( new QNetworkAccessManager( this ) ),
-    reply( 0 ),
-    coreParent( coreParent )
+        QObject( parent ),
+        manager( new QNetworkAccessManager( this ) ),
+        reply( 0 ),
+        coreParent( coreParent )
 {
-  connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(readReply(QNetworkReply*)) );
-  connect( this, SIGNAL(errorMessage(QString)), coreParent, SIGNAL(errorMessage(QString)) );
-  connect( this, SIGNAL(completed(bool, QString, bool)), coreParent, SLOT(twitPicResponse(bool, QString, bool)) );
+    connect( manager, SIGNAL(finished(QNetworkReply*)), this, SLOT(readReply(QNetworkReply*)) );
+    connect( this, SIGNAL(errorMessage(QString)), coreParent, SIGNAL(errorMessage(QString)) );
+    connect( this, SIGNAL(completed(bool, QString, bool)), coreParent, SLOT(twitPicResponse(bool, QString, bool)) );
 }
 
 TwitPicEngine::~TwitPicEngine()
 {
-  if ( reply ) {
-    reply->abort();
-    reply->deleteLater();
-    reply = 0;
-  }
+    if ( reply ) {
+        reply->abort();
+        reply->deleteLater();
+        reply = 0;
+    }
 }
 
 void TwitPicEngine::postContent( const QString &login, const QString &password, QString photoPath, QString status )
 { 
-  QNetworkRequest request;
+    QNetworkRequest request;
 
-  QString url( "http://twitpic.com/api/upload" );
-  if ( !status.isEmpty() ) {
-    url.append( "AndPost" );
-  }
+    QString url( "http://twitpic.com/api/upload" );
+    if ( !status.isEmpty() ) {
+        url.append( "AndPost" );
+    }
 
-  QFile photo( photoPath );
-  photo.open( QIODevice::ReadOnly );
+    QFile photo( photoPath );
+    photo.open( QIODevice::ReadOnly );
 
-  QByteArray data;
-  data.append( "--AaB03x\r\n" );
-  data.append( "content-disposition: form-data; name=\"media\"; filename=\"" + photo.fileName().toAscii() + "\"\r\n" );
-  data.append( "\r\n" );
-
-  data.append( photo.readAll() );
-  photo.close();
-
-  data.append( "\r\n" );
-  data.append( "--AaB03x\r\n" );
-  if ( !status.isEmpty() ) {
-    data.append( "content-disposition: form-data; name=\"message\"\r\n" );
-    data.append( "\r\n" );
-    data.append( status.toUtf8() + "\r\n" );
+    QByteArray data;
     data.append( "--AaB03x\r\n" );
-  }
-  data.append( "content-disposition: form-data; name=\"source\"\r\n" );
-  data.append( "\r\n" );
-  data.append( "qtwitter\r\n" );
-  data.append( "--AaB03x\r\n" );
-  data.append( "content-disposition: form-data; name=\"username\"\r\n" );
-  data.append( "\r\n" );
-  data.append( login.toUtf8() + "\r\n" );
-  data.append( "--AaB03x\r\n" );
-  data.append( "content-disposition: form-data; name=\"password\"\r\n" );
-  data.append( "\r\n" );
-  data.append( password.toUtf8() + "\r\n" );
-  data.append( "--AaB03x--\r\n" );
+    data.append( "content-disposition: form-data; name=\"media\"; filename=\"" + photo.fileName().toAscii() + "\"\r\n" );
+    data.append( "\r\n" );
 
-  request.setHeader( QNetworkRequest::ContentTypeHeader, "multipart/form-data, boundary=AaB03x" );
-  request.setUrl( QUrl( url ) );
+    data.append( photo.readAll() );
+    photo.close();
 
-  if ( reply ) {
-    reply->abort();
-    reply->deleteLater();
-  }
-  reply = manager->post( request, data );
-  connect( reply, SIGNAL(uploadProgress(qint64,qint64)), coreParent, SIGNAL(twitPicDataSendProgress(qint64,qint64)) );
+    data.append( "\r\n" );
+    data.append( "--AaB03x\r\n" );
+    if ( !status.isEmpty() ) {
+        data.append( "content-disposition: form-data; name=\"message\"\r\n" );
+        data.append( "\r\n" );
+        data.append( status.toUtf8() + "\r\n" );
+        data.append( "--AaB03x\r\n" );
+    }
+    data.append( "content-disposition: form-data; name=\"source\"\r\n" );
+    data.append( "\r\n" );
+    data.append( "qtwitter\r\n" );
+    data.append( "--AaB03x\r\n" );
+    data.append( "content-disposition: form-data; name=\"username\"\r\n" );
+    data.append( "\r\n" );
+    data.append( login.toUtf8() + "\r\n" );
+    data.append( "--AaB03x\r\n" );
+    data.append( "content-disposition: form-data; name=\"password\"\r\n" );
+    data.append( "\r\n" );
+    data.append( password.toUtf8() + "\r\n" );
+    data.append( "--AaB03x--\r\n" );
+
+    request.setHeader( QNetworkRequest::ContentTypeHeader, "multipart/form-data, boundary=AaB03x" );
+    request.setUrl( QUrl( url ) );
+
+    if ( reply ) {
+        reply->abort();
+        reply->deleteLater();
+    }
+    reply = manager->post( request, data );
+    connect( reply, SIGNAL(uploadProgress(qint64,qint64)), coreParent, SIGNAL(twitPicDataSendProgress(qint64,qint64)) );
 }
 
 void TwitPicEngine::abort()
 {
-  qDebug() << "aborting...";
-  reply->abort();
-  reply->deleteLater();
-  reply = 0;
+    qDebug() << "aborting...";
+    reply->abort();
+    reply->deleteLater();
+    reply = 0;
 }
 
 void TwitPicEngine::readReply( QNetworkReply *reply )
 {
-  qDebug() << __PRETTY_FUNCTION__;
-  int replyCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
-  if ( replyCode == 200 ) {
-    parseReply( reply->readAll() );
-  } else {
-    emit errorMessage( "Download failed: " + reply->errorString() );
-  }
-  reply->close();
-  reply = 0;
+    qDebug() << __PRETTY_FUNCTION__;
+    int replyCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
+    if ( replyCode == 200 ) {
+        parseReply( reply->readAll() );
+    } else {
+        emit errorMessage( "Download failed: " + reply->errorString() );
+    }
+    reply->close();
+    reply = 0;
 }
 
 
@@ -134,57 +134,57 @@ void TwitPicEngine::readReply( QNetworkReply *reply )
 */
 void TwitPicEngine::parseReply( const QByteArray &reply )
 {
-  QString url;
-  bool userId = false;
-  QDomDocument doc;
+    QString url;
+    bool userId = false;
+    QDomDocument doc;
 
-  doc.setContent(reply, false);
-  QDomElement docElem = doc.documentElement();
+    doc.setContent(reply, false);
+    QDomElement docElem = doc.documentElement();
 
-  if ( docElem.hasAttribute("stat") && (docElem.attribute("stat") == "fail") ) {
+    if ( docElem.hasAttribute("stat") && (docElem.attribute("stat") == "fail") ) {
 
-    //failures have only att. "stat"
-    QDomElement error = docElem.firstChild().toElement();
-    qDebug() << error.tagName();
-    if (!error.isNull()) {
-      int errCode = error.attribute("code").toInt();
-      QString errMsg;
+        //failures have only att. "stat"
+        QDomElement error = docElem.firstChild().toElement();
+        qDebug() << error.tagName();
+        if (!error.isNull()) {
+            int errCode = error.attribute("code").toInt();
+            QString errMsg;
 
-      switch (errCode) {
-      case ErrInvalidLogin:
-        errMsg = tr( "Invalid twitter username or password");
-        break;
-      case ErrImageNotFound:
-        errMsg = tr( "Image not found" );
-        break;
-      case ErrInvalidType:
-        errMsg = tr( "Invalid image type" );
-        break;
-      case ErrOversized:
-        errMsg = tr( "Image larger than 4MB" );
-        break;
-      default:
-        errMsg = tr( "We're sorry, but due to some mysterious error your image failed to upload" );
-      }
-      emit completed(false, "\n" + errMsg, false);
-      return;
+            switch (errCode) {
+            case ErrInvalidLogin:
+                errMsg = tr( "Invalid twitter username or password");
+                break;
+            case ErrImageNotFound:
+                errMsg = tr( "Image not found" );
+                break;
+            case ErrInvalidType:
+                errMsg = tr( "Invalid image type" );
+                break;
+            case ErrOversized:
+                errMsg = tr( "Image larger than 4MB" );
+                break;
+            default:
+                errMsg = tr( "We're sorry, but due to some mysterious error your image failed to upload" );
+            }
+            emit completed(false, "\n" + errMsg, false);
+            return;
+        }
     }
-  }
 
-  //status ok:
-  QDomNode n = docElem.firstChild();
-  while ( !n.isNull() ) {
-    QDomElement e = n.toElement();
-    if ( !e.isNull() ) {
-      qDebug() << qPrintable( e.tagName() );
-      if(e.tagName() == "userid")
-        userId = true;
-      else if(e.tagName() == "mediaurl")
-        url = e.text();
+    //status ok:
+    QDomNode n = docElem.firstChild();
+    while ( !n.isNull() ) {
+        QDomElement e = n.toElement();
+        if ( !e.isNull() ) {
+            qDebug() << qPrintable( e.tagName() );
+            if(e.tagName() == "userid")
+                userId = true;
+            else if(e.tagName() == "mediaurl")
+                url = e.text();
+        }
+        n = n.nextSibling();
     }
-    n = n.nextSibling();
-  }
-  emit completed(true, url, userId);
+    emit completed(true, url, userId);
 }
 
 

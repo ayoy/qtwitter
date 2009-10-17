@@ -25,42 +25,43 @@
 #include <account.h>
 
 namespace Ui {
-  class TwitPicView;
+    class TwitPicView;
 }
 
 class QStringList;
 
 class TwitPicView : public QDialog {
-  Q_OBJECT
-  Q_DISABLE_COPY(TwitPicView)
+    Q_OBJECT
+    Q_DISABLE_COPY(TwitPicView)
+
 public:
-  explicit TwitPicView(QWidget *parent = 0);
-  virtual ~TwitPicView();
+    explicit TwitPicView(QWidget *parent = 0);
+    virtual ~TwitPicView();
 
 public slots:
-  void setupAccounts( const QList<Account> &accounts );
-  void setupAccounts( const QStringList &accounts );
-  void showUploadProgress( qint64 done, qint64 total );
-  void resetForm();
-  void reject();
+    void setupAccounts( const QList<Account> &accounts );
+    void setupAccounts( const QStringList &accounts );
+    void showUploadProgress( qint64 done, qint64 total );
+    void resetForm();
+    void reject();
 
 signals:
-  void uploadPhoto( const QString &login, QString photoPath, QString status );
-  void abortUpload();
+    void uploadPhoto( const QString &login, QString photoPath, QString status );
+    void abortUpload();
 
 protected:
-  virtual void changeEvent( QEvent *e );
-  void resizeEvent( QResizeEvent *e );
+    virtual void changeEvent( QEvent *e );
+    void resizeEvent( QResizeEvent *e );
 
 private slots:
-  void sendUploadRequest();
-  void setImagePath();
-  void setImagePreview( const QString &path );
+    void sendUploadRequest();
+    void setImagePath();
+    void setImagePreview( const QString &path );
 
 private:
-  QString getHomeDir();
-  QPixmap *pixmap;
-  Ui::TwitPicView *m_ui;
+    QString getHomeDir();
+    QPixmap *pixmap;
+    Ui::TwitPicView *m_ui;
 };
 
 #endif // TWITPICVIEW_H

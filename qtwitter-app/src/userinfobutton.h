@@ -30,28 +30,27 @@ class UserInfoPopup;
 
 class UserInfoButton : public QPushButton
 {
-  Q_OBJECT
-
-  Q_PROPERTY( bool popupActive READ isPopupActive )
+    Q_OBJECT
+    Q_PROPERTY( bool popupActive READ isPopupActive )
 
 public:
-  UserInfoButton( QWidget *parent = 0 );
-  bool isPopupActive() const;
-  void setData( const Status *status );
+    UserInfoButton( QWidget *parent = 0 );
+    bool isPopupActive() const;
+    void setData( const Status *status );
 
 protected:
-  void enterEvent( QEvent *event );
-  void leaveEvent( QEvent *event );
+    void enterEvent( QEvent *event );
+    void leaveEvent( QEvent *event );
 
 private slots:
-  void destroyPopup();
-  void showPopup();
+    void destroyPopup();
+    void showPopup();
 
 private:
-  UserInfoPopup *userInfo;
-  QTimer *timer;
-  bool active;
-  const Status *status;
+    UserInfoPopup *userInfo;
+    QTimer *timer;
+    bool active;
+    const Status *status;
 
 };
 

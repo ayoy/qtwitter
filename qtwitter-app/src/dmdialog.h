@@ -27,38 +27,38 @@
 class QMovie;
 
 namespace Ui {
-  class DMDialog;
+    class DMDialog;
 }
 
 class DMDialog : public QDialog {
-  Q_OBJECT
-  Q_DISABLE_COPY(DMDialog)
+    Q_OBJECT
+    Q_DISABLE_COPY(DMDialog);
 
 public:
-  explicit DMDialog( const QString &recipient, QWidget *parent = 0);
-  virtual ~DMDialog();
+    explicit DMDialog( const QString &recipient, QWidget *parent = 0);
+    virtual ~DMDialog();
 
 public slots:
-  void showResult( TwitterAPI::ErrorCode error );
+    void showResult( TwitterAPI::ErrorCode error );
 
 protected:
-  virtual void changeEvent( QEvent *e );
+    virtual void changeEvent( QEvent *e );
 
 signals:
-  void dmRequest( const QString &screenName, const QString &text );
+    void dmRequest( const QString &screenName, const QString &text );
 
 private slots:
-  void sendDM();
-  void updateCharsLeft();
-  void resetDisplay();
+    void sendDM();
+    void updateCharsLeft();
+    void resetDisplay();
 
 private:
-  int charsLeft();
-  QMovie *progress;
-  QString serviceUrl;
-  QString login;
-  QString screenName;
-  Ui::DMDialog *m_ui;
+    int charsLeft();
+    QMovie *progress;
+    QString serviceUrl;
+    QString login;
+    QString screenName;
+    Ui::DMDialog *m_ui;
 };
 
 #endif // DMDIALOG_H

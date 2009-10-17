@@ -45,51 +45,51 @@ class AccountsController;
 
 class Settings : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
 
-  Settings( Core *coreSettings, QWidget *parent = 0 );
-  ~Settings();
+    Settings( Core *coreSettings, QWidget *parent = 0 );
+    ~Settings();
 
-  void loadConfig( bool dialogRejected = false );
-  void setProxy();
+    void loadConfig( bool dialogRejected = false );
+    void setProxy();
 
 public slots:
-  void saveConfig( int quitting = 0 );
-  void checkForUpdate();
-  void show();
-  void accept();
-  void reject();
-  void switchLanguage( int index );
+    void saveConfig( int quitting = 0 );
+    void checkForUpdate();
+    void show();
+    void accept();
+    void reject();
+    void switchLanguage( int index );
 
 signals:
-  void createAccounts( QWidget *view );
+    void createAccounts( QWidget *view );
 
 protected:
-  void changeEvent( QEvent *e );
+    void changeEvent( QEvent *e );
 
 private slots:
-  void changeTheme( const QString& );
-  void readUpdateReply( bool available, const QString &version, const QString &changes );
-  void retranslateUi();
+    void changeTheme( const QString& );
+    void readUpdateReply( bool available, const QString &version, const QString &changes );
+    void retranslateUi();
 #ifdef Q_WS_X11
-  void setBrowser();
+    void setBrowser();
 #endif
 
 private:
-  void applySettings();
-  void createLanguageMenu();
-  void createUrlShortenerMenu();
-  bool updateAccountsOnExit;
-  Core *core;
-  QMap<QString,ThemeData> themes;
-  Ui::Settings ui;
-  QTranslator translator;
+    void applySettings();
+    void createLanguageMenu();
+    void createUrlShortenerMenu();
+    bool updateAccountsOnExit;
+    Core *core;
+    QMap<QString,ThemeData> themes;
+    Ui::Settings ui;
+    QTranslator translator;
 #ifdef Q_WS_X11
-  QCheckBox *useCustomBrowserCheckBox;
-  QLineEdit *selectBrowserEdit;
-  QPushButton *selectBrowserButton;
+    QCheckBox *useCustomBrowserCheckBox;
+    QLineEdit *selectBrowserEdit;
+    QPushButton *selectBrowserButton;
 #endif
 };
 

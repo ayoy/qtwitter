@@ -25,88 +25,88 @@
 
 
 UserInfo::UserInfo() :
-    id(-1),
-    name(QString()),
-    screenName(QString()),
-    location(QString()),
-    description(QString()),
-    homepage(QString()),
-    hasHomepage(false),
-    profileProtected(false),
-    followersCount(-1),
-    friendsCount(-1),
-     utcOffset(-1),
-    statusesCount(-1)
+        id(-1),
+        name(QString()),
+        screenName(QString()),
+        location(QString()),
+        description(QString()),
+        homepage(QString()),
+        hasHomepage(false),
+        profileProtected(false),
+        followersCount(-1),
+        friendsCount(-1),
+        utcOffset(-1),
+        statusesCount(-1)
 {
 }
 
 
 void UserInfo::initialize()
 {
-  id = -1;
-  name = QString();
-  screenName = QString();
-  homepage = QString();
-  hasHomepage = false;
-  profileProtected = false;
-  imageUrl = QString();
-  location = QString();
-  description = QString();
-  followersCount = -1;
-  friendsCount = -1;
-  utcOffset = -1;
-  statusesCount = -1;
+    id = -1;
+    name = QString();
+    screenName = QString();
+    homepage = QString();
+    hasHomepage = false;
+    profileProtected = false;
+    imageUrl = QString();
+    location = QString();
+    description = QString();
+    followersCount = -1;
+    friendsCount = -1;
+    utcOffset = -1;
+    statusesCount = -1;
 }
 
 bool UserInfo::checkContents()
 {
-  if( !hasHomepage)
-    homepage = QString();
+    if( !hasHomepage)
+        homepage = QString();
 
-  if( (id != -1) &&
-      !name.isNull() &&
-      !screenName.isNull() &&
-      hasHomepage ? !homepage.isNull() : true &&
-      friendsCount != -1 &&
-      followersCount != -1 &&
-      utcOffset != -1)
-    return true;
+    if( (id != -1) &&
+        !name.isNull() &&
+        !screenName.isNull() &&
+        hasHomepage ? !homepage.isNull() : true &&
+        friendsCount != -1 &&
+        followersCount != -1 &&
+        utcOffset != -1)
+        return true;
 
-  return false;
+    return false;
 }
 
 QDataStream& operator<<( QDataStream & out, const UserInfo &userInfo )
 {
-  out << userInfo.id;
-  out << userInfo.name;
-  out << userInfo.screenName;
-  out << userInfo.location;
-  out << userInfo.description;
-  out << userInfo.imageUrl;
-  out << userInfo.homepage;
-  out << userInfo.hasHomepage;
-  out << userInfo.profileProtected;
-  out << userInfo.followersCount;
-  out << userInfo.friendsCount;
-  out << userInfo.utcOffset;
-  out << userInfo.statusesCount;
-  return out;
+    out << userInfo.id;
+    out << userInfo.name;
+    out << userInfo.screenName;
+    out << userInfo.location;
+    out << userInfo.description;
+    out << userInfo.imageUrl;
+    out << userInfo.homepage;
+    out << userInfo.hasHomepage;
+    out << userInfo.profileProtected;
+    out << userInfo.followersCount;
+    out << userInfo.friendsCount;
+    out << userInfo.utcOffset;
+    out << userInfo.statusesCount;
+    return out;
 }
 
 QDataStream& operator>>( QDataStream & in, UserInfo &userInfo )
 {
-  in >> userInfo.id;
-  in >> userInfo.name;
-  in >> userInfo.screenName;
-  in >> userInfo.location;
-  in >> userInfo.description;
-  in >> userInfo.imageUrl;
-  in >> userInfo.homepage;
-  in >> userInfo.hasHomepage;
-  in >> userInfo.profileProtected;
-  in >> userInfo.followersCount;
-  in >> userInfo.friendsCount;
-  in >> userInfo.utcOffset;
-  in >> userInfo.statusesCount;
-  return in;
+    in >> userInfo.id;
+    in >> userInfo.name;
+    in >> userInfo.screenName;
+    in >> userInfo.location;
+    in >> userInfo.description;
+    in >> userInfo.imageUrl;
+    in >> userInfo.homepage;
+    in >> userInfo.hasHomepage;
+    in >> userInfo.profileProtected;
+    in >> userInfo.followersCount;
+    in >> userInfo.friendsCount;
+    in >> userInfo.utcOffset;
+    in >> userInfo.statusesCount;
+    return in;
 }

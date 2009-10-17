@@ -30,53 +30,53 @@ class QFocusEvent;
 
 class StatusFilter : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  StatusFilter( QObject *parent = 0 );
+    StatusFilter( QObject *parent = 0 );
 
 signals:
-  void enterPressed();
-  void escPressed();
-  void shortenUrlPressed();
+    void enterPressed();
+    void escPressed();
+    void shortenUrlPressed();
 
 protected:
-  bool eventFilter( QObject *dist, QEvent *event );
+    bool eventFilter( QObject *dist, QEvent *event );
 };
 
 
 class StatusEdit : public QLineEdit
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  static const int STATUS_MAX_LENGTH;
+    static const int STATUS_MAX_LENGTH;
 
-  StatusEdit( QWidget * parent = 0 );
+    StatusEdit( QWidget * parent = 0 );
 
-  void focusInEvent( QFocusEvent * event );
-  void focusOutEvent( QFocusEvent * event );
-  void initialize();
-  bool isStatusClean() const;
-  quint64 getInReplyTo() const;
-  QString getSelectedUrl() const;
-  int charsLeft() const;
+    void focusInEvent( QFocusEvent * event );
+    void focusOutEvent( QFocusEvent * event );
+    void initialize();
+    bool isStatusClean() const;
+    quint64 getInReplyTo() const;
+    QString getSelectedUrl() const;
+    int charsLeft() const;
 
 public slots:
-  void cancelEditing();
-  void addReplyString( const QString &name, quint64 inReplyTo );
-  void addRetweetString( QString message );
-  void shortenUrl();
+    void cancelEditing();
+    void addReplyString( const QString &name, quint64 inReplyTo );
+    void addRetweetString( QString message );
+    void shortenUrl();
 
 signals:
-  void errorMessage( const QString &message );
-  void shortenUrl( const QString &url );
+    void errorMessage( const QString &message );
+    void shortenUrl( const QString &url );
 
 private:
-  bool statusClean;
-  quint64 inReplyToId;
-  QString selectedUrl;
-  QColor inactiveColor;
-  QColor activeColor;
+    bool statusClean;
+    quint64 inReplyToId;
+    QString selectedUrl;
+    QColor inactiveColor;
+    QColor activeColor;
 
 };
 

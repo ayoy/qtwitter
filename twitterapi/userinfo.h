@@ -48,14 +48,14 @@ struct TWITTERAPI_EXPORT UserInfo
     int followersCount;               //!< Number of followers
     int friendsCount;                 //!< Number of friends
     //TODO: check if createdAt really means what is written here//
-//    QDateTime createdAt;              //!< Profile/account creation date
+    //    QDateTime createdAt;              //!< Profile/account creation date
     //favourites count
     int utcOffset;                    //!< User's local time's offset from UTC
     int statusesCount;                //!< Number of statuses
     //TODO: check below fields
-//    bool notifications;
-//    bool following;
-//    QString currentStatus;            //!< User's current status
+    //    bool notifications;
+    //    bool following;
+    //    QString currentStatus;            //!< User's current status
 };
 
 TWITTERAPI_EXPORT QDataStream& operator<<( QDataStream & out, const UserInfo &userInfo );

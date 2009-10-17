@@ -30,29 +30,29 @@
 
 class ImageDownload : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  static ImageDownload* instance();
+    static ImageDownload* instance();
 
-  void imageGet( const QString& imageUrl );
-  bool contains( const QString &imageUrl ) const;
-  QPixmap* imageFromUrl( const QString &imageUrl ) const;
+    void imageGet( const QString& imageUrl );
+    bool contains( const QString &imageUrl ) const;
+    QPixmap* imageFromUrl( const QString &imageUrl ) const;
 
 protected:
-  ImageDownload( QObject *parent = 0 );
-  ~ImageDownload();
+    ImageDownload( QObject *parent = 0 );
+    ~ImageDownload();
 
 signals:
-  void imageReadyForUrl( const QString& path, QPixmap *image );
+    void imageReadyForUrl( const QString& path, QPixmap *image );
 
 private slots:
-  void requestFinished( QNetworkReply *reply );
+    void requestFinished( QNetworkReply *reply );
 
 private:
-  QMap<QString,QNetworkAccessManager*> connections;
-  QCache<QString,QPixmap> imageCache;
-  static ImageDownload *m_inst;
+    QMap<QString,QNetworkAccessManager*> connections;
+    QCache<QString,QPixmap> imageCache;
+    static ImageDownload *m_inst;
 };
 
 #endif //IMAGEDOWNLOAD_H

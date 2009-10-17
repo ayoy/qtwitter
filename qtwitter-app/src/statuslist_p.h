@@ -27,36 +27,36 @@
 
 class StatusListPrivate : public QObject
 {
-  Q_OBJECT
-  Q_DECLARE_PUBLIC(StatusList);
+    Q_OBJECT
+    Q_DECLARE_PUBLIC(StatusList);
 public:
-  StatusListPrivate();
-  ~StatusListPrivate();
-  void init();
-  int addStatus( Entry entry );
-  void setImageForUrl( const QString &url, QPixmap *pixmap );
+    StatusListPrivate();
+    ~StatusListPrivate();
+    void init();
+    int addStatus( Entry entry );
+    void setImageForUrl( const QString &url, QPixmap *pixmap );
 
-  TwitterAPI *twitterapi;
-  QList<Status> data;
-  bool visible;
-  Account *account;
-  int active;
-  static int maxCount;
-  static const int publicMaxCount;
-  Core *core;
+    TwitterAPI *twitterapi;
+    QList<Status> data;
+    bool visible;
+    Account *account;
+    int active;
+    static int maxCount;
+    static const int publicMaxCount;
+    Core *core;
 
 public slots:
-  void addEntry( Entry entry );
-  void deleteEntry( quint64 id );
-  void setFavorited( quint64 id, bool favorited = true );
-  void slotUnauthorized();
-  void slotUnauthorized( const QString &status, quint64 inReplyToId );
-  void slotUnauthorized( const QString &screenName, const QString &text );
-  void slotUnauthorized( quint64 destroyId, Entry::Type type );
-  void slotRequestDone( int role );
+    void addEntry( Entry entry );
+    void deleteEntry( quint64 id );
+    void setFavorited( quint64 id, bool favorited = true );
+    void slotUnauthorized();
+    void slotUnauthorized( const QString &status, quint64 inReplyToId );
+    void slotUnauthorized( const QString &screenName, const QString &text );
+    void slotUnauthorized( quint64 destroyId, Entry::Type type );
+    void slotRequestDone( int role );
 
 protected:
-  StatusList *q_ptr;
+    StatusList *q_ptr;
 };
 
 #endif // STATUSLIST_P_H

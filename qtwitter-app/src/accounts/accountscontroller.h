@@ -29,55 +29,55 @@ class AccountsModel;
 class AccountsView;
 
 namespace Ui {
-  class Accounts;
+    class Accounts;
 }
 
 class AccountsController : public QObject
 {
-  Q_OBJECT
-  Q_PROPERTY( bool modified READ isModified WRITE setModified )
+    Q_OBJECT
+    Q_PROPERTY( bool modified READ isModified WRITE setModified )
 
 public:
 
-  AccountsController( QWidget *widget, QObject *parent );
-  virtual ~AccountsController();
-  AccountsModel* getModel() const;
-  void setModel( AccountsModel *model );
+    AccountsController( QWidget *widget, QObject *parent );
+    virtual ~AccountsController();
+    AccountsModel* getModel() const;
+    void setModel( AccountsModel *model );
 
-  bool isModified() const;
-  void setModified( bool modified );
+    bool isModified() const;
+    void setModified( bool modified );
 
-  void loadCustomNetworks();
-  void loadAccounts();
+    void loadCustomNetworks();
+    void loadAccounts();
 
 public slots:
-  void addAccount();
-  void retranslateUi();
+    void addAccount();
+    void retranslateUi();
 
 signals:
-  void comboActive( bool isActive );
-  void accountDialogClosed( bool success );
+    void comboActive( bool isActive );
+    void accountDialogClosed( bool success );
 
 private slots:
-  void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
-  void updateCheckBox( const QModelIndex &index );
-  void togglePasswordStoring( int state );
-  void showPasswordDisclaimer();
-  void deleteAccount();
+    void updateAccounts( const QModelIndex &topLeft, const QModelIndex &bottomRight );
+    void updateCheckBox( const QModelIndex &index );
+    void togglePasswordStoring( int state );
+    void showPasswordDisclaimer();
+    void deleteAccount();
 
 private:
-  void setAccountEnabled( bool state );
-  void setAccountDM( bool state );
+    void setAccountEnabled( bool state );
+    void setAccountDM( bool state );
 
-  AccountsModel *model;
-  AccountsView *view;
-  Ui::Accounts *ui;
+    AccountsModel *model;
+    AccountsView *view;
+    Ui::Accounts *ui;
 
-  bool modified;
+    bool modified;
 
-  QWidget *widget;
+    QWidget *widget;
 
-  friend class AccountsDelegate;
+    friend class AccountsDelegate;
 };
 
 #endif // ACCOUNTSCONTROLLER_H

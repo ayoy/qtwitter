@@ -24,37 +24,37 @@
 #include <QtGui/QDialog>
 
 namespace Ui {
-  class NewAccountDialog;
+    class NewAccountDialog;
 }
 
 class NewAccountDialog : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 
-  Q_PROPERTY( QString networkName READ networkName );
-  Q_PROPERTY( QString serviceUrl READ serviceUrl );
-  Q_PROPERTY( QString login READ login );
-  Q_PROPERTY( QString password READ password );
+    Q_PROPERTY( QString networkName READ networkName );
+    Q_PROPERTY( QString serviceUrl READ serviceUrl );
+    Q_PROPERTY( QString login READ login );
+    Q_PROPERTY( QString password READ password );
 
 public:
-  NewAccountDialog( QWidget *parent = 0 );
-  ~NewAccountDialog();
+    NewAccountDialog( QWidget *parent = 0 );
+    ~NewAccountDialog();
 
-  QString networkName() const;
-  QString serviceUrl() const;
-  QString login() const;
-  QString password() const;
+    QString networkName() const;
+    QString serviceUrl() const;
+    QString login() const;
+    QString password() const;
 
 protected:
-  void changeEvent(QEvent *e);
+    void changeEvent(QEvent *e);
 
 private slots:
-  void toggleEdits( int index );
-  void checkFields();
-  void shrink();
+    void toggleEdits( int index );
+    void checkFields();
+    void shrink();
 
 private:
-  Ui::NewAccountDialog *m_ui;
+    Ui::NewAccountDialog *m_ui;
 };
 
 #endif // NEWACCOUNTDIALOG_H

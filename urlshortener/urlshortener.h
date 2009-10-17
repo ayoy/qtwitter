@@ -31,31 +31,31 @@ class UrlShortenerImplementation;
 
 class URLSHORTENER_EXPORT UrlShortener : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  enum Shortener {
-    SHORTENER_ISGD,
-    SHORTENER_TRIM,
-    SHORTENER_METAMARK,
-    SHORTENER_TINYURL,
-    SHORTENER_TINYARROWS,
-    SHORTENER_UNU,
-    SHORTENER_BITLY,
-    SHORTENER_DIGG,
-    SHORTENER_MIGREME,
-    SHORTENER_BOOOOM
-  };
+    enum Shortener {
+        SHORTENER_ISGD,
+        SHORTENER_TRIM,
+        SHORTENER_METAMARK,
+        SHORTENER_TINYURL,
+        SHORTENER_TINYARROWS,
+        SHORTENER_UNU,
+        SHORTENER_BITLY,
+        SHORTENER_DIGG,
+        SHORTENER_MIGREME,
+        SHORTENER_BOOOOM
+    };
 
-  UrlShortener( QObject *parent = 0 );
-  void shorten( const QString &url, Shortener shorteningService = SHORTENER_ISGD );
+    UrlShortener( QObject *parent = 0 );
+    void shorten( const QString &url, Shortener shorteningService = SHORTENER_ISGD );
 
 signals:
-  void shortened( const QString &url );
-  void errorMessage( const QString &message );
+    void shortened( const QString &url );
+    void errorMessage( const QString &message );
 
 private:
-  UrlShortenerImplementation *shortenerInstance;
+    UrlShortenerImplementation *shortenerInstance;
 };
 
 

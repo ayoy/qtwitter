@@ -26,56 +26,56 @@
 #include "userinfo.h"
 
 UserInfoButton::UserInfoButton( QWidget *parent ) :
-    QPushButton( parent ),
-    userInfo(0)
+        QPushButton( parent ),
+        userInfo(0)
 {
-  active = false;
-  timer = new QTimer( this );
-  timer->setSingleShot( true );
-  connect( timer, SIGNAL(timeout()), this, SLOT(showPopup()) );
+    active = false;
+    timer = new QTimer( this );
+    timer->setSingleShot( true );
+    connect( timer, SIGNAL(timeout()), this, SLOT(showPopup()) );
 }
 
 bool UserInfoButton::isPopupActive() const
 {
-  return (bool)UserInfoPopup::instance();
+    return (bool)UserInfoPopup::instance();
 }
 
 void UserInfoButton::enterEvent( QEvent *event )
 {
-  Q_UNUSED(event);
-  timer->start( 500 );
+    Q_UNUSED(event);
+    timer->start( 500 );
 }
 
 void UserInfoButton::leaveEvent( QEvent *event )
 {
-  Q_UNUSED(event);
-  timer->stop();
+    Q_UNUSED(event);
+    timer->stop();
 }
 
 void UserInfoButton::showPopup()
 {
-  if ( UserInfoPopup::instance() && UserInfoPopup::instance()->parent() != this )
-    destroyPopup();
+    if ( UserInfoPopup::instance() && UserInfoPopup::instance()->parent() != this )
+        destroyPopup();
 
-  if ( !UserInfoPopup::instance() )
-    UserInfoPopup::instantiate( status, this, Qt::Popup );
+    if ( !UserInfoPopup::instance() )
+        UserInfoPopup::instantiate( status, this, Qt::Popup );
 
-  if ( UserInfoPopup::instance() ) {
-    connect( UserInfoPopup::instance(), SIGNAL(closed()), this, SLOT(destroyPopup()) );
-    UserInfoPopup::instance()->move( QCursor::pos() + QPoint(-3, -3) );
-    UserInfoPopup::instance()->show();
-  }
+    if ( UserInfoPopup::instance() ) {
+        connect( UserInfoPopup::instance(), SIGNAL(closed()), this, SLOT(destroyPopup()) );
+        UserInfoPopup::instance()->move( QCursor::pos() + QPoint(-3, -3) );
+        UserInfoPopup::instance()->show();
+    }
 }
 
 void UserInfoButton::destroyPopup()
 {
-  if ( UserInfoPopup::instance() ) {
-    UserInfoPopup::instance()->deleteLater();
-    active = false;
-  }
+    if ( UserInfoPopup::instance() ) {
+        UserInfoPopup::instance()->deleteLater();
+        active = false;
+    }
 }
 
 void UserInfoButton::setData( const Status *status )
 {
-  this->status = status;
+    this->status = status;
 }

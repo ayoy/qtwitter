@@ -30,74 +30,74 @@
 #include <QSignalMapper>
 
 QTwitterApp::QTwitterApp( int & argc, char **argv ) :
-    QApplication( argc, argv ),
-    m_mainWindow(0),
-    m_twitPic(0)
+        QApplication( argc, argv ),
+        m_mainWindow(0),
+        m_twitPic(0)
 {
-  m_core = new Core( this );
-  m_settingsDialog = new Settings( m_core );
+    m_core = new Core( this );
+    m_settingsDialog = new Settings( m_core );
 
-  QSignalMapper *mapper = new QSignalMapper( this );
-  mapper->setMapping( qApp, 1 );
-  connect( this, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
-  connect( mapper, SIGNAL(mapped(int)), m_settingsDialog, SLOT(saveConfig(int)) );
+    QSignalMapper *mapper = new QSignalMapper( this );
+    mapper->setMapping( qApp, 1 );
+    connect( this, SIGNAL(aboutToQuit()), mapper, SLOT(map()) );
+    connect( mapper, SIGNAL(mapped(int)), m_settingsDialog, SLOT(saveConfig(int)) );
 }
 
 QTwitterApp::~QTwitterApp()
 {
-  delete m_settingsDialog;
+    delete m_settingsDialog;
 }
 
 QTwitterApp* QTwitterApp::instance()
 {
-  return static_cast<QTwitterApp*>( QApplication::instance() );
+    return static_cast<QTwitterApp*>( QApplication::instance() );
 }
 
 Core* QTwitterApp::core()
 {
-  return instance()->m_core;
+    return instance()->m_core;
 }
 
 MainWindow* QTwitterApp::mainWindow()
 {
-  return instance()->m_mainWindow;
+    return instance()->m_mainWindow;
 }
 
 void QTwitterApp::openSettings()
 {
-  m_settingsDialog->show();
+    m_settingsDialog->show();
 }
 
 void QTwitterApp::openTwitPic()
 {
-  m_twitPic = new TwitPicView( m_mainWindow );
-  connect( m_twitPic, SIGNAL(uploadPhoto(QString,QString,QString)), m_core, SLOT(uploadPhoto(QString,QString,QString)) );
-  connect( m_twitPic, SIGNAL(abortUpload()), m_core, SLOT(abortUploadPhoto()) );
-  connect( m_core, SIGNAL(twitPicResponseReceived()), m_twitPic, SLOT(resetForm()) );
-  connect( m_core, SIGNAL(twitPicDataSendProgress(qint64,qint64)), m_twitPic, SLOT(showUploadProgress(qint64,qint64)) );
-  connect( m_core, SIGNAL(accountsUpdated(QList<Account>)), m_twitPic, SLOT(setupAccounts(QList<Account>)) );
-  m_twitPic->setupAccounts( m_core->twitpicLogins() );
-  m_twitPic->setAttribute( Qt::WA_DeleteOnClose, true );
-  m_twitPic->show();
+    m_twitPic = new TwitPicView( m_mainWindow );
+    connect( m_twitPic, SIGNAL(uploadPhoto(QString,QString,QString)), m_core, SLOT(uploadPhoto(QString,QString,QString)) );
+    connect( m_twitPic, SIGNAL(abortUpload()), m_core, SLOT(abortUploadPhoto()) );
+    connect( m_core, SIGNAL(twitPicResponseReceived()), m_twitPic, SLOT(resetForm()) );
+    connect( m_core, SIGNAL(twitPicDataSendProgress(qint64,qint64)), m_twitPic, SLOT(showUploadProgress(qint64,qint64)) );
+    connect( m_core, SIGNAL(accountsUpdated(QList<Account>)), m_twitPic, SLOT(setupAccounts(QList<Account>)) );
+    m_twitPic->setupAccounts( m_core->twitpicLogins() );
+    m_twitPic->setAttribute( Qt::WA_DeleteOnClose, true );
+    m_twitPic->show();
 }
 
 void QTwitterApp::loadConfig()
 {
-  m_settingsDialog->loadConfig();
+    m_settingsDialog->loadConfig();
 }
 
 void QTwitterApp::registerMainWindow( MainWindow *mainWindow )
 {
-  if ( !instance()->m_mainWindow ) {
-    instance()->m_mainWindow = mainWindow;
-    instance()->m_core->restoreSession();
-  }
+    if ( !instance()->m_mainWindow ) {
+        instance()->m_mainWindow = mainWindow;
+        instance()->m_core->restoreSession();
+    }
 }
 
 void QTwitterApp::unregisterMainWindow( MainWindow *mainWindow )
 {
-  if ( instance()->m_mainWindow == mainWindow ) {
-    instance()->m_mainWindow = 0;
-    instance()->m_core->storeSession();
-  }
+    if ( instance()->m_mainWindow == mainWindow ) {
+        instance()->m_mainWindow = 0;
+        instance()->m_core->storeSession();
+    }
 }

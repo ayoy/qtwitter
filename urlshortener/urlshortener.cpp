@@ -29,55 +29,55 @@
 #include "urlshortenerimplementation.h"
 
 UrlShortener::UrlShortener( QObject *parent ) :
-    QObject( parent ),
-    shortenerInstance( 0 )
+        QObject( parent ),
+        shortenerInstance( 0 )
 {}
 
 void UrlShortener::shorten( const QString &url, UrlShortener::Shortener shorteningService )
 {
-  if ( shortenerInstance ) {
-    if ( shortenerInstance->shorteningService() == shorteningService ) {
-      shortenerInstance->shorten( url );
-      return;
+    if ( shortenerInstance ) {
+        if ( shortenerInstance->shorteningService() == shorteningService ) {
+            shortenerInstance->shorten( url );
+            return;
+        }
+        delete shortenerInstance;
     }
-    delete shortenerInstance;
-  }
 
-  switch( shorteningService ) {
-  case UrlShortener::SHORTENER_TRIM:
-    shortenerInstance = new TrimShortener( this );
-    break;
-  case UrlShortener::SHORTENER_METAMARK:
-    shortenerInstance = new MetamarkShortener( this );
-    break;
-  case UrlShortener::SHORTENER_TINYURL:
-    shortenerInstance = new TinyurlShortener( this );
-    break;
-  case UrlShortener::SHORTENER_BOOOOM:
-    shortenerInstance = new BoooomShortener( this );
-    break;
-  case UrlShortener::SHORTENER_TINYARROWS:
-    shortenerInstance = new TinyarrowsShortener( this );
-    break;
-  case UrlShortener::SHORTENER_UNU:
-    shortenerInstance = new UnuShortener( this );
-    break;
-  case UrlShortener::SHORTENER_BITLY:
-    shortenerInstance = new BitlyShortener( this );
-    break;
-  case UrlShortener::SHORTENER_DIGG:
-    shortenerInstance = new DiggShortener( this );
-    break;
-  case UrlShortener::SHORTENER_MIGREME:
-    shortenerInstance = new MigremeShortener( this );
-    break;
-  case UrlShortener::SHORTENER_ISGD:
-  default:
-    shortenerInstance = new IsgdShortener( this );
-  }
-  connect( shortenerInstance, SIGNAL(shortened(QString)), this, SIGNAL(shortened(QString)) );
-  connect( shortenerInstance, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
-  shortenerInstance->shorten( url );
+    switch( shorteningService ) {
+    case UrlShortener::SHORTENER_TRIM:
+        shortenerInstance = new TrimShortener( this );
+        break;
+    case UrlShortener::SHORTENER_METAMARK:
+        shortenerInstance = new MetamarkShortener( this );
+        break;
+    case UrlShortener::SHORTENER_TINYURL:
+        shortenerInstance = new TinyurlShortener( this );
+        break;
+    case UrlShortener::SHORTENER_BOOOOM:
+        shortenerInstance = new BoooomShortener( this );
+        break;
+    case UrlShortener::SHORTENER_TINYARROWS:
+        shortenerInstance = new TinyarrowsShortener( this );
+        break;
+    case UrlShortener::SHORTENER_UNU:
+        shortenerInstance = new UnuShortener( this );
+        break;
+    case UrlShortener::SHORTENER_BITLY:
+        shortenerInstance = new BitlyShortener( this );
+        break;
+    case UrlShortener::SHORTENER_DIGG:
+        shortenerInstance = new DiggShortener( this );
+        break;
+    case UrlShortener::SHORTENER_MIGREME:
+        shortenerInstance = new MigremeShortener( this );
+        break;
+    case UrlShortener::SHORTENER_ISGD:
+    default:
+        shortenerInstance = new IsgdShortener( this );
+    }
+    connect( shortenerInstance, SIGNAL(shortened(QString)), this, SIGNAL(shortened(QString)) );
+    connect( shortenerInstance, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)) );
+    shortenerInstance->shorten( url );
 }
 
 

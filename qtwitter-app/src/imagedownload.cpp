@@ -27,64 +27,64 @@ ImageDownload* ImageDownload::m_inst = 0;
 
 ImageDownload* ImageDownload::instance()
 {
-  if ( !m_inst ) {
-    m_inst = new ImageDownload( qApp );
-  }
-  return m_inst;
+    if ( !m_inst ) {
+        m_inst = new ImageDownload( qApp );
+    }
+    return m_inst;
 }
 
 ImageDownload::ImageDownload( QObject *parent ) :
-    QObject( parent )
+        QObject( parent )
 {
-  imageCache.setMaxCost( 50 );
+    imageCache.setMaxCost( 50 );
 }
 
 ImageDownload::~ImageDownload()
 {
-  m_inst = 0;
+    m_inst = 0;
 }
 
 void ImageDownload::imageGet( const QString &imageUrl )
 {
-  if ( imageCache.contains( imageUrl ) ) {
-    emit imageReadyForUrl( imageUrl, imageCache[ imageUrl ] );
-    return;
-  }
+    if ( imageCache.contains( imageUrl ) ) {
+        emit imageReadyForUrl( imageUrl, imageCache[ imageUrl ] );
+        return;
+    }
 
-  QUrl url( imageUrl );
-  QString host( url.host() );
-  QNetworkRequest request( url );
+    QUrl url( imageUrl );
+    QString host( url.host() );
+    QNetworkRequest request( url );
 
-  if ( !connections.contains( host ) ) {
-    connections.insert( host, new QNetworkAccessManager( this ) );
-    connect( connections[ host ], SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
-  }
+    if ( !connections.contains( host ) ) {
+        connections.insert( host, new QNetworkAccessManager( this ) );
+        connect( connections[ host ], SIGNAL(finished(QNetworkReply*)), this, SLOT(requestFinished(QNetworkReply*)) );
+    }
 
-  connections[ host ]->get( request );
-  imageCache.insert( imageUrl, new QPixmap );
+    connections[ host ]->get( request );
+    imageCache.insert( imageUrl, new QPixmap );
 }
 
 bool ImageDownload::contains( const QString &imageUrl ) const
 {
-  return imageCache.contains( imageUrl );
+    return imageCache.contains( imageUrl );
 }
 
 QPixmap* ImageDownload::imageFromUrl( const QString &imageUrl ) const
 {
-  return imageCache[ imageUrl ];
+    return imageCache[ imageUrl ];
 }
 
 void ImageDownload::requestFinished( QNetworkReply *reply )
 {
-  int replyCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
+    int replyCode = reply->attribute( QNetworkRequest::HttpStatusCodeAttribute ).toInt();
 
-  if ( replyCode != 200 )
-    return;
+    if ( replyCode != 200 )
+        return;
 
-  QPixmap *pixmap = new QPixmap;
-  pixmap->loadFromData( reply->readAll() );
-  imageCache.insert( reply->url().toString(), pixmap );
-  emit imageReadyForUrl( reply->url().toString(), pixmap );
+    QPixmap *pixmap = new QPixmap;
+    pixmap->loadFromData( reply->readAll() );
+    imageCache.insert( reply->url().toString(), pixmap );
+    emit imageReadyForUrl( reply->url().toString(), pixmap );
 }
 
 

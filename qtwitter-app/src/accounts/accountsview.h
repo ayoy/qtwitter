@@ -27,15 +27,15 @@ class QModelIndex;
 
 class AccountsView : public QTreeView
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  AccountsView( QWidget *parent = 0 );
+    AccountsView( QWidget *parent = 0 );
 
 signals:
-  void checkBoxClicked( const QModelIndex &index );
+    void checkBoxClicked( const QModelIndex &index );
 
 private slots:
-  void filterClick( const QModelIndex &index );
+    void filterClick( const QModelIndex &index );
 };
 
 #endif // ACCOUNTSVIEW_H

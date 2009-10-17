@@ -35,82 +35,82 @@ struct Status;
 
 class StatusModel : public QStandardItemModel
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
 
-  enum StatusState {
-    STATE_DISABLED,
-    STATE_UNREAD,
-    STATE_READ,
-    STATE_ACTIVE
-  };
+    enum StatusState {
+        STATE_DISABLED,
+        STATE_UNREAD,
+        STATE_READ,
+        STATE_ACTIVE
+    };
 
-  enum DisplayMode {
-    DisplayNames,
-    DisplayNicks,
-    DisplayBoth
-  };
+    enum DisplayMode {
+        DisplayNames,
+        DisplayNicks,
+        DisplayBoth
+    };
 
 
-  static StatusModel* instance();
-  ~StatusModel();
+    static StatusModel* instance();
+    ~StatusModel();
 
-  StatusWidget* currentStatus();
-  void setTheme( const ThemeData &theme );
-  void setStatusList( StatusList *statusList );
-  DisplayMode displayMode() const;
-  void setDisplayMode( DisplayMode mode );
-  StatusList * getStatusList() const;
-  void setMaxStatusCount( int count );
-  void populate();
-  void clear();
-  void connectView( StatusListView *listView );
+    StatusWidget* currentStatus();
+    void setTheme( const ThemeData &theme );
+    void setStatusList( StatusList *statusList );
+    DisplayMode displayMode() const;
+    void setDisplayMode( DisplayMode mode );
+    StatusList * getStatusList() const;
+    void setMaxStatusCount( int count );
+    void populate();
+    void clear();
+    void connectView( StatusListView *listView );
 
 public slots:
-  void updateDisplay();
-  void updateDisplay( int ind );
-  void updateState( int ind );
-  void updateImage( int ind );
-  void removeStatus( int ind );
-  void markAllAsRead();
-  void deselectCurrentIndex();
+    void updateDisplay();
+    void updateDisplay( int ind );
+    void updateState( int ind );
+    void updateImage( int ind );
+    void removeStatus( int ind );
+    void markAllAsRead();
+    void deselectCurrentIndex();
 
-  void sendDeleteRequest( quint64 id, Entry::Type type );
-  void sendFavoriteRequest( quint64 id, bool favorited );
-  void sendDMRequest( const QString &screenName );
-  void selectStatus( const QModelIndex &index );
-  void selectStatus( StatusWidget *status );
-  void retranslateUi();
-  void resizeData( int width, int oldWidth );
-  void moveFocus( bool up );
-  void moveFocusToUnread( bool up );
-  void setImageForUrl( const QString& url, QPixmap *image );
+    void sendDeleteRequest( quint64 id, Entry::Type type );
+    void sendFavoriteRequest( quint64 id, bool favorited );
+    void sendDMRequest( const QString &screenName );
+    void selectStatus( const QModelIndex &index );
+    void selectStatus( StatusWidget *status );
+    void retranslateUi();
+    void resizeData( int width, int oldWidth );
+    void moveFocus( bool up );
+    void moveFocusToUnread( bool up );
+    void setImageForUrl( const QString& url, QPixmap *image );
 
 signals:
-  void retweet( QString message );
-  void destroy( const QString &serviceUrl, const QString &login, quint64 id, Entry::Type type );
-  void favorite( const QString &serviceUrl, const QString &login, quint64 id, bool favorited );
-  void openBrowser( QUrl address );
-  void reply( const QString &name, quint64 inReplyTo );
-  void markEverythingAsRead();
+    void retweet( QString message );
+    void destroy( const QString &serviceUrl, const QString &login, quint64 id, Entry::Type type );
+    void favorite( const QString &serviceUrl, const QString &login, quint64 id, bool favorited );
+    void openBrowser( QUrl address );
+    void reply( const QString &name, quint64 inReplyTo );
+    void markEverythingAsRead();
 
 protected:
-  StatusModel( QObject *parent = 0 );
+    StatusModel( QObject *parent = 0 );
 
 private slots:
-  void emitOpenBrowser( QString address );
+    void emitOpenBrowser( QString address );
 
 private:
-  TwitterAPI::SocialNetwork network;
-  QString login;
-  StatusList *statusList;
-  int maxStatusCount;
-  QModelIndex currentIndex;
-  StatusListView *view;
-  DisplayMode m_displayMode;
+    TwitterAPI::SocialNetwork network;
+    QString login;
+    StatusList *statusList;
+    int maxStatusCount;
+    QModelIndex currentIndex;
+    StatusListView *view;
+    DisplayMode m_displayMode;
 
-  static StatusModel *m_instance;
+    static StatusModel *m_instance;
 };
 
 #endif // STATUSMODEL_H

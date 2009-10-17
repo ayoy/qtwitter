@@ -30,105 +30,105 @@
 
 class XmlParser : public QObject, public QXmlDefaultHandler
 {
-  Q_OBJECT
-  Q_PROPERTY( QString login READ login WRITE setLogin );
-  Q_PROPERTY( QString serviceUrl READ serviceUrl WRITE setServiceUrl );
+    Q_OBJECT
+    Q_PROPERTY( QString login READ login WRITE setLogin );
+    Q_PROPERTY( QString serviceUrl READ serviceUrl WRITE setServiceUrl );
 
 public:
 
-  XmlParser( const QString &serviceUrl, const QString &login, QObject *parent = 0 );
-  XmlParser( const QString &serviceUrl, const QString &login, Entry::Type entryType = Entry::Status, QObject *parent = 0 );
+    XmlParser( const QString &serviceUrl, const QString &login, QObject *parent = 0 );
+    XmlParser( const QString &serviceUrl, const QString &login, Entry::Type entryType = Entry::Status, QObject *parent = 0 );
 
-  QString login() const;
-  void setLogin( const QString &login );
-  QString serviceUrl() const;
-  void setServiceUrl( const QString &serviceUrl );
+    QString login() const;
+    void setLogin( const QString &login );
+    QString serviceUrl() const;
+    void setServiceUrl( const QString &serviceUrl );
 
-  virtual bool startDocument();
-  virtual bool endDocument();
-  virtual bool startElement( const QString &namespaceURI,
+    virtual bool startDocument();
+    virtual bool endDocument();
+    virtual bool startElement( const QString &namespaceURI,
+                               const QString &localName,
+                               const QString &qName,
+                               const QXmlAttributes &atts );
+    virtual bool endElement( const QString &namespaceURI,
                              const QString &localName,
-                             const QString &qName,
-                             const QXmlAttributes &atts );
-  virtual bool endElement( const QString &namespaceURI,
-                           const QString &localName,
-                           const QString &qName );
-  virtual bool characters( const QString &ch );
+                             const QString &qName );
+    virtual bool characters( const QString &ch );
 
-  QString textToHtml( QString newText );
+    QString textToHtml( QString newText );
 
 signals:
-  void newEntry( Entry entry );
+    void newEntry( Entry entry );
 
 protected:
-  QDateTime toDateTime( const QString &timestamp );
-  int getMonth( const QString &month );
-  void parseUserInfo(const QString &ch);
-  static inline int getTimeShift();
+    QDateTime toDateTime( const QString &timestamp );
+    int getMonth( const QString &month );
+    void parseUserInfo(const QString &ch);
+    static inline int getTimeShift();
 
-  QString m_serviceUrl;
-  QString m_login;
+    QString m_serviceUrl;
+    QString m_login;
 
-  QString currentTag;
-  Entry entry;
-  bool important;
-  bool parsingUser;
-  bool favoritedSet;
+    QString currentTag;
+    Entry entry;
+    bool important;
+    bool parsingUser;
+    bool favoritedSet;
 
-  static const int timeShift;
-  static const QSet<QString> tags;
+    static const int timeShift;
+    static const QSet<QString> tags;
 
-  static const QString TAG_STATUS;
-  static const QString TAG_USER;
-  static const QString TAG_STATUS_ID;
-  static const QString TAG_USER_TEXT;
-  static const QString TAG_USER_ID;
-  static const QString TAG_USER_NAME;
-  static const QString TAG_USER_SCREENNAME;
-  static const QString TAG_USER_IMAGE;
-  static const QString TAG_USER_HOMEPAGE;
-  static const QString TAG_USER_TIMESTAMP;
-  static const QString TAG_INREPLYTO_STATUS_ID;
-  static const QString TAG_INREPLYTO_SCREEN_NAME;
-  static const QString TAG_FAVORITED;
-  static const QString TAG_LOCATION;
-  static const QString TAG_DESCRIPTION;
-  static const QString TAG_PROFILE_PROTECTED;
-  static const QString TAG_FRIENDS_COUNT;
-  static const QString TAG_FOLLOWERS_COUNT;
-  static const QString TAG_PROFILE_TIMESTAMP;
-  static const QString TAG_UTC_OFFSET;
-  static const QString TAG_TIMEZONE;
-  static const QString TAG_STATUS_COUNT;
-//  static const QString TAG_NOTIFICATIONS;
-//  static const QString TAG_FOLLOWING;
+    static const QString TAG_STATUS;
+    static const QString TAG_USER;
+    static const QString TAG_STATUS_ID;
+    static const QString TAG_USER_TEXT;
+    static const QString TAG_USER_ID;
+    static const QString TAG_USER_NAME;
+    static const QString TAG_USER_SCREENNAME;
+    static const QString TAG_USER_IMAGE;
+    static const QString TAG_USER_HOMEPAGE;
+    static const QString TAG_USER_TIMESTAMP;
+    static const QString TAG_INREPLYTO_STATUS_ID;
+    static const QString TAG_INREPLYTO_SCREEN_NAME;
+    static const QString TAG_FAVORITED;
+    static const QString TAG_LOCATION;
+    static const QString TAG_DESCRIPTION;
+    static const QString TAG_PROFILE_PROTECTED;
+    static const QString TAG_FRIENDS_COUNT;
+    static const QString TAG_FOLLOWERS_COUNT;
+    static const QString TAG_PROFILE_TIMESTAMP;
+    static const QString TAG_UTC_OFFSET;
+    static const QString TAG_TIMEZONE;
+    static const QString TAG_STATUS_COUNT;
+    //  static const QString TAG_NOTIFICATIONS;
+    //  static const QString TAG_FOLLOWING;
 
 
 
 private:
-  static int calculateTimeShift();
+    static int calculateTimeShift();
 
 };
 
 class XmlParserDirectMsg : public XmlParser
 {
 public:
-  XmlParserDirectMsg( const QString &serviceUrl, const QString &login, QObject *parent = 0 );
+    XmlParserDirectMsg( const QString &serviceUrl, const QString &login, QObject *parent = 0 );
 
-  bool startElement( const QString &namespaceURI,
+    bool startElement( const QString &namespaceURI,
+                       const QString &localName,
+                       const QString &qName,
+                       const QXmlAttributes &atts );
+    bool endElement( const QString &namespaceURI,
                      const QString &localName,
-                     const QString &qName,
-                     const QXmlAttributes &atts );
-  bool endElement( const QString &namespaceURI,
-                   const QString &localName,
-                   const QString &qName );
-  bool characters( const QString &ch );
+                     const QString &qName );
+    bool characters( const QString &ch );
 
 private:
-  bool parsingSender;
+    bool parsingSender;
 
-  static const QString TAG_DIRECT_MESSAGE;
-  static const QString TAG_SENDER;
+    static const QString TAG_DIRECT_MESSAGE;
+    static const QString TAG_SENDER;
 };
 
 #endif //XMLPARSER_H

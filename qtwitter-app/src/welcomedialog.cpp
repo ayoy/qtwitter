@@ -29,50 +29,50 @@ extern ConfigFile settings;
 
 
 WelcomeDialog::WelcomeDialog(QWidget *parent) :
-    QDialog(parent),
-    m_ui(new Ui::WelcomeDialog)
+        QDialog(parent),
+        m_ui(new Ui::WelcomeDialog)
 {
-  m_ui->setupUi(this);
-  m_ui->continueButton->hide();
-  connect( m_ui->addAccountButton, SIGNAL(clicked()), this, SIGNAL(addAccount()) );
-  connect( m_ui->continueButton, SIGNAL(clicked()), this, SLOT(proceed()) );
+    m_ui->setupUi(this);
+    m_ui->continueButton->hide();
+    connect( m_ui->addAccountButton, SIGNAL(clicked()), this, SIGNAL(addAccount()) );
+    connect( m_ui->continueButton, SIGNAL(clicked()), this, SLOT(proceed()) );
 }
 
 WelcomeDialog::~WelcomeDialog()
 {
-  delete m_ui;
+    delete m_ui;
 }
 
 void WelcomeDialog::confirmAccountAdded( bool success )
 {
-  if ( success ) {
-    m_ui->infoLabel->setText( tr( "Account added successfully! You may add another or just start using program." ) );
-    m_ui->addAccountButton->setText( tr( "Add one more" ) );
-  } else {
-    m_ui->infoLabel->setText( tr( "There was a problem adding your account. "
-                                  "Please check your internet connection and try one more time." ) );
-  }
-  m_ui->addAccountButton->setEnabled( true );
-  m_ui->continueButton->show();
+    if ( success ) {
+        m_ui->infoLabel->setText( tr( "Account added successfully! You may add another or just start using program." ) );
+        m_ui->addAccountButton->setText( tr( "Add one more" ) );
+    } else {
+        m_ui->infoLabel->setText( tr( "There was a problem adding your account. "
+                                      "Please check your internet connection and try one more time." ) );
+    }
+    m_ui->addAccountButton->setEnabled( true );
+    m_ui->continueButton->show();
 }
 
 void WelcomeDialog::proceed()
 {
-  m_ui->addAccountButton->hide();
-  m_ui->infoLabel->setText( tr( "You can add more accounts at any time in Settings->Accounts." ) );
-  m_ui->continueButton->setText( tr( "OK" ) );
-  m_ui->continueButton->disconnect( this, SLOT(proceed()) );
-  connect( m_ui->continueButton, SIGNAL(clicked()), this, SLOT(accept()) );
+    m_ui->addAccountButton->hide();
+    m_ui->infoLabel->setText( tr( "You can add more accounts at any time in Settings->Accounts." ) );
+    m_ui->continueButton->setText( tr( "OK" ) );
+    m_ui->continueButton->disconnect( this, SLOT(proceed()) );
+    connect( m_ui->continueButton, SIGNAL(clicked()), this, SLOT(accept()) );
 }
 
 void WelcomeDialog::changeEvent(QEvent *e)
 {
-  QDialog::changeEvent(e);
-  switch (e->type()) {
-  case QEvent::LanguageChange:
-    m_ui->retranslateUi(this);
-    break;
-  default:
-    break;
-  }
+    QDialog::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        m_ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
 }

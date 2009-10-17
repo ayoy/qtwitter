@@ -25,34 +25,34 @@
 
 class TwitPicTextEdit : public QPlainTextEdit
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  TwitPicTextEdit( QWidget *parent = 0 ) :
-      QPlainTextEdit( parent ),
-      allowEnters( true )
-  {}
+    TwitPicTextEdit( QWidget *parent = 0 ) :
+            QPlainTextEdit( parent ),
+            allowEnters( true )
+    {}
 
-  void setAllowEnters( bool allow ) { allowEnters = allow; }
+    void setAllowEnters( bool allow ) { allowEnters = allow; }
 
 signals:
-  void enterPressed();
+    void enterPressed();
 
 protected:
-  void keyPressEvent( QKeyEvent *e )
-  {
-    if ( e->key() == Qt::Key_Tab || e->key() == Qt::Key_Backtab ) {
-      clearFocus();
-      return;
+    void keyPressEvent( QKeyEvent *e )
+    {
+        if ( e->key() == Qt::Key_Tab || e->key() == Qt::Key_Backtab ) {
+            clearFocus();
+            return;
+        }
+        if ( !allowEnters && (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) ) {
+            emit enterPressed();
+            return;
+        }
+        QPlainTextEdit::keyPressEvent( e );
     }
-    if ( !allowEnters && (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return) ) {
-      emit enterPressed();
-      return;
-    }
-    QPlainTextEdit::keyPressEvent( e );
-  }
 
 private:
-  bool allowEnters;
+    bool allowEnters;
 
 };
 

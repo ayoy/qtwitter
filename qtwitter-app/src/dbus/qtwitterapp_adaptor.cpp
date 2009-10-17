@@ -25,22 +25,22 @@
 #include <core.h>
 
 QTwitterAppAdaptor::QTwitterAppAdaptor( QTwitterApp *app ) :
-    QDBusAbstractAdaptor( app ),
-    app( app )
+        QDBusAbstractAdaptor( app ),
+        app( app )
 {
 }
 
 void QTwitterAppAdaptor::quit()
 {
-  app->quit();
+    app->quit();
 }
 
 void QTwitterAppAdaptor::show()
 {
-  app->mainWindow()->bringToFront();
+    app->mainWindow()->bringToFront();
 }
 
 void QTwitterAppAdaptor::updateStatuses()
 {
-  app->core()->forceGet();
+    app->core()->forceGet();
 }

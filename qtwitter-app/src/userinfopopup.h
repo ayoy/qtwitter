@@ -30,29 +30,29 @@ class QShowEvent;
 
 class UserInfoPopup : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
 public:
-  virtual ~UserInfoPopup();
+    virtual ~UserInfoPopup();
 
-  static UserInfoPopup* instantiate( const Status *status, QWidget *parent = 0, Qt::WindowFlags flags = 0);
-  static UserInfoPopup* instance();
+    static UserInfoPopup* instantiate( const Status *status, QWidget *parent = 0, Qt::WindowFlags flags = 0);
+    static UserInfoPopup* instance();
 
 public slots:
-  void close();
+    void close();
 
 signals:
-  void closed();
+    void closed();
 
 protected:
-  UserInfoPopup( const Status *status, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
+    UserInfoPopup( const Status *status, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
 
-  void leaveEvent( QEvent *event );
-  void showEvent( QShowEvent *event );
+    void leaveEvent( QEvent *event );
+    void showEvent( QShowEvent *event );
 
 private:
-  static UserInfoPopup *_instance;
-  Ui::UserInfoPopup *ui;
+    static UserInfoPopup *_instance;
+    Ui::UserInfoPopup *ui;
 };
 
 #endif // USERINFOPOPUP_H

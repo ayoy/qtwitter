@@ -36,93 +36,93 @@ namespace Ui {
 
 class StatusWidget : public QWidget
 {
-  Q_OBJECT
-  Q_DISABLE_COPY( StatusWidget )
+    Q_OBJECT
+    Q_DISABLE_COPY( StatusWidget )
 
 public:
 
-  explicit StatusWidget( QWidget *parent = 0 );
-  virtual ~StatusWidget();
+    explicit StatusWidget( QWidget *parent = 0 );
+    virtual ~StatusWidget();
 
-  const Entry& data() const;
-  void resize( const QSize& size );
-  void resize( int w, int h );
+    const Entry& data() const;
+    void resize( const QSize& size );
+    void resize( int w, int h );
 
-  void initialize();
-  void setStatusData( const Status &status );
-  void setImage( const QPixmap &pixmap );
-  void setState( StatusModel::StatusState state );
-  void setDisplayMode( StatusModel::DisplayMode mode );
-  StatusModel::StatusState getState() const;
+    void initialize();
+    void setStatusData( const Status &status );
+    void setImage( const QPixmap &pixmap );
+    void setState( StatusModel::StatusState state );
+    void setDisplayMode( StatusModel::DisplayMode mode );
+    StatusModel::StatusState getState() const;
 
-  static ThemeData getTheme();
-  static void setTheme( const ThemeData &theme );
+    static ThemeData getTheme();
+    static void setTheme( const ThemeData &theme );
 
-  void applyTheme();
-  void retranslateUi();
+    void applyTheme();
+    void retranslateUi();
 
-  quint64 getId() const;
+    quint64 getId() const;
 
-  static void setScrollBarWidth( int width );
-  static void setCurrentWidth( int width );
-  static void setCurrentLogin( const QString &login );
-  static void setCurrentServiceUrl( const QString &serviceUrl );
+    static void setScrollBarWidth( int width );
+    static void setCurrentWidth( int width );
+    static void setCurrentLogin( const QString &login );
+    static void setCurrentServiceUrl( const QString &serviceUrl );
 
 public slots:
-  void slotReply();
-  void slotRetweet();
-  void slotDM();
-  void slotCopyLink();
-  void slotDelete();
-  void slotFavorite();
-  void adjustSize();
+    void slotReply();
+    void slotRetweet();
+    void slotDM();
+    void slotCopyLink();
+    void slotDelete();
+    void slotFavorite();
+    void adjustSize();
 
 signals:
-  void reply( const QString &name, quint64 inReplyTo );
-  void retweet( QString message );
-  void markAllAsRead();
-  void selectMe( StatusWidget *status );
-  void deleteStatus( quint64 id );
-  void getUserInfo( int userId);
+    void reply( const QString &name, quint64 inReplyTo );
+    void retweet( QString message );
+    void markAllAsRead();
+    void selectMe( StatusWidget *status );
+    void deleteStatus( quint64 id );
+    void getUserInfo( int userId);
 
 protected:
-  void changeEvent( QEvent *e );
-  void enterEvent( QEvent *e );
-  void leaveEvent( QEvent *e );
-  void mousePressEvent( QMouseEvent *e );
+    void changeEvent( QEvent *e );
+    void enterEvent( QEvent *e );
+    void leaveEvent( QEvent *e );
+    void mousePressEvent( QMouseEvent *e );
 
 private slots:
-  void focusRequest();
-  void handleReplyDeleteButton();
+    void focusRequest();
+    void handleReplyDeleteButton();
 
 private:
-  void createMenu();
-  void setupMenu();
-  QMenu *menu;
+    void createMenu();
+    void setupMenu();
+    QMenu *menu;
 
-  QAction *replyAction;
-  QAction *retweetAction;
-  QAction *dmAction;
-  QAction *copylinkAction;
-  QAction *markallasreadAction;
-  QAction *markeverythingasreadAction ;
-  QAction *gotohomepageAction;
-  QAction *gototwitterpageAction;
-  QAction *deleteAction;
-  QAction *favoriteAction;
+    QAction *replyAction;
+    QAction *retweetAction;
+    QAction *dmAction;
+    QAction *copylinkAction;
+    QAction *markallasreadAction;
+    QAction *markeverythingasreadAction ;
+    QAction *gotohomepageAction;
+    QAction *gototwitterpageAction;
+    QAction *deleteAction;
+    QAction *favoriteAction;
 
-  StatusModel::StatusState statusState;
-  const Entry *statusData;
+    StatusModel::StatusState statusState;
+    const Entry *statusData;
 
-  static int scrollBarWidth;
-  static int currentWidth;
-  static ThemeData currentTheme;
-  static QString currentLogin;
-  static QString currentServiceUrl;
-  static StatusWidget *activeStatus;
+    static int scrollBarWidth;
+    static int currentWidth;
+    static ThemeData currentTheme;
+    static QString currentLogin;
+    static QString currentServiceUrl;
+    static StatusWidget *activeStatus;
 
-  QSignalMapper *signalMapper;
-  Ui::StatusWidget *m_ui;
+    QSignalMapper *signalMapper;
+    Ui::StatusWidget *m_ui;
 };
 
 #endif // STATUSWIDGET_H

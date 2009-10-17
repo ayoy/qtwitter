@@ -25,155 +25,155 @@
 #include <QPushButton>
 
 NewAccountDialog::NewAccountDialog( QWidget *parent ) :
-    QDialog( parent ),
-    m_ui( new Ui::NewAccountDialog )
+        QDialog( parent ),
+        m_ui( new Ui::NewAccountDialog )
 {
-  m_ui->setupUi( this );
+    m_ui->setupUi( this );
 
-  foreach ( QString network, Account::networkNames() ) {
-    if ( network != Account::NetworkTwitter &&
-         network != Account::NetworkIdentica ) {
-      m_ui->comboBox->addItem( network );
+    foreach ( QString network, Account::networkNames() ) {
+        if ( network != Account::NetworkTwitter &&
+             network != Account::NetworkIdentica ) {
+            m_ui->comboBox->addItem( network );
+        }
     }
-  }
-  m_ui->comboBox->addItem( tr( "Other StatusNet" ) );
+    m_ui->comboBox->addItem( tr( "Other StatusNet" ) );
 
 
-  connect( m_ui->nameEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
-  connect( m_ui->urlEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
-  connect( m_ui->loginEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
-  connect( m_ui->passwordEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
-  connect( m_ui->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(checkFields()) );
+    connect( m_ui->nameEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
+    connect( m_ui->urlEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
+    connect( m_ui->loginEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
+    connect( m_ui->passwordEdit, SIGNAL(textChanged(QString)), SLOT(checkFields()) );
+    connect( m_ui->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(checkFields()) );
 
-  connect( m_ui->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(toggleEdits(int)) );
-  toggleEdits( 0 );
+    connect( m_ui->comboBox, SIGNAL(currentIndexChanged(int)), SLOT(toggleEdits(int)) );
+    toggleEdits( 0 );
 }
 
 NewAccountDialog::~NewAccountDialog()
 {
-  delete m_ui;
+    delete m_ui;
 }
 
 void NewAccountDialog::checkFields()
 {
-  QPushButton *okButton = m_ui->buttonBox->button( QDialogButtonBox::Ok );
-  bool enabled = false;
-  switch ( m_ui->comboBox->currentIndex() ) {
-  case 0: // Twitter
-    enabled = true;
-    break;
-  case 1: // Identi.ca
-    if ( !m_ui->loginEdit->text().isEmpty() &&
-         !m_ui->passwordEdit->text().isEmpty() ) {
-      enabled = true;
-    } else {
-      enabled = false;
+    QPushButton *okButton = m_ui->buttonBox->button( QDialogButtonBox::Ok );
+    bool enabled = false;
+    switch ( m_ui->comboBox->currentIndex() ) {
+    case 0: // Twitter
+        enabled = true;
+        break;
+    case 1: // Identi.ca
+        if ( !m_ui->loginEdit->text().isEmpty() &&
+             !m_ui->passwordEdit->text().isEmpty() ) {
+            enabled = true;
+        } else {
+            enabled = false;
+        }
+        break;
+    default:
+        if ( !m_ui->nameEdit->text().isEmpty() &&
+             !m_ui->urlEdit->text().isEmpty() &&
+             !m_ui->loginEdit->text().isEmpty() &&
+             !m_ui->passwordEdit->text().isEmpty() ) {
+            enabled = true;
+        } else {
+            enabled = false;
+        }
     }
-    break;
-  default:
-    if ( !m_ui->nameEdit->text().isEmpty() &&
-         !m_ui->urlEdit->text().isEmpty() &&
-         !m_ui->loginEdit->text().isEmpty() &&
-         !m_ui->passwordEdit->text().isEmpty() ) {
-      enabled = true;
-    } else {
-      enabled = false;
-    }
-  }
-  okButton->setEnabled( enabled );
+    okButton->setEnabled( enabled );
 }
 
 QString NewAccountDialog::networkName() const
 {
-  if ( m_ui->comboBox->currentIndex() <= 1 ) {
-    return m_ui->comboBox->currentText();
-  }
-  return m_ui->nameEdit->text();
+    if ( m_ui->comboBox->currentIndex() <= 1 ) {
+        return m_ui->comboBox->currentText();
+    }
+    return m_ui->nameEdit->text();
 }
 
 QString NewAccountDialog::serviceUrl() const
 {
-  if ( m_ui->comboBox->currentIndex() <= 1 ) {
-    return Account::networkUrl( m_ui->comboBox->currentText() );
-  }
-  QString url = m_ui->urlEdit->text();
-  if ( url.endsWith( '/' ) ) {
-    url.append( "api" );
-  } else {
-    url.append( "/api" );
-  }
-  if ( !url.startsWith( "http://" ) &&
-       !url.startsWith( "https://" ) ) {
-    return url.prepend( "http://" );
-  }
-  return url;
+    if ( m_ui->comboBox->currentIndex() <= 1 ) {
+        return Account::networkUrl( m_ui->comboBox->currentText() );
+    }
+    QString url = m_ui->urlEdit->text();
+    if ( url.endsWith( '/' ) ) {
+        url.append( "api" );
+    } else {
+        url.append( "/api" );
+    }
+    if ( !url.startsWith( "http://" ) &&
+         !url.startsWith( "https://" ) ) {
+        return url.prepend( "http://" );
+    }
+    return url;
 }
 
 QString NewAccountDialog::login() const
 {
-  return m_ui->loginEdit->text();
+    return m_ui->loginEdit->text();
 }
 
 QString NewAccountDialog::password() const
 {
-  return m_ui->passwordEdit->text();
+    return m_ui->passwordEdit->text();
 }
 
 void NewAccountDialog::toggleEdits( int index )
 {
-  bool visible = true;
-  bool enabled = true;
+    bool visible = true;
+    bool enabled = true;
 
-  if ( index != 0 ) { // Twitter
-    if ( index < m_ui->comboBox->count() - 1 ) {
-      m_ui->nameEdit->setText( m_ui->comboBox->currentText() );
-      m_ui->urlEdit->setText( Account::networkUrl(
-          m_ui->comboBox->currentText() ).remove( QRegExp( "/api$", Qt::CaseInsensitive ) ) );
-    } else if ( index == m_ui->comboBox->count() - 1 ) {
-      m_ui->nameEdit->clear();
-      m_ui->urlEdit->clear();
+    if ( index != 0 ) { // Twitter
+        if ( index < m_ui->comboBox->count() - 1 ) {
+            m_ui->nameEdit->setText( m_ui->comboBox->currentText() );
+            m_ui->urlEdit->setText( Account::networkUrl(
+                    m_ui->comboBox->currentText() ).remove( QRegExp( "/api$", Qt::CaseInsensitive ) ) );
+        } else if ( index == m_ui->comboBox->count() - 1 ) {
+            m_ui->nameEdit->clear();
+            m_ui->urlEdit->clear();
+        }
     }
-  }
 
-  switch ( index ) {
-  case 0: // Twitter
-  case 1: // Identi.ca
-    visible = ( index != 0 ); // Twitter
-    enabled = false;
-    break;
-  default:;
-  }
-  m_ui->nameEdit->setVisible( visible );
-  m_ui->nameLabel->setVisible( visible );
-  m_ui->urlEdit->setVisible( visible );
-  m_ui->urlLabel->setVisible( visible );
+    switch ( index ) {
+    case 0: // Twitter
+    case 1: // Identi.ca
+        visible = ( index != 0 ); // Twitter
+        enabled = false;
+        break;
+    default:;
+    }
+    m_ui->nameEdit->setVisible( visible );
+    m_ui->nameLabel->setVisible( visible );
+    m_ui->urlEdit->setVisible( visible );
+    m_ui->urlLabel->setVisible( visible );
 
-  m_ui->nameEdit->setEnabled( enabled );
-  m_ui->nameLabel->setEnabled( enabled );
-  m_ui->urlEdit->setEnabled( enabled );
-  m_ui->urlLabel->setEnabled( enabled );
+    m_ui->nameEdit->setEnabled( enabled );
+    m_ui->nameLabel->setEnabled( enabled );
+    m_ui->urlEdit->setEnabled( enabled );
+    m_ui->urlLabel->setEnabled( enabled );
 
-  m_ui->loginEdit->setVisible( visible );
-  m_ui->loginLabel->setVisible( visible );
-  m_ui->passwordEdit->setVisible( visible );
-  m_ui->passwordLabel->setVisible( visible );
+    m_ui->loginEdit->setVisible( visible );
+    m_ui->loginLabel->setVisible( visible );
+    m_ui->passwordEdit->setVisible( visible );
+    m_ui->passwordLabel->setVisible( visible );
 
-  QTimer::singleShot(0, this, SLOT(shrink()) );
+    QTimer::singleShot(0, this, SLOT(shrink()) );
 }
 
 void NewAccountDialog::shrink()
 {
-  resize( width(), 0 );
+    resize( width(), 0 );
 }
 
 void NewAccountDialog::changeEvent(QEvent *e)
 {
-  QDialog::changeEvent(e);
-  switch (e->type()) {
-  case QEvent::LanguageChange:
-    m_ui->retranslateUi(this);
-    break;
-  default:
-    break;
-  }
+    QDialog::changeEvent(e);
+    switch (e->type()) {
+    case QEvent::LanguageChange:
+        m_ui->retranslateUi(this);
+        break;
+    default:
+        break;
+    }
 }

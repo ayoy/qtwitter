@@ -23,11 +23,11 @@
 
 AccountsView::AccountsView( QWidget *parent ) : QTreeView( parent )
 {
-  connect( this, SIGNAL(clicked(QModelIndex)), SLOT(filterClick(QModelIndex)) );
+    connect( this, SIGNAL(clicked(QModelIndex)), SLOT(filterClick(QModelIndex)) );
 }
 
 void AccountsView::filterClick( const QModelIndex &index )
 {
-  if ( index.column() == 0  || index.column() == 4 )
-    emit checkBoxClicked( index );
+    if ( index.column() == 0  || index.column() == 4 )
+        emit checkBoxClicked( index );
 }

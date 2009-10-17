@@ -28,70 +28,70 @@
 
 class TwitterAPIPrivate : public QObject
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
 
-  ~TwitterAPIPrivate();
-  void createInterface();
+    ~TwitterAPIPrivate();
+    void createInterface();
 
-  void parseXml( const QByteArray &data, XmlParser *parser );
-  void emitUnauthorized( QNetworkReply *reply );
-  QByteArray prepareRequest( const QString &data, quint64 inReplyTo );
-  QByteArray prepareRequest( const QString &screenName, const QString & );
+    void parseXml( const QByteArray &data, XmlParser *parser );
+    void emitUnauthorized( QNetworkReply *reply );
+    QByteArray prepareRequest( const QString &data, quint64 inReplyTo );
+    QByteArray prepareRequest( const QString &screenName, const QString & );
 
-  void init();
+    void init();
 #ifdef HAVE_OAUTH
-  QByteArray prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,
-                                 const QOAuth::ParamMap &params = QOAuth::ParamMap() );
-  bool usingOAuth;
+    QByteArray prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,
+                                   const QOAuth::ParamMap &params = QOAuth::ParamMap() );
+    bool usingOAuth;
 #endif
 
-  QString login;
-  QString password;
-  QString serviceUrl;
+    QString login;
+    QString password;
+    QString serviceUrl;
 
-  Interface *iface;
+    Interface *iface;
 
-  QXmlSimpleReader *xmlReader;
-  QXmlInputSource *source;
+    QXmlSimpleReader *xmlReader;
+    QXmlInputSource *source;
 
 #ifdef HAVE_OAUTH
-  QOAuth::Interface *qoauth;
+    QOAuth::Interface *qoauth;
 #endif
 
-  static const QNetworkRequest::Attribute ATTR_SOCIALNETWORK;
-  static const QNetworkRequest::Attribute ATTR_ROLE;
-  static const QNetworkRequest::Attribute ATTR_LOGIN;
-  static const QNetworkRequest::Attribute ATTR_PASSWORD;
-  static const QNetworkRequest::Attribute ATTR_STATUS;
-  static const QNetworkRequest::Attribute ATTR_ID;
-  static const QNetworkRequest::Attribute ATTR_DM_REQUESTED;
-  static const QNetworkRequest::Attribute ATTR_DM_RECIPIENT;
-  static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
-  static const QNetworkRequest::Attribute ATTR_MSGCOUNT;
+    static const QNetworkRequest::Attribute ATTR_SOCIALNETWORK;
+    static const QNetworkRequest::Attribute ATTR_ROLE;
+    static const QNetworkRequest::Attribute ATTR_LOGIN;
+    static const QNetworkRequest::Attribute ATTR_PASSWORD;
+    static const QNetworkRequest::Attribute ATTR_STATUS;
+    static const QNetworkRequest::Attribute ATTR_ID;
+    static const QNetworkRequest::Attribute ATTR_DM_REQUESTED;
+    static const QNetworkRequest::Attribute ATTR_DM_RECIPIENT;
+    static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
+    static const QNetworkRequest::Attribute ATTR_MSGCOUNT;
 
-  static const QString UrlStatusesPublicTimeline;
-  static const QString UrlStatusesFriendsTimeline;
-  static const QString UrlStatusesUpdate;
-  static const QString UrlStatusesDestroy;
-  static const QString UrlDirectMessages;
-  static const QString UrlDirectMessagesNew;
-  static const QString UrlDirectMessagesDestroy;
-  static const QString UrlFavoritesCreate;
-  static const QString UrlFavoritesDestroy;
-  static const QString UrlFriendshipCreate;
-  static const QString UrlFriendshipDestroy;
+    static const QString UrlStatusesPublicTimeline;
+    static const QString UrlStatusesFriendsTimeline;
+    static const QString UrlStatusesUpdate;
+    static const QString UrlStatusesDestroy;
+    static const QString UrlDirectMessages;
+    static const QString UrlDirectMessagesNew;
+    static const QString UrlDirectMessagesDestroy;
+    static const QString UrlFavoritesCreate;
+    static const QString UrlFavoritesDestroy;
+    static const QString UrlFriendshipCreate;
+    static const QString UrlFriendshipDestroy;
 
 public slots:
-  void requestFinished( QNetworkReply *reply );
-  void slotAuthenticationRequired( QNetworkReply *reply, QAuthenticator *authenticator );
-  void sslErrors( QNetworkReply *reply, const QList<QSslError> &errors );
+    void requestFinished( QNetworkReply *reply );
+    void slotAuthenticationRequired( QNetworkReply *reply, QAuthenticator *authenticator );
+    void sslErrors( QNetworkReply *reply, const QList<QSslError> &errors );
 
 protected:
-  TwitterAPI *q_ptr;
+    TwitterAPI *q_ptr;
 
 private:
-  Q_DECLARE_PUBLIC(TwitterAPI);
+    Q_DECLARE_PUBLIC(TwitterAPI);
 };
 
 #endif // TWITTERAPI_P_H

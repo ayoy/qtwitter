@@ -27,72 +27,72 @@
 #include <QStringList>
 
 AppVersion::AppVersion( uint maj, uint min, uint pat ) :
-    majorVer( maj ),
-    minorVer( min ),
-    patchVer( pat )
+        majorVer( maj ),
+        minorVer( min ),
+        patchVer( pat )
 {
 }
 
 AppVersion::AppVersion( const QString &version )
 {
-  fromString( version );
+    fromString( version );
 }
 
 QString AppVersion::toString() const
 {
-  return QString( "%1.%2.%3" ).arg( QString::number(majorVer),
-                                    QString::number(minorVer),
-                                    QString::number(patchVer) );
+    return QString( "%1.%2.%3" ).arg( QString::number(majorVer),
+                                      QString::number(minorVer),
+                                      QString::number(patchVer) );
 }
 
 void AppVersion::fromString( const QString &version )
 {
-  QStringList parts = version.split( "." );
-  if ( parts.size() == 3 ) {
-    majorVer = parts.at(0).toUInt();
-    minorVer = parts.at(1).toUInt();
-    patchVer = parts.at(2).toUInt();
-  }
+    QStringList parts = version.split( "." );
+    if ( parts.size() == 3 ) {
+        majorVer = parts.at(0).toUInt();
+        minorVer = parts.at(1).toUInt();
+        patchVer = parts.at(2).toUInt();
+    }
 }
 
 bool AppVersion::operator ==( const AppVersion &other ) const
 {
-  return majorVer == other.majorVer && minorVer == other.minorVer && patchVer == other.patchVer;
+    return majorVer == other.majorVer && minorVer == other.minorVer && patchVer == other.patchVer;
 }
 
 bool AppVersion::operator !=( const AppVersion &other ) const
 {
-  return !( *this == other );
+    return !( *this == other );
 }
 
 bool AppVersion::operator >( const AppVersion &other ) const
 {
-  if ( majorVer != other.majorVer ) {
-    return majorVer > other.majorVer;
-  } else if ( minorVer != other.minorVer ) {
-    return minorVer > other.minorVer;
-  } else {
-    return patchVer > other.patchVer;
-  }
+    if ( majorVer != other.majorVer ) {
+        return majorVer > other.majorVer;
+    } else if ( minorVer != other.minorVer ) {
+        return minorVer > other.minorVer;
+    } else {
+        return patchVer > other.patchVer;
+    }
 }
 
 bool AppVersion::operator <( const AppVersion &other ) const
 {
-  if ( *this != other ) {
-    return !( *this > other );
-  } else {
-    return false;
-  }
+    if ( *this != other ) {
+        return !( *this > other );
+    } else {
+        return false;
+    }
 }
 
 bool AppVersion::operator >=( const AppVersion &other ) const
 {
-  return ( *this == other ) || ( *this > other );
+    return ( *this == other ) || ( *this > other );
 }
 
 bool AppVersion::operator <=( const AppVersion &other ) const
 {
-  return ( *this == other ) || ( *this < other );
+    return ( *this == other ) || ( *this < other );
 }
 
 const QString ConfigFile::APP_VERSION = "0.9.2";
@@ -104,100 +104,100 @@ ConfigFile settings;
 
 ConfigFile::ConfigFile():
 #if defined Q_WS_MAC
-QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy.net", "qTwitter" )
+        QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy.net", "qTwitter" )
 #elif defined Q_WS_WIN
-QSettings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" )
+        QSettings( QSettings::IniFormat, QSettings::UserScope, "ayoy", "qTwitter" )
 #else
-QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
+        QSettings( QSettings::defaultFormat(), QSettings::UserScope, "ayoy", "qTwitter" )
 #endif
 {
-  if ( QFileInfo( fileName() ).exists() ) {
-    if ( contains( "FIRSTRUN" ) ) {
-      remove( "FIRSTRUN" );
+    if ( QFileInfo( fileName() ).exists() ) {
+        if ( contains( "FIRSTRUN" ) ) {
+            remove( "FIRSTRUN" );
+        }
+        remove( "OAuth" );
+        QString ver = value( "General/version", QString() ).toString();
+        if ( AppVersion( ver ) < AppVersion( COMPAT_SETTINGS_APP_VERSION ) ) {
+            beginGroup( "Accounts" );
+            remove("");
+            endGroup();
+        }
+        if ( AppVersion( ver ) < AppVersion( APP_VERSION ) ) {
+            fixForSsl();
+        }
+    } else {
+        setValue( "FIRSTRUN", "ever" );
     }
-    remove( "OAuth" );
-    QString ver = value( "General/version", QString() ).toString();
-    if ( AppVersion( ver ) < AppVersion( COMPAT_SETTINGS_APP_VERSION ) ) {
-      beginGroup( "Accounts" );
-      remove("");
-      endGroup();
-    }
-    if ( AppVersion( ver ) < AppVersion( APP_VERSION ) ) {
-      fixForSsl();
-    }
-  } else {
-    setValue( "FIRSTRUN", "ever" );
-  }
-  setValue( "General/version", ConfigFile::APP_VERSION );
-  sync();
+    setValue( "General/version", ConfigFile::APP_VERSION );
+    sync();
 }
 
 QString ConfigFile::pwHash( const QString &text )
 {
-  QString newText = text;
-  for (unsigned int i = 0, textLength = text.length(); i < textLength; ++i)
-    newText[i] = QChar(text[i].unicode() ^ i ^ 1);
-  return newText;
+    QString newText = text;
+    for (unsigned int i = 0, textLength = text.length(); i < textLength; ++i)
+        newText[i] = QChar(text[i].unicode() ^ i ^ 1);
+    return newText;
 }
 
 void ConfigFile::addAccount( int id, const Account &account )
 {
-  beginGroup( QString( "Accounts/%1" ).arg( id ) );
-  setValue( "enabled", account.isEnabled() );
-  setValue( "service", account.serviceUrl() );
-  setValue( "login", account.login() );
-  setValue( "password", pwHash( account.password() ) );
-  setValue( "directmsgs", account.dm() );
-  endGroup();
-  sync();
+    beginGroup( QString( "Accounts/%1" ).arg( id ) );
+    setValue( "enabled", account.isEnabled() );
+    setValue( "service", account.serviceUrl() );
+    setValue( "login", account.login() );
+    setValue( "password", pwHash( account.password() ) );
+    setValue( "directmsgs", account.dm() );
+    endGroup();
+    sync();
 }
 
 void ConfigFile::deleteAccount( int id, int rowCount )
 {
-  if ( id < rowCount ) {
-    beginGroup( "Accounts" );
-    for (int i = id; i < rowCount - 1; i++ ) {
-      setValue( QString( "%1/enabled" ).arg(i), value( QString( "%1/enabled" ).arg(i+1) ) );
-      setValue( QString( "%1/service" ).arg(i), value( QString( "%1/service" ).arg(i+1) ) );
-      setValue( QString( "%1/login" ).arg(i), value( QString( "%1/login" ).arg(i+1) ) );
-      setValue( QString( "%1/password" ).arg(i), value( QString( "%1/password" ).arg(i+1) ) );
-      setValue( QString( "%1/directmsgs" ).arg(i), value( QString( "%1/directmsgs" ).arg(i+1) ) );
+    if ( id < rowCount ) {
+        beginGroup( "Accounts" );
+        for (int i = id; i < rowCount - 1; i++ ) {
+            setValue( QString( "%1/enabled" ).arg(i), value( QString( "%1/enabled" ).arg(i+1) ) );
+            setValue( QString( "%1/service" ).arg(i), value( QString( "%1/service" ).arg(i+1) ) );
+            setValue( QString( "%1/login" ).arg(i), value( QString( "%1/login" ).arg(i+1) ) );
+            setValue( QString( "%1/password" ).arg(i), value( QString( "%1/password" ).arg(i+1) ) );
+            setValue( QString( "%1/directmsgs" ).arg(i), value( QString( "%1/directmsgs" ).arg(i+1) ) );
+        }
+        remove( QString::number( rowCount - 1) );
+        endGroup();
+        sync();
     }
-    remove( QString::number( rowCount - 1) );
-    endGroup();
-    sync();
-  }
 }
 
 int ConfigFile::accountsCount() const
 {
-  int count = 0;
+    int count = 0;
 
-  for( int i = 0;; ++i ) {
-    if ( contains( QString( "Accounts/%1/enabled" ).arg(i) ) ) {
-      count++;
-    } else {
-      break;
+    for( int i = 0;; ++i ) {
+        if ( contains( QString( "Accounts/%1/enabled" ).arg(i) ) ) {
+            count++;
+        } else {
+            break;
+        }
     }
-  }
 
-  return count;
+    return count;
 }
 
 void ConfigFile::fixForSsl()
 {
-  beginGroup( "Accounts" );
+    beginGroup( "Accounts" );
 
-  int accountsCount = childGroups().count();
-  for ( int i = 0; i < accountsCount; i++ ) {
-    QString name = value( QString( "%1/service" ).arg(i) ).toString();
-    if ( !name.isNull() &&
-         ( name == "http://twitter.com" || name == "http://identi.ca/api" ) ) {
-      name.replace( QRegExp( "^http" ), "https" );
+    int accountsCount = childGroups().count();
+    for ( int i = 0; i < accountsCount; i++ ) {
+        QString name = value( QString( "%1/service" ).arg(i) ).toString();
+        if ( !name.isNull() &&
+             ( name == "http://twitter.com" || name == "http://identi.ca/api" ) ) {
+            name.replace( QRegExp( "^http" ), "https" );
+        }
+        setValue( QString( "%1/service" ).arg(i), name );
     }
-    setValue( QString( "%1/service" ).arg(i), name );
-  }
 
-  endGroup();
-  sync();
+    endGroup();
+    sync();
 }

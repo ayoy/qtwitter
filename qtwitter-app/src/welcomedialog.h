@@ -24,30 +24,30 @@
 #include <QtGui/QDialog>
 
 namespace Ui {
-  class WelcomeDialog;
+    class WelcomeDialog;
 }
 
 class WelcomeDialog : public QDialog
 {
-  Q_OBJECT
+    Q_OBJECT
 public:
-  WelcomeDialog(QWidget *parent = 0);
-  ~WelcomeDialog();
+    WelcomeDialog(QWidget *parent = 0);
+    ~WelcomeDialog();
 
 public slots:
-  void confirmAccountAdded( bool success );
+    void confirmAccountAdded( bool success );
 
 signals:
-  void addAccount();
+    void addAccount();
 
 protected:
-  void changeEvent(QEvent *e);
+    void changeEvent(QEvent *e);
 
 private slots:
-  void proceed();
+    void proceed();
 
 private:
-  Ui::WelcomeDialog *m_ui;
+    Ui::WelcomeDialog *m_ui;
 };
 
 #endif // WELCOMEDIALOG_H

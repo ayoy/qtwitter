@@ -32,29 +32,29 @@
 
 int main( int argc, char **argv )
 {
-  QTwitterApp app( argc, argv );
+    QTwitterApp app( argc, argv );
 
 #ifdef Q_WS_X11
-  QDBusConnection connection = QDBusConnection::sessionBus();
-  if ( connection.isConnected() ) {
-    bool res = connection.registerService( "net.ayoy.qTwitter" );
-    if ( !res ) {
-      QDBusInterface remoteApp( "net.ayoy.qTwitter", "/Application",
-                                "net.ayoy.qTwitter.Application" );
-      remoteApp.asyncCall( "show" );
-      return 0;
+    QDBusConnection connection = QDBusConnection::sessionBus();
+    if ( connection.isConnected() ) {
+        bool res = connection.registerService( "net.ayoy.qTwitter" );
+        if ( !res ) {
+            QDBusInterface remoteApp( "net.ayoy.qTwitter", "/Application",
+                                      "net.ayoy.qTwitter.Application" );
+            remoteApp.asyncCall( "show" );
+            return 0;
+        }
+        new QTwitterAppAdaptor( &app );
+        connection.registerObject( "/Application", &app );
     }
-    new QTwitterAppAdaptor( &app );
-    connection.registerObject( "/Application", &app );
-  }
 #endif
 
-  MainWindow qtwitter;
+    MainWindow qtwitter;
 
-  app.loadConfig();
-  qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
-  qApp->setQuitOnLastWindowClosed( false );
+    app.loadConfig();
+    qApp->setWindowIcon( QIcon( ":/icons/twitter_48.png" ) );
+    qApp->setQuitOnLastWindowClosed( false );
 
-  qtwitter.show();
-  return app.exec();
+    qtwitter.show();
+    return app.exec();
 }

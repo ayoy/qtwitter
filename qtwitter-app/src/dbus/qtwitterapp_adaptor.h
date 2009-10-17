@@ -27,20 +27,19 @@ class QTwitterApp;
 
 class QTwitterAppAdaptor : public QDBusAbstractAdaptor
 {
-  Q_OBJECT
-  Q_CLASSINFO("D-Bus Interface", "net.ayoy.qTwitter.Application")
+    Q_OBJECT
+    Q_CLASSINFO("D-Bus Interface", "net.ayoy.qTwitter.Application")
 
 public:
-  QTwitterAppAdaptor( QTwitterApp *app );
+    QTwitterAppAdaptor( QTwitterApp *app );
 
 public slots:
-  Q_NOREPLY void quit();
-  void show();
-  void updateStatuses();
-
+    Q_NOREPLY void quit();
+    void show();
+    void updateStatuses();
 
 private:
-  QTwitterApp *app;
+    QTwitterApp *app;
 };
 
 #endif // QTWITTERAPP_ADAPTOR_H

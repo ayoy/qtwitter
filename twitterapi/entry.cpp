@@ -24,109 +24,109 @@
 #include "entry.h"
 
 Entry::Entry( Entry::Type entryType ) :
-  type( entryType ),
-  isOwn( false ),
-  id( 0 ),
-  text( QString() ),
-  originalText( QString() ),
-  timestamp( QDateTime() ),
-  localTime( QDateTime() ),
-  hasInReplyToStatusId( false ),
-  inReplyToStatusId( 0 ),
-  inReplyToScreenName( QString() ),
-  favorited( false ),
-  userInfo( UserInfo() )
+        type( entryType ),
+        isOwn( false ),
+        id( 0 ),
+        text( QString() ),
+        originalText( QString() ),
+        timestamp( QDateTime() ),
+        localTime( QDateTime() ),
+        hasInReplyToStatusId( false ),
+        inReplyToStatusId( 0 ),
+        inReplyToScreenName( QString() ),
+        favorited( false ),
+        userInfo( UserInfo() )
 {}
 
 void Entry::initialize()
 {
-  isOwn = false;
-  id = 0;
-  text = QString();
-  originalText = QString();
-  timestamp = QDateTime();
-  localTime = QDateTime();
-  hasInReplyToStatusId = false;
-  inReplyToStatusId = 0;
-  inReplyToScreenName = QString();
-  favorited = false;
-  userInfo.initialize();
+    isOwn = false;
+    id = 0;
+    text = QString();
+    originalText = QString();
+    timestamp = QDateTime();
+    localTime = QDateTime();
+    hasInReplyToStatusId = false;
+    inReplyToStatusId = 0;
+    inReplyToScreenName = QString();
+    favorited = false;
+    userInfo.initialize();
 }
 
 bool Entry::checkContents()
 {
-  if ( !hasInReplyToStatusId ) {
-    inReplyToStatusId = 0;
-    inReplyToScreenName = QString();
-  }
-  if ( userInfo.checkContents() ) {
-    if ( ( id != 0 ) &&
-         ( type == Status ? !userInfo.imageUrl.isNull() : true ) &&  //todo: reference to userinfo here is lame
-         !text.isNull() &&
-         !timestamp.isNull() &&
-         !localTime.isNull()  &&
-         ( hasInReplyToStatusId ? inReplyToStatusId != 0 : true ) &&
-         ( hasInReplyToStatusId ? !inReplyToScreenName.isNull() : true ) ) {
-      return true;
+    if ( !hasInReplyToStatusId ) {
+        inReplyToStatusId = 0;
+        inReplyToScreenName = QString();
     }
-  }
+    if ( userInfo.checkContents() ) {
+        if ( ( id != 0 ) &&
+             ( type == Status ? !userInfo.imageUrl.isNull() : true ) &&  //todo: reference to userinfo here is lame
+             !text.isNull() &&
+             !timestamp.isNull() &&
+             !localTime.isNull()  &&
+             ( hasInReplyToStatusId ? inReplyToStatusId != 0 : true ) &&
+             ( hasInReplyToStatusId ? !inReplyToScreenName.isNull() : true ) ) {
+            return true;
+        }
+    }
     return false;
 }
 
 bool Entry::operator== (const Entry &other )
 {
-  return ( type == other.type
-           && isOwn == other.isOwn
-           && id == other.id
-           && text == other.text
-           && originalText == other.originalText
-           && userInfo.name == other.userInfo.name
-           && userInfo.screenName == other.userInfo.screenName
-           && userInfo.imageUrl == other.userInfo.imageUrl
-           && userInfo.homepage == other.userInfo.homepage
-           && userInfo.hasHomepage == other.userInfo.hasHomepage
-           && timestamp == other.timestamp
-           && localTime == other.localTime
-           && hasInReplyToStatusId == other.hasInReplyToStatusId
-           && inReplyToStatusId == other.inReplyToStatusId
-           && inReplyToScreenName == other.inReplyToScreenName
-           && favorited == other.favorited );
+    return ( type == other.type
+             && isOwn == other.isOwn
+             && id == other.id
+             && text == other.text
+             && originalText == other.originalText
+             && userInfo.name == other.userInfo.name
+             && userInfo.screenName == other.userInfo.screenName
+             && userInfo.imageUrl == other.userInfo.imageUrl
+             && userInfo.homepage == other.userInfo.homepage
+             && userInfo.hasHomepage == other.userInfo.hasHomepage
+             && timestamp == other.timestamp
+             && localTime == other.localTime
+             && hasInReplyToStatusId == other.hasInReplyToStatusId
+             && inReplyToStatusId == other.inReplyToStatusId
+             && inReplyToScreenName == other.inReplyToScreenName
+             && favorited == other.favorited );
 }
 
 QDataStream& operator<<( QDataStream & out, const Entry &entry )
 {
-  out << entry.type;
-  out << entry.isOwn;
-  out << entry.id;
-  out << entry.text;
-  out << entry.originalText;
-  out << entry.timestamp;
-  out << entry.localTime;
-  out << entry.hasInReplyToStatusId;
-  out << entry.inReplyToStatusId;
-  out << entry.inReplyToScreenName;
-  out << entry.favorited;
-  out << entry.userInfo;
-  return out;
+    out << entry.type;
+    out << entry.isOwn;
+    out << entry.id;
+    out << entry.text;
+    out << entry.originalText;
+    out << entry.timestamp;
+    out << entry.localTime;
+    out << entry.hasInReplyToStatusId;
+    out << entry.inReplyToStatusId;
+    out << entry.inReplyToScreenName;
+    out << entry.favorited;
+    out << entry.userInfo;
+    return out;
 }
 
 QDataStream& operator>>( QDataStream & in, Entry &entry )
 {
-  int type;
-  in >> type;
-  in >> entry.isOwn;
-  in >> entry.id;
-  in >> entry.text;
-  in >> entry.originalText;
-  in >> entry.timestamp;
-  in >> entry.localTime;
-  in >> entry.hasInReplyToStatusId;
-  in >> entry.inReplyToStatusId;
-  in >> entry.inReplyToScreenName;
-  in >> entry.favorited;
-  in >> entry.userInfo;
-  entry.type = (Entry::Type) type;
-  return in;
+    int type;
+    in >> type;
+    in >> entry.isOwn;
+    in >> entry.id;
+    in >> entry.text;
+    in >> entry.originalText;
+    in >> entry.timestamp;
+    in >> entry.localTime;
+    in >> entry.hasInReplyToStatusId;
+    in >> entry.inReplyToStatusId;
+    in >> entry.inReplyToScreenName;
+    in >> entry.favorited;
+    in >> entry.userInfo;
+    entry.type = (Entry::Type) type;
+    return in;
 }
 
 /*! \struct Entry
