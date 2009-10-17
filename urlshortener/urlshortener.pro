@@ -13,19 +13,19 @@ macx {
     LIBS += -install_name \
         @executable_path/../Frameworks/$${TARGET}.framework/Versions/$${VER_MAJ}/$${TARGET}
     DESTDIR = $${TOP}/qtwitter.app/Contents/Frameworks
-    FRAMEWORK_HEADERS.files = urlshortener.h
-    FRAMEWORK_HEADERS.path = Versions/$${VER_MAJ}/Headers
-    QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
+#    FRAMEWORK_HEADERS.files = urlshortener.h
+#    FRAMEWORK_HEADERS.path = Versions/$${VER_MAJ}/Headers
+#    QMAKE_BUNDLE_DATA += FRAMEWORK_HEADERS
 }
 else:unix {
     DESTDIR = $${TOP}
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/lib
-    lib_headers.files = urlshortener.h
-    lib_headers.path = $${INSTALL_PREFIX}/include/$${TARGET}
-    INSTALLS += target \
-        lib_headers
+#    lib_headers.files = urlshortener.h
+#    lib_headers.path = $${INSTALL_PREFIX}/include/$${TARGET}
+    INSTALLS += target
+#        lib_headers
 }
 else:win32 { 
     DESTDIR = $${TOP}
