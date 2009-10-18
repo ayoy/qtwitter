@@ -5,7 +5,6 @@ CONFIG += oauth
 
 # sets the TOP variable to the root source code dir
 include(../common.pri)
-DESTDIR = $${TOP}
 include($${TOP}/twitterapi/twitterapi.pri)
 include($${TOP}/urlshortener/urlshortener.pri)
 include(src/dbus/dbus.pri)
@@ -97,13 +96,7 @@ linux-* {
 #    RESOURCES = res/resources.qrc
 #}
 
-UI_DIR = tmp
-MOC_DIR = tmp
-RCC_DIR = tmp
-OBJECTS_DIR = tmp
-INCLUDEPATH += $${TOP} \
-    src \
-    tmp
+INCLUDEPATH += src
 
 
 macx {
@@ -124,7 +117,7 @@ else:unix {
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
     SHARE_DIR = $${INSTALL_PREFIX}/share/$${TARGET}
-    PLUGINS_DIR = $${INSTALL_PREFIX}/lib/$${TARGET}/plugins
+    PLUGINS_DIR = $${INSTALL_PREFIX}/lib$${LIB_SUFFIX}/$${TARGET}/plugins
     DEFINES += SHARE_DIR='\\\"$${SHARE_DIR}\\\"'
     DEFINES += PLUGINS_DIR='\\\"$${PLUGINS_DIR}\\\"'
     translations.path = $${SHARE_DIR}/loc
