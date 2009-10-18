@@ -12,7 +12,7 @@ macx {
     CONFIG += lib_bundle
     LIBS += -install_name \
         @executable_path/../Frameworks/$${TARGET}.framework/Versions/$${VER_MAJ}/$${TARGET}
-    DESTDIR = $${DESTDIR}/$${APPNAME}.app/Contents/Frameworks
+    DESTDIR = $${DESTDIR}/$${APP_NAME}.app/Contents/Frameworks
 }
 else:unix {
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr

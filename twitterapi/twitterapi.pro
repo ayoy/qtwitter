@@ -16,11 +16,11 @@ DEFINES += TWITTERAPI
 macx { 
     CONFIG += lib_bundle
     # TODO: probably not needed
-    QMAKE_LFLAGS += -F$${TOP}/$${APPNAME}.app/Contents/Frameworks
+    QMAKE_LFLAGS += -F$${TOP}/$${APP_NAME}.app/Contents/Frameworks
     LIBS += -install_name \
         @executable_path/../Frameworks/$${TARGET}.framework/Versions/$${VER_MAJ}/$${TARGET}
 
-    DESTDIR = $${DESTDIR}/$${APPNAME}.app/Contents/Frameworks
+    DESTDIR = $${DESTDIR}/$${APP_NAME}.app/Contents/Frameworks
 }
 else:unix { 
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
