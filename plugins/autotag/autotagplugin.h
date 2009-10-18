@@ -18,44 +18,34 @@
  ***************************************************************************/
 
 
-#ifndef QTWITTERAPP_H
-#define QTWITTERAPP_H
+#ifndef AUTOTAGPLUGIN_H
+#define AUTOTAGPLUGIN_H
 
-#include <QApplication>
+#include <QObject>
+#include <plugininterfaces.h>
 
-class Core;
-class MainWindow;
-class TwitPicView;
-class Settings;
-
-class QTwitterApp : public QApplication
+class AutoTagPlugin : public QObject,
+                      public StatusFilterInterface,
+                      public SettingsTabInterface
 {
     Q_OBJECT
+    Q_INTERFACES(StatusFilterInterface);
+    Q_INTERFACES(SettingsTabInterface);
+
 public:
-    static QTwitterApp* instance();
+    AutoTagPlugin( QObject *parent = 0 );
+    virtual ~AutoTagPlugin();
 
-    QTwitterApp( int & argc, char **argv );
-    virtual ~QTwitterApp();
+    // StatusFilterInterface
+    QString filterStatus( const QString &status );
 
-    static Core* core();
-    static MainWindow* mainWindow();
-    static Settings* settingsDialog();
-
-public slots:
-    void openSettings();
-    void openTwitPic();
-    void loadConfig();
+    // SettingsTabInterface
+    QString tabName();
+    QWidget *settingsWidget();
 
 private:
-    static void registerMainWindow( MainWindow *mainWindow );
-    static void unregisterMainWindow( MainWindow *mainWindow );
+    QWidget *autoTagWidget;
 
-    Core *m_core;
-    MainWindow *m_mainWindow;
-    TwitPicView *m_twitPic;
-    Settings *m_settingsDialog;
-
-    friend class MainWindow;
 };
 
-#endif // QTWITTERAPP_H
+#endif // AUTOTAGPLUGIN_H

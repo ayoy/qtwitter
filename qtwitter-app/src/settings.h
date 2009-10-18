@@ -27,13 +27,9 @@
 #include "themes.h"
 #include "ui_settings.h"
 
-class QFile;
-class QDir;
-class QAuthenticator;
 class QCheckBox;
 class QLineEdit;
 class QPushButton;
-class QModelIndex;
 class TwitPicView;
 class StatusModel;
 class MainWindow;
@@ -54,6 +50,7 @@ public:
 
     void loadConfig( bool dialogRejected = false );
     void setProxy();
+    void addTab( const QString &tabName, QWidget *tabWidget );
 
 public slots:
     void saveConfig( int quitting = 0 );

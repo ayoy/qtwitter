@@ -112,6 +112,12 @@ Settings::Settings( Core *coreSettings, QWidget *parent ) :
 
 Settings::~Settings() {}
 
+void Settings::addTab( const QString &tabName, QWidget *tabWidget )
+{
+    ui.tabs->addTab( tabWidget, tabName );
+}
+
+
 void Settings::loadConfig( bool dialogRejected )
 {
     settings.beginGroup( "General" );

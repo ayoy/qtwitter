@@ -18,44 +18,31 @@
  ***************************************************************************/
 
 
-#ifndef QTWITTERAPP_H
-#define QTWITTERAPP_H
+#ifndef PLUGININTERFACES_H
+#define PLUGININTERFACES_H
 
-#include <QApplication>
+#include <QtPlugin>
 
-class Core;
-class MainWindow;
-class TwitPicView;
-class Settings;
+class QString;
 
-class QTwitterApp : public QApplication
+class StatusFilterInterface
 {
-    Q_OBJECT
 public:
-    static QTwitterApp* instance();
+    virtual ~StatusFilterInterface() {}
 
-    QTwitterApp( int & argc, char **argv );
-    virtual ~QTwitterApp();
-
-    static Core* core();
-    static MainWindow* mainWindow();
-    static Settings* settingsDialog();
-
-public slots:
-    void openSettings();
-    void openTwitPic();
-    void loadConfig();
-
-private:
-    static void registerMainWindow( MainWindow *mainWindow );
-    static void unregisterMainWindow( MainWindow *mainWindow );
-
-    Core *m_core;
-    MainWindow *m_mainWindow;
-    TwitPicView *m_twitPic;
-    Settings *m_settingsDialog;
-
-    friend class MainWindow;
+    virtual QString filterStatus( const QString &status ) = 0;
 };
 
-#endif // QTWITTERAPP_H
+class SettingsTabInterface
+{
+public:
+    virtual ~SettingsTabInterface() {}
+
+    virtual QString tabName() = 0;
+    virtual QWidget* settingsWidget() = 0;
+};
+
+Q_DECLARE_INTERFACE(StatusFilterInterface, "net.ayoy.qTwitter.StatusFilterInterface/1.0");
+Q_DECLARE_INTERFACE(SettingsTabInterface, "net.ayoy.qTwitter.SettingsTabInterface/1.0");
+
+#endif // PLUGININTERFACES_H

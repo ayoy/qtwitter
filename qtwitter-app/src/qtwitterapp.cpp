@@ -63,6 +63,11 @@ MainWindow* QTwitterApp::mainWindow()
     return instance()->m_mainWindow;
 }
 
+Settings* QTwitterApp::settingsDialog()
+{
+    return instance()->m_settingsDialog;
+}
+
 void QTwitterApp::openSettings()
 {
     m_settingsDialog->show();

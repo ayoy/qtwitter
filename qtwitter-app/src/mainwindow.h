@@ -33,6 +33,7 @@ class QMovie;
 class StatusModel;
 class Account;
 class KNotificationInterface;
+class StatusFilterInterface;
 
 class MainWindow : public QMainWindow
 {
@@ -117,6 +118,7 @@ private slots:
     void selectPrevAccount();
 
 private:
+    void loadPlugins();
     void createExternalConnections();
     void createInternalConnections();
     void createButtonMenu();
@@ -154,6 +156,7 @@ private:
 
     KNotificationInterface *knotificationIface;
     uint notificationId;
+    QList<StatusFilterInterface*> filters;
 };
 
 #endif //MAINWINDOW_H

@@ -57,7 +57,8 @@ HEADERS += src/qtwitterapp.h \
     src/configfile.h \
     src/themes.h \
     src/updater.h \
-    src/welcomedialog.h
+    src/welcomedialog.h \
+    src/plugininterfaces.h
 FORMS += ui/mainwindow.ui \
     ui/authdialog.ui \
     ui/settings.ui \
@@ -123,7 +124,9 @@ else:unix {
     else:INSTALL_PREFIX = $${PREFIX}
     target.path = $${INSTALL_PREFIX}/bin
     SHARE_DIR = $${INSTALL_PREFIX}/share/$${TARGET}
+    PLUGINS_DIR = $${INSTALL_PREFIX}/lib/$${TARGET}/plugins
     DEFINES += SHARE_DIR='\\\"$${SHARE_DIR}\\\"'
+    DEFINES += PLUGINS_DIR='\\\"$${PLUGINS_DIR}\\\"'
     translations.path = $${SHARE_DIR}/loc
     translations.files = $${TRANSLATIONS}
     translations.files ~= s/\.ts/.qm/g

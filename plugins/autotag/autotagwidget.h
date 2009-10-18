@@ -18,44 +18,46 @@
  ***************************************************************************/
 
 
-#ifndef QTWITTERAPP_H
-#define QTWITTERAPP_H
+#ifndef AUTOTAGWIDGET_H
+#define AUTOTAGWIDGET_H
 
-#include <QApplication>
+#include <QWidget>
+#include <QStringList>
 
-class Core;
-class MainWindow;
-class TwitPicView;
-class Settings;
+namespace Ui {
+    class AutoTagWidget;
+}
 
-class QTwitterApp : public QApplication
+class QStringListModel;
+
+class AutoTagWidget : public QWidget
 {
     Q_OBJECT
+    Q_PROPERTY( bool active READ isActive );
+    Q_PROPERTY( QStringList tags READ tags );
+
 public:
-    static QTwitterApp* instance();
+    explicit AutoTagWidget( QWidget *parent = 0 );
+    virtual ~AutoTagWidget();
 
-    QTwitterApp( int & argc, char **argv );
-    virtual ~QTwitterApp();
-
-    static Core* core();
-    static MainWindow* mainWindow();
-    static Settings* settingsDialog();
+    bool isActive() const;
+    QStringList tags() const;
 
 public slots:
-    void openSettings();
-    void openTwitPic();
-    void loadConfig();
+    void addTags();
+    void deleteTag();
+
+protected:
+    void changeEvent( QEvent *event );
+    bool eventFilter( QObject *watched, QEvent *event );
+
+private slots:
+    void updateAddButton();
+    void updateDeleteButton();
 
 private:
-    static void registerMainWindow( MainWindow *mainWindow );
-    static void unregisterMainWindow( MainWindow *mainWindow );
-
-    Core *m_core;
-    MainWindow *m_mainWindow;
-    TwitPicView *m_twitPic;
-    Settings *m_settingsDialog;
-
-    friend class MainWindow;
+    Ui::AutoTagWidget *m_ui;
+    QStringListModel *tagsModel;
 };
 
-#endif // QTWITTERAPP_H
+#endif // AUTOTAGWIDGET_H

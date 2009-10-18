@@ -33,11 +33,15 @@
 #include <QTreeView>
 #include <QTimer>
 
+#include <QPluginLoader>
+#include "plugininterfaces.h"
+
 #include <stdlib.h>
 
 #include <qticonloader.h>
 #include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
+#include "settings.h"
 #include "statusmodel.h"
 #include "statuswidget.h"
 #include "aboutdialog.h"
@@ -108,6 +112,8 @@ MainWindow::MainWindow( QWidget *parent ) :
                                         QDBusConnection::sessionBus(), this );
     connect(knotificationIface, SIGNAL(NotificationClosed(uint,uint)), SLOT(bringToFront(uint,uint)));
 #endif
+
+    loadPlugins();
 }
 
 MainWindow::~MainWindow() {
@@ -270,6 +276,58 @@ void MainWindow::createButtonMenu()
     ui.moreButton->setMenu( buttonMenu );
 }
 
+void MainWindow::loadPlugins()
+{
+    foreach (QObject *plugin, QPluginLoader::staticInstances()) {
+        StatusFilterInterface *iFilter = qobject_cast<StatusFilterInterface*>(plugin);
+        if ( iFilter )
+            filters << iFilter;
+        SettingsTabInterface *iSettingsTab = qobject_cast<SettingsTabInterface*>(plugin);
+        if ( iSettingsTab ) {
+            QTwitterApp::settingsDialog()->addTab( iSettingsTab->tabName(),
+                                                   iSettingsTab->settingsWidget() );
+        }
+    }
+
+    QDir pluginsDir;
+#ifdef Q_WS_X11
+    pluginsDir = QDir( PLUGINS_DIR );
+    if ( !pluginsDir.exists() ) {
+        pluginsDir = QDir(qApp->applicationDirPath());
+        pluginsDir.cd("plugins");
+    }
+#else
+    pluginsDir = QDir(qApp->applicationDirPath());
+#if defined(Q_OS_WIN)
+    if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
+        pluginsDir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (pluginsDir.dirName() == "MacOS") {
+        pluginsDir.cdUp();
+        pluginsDir.cdUp();
+        pluginsDir.cdUp();
+    }
+#endif
+    pluginsDir.cd("plugins");
+#endif
+
+    foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+        QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+        QObject *plugin = loader.instance();
+        if (plugin) {
+            StatusFilterInterface *iFilter = qobject_cast<StatusFilterInterface*>(plugin);
+            if ( iFilter ) {
+                filters << iFilter;
+            }
+            SettingsTabInterface *iSettingsTab = qobject_cast<SettingsTabInterface*>(plugin);
+            if ( iSettingsTab ) {
+                QTwitterApp::settingsDialog()->addTab( iSettingsTab->tabName(),
+                                                       iSettingsTab->settingsWidget() );
+            }
+        }
+    }
+}
+
 int MainWindow::getScrollBarWidth()
 {
     return ui.statusListView->verticalScrollBar()->size().width();
@@ -352,6 +410,10 @@ void MainWindow::changeLabel()
 
 void MainWindow::sendStatus()
 {
+    foreach( StatusFilterInterface* filter, filters ) {
+        ui.statusEdit->setText( filter->filterStatus( ui.statusEdit->text() ) );
+    }
+
     if( ui.statusEdit->charsLeft() < 0 ) {
         QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Message too long" ), tr( "Your message is too long." ) );
         QPushButton *accept = messageBox->addButton( tr( "&Truncate" ), QMessageBox::AcceptRole );

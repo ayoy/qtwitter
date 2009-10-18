@@ -18,44 +18,49 @@
  ***************************************************************************/
 
 
-#ifndef QTWITTERAPP_H
-#define QTWITTERAPP_H
+#include "autotagplugin.h"
+#include "autotagwidget.h"
+#include <QStringList>
+#include <QVariant>
 
-#include <QApplication>
-
-class Core;
-class MainWindow;
-class TwitPicView;
-class Settings;
-
-class QTwitterApp : public QApplication
+AutoTagPlugin::AutoTagPlugin( QObject *parent ) :
+        QObject( parent ),
+        autoTagWidget( new AutoTagWidget )
 {
-    Q_OBJECT
-public:
-    static QTwitterApp* instance();
+}
 
-    QTwitterApp( int & argc, char **argv );
-    virtual ~QTwitterApp();
+AutoTagPlugin::~AutoTagPlugin()
+{
+    delete autoTagWidget;
+    autoTagWidget = 0;
+}
 
-    static Core* core();
-    static MainWindow* mainWindow();
-    static Settings* settingsDialog();
+QString AutoTagPlugin::filterStatus( const QString &status )
+{
+    if ( !autoTagWidget->property( "active" ).toBool() )
+        return status;
 
-public slots:
-    void openSettings();
-    void openTwitPic();
-    void loadConfig();
+    QStringList list = autoTagWidget->property( "tags" ).toStringList();
+    if ( list.isEmpty() )
+        return status;
 
-private:
-    static void registerMainWindow( MainWindow *mainWindow );
-    static void unregisterMainWindow( MainWindow *mainWindow );
+    QString newStatus = status;
+    foreach( QString tag, list ) {
+        // Don't touch groups (!tag), already hashed tags (#tag) and parts of urls ({/.?&=@}tag)
+        QRegExp rx( QString("(^|[^!#/\\.\\?&=@])\\b(%1)\\b").arg(tag), Qt::CaseInsensitive );
+        newStatus.replace( rx, "\\1#\\2" );
+    }
+    return newStatus;
+}
 
-    Core *m_core;
-    MainWindow *m_mainWindow;
-    TwitPicView *m_twitPic;
-    Settings *m_settingsDialog;
+QString AutoTagPlugin::tabName()
+{
+    return tr( "Tags" );
+}
 
-    friend class MainWindow;
-};
+QWidget* AutoTagPlugin::settingsWidget()
+{
+    return autoTagWidget;
+}
 
-#endif // QTWITTERAPP_H
+Q_EXPORT_PLUGIN2(AutoTag, AutoTagPlugin);

@@ -213,7 +213,7 @@ void StatusListPrivate::slotRequestDone( int role )
         StatusModel::instance()->updateDisplay();
     if ( role != TwitterAPI::ROLE_POST_DM && QTwitterApp::core()->requestCount() > 0 )
         QTwitterApp::core()->decrementRequestCount();
-    qDebug() << QTwitterApp::core()->requestCount() << visible;
+    qDebug() << QTwitterApp::core()->requestCount();
     //  if ( Core::requestCount() == 0 ) {
     //    if ( checkForNew )
     //      core->checkUnreadStatuses();
