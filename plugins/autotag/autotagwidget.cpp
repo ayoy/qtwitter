@@ -58,9 +58,19 @@ bool AutoTagWidget::isActive() const
     return m_ui->chbEnable->isChecked();
 }
 
+void AutoTagWidget::setActive( bool active )
+{
+    m_ui->chbEnable->setChecked( active );
+}
+
 QStringList AutoTagWidget::tags() const
 {
     return tagsModel->stringList();
+}
+
+void AutoTagWidget::setTags( const QStringList &tags )
+{
+    tagsModel->setStringList( tags );
 }
 
 void AutoTagWidget::addTags()

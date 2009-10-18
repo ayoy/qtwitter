@@ -29,6 +29,7 @@
 #include "configfile.h"
 #include "core.h"
 #include "updater.h"
+#include "plugininterfaces.h"
 
 #include <QNetworkProxy>
 #include <QTranslator>
@@ -115,6 +116,11 @@ Settings::~Settings() {}
 void Settings::addTab( const QString &tabName, QWidget *tabWidget )
 {
     ui.tabs->addTab( tabWidget, tabName );
+}
+
+void Settings::addConfigFilePlugin( ConfigFileInterface *iface )
+{
+    configFilePlugins << iface;
 }
 
 
@@ -211,6 +217,13 @@ void Settings::loadConfig( bool dialogRejected )
         move( offset );
         applySettings();
     }
+
+    settings.beginGroup( "Plugins" );
+    foreach( ConfigFileInterface *iface, configFilePlugins ) {
+        iface->loadConfig( &settings );
+    }
+    settings.endGroup();
+
     qDebug() << "settings loaded and applied";
 }
 
@@ -287,6 +300,12 @@ void Settings::saveConfig( int quitting )
 
     settings.endGroup();
     settings.sync();
+
+    settings.beginGroup( "Plugins" );
+    foreach( ConfigFileInterface *iface, configFilePlugins ) {
+        iface->saveConfig( &settings );
+    }
+    settings.endGroup();
 
     if ( !quitting ) {
         applySettings();

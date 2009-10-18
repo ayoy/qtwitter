@@ -24,6 +24,7 @@
 #include <QtPlugin>
 
 class QString;
+class QSettings;
 
 class StatusFilterInterface
 {
@@ -42,7 +43,17 @@ public:
     virtual QWidget* settingsWidget() = 0;
 };
 
+class ConfigFileInterface
+{
+public:
+    virtual ~ConfigFileInterface() {}
+
+    virtual void saveConfig( QSettings *file ) = 0;
+    virtual void loadConfig( QSettings *file ) = 0;
+};
+
 Q_DECLARE_INTERFACE(StatusFilterInterface, "net.ayoy.qTwitter.StatusFilterInterface/1.0");
 Q_DECLARE_INTERFACE(SettingsTabInterface, "net.ayoy.qTwitter.SettingsTabInterface/1.0");
+Q_DECLARE_INTERFACE(ConfigFileInterface, "net.ayoy.qTwitter.ConfigFileInterface/1.0");
 
 #endif // PLUGININTERFACES_H

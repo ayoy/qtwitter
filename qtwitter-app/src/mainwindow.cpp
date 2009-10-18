@@ -287,6 +287,10 @@ void MainWindow::loadPlugins()
             QTwitterApp::settingsDialog()->addTab( iSettingsTab->tabName(),
                                                    iSettingsTab->settingsWidget() );
         }
+        ConfigFileInterface *iConfigFile = qobject_cast<ConfigFileInterface*>(plugin);
+        if ( iConfigFile ) {
+            QTwitterApp::settingsDialog()->addConfigFilePlugin( iConfigFile );
+        }
     }
 
     QDir pluginsDir;
@@ -323,6 +327,10 @@ void MainWindow::loadPlugins()
             if ( iSettingsTab ) {
                 QTwitterApp::settingsDialog()->addTab( iSettingsTab->tabName(),
                                                        iSettingsTab->settingsWidget() );
+            }
+            ConfigFileInterface *iConfigFile = qobject_cast<ConfigFileInterface*>(plugin);
+            if ( iConfigFile ) {
+                QTwitterApp::settingsDialog()->addConfigFilePlugin( iConfigFile );
             }
         }
     }

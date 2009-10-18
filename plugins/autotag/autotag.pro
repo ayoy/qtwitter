@@ -9,6 +9,11 @@ FORMS = autotagwidget.ui
 TARGET = $$qtLibraryTarget(AutoTag)
 DESTDIR = ..
 
+UI_DIR = tmp
+MOC_DIR = tmp
+RCC_DIR = tmp
+OBJECTS_DIR = tmp
+
 # install
 isEmpty( PREFIX ):INSTALL_PREFIX = /usr
 else:INSTALL_PREFIX = $${PREFIX}

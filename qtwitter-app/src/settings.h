@@ -37,6 +37,7 @@ class Core;
 class Account;
 class AccountsModel;
 class AccountsController;
+class ConfigFileInterface;
 
 
 class Settings : public QDialog
@@ -51,6 +52,7 @@ public:
     void loadConfig( bool dialogRejected = false );
     void setProxy();
     void addTab( const QString &tabName, QWidget *tabWidget );
+    void addConfigFilePlugin( ConfigFileInterface *iface );
 
 public slots:
     void saveConfig( int quitting = 0 );
@@ -88,6 +90,7 @@ private:
     QLineEdit *selectBrowserEdit;
     QPushButton *selectBrowserButton;
 #endif
+    QList<ConfigFileInterface*> configFilePlugins;
 };
 
 #endif //SETTINGS_H

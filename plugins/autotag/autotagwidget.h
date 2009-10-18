@@ -33,15 +33,17 @@ class QStringListModel;
 class AutoTagWidget : public QWidget
 {
     Q_OBJECT
-    Q_PROPERTY( bool active READ isActive );
-    Q_PROPERTY( QStringList tags READ tags );
+    Q_PROPERTY( bool active READ isActive WRITE setActive );
+    Q_PROPERTY( QStringList tags READ tags WRITE setTags );
 
 public:
     explicit AutoTagWidget( QWidget *parent = 0 );
     virtual ~AutoTagWidget();
 
     bool isActive() const;
+    void setActive( bool active );
     QStringList tags() const;
+    void setTags( const QStringList &tags );
 
 public slots:
     void addTags();

@@ -8,7 +8,6 @@ tmp
 GPL-header.txt
 LGPL-header.txt
 doc
-libtwitterapi*
-liburlshortener*
+lib*.so*
 qtwitter
 commit-message.txt

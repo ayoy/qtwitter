@@ -24,13 +24,15 @@
 #include <QObject>
 #include <plugininterfaces.h>
 
+class AutoTagWidget;
+
 class AutoTagPlugin : public QObject,
                       public StatusFilterInterface,
-                      public SettingsTabInterface
+                      public SettingsTabInterface,
+                      public ConfigFileInterface
 {
     Q_OBJECT
-    Q_INTERFACES(StatusFilterInterface);
-    Q_INTERFACES(SettingsTabInterface);
+    Q_INTERFACES(StatusFilterInterface SettingsTabInterface ConfigFileInterface);
 
 public:
     AutoTagPlugin( QObject *parent = 0 );
@@ -43,8 +45,12 @@ public:
     QString tabName();
     QWidget *settingsWidget();
 
+    // ConfigFileInterface
+    void saveConfig( QSettings *file );
+    void loadConfig( QSettings *file );
+
 private:
-    QWidget *autoTagWidget;
+    AutoTagWidget *autoTagWidget;
 
 };
 

@@ -22,6 +22,7 @@
 #include "autotagwidget.h"
 #include <QStringList>
 #include <QVariant>
+#include <QSettings>
 
 AutoTagPlugin::AutoTagPlugin( QObject *parent ) :
         QObject( parent ),
@@ -37,10 +38,10 @@ AutoTagPlugin::~AutoTagPlugin()
 
 QString AutoTagPlugin::filterStatus( const QString &status )
 {
-    if ( !autoTagWidget->property( "active" ).toBool() )
+    if ( !autoTagWidget->isActive() )
         return status;
 
-    QStringList list = autoTagWidget->property( "tags" ).toStringList();
+    QStringList list = autoTagWidget->tags();
     if ( list.isEmpty() )
         return status;
 
@@ -61,6 +62,24 @@ QString AutoTagPlugin::tabName()
 QWidget* AutoTagPlugin::settingsWidget()
 {
     return autoTagWidget;
+}
+
+void AutoTagPlugin::saveConfig( QSettings *file )
+{
+    file->beginGroup( "AutoTag" );
+    file->setValue( "enabled", autoTagWidget->isActive() );
+    file->setValue( "tags", autoTagWidget->tags() );
+    file->endGroup();
+    file->sync();
+}
+
+void AutoTagPlugin::loadConfig( QSettings *file )
+{
+    file->beginGroup( "AutoTag" );
+    autoTagWidget->setActive( file->value( "enabled", false ).toBool() );
+    autoTagWidget->setTags( file->value( "tags", QStringList() ).toStringList() );
+    file->endGroup();
+    file->sync();
 }
 
 Q_EXPORT_PLUGIN2(AutoTag, AutoTagPlugin);
