@@ -102,15 +102,15 @@ INCLUDEPATH += src
 macx {
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
-    QMAKE_LFLAGS += -F$${TOP}/$${TARGET}.app/Contents/Frameworks
+    QMAKE_LFLAGS += -F$${DESTDIR}/$${TARGET}.app/Contents/Frameworks
     LIBS += -framework \
         twitterapi \
         -framework \
         urlshortener
 }
 else:unix {
-    LIBS += -L$${TOP} \
-        -Wl,-rpath,$${TOP} \
+    LIBS += -L$${DESTDIR} \
+        -Wl,-rpath,$${DESTDIR} \
         $$TWITTERAPI_LIB \
         $$URLSHORTENER_LIB
     isEmpty( PREFIX ):INSTALL_PREFIX = /usr
@@ -156,7 +156,7 @@ else:unix {
 }
 else:win32 {
     RC_FILE = win32/qtwitter.rc
-    LIBS += -L$${TOP} \
+    LIBS += -L$${DESTDIR} \
         $$TWITTERAPI_LIB \
         $$URLSHORTENER_LIB \
         $$QOAUTH_LIB
