@@ -40,7 +40,7 @@ protected:
     int replyStatus( QNetworkReply *reply ) const;
 
 signals:
-    void shortened( const QString &url );
+    void shortened( const QString &oldUrl, const QString &newUrl );
     void errorMessage( const QString &message );
 
 protected slots:
@@ -54,7 +54,7 @@ class IsgdShortener : public UrlShortenerImplementation
 
 public:
     IsgdShortener( QObject *parent = 0 );
-    UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_ISGD; }
+    UrlShortener::Shortener shorteningService() { return UrlShortener::ShortenerIsgd; }
     void shorten( const QString &url );
 protected slots:
     virtual void replyFinished( QNetworkReply* );
@@ -67,7 +67,7 @@ class TrimShortener : public UrlShortenerImplementation
 
 public:
     TrimShortener( QObject *parent = 0 );
-    UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_TRIM; }
+    UrlShortener::Shortener shorteningService() { return UrlShortener::ShortenerTrim; }
     void shorten( const QString &url );
 protected slots:
     virtual void replyFinished( QNetworkReply* );
@@ -80,7 +80,7 @@ class MetamarkShortener : public UrlShortenerImplementation
 
 public:
     MetamarkShortener( QObject *parent = 0 );
-    UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_METAMARK; }
+    UrlShortener::Shortener shorteningService() { return UrlShortener::ShortenerMetamark; }
     void shorten( const QString &url );
 protected slots:
     virtual void replyFinished( QNetworkReply* );
@@ -93,7 +93,7 @@ class TinyurlShortener : public UrlShortenerImplementation
 
 public:
     TinyurlShortener( QObject *parent = 0 );
-    UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_TINYURL; }
+    UrlShortener::Shortener shorteningService() { return UrlShortener::ShortenerTinyurl; }
     void shorten( const QString &url );
 protected slots:
     virtual void replyFinished( QNetworkReply* );
@@ -105,7 +105,7 @@ class BoooomShortener : public UrlShortenerImplementation
 
 public:
     BoooomShortener( QObject *parent = 0 );
-    UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_BOOOOM; }
+    UrlShortener::Shortener shorteningService() { return UrlShortener::ShortenerBooom; }
     void shorten( const QString &url );
 protected slots:
     virtual void replyFinished( QNetworkReply* );
@@ -117,7 +117,7 @@ class TinyarrowsShortener : public UrlShortenerImplementation
 
 public:
     TinyarrowsShortener( QObject *parent = 0 );
-    UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_TINYARROWS; }
+    UrlShortener::Shortener shorteningService() { return UrlShortener::ShortenerTinyarrows; }
     void shorten( const QString &url );
 protected slots:
     virtual void replyFinished( QNetworkReply* );
@@ -130,7 +130,7 @@ class UnuShortener : public UrlShortenerImplementation
 
 public:
     UnuShortener( QObject *parent = 0 );
-    UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_UNU; }
+    UrlShortener::Shortener shorteningService() { return UrlShortener::ShortenerUnu; }
     void shorten( const QString &url );
 protected slots:
     virtual void replyFinished( QNetworkReply* );
@@ -142,7 +142,7 @@ class BitlyShortener : public UrlShortenerImplementation
 
 public:
     BitlyShortener( QObject *parent = 0 );
-    UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_BITLY; }
+    UrlShortener::Shortener shorteningService() { return UrlShortener::ShortenerBitly; }
     void shorten( const QString &url );
 protected slots:
     virtual void replyFinished( QNetworkReply* );
@@ -154,7 +154,7 @@ class DiggShortener : public UrlShortenerImplementation
 
 public:
     DiggShortener( QObject *parent = 0 );
-    UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_DIGG; }
+    UrlShortener::Shortener shorteningService() { return UrlShortener::ShortenerDigg; }
     void shorten( const QString &url );
 protected slots:
     virtual void replyFinished( QNetworkReply* );
@@ -166,7 +166,7 @@ class MigremeShortener : public UrlShortenerImplementation
 
 public:
     MigremeShortener( QObject *parent = 0 );
-    UrlShortener::Shortener shorteningService() { return UrlShortener::SHORTENER_MIGREME; }
+    UrlShortener::Shortener shorteningService() { return UrlShortener::ShortenerMigreme; }
     void shorten( const QString &url );
 protected slots:
     virtual void replyFinished( QNetworkReply* );

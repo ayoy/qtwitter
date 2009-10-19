@@ -5,4 +5,5 @@ HEADERS = autotagplugin.h \
 SOURCES = autotagplugin.cpp \
     autotagwidget.cpp
 FORMS = autotagwidget.ui
+
 TARGET = AutoTag

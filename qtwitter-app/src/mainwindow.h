@@ -72,7 +72,6 @@ public slots:
     void bringToFront(uint, uint);
     void bringToFront();
     void about();
-    void replaceUrl( const QString &url );
     void minimize();
 
     void statusReplyAction();
@@ -92,7 +91,6 @@ signals:
     void addRetweetString( QString message );
     void resizeView( int width, int oldWidth );
     void switchModel( const QString &serviceUrl, const QString &login );
-    void shortenUrl( const QString &url );
     void iconStopped();
 
     void statusMarkeverythingasreadAction();

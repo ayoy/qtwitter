@@ -21,7 +21,6 @@
 
 #include "settings.h"
 
-#include <urlshortener/urlshortener.h>
 #include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
 #include "qtwitterapp.h"
@@ -79,7 +78,6 @@ Settings::Settings( Core *coreSettings, QWidget *parent ) :
     }
 
     createLanguageMenu();
-    createUrlShortenerMenu();
 
 #ifdef Q_WS_X11
     QHBoxLayout *hlayout = new QHBoxLayout;
@@ -134,7 +132,6 @@ void Settings::loadConfig( bool dialogRejected )
         lang = 0;
     ui.languageCombo->setCurrentIndex( lang );
 
-    ui.urlShortenerCombo->setCurrentIndex( ui.urlShortenerCombo->findData( settings.value( "url-shortener", UrlShortener::SHORTENER_ISGD ).toInt() ) );
     ui.confirmDeletionBox->setChecked( settings.value( "confirmTweetDeletion", true ).toBool() );
     ui.notificationsBox->setChecked( settings.value( "notifications", true ).toBool() );
     settings.endGroup();
@@ -514,18 +511,4 @@ void Settings::switchLanguage( int index )
     }
     core->retranslateUi();
     adjustSize();
-}
-
-void Settings::createUrlShortenerMenu()
-{
-    ui.urlShortenerCombo->addItem( "bit.ly", UrlShortener::SHORTENER_BITLY );
-    ui.urlShortenerCombo->addItem( "Boooom!", UrlShortener::SHORTENER_BOOOOM );
-    ui.urlShortenerCombo->addItem( "Digg", UrlShortener::SHORTENER_DIGG );
-    ui.urlShortenerCombo->addItem( "is.gd", UrlShortener::SHORTENER_ISGD );
-    ui.urlShortenerCombo->addItem( "MetaMark", UrlShortener::SHORTENER_METAMARK );
-    ui.urlShortenerCombo->addItem( "Migre.me", UrlShortener::SHORTENER_MIGREME);
-    ui.urlShortenerCombo->addItem( "tinyarro.ws", UrlShortener::SHORTENER_TINYARROWS );
-    ui.urlShortenerCombo->addItem( "TinyURL", UrlShortener::SHORTENER_TINYURL );
-    ui.urlShortenerCombo->addItem( "tr.im", UrlShortener::SHORTENER_TRIM );
-    ui.urlShortenerCombo->addItem( "u.nu", UrlShortener::SHORTENER_UNU );
 }

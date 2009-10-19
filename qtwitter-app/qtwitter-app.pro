@@ -6,7 +6,6 @@ CONFIG += oauth
 # sets the TOP variable to the root source code dir
 include(../common.pri)
 include($${TOP}/twitterapi/twitterapi.pri)
-include($${TOP}/urlshortener/urlshortener.pri)
 include(src/dbus/dbus.pri)
 include(src/oauth/oauth.pri)
 include(src/accounts/accounts.pri)

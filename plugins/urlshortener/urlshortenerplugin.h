@@ -1,5 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Dominik Kapusta            <d@ayoy.net>         *
+ *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
  *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
@@ -19,44 +19,50 @@
  ***************************************************************************/
 
 
-#ifndef URLSHORTENER_H
-#define URLSHORTENER_H
+#ifndef URLSHORTENERPLUGIN_H
+#define URLSHORTENERPLUGIN_H
 
 #include <QObject>
-#include "urlshortener_global.h"
+#include <plugininterfaces.h>
 
-class QNetworkReply;
-class QNetworkAccessManager;
-class UrlShortenerImplementation;
+class UrlShortener;
+class UrlShortenerWidget;
 
-class URLSHORTENER_EXPORT UrlShortener : public QObject
+class UrlShortenerPlugin : public QObject,
+                           public StatusFilterInterface,
+                           public SettingsTabInterface,
+                           public ConfigFileInterface
 {
     Q_OBJECT
+    Q_INTERFACES(StatusFilterInterface SettingsTabInterface ConfigFileInterface);
 
 public:
-    enum Shortener {
-        SHORTENER_ISGD,
-        SHORTENER_TRIM,
-        SHORTENER_METAMARK,
-        SHORTENER_TINYURL,
-        SHORTENER_TINYARROWS,
-        SHORTENER_UNU,
-        SHORTENER_BITLY,
-        SHORTENER_DIGG,
-        SHORTENER_MIGREME,
-        SHORTENER_BOOOOM
-    };
+    UrlShortenerPlugin( QObject *parent = 0 );
+    virtual ~UrlShortenerPlugin();
 
-    UrlShortener( QObject *parent = 0 );
-    void shorten( const QString &url, Shortener shorteningService = SHORTENER_ISGD );
+    // StatusFilterInterface
+    QString filterStatus( const QString &status );
+
+    // SettingsTabInterface
+    QString tabName();
+    QWidget *settingsWidget();
+
+    // ConfigFileInterface
+    void saveConfig( QSettings *file );
+    void loadConfig( QSettings *file );
 
 signals:
-    void shortened( const QString &url );
-    void errorMessage( const QString &message );
+    void done();
+
+private slots:
+    void replaceUrl( const QString &oldUrl, const QString &newUrl );
 
 private:
-    UrlShortenerImplementation *shortenerInstance;
+    UrlShortener *urlShortener;
+    UrlShortenerWidget *urlShortenerWidget;
+    QString *currentStatus;
+    int requestsCount;
+
 };
 
-
-#endif // URLSHORTENER_H
+#endif // URLSHORTENERPLUGIN_H

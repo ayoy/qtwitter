@@ -79,7 +79,6 @@ private slots:
 private:
     void applySettings();
     void createLanguageMenu();
-    void createUrlShortenerMenu();
     bool updateAccountsOnExit;
     Core *core;
     QMap<QString,ThemeData> themes;

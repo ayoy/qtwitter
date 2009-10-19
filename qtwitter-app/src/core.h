@@ -37,7 +37,6 @@ class TwitPicEngine;
 class StatusModel;
 class ThemeData;
 class StatusListView;
-class UrlShortener;
 class AccountsController;
 
 
@@ -105,7 +104,6 @@ public slots:
     void twitPicResponse( bool responseStatus, QString message, bool newStatus );
 
     void openBrowser( QUrl address );
-    void shortenUrl( const QString &url );
     void resetRequestsCount();
 
     void applySettings();
@@ -126,7 +124,6 @@ signals:
     void modelChanged( StatusModel *model );
     void confirmDMSent( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
     void sendNewsReport( QString message );
-    void urlShortened( const QString &url);
 
     void accountDialogClosed( bool success );
 
@@ -159,7 +156,6 @@ private:
     bool settingsOpen;
 
     TwitPicEngine *twitpicUpload;
-    UrlShortener *urlShortener;
 
     AccountsController *accounts;
     AccountsModel *accountsModel;

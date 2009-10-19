@@ -49,17 +49,20 @@ IsgdShortener::IsgdShortener( QObject *parent ) : UrlShortenerImplementation( pa
 void IsgdShortener::shorten( const QString &url )
 {
     if( QRegExp( "http://is.gd/" ).indexIn( url ) == -1 ) {
-        connection->get( QNetworkRequest( QUrl( "http://is.gd/api.php?longurl=" + url ) ) );
+        QNetworkRequest request( QUrl( "http://is.gd/api.php?longurl=" + url ) );
+        request.setAttribute( QNetworkRequest::User, url );
+        connection->get( request );
     }
 }
 
 void IsgdShortener::replyFinished( QNetworkReply * reply )
 {
     QString response = reply->readLine();
+    QString oldUrl = reply->request().attribute( QNetworkRequest::User, QString() ).toString();
 
     switch( replyStatus( reply ) ) {
     case 200:
-        emit shortened( response );
+        emit shortened( oldUrl, response );
         break;
         // TODO: change
     case 401:
@@ -95,20 +98,23 @@ void TrimShortener::shorten( const QString &url )
     QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
 
     if( QRegExp( "http://tr.im/" ).indexIn( newUrl ) == -1 ) {
-        connection->get( QNetworkRequest( QUrl( "http://api.tr.im/api/trim_simple?url=" + newUrl ) ) );
+        QNetworkRequest request( QUrl( "http://api.tr.im/api/trim_simple?url=" + newUrl ) );
+        request.setAttribute( QNetworkRequest::User, newUrl );
+        connection->get( request );
     }
 }
 
 void TrimShortener::replyFinished( QNetworkReply *reply )
 {
     QString response = reply->readLine();
+    QString oldUrl = reply->request().attribute( QNetworkRequest::User, QString() ).toString();
 
     switch( replyStatus( reply ) ) {
     case 200:
         if( QRegExp( "\\s*" ).exactMatch( response ) ) {
             emit errorMessage( tr( "The URL has been rejected by the tr.im" ) );
         } else {
-            emit shortened( response.trimmed() );
+            emit shortened( oldUrl, response.trimmed() );
         }
         break;
     default:
@@ -122,17 +128,20 @@ MetamarkShortener::MetamarkShortener( QObject *parent ) : UrlShortenerImplementa
 void MetamarkShortener::shorten( const QString &url )
 {
     if( QRegExp( "http://xrl.us/" ).indexIn( url ) == -1 ) {
-        connection->get( QNetworkRequest( QUrl( "http://metamark.net/api/rest/simple?long_url=" + url ) ) );
+        QNetworkRequest request( QUrl( "http://metamark.net/api/rest/simple?long_url=" + url ) );
+        request.setAttribute( QNetworkRequest::User, url );
+        connection->get( request );
     }
 }
 
 void MetamarkShortener::replyFinished( QNetworkReply *reply )
 {
     QString response = reply->readLine();
+    QString oldUrl = reply->request().attribute( QNetworkRequest::User, QString() ).toString();
 
     switch( replyStatus( reply ) ) {
     case 200:
-        emit shortened( response );
+        emit shortened( oldUrl, response );
         break;
     case 500:
     default:
@@ -146,17 +155,20 @@ TinyurlShortener::TinyurlShortener( QObject *parent ) : UrlShortenerImplementati
 void TinyurlShortener::shorten( const QString &url )
 {
     if( QRegExp( "http://tinyurl.com/" ).indexIn( url ) == -1 ) {
-        connection->get( QNetworkRequest( QUrl( "http://tinyurl.com/api-create.php?url=" + url ) ) );
+        QNetworkRequest request( QUrl( "http://tinyurl.com/api-create.php?url=" + url ) );
+        request.setAttribute( QNetworkRequest::User, url );
+        connection->get( request );
     }
 }
 
 void TinyurlShortener::replyFinished( QNetworkReply *reply )
 {
     QString response = reply->readLine();
+    QString oldUrl = reply->request().attribute( QNetworkRequest::User, QString() ).toString();
 
     switch( replyStatus( reply ) ) {
     case 200:
-        emit shortened( response );
+        emit shortened( oldUrl, response );
         break;
     case 500:
     default:
@@ -165,17 +177,22 @@ void TinyurlShortener::replyFinished( QNetworkReply *reply )
 }
 
 BoooomShortener::BoooomShortener( QObject *parent ) : UrlShortenerImplementation( parent ) {}
+
 void BoooomShortener::shorten( const QString &url )
 {
     QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
     if( QRegExp( "http://b.oooom.net/" ).indexIn( newUrl ) == -1 ) {
-        connection->get( QNetworkRequest( QUrl( "http://b.oooom.net/shrink.php/" + newUrl ) ) );
+        QNetworkRequest request( QUrl( "http://b.oooom.net/shrink.php/" + newUrl ) );
+        request.setAttribute( QNetworkRequest::User, newUrl );
+        connection->get( request );
     }
 }
 
 void BoooomShortener::replyFinished( QNetworkReply *reply )
 {
     QString response = QString::fromUtf8( reply->readAll() );
+    QString oldUrl = reply->request().attribute( QNetworkRequest::User, QString() ).toString();
+
     switch( replyStatus( reply ) ) {
     case 200:
         {
@@ -187,7 +204,7 @@ void BoooomShortener::replyFinished( QNetworkReply *reply )
                 {
                     boom.append(response[pos]);
                 }
-                emit shortened( boom );
+                emit shortened( oldUrl, boom );
             }
             else if ( j == -1 ) {
                 qDebug() << "Got a bad response from b.oooom.net or something.";
@@ -207,17 +224,20 @@ TinyarrowsShortener::TinyarrowsShortener( QObject *parent ) : UrlShortenerImplem
 void TinyarrowsShortener::shorten( const QString &url )
 {
     if( QRegExp( "http://➡.ws/" ).indexIn( url ) == -1 ) {
-        connection->get( QNetworkRequest( QUrl( "http://tinyarro.ws/api-create.php?utfpure=1&url=" + url ) ) );
+        QNetworkRequest request( QUrl( "http://tinyarro.ws/api-create.php?utfpure=1&url=" + url ) );
+        request.setAttribute( QNetworkRequest::User, url );
+        connection->get( request );
     }
 }
 
 void TinyarrowsShortener::replyFinished( QNetworkReply *reply )
 {
     QString response = QString::fromUtf8( reply->readLine() );
+    QString oldUrl = reply->request().attribute( QNetworkRequest::User, QString() ).toString();
 
     switch( replyStatus( reply ) ) {
     case 200:
-        emit shortened( response );
+        emit shortened( oldUrl, response );
         break;
     case 500:
     default:
@@ -231,18 +251,21 @@ UnuShortener::UnuShortener( QObject *parent ) : UrlShortenerImplementation( pare
 void UnuShortener::shorten( const QString &url )
 {
     if( QRegExp( "http://u.nu" ).indexIn( url ) == -1 ) {
-        connection->get( QNetworkRequest( QUrl( "http://u.nu/unu-api-simple?url=" + url ) ) );
+        QNetworkRequest request( QUrl( "http://u.nu/unu-api-simple?url=" + url ) );
+        request.setAttribute( QNetworkRequest::User, url );
+        connection->get( request );
     }
 }
 
 void UnuShortener::replyFinished( QNetworkReply *reply )
 {
     QString response = reply->readLine();
+    QString oldUrl = reply->request().attribute( QNetworkRequest::User, QString() ).toString();
 
     switch( replyStatus( reply ) ) {
     case 200:
         if( response.indexOf( "http://" ) == 0 ) {
-            emit shortened( response );
+            emit shortened( oldUrl, response );
         } else {
             emit errorMessage( tr( "Your URL has been rejected by u.nu" ) );
         }
@@ -260,13 +283,17 @@ void BitlyShortener::shorten( const QString &url )
     QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
 
     if( QRegExp( "http://bit.ly" ).indexIn( url ) == -1 ) {
-        connection->get( QNetworkRequest( QUrl( "http://api.bit.ly/shorten?version=2.0.1&login=bitlyapidemo&format=xml&apiKey=R_0da49e0a9118ff35f52f629d2d71bf07&longUrl=" + newUrl ) ) );
+        QNetworkRequest request( QUrl( "http://api.bit.ly/shorten?version=2.0.1&login=bitlyapidemo&format=xml&apiKey=R_0da49e0a9118ff35f52f629d2d71bf07&longUrl=" + newUrl ) );
+        request.setAttribute( QNetworkRequest::User, newUrl );
+        connection->get( request );
     }
 }
 
 void BitlyShortener::replyFinished( QNetworkReply *reply )
 {
     QString response = reply->readLine();
+    QString oldUrl = reply->request().attribute( QNetworkRequest::User, QString() ).toString();
+
     int errorCode;
     QDomDocument doc;
     QDomElement nodeKeyVal;
@@ -278,7 +305,7 @@ void BitlyShortener::replyFinished( QNetworkReply *reply )
         errorCode = nodeKeyVal.firstChildElement( "errorCode" ).text().toInt();
         switch( errorCode ) {
         case 0:
-            emit shortened( nodeKeyVal.firstChildElement( "shortUrl" ).text() );
+            emit shortened( oldUrl, nodeKeyVal.firstChildElement( "shortUrl" ).text() );
             break;
         case 1206:
             emit errorMessage( tr( "The URL entered was not valid." ) );
@@ -300,19 +327,22 @@ void DiggShortener::shorten( const QString &url )
     QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
 
     if( QRegExp( "http://digg.com" ).indexIn( url ) == -1 ) {
-        connection->get( QNetworkRequest( QUrl( "http://services.digg.com/url/short/create?appkey=http://qtwitter.ayoy.net&url=" + newUrl ) ) );
+        QNetworkRequest request( QUrl( "http://services.digg.com/url/short/create?appkey=http://qtwitter.ayoy.net&url=" + newUrl ) );
+        request.setAttribute( QNetworkRequest::User, newUrl );
+        connection->get( request );
     }
 }
 
 void DiggShortener::replyFinished( QNetworkReply *reply )
 {
     QString response = reply->readAll();
+    QString oldUrl = reply->request().attribute( QNetworkRequest::User, QString() ).toString();
     QDomDocument doc;
 
     switch( replyStatus( reply ) ) {
     case 200:
         doc.setContent( response, false );
-        emit shortened( doc.firstChildElement( "shorturls" ).firstChildElement( "shorturl" ).attribute("short_url") );
+        emit shortened( oldUrl, doc.firstChildElement( "shorturls" ).firstChildElement( "shorturl" ).attribute("short_url") );
         break;
     case 500:
     default:
@@ -327,13 +357,17 @@ void MigremeShortener::shorten( const QString &url )
     QString newUrl = url.indexOf( "http://" ) > -1 ? url : "http://" + url;
 
     if( QRegExp( "http://migre.me" ).indexIn( url ) == -1 ) {
-        connection->get( QNetworkRequest( QUrl( "http://migre.me/api.xml?url=" + newUrl ) ) );
+        QNetworkRequest request( QUrl( "http://migre.me/api.xml?url=" + newUrl ) );
+        request.setAttribute( QNetworkRequest::User, newUrl );
+        connection->get( request );
     }
 }
 
 void MigremeShortener::replyFinished( QNetworkReply *reply )
 {
     QString response = reply->readAll();
+    QString oldUrl = reply->request().attribute( QNetworkRequest::User, QString() ).toString();
+
     QDomDocument doc;
     QDomElement migre;
     int errorCode;
@@ -345,7 +379,7 @@ void MigremeShortener::replyFinished( QNetworkReply *reply )
         errorCode = migre.firstChildElement( "error" ).text().toInt();
         switch( errorCode ) {
         case 0:
-            emit shortened( migre.firstChildElement( "migre" ).text() );
+            emit shortened( oldUrl, migre.firstChildElement( "migre" ).text() );
             break;
         case 2:
             emit errorMessage( tr( "The URL entered was not valid." ) );

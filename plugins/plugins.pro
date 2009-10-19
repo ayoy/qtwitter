@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
-SUBDIRS = autotag
+SUBDIRS = autotag urlshortener
 CONFIG += ordered
