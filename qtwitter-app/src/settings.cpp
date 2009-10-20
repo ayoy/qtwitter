@@ -61,12 +61,6 @@ Settings::Settings( Core *coreSettings, QWidget *parent ) :
 
     ui.setupUi( this );
 
-    QFont smallerFont = ui.shortenerInfoLabel->font();
-    smallerFont.setPointSize( smallerFont.pointSize() - 1 );
-    ui.shortenerInfoLabel->setFont( smallerFont );
-
-    ui.shortenerInfoLabel->setText( tr( "Tip: use %1 to shorten links" ).arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
-
     themes.insert( Themes::STYLESHEET_COCOA.first,   Themes::STYLESHEET_COCOA.second);
     themes.insert( Themes::STYLESHEET_GRAY.first,    Themes::STYLESHEET_GRAY.second);
     themes.insert( Themes::STYLESHEET_GREEN.first,   Themes::STYLESHEET_GREEN.second);
@@ -250,7 +244,6 @@ void Settings::saveConfig( int quitting )
     settings.setValue( "refresh-index", ui.refreshCombo->currentIndex() );
     settings.setValue( "refresh-value", ui.refreshCombo->currentText() );
     settings.setValue( "language", ui.languageCombo->itemData( ui.languageCombo->currentIndex() ).toString() );
-    settings.setValue( "url-shortener", ui.urlShortenerCombo->itemData( ui.urlShortenerCombo->currentIndex() ).toInt() );
     settings.setValue( "confirmTweetDeletion", ui.confirmDeletionBox->isChecked() );
     settings.setValue( "notifications", ui.notificationsBox->isChecked() );
     settings.endGroup();
@@ -388,7 +381,6 @@ void Settings::changeEvent( QEvent *e )
 void Settings::retranslateUi()
 {
     ui.languageCombo->setItemText( 0, tr( "Default" ) );
-    ui.shortenerInfoLabel->setText( tr( "Tip: use %1 to shorten links" ).arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
 #ifdef Q_WS_X11
     useCustomBrowserCheckBox->setText( tr( "Use custom web browser" ) );
     selectBrowserButton->setText( tr( "Browse" ) );

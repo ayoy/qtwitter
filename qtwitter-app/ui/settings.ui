@@ -137,35 +137,7 @@
          </property>
         </widget>
        </item>
-       <item row="3" column="0">
-        <widget class="QLabel" name="shortenLabel">
-         <property name="text">
-          <string>Shorten links via</string>
-         </property>
-         <property name="buddy">
-          <cstring>urlShortenerCombo</cstring>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QComboBox" name="urlShortenerCombo"/>
-       </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="shortenerInfoLabel">
-         <property name="font">
-          <font>
-           <italic>true</italic>
-          </font>
-         </property>
-         <property name="text">
-          <string notr="true">TextLabel</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0" colspan="2">
+       <item row="3" column="0" colspan="2">
         <widget class="QCheckBox" name="confirmDeletionBox">
          <property name="text">
           <string>Confirm messages deletion</string>
@@ -465,7 +437,6 @@
   <tabstop>refreshCombo</tabstop>
   <tabstop>statusCountBox</tabstop>
   <tabstop>languageCombo</tabstop>
-  <tabstop>urlShortenerCombo</tabstop>
   <tabstop>confirmDeletionBox</tabstop>
   <tabstop>proxyBox</tabstop>
   <tabstop>hostEdit</tabstop>
