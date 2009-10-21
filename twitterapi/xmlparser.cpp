@@ -280,10 +280,8 @@ QString XmlParser::textToHtml( QString newText )
     newText.replace( ahref, "<a href='\\1'>\\1</a>\\3" );
 
     // recognize @mentions
-    newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([\\w\\d]+)" ), QString( "\\1<a href=%1/\\2>@\\2</a>").arg( networkUrl ) );
-    ahref.setPattern( "(<a href=[^ ]+)/>" );
-    ahref.setMinimal( true );
-    newText.replace( ahref, "\\1>" );
+    newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([\\w\\d_]+)" ),
+                     QString( "\\1<a href='%1'/\\2>\\2</a>").arg( networkUrl ) );
 
     // recognize e-mail addresses
     QRegExp mailto( "([a-z0-9\\._%-]+@[a-z0-9\\.-]+\\.[a-z]{2,4})", Qt::CaseInsensitive );
