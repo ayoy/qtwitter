@@ -25,13 +25,15 @@
 
 class QString;
 class QSettings;
+class QLineEdit;
 
 class StatusFilterInterface
 {
 public:
     virtual ~StatusFilterInterface() {}
 
-    virtual QString filterStatus( const QString &status ) = 0;
+    virtual QString filterStatusBeforePosting( const QString &status ) = 0;
+    virtual void connectToStatusEdit( QLineEdit *statusEdit ) = 0;
 };
 
 class SettingsTabInterface

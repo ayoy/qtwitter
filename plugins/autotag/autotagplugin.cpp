@@ -36,7 +36,7 @@ AutoTagPlugin::~AutoTagPlugin()
     autoTagWidget = 0;
 }
 
-QString AutoTagPlugin::filterStatus( const QString &status )
+QString AutoTagPlugin::filterStatusBeforePosting( const QString &status )
 {
     if ( !autoTagWidget->isActive() )
         return status;

@@ -275,8 +275,10 @@ void MainWindow::loadPlugins()
 {
     foreach (QObject *plugin, QPluginLoader::staticInstances()) {
         StatusFilterInterface *iFilter = qobject_cast<StatusFilterInterface*>(plugin);
-        if ( iFilter )
+        if ( iFilter ) {
             filters << iFilter;
+            iFilter->connectToStatusEdit( ui.statusEdit );
+        }
         SettingsTabInterface *iSettingsTab = qobject_cast<SettingsTabInterface*>(plugin);
         if ( iSettingsTab ) {
             QTwitterApp::settingsDialog()->addTab( iSettingsTab->tabName(),
@@ -317,6 +319,7 @@ void MainWindow::loadPlugins()
             StatusFilterInterface *iFilter = qobject_cast<StatusFilterInterface*>(plugin);
             if ( iFilter ) {
                 filters << iFilter;
+                iFilter->connectToStatusEdit( ui.statusEdit );
             }
             SettingsTabInterface *iSettingsTab = qobject_cast<SettingsTabInterface*>(plugin);
             if ( iSettingsTab ) {
@@ -415,7 +418,7 @@ void MainWindow::sendStatus()
 {
     QString status = ui.statusEdit->text();
     foreach( StatusFilterInterface* filter, filters ) {
-        status = filter->filterStatus( status );
+        status = filter->filterStatusBeforePosting( status );
     }
     ui.statusEdit->setText( status );
 

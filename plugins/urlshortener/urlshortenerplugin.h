@@ -24,9 +24,27 @@
 
 #include <QObject>
 #include <plugininterfaces.h>
+#include <QKeySequence>
+#include <QEventLoop>
 
 class UrlShortener;
 class UrlShortenerWidget;
+
+class QShortcut;
+class QLineEdit;
+
+class TimeoutEventLoop : public QEventLoop
+{
+    Q_OBJECT
+public:
+    bool timeout() const;
+    int exec( ProcessEventsFlags flags = AllEvents );
+public slots:
+    void quitWithTimeout();
+private:
+    bool m_timeout;
+};
+
 
 class UrlShortenerPlugin : public QObject,
                            public StatusFilterInterface,
@@ -41,7 +59,8 @@ public:
     virtual ~UrlShortenerPlugin();
 
     // StatusFilterInterface
-    QString filterStatus( const QString &status );
+    QString filterStatusBeforePosting( const QString &status );
+    void connectToStatusEdit( QLineEdit *statusEdit );
 
     // SettingsTabInterface
     QString tabName();
@@ -51,18 +70,28 @@ public:
     void saveConfig( QSettings *file );
     void loadConfig( QSettings *file );
 
+public slots:
+    void setShortcut( const QKeySequence &seq );
+
 signals:
     void done();
 
 private slots:
     void replaceUrl( const QString &oldUrl, const QString &newUrl );
+    void shortcutActivated();
 
 private:
+    QString shortened( const QString &status );
+
     UrlShortener *urlShortener;
     UrlShortenerWidget *urlShortenerWidget;
-    QString *currentStatus;
-    int requestsCount;
 
+    QString *currentStatus;
+    QShortcut *shortcut;
+    QLineEdit *m_statusEdit;
+
+    QKeySequence keySequence;
+    int requestsCount;
 };
 
 #endif // URLSHORTENERPLUGIN_H

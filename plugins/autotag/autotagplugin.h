@@ -39,7 +39,8 @@ public:
     virtual ~AutoTagPlugin();
 
     // StatusFilterInterface
-    QString filterStatus( const QString &status );
+    QString filterStatusBeforePosting( const QString &status );
+    void connectToStatusEdit( QLineEdit *statusEdit ) { Q_UNUSED(statusEdit); }
 
     // SettingsTabInterface
     QString tabName();

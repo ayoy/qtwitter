@@ -22,6 +22,9 @@
 #include "ui_urlshortenerwidget.h"
 
 #include <QStringListModel>
+#include <QKeyEvent>
+#include <QShortcutEvent>
+#include <QKeySequence>
 
 UrlShortenerWidget::UrlShortenerWidget( QWidget *parent ) :
         QWidget( parent ),
@@ -29,6 +32,7 @@ UrlShortenerWidget::UrlShortenerWidget( QWidget *parent ) :
         shortenersModel( new QStringListModel(this) )
 {
     m_ui->setupUi(this);
+    m_ui->lineShortcut->installEventFilter(this);
 }
 
 UrlShortenerWidget::~UrlShortenerWidget()
@@ -70,6 +74,16 @@ int UrlShortenerWidget::currentShortener() const
     return m_ui->comboShorten->itemData( m_ui->comboShorten->currentIndex() ).toInt();
 }
 
+QString UrlShortenerWidget::shortcut() const
+{
+    return QKeySequence::fromString( m_ui->lineShortcut->text(), QKeySequence::NativeText );
+}
+
+void UrlShortenerWidget::setShortcut( const QString &shortcut )
+{
+    m_ui->lineShortcut->setText( shortcut );
+}
+
 void UrlShortenerWidget::changeEvent( QEvent *event )
 {
     switch (event->type()) {
@@ -80,3 +94,49 @@ void UrlShortenerWidget::changeEvent( QEvent *event )
     }
 }
 
+bool UrlShortenerWidget::eventFilter( QObject *watched, QEvent *event )
+{
+    Q_UNUSED(watched);
+
+    if ( event->type() == QEvent::KeyPress ) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        int key = keyEvent->key();
+
+        if ( key == Qt::Key_Shift ||
+             key == Qt::Key_Control ||
+             key == Qt::Key_Alt ||
+             key == Qt::Key_Meta )
+        {
+            return true;
+        }
+
+        Qt::KeyboardModifiers modifiers = keyEvent->modifiers();
+        QString text = keyEvent->text();
+        if ( modifiers & Qt::ShiftModifier && (text.isEmpty()
+                                                || !text.at(0).isPrint()
+                                                || text.at(0).isLetter()
+                                                || text.at(0).isSpace()) )
+            key |= Qt::SHIFT;
+        if ( modifiers & Qt::ControlModifier )
+            key |= Qt::CTRL;
+        if ( modifiers & Qt::AltModifier )
+            key |= Qt::ALT;
+        if ( modifiers & Qt::MetaModifier )
+            key |= Qt::META;
+
+        QKeySequence seq( key );
+        if ( m_ui->lineShortcut->text() != seq.toString( QKeySequence::NativeText ) ) {
+            m_ui->lineShortcut->setText( seq.toString( QKeySequence::NativeText ) );
+            emit shortcutChanged(seq);
+        }
+
+        event->accept();
+        return true;
+    }
+    if ( event->type() == QEvent::Shortcut ||
+         event->type() == QEvent::ShortcutOverride ||
+         event->type() == QEvent::KeyRelease ) {
+        return true;
+    }
+    return false;
+}

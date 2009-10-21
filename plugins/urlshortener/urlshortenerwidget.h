@@ -36,6 +36,7 @@ class UrlShortenerWidget : public QWidget
     Q_PROPERTY( bool automatic READ isAutomatic WRITE setAutomatic );
     Q_PROPERTY( int currentIndex READ currentIndex WRITE setCurrentIndex );
     Q_PROPERTY( int currentShortener READ currentShortener );
+    Q_PROPERTY( QString shortcut READ shortcut WRITE setShortcut );
 
 public:
     explicit UrlShortenerWidget( QWidget *parent = 0 );
@@ -46,11 +47,20 @@ public:
     int currentIndex() const;
     void setCurrentIndex( int index );
     int currentShortener() const;
+    QString shortcut() const;
+    void setShortcut( const QString &shortcut );
 
     void setData( const QMap<QString,int> &data );
 
+public slots:
+    void setShortcut( bool buttonClicked );
+
+signals:
+    void shortcutChanged( const QKeySequence &seq );
+
 protected:
     void changeEvent( QEvent *event );
+    bool eventFilter( QObject *watched, QEvent *event );
 
 private:
     Ui::UrlShortenerWidget *m_ui;

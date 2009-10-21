@@ -24,13 +24,36 @@
 #include "urlshortenerwidget.h"
 
 #include <QRegExp>
-#include <QEventLoop>
 #include <QSettings>
+#include <QLineEdit>
+#include <QShortcut>
+#include <QTimer>
+
+bool TimeoutEventLoop::timeout() const
+{
+    return m_timeout;
+}
+
+int TimeoutEventLoop::exec( QEventLoop::ProcessEventsFlags flags )
+{
+    m_timeout = false;
+    return QEventLoop::exec( flags );
+}
+
+void TimeoutEventLoop::quitWithTimeout()
+{
+    QEventLoop::quit();
+    m_timeout = true;
+}
+
+
 
 UrlShortenerPlugin::UrlShortenerPlugin( QObject *parent ) :
         QObject( parent ),
         urlShortener( new UrlShortener(this) ),
-        urlShortenerWidget( new UrlShortenerWidget )
+        urlShortenerWidget( new UrlShortenerWidget ),
+        shortcut(0),
+        m_statusEdit(0)
 {
     urlShortenerWidget->setData( urlShortener->shorteners() );
     connect( urlShortener, SIGNAL(shortened(QString,QString)), SLOT(replaceUrl(QString,QString)) );
@@ -41,11 +64,79 @@ UrlShortenerPlugin::~UrlShortenerPlugin()
     delete urlShortenerWidget;
 }
 
-QString UrlShortenerPlugin::filterStatus( const QString &status )
+QString UrlShortenerPlugin::filterStatusBeforePosting( const QString &status )
 {
     if ( !urlShortenerWidget->isAutomatic() )
         return status;
 
+    return shortened( status );
+}
+
+void UrlShortenerPlugin::connectToStatusEdit( QLineEdit *statusEdit )
+{
+    m_statusEdit = statusEdit;
+    shortcut = new QShortcut( QKeySequence(), m_statusEdit );
+    connect( shortcut, SIGNAL(activated()), SLOT(shortcutActivated()) );
+    connect( urlShortenerWidget, SIGNAL(shortcutChanged(QKeySequence)), SLOT(setShortcut(QKeySequence)) );
+}
+
+QString UrlShortenerPlugin::tabName()
+{
+    return tr( "Url shortening" );
+}
+
+QWidget* UrlShortenerPlugin::settingsWidget()
+{
+    return urlShortenerWidget;
+}
+
+void UrlShortenerPlugin::saveConfig( QSettings *file )
+{
+    file->beginGroup( "UrlShortener" );
+    file->setValue( "automatic", urlShortenerWidget->isAutomatic() );
+    file->setValue( "shortener", urlShortenerWidget->currentIndex() );
+    file->setValue( "shortcut", keySequence );
+    file->endGroup();
+    file->sync();
+}
+
+void UrlShortenerPlugin::loadConfig( QSettings *file )
+{
+    file->beginGroup( "UrlShortener" );
+    urlShortenerWidget->setAutomatic( file->value( "automatic", false ).toBool() );
+    urlShortenerWidget->setCurrentIndex( file->value( "shortener", 8 ).toInt() ); // 8 means tr.im - quite reliable
+    keySequence = QKeySequence( file->value( "shortcut", QKeySequence() ).value<QKeySequence>() );
+    urlShortenerWidget->setShortcut( keySequence.toString( QKeySequence::NativeText ) );
+    if ( shortcut )
+        shortcut->setKey( keySequence );
+    file->endGroup();
+    file->sync();
+}
+
+void UrlShortenerPlugin::setShortcut( const QKeySequence &seq )
+{
+    keySequence = seq;
+    if ( shortcut )
+        shortcut->setKey(seq);
+}
+
+void UrlShortenerPlugin::replaceUrl( const QString &oldUrl, const QString &newUrl )
+{
+    if ( currentStatus && !oldUrl.isEmpty() ) {
+        currentStatus->replace( oldUrl, newUrl );
+    }
+    if ( --requestsCount == 0 )
+        emit done();
+}
+
+void UrlShortenerPlugin::shortcutActivated()
+{
+    if ( m_statusEdit )
+        m_statusEdit->setText( shortened( m_statusEdit->text() ) );
+}
+
+QString UrlShortenerPlugin::shortened( const QString &status )
+{
     QRegExp rx( "((ftp|http|https)://(\\w+:{0,1}\\w*@)?([^ ]+)(:[0-9]+)?(/|/([\\w#!:.?+=&%@!-/]))?)",
                 Qt::CaseInsensitive );
 
@@ -68,49 +159,12 @@ QString UrlShortenerPlugin::filterStatus( const QString &status )
             requestsCount++;
         }
 
-        QEventLoop loop;
+        TimeoutEventLoop loop;
+        QTimer::singleShot( 10000, &loop, SLOT(quitWithTimeout()) );
         connect( this, SIGNAL(done()), &loop, SLOT(quit()) );
         loop.exec();
     }
     return newStatus;
-}
-
-void UrlShortenerPlugin::replaceUrl( const QString &oldUrl, const QString &newUrl )
-{
-//    qDebug() << __PRETTY_FUNCTION__ << oldUrl << newUrl;
-    if ( currentStatus && !oldUrl.isEmpty() ) {
-        currentStatus->replace( oldUrl, newUrl );
-    }
-    if ( --requestsCount == 0 )
-        emit done();
-}
-
-QString UrlShortenerPlugin::tabName()
-{
-    return tr( "Url shortening" );
-}
-
-QWidget* UrlShortenerPlugin::settingsWidget()
-{
-    return urlShortenerWidget;
-}
-
-void UrlShortenerPlugin::saveConfig( QSettings *file )
-{
-    file->beginGroup( "UrlShortener" );
-    file->setValue( "automatic", urlShortenerWidget->isAutomatic() );
-    file->setValue( "shortener", urlShortenerWidget->currentIndex() );
-    file->endGroup();
-    file->sync();
-}
-
-void UrlShortenerPlugin::loadConfig( QSettings *file )
-{
-    file->beginGroup( "UrlShortener" );
-    urlShortenerWidget->setAutomatic( file->value( "automatic", false ).toBool() );
-    urlShortenerWidget->setCurrentIndex( file->value( "shortener", 8 ).toInt() ); // 8 means tr.im - quite reliable
-    file->endGroup();
-    file->sync();
 }
 
 Q_EXPORT_PLUGIN2(UrlShortener, UrlShortenerPlugin);
