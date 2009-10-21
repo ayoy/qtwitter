@@ -47,8 +47,8 @@ QString AutoTagPlugin::filterStatusBeforePosting( const QString &status )
 
     QString newStatus = status;
     foreach( QString tag, list ) {
-        // Don't touch groups (!tag), already hashed tags (#tag) and parts of urls ({/.?&=@}tag)
-        QRegExp rx( QString("(^|[^!#/\\.\\?&=@])\\b(%1)\\b").arg(tag), Qt::CaseInsensitive );
+        // Don't touch groups (!tag), already hashed tags (#tag), parts of urls ({/.:_-+%?&=@}tag)
+        QRegExp rx( QString("(^|[^!#/\\.\\?\\:%&=@_-+])\\b(%1)\\b").arg(tag), Qt::CaseInsensitive );
         newStatus.replace( rx, "\\1#\\2" );
     }
     return newStatus;
