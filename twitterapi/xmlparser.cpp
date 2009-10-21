@@ -274,8 +274,8 @@ QString XmlParser::textToHtml( QString newText )
     QString networkUrl = m_serviceUrl.replace( QRegExp( "/api$" ), "" );
     newText.replace( "<", "&lt;" );
     newText.replace( ">", "&gt;" );
-    QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
-    newText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
+    QRegExp ahref( "((https?|ftp)://[^ ]+)( ?)", Qt::CaseInsensitive );
+    newText.replace( ahref, "<a href='\\1'>\\1</a>\\3" );
     newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([\\w\\d]+)" ), QString( "\\1<a href=%1/\\2>@\\2</a>").arg( networkUrl ) );
     ahref.setPattern( "(<a href=[^ ]+)/>" );
     ahref.setMinimal( true );
