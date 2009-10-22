@@ -123,6 +123,7 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
 
     void postUpdate( const QString &data, quint64 inReplyTo = 0 );
     void deleteUpdate( quint64 id );
+    void getTimelineRequest( QNetworkRequest &request, const QString &urlStatuses, Role role, int msgCount );
     void friendsTimeline( int msgCount = 20 );
     void mentions( int msgCount = 20 );
     void directMessages( int msgCount = 20 );

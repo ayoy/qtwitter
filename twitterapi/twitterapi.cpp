@@ -484,12 +484,51 @@ void TwitterAPI::deleteUpdate( quint64 id )
 }
 
 /*!
-  Sends a request for getting friends timeline for the user identified
-  by \a login and \a password. Length of the timeline can be adjusted by
-  \a msgCount.
+  Returns a request for getting a timeline for a logged in user.
+  Length of the timeline can be adjusted by \a msgCount.
 
-  \param login User's login.
-  \param password User's password.
+  \param msgCount Argument specifying length of requested timeline.
+                  Twitter API currently accepts values up to 200.
+
+  \sa friendsTimeline(), mentionsTimeline()
+*/
+void TwitterAPI::getTimelineRequest( QNetworkRequest &request, const QString &urlStatuses, Role role, int msgCount )
+{
+    Q_D(TwitterAPI);
+
+    QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
+    QString url = d->serviceUrl;
+    url.append( urlStatuses );
+
+#ifdef HAVE_OAUTH
+    if ( d->usingOAuth ) {
+        QOAuth::ParamMap map;
+        map.insert( "count", statusCount.toUtf8() );
+
+        QByteArray parameters = d->prepareOAuthString( url, QOAuth::GET, map );
+
+        request.setRawHeader( "Authorization", parameters );
+        url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
+    } else {
+        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
+        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        url.append( QString("?count=%1").arg( statusCount ) );
+    }
+#else
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
+    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+    url.append( QString("?count=%1").arg( statusCount ) );
+#endif
+
+    request.setUrl( QUrl(url) );
+    request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, role );
+    request.setAttribute( TwitterAPIPrivate::ATTR_MSGCOUNT, statusCount );
+}
+
+/*!
+  Sends a request for getting friends timeline.
+  Length of the timeline can be adjusted by \a msgCount.
+
   \param msgCount Optional argument specifying length of requested timeline.
                   Twitter API currently accepts values up to 200.
 
@@ -499,35 +538,8 @@ void TwitterAPI::friendsTimeline( int msgCount )
 {
     Q_D(TwitterAPI);
 
-    QString url = d->serviceUrl;
-    QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
-    url.append( TwitterAPIPrivate::UrlStatusesFriendsTimeline );
-
     QNetworkRequest request;
-
-#ifdef HAVE_OAUTH
-    if ( d->usingOAuth ) {
-        QOAuth::ParamMap map;
-        map.insert( "count", statusCount.toUtf8() );
-
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::GET, map );
-
-        request.setRawHeader( "Authorization", parameters );
-        url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-        url.append( QString("?count=%1").arg( statusCount ) );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    url.append( QString("?count=%1").arg( statusCount ) );
-#endif
-
-    request.setUrl( QUrl(url) );
-    request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_FRIENDS_TIMELINE );
-    request.setAttribute( TwitterAPIPrivate::ATTR_MSGCOUNT, statusCount );
+    getTimelineRequest( request, TwitterAPIPrivate::UrlStatusesFriendsTimeline, TwitterAPI::ROLE_FRIENDS_TIMELINE, msgCount );
     qDebug() << "TwitterAPIPrivate::friendsTimeline(" + d->login + ")";
 
     d->iface->friendsInProgress = true;
@@ -535,12 +547,9 @@ void TwitterAPI::friendsTimeline( int msgCount )
 }
 
 /*!
-  Sends a request for getting mentions timeline (@user) for the user identified
-  by \a login and \a password. Length of the timeline can be adjusted by
-  \a msgCount.
+  Sends a request for getting mentions timeline (@user).
+  Length of the timeline can be adjusted by \a msgCount.
 
-  \param login User's login.
-  \param password User's password.
   \param msgCount Optional argument specifying length of requested timeline.
                   Twitter API currently accepts values up to 200.
 
@@ -550,47 +559,17 @@ void TwitterAPI::mentions( int msgCount )
 {
     Q_D(TwitterAPI);
 
-    QString url = d->serviceUrl;
-    QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
-    url.append( TwitterAPIPrivate::UrlStatusesMentions );
-
     QNetworkRequest request;
-
-#ifdef HAVE_OAUTH
-    if ( d->usingOAuth ) {
-        QOAuth::ParamMap map;
-        map.insert( "count", statusCount.toUtf8() );
-
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::GET, map );
-
-        request.setRawHeader( "Authorization", parameters );
-        url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-        url.append( QString("?count=%1").arg( statusCount ) );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    url.append( QString("?count=%1").arg( statusCount ) );
-#endif
-
-    request.setUrl( QUrl(url) );
-    request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_MENTIONS );
-    request.setAttribute( TwitterAPIPrivate::ATTR_MSGCOUNT, statusCount );
+    getTimelineRequest( request, TwitterAPIPrivate::UrlStatusesMentions, TwitterAPI::ROLE_MENTIONS, msgCount );
     qDebug() << "TwitterAPIPrivate::mentions(" + d->login + ")";
 
     d->iface->connection.data()->get( request );
 }
 
 /*!
-  Sends a request for getting direct messages for the user identified
-  by \a login and \a password. Length of the timeline can be adjusted by
-  \a msgCount.
+  Sends a request for getting direct messages.
+  Length of the timeline can be adjusted by \a msgCount.
 
-  \param login User's login.
-  \param password User's password.
   \param msgCount Optional argument specifying length of requested list.
                   Twitter API currently accepts values up to 200.
 
@@ -600,34 +579,8 @@ void TwitterAPI::directMessages( int msgCount )
 {
     Q_D(TwitterAPI);
 
-    QString url = d->serviceUrl;
-    QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
-    url.append( TwitterAPIPrivate::UrlDirectMessages );
-
     QNetworkRequest request;
-
-#ifdef HAVE_OAUTH
-    if ( d->usingOAuth ) {
-        QOAuth::ParamMap map;
-        map.insert( "count", statusCount.toUtf8() );
-
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::GET, map );
-        request.setRawHeader( "Authorization", parameters );
-        url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
-
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-        url.append( QString("?count=%1").arg( statusCount ) );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    url.append( QString("?count=%1").arg( statusCount ) );
-#endif
-    request.setUrl( QUrl(url) );
-
-    request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_DIRECT_MESSAGES );
+    getTimelineRequest( request, TwitterAPIPrivate::UrlDirectMessages, TwitterAPI::ROLE_DIRECT_MESSAGES, msgCount );
     request.setAttribute( TwitterAPIPrivate::ATTR_DM_REQUESTED, true );
     qDebug() << "TwitterAPI::directMessages(" + d->login + ")";
 
