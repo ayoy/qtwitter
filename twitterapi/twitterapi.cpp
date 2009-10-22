@@ -35,18 +35,12 @@
 struct Interface
 {
     QPointer<QNetworkAccessManager> connection;
-    QPointer<XmlParser> statusParser;
-    QPointer<XmlParserDirectMsg> directMsgParser;
     bool authorized;
     bool friendsInProgress;
     bool dmScheduled;
     ~Interface() {
         if ( connection )
             connection.data()->deleteLater();
-        if ( statusParser )
-            statusParser.data()->deleteLater();
-        if ( directMsgParser )
-            directMsgParser.data()->deleteLater();
     }
 };
 
@@ -222,25 +216,19 @@ void TwitterAPIPrivate::init()
 
 void TwitterAPIPrivate::createInterface()
 {
-    Q_Q(TwitterAPI);
-
     iface = new Interface;
     iface->connection = new QNetworkAccessManager( this );
-    iface->statusParser = new XmlParser( serviceUrl, login, this );
 
     iface->friendsInProgress = false;
     iface->authorized = false;
     iface->dmScheduled = false;
 
     if ( login != TwitterAPI::PUBLIC_TIMELINE ) {
-        iface->directMsgParser = new XmlParserDirectMsg( serviceUrl, login, this );
-        connect( iface->statusParser, SIGNAL(parsed(EntryList)), q, SIGNAL(newEntries(EntryList)) );
         connect( iface->connection, SIGNAL(authenticationRequired(QNetworkReply*,QAuthenticator*)),
                  SLOT(slotAuthenticationRequired(QNetworkReply*,QAuthenticator*)) );
     }
     connect( iface->connection, SIGNAL(sslErrors(QNetworkReply*,QList<QSslError>)), SLOT(sslErrors(QNetworkReply*,QList<QSslError>)) );
     connect( iface->connection, SIGNAL(finished(QNetworkReply*)), SLOT(requestFinished(QNetworkReply*)) );
-    connect( iface->statusParser, SIGNAL(parsed(EntryList)), q, SIGNAL(newEntries(EntryList)), Qt::QueuedConnection );
 }
 
 void TwitterAPIPrivate::sslErrors(QNetworkReply *reply, const QList<QSslError> &errors )
@@ -320,8 +308,6 @@ void TwitterAPI::setLogin( const QString & login )
     Q_D(TwitterAPI);
 
     d->login = login;
-    d->iface->statusParser->setLogin( login );
-    d->iface->directMsgParser->setLogin( login );
 }
 
 QString TwitterAPI::password() const
@@ -350,8 +336,6 @@ void TwitterAPI::setServiceUrl( const QString &serviceUrl )
     Q_D(TwitterAPI);
 
     d->serviceUrl = serviceUrl;
-    d->iface->statusParser->setServiceUrl( serviceUrl );
-    d->iface->directMsgParser->setServiceUrl( serviceUrl );
 }
 
 #ifdef HAVE_OAUTH
@@ -974,7 +958,7 @@ void TwitterAPIPrivate::requestFinished( QNetworkReply *reply )
 
         case TwitterAPI::ROLE_PUBLIC_TIMELINE:
             qDebug() << "TwitterAPI::requestFinished()" << "parsing public timeline";
-            parseXml( reply->readAll(), iface->statusParser );
+            parseXml( reply->readAll(), ParseStatuses );
             emit q->requestDone( role );
             break;
 
@@ -986,24 +970,24 @@ void TwitterAPIPrivate::requestFinished( QNetworkReply *reply )
                 if( int msgCount = request.attribute( TwitterAPIPrivate::ATTR_MSGCOUNT ).toInt() )
                     q->directMessages( msgCount );
             }
-            parseXml( reply->readAll(), iface->statusParser );
+            parseXml( reply->readAll(), ParseStatuses );
             emit q->requestDone( role );
             break;
 
         case TwitterAPI::ROLE_MENTIONS:
             qDebug() << "TwitterAPI::requestFinished()" << "parsing mentions timeline";
-            parseXml( reply->readAll(), iface->statusParser );
+            parseXml( reply->readAll(), ParseStatuses );
             emit q->requestDone( role );
             break;
 
         case TwitterAPI::ROLE_DIRECT_MESSAGES:
             qDebug() << "TwitterAPI::requestFinished()" << "parsing direct messages";
-            parseXml( reply->readAll(), iface->directMsgParser );
+            parseXml( reply->readAll(), ParseDirectMessages );
             emit q->requestDone( role );
             break;
 
         case TwitterAPI::ROLE_POST_UPDATE:
-            parseXml( reply->readAll(), iface->statusParser );
+            parseXml( reply->readAll(), ParseStatuses );
             emit q->requestDone( role );
             break;
 
@@ -1085,9 +1069,11 @@ void TwitterAPIPrivate::requestFinished( QNetworkReply *reply )
     reply->close();
 }
 
-void TwitterAPIPrivate::parseXml( const QByteArray &data, XmlParser *parser )
+void TwitterAPIPrivate::parseXml( const QByteArray &data, TwitterAPIPrivate::ParsingMode mode )
 {
-    ParserRunnable *runnable = new ParserRunnable( data, parser );
+    Q_Q(TwitterAPI);
+
+    ParserRunnable *runnable = new ParserRunnable( q, data, mode );
     runnable->setAutoDelete(true);
     QThreadPool::globalInstance()->start( runnable );
 //    source->setData( data );

@@ -31,10 +31,15 @@ class TwitterAPIPrivate : public QObject
     Q_OBJECT
 public:
 
+    enum ParsingMode {
+        ParseStatuses,
+        ParseDirectMessages
+    };
+
     ~TwitterAPIPrivate();
     void createInterface();
 
-    void parseXml( const QByteArray &data, XmlParser *parser );
+    void parseXml( const QByteArray &data, ParsingMode mode );
     void emitUnauthorized( QNetworkReply *reply );
     QByteArray prepareRequest( const QString &data, quint64 inReplyTo );
     QByteArray prepareRequest( const QString &screenName, const QString & );

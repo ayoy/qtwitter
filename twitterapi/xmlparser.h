@@ -27,6 +27,7 @@
 #include <QXmlDefaultHandler>
 #include <QSet>
 #include "twitterapi.h"
+#include "twitterapi_p.h"
 #include "entry.h"
 
 class XmlParser : public QObject, public QXmlDefaultHandler
@@ -137,17 +138,32 @@ class ParserRunnable : public QRunnable
 {
 
 public:
-    ParserRunnable( QByteArray data, XmlParser *parser ) :
+    ParserRunnable( TwitterAPI *twitterapi, QByteArray data, TwitterAPIPrivate::ParsingMode mode ) :
             QRunnable(),
-            data( data ),
-            parser( parser )
-    {}
+            data( data )
+    {
+        switch (mode) {
+        case TwitterAPIPrivate::ParseStatuses:
+            parser = new XmlParser( twitterapi->serviceUrl(), twitterapi->login(), 0 );
+            break;
+        case TwitterAPIPrivate::ParseDirectMessages:
+            parser = new XmlParserDirectMsg( twitterapi->serviceUrl(), twitterapi->login() );
+            break;
+        default:;
+        }
+        if ( parser ) {
+            QObject::connect( parser, SIGNAL(parsed(EntryList)),
+                              twitterapi, SIGNAL(newEntries(EntryList)),
+                              Qt::QueuedConnection );
+        }
+    }
 
     virtual void run()
     {
         source.setData( data );
         reader.setContentHandler( parser );
         reader.parse( source );
+        delete parser;
     }
 
 private:
