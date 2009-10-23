@@ -32,6 +32,7 @@
 #include <QSignalMapper>
 #include <QTreeView>
 #include <QTimer>
+#include <QDir>
 
 #include <QPluginLoader>
 #include "plugininterfaces.h"
@@ -305,8 +306,7 @@ void MainWindow::loadPlugins()
 #elif defined(Q_OS_MAC)
     if (pluginsDir.dirName() == "MacOS") {
         pluginsDir.cdUp();
-        pluginsDir.cdUp();
-        pluginsDir.cdUp();
+        pluginsDir.cd("plugins");
     }
 #endif
     pluginsDir.cd("plugins");

@@ -52,9 +52,6 @@ public:
 
     void setData( const QMap<QString,int> &data );
 
-public slots:
-    void setShortcut( bool buttonClicked );
-
 signals:
     void shortcutChanged( const QKeySequence &seq );
 

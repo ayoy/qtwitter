@@ -102,10 +102,7 @@ macx {
     ICON = macx/qtwitter.icns
     QMAKE_INFO_PLIST = macx/Info.plist
     QMAKE_LFLAGS += -F$${DESTDIR}/$${TARGET}.app/Contents/Frameworks
-    LIBS += -framework \
-        twitterapi \
-        -framework \
-        urlshortener
+    LIBS += -framework twitterapi
 }
 else:unix {
     LIBS += -L$${DESTDIR} \
