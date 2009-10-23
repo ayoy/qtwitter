@@ -382,6 +382,13 @@ void TwitterAPI::setConsumerSecret( const QByteArray &consumerSecret )
 }
 #endif
 
+void TwitterAPI::basicAuthorization( QNetworkRequest &request )
+{
+    Q_D(TwitterAPI);
+
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
+    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+}
 
 /*!
   Sends a request to post a status update for the user identified by \a login
@@ -422,13 +429,11 @@ void TwitterAPI::postUpdate( const QString &data, quint64 inReplyTo )
         content = d->qoauth->inlineParameters( map );
 
     } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        basicAuthorization( request );
         content = d->prepareRequest( data, inReplyTo );
     }
 #else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+    basicAuthorization( request );
     content = prepareRequest( data, inReplyTo );
 #endif
 
@@ -466,12 +471,10 @@ void TwitterAPI::deleteUpdate( quint64 id )
         request.setRawHeader( "Authorization", parameters );
         request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
     } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        basicAuthorization( request );
     }
 #else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+    basicAuthorization( request );
 #endif
 
     request.setUrl( QUrl(url) );
@@ -510,13 +513,11 @@ void TwitterAPI::getTimelineRequest( QNetworkRequest &request, const QString &ur
         request.setRawHeader( "Authorization", parameters );
         url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
     } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        basicAuthorization( request );
         url.append( QString("?count=%1").arg( statusCount ) );
     }
 #else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+    basicAuthorization( request );
     url.append( QString("?count=%1").arg( statusCount ) );
 #endif
 
@@ -620,13 +621,11 @@ void TwitterAPI::postDM( const QString &screenName, const QString &text )
         content = d->qoauth->inlineParameters( map );
 
     } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        basicAuthorization( request );
         content = d->prepareRequest( screenName, text );
     }
 #else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+    basicAuthorization( request );
     content = d->prepareRequest( screenName, text );
 #endif
 
@@ -658,12 +657,10 @@ void TwitterAPI::deleteDM( quint64 id )
         request.setRawHeader( "Authorization", parameters );
         request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
     } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        basicAuthorization( request );
     }
 #else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+    basicAuthorization( request );
 #endif
 
     request.setUrl( QUrl(url) );
@@ -698,12 +695,10 @@ void TwitterAPI::createFavorite( quint64 id )
         request.setRawHeader( "Authorization", parameters );
         request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
     } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        basicAuthorization( request );
     }
 #else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+    basicAuthorization( request );
 #endif
 
     request.setUrl( QUrl(url) );
@@ -738,12 +733,10 @@ void TwitterAPI::destroyFavorite( quint64 id )
         request.setRawHeader( "Authorization", parameters );
         request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
     } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        basicAuthorization( request );
     }
 #else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+    basicAuthorization( request );
 #endif
 
     request.setUrl( QUrl(url) );
@@ -793,12 +786,10 @@ void TwitterAPI::follow( quint64 userId )
         request.setRawHeader( "Authorization", parameters );
         request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
     } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        basicAuthorization( request );
     }
 #else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+    basicAuthorization( request );
 #endif
 
     request.setUrl( QUrl(url) );
@@ -829,12 +820,10 @@ void TwitterAPI::unfollow( quint64 userId )
         request.setRawHeader( "Authorization", parameters );
         request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
     } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        basicAuthorization( request );
     }
 #else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+    basicAuthorization( request );
 #endif
 
     request.setUrl( QUrl(url) );
