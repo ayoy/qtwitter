@@ -242,7 +242,6 @@ void StatusWidget::initialize()
 void StatusWidget::setStatusData( const Status &status )
 {
     statusData = &status.entry;
-    retranslateUi();
     m_ui->favoriteReplyButton->disconnect();
 
     setDisplayMode( StatusModel::instance()->displayMode() );
@@ -449,12 +448,6 @@ void StatusWidget::retranslateUi()
         gotohomepageAction->setText( tr( "Go to User's homepage" ) );
 
         gototwitterpageAction->setText( tr( "Go to User's %1 page" ).arg( Account::networkName( currentServiceUrl ) ) );
-
-        //    if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-        //      gototwitterpageAction->setText( tr( "Go to User's Identi.ca page" ) );
-        //    } else {
-        //      gototwitterpageAction->setText( tr( "Go to User's Twitter page" ) );
-        //    }
     }
 }
 

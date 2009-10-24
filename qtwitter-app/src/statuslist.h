@@ -93,6 +93,7 @@ public:
 
 public slots:
     void requestFriendsTimeline();
+    void requestMentions();
     void requestDirectMessages();
     void requestNewStatus( const QString &status, quint64 inReplyTo = 0 );
     void requestNewDM( const QString &screenName, const QString &text );

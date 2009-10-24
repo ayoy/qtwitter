@@ -33,11 +33,15 @@
 #include <QTreeView>
 #include <QTimer>
 
+#include <QPluginLoader>
+#include "plugininterfaces.h"
+
 #include <stdlib.h>
 
 #include <qticonloader.h>
 #include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
+#include "settings.h"
 #include "statusmodel.h"
 #include "statuswidget.h"
 #include "aboutdialog.h"
@@ -80,7 +84,6 @@ MainWindow::MainWindow( QWidget *parent ) :
     progressIcon = new QMovie( ":/icons/progress.gif", "gif", this );
     ui.countdownLabel->setMovie( progressIcon );
     ui.countdownLabel->setToolTip( tr( "%n characters left", "", StatusEdit::STATUS_MAX_LENGTH ) );
-    ui.statusEdit->setToolTip( ui.statusEdit->toolTip().arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
 
     //> experiment begin
     ui.moreButton->setIcon( QtIconLoader::icon("list-add", QIcon(":/icons/add_48.png")) );
@@ -108,6 +111,8 @@ MainWindow::MainWindow( QWidget *parent ) :
                                         QDBusConnection::sessionBus(), this );
     connect(knotificationIface, SIGNAL(NotificationClosed(uint,uint)), SLOT(bringToFront(uint,uint)));
 #endif
+
+    loadPlugins();
 }
 
 MainWindow::~MainWindow() {
@@ -137,10 +142,8 @@ void MainWindow::createInternalConnections()
     connect( ui.accountsComboBox, SIGNAL(activated(int)), this, SLOT(configSaveCurrentModel(int)) );
     connect( filter, SIGNAL( enterPressed() ), this, SLOT( sendStatus() ) );
     connect( filter, SIGNAL( escPressed() ), ui.statusEdit, SLOT( cancelEditing() ) );
-    connect( filter, SIGNAL( shortenUrlPressed() ), ui.statusEdit, SLOT( shortenUrl() ));
     connect( this, SIGNAL(addReplyString(QString,quint64)), ui.statusEdit, SLOT(addReplyString(QString,quint64)) );
     connect( this, SIGNAL(addRetweetString(QString)), ui.statusEdit, SLOT(addRetweetString(QString)) );
-    connect( ui.statusEdit, SIGNAL( shortenUrl( QString ) ), this, SIGNAL( shortenUrl( QString ) ) );
 
     QShortcut *nextAccountShortcut = new QShortcut( QKeySequence( QKeySequence::MoveToNextWord ), this ); //used separately in retranslateUi()
     QShortcut *prevAccountShortcut = new QShortcut( QKeySequence( QKeySequence::MoveToPreviousWord ), this );
@@ -164,12 +167,10 @@ void MainWindow::createExternalConnections()
     connect( this, SIGNAL(updateStatuses()),                      core, SLOT(forceGet()) );
     connect( this, SIGNAL(openBrowser(QUrl)),                     core, SLOT(openBrowser(QUrl)) );
     connect( this, SIGNAL(post(QString,QString,QString,quint64)), core, SLOT(post(QString,QString,QString,quint64)) );
-    connect( this, SIGNAL(shortenUrl(QString)),                   core, SLOT(shortenUrl(QString)));
     connect( this, SIGNAL(iconStopped()),                         core, SLOT(resetRequestsCount()) );
     connect( this, SIGNAL(statusMarkeverythingasreadAction()),    core, SLOT(markEverythingAsRead()) );
     connect( core, SIGNAL(pauseIcon()),                           this, SLOT(pauseIcon()) );
     connect( core, SIGNAL(accountsUpdated(QList<Account>)),       this, SLOT(setupAccounts(QList<Account>)) );
-    connect( core, SIGNAL(urlShortened(QString)),                 this, SLOT(replaceUrl(QString)));
     connect( core, SIGNAL(errorMessage(QString)),                 this, SLOT(popupError(QString)) );
     connect( core, SIGNAL(resetUi()),                             this, SLOT(resetStatusEdit()) );
     connect( core, SIGNAL(requestStarted()),                      this, SLOT(showProgressIcon()) );
@@ -270,6 +271,69 @@ void MainWindow::createButtonMenu()
     ui.moreButton->setMenu( buttonMenu );
 }
 
+void MainWindow::loadPlugins()
+{
+    foreach (QObject *plugin, QPluginLoader::staticInstances()) {
+        StatusFilterInterface *iFilter = qobject_cast<StatusFilterInterface*>(plugin);
+        if ( iFilter ) {
+            filters << iFilter;
+            iFilter->connectToStatusEdit( ui.statusEdit );
+        }
+        SettingsTabInterface *iSettingsTab = qobject_cast<SettingsTabInterface*>(plugin);
+        if ( iSettingsTab ) {
+            QTwitterApp::settingsDialog()->addTab( iSettingsTab->tabName(),
+                                                   iSettingsTab->settingsWidget() );
+        }
+        ConfigFileInterface *iConfigFile = qobject_cast<ConfigFileInterface*>(plugin);
+        if ( iConfigFile ) {
+            QTwitterApp::settingsDialog()->addConfigFilePlugin( iConfigFile );
+        }
+    }
+
+    QDir pluginsDir;
+#ifdef Q_WS_X11
+    pluginsDir = QDir( PLUGINS_DIR );
+    if ( !pluginsDir.exists() ) {
+        pluginsDir = QDir(qApp->applicationDirPath());
+        pluginsDir.cd("plugins");
+    }
+#else
+    pluginsDir = QDir(qApp->applicationDirPath());
+#if defined(Q_OS_WIN)
+    if (pluginsDir.dirName().toLower() == "debug" || pluginsDir.dirName().toLower() == "release")
+        pluginsDir.cdUp();
+#elif defined(Q_OS_MAC)
+    if (pluginsDir.dirName() == "MacOS") {
+        pluginsDir.cdUp();
+        pluginsDir.cdUp();
+        pluginsDir.cdUp();
+    }
+#endif
+    pluginsDir.cd("plugins");
+#endif
+
+    foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+        QPluginLoader loader(pluginsDir.absoluteFilePath(fileName));
+        QObject *plugin = loader.instance();
+        if (plugin) {
+            StatusFilterInterface *iFilter = qobject_cast<StatusFilterInterface*>(plugin);
+            if ( iFilter ) {
+                filters << iFilter;
+                iFilter->connectToStatusEdit( ui.statusEdit );
+            }
+            SettingsTabInterface *iSettingsTab = qobject_cast<SettingsTabInterface*>(plugin);
+            if ( iSettingsTab ) {
+                QTwitterApp::settingsDialog()->addTab( iSettingsTab->tabName(),
+                                                       iSettingsTab->settingsWidget() );
+            }
+            ConfigFileInterface *iConfigFile = qobject_cast<ConfigFileInterface*>(plugin);
+            if ( iConfigFile ) {
+                QTwitterApp::settingsDialog()->addConfigFilePlugin( iConfigFile );
+            }
+        }
+    }
+}
+
 int MainWindow::getScrollBarWidth()
 {
     return ui.statusListView->verticalScrollBar()->size().width();
@@ -352,6 +416,12 @@ void MainWindow::changeLabel()
 
 void MainWindow::sendStatus()
 {
+    QString status = ui.statusEdit->text();
+    foreach( StatusFilterInterface* filter, filters ) {
+        status = filter->filterStatusBeforePosting( status );
+    }
+    ui.statusEdit->setText( status );
+
     if( ui.statusEdit->charsLeft() < 0 ) {
         QMessageBox *messageBox = new QMessageBox( QMessageBox::Warning, tr( "Message too long" ), tr( "Your message is too long." ) );
         QPushButton *accept = messageBox->addButton( tr( "&Truncate" ), QMessageBox::AcceptRole );
@@ -553,200 +623,192 @@ void MainWindow::iconActivated( QSystemTrayIcon::ActivationReason reason )
 #else
             if ( !isVisible() || !QApplication::activeWindow() ) {
 #endif
-                bringToFront();
-                if ( m_trayIconMode == VisibleWhenMinimized ) {
-                    QTimer::singleShot( 0, trayIcon, SLOT(hide()) );
-                }
-            } else {
-                minimize();
+            bringToFront();
+            if ( m_trayIconMode == VisibleWhenMinimized ) {
+                QTimer::singleShot( 0, trayIcon, SLOT(hide()) );
             }
-            break;
-        default:
-            break;
-        }
-    }
-
-    void MainWindow::emitOpenBrowser( QString address )
-    {
-        emit openBrowser( QUrl( address ) );
-    }
-
-    void MainWindow::checkForUpdates()
-    {
-        Updater *updater = new Updater( this );
-        connect( updater, SIGNAL(updateChecked(bool,QString,QString)), this, SLOT(readUpdateReply(bool,QString,QString)) );
-        updater->checkForUpdate();
-    }
-
-    void MainWindow::silentCheckForUpdates()
-    {
-        Updater *updater = new Updater( this );
-        connect( updater, SIGNAL(updateChecked(bool,QString,QString)), this, SLOT(silentReadUpdateReply(bool,QString,QString)) );
-        updater->checkForUpdate();
-    }
-
-    void MainWindow::readUpdateReply( bool available, const QString &version, const QString &changes )
-    {
-        settings.setValue( "Network/updates/last", QDateTime::currentDateTime().toString( Qt::SystemLocaleShortDate ) );
-        QMessageBox *messageBox;
-        if ( available ) {
-            messageBox = new QMessageBox( QMessageBox::Information, tr( "Update available" ),
-                                          tr( "An update to qTwitter is available!" ),
-                                          QMessageBox::Close, this );
-            messageBox->setInformativeText( tr( "Current version is %1.<br>Download it from %2" )
-                                            .arg( version, "<a href='http://www.qt-apps.org/content/show.php/qTwitter?content=99087'>"
-                                                  "qt-apps.org</a>." ) );
-            messageBox->setDetailedText( changes );
         } else {
-            messageBox = new QMessageBox( QMessageBox::Information, tr( "No updates available" ),
-                                          tr( "Sorry, no updates for qTwitter are currently available" ),
-                                          QMessageBox::Close, this );
+            minimize();
         }
+        break;
+    default:
+        break;
+    }
+}
+
+void MainWindow::emitOpenBrowser( QString address )
+{
+    emit openBrowser( QUrl( address ) );
+}
+
+void MainWindow::checkForUpdates()
+{
+    Updater *updater = new Updater( this );
+    connect( updater, SIGNAL(updateChecked(bool,QString,QString)), this, SLOT(readUpdateReply(bool,QString,QString)) );
+    updater->checkForUpdate();
+}
+
+void MainWindow::silentCheckForUpdates()
+{
+    Updater *updater = new Updater( this );
+    connect( updater, SIGNAL(updateChecked(bool,QString,QString)), this, SLOT(silentReadUpdateReply(bool,QString,QString)) );
+    updater->checkForUpdate();
+}
+
+void MainWindow::readUpdateReply( bool available, const QString &version, const QString &changes )
+{
+    settings.setValue( "Network/updates/last", QDateTime::currentDateTime().toString( Qt::SystemLocaleShortDate ) );
+    QMessageBox *messageBox;
+    if ( available ) {
+        messageBox = new QMessageBox( QMessageBox::Information, tr( "Update available" ),
+                                      tr( "An update to qTwitter is available!" ),
+                                      QMessageBox::Close, this );
+        messageBox->setInformativeText( tr( "Current version is %1.<br>Download it from %2" )
+                                        .arg( version, "<a href='http://www.qt-apps.org/content/show.php/qTwitter?content=99087'>"
+                                              "qt-apps.org</a>." ) );
+        messageBox->setDetailedText( changes );
+    } else {
+        messageBox = new QMessageBox( QMessageBox::Information, tr( "No updates available" ),
+                                      tr( "Sorry, no updates for qTwitter are currently available" ),
+                                      QMessageBox::Close, this );
+    }
+    messageBox->setButtonText( QMessageBox::Close, tr( "Close" ) );
+    messageBox->exec();
+    messageBox->deleteLater();
+    sender()->deleteLater();
+}
+
+void MainWindow::silentReadUpdateReply( bool available, const QString &version, const QString &changes )
+{
+    settings.setValue( "Network/updates/last", QDateTime::currentDateTime().toString( Qt::SystemLocaleShortDate ) );
+    if ( available ) {
+        QMessageBox *messageBox;
+        messageBox = new QMessageBox( QMessageBox::Information, tr( "Update available" ),
+                                      tr( "An update to qTwitter is available!" ),
+                                      QMessageBox::Close, this );
+        messageBox->setInformativeText( tr( "Current version is %1.<br>Download it from %2" )
+                                        .arg( version, "<a href='http://www.qt-apps.org/content/show.php/qTwitter?content=99087'>"
+                                              "qt-apps.org</a>." ) );
+        messageBox->setDetailedText( changes );
         messageBox->setButtonText( QMessageBox::Close, tr( "Close" ) );
         messageBox->exec();
         messageBox->deleteLater();
-        sender()->deleteLater();
     }
+    sender()->deleteLater();
+}
 
-    void MainWindow::silentReadUpdateReply( bool available, const QString &version, const QString &changes )
-    {
-        settings.setValue( "Network/updates/last", QDateTime::currentDateTime().toString( Qt::SystemLocaleShortDate ) );
-        if ( available ) {
-            QMessageBox *messageBox;
-            messageBox = new QMessageBox( QMessageBox::Information, tr( "Update available" ),
-                                          tr( "An update to qTwitter is available!" ),
-                                          QMessageBox::Close, this );
-            messageBox->setInformativeText( tr( "Current version is %1.<br>Download it from %2" )
-                                            .arg( version, "<a href='http://www.qt-apps.org/content/show.php/qTwitter?content=99087'>"
-                                                  "qt-apps.org</a>." ) );
-            messageBox->setDetailedText( changes );
-            messageBox->setButtonText( QMessageBox::Close, tr( "Close" ) );
-            messageBox->exec();
-            messageBox->deleteLater();
-        }
-        sender()->deleteLater();
+void MainWindow::changeListBackgroundColor(const QColor &newColor )
+{
+    QPalette palette( ui.statusListView->palette() );
+    palette.setColor( QPalette::Base, newColor );
+    ui.statusListView->setPalette( palette );
+    ui.statusListView->update();
+}
+
+void MainWindow::about()
+{
+    AboutDialog *dlg = new AboutDialog( this );
+    dlg->exec();
+    dlg->deleteLater();
+}
+
+void MainWindow::retranslateUi()
+{
+    ui.updateButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Update tweets" ) ).arg( ui.updateButton->shortcut().toString( QKeySequence::NativeText ) ) );
+    ui.settingsButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Settings" ), ui.settingsButton->shortcut().toString( QKeySequence::NativeText ) ) );
+    ui.retranslateUi( this );
+    ui.accountsComboBox->setToolTip( tr( "Navigate using %1 and %2" )
+                                     .arg( QString( "<span style=\"color: gray\">%1</span>" )
+                                           .arg(QKeySequence( QKeySequence::MoveToPreviousWord ).toString( QKeySequence::NativeText ) ) )
+                                     .arg( QString( "<span style=\"color: gray\">%1</span>" )
+                                           .arg(QKeySequence( QKeySequence::MoveToNextWord ).toString( QKeySequence::NativeText ) ) ) );
+    ui.moreButton->setToolTip( tr("More...") );
+    if ( ui.statusEdit->isStatusClean() ) {
+        ui.statusEdit->initialize();
     }
-
-    void MainWindow::changeListBackgroundColor(const QColor &newColor )
-    {
-        QPalette palette( ui.statusListView->palette() );
-        palette.setColor( QPalette::Base, newColor );
-        ui.statusListView->setPalette( palette );
-        ui.statusListView->update();
-    }
-
-    void MainWindow::about()
-    {
-        AboutDialog *dlg = new AboutDialog( this );
-        dlg->exec();
-        dlg->deleteLater();
-    }
-
-    void MainWindow::retranslateUi()
-    {
-        ui.updateButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Update tweets" ) ).arg( ui.updateButton->shortcut().toString( QKeySequence::NativeText ) ) );
-        ui.settingsButton->setToolTip( QString("%1 <span style=\"color: gray\">%2</span>").arg( tr( "Settings" ), ui.settingsButton->shortcut().toString( QKeySequence::NativeText ) ) );
-        ui.retranslateUi( this );
-        ui.statusEdit->setToolTip( ui.statusEdit->toolTip().arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
-        ui.accountsComboBox->setToolTip( tr( "Navigate using %1 and %2" )
-                                         .arg( QString( "<span style=\"color: gray\">%1</span>" )
-                                               .arg(QKeySequence( QKeySequence::MoveToPreviousWord ).toString( QKeySequence::NativeText ) ) )
-                                         .arg( QString( "<span style=\"color: gray\">%1</span>" )
-                                               .arg(QKeySequence( QKeySequence::MoveToNextWord ).toString( QKeySequence::NativeText ) ) ) );
-        ui.moreButton->setToolTip( tr("More...") );
-        if ( ui.statusEdit->isStatusClean() ) {
-            ui.statusEdit->initialize();
-        }
-        ui.statusEdit->setText( tr( "What are you doing?" ) );
-        newstatusAction->setText( tr( "New tweet" ) );
-        newtwitpicAction->setText( tr( "Upload a photo to TwitPic" ) );
-        gototwitterAction->setText( tr( "Go to Twitter" ) );
-        gotoidenticaAction->setText( tr( "Go to Identi.ca" ) );
-        gototwitpicAction->setText( tr( "Go to TwitPic" ) );
-        checkforupdatesAction->setText( tr( "Check for updates" ) );
-        aboutAction->setText( tr( "About qTwitter..." ) );
-        quitAction->setText( tr( "Quit" ) );
+    ui.statusEdit->setText( tr( "What are you doing?" ) );
+    newstatusAction->setText( tr( "New tweet" ) );
+    newtwitpicAction->setText( tr( "Upload a photo to TwitPic" ) );
+    gototwitterAction->setText( tr( "Go to Twitter" ) );
+    gotoidenticaAction->setText( tr( "Go to Identi.ca" ) );
+    gototwitpicAction->setText( tr( "Go to TwitPic" ) );
+    checkforupdatesAction->setText( tr( "Check for updates" ) );
+    aboutAction->setText( tr( "About qTwitter..." ) );
+    quitAction->setText( tr( "Quit" ) );
 #ifndef Q_WS_MAC
-        traycheckAction->setText( checkforupdatesAction->text() );
-        traysettingsAction->setText( tr( "Settings" ) );
-        trayquitAction->setText( quitAction->text() );
+    traycheckAction->setText( checkforupdatesAction->text() );
+    traysettingsAction->setText( tr( "Settings" ) );
+    trayquitAction->setText( quitAction->text() );
 #endif
-    }
+}
 
-    void MainWindow::replaceUrl( const QString &url )
-    {
-        QString text = ui.statusEdit->text();
-        text.replace( ui.statusEdit->getSelectedUrl(), url.trimmed() );
-        ui.statusEdit->setText( text );
-        ui.statusEdit->setCursorPosition( text.indexOf( url ) + url.length() );
-    }
 
-    void MainWindow::statusReplyAction()
-    {
-        StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
-        if ( model )
-            if ( model->currentStatus() )
-            {
-            model->currentStatus()->slotReply();
-        }
+void MainWindow::statusReplyAction()
+{
+    StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
+    if ( model )
+        if ( model->currentStatus() )
+        {
+        model->currentStatus()->slotReply();
     }
+}
 
-    void MainWindow::statusRetweetAction()
-    {
-        StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
-        if ( model )
-            if ( model->currentStatus() )
-            {
-            model->currentStatus()->slotRetweet();
-        }
+void MainWindow::statusRetweetAction()
+{
+    StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
+    if ( model )
+        if ( model->currentStatus() )
+        {
+        model->currentStatus()->slotRetweet();
     }
+}
 
-    void MainWindow::statusCopylinkAction()
-    {
-        StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
-        if ( model )
-            if ( model->currentStatus() )
-            {
-            model->currentStatus()->slotCopyLink();
-        }
+void MainWindow::statusCopylinkAction()
+{
+    StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
+    if ( model )
+        if ( model->currentStatus() )
+        {
+        model->currentStatus()->slotCopyLink();
     }
+}
 
-    void MainWindow::statusDeleteAction()
-    {
-        StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
-        if ( model )
-            if ( model->currentStatus() )
-            {
-            model->currentStatus()->slotDelete();
-        }
+void MainWindow::statusDeleteAction()
+{
+    StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
+    if ( model )
+        if ( model->currentStatus() )
+        {
+        model->currentStatus()->slotDelete();
     }
+}
 
-    void MainWindow::statusMarkallasreadAction()
-    {
-        StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
-        if ( model )
-            model->markAllAsRead();
-    }
+void MainWindow::statusMarkallasreadAction()
+{
+    StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
+    if ( model )
+        model->markAllAsRead();
+}
 
-    void MainWindow::statusGototwitterpageAction()
-    {
-        StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
-        if ( model )
-            if ( model->currentStatus() )
-            {
-            emitOpenBrowser( "http://twitter.com/" + model->currentStatus()->data().userInfo.screenName );
-        }
+void MainWindow::statusGototwitterpageAction()
+{
+    StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
+    if ( model )
+        if ( model->currentStatus() )
+        {
+        emitOpenBrowser( "http://twitter.com/" + model->currentStatus()->data().userInfo.screenName );
     }
+}
 
-    void MainWindow::statusGotohomepageAction()
-    {
-        StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
-        if ( model )
-            if ( model->currentStatus() )
-            {
-            emitOpenBrowser( model->currentStatus()->data().userInfo.homepage );
-        }
+void MainWindow::statusGotohomepageAction()
+{
+    StatusModel *model = qobject_cast<StatusModel*>( ui.statusListView->model() );
+    if ( model )
+        if ( model->currentStatus() )
+        {
+        emitOpenBrowser( model->currentStatus()->data().userInfo.homepage );
     }
+}
 
     /*! \class MainWindow
     \brief A class defining the main window of the application.

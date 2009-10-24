@@ -42,6 +42,8 @@ class QXmlInputSource;
 class XmlParser;
 struct Interface;
 
+typedef QList<Entry> EntryList;
+
 class TwitterAPIPrivate;
 
 class TWITTERAPI_EXPORT TwitterAPI : public QObject
@@ -68,6 +70,7 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
     enum Role {
         ROLE_PUBLIC_TIMELINE = 101,
         ROLE_FRIENDS_TIMELINE,
+        ROLE_MENTIONS,
         ROLE_DIRECT_MESSAGES,
         ROLE_POST_UPDATE,
         ROLE_DELETE_UPDATE,
@@ -121,6 +124,7 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
     void postUpdate( const QString &data, quint64 inReplyTo = 0 );
     void deleteUpdate( quint64 id );
     void friendsTimeline( int msgCount = 20 );
+    void mentions( int msgCount = 20 );
     void directMessages( int msgCount = 20 );
     void postDM( const QString &screenName, const QString &text );
     void deleteDM( quint64 id );
@@ -138,7 +142,7 @@ public slots:
 
 signals:
     void requestDone( int role );
-    void newEntries( const QList<Entry> &entries );
+    void newEntries( const EntryList &entries );
     void deleteEntry( quint64 id );
     void favoriteStatus( quint64 id, bool favorited );
     void postDMDone( TwitterAPI::ErrorCode error );

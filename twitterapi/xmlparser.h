@@ -22,6 +22,7 @@
 #ifndef XMLPARSER_H
 #define XMLPARSER_H
 
+#include <QRunnable>
 #include <QObject>
 #include <QXmlDefaultHandler>
 #include <QSet>
@@ -58,7 +59,7 @@ public:
     QString textToHtml( QString newText );
 
 signals:
-    void parsed( const QList<Entry> &entries );
+    void parsed( const EntryList &entries );
 
 protected:
     QDateTime toDateTime( const QString &timestamp );
@@ -71,7 +72,7 @@ protected:
 
     QString currentTag;
     Entry entry;
-    QList<Entry> data;
+    EntryList data;
     bool important;
     bool parsingUser;
     bool favoritedSet;
@@ -131,5 +132,30 @@ private:
     static const QString TAG_DIRECT_MESSAGE;
     static const QString TAG_SENDER;
 };
+
+class ParserRunnable : public QRunnable
+{
+
+public:
+    ParserRunnable( QByteArray data, XmlParser *parser ) :
+            QRunnable(),
+            data( data ),
+            parser( parser )
+    {}
+
+    virtual void run()
+    {
+        source.setData( data );
+        reader.setContentHandler( parser );
+        reader.parse( source );
+    }
+
+private:
+    QXmlSimpleReader reader;
+    QXmlInputSource source;
+    QByteArray data;
+    XmlParser *parser;
+};
+
 
 #endif //XMLPARSER_H

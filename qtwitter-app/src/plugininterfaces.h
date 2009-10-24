@@ -1,6 +1,5 @@
 /***************************************************************************
- *   Copyright (C) 2009 by Dominik Kapusta            <d@ayoy.net>         *
- *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
+ *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -19,44 +18,44 @@
  ***************************************************************************/
 
 
-#ifndef URLSHORTENER_H
-#define URLSHORTENER_H
+#ifndef PLUGININTERFACES_H
+#define PLUGININTERFACES_H
 
-#include <QObject>
-#include "urlshortener_global.h"
+#include <QtPlugin>
 
-class QNetworkReply;
-class QNetworkAccessManager;
-class UrlShortenerImplementation;
+class QString;
+class QSettings;
+class QLineEdit;
 
-class URLSHORTENER_EXPORT UrlShortener : public QObject
+class StatusFilterInterface
 {
-    Q_OBJECT
-
 public:
-    enum Shortener {
-        SHORTENER_ISGD,
-        SHORTENER_TRIM,
-        SHORTENER_METAMARK,
-        SHORTENER_TINYURL,
-        SHORTENER_TINYARROWS,
-        SHORTENER_UNU,
-        SHORTENER_BITLY,
-        SHORTENER_DIGG,
-        SHORTENER_MIGREME,
-        SHORTENER_BOOOOM
-    };
+    virtual ~StatusFilterInterface() {}
 
-    UrlShortener( QObject *parent = 0 );
-    void shorten( const QString &url, Shortener shorteningService = SHORTENER_ISGD );
-
-signals:
-    void shortened( const QString &url );
-    void errorMessage( const QString &message );
-
-private:
-    UrlShortenerImplementation *shortenerInstance;
+    virtual QString filterStatusBeforePosting( const QString &status ) = 0;
+    virtual void connectToStatusEdit( QLineEdit *statusEdit ) = 0;
 };
 
+class SettingsTabInterface
+{
+public:
+    virtual ~SettingsTabInterface() {}
 
-#endif // URLSHORTENER_H
+    virtual QString tabName() = 0;
+    virtual QWidget* settingsWidget() = 0;
+};
+
+class ConfigFileInterface
+{
+public:
+    virtual ~ConfigFileInterface() {}
+
+    virtual void saveConfig( QSettings *file ) = 0;
+    virtual void loadConfig( QSettings *file ) = 0;
+};
+
+Q_DECLARE_INTERFACE(StatusFilterInterface, "net.ayoy.qTwitter.StatusFilterInterface/1.0");
+Q_DECLARE_INTERFACE(SettingsTabInterface, "net.ayoy.qTwitter.SettingsTabInterface/1.0");
+Q_DECLARE_INTERFACE(ConfigFileInterface, "net.ayoy.qTwitter.ConfigFileInterface/1.0");
+
+#endif // PLUGININTERFACES_H

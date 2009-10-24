@@ -33,6 +33,7 @@ class QMovie;
 class StatusModel;
 class Account;
 class KNotificationInterface;
+class StatusFilterInterface;
 
 class MainWindow : public QMainWindow
 {
@@ -71,7 +72,6 @@ public slots:
     void bringToFront(uint, uint);
     void bringToFront();
     void about();
-    void replaceUrl( const QString &url );
     void minimize();
 
     void statusReplyAction();
@@ -91,7 +91,6 @@ signals:
     void addRetweetString( QString message );
     void resizeView( int width, int oldWidth );
     void switchModel( const QString &serviceUrl, const QString &login );
-    void shortenUrl( const QString &url );
     void iconStopped();
 
     void statusMarkeverythingasreadAction();
@@ -117,6 +116,7 @@ private slots:
     void selectPrevAccount();
 
 private:
+    void loadPlugins();
     void createExternalConnections();
     void createInternalConnections();
     void createButtonMenu();
@@ -154,6 +154,7 @@ private:
 
     KNotificationInterface *knotificationIface;
     uint notificationId;
+    QList<StatusFilterInterface*> filters;
 };
 
 #endif //MAINWINDOW_H

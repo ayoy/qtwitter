@@ -274,18 +274,26 @@ QString XmlParser::textToHtml( QString newText )
     QString networkUrl = m_serviceUrl.replace( QRegExp( "/api$" ), "" );
     newText.replace( "<", "&lt;" );
     newText.replace( ">", "&gt;" );
-    QRegExp ahref( "(http://[^ ]+)( ?)", Qt::CaseInsensitive );
-    newText.replace( ahref, "<a href=\\1>\\1</a>\\2" );
-    newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([\\w\\d]+)" ), QString( "\\1<a href=%1/\\2>@\\2</a>").arg( networkUrl ) );
-    ahref.setPattern( "(<a href=[^ ]+)/>" );
-    ahref.setMinimal( true );
-    newText.replace( ahref, "\\1>" );
+
+    // recognize web/ftp links
+    QRegExp ahref( "((https?|ftp)://[^ ]+)( ?)", Qt::CaseInsensitive );
+    newText.replace( ahref, "<a href='\\1'>\\1</a>\\3" );
+
+    // recognize @mentions
+    newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([\\w\\d_]+)" ),
+                     QString( "\\1<a href='%1'/\\2>\\2</a>").arg( networkUrl ) );
+
+    // recognize e-mail addresses
     QRegExp mailto( "([a-z0-9\\._%-]+@[a-z0-9\\.-]+\\.[a-z]{2,4})", Qt::CaseInsensitive );
     newText.replace( mailto, "<a href='mailto:\\1'>\\1</a>" );
+
+    // recognize #hashtags
     QRegExp tag( "#([\\w\\d-]+)( ?)", Qt::CaseInsensitive );
     newText.replace( tag, m_serviceUrl == TwitterAPI::URL_TWITTER ?
                      "<a href='http://search.twitter.com/search?q=\\1'>#\\1</a>\\2" :
                      QString( "<a href='%1/tag/\\1'>#\\1</a>\\2" ).arg(networkUrl) );
+
+    // recognize !groups
     if ( m_serviceUrl != TwitterAPI::URL_TWITTER ) {
         QRegExp group( "!([\\w\\d-]+)( ?)", Qt::CaseInsensitive );
         newText.replace( group, QString( "<a href='%1/group/\\1'>!\\1</a>\\2" ).arg(networkUrl) );

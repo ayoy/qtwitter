@@ -30,7 +30,6 @@
 #include <QStringList>
 #include <QDir>
 #include <QFile>
-#include <urlshortener/urlshortener.h>
 #include "core.h"
 #include "mainwindow.h"
 #include "imagedownload.h"
@@ -63,10 +62,6 @@ Core::Core( QObject *parent ) :
         timer(0)
 {
     connect( ImageDownload::instance(), SIGNAL(imageReadyForUrl(QString,QPixmap*)), this, SLOT(setImageForUrl(QString,QPixmap*)) );
-
-    urlShortener = new UrlShortener( this );
-    connect( urlShortener, SIGNAL(shortened(QString)), this, SIGNAL(urlShortened(QString)));
-    connect( urlShortener, SIGNAL(errorMessage(QString)), this, SIGNAL(errorMessage(QString)));
 
     connect( StatusModel::instance(), SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
     connect( StatusModel::instance(), SIGNAL(markEverythingAsRead()), this, SLOT(markEverythingAsRead()) );
@@ -339,6 +334,7 @@ void Core::get( const QString &serviceUrl, const QString &login, const QString &
         StatusList *statusList = statusLists.value( account );
         if ( statusList ) {
             statusList->requestFriendsTimeline();
+            statusList->requestMentions();
             if ( statusList->dm() ) {
                 statusList->requestDirectMessages();
             }
@@ -352,6 +348,7 @@ void Core::get()
     foreach( StatusList *statusList, statusLists.values() ) {
         started = true;
         statusList->requestFriendsTimeline();
+        statusList->requestMentions();
         if ( statusList->dm() ) {
             statusList->requestDirectMessages();
         }
@@ -674,9 +671,4 @@ void Core::checkUnreadStatuses()
         //: There goes "For", a colon, a new line, and a list of users that heave unread statuses.
         emit sendNewsReport( tr( "For:\n%1" ).arg(message) );
     }
-}
-
-void Core::shortenUrl( const QString &url )
-{
-    urlShortener->shorten(url, (UrlShortener::Shortener) settings.value( "General/url-shortener" ).toInt() );
 }

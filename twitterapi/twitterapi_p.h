@@ -52,9 +52,6 @@ public:
 
     Interface *iface;
 
-    QXmlSimpleReader *xmlReader;
-    QXmlInputSource *source;
-
 #ifdef HAVE_OAUTH
     QOAuth::Interface *qoauth;
 #endif
@@ -72,6 +69,7 @@ public:
 
     static const QString UrlStatusesPublicTimeline;
     static const QString UrlStatusesFriendsTimeline;
+    static const QString UrlStatusesMentions;
     static const QString UrlStatusesUpdate;
     static const QString UrlStatusesDestroy;
     static const QString UrlDirectMessages;

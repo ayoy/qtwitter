@@ -23,7 +23,6 @@
 
 #include <QObject>
 #include "statuslist.h"
-#include "core.h"
 
 class StatusListPrivate : public QObject
 {
@@ -43,11 +42,10 @@ public:
     int active;
     static int maxCount;
     static const int publicMaxCount;
-    Core *core;
 
 public slots:
     void addEntry( const Entry &entry );
-    void addEntries( const QList<Entry> &entries );
+    void addEntries( const EntryList &entries );
     void deleteEntry( quint64 id );
     void setFavorited( quint64 id, bool favorited = true );
     void slotUnauthorized();

@@ -1,6 +1,5 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
- *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -19,62 +18,53 @@
  ***************************************************************************/
 
 
-#ifndef STATUSEDIT_H
-#define STATUSEDIT_H
+#ifndef URLSHORTENERWIDGET_H
+#define URLSHORTENERWIDGET_H
 
-#include <QLineEdit>
-#include <QColor>
+#include <QWidget>
+#include <QStringList>
 
-class QEvent;
-class QFocusEvent;
+namespace Ui {
+    class UrlShortenerWidget;
+}
 
-class StatusFilter : public QObject
+class QStringListModel;
+
+class UrlShortenerWidget : public QWidget
 {
     Q_OBJECT
+    Q_PROPERTY( bool automatic READ isAutomatic WRITE setAutomatic );
+    Q_PROPERTY( int currentIndex READ currentIndex WRITE setCurrentIndex );
+    Q_PROPERTY( int currentShortener READ currentShortener );
+    Q_PROPERTY( QString shortcut READ shortcut WRITE setShortcut );
 
 public:
-    StatusFilter( QObject *parent = 0 );
+    explicit UrlShortenerWidget( QWidget *parent = 0 );
+    virtual ~UrlShortenerWidget();
 
-signals:
-    void enterPressed();
-    void escPressed();
+    bool isAutomatic() const;
+    void setAutomatic( bool automatic );
+    int currentIndex() const;
+    void setCurrentIndex( int index );
+    int currentShortener() const;
+    QString shortcut() const;
+    void setShortcut( const QString &shortcut );
 
-protected:
-    bool eventFilter( QObject *dist, QEvent *event );
-};
-
-
-class StatusEdit : public QLineEdit
-{
-    Q_OBJECT
-public:
-    static const int STATUS_MAX_LENGTH;
-
-    StatusEdit( QWidget * parent = 0 );
-
-    void focusInEvent( QFocusEvent * event );
-    void focusOutEvent( QFocusEvent * event );
-    void initialize();
-    bool isStatusClean() const;
-    quint64 getInReplyTo() const;
-    QString getSelectedUrl() const;
-    int charsLeft() const;
+    void setData( const QMap<QString,int> &data );
 
 public slots:
-    void cancelEditing();
-    void addReplyString( const QString &name, quint64 inReplyTo );
-    void addRetweetString( QString message );
+    void setShortcut( bool buttonClicked );
 
 signals:
-    void errorMessage( const QString &message );
+    void shortcutChanged( const QKeySequence &seq );
+
+protected:
+    void changeEvent( QEvent *event );
+    bool eventFilter( QObject *watched, QEvent *event );
 
 private:
-    bool statusClean;
-    quint64 inReplyToId;
-    QString selectedUrl;
-    QColor inactiveColor;
-    QColor activeColor;
-
+    Ui::UrlShortenerWidget *m_ui;
+    QStringListModel *shortenersModel;
 };
 
-#endif //STATUSEDIT_H
+#endif // URLSHORTENERWIDGET_H

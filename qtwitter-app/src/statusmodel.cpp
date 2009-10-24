@@ -184,30 +184,24 @@ void StatusModel::setStatusList( StatusList *statusList )
     if ( this->statusList ) {
         this->statusList->setVisible( false );
         this->statusList->disconnect();
-        //    disconnect( this->statusList, SIGNAL(statusAdded(int)), this, SLOT(updateDisplay(int)) );
-        //    disconnect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
-        //    disconnect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );
-        //    disconnect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
-        //    disconnect( this->statusList, SIGNAL(favoriteChanged(int)), this, SLOT(updateDisplay(int)) );
-        //    disconnect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
     }
 
     this->statusList = statusList;
     this->statusList->setVisible( true );
-    connect( this->statusList, SIGNAL(statusAdded(int)), this, SLOT(updateDisplay(int)) );
-    connect( this->statusList, SIGNAL(dataChanged(int)), this, SLOT(updateDisplay(int)) );
-    connect( this->statusList, SIGNAL(statusDeleted(int)), this, SLOT(removeStatus(int)) );
-    connect( this->statusList, SIGNAL(stateChanged(int)), this, SLOT(updateState(int)) );
-    connect( this->statusList, SIGNAL(favoriteChanged(int)), this, SLOT(updateDisplay(int)) );
-    connect( this->statusList, SIGNAL(imageChanged(int)), this, SLOT(updateImage(int)) );
+    connect( this->statusList, SIGNAL(statusAdded(int)), SLOT(updateDisplay(int)) );
+    connect( this->statusList, SIGNAL(dataChanged(int)), SLOT(updateDisplay(int)) );
+    connect( this->statusList, SIGNAL(statusDeleted(int)), SLOT(removeStatus(int)) );
+    connect( this->statusList, SIGNAL(stateChanged(int)), SLOT(updateState(int)) );
+    connect( this->statusList, SIGNAL(favoriteChanged(int)), SLOT(updateDisplay(int)) );
+    connect( this->statusList, SIGNAL(imageChanged(int)), SLOT(updateImage(int)) );
 
     StatusWidget::setCurrentLogin( this->statusList->login() );
     StatusWidget::setCurrentServiceUrl( this->statusList->serviceUrl() );
 
     // for cleaning up the list when switching to public timeline that could have
     // less statuses than requested maximum
-    StatusWidget *widget;
     if ( statusList->size() < maxStatusCount ) {
+        StatusWidget *widget;
         for ( int i = statusList->size(); i < maxStatusCount; ++i ) {
             widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
             Q_ASSERT(widget);

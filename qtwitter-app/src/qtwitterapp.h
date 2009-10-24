@@ -39,6 +39,7 @@ public:
 
     static Core* core();
     static MainWindow* mainWindow();
+    static Settings* settingsDialog();
 
 public slots:
     void openSettings();

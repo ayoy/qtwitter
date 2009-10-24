@@ -21,7 +21,6 @@
 
 #include "settings.h"
 
-#include <urlshortener/urlshortener.h>
 #include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
 #include "qtwitterapp.h"
@@ -29,6 +28,7 @@
 #include "configfile.h"
 #include "core.h"
 #include "updater.h"
+#include "plugininterfaces.h"
 
 #include <QNetworkProxy>
 #include <QTranslator>
@@ -61,12 +61,6 @@ Settings::Settings( Core *coreSettings, QWidget *parent ) :
 
     ui.setupUi( this );
 
-    QFont smallerFont = ui.shortenerInfoLabel->font();
-    smallerFont.setPointSize( smallerFont.pointSize() - 1 );
-    ui.shortenerInfoLabel->setFont( smallerFont );
-
-    ui.shortenerInfoLabel->setText( tr( "Tip: use %1 to shorten links" ).arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
-
     themes.insert( Themes::STYLESHEET_COCOA.first,   Themes::STYLESHEET_COCOA.second);
     themes.insert( Themes::STYLESHEET_GRAY.first,    Themes::STYLESHEET_GRAY.second);
     themes.insert( Themes::STYLESHEET_GREEN.first,   Themes::STYLESHEET_GREEN.second);
@@ -78,7 +72,6 @@ Settings::Settings( Core *coreSettings, QWidget *parent ) :
     }
 
     createLanguageMenu();
-    createUrlShortenerMenu();
 
 #ifdef Q_WS_X11
     QHBoxLayout *hlayout = new QHBoxLayout;
@@ -112,6 +105,17 @@ Settings::Settings( Core *coreSettings, QWidget *parent ) :
 
 Settings::~Settings() {}
 
+void Settings::addTab( const QString &tabName, QWidget *tabWidget )
+{
+    ui.tabs->addTab( tabWidget, tabName );
+}
+
+void Settings::addConfigFilePlugin( ConfigFileInterface *iface )
+{
+    configFilePlugins << iface;
+}
+
+
 void Settings::loadConfig( bool dialogRejected )
 {
     settings.beginGroup( "General" );
@@ -122,7 +126,6 @@ void Settings::loadConfig( bool dialogRejected )
         lang = 0;
     ui.languageCombo->setCurrentIndex( lang );
 
-    ui.urlShortenerCombo->setCurrentIndex( ui.urlShortenerCombo->findData( settings.value( "url-shortener", UrlShortener::SHORTENER_ISGD ).toInt() ) );
     ui.confirmDeletionBox->setChecked( settings.value( "confirmTweetDeletion", true ).toBool() );
     ui.notificationsBox->setChecked( settings.value( "notifications", true ).toBool() );
     settings.endGroup();
@@ -205,6 +208,13 @@ void Settings::loadConfig( bool dialogRejected )
         move( offset );
         applySettings();
     }
+
+    settings.beginGroup( "Plugins" );
+    foreach( ConfigFileInterface *iface, configFilePlugins ) {
+        iface->loadConfig( &settings );
+    }
+    settings.endGroup();
+
     qDebug() << "settings loaded and applied";
 }
 
@@ -234,7 +244,6 @@ void Settings::saveConfig( int quitting )
     settings.setValue( "refresh-index", ui.refreshCombo->currentIndex() );
     settings.setValue( "refresh-value", ui.refreshCombo->currentText() );
     settings.setValue( "language", ui.languageCombo->itemData( ui.languageCombo->currentIndex() ).toString() );
-    settings.setValue( "url-shortener", ui.urlShortenerCombo->itemData( ui.urlShortenerCombo->currentIndex() ).toInt() );
     settings.setValue( "confirmTweetDeletion", ui.confirmDeletionBox->isChecked() );
     settings.setValue( "notifications", ui.notificationsBox->isChecked() );
     settings.endGroup();
@@ -281,6 +290,12 @@ void Settings::saveConfig( int quitting )
 
     settings.endGroup();
     settings.sync();
+
+    settings.beginGroup( "Plugins" );
+    foreach( ConfigFileInterface *iface, configFilePlugins ) {
+        iface->saveConfig( &settings );
+    }
+    settings.endGroup();
 
     if ( !quitting ) {
         applySettings();
@@ -366,7 +381,6 @@ void Settings::changeEvent( QEvent *e )
 void Settings::retranslateUi()
 {
     ui.languageCombo->setItemText( 0, tr( "Default" ) );
-    ui.shortenerInfoLabel->setText( tr( "Tip: use %1 to shorten links" ).arg( QKeySequence( Qt::CTRL + Qt::Key_J ).toString( QKeySequence::NativeText ) ) );
 #ifdef Q_WS_X11
     useCustomBrowserCheckBox->setText( tr( "Use custom web browser" ) );
     selectBrowserButton->setText( tr( "Browse" ) );
@@ -489,18 +503,4 @@ void Settings::switchLanguage( int index )
     }
     core->retranslateUi();
     adjustSize();
-}
-
-void Settings::createUrlShortenerMenu()
-{
-    ui.urlShortenerCombo->addItem( "bit.ly", UrlShortener::SHORTENER_BITLY );
-    ui.urlShortenerCombo->addItem( "Boooom!", UrlShortener::SHORTENER_BOOOOM );
-    ui.urlShortenerCombo->addItem( "Digg", UrlShortener::SHORTENER_DIGG );
-    ui.urlShortenerCombo->addItem( "is.gd", UrlShortener::SHORTENER_ISGD );
-    ui.urlShortenerCombo->addItem( "MetaMark", UrlShortener::SHORTENER_METAMARK );
-    ui.urlShortenerCombo->addItem( "Migre.me", UrlShortener::SHORTENER_MIGREME);
-    ui.urlShortenerCombo->addItem( "tinyarro.ws", UrlShortener::SHORTENER_TINYARROWS );
-    ui.urlShortenerCombo->addItem( "TinyURL", UrlShortener::SHORTENER_TINYURL );
-    ui.urlShortenerCombo->addItem( "tr.im", UrlShortener::SHORTENER_TRIM );
-    ui.urlShortenerCombo->addItem( "u.nu", UrlShortener::SHORTENER_UNU );
 }

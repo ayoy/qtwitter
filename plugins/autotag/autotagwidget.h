@@ -1,6 +1,5 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
- *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -19,62 +18,48 @@
  ***************************************************************************/
 
 
-#ifndef STATUSEDIT_H
-#define STATUSEDIT_H
+#ifndef AUTOTAGWIDGET_H
+#define AUTOTAGWIDGET_H
 
-#include <QLineEdit>
-#include <QColor>
+#include <QWidget>
+#include <QStringList>
 
-class QEvent;
-class QFocusEvent;
+namespace Ui {
+    class AutoTagWidget;
+}
 
-class StatusFilter : public QObject
+class QStringListModel;
+
+class AutoTagWidget : public QWidget
 {
     Q_OBJECT
+    Q_PROPERTY( bool active READ isActive WRITE setActive );
+    Q_PROPERTY( QStringList tags READ tags WRITE setTags );
 
 public:
-    StatusFilter( QObject *parent = 0 );
+    explicit AutoTagWidget( QWidget *parent = 0 );
+    virtual ~AutoTagWidget();
 
-signals:
-    void enterPressed();
-    void escPressed();
-
-protected:
-    bool eventFilter( QObject *dist, QEvent *event );
-};
-
-
-class StatusEdit : public QLineEdit
-{
-    Q_OBJECT
-public:
-    static const int STATUS_MAX_LENGTH;
-
-    StatusEdit( QWidget * parent = 0 );
-
-    void focusInEvent( QFocusEvent * event );
-    void focusOutEvent( QFocusEvent * event );
-    void initialize();
-    bool isStatusClean() const;
-    quint64 getInReplyTo() const;
-    QString getSelectedUrl() const;
-    int charsLeft() const;
+    bool isActive() const;
+    void setActive( bool active );
+    QStringList tags() const;
+    void setTags( const QStringList &tags );
 
 public slots:
-    void cancelEditing();
-    void addReplyString( const QString &name, quint64 inReplyTo );
-    void addRetweetString( QString message );
+    void addTags();
+    void deleteTag();
 
-signals:
-    void errorMessage( const QString &message );
+protected:
+    void changeEvent( QEvent *event );
+    bool eventFilter( QObject *watched, QEvent *event );
+
+private slots:
+    void updateAddButton();
+    void updateDeleteButton();
 
 private:
-    bool statusClean;
-    quint64 inReplyToId;
-    QString selectedUrl;
-    QColor inactiveColor;
-    QColor activeColor;
-
+    Ui::AutoTagWidget *m_ui;
+    QStringListModel *tagsModel;
 };
 
-#endif //STATUSEDIT_H
+#endif // AUTOTAGWIDGET_H

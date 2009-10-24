@@ -1,6 +1,5 @@
 /***************************************************************************
  *   Copyright (C) 2008-2009 by Dominik Kapusta       <d@ayoy.net>         *
- *   Copyright (C) 2009 by Mariusz Pietrzyk       <wijet@wijet.pl>         *
  *                                                                         *
  *   This program is free software; you can redistribute it and/or modify  *
  *   it under the terms of the GNU Lesser General Public License as        *
@@ -19,62 +18,41 @@
  ***************************************************************************/
 
 
-#ifndef STATUSEDIT_H
-#define STATUSEDIT_H
+#ifndef AUTOTAGPLUGIN_H
+#define AUTOTAGPLUGIN_H
 
-#include <QLineEdit>
-#include <QColor>
+#include <QObject>
+#include <plugininterfaces.h>
 
-class QEvent;
-class QFocusEvent;
+class AutoTagWidget;
 
-class StatusFilter : public QObject
+class AutoTagPlugin : public QObject,
+                      public StatusFilterInterface,
+                      public SettingsTabInterface,
+                      public ConfigFileInterface
 {
     Q_OBJECT
+    Q_INTERFACES(StatusFilterInterface SettingsTabInterface ConfigFileInterface);
 
 public:
-    StatusFilter( QObject *parent = 0 );
+    AutoTagPlugin( QObject *parent = 0 );
+    virtual ~AutoTagPlugin();
 
-signals:
-    void enterPressed();
-    void escPressed();
+    // StatusFilterInterface
+    QString filterStatusBeforePosting( const QString &status );
+    void connectToStatusEdit( QLineEdit *statusEdit ) { Q_UNUSED(statusEdit); }
 
-protected:
-    bool eventFilter( QObject *dist, QEvent *event );
-};
+    // SettingsTabInterface
+    QString tabName();
+    QWidget *settingsWidget();
 
-
-class StatusEdit : public QLineEdit
-{
-    Q_OBJECT
-public:
-    static const int STATUS_MAX_LENGTH;
-
-    StatusEdit( QWidget * parent = 0 );
-
-    void focusInEvent( QFocusEvent * event );
-    void focusOutEvent( QFocusEvent * event );
-    void initialize();
-    bool isStatusClean() const;
-    quint64 getInReplyTo() const;
-    QString getSelectedUrl() const;
-    int charsLeft() const;
-
-public slots:
-    void cancelEditing();
-    void addReplyString( const QString &name, quint64 inReplyTo );
-    void addRetweetString( QString message );
-
-signals:
-    void errorMessage( const QString &message );
+    // ConfigFileInterface
+    void saveConfig( QSettings *file );
+    void loadConfig( QSettings *file );
 
 private:
-    bool statusClean;
-    quint64 inReplyToId;
-    QString selectedUrl;
-    QColor inactiveColor;
-    QColor activeColor;
+    AutoTagWidget *autoTagWidget;
 
 };
 
-#endif //STATUSEDIT_H
+#endif // AUTOTAGPLUGIN_H
