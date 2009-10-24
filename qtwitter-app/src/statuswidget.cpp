@@ -499,7 +499,7 @@ void StatusWidget::slotReply()
 
 void StatusWidget::slotRetweet()
 {
-    emit retweet( QString("RT @" + statusData->userInfo.screenName + ": " + statusData->originalText ) );
+    emit retweet( QChar(0x267b) + QString(" @" + statusData->userInfo.screenName + ": " + statusData->originalText ) );
 }
 
 void StatusWidget::slotDM()
