@@ -23,6 +23,7 @@
 
 #include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
+#include <pluginmanagerwidget.h>
 #include "qtwitterapp.h"
 #include "mainwindow.h"
 #include "configfile.h"
@@ -53,7 +54,8 @@ extern ConfigFile settings;
 Settings::Settings( Core *coreSettings, QWidget *parent ) :
         QDialog( parent ),
         updateAccountsOnExit( false ),
-        core( coreSettings )
+        core( coreSettings ),
+        pluginManagerTab(0)
 {
     // Sorry, but this has to be here and not in Qtwitter::Qtwitter() for the core to be aware
     // of the signal emitted in Settings::Settings()
@@ -107,7 +109,11 @@ Settings::~Settings() {}
 
 void Settings::addTab( const QString &tabName, QWidget *tabWidget )
 {
-    ui.tabs->addTab( tabWidget, tabName );
+    if ( pluginManagerTab == 0 ) {
+        pluginManagerTab = new PluginManagerWidget(this);
+        ui.tabs->addTab( pluginManagerTab, pluginManagerTab->tabName() );
+    }
+    pluginManagerTab->registerPluginWidget( tabName, tabWidget );
 }
 
 void Settings::addConfigFilePlugin( ConfigFileInterface *iface )

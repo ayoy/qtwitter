@@ -8,6 +8,7 @@ include(../common.pri)
 include($${TOP}/twitterapi/twitterapi.pri)
 include(src/dbus/dbus.pri)
 include(src/oauth/oauth.pri)
+include(src/pluginmgr/pluginmgr.pri)
 include(src/accounts/accounts.pri)
 include(src/qticonloader/qticonloader.pri)
 QT += network \
