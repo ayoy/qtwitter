@@ -5,6 +5,7 @@ CONFIG += oauth
 
 # sets the TOP variable to the root source code dir
 include(../common.pri)
+include($${TOP}/translations/translations.pri)
 include($${TOP}/twitterapi/twitterapi.pri)
 include(src/dbus/dbus.pri)
 include(src/oauth/oauth.pri)
@@ -68,36 +69,9 @@ FORMS += ui/mainwindow.ui \
     ui/userinfopopup.ui \
     ui/dmdialog.ui \
     ui/welcomedialog.ui
-TRANSLATIONS += loc/qtwitter_ca_ES.ts \
-    loc/qtwitter_de_DE.ts \
-    loc/qtwitter_es_ES.ts \
-    loc/qtwitter_ja_JP.ts \
-    loc/qtwitter_it_IT.ts \
-    loc/qtwitter_fr_FR.ts \
-    loc/qtwitter_nb_NO.ts \
-    loc/qtwitter_pl_PL.ts \
-    loc/qtwitter_pt_BR.ts \
-    loc/qtwitter_cs_CZ.ts
 
-linux-* {
-    RESOURCES = res/resources_x11.qrc
-} else {
-    RESOURCES = res/resources.qrc
-}
-#linux-* {
-#    RESOURCES = res/resources_x11.qrc
-#    i18n.commands = lrelease $${_PRO_FILE_} && mkdir -p $${_PRO_FILE_PWD_}/res/loc && mv $${_PRO_FILE_PWD_}/loc/*.qm $${_PRO_FILE_PWD_}/res/loc
-#    QMAKE_EXTRA_TARGETS += i18n
-#    PRE_TARGETDEPS += i18n
-#} else {
-#    # systems other than linux provide translations inside the binary
-#    # - they have to exist at compile time
-#    system("lrelease $${_PRO_FILE_} && mkdir -p $${_PRO_FILE_PWD_}/res/loc && mv $${_PRO_FILE_PWD_}/loc/*.qm $${_PRO_FILE_PWD_}/res/loc")
-#    RESOURCES = res/resources.qrc
-#}
-
+RESOURCES = res/resources.qrc
 INCLUDEPATH += src
-
 
 macx {
     ICON = macx/qtwitter.icns
@@ -108,19 +82,10 @@ macx {
 else:unix {
     LIBS += -L$${DESTDIR} \
         -Wl,-rpath,$${DESTDIR} \
-        $$TWITTERAPI_LIB \
-        $$URLSHORTENER_LIB
-    isEmpty( PREFIX ):INSTALL_PREFIX = /usr
-    else:INSTALL_PREFIX = $${PREFIX}
+        $$TWITTERAPI_LIB
     target.path = $${INSTALL_PREFIX}/bin
-    SHARE_DIR = $${INSTALL_PREFIX}/share/$${TARGET}
     PLUGINS_DIR = $${INSTALL_PREFIX}/lib$${LIB_SUFFIX}/$${TARGET}/plugins
-    DEFINES += SHARE_DIR='\\\"$${SHARE_DIR}\\\"'
     DEFINES += PLUGINS_DIR='\\\"$${PLUGINS_DIR}\\\"'
-    translations.path = $${SHARE_DIR}/loc
-    translations.files = $${TRANSLATIONS}
-    translations.files ~= s/\.ts/.qm/g
-    translations.files ~= s!^loc!res/loc!g
     icons.path = $${INSTALL_PREFIX}/share/icons/scalable/apps
     icons.files = x11/icons/scalable/qtwitter.svg
     icons16.path = $${INSTALL_PREFIX}/share/icons/hicolor/16x16/apps
@@ -140,7 +105,6 @@ else:unix {
     desktop.path = $${INSTALL_PREFIX}/share/applications
     desktop.files = x11/qtwitter.desktop
     INSTALLS += target \
-        translations \
         icons \
         icons16 \
         icons22 \
@@ -155,6 +119,4 @@ else:win32 {
     RC_FILE = win32/qtwitter.rc
     LIBS += -L$${DESTDIR} \
         $$TWITTERAPI_LIB \
-        $$URLSHORTENER_LIB \
-        $$QOAUTH_LIB
 }

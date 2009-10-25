@@ -4,7 +4,7 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="+26"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui" line="+26"/>
         <source>About qTwitter</source>
         <translation>キｭｰツイッターに関して</translation>
     </message>
@@ -29,7 +29,7 @@
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="+61"/>
+        <location filename="../qtwitter-app/src/aboutdialog.cpp" line="+61"/>
         <source>Application concept and main development</source>
         <translation>アプリケーションの着想と主要開発</translation>
     </message>
@@ -173,7 +173,7 @@
         <translation type="obsolete">両方</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accounts.ui" line="+64"/>
+        <location filename="../qtwitter-app/src/accounts/accounts.ui" line="+64"/>
         <source>store passwords on disk</source>
         <translation>パスワードをディスクに保存する</translation>
     </message>
@@ -181,7 +181,7 @@
 <context>
     <name>AccountsController</name>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="+267"/>
+        <location filename="../qtwitter-app/src/accounts/accountscontroller.cpp" line="+267"/>
         <source>Password security</source>
         <translation>パスワードの安全度</translation>
     </message>
@@ -221,7 +221,7 @@
 <context>
     <name>AccountsModel</name>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="+81"/>
+        <location filename="../qtwitter-app/src/accounts/accountsmodel.cpp" line="+81"/>
         <source>authorized</source>
         <translation>認定されている</translation>
     </message>
@@ -266,7 +266,7 @@
 <context>
     <name>AllowWidget</name>
     <message>
-        <location filename="../src/oauth/allowwidget.ui" line="+23"/>
+        <location filename="../qtwitter-app/src/oauth/allowwidget.ui" line="+23"/>
         <source>You must allow qTwitter accessing your Twitter account</source>
         <translation>キューツイッターにツイッターのアカウントへのアクセスを許可する必要があります</translation>
     </message>
@@ -279,7 +279,7 @@
 <context>
     <name>AuthDialog</name>
     <message>
-        <location filename="../ui/authdialog.ui" line="+32"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui" line="+32"/>
         <source>Authentication required</source>
         <translation>ユーザー認証が必要です</translation>
     </message>
@@ -326,20 +326,62 @@
     </message>
 </context>
 <context>
-    <name>BitlyShortener</name>
+    <name>AutoTagPlugin</name>
     <message>
-        <source>The URL entered was not valid.</source>
-        <translation type="obsolete">ご入力のURLは正しくありません。</translation>
+        <location filename="../plugins/autotag/autotagplugin.cpp" line="+59"/>
+        <source>Tags</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AutoTagWidget</name>
+    <message>
+        <location filename="../plugins/autotag/autotagwidget.ui" line="+14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location line="+6"/>
+        <source>Enable automatic #tagging</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+9"/>
+        <source>&amp;Add words:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BitlyShortener</name>
+    <message>
+        <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+311"/>
+        <source>The URL entered was not valid.</source>
+        <translation type="unfinished">ご入力のURLは正しくありません。</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短執する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短執する際に未知のエラーが発生しました。</translation>
+    </message>
+</context>
+<context>
+    <name>BoooomShortener</name>
+    <message>
+        <location line="-107"/>
+        <source>An error occured with b.oooom.net. Please file a bug.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+5"/>
+        <source>An unknown error occured when shortening your URL.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>Core</name>
     <message>
-        <location filename="../src/core.cpp" line="+608"/>
+        <location filename="../qtwitter-app/src/core.cpp" line="+605"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
         <translation>ご友人の更新情報をお読みになるには、ユーザー認証が必要です。</translation>
     </message>
@@ -371,7 +413,7 @@
         <translation type="obsolete">このステータスを削除してよろしいですか?</translation>
     </message>
     <message>
-        <location line="-478"/>
+        <location line="-480"/>
         <source>It seems like qTwitter wasn&apos;t closed properly last time. If the application crashed, it may be due to inconsistency in accounts settings. Do you want to reset accounts in qTwitter?</source>
         <translation>前回キューツイッターの終了時に問題が発生したようです。アプリケーションがクラッシュしたのならば、原因はアカウントの設定の不一致だったという可能性があります。キューツイッターのアカウントをリセットしますか?</translation>
     </message>
@@ -391,7 +433,7 @@
         <translation>&amp;いいえ、設定をリセットしません</translation>
     </message>
     <message>
-        <location line="+265"/>
+        <location line="+267"/>
         <source>Enter password</source>
         <translation>パスワードを入力してください</translation>
     </message>
@@ -427,7 +469,7 @@
         <translation>更新情報を削除するには、ユーザー認証が必要です。</translation>
     </message>
     <message>
-        <location line="-485"/>
+        <location line="-487"/>
         <source>Warning</source>
         <translation>注意</translation>
     </message>
@@ -436,7 +478,7 @@
         <translation type="obsolete">一つ以上の要請が完成されませんでした。インターネット接続が可能なことや、アカウントの設定が正しいことをお確かめください。</translation>
     </message>
     <message>
-        <location line="+551"/>
+        <location line="+553"/>
         <source>For %1</source>
         <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
         <translation>%1に</translation>
@@ -453,7 +495,7 @@
 <context>
     <name>DMDialog</name>
     <message>
-        <location filename="../src/dmdialog.cpp" line="+51"/>
+        <location filename="../qtwitter-app/src/dmdialog.cpp" line="+51"/>
         <source>Direct message %1</source>
         <translation>%1にPMを送る</translation>
     </message>
@@ -535,7 +577,7 @@
         <translation>メッセージの送信に失敗しました。あなたをフォローしない使用者にメッセージを送信することができないことにご注意ください。</translation>
     </message>
     <message>
-        <location filename="../ui/dmdialog.ui" line="+20"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui" line="+20"/>
         <source>Direct Message</source>
         <translation>プライベートなメッセージ</translation>
     </message>
@@ -563,92 +605,101 @@
 <context>
     <name>DiggShortener</name>
     <message>
+        <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+132"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短執する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短執する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>IsgdShortener</name>
     <message>
+        <location line="-275"/>
         <source>The URL entered was not valid.</source>
-        <translation type="obsolete">ご入力のURLは正しくありません。</translation>
+        <translation type="unfinished">ご入力のURLは正しくありません。</translation>
     </message>
     <message>
+        <location line="-5"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation type="obsolete">URLを短縮するサービスにはユーザー認証に関する問題が発生しました。ユーザー名とパスワードをご確認ください。</translation>
+        <translation type="unfinished">URLを短縮するサービスにはユーザー認証に関する問題が発生しました。ユーザー名とパスワードをご確認ください。</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>The URL entered was too long.</source>
-        <translation type="obsolete">ご入力のURLは長すぎます。</translation>
+        <translation type="unfinished">ご入力のURLは長すぎます。</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="obsolete">この要請を送られたアドレスは、スパムハウス(SBL/XBL)またはスパムコプによりブラックリストに載せられています。</translation>
+        <translation type="unfinished">この要請を送られたアドレスは、スパムハウス(SBL/XBL)またはスパムコプによりブラックリストに載せられています。</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="obsolete">ご入力のURLは迷惑メールサイトの可能性があり、SURBLまたはURIBLのブラックリストに載せられています。</translation>
+        <translation type="unfinished">ご入力のURLは迷惑メールサイトの可能性があり、SURBLまたはURIBLのブラックリストに載せられています。</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="obsolete">ご入力のURLはis.gdのブラックリストに載せられています(悪用を避けるために、URLアドレスを短縮するサイトへのリンクは使用不可能になっております)。</translation>
+        <translation type="unfinished">ご入力のURLはis.gdのブラックリストに載せられています(悪用を避けるために、URLアドレスを短縮するサイトへのリンクは使用不可能になっております)。</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="obsolete">要請を送られたアドレスは、is.gdによりブロックされています(たいていの原因は使用条件の違反行為です)。</translation>
+        <translation type="unfinished">要請を送られたアドレスは、is.gdによりブロックされています(たいていの原因は使用条件の違反行為です)。</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="+229"/>
-        <location line="+434"/>
+        <location filename="../qtwitter-app/src/mainwindow.cpp" line="+231"/>
+        <location line="+499"/>
         <source>New tweet</source>
         <translation>新着トゥウィート</translation>
     </message>
     <message>
-        <location line="-433"/>
-        <location line="+434"/>
+        <location line="-498"/>
+        <location line="+499"/>
         <source>Upload a photo to TwitPic</source>
         <translation>トゥウィートピックに写真をアップロードする</translation>
     </message>
     <message>
-        <location line="-433"/>
-        <location line="+434"/>
+        <location line="-498"/>
+        <location line="+499"/>
         <source>Go to Twitter</source>
         <translation>ツイッターを開く</translation>
     </message>
     <message>
-        <location line="-433"/>
-        <location line="+434"/>
+        <location line="-498"/>
+        <location line="+499"/>
         <source>Go to Identi.ca</source>
         <translation>Identi.caを開く</translation>
     </message>
     <message>
-        <location line="-433"/>
-        <location line="+434"/>
+        <location line="-498"/>
+        <location line="+499"/>
         <source>Go to TwitPic</source>
         <translation>トゥウィートピックを開く</translation>
     </message>
     <message>
-        <location line="-464"/>
+        <location line="-529"/>
         <location line="+33"/>
-        <location line="+434"/>
+        <location line="+499"/>
         <source>Quit</source>
         <translation>終了</translation>
     </message>
     <message>
-        <location line="-483"/>
+        <location line="-548"/>
         <source>&amp;File</source>
         <translation>&amp;ファイル</translation>
     </message>
     <message>
         <location line="+18"/>
-        <location line="+445"/>
+        <location line="+511"/>
         <location line="+22"/>
         <source>Settings</source>
         <translation>設定</translation>
@@ -658,13 +709,13 @@
         <translation type="obsolete">公共の年表</translation>
     </message>
     <message>
-        <location line="-437"/>
-        <location line="+434"/>
+        <location line="-503"/>
+        <location line="+499"/>
         <source>About qTwitter...</source>
         <translation>キｭｰツイッターに関して...</translation>
     </message>
     <message>
-        <location line="-313"/>
+        <location line="-310"/>
         <source>Your message is too long.</source>
         <translation>メッセージは長すぎます。</translation>
     </message>
@@ -692,7 +743,7 @@
         <translation type="obsolete">新着トゥウィート</translation>
     </message>
     <message>
-        <location line="+187"/>
+        <location line="+185"/>
         <source>Error</source>
         <translation>エラー</translation>
     </message>
@@ -731,40 +782,40 @@
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="+179"/>
-        <location filename="../src/mainwindow.cpp" line="+33"/>
+        <location filename="../qtwitter-app/ui/mainwindow.ui" line="+179"/>
+        <location filename="../qtwitter-app/src/mainwindow.cpp" line="+32"/>
         <source>More...</source>
         <translation>詳細...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="-9"/>
+        <location filename="../qtwitter-app/src/mainwindow.cpp" line="-8"/>
         <source>Update tweets</source>
         <translation>トゥウィートの更新</translation>
     </message>
     <message numerus="yes">
-        <location line="-314"/>
+        <location line="-318"/>
         <source>%n character left</source>
         <translation>
             <numerusform>残りの文字数：%n</numerusform>
         </translation>
     </message>
     <message numerus="yes">
-        <location line="-253"/>
-        <location line="+254"/>
+        <location line="-312"/>
+        <location line="+313"/>
         <source>%n characters left</source>
         <translation>
             <numerusform>残りの文字数：%n</numerusform>
         </translation>
     </message>
     <message>
-        <location line="-132"/>
+        <location line="-194"/>
         <location line="+30"/>
-        <location line="+434"/>
+        <location line="+499"/>
         <source>Check for updates</source>
         <translation>更新を確認する</translation>
     </message>
     <message numerus="yes">
-        <location line="-327"/>
+        <location line="-330"/>
         <source>%n character over the limit</source>
         <translation>
             <numerusform>制限された文字数を%n文字超えています</numerusform>
@@ -778,7 +829,7 @@
         </translation>
     </message>
     <message>
-        <location line="+15"/>
+        <location line="+21"/>
         <source>&amp;Truncate</source>
         <translation>&amp;切り詰める</translation>
     </message>
@@ -794,49 +845,52 @@
         <translation>新着のステータスがあります</translation>
     </message>
     <message>
-        <location line="+126"/>
+        <location line="+123"/>
         <source>Navigate using %1 and %2</source>
         <translation>%1あるいは%2を使用してナビゲートする</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="+72"/>
-        <location filename="../src/mainwindow.cpp" line="+9"/>
+        <location filename="../qtwitter-app/ui/mainwindow.ui" line="+69"/>
+        <location filename="../qtwitter-app/src/mainwindow.cpp" line="+9"/>
         <source>What are you doing?</source>
         <translation>何をしているのですか?</translation>
     </message>
     <message>
-        <location line="-231"/>
+        <location line="-228"/>
         <source>qTwitter</source>
         <translation>キｭｰツイッター</translation>
     </message>
     <message>
-        <location line="+225"/>
         <source>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</source>
-        <translation>&lt;span style=&quot;color: black&quot;&gt;リンクを短縮するには &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; をご使用ください&lt;/span&gt;</translation>
+        <translation type="obsolete">&lt;span style=&quot;color: black&quot;&gt;リンクを短縮するには &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; をご使用ください&lt;/span&gt;</translation>
     </message>
 </context>
 <context>
     <name>MetamarkShortener</name>
     <message>
+        <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+59"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>MigremeShortener</name>
     <message>
+        <location line="+237"/>
         <source>The URL entered was not valid.</source>
-        <translation type="obsolete">ご入力のURLは正しくありません。</translation>
+        <translation type="unfinished">ご入力のURLは正しくありません。</translation>
     </message>
     <message>
+        <location line="+3"/>
+        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>NewAccountDialog</name>
     <message>
-        <location filename="../src/accounts/newaccountdialog.ui" line="+14"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="+14"/>
         <source>New account</source>
         <translation>新しいアカウント</translation>
     </message>
@@ -888,7 +942,7 @@
         <translation type="obsolete">ソーシャルネットワーク:</translation>
     </message>
     <message>
-        <location filename="../src/accounts/newaccountdialog.cpp" line="+39"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.cpp" line="+39"/>
         <source>Other StatusNet</source>
         <translation>他のステータスネット</translation>
     </message>
@@ -896,7 +950,7 @@
 <context>
     <name>OAuthWizard</name>
     <message>
-        <location filename="../src/oauth/oauthwizard.cpp" line="+114"/>
+        <location filename="../qtwitter-app/src/oauth/oauthwizard.cpp" line="+114"/>
         <source>There was a network-related problem with completing the request. Please try again later.</source>
         <translation>要請を完成するときにネットワークに関連した問題が発生しました。後ほどもう一度お試しください。</translation>
     </message>
@@ -912,7 +966,7 @@
         <translation>ご入力のPIN番号が不正か、またはネットワークに関連した問題が発生しました。後ほどもう一度お試しください。</translation>
     </message>
     <message>
-        <location filename="../src/oauth/oauthwizard.ui" line="+20"/>
+        <location filename="../qtwitter-app/src/oauth/oauthwizard.ui" line="+20"/>
         <source>Allow access</source>
         <translation>アクセスを許可する</translation>
     </message>
@@ -925,7 +979,7 @@
 <context>
     <name>PinWidget</name>
     <message>
-        <location filename="../src/oauth/pinwidget.ui" line="+23"/>
+        <location filename="../qtwitter-app/src/oauth/pinwidget.ui" line="+23"/>
         <source>Enter PIN number received from Twitter</source>
         <translation>ツイッターから送られたPIN番号をご入力ください</translation>
     </message>
@@ -936,21 +990,34 @@
     </message>
 </context>
 <context>
+    <name>PluginManagerWidget</name>
+    <message>
+        <location filename="../qtwitter-app/src/pluginmgr/pluginmanagerwidget.ui" line="+14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../qtwitter-app/src/pluginmgr/pluginmanagerwidget.cpp" line="+44"/>
+        <source>Plugins</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Settings</name>
     <message>
-        <location filename="../src/settings.cpp" line="+86"/>
-        <location line="+285"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="+81"/>
+        <location line="+310"/>
         <source>Use custom web browser</source>
         <translation>カスタムのブラウザーを使用する</translation>
     </message>
     <message>
-        <location line="-283"/>
-        <location line="+284"/>
+        <location line="-308"/>
+        <location line="+309"/>
         <source>Browse</source>
         <translation>閲覧</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="+26"/>
+        <location filename="../qtwitter-app/ui/settings.ui" line="+26"/>
         <source>Settings</source>
         <translation>設定</translation>
     </message>
@@ -970,12 +1037,11 @@
         <translation>次の時間ごとに更新する（分）：</translation>
     </message>
     <message>
-        <location line="+95"/>
         <source>Shorten links via</source>
-        <translation>次の文字列を使ってリンクを短縮する：</translation>
+        <translation type="obsolete">次の文字列を使ってリンクを短縮する：</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location line="+176"/>
         <source>Updates</source>
         <translation>更新</translation>
     </message>
@@ -1012,12 +1078,12 @@
         <translation>トレーの通知を表示する</translation>
     </message>
     <message>
-        <location line="-252"/>
+        <location line="-237"/>
         <source>Confirm messages deletion</source>
         <translation>メッセージの削除を確認する</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location line="+18"/>
         <source>Network</source>
         <translation>ネットワーク</translation>
     </message>
@@ -1097,7 +1163,7 @@
         <translation>アプリケーションを終了します</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+5"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="+5"/>
         <source>Apply</source>
         <translation>適用</translation>
     </message>
@@ -1112,18 +1178,16 @@
         <translation>OK</translation>
     </message>
     <message>
-        <location line="-307"/>
-        <location line="+301"/>
         <source>Tip: use %1 to shorten links</source>
-        <translation>リンクを短縮するには %1 をご使用ください</translation>
+        <translation type="obsolete">リンクを短縮するには %1 をご使用ください</translation>
     </message>
     <message>
-        <location line="-232"/>
+        <location line="-249"/>
         <source>never</source>
         <translation>なし</translation>
     </message>
     <message>
-        <location line="+167"/>
+        <location line="+179"/>
         <source>Update available</source>
         <translation>更新が見つかりました</translation>
     </message>
@@ -1153,17 +1217,17 @@
         <translation>終了</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="-258"/>
+        <location filename="../qtwitter-app/ui/settings.ui" line="-258"/>
         <source>Accounts</source>
         <translation>アカウント</translation>
     </message>
     <message>
-        <location line="-82"/>
+        <location line="-54"/>
         <source>Status count:</source>
         <translation>ステータス数:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+73"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="+72"/>
         <source>Select your browser executable</source>
         <translation>ご使用のブラウザーの実行ファイルをご指摘ください</translation>
     </message>
@@ -1179,8 +1243,8 @@
         <translation>日本語</translation>
     </message>
     <message>
-        <location line="-87"/>
-        <location line="+93"/>
+        <location line="-86"/>
+        <location line="+92"/>
         <source>Default</source>
         <translation>初期設定</translation>
     </message>
@@ -1188,7 +1252,7 @@
 <context>
     <name>StatusEdit</name>
     <message>
-        <location filename="../src/statusedit.cpp" line="+85"/>
+        <location filename="../qtwitter-app/src/statusedit.cpp" line="+80"/>
         <source>What are you doing?</source>
         <translation>今何しているの?</translation>
     </message>
@@ -1196,7 +1260,7 @@
 <context>
     <name>StatusModel</name>
     <message>
-        <location filename="../src/statusmodel.cpp" line="+288"/>
+        <location filename="../qtwitter-app/src/statusmodel.cpp" line="+282"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
         <translation>よろしいですか?</translation>
@@ -1210,54 +1274,54 @@
 <context>
     <name>StatusWidget</name>
     <message>
-        <location filename="../src/statuswidget.cpp" line="+55"/>
+        <location filename="../qtwitter-app/src/statuswidget.cpp" line="+55"/>
         <location line="+54"/>
-        <location line="+160"/>
+        <location line="+159"/>
         <location line="+159"/>
         <source>Add to Favorites</source>
         <translation>お気に入りに追加する</translation>
     </message>
     <message>
-        <location line="-332"/>
-        <location line="+348"/>
+        <location line="-331"/>
+        <location line="+347"/>
         <source>Retweet</source>
         <translation>再トゥウィートする</translation>
     </message>
     <message>
-        <location line="-330"/>
-        <location line="+331"/>
+        <location line="-329"/>
+        <location line="+330"/>
         <source>Copy link to this status</source>
         <translation>リンクをこのステータスにコピーする</translation>
     </message>
     <message>
-        <location line="-321"/>
-        <location line="+323"/>
+        <location line="-320"/>
+        <location line="+322"/>
         <source>Mark list as read</source>
         <translation>この一覧表を既読にする</translation>
     </message>
     <message>
-        <location line="-318"/>
-        <location line="+319"/>
+        <location line="-317"/>
+        <location line="+318"/>
         <source>Mark everything as read</source>
         <translation>すべての一覧表を既読にする</translation>
     </message>
     <message>
-        <location line="-306"/>
-        <location line="+307"/>
+        <location line="-305"/>
+        <location line="+306"/>
         <source>Go to User&apos;s homepage</source>
         <translation>このユーザーのホームページを開く</translation>
     </message>
     <message>
-        <location line="-296"/>
-        <location line="+107"/>
+        <location line="-295"/>
+        <location line="+106"/>
         <location line="+27"/>
         <location line="+145"/>
         <source>Reply to %1</source>
         <translation>%1に返信する</translation>
     </message>
     <message>
-        <location line="-266"/>
-        <location line="+248"/>
+        <location line="-265"/>
+        <location line="+247"/>
         <source>Direct message %1</source>
         <translation>%1にPMを送る</translation>
     </message>
@@ -1275,23 +1339,23 @@
         <translation type="obsolete">このユーザーのツイッターページを開く</translation>
     </message>
     <message>
-        <location line="-107"/>
-        <location line="+83"/>
+        <location line="-106"/>
+        <location line="+82"/>
         <location line="+178"/>
         <location line="+11"/>
         <source>Delete status</source>
         <translation>ステータスを削除する</translation>
     </message>
     <message>
-        <location line="-268"/>
-        <location line="+100"/>
+        <location line="-267"/>
+        <location line="+99"/>
         <location line="+159"/>
         <source>Delete message</source>
         <translation>メッセージを削除する</translation>
     </message>
     <message>
-        <location line="-245"/>
-        <location line="+259"/>
+        <location line="-244"/>
+        <location line="+258"/>
         <source>Go to User&apos;s %1 page</source>
         <translation>このユーザーの%1ページを開く</translation>
     </message>
@@ -1312,7 +1376,7 @@
         <translation>%1に関して</translation>
     </message>
     <message>
-        <location filename="../ui/statuswidget.ui" line="+373"/>
+        <location filename="../qtwitter-app/ui/statuswidget.ui" line="+373"/>
         <location line="+30"/>
         <source>QPushButton {
 border: 1px;
@@ -1329,32 +1393,36 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TinyarrowsShortener</name>
     <message>
+        <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="-149"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>TinyurlShortener</name>
     <message>
+        <location line="-69"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>TrimShortener</name>
     <message>
+        <location line="-60"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="obsolete">URLはtr.imにより拒絶されました</translation>
+        <translation type="unfinished">URLはtr.imにより拒絶されました</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
     </message>
 </context>
 <context>
     <name>TwitPicEngine</name>
     <message>
-        <location filename="../src/twitpicengine.cpp" line="+155"/>
+        <location filename="../qtwitter-app/src/twitpicengine.cpp" line="+155"/>
         <source>Invalid twitter username or password</source>
         <translation>ツイッターのユーザー名またはパスワードは不正のようです</translation>
     </message>
@@ -1382,7 +1450,7 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicNewPhoto</name>
     <message>
-        <location filename="../ui/twitpicnewphoto.ui" line="+26"/>
+        <location filename="../qtwitter-app/ui/twitpicnewphoto.ui" line="+26"/>
         <source>Upload completed</source>
         <translation>アップロードが完了しました</translation>
     </message>
@@ -1390,15 +1458,15 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicView</name>
     <message>
-        <location filename="../ui/twitpicview.ui" line="+151"/>
-        <location filename="../src/twitpicview.cpp" line="+89"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui" line="+151"/>
+        <location filename="../qtwitter-app/src/twitpicview.cpp" line="+89"/>
         <location line="+39"/>
         <location line="+10"/>
         <source>Upload</source>
         <translation>アップロード</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="-4"/>
+        <location filename="../qtwitter-app/src/twitpicview.cpp" line="-4"/>
         <location line="+2"/>
         <source>Abort</source>
         <translation>アボート</translation>
@@ -1414,8 +1482,8 @@ background-color: rgba(255,255,255,0);
         <translation>画像ファイル</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="-41"/>
-        <location filename="../src/twitpicview.cpp" line="+6"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui" line="-41"/>
+        <location filename="../qtwitter-app/src/twitpicview.cpp" line="+6"/>
         <location line="+5"/>
         <location line="+12"/>
         <source>Select a photo to upload</source>
@@ -1445,18 +1513,51 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UnuShortener</name>
     <message>
+        <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+149"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation type="obsolete">URLはu.nuにより拒絶されました</translation>
+        <translation type="unfinished">URLはu.nuにより拒絶されました</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">URLを短縮する際に未知のエラーが発生しました。</translation>
+        <translation type="unfinished">URLを短縮する際に未知のエラーが発生しました。</translation>
+    </message>
+</context>
+<context>
+    <name>UrlShortenerPlugin</name>
+    <message>
+        <location filename="../plugins/urlshortener/urlshortenerplugin.cpp" line="+85"/>
+        <source>Url shortening</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UrlShortenerWidget</name>
+    <message>
+        <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="+14"/>
+        <source>Form</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+6"/>
+        <source>&amp;Automatically shorten links before posting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+7"/>
+        <source>Shortcut:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location line="+26"/>
+        <source>Shorten &amp;links via</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>UserInfoPopup</name>
     <message numerus="yes">
-        <location filename="../src/userinfopopup.cpp" line="+60"/>
+        <location filename="../qtwitter-app/src/userinfopopup.cpp" line="+60"/>
         <source>friend</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
         <translation>
@@ -1472,7 +1573,7 @@ background-color: rgba(255,255,255,0);
         </translation>
     </message>
     <message>
-        <location filename="../ui/userinfopopup.ui" line="+210"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui" line="+210"/>
         <source>Login:</source>
         <translation>ログイン:</translation>
     </message>
@@ -1500,7 +1601,7 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>WelcomeDialog</name>
     <message>
-        <location filename="../src/welcomedialog.cpp" line="+49"/>
+        <location filename="../qtwitter-app/src/welcomedialog.cpp" line="+49"/>
         <source>Account added successfully! You may add another or just start using program.</source>
         <translation>アカウントの追加に成功しました！もう一つのアカウントを追加してもいいのですが、今すぐプログラムをご使用しはじめてもかまいません。</translation>
     </message>
@@ -1525,7 +1626,7 @@ background-color: rgba(255,255,255,0);
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../ui/welcomedialog.ui" line="+20"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui" line="+20"/>
         <source>Welcome!</source>
         <translation>ようこそ!</translation>
     </message>
