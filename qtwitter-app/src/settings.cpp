@@ -459,7 +459,7 @@ void Settings::createLanguageMenu()
 #endif
     if ( !qmDir.cd( "loc" ) ) {
         qmDir.cd( QApplication::applicationDirPath() );
-        qmDir.cd( "qtwitter-app/res/loc" );
+        qmDir.cd( "loc" );
     }
     QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
     fileNames.append( "qtwitter_en.qm" );
