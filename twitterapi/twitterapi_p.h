@@ -48,8 +48,8 @@ public:
 #ifdef HAVE_OAUTH
     QByteArray prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,
                                    const QOAuth::ParamMap &params = QOAuth::ParamMap() );
-    bool usingOAuth;
 #endif
+    bool usingOAuth;
 
     QString login;
     QString password;

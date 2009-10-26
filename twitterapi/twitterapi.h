@@ -56,6 +56,8 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
     Q_PROPERTY( bool usingOAuth READ isUsingOAuth WRITE setUsingOAuth );
     Q_PROPERTY( QByteArray consumerKey READ consumerKey WRITE setConsumerKey );
     Q_PROPERTY( QByteArray consumerSecret READ consumerSecret WRITE setConsumerSecret );
+#else
+    Q_PROPERTY( bool usingOAuth READ isUsingOAuth );
 #endif
 
         public:
@@ -112,9 +114,9 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
     void setPassword( const QString &password );
     QString serviceUrl() const;
     void setServiceUrl( const QString &serviceUrl );
-#ifdef HAVE_OAUTH
     bool isUsingOAuth() const;
     void setUsingOAuth( bool usingOAuth );
+#ifdef HAVE_OAUTH
     QByteArray consumerKey() const;
     void setConsumerKey( const QByteArray &consumerKey );
     QByteArray consumerSecret() const;
