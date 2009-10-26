@@ -370,6 +370,15 @@ void TwitterAPI::setConsumerSecret( const QByteArray &consumerSecret )
 
     d->qoauth->setConsumerSecret( consumerSecret );
 }
+
+void TwitterAPI::oauthAuthorizationPOST( QNetworkRequest &request, const QString &requestUrl, const QOAuth::ParamMap &params )
+{
+    Q_D(TwitterAPI);
+
+    QByteArray parameters = d->prepareOAuthString( requestUrl, QOAuth::POST, params );
+    request.setRawHeader( "Authorization", parameters );
+    request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
+}
 #endif
 
 void TwitterAPI::basicAuthorization( QNetworkRequest &request )
@@ -412,12 +421,8 @@ void TwitterAPI::postUpdate( const QString &data, quint64 inReplyTo )
             map.insert( "in_reply_to_status_id", QByteArray::number( inReplyTo ) );
         }
 
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST, map );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-
+        oauthAuthorizationPOST( request, url, map );
         content = d->qoauth->inlineParameters( map );
-
 #endif
     } else {
         basicAuthorization( request );
@@ -454,9 +459,7 @@ void TwitterAPI::deleteUpdate( quint64 id )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
+        oauthAuthorizationPOST( request, url );
 #endif
     } else {
         basicAuthorization( request );
@@ -596,10 +599,7 @@ void TwitterAPI::postDM( const QString &screenName, const QString &text )
         map.insert( "user", screenName.toUtf8() );
         map.insert( "text", text.toUtf8().toPercentEncoding() );
 
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST, map );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-
+        oauthAuthorizationPOST( request, url, map );
         content = d->qoauth->inlineParameters( map );
 #endif
     } else {
@@ -631,9 +631,7 @@ void TwitterAPI::deleteDM( quint64 id )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
+        oauthAuthorizationPOST( request, url );
 #endif
     } else {
         basicAuthorization( request );
@@ -667,9 +665,7 @@ void TwitterAPI::createFavorite( quint64 id )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
+        oauthAuthorizationPOST( request, url );
 #endif
     } else {
         basicAuthorization( request );
@@ -703,9 +699,7 @@ void TwitterAPI::destroyFavorite( quint64 id )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
+        oauthAuthorizationPOST( request, url );
 #endif
     } else {
         basicAuthorization( request );
@@ -754,9 +748,7 @@ void TwitterAPI::follow( quint64 userId )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
+        oauthAuthorizationPOST( request, url );
 #endif
     } else {
         basicAuthorization( request );
@@ -786,9 +778,7 @@ void TwitterAPI::unfollow( quint64 userId )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
+        oauthAuthorizationPOST( request, url );
 #endif
     } else {
         basicAuthorization( request );

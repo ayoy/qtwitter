@@ -121,8 +121,8 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
     void setConsumerKey( const QByteArray &consumerKey );
     QByteArray consumerSecret() const;
     void setConsumerSecret( const QByteArray &consumerSecret );
+    void oauthAuthorizationPOST( QNetworkRequest &request, const QString &requestUrl, const QOAuth::ParamMap &params = QOAuth::ParamMap() );
 #endif
-
     void basicAuthorization( QNetworkRequest &request );
     void postUpdate( const QString &data, quint64 inReplyTo = 0 );
     void deleteUpdate( quint64 id );
