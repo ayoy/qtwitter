@@ -68,6 +68,7 @@ void StatusListPrivate::init()
     twitterapi->setServiceUrl( account->serviceUrl() );
     twitterapi->setLogin( account->login() );
     twitterapi->setPassword( account->password() );
+#ifdef HAVE_OAUTH
     if ( account->serviceUrl() == Account::NetworkUrlTwitter ) {
         twitterapi->setUsingOAuth( true );
         twitterapi->setConsumerKey( OAuthWizard::ConsumerKey );
@@ -75,6 +76,7 @@ void StatusListPrivate::init()
     } else {
         twitterapi->setUsingOAuth( false );
     }
+#endif
 
     connect( twitterapi, SIGNAL(newEntries(EntryList)), this, SLOT(addEntries(EntryList)));
     connect( twitterapi, SIGNAL(deleteEntry(quint64)), this, SLOT(deleteEntry(quint64)) );

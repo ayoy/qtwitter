@@ -273,7 +273,7 @@ d_ptr( new TwitterAPIPrivate )
 }
 #else
 TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
-                        const QString &password, QObject *parent = 0 ) :
+                        const QString &password, QObject *parent ) :
 QObject( parent ),
 d_ptr( new TwitterAPIPrivate )
 {
@@ -434,7 +434,7 @@ void TwitterAPI::postUpdate( const QString &data, quint64 inReplyTo )
     }
 #else
     basicAuthorization( request );
-    content = prepareRequest( data, inReplyTo );
+    content = d->prepareRequest( data, inReplyTo );
 #endif
 
     request.setUrl( QUrl(url) );
@@ -1084,8 +1084,8 @@ void TwitterAPIPrivate::slotAuthenticationRequired( QNetworkReply *reply, QAuthe
 
     QNetworkRequest request = reply->request();
 
-    TwitterAPI::SocialNetwork network = (TwitterAPI::SocialNetwork) request.attribute( TwitterAPIPrivate::ATTR_SOCIALNETWORK ).toInt();
 #ifdef HAVE_OAUTH
+    TwitterAPI::SocialNetwork network = (TwitterAPI::SocialNetwork) request.attribute( TwitterAPIPrivate::ATTR_SOCIALNETWORK ).toInt();
     if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
 #endif
         QString login = request.attribute( TwitterAPIPrivate::ATTR_LOGIN ).toString();
