@@ -249,31 +249,17 @@ TwitterAPI::TwitterAPI( QObject *parent ) :
     Q_D(TwitterAPI);
 
     d->q_ptr = this;
-#ifdef HAVE_OAUTH
     d->usingOAuth = false;
-#endif
     d->init();
 }
 
 #ifdef HAVE_OAUTH
 TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
                         const QString &password, bool usingOAuth, QObject *parent ) :
-QObject( parent ),
-d_ptr( new TwitterAPIPrivate )
-{
-    Q_D(TwitterAPI);
-
-    d->q_ptr = this;
-
-    d->serviceUrl = serviceUrl;
-    d->login = login;
-    d->password = password;
-    d->usingOAuth = usingOAuth;
-    d->init();
-}
 #else
 TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
-                        const QString &password, QObject *parent = 0 ) :
+                        const QString &password, QObject *parent ) :
+#endif
 QObject( parent ),
 d_ptr( new TwitterAPIPrivate )
 {
@@ -284,9 +270,13 @@ d_ptr( new TwitterAPIPrivate )
     d->serviceUrl = serviceUrl;
     d->login = login;
     d->password = password;
+#ifdef HAVE_OAUTH
+    d->usingOAuth = usingOAuth;
+#else
+    d->usingOAuth = false;
+#endif
     d->init();
 }
-#endif
 
 /*!
   A destructor.
@@ -338,7 +328,6 @@ void TwitterAPI::setServiceUrl( const QString &serviceUrl )
     d->serviceUrl = serviceUrl;
 }
 
-#ifdef HAVE_OAUTH
 bool TwitterAPI::isUsingOAuth() const
 {
     Q_D(const TwitterAPI);
@@ -346,6 +335,7 @@ bool TwitterAPI::isUsingOAuth() const
     return d->usingOAuth;
 }
 
+#ifdef HAVE_OAUTH
 void TwitterAPI::setUsingOAuth( bool usingOAuth )
 {
     Q_D(TwitterAPI);
@@ -380,8 +370,24 @@ void TwitterAPI::setConsumerSecret( const QByteArray &consumerSecret )
 
     d->qoauth->setConsumerSecret( consumerSecret );
 }
+
+void TwitterAPI::oauthAuthorizationPOST( QNetworkRequest &request, const QString &requestUrl, const QOAuth::ParamMap &params )
+{
+    Q_D(TwitterAPI);
+
+    QByteArray parameters = d->prepareOAuthString( requestUrl, QOAuth::POST, params );
+    request.setRawHeader( "Authorization", parameters );
+    request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
+}
 #endif
 
+void TwitterAPI::basicAuthorization( QNetworkRequest &request )
+{
+    Q_D(TwitterAPI);
+
+    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
+    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+}
 
 /*!
   Sends a request to post a status update for the user identified by \a login
@@ -405,8 +411,8 @@ void TwitterAPI::postUpdate( const QString &data, quint64 inReplyTo )
     QByteArray content;
     QNetworkRequest request;
 
-#ifdef HAVE_OAUTH
     if ( d->usingOAuth ) {
+#ifdef HAVE_OAUTH
         QOAuth::ParamMap map;
 
         map.insert( "status", data.toUtf8().toPercentEncoding() );
@@ -415,22 +421,13 @@ void TwitterAPI::postUpdate( const QString &data, quint64 inReplyTo )
             map.insert( "in_reply_to_status_id", QByteArray::number( inReplyTo ) );
         }
 
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST, map );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-
+        oauthAuthorizationPOST( request, url, map );
         content = d->qoauth->inlineParameters( map );
-
+#endif
     } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        basicAuthorization( request );
         content = d->prepareRequest( data, inReplyTo );
     }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    content = prepareRequest( data, inReplyTo );
-#endif
 
     request.setUrl( QUrl(url) );
 
@@ -460,19 +457,13 @@ void TwitterAPI::deleteUpdate( quint64 id )
 
     QNetworkRequest request;
 
-#ifdef HAVE_OAUTH
     if ( d->usingOAuth ) {
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+#ifdef HAVE_OAUTH
+        oauthAuthorizationPOST( request, url );
 #endif
+    } else {
+        basicAuthorization( request );
+    }
 
     request.setUrl( QUrl(url) );
 
@@ -484,12 +475,46 @@ void TwitterAPI::deleteUpdate( quint64 id )
 }
 
 /*!
-  Sends a request for getting friends timeline for the user identified
-  by \a login and \a password. Length of the timeline can be adjusted by
-  \a msgCount.
+  Returns a request for getting a timeline for a logged in user.
+  Length of the timeline can be adjusted by \a msgCount.
 
-  \param login User's login.
-  \param password User's password.
+  \param msgCount Argument specifying length of requested timeline.
+                  Twitter API currently accepts values up to 200.
+
+  \sa friendsTimeline(), mentionsTimeline()
+*/
+void TwitterAPI::getTimelineRequest( QNetworkRequest &request, const QString &urlStatuses, Role role, int msgCount )
+{
+    Q_D(TwitterAPI);
+
+    QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
+    QString url = d->serviceUrl;
+    url.append( urlStatuses );
+
+    if ( d->usingOAuth ) {
+#ifdef HAVE_OAUTH
+        QOAuth::ParamMap map;
+        map.insert( "count", statusCount.toUtf8() );
+
+        QByteArray parameters = d->prepareOAuthString( url, QOAuth::GET, map );
+
+        request.setRawHeader( "Authorization", parameters );
+        url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
+#endif
+    } else {
+        basicAuthorization( request );
+        url.append( QString("?count=%1").arg( statusCount ) );
+    }
+
+    request.setUrl( QUrl(url) );
+    request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, role );
+    request.setAttribute( TwitterAPIPrivate::ATTR_MSGCOUNT, statusCount );
+}
+
+/*!
+  Sends a request for getting friends timeline.
+  Length of the timeline can be adjusted by \a msgCount.
+
   \param msgCount Optional argument specifying length of requested timeline.
                   Twitter API currently accepts values up to 200.
 
@@ -499,35 +524,8 @@ void TwitterAPI::friendsTimeline( int msgCount )
 {
     Q_D(TwitterAPI);
 
-    QString url = d->serviceUrl;
-    QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
-    url.append( TwitterAPIPrivate::UrlStatusesFriendsTimeline );
-
     QNetworkRequest request;
-
-#ifdef HAVE_OAUTH
-    if ( d->usingOAuth ) {
-        QOAuth::ParamMap map;
-        map.insert( "count", statusCount.toUtf8() );
-
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::GET, map );
-
-        request.setRawHeader( "Authorization", parameters );
-        url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-        url.append( QString("?count=%1").arg( statusCount ) );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    url.append( QString("?count=%1").arg( statusCount ) );
-#endif
-
-    request.setUrl( QUrl(url) );
-    request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_FRIENDS_TIMELINE );
-    request.setAttribute( TwitterAPIPrivate::ATTR_MSGCOUNT, statusCount );
+    getTimelineRequest( request, TwitterAPIPrivate::UrlStatusesFriendsTimeline, TwitterAPI::ROLE_FRIENDS_TIMELINE, msgCount );
     qDebug() << "TwitterAPIPrivate::friendsTimeline(" + d->login + ")";
 
     d->iface->friendsInProgress = true;
@@ -535,12 +533,9 @@ void TwitterAPI::friendsTimeline( int msgCount )
 }
 
 /*!
-  Sends a request for getting mentions timeline (@user) for the user identified
-  by \a login and \a password. Length of the timeline can be adjusted by
-  \a msgCount.
+  Sends a request for getting mentions timeline (@user).
+  Length of the timeline can be adjusted by \a msgCount.
 
-  \param login User's login.
-  \param password User's password.
   \param msgCount Optional argument specifying length of requested timeline.
                   Twitter API currently accepts values up to 200.
 
@@ -550,47 +545,17 @@ void TwitterAPI::mentions( int msgCount )
 {
     Q_D(TwitterAPI);
 
-    QString url = d->serviceUrl;
-    QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
-    url.append( TwitterAPIPrivate::UrlStatusesMentions );
-
     QNetworkRequest request;
-
-#ifdef HAVE_OAUTH
-    if ( d->usingOAuth ) {
-        QOAuth::ParamMap map;
-        map.insert( "count", statusCount.toUtf8() );
-
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::GET, map );
-
-        request.setRawHeader( "Authorization", parameters );
-        url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-        url.append( QString("?count=%1").arg( statusCount ) );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    url.append( QString("?count=%1").arg( statusCount ) );
-#endif
-
-    request.setUrl( QUrl(url) );
-    request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_MENTIONS );
-    request.setAttribute( TwitterAPIPrivate::ATTR_MSGCOUNT, statusCount );
+    getTimelineRequest( request, TwitterAPIPrivate::UrlStatusesMentions, TwitterAPI::ROLE_MENTIONS, msgCount );
     qDebug() << "TwitterAPIPrivate::mentions(" + d->login + ")";
 
     d->iface->connection.data()->get( request );
 }
 
 /*!
-  Sends a request for getting direct messages for the user identified
-  by \a login and \a password. Length of the timeline can be adjusted by
-  \a msgCount.
+  Sends a request for getting direct messages.
+  Length of the timeline can be adjusted by \a msgCount.
 
-  \param login User's login.
-  \param password User's password.
   \param msgCount Optional argument specifying length of requested list.
                   Twitter API currently accepts values up to 200.
 
@@ -600,34 +565,8 @@ void TwitterAPI::directMessages( int msgCount )
 {
     Q_D(TwitterAPI);
 
-    QString url = d->serviceUrl;
-    QString statusCount = ( (msgCount > 200) ? QString::number(20) : QString::number(msgCount) );
-    url.append( TwitterAPIPrivate::UrlDirectMessages );
-
     QNetworkRequest request;
-
-#ifdef HAVE_OAUTH
-    if ( d->usingOAuth ) {
-        QOAuth::ParamMap map;
-        map.insert( "count", statusCount.toUtf8() );
-
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::GET, map );
-        request.setRawHeader( "Authorization", parameters );
-        url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
-
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-        url.append( QString("?count=%1").arg( statusCount ) );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    url.append( QString("?count=%1").arg( statusCount ) );
-#endif
-    request.setUrl( QUrl(url) );
-
-    request.setAttribute( TwitterAPIPrivate::ATTR_ROLE, TwitterAPI::ROLE_DIRECT_MESSAGES );
+    getTimelineRequest( request, TwitterAPIPrivate::UrlDirectMessages, TwitterAPI::ROLE_DIRECT_MESSAGES, msgCount );
     request.setAttribute( TwitterAPIPrivate::ATTR_DM_REQUESTED, true );
     qDebug() << "TwitterAPI::directMessages(" + d->login + ")";
 
@@ -654,28 +593,19 @@ void TwitterAPI::postDM( const QString &screenName, const QString &text )
     QByteArray content;
     QNetworkRequest request;
 
-#ifdef HAVE_OAUTH
     if ( d->usingOAuth ) {
+#ifdef HAVE_OAUTH
         QOAuth::ParamMap map;
         map.insert( "user", screenName.toUtf8() );
         map.insert( "text", text.toUtf8().toPercentEncoding() );
 
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST, map );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-
+        oauthAuthorizationPOST( request, url, map );
         content = d->qoauth->inlineParameters( map );
-
+#endif
     } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+        basicAuthorization( request );
         content = d->prepareRequest( screenName, text );
     }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    content = d->prepareRequest( screenName, text );
-#endif
 
     request.setUrl( QUrl(url) );
 
@@ -699,19 +629,13 @@ void TwitterAPI::deleteDM( quint64 id )
 
     QNetworkRequest request;
 
-#ifdef HAVE_OAUTH
     if ( d->usingOAuth ) {
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+#ifdef HAVE_OAUTH
+        oauthAuthorizationPOST( request, url );
 #endif
+    } else {
+        basicAuthorization( request );
+    }
 
     request.setUrl( QUrl(url) );
 
@@ -739,19 +663,13 @@ void TwitterAPI::createFavorite( quint64 id )
 
     QNetworkRequest request;
 
-#ifdef HAVE_OAUTH
     if ( d->usingOAuth ) {
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+#ifdef HAVE_OAUTH
+        oauthAuthorizationPOST( request, url );
 #endif
+    } else {
+        basicAuthorization( request );
+    }
 
     request.setUrl( QUrl(url) );
 
@@ -779,19 +697,13 @@ void TwitterAPI::destroyFavorite( quint64 id )
 
     QNetworkRequest request;
 
-#ifdef HAVE_OAUTH
     if ( d->usingOAuth ) {
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+#ifdef HAVE_OAUTH
+        oauthAuthorizationPOST( request, url );
 #endif
+    } else {
+        basicAuthorization( request );
+    }
 
     request.setUrl( QUrl(url) );
 
@@ -834,19 +746,13 @@ void TwitterAPI::follow( quint64 userId )
 
     QNetworkRequest request;
 
-#ifdef HAVE_OAUTH
     if ( d->usingOAuth ) {
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+#ifdef HAVE_OAUTH
+        oauthAuthorizationPOST( request, url );
 #endif
+    } else {
+        basicAuthorization( request );
+    }
 
     request.setUrl( QUrl(url) );
 
@@ -870,19 +776,13 @@ void TwitterAPI::unfollow( quint64 userId )
 
     QNetworkRequest request;
 
-#ifdef HAVE_OAUTH
     if ( d->usingOAuth ) {
-        QByteArray parameters = d->prepareOAuthString( url, QOAuth::POST );
-        request.setRawHeader( "Authorization", parameters );
-        request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-    } else {
-        QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-        request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-    }
-#else
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
+#ifdef HAVE_OAUTH
+        oauthAuthorizationPOST( request, url );
 #endif
+    } else {
+        basicAuthorization( request );
+    }
 
     request.setUrl( QUrl(url) );
 
@@ -1142,8 +1042,8 @@ void TwitterAPIPrivate::slotAuthenticationRequired( QNetworkReply *reply, QAuthe
 
     QNetworkRequest request = reply->request();
 
-    TwitterAPI::SocialNetwork network = (TwitterAPI::SocialNetwork) request.attribute( TwitterAPIPrivate::ATTR_SOCIALNETWORK ).toInt();
 #ifdef HAVE_OAUTH
+    TwitterAPI::SocialNetwork network = (TwitterAPI::SocialNetwork) request.attribute( TwitterAPIPrivate::ATTR_SOCIALNETWORK ).toInt();
     if ( network == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
 #endif
         QString login = request.attribute( TwitterAPIPrivate::ATTR_LOGIN ).toString();
