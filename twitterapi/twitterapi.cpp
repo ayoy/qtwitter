@@ -205,9 +205,16 @@ TwitterAPIPrivate::~TwitterAPIPrivate()
     iface = 0;
 }
 
-void TwitterAPIPrivate::init()
+void TwitterAPIPrivate::init( const QString &m_serviceUrl, const QString &m_login,
+                              const QString &m_password, bool m_usingOAuth )
 {
     qRegisterMetaType<EntryList>( "EntryList" );
+
+    login = m_login;
+    password = m_password;
+    serviceUrl = m_serviceUrl;
+    usingOAuth = m_usingOAuth;
+
     createInterface();
 #ifdef HAVE_OAUTH
     qoauth = new QOAuth::Interface( this );
@@ -249,34 +256,34 @@ TwitterAPI::TwitterAPI( QObject *parent ) :
     Q_D(TwitterAPI);
 
     d->q_ptr = this;
-    d->usingOAuth = false;
-    d->init();
+    d->init( QString(), QString(), QString() );
 }
 
 #ifdef HAVE_OAUTH
 TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
                         const QString &password, bool usingOAuth, QObject *parent ) :
-#else
-TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
-                        const QString &password, QObject *parent ) :
-#endif
-QObject( parent ),
-d_ptr( new TwitterAPIPrivate )
+        QObject( parent ),
+        d_ptr( new TwitterAPIPrivate )
 {
     Q_D(TwitterAPI);
 
     d->q_ptr = this;
 
-    d->serviceUrl = serviceUrl;
-    d->login = login;
-    d->password = password;
-#ifdef HAVE_OAUTH
-    d->usingOAuth = usingOAuth;
-#else
-    d->usingOAuth = false;
-#endif
-    d->init();
+    d->init( serviceUrl, login, password, usingOAuth );
 }
+#else
+TwitterAPI::TwitterAPI( const QString &serviceUrl, const QString &login,
+                        const QString &password, QObject *parent ) :
+        QObject( parent ),
+        d_ptr( new TwitterAPIPrivate )
+{
+    Q_D(TwitterAPI);
+
+    d->q_ptr = this;
+
+    d->init( serviceUrl, login, password, false );
+}
+#endif
 
 /*!
   A destructor.
@@ -328,6 +335,7 @@ void TwitterAPI::setServiceUrl( const QString &serviceUrl )
     d->serviceUrl = serviceUrl;
 }
 
+#ifdef HAVE_OAUTH
 bool TwitterAPI::isUsingOAuth() const
 {
     Q_D(const TwitterAPI);
@@ -335,7 +343,6 @@ bool TwitterAPI::isUsingOAuth() const
     return d->usingOAuth;
 }
 
-#ifdef HAVE_OAUTH
 void TwitterAPI::setUsingOAuth( bool usingOAuth )
 {
     Q_D(TwitterAPI);
@@ -371,23 +378,8 @@ void TwitterAPI::setConsumerSecret( const QByteArray &consumerSecret )
     d->qoauth->setConsumerSecret( consumerSecret );
 }
 
-void TwitterAPI::oauthAuthorizationPOST( QNetworkRequest &request, const QString &requestUrl, const QOAuth::ParamMap &params )
-{
-    Q_D(TwitterAPI);
-
-    QByteArray parameters = d->prepareOAuthString( requestUrl, QOAuth::POST, params );
-    request.setRawHeader( "Authorization", parameters );
-    request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
-}
 #endif
 
-void TwitterAPI::basicAuthorization( QNetworkRequest &request )
-{
-    Q_D(TwitterAPI);
-
-    QByteArray auth = d->login.toUtf8() + ":" + d->password.toUtf8();
-    request.setRawHeader( "Authorization", "Basic " + auth.toBase64() );
-}
 
 /*!
   Sends a request to post a status update for the user identified by \a login
@@ -421,11 +413,11 @@ void TwitterAPI::postUpdate( const QString &data, quint64 inReplyTo )
             map.insert( "in_reply_to_status_id", QByteArray::number( inReplyTo ) );
         }
 
-        oauthAuthorizationPOST( request, url, map );
+        d->oauthForPost( request, url, map );
         content = d->qoauth->inlineParameters( map );
 #endif
     } else {
-        basicAuthorization( request );
+        request.setRawHeader( "Authorization", d->basicAuthString() );
         content = d->prepareRequest( data, inReplyTo );
     }
 
@@ -459,10 +451,10 @@ void TwitterAPI::deleteUpdate( quint64 id )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        oauthAuthorizationPOST( request, url );
+        d->oauthForPost( request, url );
 #endif
     } else {
-        basicAuthorization( request );
+        request.setRawHeader( "Authorization", d->basicAuthString() );
     }
 
     request.setUrl( QUrl(url) );
@@ -502,7 +494,7 @@ void TwitterAPI::getTimelineRequest( QNetworkRequest &request, const QString &ur
         url.append( d->qoauth->inlineParameters( map, QOAuth::ParseForInlineQuery ) );
 #endif
     } else {
-        basicAuthorization( request );
+        request.setRawHeader( "Authorization", d->basicAuthString() );
         url.append( QString("?count=%1").arg( statusCount ) );
     }
 
@@ -599,11 +591,11 @@ void TwitterAPI::postDM( const QString &screenName, const QString &text )
         map.insert( "user", screenName.toUtf8() );
         map.insert( "text", text.toUtf8().toPercentEncoding() );
 
-        oauthAuthorizationPOST( request, url, map );
+        d->oauthForPost( request, url, map );
         content = d->qoauth->inlineParameters( map );
 #endif
     } else {
-        basicAuthorization( request );
+        request.setRawHeader( "Authorization", d->basicAuthString() );
         content = d->prepareRequest( screenName, text );
     }
 
@@ -631,10 +623,10 @@ void TwitterAPI::deleteDM( quint64 id )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        oauthAuthorizationPOST( request, url );
+        d->oauthForPost( request, url );
 #endif
     } else {
-        basicAuthorization( request );
+        request.setRawHeader( "Authorization", d->basicAuthString() );
     }
 
     request.setUrl( QUrl(url) );
@@ -665,10 +657,10 @@ void TwitterAPI::createFavorite( quint64 id )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        oauthAuthorizationPOST( request, url );
+        d->oauthForPost( request, url );
 #endif
     } else {
-        basicAuthorization( request );
+        request.setRawHeader( "Authorization", d->basicAuthString() );
     }
 
     request.setUrl( QUrl(url) );
@@ -699,10 +691,10 @@ void TwitterAPI::destroyFavorite( quint64 id )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        oauthAuthorizationPOST( request, url );
+        d->oauthForPost( request, url );
 #endif
     } else {
-        basicAuthorization( request );
+        request.setRawHeader( "Authorization", d->basicAuthString() );
     }
 
     request.setUrl( QUrl(url) );
@@ -748,10 +740,10 @@ void TwitterAPI::follow( quint64 userId )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        oauthAuthorizationPOST( request, url );
+        d->oauthForPost( request, url );
 #endif
     } else {
-        basicAuthorization( request );
+        request.setRawHeader( "Authorization", d->basicAuthString() );
     }
 
     request.setUrl( QUrl(url) );
@@ -778,10 +770,10 @@ void TwitterAPI::unfollow( quint64 userId )
 
     if ( d->usingOAuth ) {
 #ifdef HAVE_OAUTH
-        oauthAuthorizationPOST( request, url );
+        d->oauthForPost( request, url );
 #endif
     } else {
-        basicAuthorization( request );
+        request.setRawHeader( "Authorization", d->basicAuthString() );
     }
 
     request.setUrl( QUrl(url) );
@@ -976,9 +968,6 @@ void TwitterAPIPrivate::parseXml( const QByteArray &data, TwitterAPIPrivate::Par
     ParserRunnable *runnable = new ParserRunnable( q, data, mode );
     runnable->setAutoDelete(true);
     QThreadPool::globalInstance()->start( runnable );
-//    source->setData( data );
-//    xmlReader->setContentHandler( parser );
-//    xmlReader->parse( source );
 }
 
 #ifdef HAVE_OAUTH
@@ -992,7 +981,21 @@ QByteArray TwitterAPIPrivate::prepareOAuthString( const QString &requestUrl, QOA
                                                          QOAuth::HMAC_SHA1, params, QOAuth::ParseForHeaderArguments );
     return content;
 }
+
+void TwitterAPIPrivate::oauthForPost( QNetworkRequest &request, const QString &requestUrl,
+                                      const QOAuth::ParamMap &params )
+{
+    QByteArray parameters = prepareOAuthString( requestUrl, QOAuth::POST, params );
+    request.setRawHeader( "Authorization", parameters );
+    request.setHeader( QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded" );
+}
 #endif
+
+QByteArray TwitterAPIPrivate::basicAuthString()
+{
+    QByteArray auth = login.toUtf8() + ":" + password.toUtf8();
+    return auth.toBase64().prepend( "Basic " );
+}
 
 /*!
   Constructs a request from the given message text and optional \a inReplyTo argument.

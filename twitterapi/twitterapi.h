@@ -32,7 +32,7 @@
 #include <QPointer>
 
 #ifdef HAVE_OAUTH
-#  include <QtOAuth>
+#   include <QtOAuth>
 #endif
 
 class QNetworkReply;
@@ -56,11 +56,9 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
     Q_PROPERTY( bool usingOAuth READ isUsingOAuth WRITE setUsingOAuth );
     Q_PROPERTY( QByteArray consumerKey READ consumerKey WRITE setConsumerKey );
     Q_PROPERTY( QByteArray consumerSecret READ consumerSecret WRITE setConsumerSecret );
-#else
-    Q_PROPERTY( bool usingOAuth READ isUsingOAuth );
 #endif
 
-        public:
+public:
     enum SocialNetwork {
         SOCIALNETWORK_TWITTER,
         SOCIALNETWORK_IDENTICA
@@ -114,16 +112,14 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
     void setPassword( const QString &password );
     QString serviceUrl() const;
     void setServiceUrl( const QString &serviceUrl );
+#ifdef HAVE_OAUTH
     bool isUsingOAuth() const;
     void setUsingOAuth( bool usingOAuth );
-#ifdef HAVE_OAUTH
     QByteArray consumerKey() const;
     void setConsumerKey( const QByteArray &consumerKey );
     QByteArray consumerSecret() const;
     void setConsumerSecret( const QByteArray &consumerSecret );
-    void oauthAuthorizationPOST( QNetworkRequest &request, const QString &requestUrl, const QOAuth::ParamMap &params = QOAuth::ParamMap() );
 #endif
-    void basicAuthorization( QNetworkRequest &request );
     void postUpdate( const QString &data, quint64 inReplyTo = 0 );
     void deleteUpdate( quint64 id );
     void getTimelineRequest( QNetworkRequest &request, const QString &urlStatuses, Role role, int msgCount );

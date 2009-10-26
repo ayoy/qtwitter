@@ -44,11 +44,15 @@ public:
     QByteArray prepareRequest( const QString &data, quint64 inReplyTo );
     QByteArray prepareRequest( const QString &screenName, const QString & );
 
-    void init();
+    void init( const QString &m_serviceUrl, const QString &m_login,
+               const QString &m_password, bool m_usingOAuth = false );
 #ifdef HAVE_OAUTH
     QByteArray prepareOAuthString( const QString &requestUrl, QOAuth::HttpMethod method,
                                    const QOAuth::ParamMap &params = QOAuth::ParamMap() );
+    void oauthForPost( QNetworkRequest &request, const QString &requestUrl,
+                       const QOAuth::ParamMap &params = QOAuth::ParamMap() );
 #endif
+    QByteArray basicAuthString();
     bool usingOAuth;
 
     QString login;
