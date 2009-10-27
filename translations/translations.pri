@@ -1,7 +1,8 @@
 isEmpty(TRANSLATIONS_PRI) {
     TRANSLATIONS_PRI = 1
 
-    qmpath = $${DESTDIR}/loc
+    mac: qmpath = $${DESTDIR}/$${APP_NAME}.app/Contents/Resources
+    else: qmpath = $${DESTDIR}/loc
 
     LANGS = \
         ca_ES \

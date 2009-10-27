@@ -12,6 +12,8 @@ CONFIG -= qt
 QT =
 LIBS =
 
+mac: CONFIG -= app_bundle
+
 unix {
     system(mkdir -p $${qmpath} && touch $${qmfiles})
     translations.files = $${qmfiles}

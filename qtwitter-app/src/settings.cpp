@@ -452,15 +452,17 @@ void Settings::applySettings()
 
 void Settings::createLanguageMenu()
 {
-#if defined Q_WS_X11
-    QDir qmDir( SHARE_DIR );
+#if defined Q_WS_MAC
+    QDir qmDir( QApplication::applicationDirPath() );
+    qmDir.cdUp();
+    qmDir.cd( "Resources" );
 #else
-    QDir qmDir( ":" );
-#endif
+    QDir qmDir( SHARE_DIR );
     if ( !qmDir.cd( "loc" ) ) {
         qmDir.cd( QApplication::applicationDirPath() );
         qmDir.cd( "loc" );
     }
+#endif
     QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
     fileNames.append( "qtwitter_en.qm" );
     fileNames.sort();
@@ -486,15 +488,17 @@ void Settings::createLanguageMenu()
 
 void Settings::switchLanguage( int index )
 {
-#if defined Q_WS_X11
-    QDir qmDir( SHARE_DIR );
+#if defined Q_WS_MAC
+    QDir qmDir( QApplication::applicationDirPath() );
+    qmDir.cdUp();
+    qmDir.cd( "Resources" );
 #else
-    QDir qmDir( ":" );
-#endif
+    QDir qmDir( SHARE_DIR );
     if ( !qmDir.cd( "loc" ) ) {
         qmDir.cd( QApplication::applicationDirPath() );
-        qmDir.cd( "qtwitter-app/res/loc" );
+        qmDir.cd( "loc" );
     }
+#endif
     QString qmPath( qmDir.absolutePath() );
 
     QString locale = ui.languageCombo->itemData( index ).toString();
