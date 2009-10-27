@@ -334,26 +334,21 @@
     <name>AutoTagPlugin</name>
     <message>
         <location filename="../plugins/autotag/autotagplugin.cpp" line="+59"/>
-        <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <source>AutoTag</source>
+        <translation></translation>
     </message>
 </context>
 <context>
     <name>AutoTagWidget</name>
     <message>
-        <location filename="../plugins/autotag/autotagwidget.ui" line="+14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
-        <source>Enable automatic #tagging</source>
-        <translation type="unfinished"></translation>
+        <location filename="../plugins/autotag/autotagwidget.ui" line="+20"/>
+        <source>&amp;Enable automatic #tagging</source>
+        <translation>&amp;Włącz automatyczne #tagowanie</translation>
     </message>
     <message>
         <location line="+9"/>
         <source>&amp;Add words:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Dodaj słowa:</translation>
     </message>
 </context>
 <context>
@@ -361,13 +356,13 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+311"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">Wprowadzony URL jest niepoprawny.</translation>
+        <translation>Wprowadzony URL jest niepoprawny.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
+        <translation>Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
     </message>
 </context>
 <context>
@@ -375,12 +370,12 @@
     <message>
         <location line="-107"/>
         <source>An error occured with b.oooom.net. Please file a bug.</source>
-        <translation type="unfinished">Wystąpił błąd z boooom.net. Zgłoś błąd.</translation>
+        <translation>Wystąpił błąd z boooom.net. Zgłoś błąd.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occured when shortening your URL.</source>
-        <translation type="unfinished">Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
+        <translation>Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
     </message>
 </context>
 <context>
@@ -628,7 +623,7 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+132"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
+        <translation>Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
     </message>
 </context>
 <context>
@@ -636,42 +631,42 @@
     <message>
         <location line="-275"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">Wprowadzony URL jest niepoprawny.</translation>
+        <translation>Wprowadzony URL jest niepoprawny.</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation type="unfinished">Serwis skracający linki nie mógł Cię autoryzować. Sprawdź swój login i hasło.</translation>
+        <translation>Serwis skracający linki nie mógł Cię autoryzować. Sprawdź swój login i hasło.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>The URL entered was too long.</source>
-        <translation type="unfinished">Wprowadzony URL jest zbyt długi.</translation>
+        <translation>Wprowadzony URL jest zbyt długi.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="unfinished">Twój adres IP jest na czarnej liście Spamhaus (SBL/XBL) lub Spamcop.</translation>
+        <translation>Twój adres IP jest na czarnej liście Spamhaus (SBL/XBL) lub Spamcop.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="unfinished">Wprowadzony URL jest stroną ze spamem i jest na czarnej liście SURBL i/lub URIBL.</translation>
+        <translation>Wprowadzony URL jest stroną ze spamem i jest na czarnej liście SURBL i/lub URIBL.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="unfinished">Twój adres IP jest na czarnej liście is.gd (linkowanie do stron skracających, w tym do is.gd są zablokowane).</translation>
+        <translation>Twój adres IP jest na czarnej liście is.gd (linkowanie do stron skracających, w tym do is.gd są zablokowane).</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="unfinished">Twój adres IP jest na czarnej liście is.gd (prawdopodobnie doszło do złamania regulaminu is.gd).</translation>
+        <translation>Twój adres IP jest na czarnej liście is.gd (prawdopodobnie doszło do złamania regulaminu is.gd).</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
+        <translation>Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
     </message>
 </context>
 <context>
@@ -899,7 +894,7 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+59"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
+        <translation>Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
     </message>
 </context>
 <context>
@@ -907,13 +902,13 @@
     <message>
         <location line="+237"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">Wprowadzony URL jest niepoprawny.</translation>
+        <translation>Wprowadzony URL jest niepoprawny.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
+        <translation>Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
     </message>
 </context>
 <context>
@@ -1021,14 +1016,9 @@
 <context>
     <name>PluginManagerWidget</name>
     <message>
-        <location filename="../qtwitter-app/src/pluginmgr/pluginmanagerwidget.ui" line="+14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qtwitter-app/src/pluginmgr/pluginmanagerwidget.cpp" line="+44"/>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Pluginy</translation>
     </message>
 </context>
 <context>
@@ -1049,7 +1039,7 @@
         <translation>Język</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/settings.cpp" line="+475"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="+477"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Polski</translation>
@@ -1169,7 +1159,7 @@
         <translation>Ilość statusów:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/settings.cpp" line="-78"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="-80"/>
         <source>Apply</source>
         <translation>Zastosuj</translation>
     </message>
@@ -1180,12 +1170,12 @@
     </message>
     <message>
         <location line="-10"/>
-        <location line="+92"/>
+        <location line="+94"/>
         <source>Default</source>
         <translation>Domyślny</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-88"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1420,7 +1410,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="-149"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
+        <translation>Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
     </message>
 </context>
 <context>
@@ -1428,7 +1418,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-69"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
+        <translation>Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
     </message>
 </context>
 <context>
@@ -1436,12 +1426,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-60"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="unfinished">URL został odrzucony przez tr.im</translation>
+        <translation>URL został odrzucony przez tr.im</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
+        <translation>Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
     </message>
 </context>
 <context>
@@ -1540,12 +1530,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+149"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation type="unfinished">URL został odrzucony przez u.nu</translation>
+        <translation>URL został odrzucony przez u.nu</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
+        <translation>Wystąpił nieznany błąd podczas skracania Twojego linka.</translation>
     </message>
 </context>
 <context>
@@ -1553,30 +1543,25 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerplugin.cpp" line="+85"/>
         <source>Url shortening</source>
-        <translation type="unfinished"></translation>
+        <translation>Skracanie linków</translation>
     </message>
 </context>
 <context>
     <name>UrlShortenerWidget</name>
     <message>
-        <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="+14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location line="+6"/>
+        <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="+20"/>
         <source>&amp;Automatically shorten links before posting</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Automatycznie skracaj linki przed wysłaniem wiadomości</translation>
     </message>
     <message>
         <location line="+7"/>
-        <source>Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <source>&amp;Shortcut:</source>
+        <translation>&amp;Skrót:</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Shorten &amp;links via</source>
-        <translation type="unfinished"></translation>
+        <translation>Skracaj &amp;linki używając</translation>
     </message>
 </context>
 <context>

@@ -56,7 +56,7 @@ QString AutoTagPlugin::filterStatusBeforePosting( const QString &status )
 
 QString AutoTagPlugin::tabName()
 {
-    return tr( "Tags" );
+    return tr( "AutoTag" );
 }
 
 QWidget* AutoTagPlugin::settingsWidget()

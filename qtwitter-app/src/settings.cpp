@@ -397,7 +397,8 @@ void Settings::retranslateUi()
     applyButton->setText( tr( "Apply" ) );
     connect( applyButton, SIGNAL(clicked()), this, SLOT(saveConfig()) );
     ui.buttonBox->addButton("Cancel", QDialogButtonBox::RejectRole)->setText( tr( "Cancel" ) );
-    update();
+    if ( pluginManagerTab )
+        ui.tabs->setTabText( ui.tabs->count() - 1, pluginManagerTab->tabName() );
 }
 
 #ifdef Q_WS_X11

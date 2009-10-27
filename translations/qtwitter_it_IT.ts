@@ -327,20 +327,15 @@
     <name>AutoTagPlugin</name>
     <message>
         <location filename="../plugins/autotag/autotagplugin.cpp" line="59"/>
-        <source>Tags</source>
+        <source>AutoTag</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>AutoTagWidget</name>
     <message>
-        <location filename="../plugins/autotag/autotagwidget.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../plugins/autotag/autotagwidget.ui" line="20"/>
-        <source>Enable automatic #tagging</source>
+        <source>&amp;Enable automatic #tagging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -996,11 +991,6 @@
 <context>
     <name>PluginManagerWidget</name>
     <message>
-        <location filename="../qtwitter-app/src/pluginmgr/pluginmanagerwidget.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../qtwitter-app/src/pluginmgr/pluginmanagerwidget.cpp" line="44"/>
         <source>Plugins</source>
         <translation type="unfinished"></translation>
@@ -1024,7 +1014,7 @@
         <translation>Lingua</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/settings.cpp" line="475"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="477"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Italiano</translation>
@@ -1155,7 +1145,7 @@
     </message>
     <message>
         <location filename="../qtwitter-app/src/settings.cpp" line="389"/>
-        <location filename="../qtwitter-app/src/settings.cpp" line="481"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="483"/>
         <source>Default</source>
         <translation>Predefinita</translation>
     </message>
@@ -1534,18 +1524,13 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UrlShortenerWidget</name>
     <message>
-        <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="14"/>
-        <source>Form</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="20"/>
         <source>&amp;Automatically shorten links before posting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="27"/>
-        <source>Shortcut:</source>
+        <source>&amp;Shortcut:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
