@@ -4,27 +4,32 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../qtwitter-app/ui/aboutdialog.ui" line="26"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
+        <location filename="../tmp/ui_aboutdialog.h" line="228"/>
         <source>About qTwitter</source>
         <translation>Su qTwitter</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/aboutdialog.ui" line="97"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
+        <location filename="../tmp/ui_aboutdialog.h" line="230"/>
         <source>About</source>
         <translation>Informazioni</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/aboutdialog.ui" line="181"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
+        <location filename="../tmp/ui_aboutdialog.h" line="231"/>
         <source>Authors</source>
         <translation>Autori</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/aboutdialog.ui" line="265"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
+        <location filename="../tmp/ui_aboutdialog.h" line="232"/>
         <source>Credits</source>
         <translation>Crediti</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/aboutdialog.ui" line="367"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
+        <location filename="../tmp/ui_aboutdialog.h" line="233"/>
         <source>Close</source>
         <translation>Chiudi</translation>
     </message>
@@ -173,7 +178,8 @@
         <translation type="obsolete">entrambi</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/accounts.ui" line="64"/>
+        <location filename="../qtwitter-app/src/accounts/accounts.ui"/>
+        <location filename="../tmp/ui_accounts.h" line="136"/>
         <source>store passwords on disk</source>
         <translation>Salva password sul disco</translation>
     </message>
@@ -264,12 +270,14 @@
 <context>
     <name>AllowWidget</name>
     <message>
-        <location filename="../qtwitter-app/src/oauth/allowwidget.ui" line="23"/>
+        <location filename="../qtwitter-app/src/oauth/allowwidget.ui"/>
+        <location filename="../tmp/ui_allowwidget.h" line="61"/>
         <source>You must allow qTwitter accessing your Twitter account</source>
         <translation>Dovresti permettere a qTwitter di accedere al tuo account di Twitter</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/oauth/allowwidget.ui" line="36"/>
+        <location filename="../qtwitter-app/src/oauth/allowwidget.ui"/>
+        <location filename="../tmp/ui_allowwidget.h" line="62"/>
         <source>Allow qTwitter access</source>
         <translation>Permetti accesso a qTwitter</translation>
     </message>
@@ -277,7 +285,8 @@
 <context>
     <name>AuthDialog</name>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="32"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="159"/>
         <source>Authentication required</source>
         <translation>Autenticazione richiesta</translation>
     </message>
@@ -286,39 +295,44 @@
         <translation type="obsolete">I dati di autenticazione che hai inserito non sono corretti</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="65"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="161"/>
         <source>The credentials you provided for %1 are incorrect</source>
         <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
         <translation>Le credenziali che hai fornito per %1 sono incorrette</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="78"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="162"/>
         <source>Username:</source>
         <translation>Nome utente:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="108"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="164"/>
         <source>Password:</source>
         <translation>Password:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="154"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="167"/>
         <source>disable account</source>
         <translation>disabilita account</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="157"/>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="167"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
         <source>buttonGroup</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="164"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="168"/>
         <source>remove account</source>
         <translation>rimuovere account</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="144"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="166"/>
         <source>or</source>
         <translation>o</translation>
     </message>
@@ -334,12 +348,14 @@
 <context>
     <name>AutoTagWidget</name>
     <message>
-        <location filename="../plugins/autotag/autotagwidget.ui" line="20"/>
+        <location filename="../plugins/autotag/autotagwidget.ui"/>
+        <location filename="../tmp/ui_autotagwidget.h" line="115"/>
         <source>&amp;Enable automatic #tagging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/autotag/autotagwidget.ui" line="29"/>
+        <location filename="../plugins/autotag/autotagwidget.ui"/>
+        <location filename="../tmp/ui_autotagwidget.h" line="116"/>
         <source>&amp;Add words:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -349,13 +365,13 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="311"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">L&apos;URL inserito non è valido.</translation>
+        <translation>L&apos;URL inserito non è valido.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="314"/>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="319"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
+        <translation>Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
     </message>
 </context>
 <context>
@@ -363,12 +379,12 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="212"/>
         <source>An error occured with b.oooom.net. Please file a bug.</source>
-        <translation type="unfinished">Si è verificato un errore con b.oooom.net. Per favore riporta il bug.</translation>
+        <translation>Si è verificato un errore con b.oooom.net. Per favore riporta il bug.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="217"/>
         <source>An unknown error occured when shortening your URL.</source>
-        <translation type="unfinished">Un errore sconosciuto si è verificato all&apos;accorciamento del tuo URL.</translation>
+        <translation>Un errore sconosciuto si è verificato all&apos;accorciamento del tuo URL.</translation>
     </message>
 </context>
 <context>
@@ -419,7 +435,7 @@
         <translation>E&apos; richiesta l&apos;autenticazione per poter ottenere gli aggiornamenti dei tuoi amici.</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/core.cpp" line="672"/>
+        <location filename="../qtwitter-app/src/core.cpp" line="675"/>
         <source>For:
 %1</source>
         <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
@@ -477,7 +493,7 @@
         <translation type="obsolete">Una o più richieste non sono complete. Verifica le impostazioni di connessione e/o dell&apos;account.</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/core.cpp" line="668"/>
+        <location filename="../qtwitter-app/src/core.cpp" line="671"/>
         <source>For %1</source>
         <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
         <translation>Per %1</translation>
@@ -572,27 +588,32 @@
         <translation>Invio del messaggio fallito. Nota che non puoi inviare messaggi ad utenti che non ti seguono.</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/dmdialog.ui" line="20"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui"/>
+        <location filename="../tmp/ui_dmdialog.h" line="128"/>
         <source>Direct Message</source>
         <translation>Messaggio diretto</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/dmdialog.ui" line="26"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui"/>
+        <location filename="../tmp/ui_dmdialog.h" line="129"/>
         <source>Write your message:</source>
         <translation>Scrivi il tuo messaggio:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/dmdialog.ui" line="85"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui"/>
+        <location filename="../tmp/ui_dmdialog.h" line="130"/>
         <source>Reset</source>
         <translation>Reset</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/dmdialog.ui" line="95"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui"/>
+        <location filename="../tmp/ui_dmdialog.h" line="131"/>
         <source>Close</source>
         <translation>Chiudi</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/dmdialog.ui" line="108"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui"/>
+        <location filename="../tmp/ui_dmdialog.h" line="132"/>
         <source>Send</source>
         <translation>Invia</translation>
     </message>
@@ -602,7 +623,7 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="349"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
+        <translation>Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
     </message>
 </context>
 <context>
@@ -610,42 +631,42 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="74"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">L&apos;URL che hai inserito non è valido.</translation>
+        <translation>L&apos;URL che hai inserito non è valido.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="69"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation type="unfinished">Il servizio di accorciamento degli url non potrebbe autorizzarti. Per favore controlla il tuo nome utente e la tua password.</translation>
+        <translation>Il servizio di accorciamento degli url non potrebbe autorizzarti. Per favore controlla il tuo nome utente e la tua password.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="76"/>
         <source>The URL entered was too long.</source>
-        <translation type="unfinished">L&apos;URL che hai inserito è troppo lungo.</translation>
+        <translation>L&apos;URL che hai inserito è troppo lungo.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="78"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="unfinished">L&apos;indirizzo che ti sta facendo questa richiesta è stato inserito in lista nera da Spamhaus (SBL/XBL) o Spamcop.</translation>
+        <translation>L&apos;indirizzo che ti sta facendo questa richiesta è stato inserito in lista nera da Spamhaus (SBL/XBL) o Spamcop.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="80"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="unfinished">L&apos;URL inserito è un potenziale sito di spam ed è inserito nelle liste nere di SURBL o di URIBL.</translation>
+        <translation>L&apos;URL inserito è un potenziale sito di spam ed è inserito nelle liste nere di SURBL o di URIBL.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="82"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="unfinished">L&apos;URL inserito è nella lista nera di is.gd (i link dei siti di accorciamento degli URL o lo stesso is.gd sono disabilitati per prevenirne l&apos;abuso).</translation>
+        <translation>L&apos;URL inserito è nella lista nera di is.gd (i link dei siti di accorciamento degli URL o lo stesso is.gd sono disabilitati per prevenirne l&apos;abuso).</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="84"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="unfinished">L&apos;indirizzo che sta facendo questa richiesta è stato bloccato da is.gd (normalmente a causa di una violazione dei termini di uso).</translation>
+        <translation>L&apos;indirizzo che sta facendo questa richiesta è stato bloccato da is.gd (normalmente a causa di una violazione dei termini di uso).</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="89"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Si è verificato un errore sconosciuto durante l&apos;accorciamento del tuo URL.</translation>
+        <translation>Si è verificato un errore sconosciuto durante l&apos;accorciamento del tuo URL.</translation>
     </message>
 </context>
 <context>
@@ -656,7 +677,8 @@
         <translation>Errore</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/mainwindow.ui" line="20"/>
+        <location filename="../qtwitter-app/ui/mainwindow.ui"/>
+        <location filename="../tmp/ui_mainwindow.h" line="183"/>
         <source>qTwitter</source>
         <translation></translation>
     </message>
@@ -665,8 +687,9 @@
         <translation type="obsolete">&lt;span style=&quot;color: black&quot;&gt;Usa &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; per abbreviare i link&lt;/span&gt;</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/mainwindow.ui" line="248"/>
+        <location filename="../qtwitter-app/ui/mainwindow.ui"/>
         <location filename="../qtwitter-app/src/mainwindow.cpp" line="729"/>
+        <location filename="../tmp/ui_mainwindow.h" line="187"/>
         <source>What are you doing?</source>
         <translation>Cosa stai facendo?</translation>
     </message>
@@ -771,8 +794,9 @@
         <translation>Naviga usando %1 y %2</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/mainwindow.ui" line="179"/>
+        <location filename="../qtwitter-app/ui/mainwindow.ui"/>
         <location filename="../qtwitter-app/src/mainwindow.cpp" line="725"/>
+        <location filename="../tmp/ui_mainwindow.h" line="185"/>
         <source>More...</source>
         <translation>Più...</translation>
     </message>
@@ -869,7 +893,7 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="148"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Si è riscontrato un errore sconosciuto durante l&apos;accorciamento del tuo URL.</translation>
+        <translation>Si è riscontrato un errore sconosciuto durante l&apos;accorciamento del tuo URL.</translation>
     </message>
 </context>
 <context>
@@ -877,19 +901,20 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="385"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">L&apos;URL digitato non è valido.</translation>
+        <translation>L&apos;URL digitato non è valido.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="388"/>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="393"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
+        <translation>Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
     </message>
 </context>
 <context>
     <name>NewAccountDialog</name>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="14"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="130"/>
         <source>New account</source>
         <translation>Nuovo account</translation>
     </message>
@@ -902,37 +927,44 @@
         <translation type="obsolete">Password:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="20"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="131"/>
         <source>&amp;Login:</source>
         <translation>&amp;Login:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="33"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="132"/>
         <source>&amp;Password:</source>
         <translation>&amp;Password:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="61"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="135"/>
         <source>Twitter</source>
         <translation>Twitter</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="66"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="136"/>
         <source>Identi.ca</source>
         <translation>Identi.ca</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="74"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="138"/>
         <source>&amp;Social network:</source>
         <translation>&amp;Social network:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="90"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="139"/>
         <source>Network &amp;name:</source>
         <translation>&amp;Nome del network:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="100"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="140"/>
         <source>&amp;Website:</source>
         <translation>&amp;Sito web:</translation>
     </message>
@@ -965,12 +997,14 @@
         <translation>Il PIN che hai digitato è incorretto oppure si è verificato un problema relativo al network. Per favore riprova dopo.</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/oauth/oauthwizard.ui" line="20"/>
+        <location filename="../qtwitter-app/src/oauth/oauthwizard.ui"/>
+        <location filename="../tmp/ui_oauthwizard.h" line="71"/>
         <source>Allow access</source>
         <translation>Permetti accesso</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/oauth/oauthwizard.ui" line="37"/>
+        <location filename="../qtwitter-app/src/oauth/oauthwizard.ui"/>
+        <location filename="../tmp/ui_oauthwizard.h" line="72"/>
         <source>Cancel</source>
         <translation>Annulla</translation>
     </message>
@@ -978,12 +1012,14 @@
 <context>
     <name>PinWidget</name>
     <message>
-        <location filename="../qtwitter-app/src/oauth/pinwidget.ui" line="23"/>
+        <location filename="../qtwitter-app/src/oauth/pinwidget.ui"/>
+        <location filename="../tmp/ui_pinwidget.h" line="77"/>
         <source>Enter PIN number received from Twitter</source>
         <translation>Digita il numero PIN che hai ricevuto da Twitter</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/oauth/pinwidget.ui" line="44"/>
+        <location filename="../qtwitter-app/src/oauth/pinwidget.ui"/>
+        <location filename="../tmp/ui_pinwidget.h" line="78"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -999,33 +1035,38 @@
 <context>
     <name>Settings</name>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="26"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="406"/>
         <source>Settings</source>
         <translation>Impostazioni</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="39"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="411"/>
         <source>General</source>
         <translation>Generali</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="123"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="409"/>
         <source>Language</source>
         <translation>Lingua</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/settings.cpp" line="477"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="478"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Italiano</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="161"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="422"/>
         <source>Network</source>
         <translation>Network</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="48"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="407"/>
         <source>Refresh every (mins)</source>
         <translation>Aggiorna ogni (min)</translation>
     </message>
@@ -1034,102 +1075,122 @@
         <translation type="obsolete">Abbrevia link con</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="224"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="418"/>
         <source>Updates</source>
         <translation>Aggiornamenti</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="232"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="419"/>
         <source>Automatically check for updates at startup</source>
         <translation>Controlla automaticmente aggiornamenti all&apos;avvio</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="249"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="420"/>
         <source>Last checked:</source>
         <translation>Ultimo controllo:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="274"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="421"/>
         <source>Check now</source>
         <translation>Controlla adesso</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="318"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="424"/>
         <source>Statuses display mode</source>
         <translation>Modalità di visualizzazione degli stati</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="324"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="425"/>
         <source>display authors&apos; names</source>
         <translation>visualizza i nomi degli autori</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="334"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="426"/>
         <source>display authors&apos; nicks (logins)</source>
         <translation>visualizza i nick degli autori (logins)</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="341"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="427"/>
         <source>display both authors&apos; names and nicks</source>
         <translation>mostra sia i nomi che i nick degli autori</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="351"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="428"/>
         <source>Tray icon and notifications</source>
         <translation>Tray icon e notifiche</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="357"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="429"/>
         <source>always visible</source>
         <translation>sempre visibile</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="367"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="430"/>
         <source>visible only when minimized</source>
         <translation>visibile solo se minimizzato</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="380"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="431"/>
         <source>Show tray notifications</source>
         <translation>Mostra notifiche sulla tray</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="393"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="432"/>
         <source>Close button</source>
         <translation>Pulsante di chiusura</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="399"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="433"/>
         <source>Hides the application</source>
         <translation>Nascone l&apos;applicazione</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="409"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="434"/>
         <source>Closes the application</source>
         <translation>Chiude l&apos;applicazione</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="143"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="410"/>
         <source>Confirm messages deletion</source>
         <translation>Conferma eliminazione dei messaggi</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="167"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="413"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Usa &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="176"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="414"/>
         <source>Host:</source>
         <translation>Host:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="196"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="416"/>
         <source>Port:</source>
         <translation>Porta:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="97"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="408"/>
         <source>Status count:</source>
         <translation>Numero di messaggi di status:</translation>
     </message>
@@ -1145,7 +1206,7 @@
     </message>
     <message>
         <location filename="../qtwitter-app/src/settings.cpp" line="389"/>
-        <location filename="../qtwitter-app/src/settings.cpp" line="483"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="484"/>
         <source>Default</source>
         <translation>Predefinita</translation>
     </message>
@@ -1210,17 +1271,18 @@
         <translation type="obsolete">Lingua:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/settings.cpp" line="409"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="410"/>
         <source>Select your browser executable</source>
         <translation>Seleziona l&apos;eseguibile del tuo browser</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/settings.cpp" line="409"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="410"/>
         <source>All files (*)</source>
         <translation>Tutti i files (*)</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="298"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="435"/>
         <source>Appearance</source>
         <translation>Aspetto</translation>
     </message>
@@ -1233,12 +1295,14 @@
         <translation type="obsolete">Abbrevia link con:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="151"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="412"/>
         <source>Accounts</source>
         <translation>Accounts</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="304"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="423"/>
         <source>Color scheme:</source>
         <translation>Schema di colori:</translation>
     </message>
@@ -1370,8 +1434,9 @@
         <translation>Su %1</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/statuswidget.ui" line="373"/>
-        <location filename="../qtwitter-app/ui/statuswidget.ui" line="403"/>
+        <location filename="../qtwitter-app/ui/statuswidget.ui"/>
+        <location filename="../tmp/ui_statuswidget.h" line="173"/>
+        <location filename="../tmp/ui_statuswidget.h" line="178"/>
         <source>QPushButton {
 border: 1px;
 background-color: rgba(255,255,255,0);
@@ -1385,7 +1450,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="244"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
+        <translation>Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
     </message>
 </context>
 <context>
@@ -1393,7 +1458,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="175"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
+        <translation>Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
     </message>
 </context>
 <context>
@@ -1401,12 +1466,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="115"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="unfinished">L&apos;URL è stato rifiutato da tr.im</translation>
+        <translation>L&apos;URL è stato rifiutato da tr.im</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="121"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
+        <translation>Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
     </message>
 </context>
 <context>
@@ -1440,7 +1505,8 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicNewPhoto</name>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicnewphoto.ui" line="26"/>
+        <location filename="../qtwitter-app/ui/twitpicnewphoto.ui"/>
+        <location filename="../tmp/ui_twitpicnewphoto.h" line="118"/>
         <source>Upload completed</source>
         <translation>Upload completo</translation>
     </message>
@@ -1448,10 +1514,11 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicView</name>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="151"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="89"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="128"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="138"/>
+        <location filename="../tmp/ui_twitpicview.h" line="184"/>
         <source>Upload</source>
         <translation>Upload</translation>
     </message>
@@ -1472,30 +1539,35 @@ background-color: rgba(255,255,255,0);
         <translation>Immagini</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="110"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="155"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="160"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="172"/>
+        <location filename="../tmp/ui_twitpicview.h" line="182"/>
         <source>Select a photo to upload</source>
         <translation>Scegli una foto per l&apos;upload</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="20"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
+        <location filename="../tmp/ui_twitpicview.h" line="179"/>
         <source>Upload a photo to Twitpic</source>
         <translation>Upload una foto su Twitpic</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="28"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
+        <location filename="../tmp/ui_twitpicview.h" line="180"/>
         <source>Choose a photo:</source>
         <translation>Scegli una foto:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="38"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
+        <location filename="../tmp/ui_twitpicview.h" line="181"/>
         <source>Browse</source>
         <translation>Naviga</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="128"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
+        <location filename="../tmp/ui_twitpicview.h" line="183"/>
         <source>post a status</source>
         <translation>Posta un messaggio</translation>
     </message>
@@ -1505,12 +1577,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="270"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation type="unfinished">Il tuo URL è stato rifiutato da u.nu</translation>
+        <translation>Il tuo URL è stato rifiutato da u.nu</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="275"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
+        <translation>Si è verificato un errore sconosciuto all&apos;accorciamento del tuo URL.</translation>
     </message>
 </context>
 <context>
@@ -1524,17 +1596,20 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UrlShortenerWidget</name>
     <message>
-        <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="20"/>
+        <location filename="../plugins/urlshortener/urlshortenerwidget.ui"/>
+        <location filename="../tmp/ui_urlshortenerwidget.h" line="88"/>
         <source>&amp;Automatically shorten links before posting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="27"/>
+        <location filename="../plugins/urlshortener/urlshortenerwidget.ui"/>
+        <location filename="../tmp/ui_urlshortenerwidget.h" line="89"/>
         <source>&amp;Shortcut:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="53"/>
+        <location filename="../plugins/urlshortener/urlshortenerwidget.ui"/>
+        <location filename="../tmp/ui_urlshortenerwidget.h" line="90"/>
         <source>Shorten &amp;links via</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1560,27 +1635,32 @@ background-color: rgba(255,255,255,0);
         </translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/userinfopopup.ui" line="210"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
+        <location filename="../tmp/ui_userinfopopup.h" line="279"/>
         <source>Login:</source>
         <translation>Login:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/userinfopopup.ui" line="224"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
+        <location filename="../tmp/ui_userinfopopup.h" line="280"/>
         <source>Location:</source>
         <translation>Locazione:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/userinfopopup.ui" line="238"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
+        <location filename="../tmp/ui_userinfopopup.h" line="281"/>
         <source>Local time:</source>
         <translation>Ora locale:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/userinfopopup.ui" line="252"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
+        <location filename="../tmp/ui_userinfopopup.h" line="282"/>
         <source>Homepage:</source>
         <translation>Pagina principale:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/userinfopopup.ui" line="285"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
+        <location filename="../tmp/ui_userinfopopup.h" line="283"/>
         <source>Bio:</source>
         <translation>Bio:</translation>
     </message>
@@ -1613,27 +1693,32 @@ background-color: rgba(255,255,255,0);
         <translation>Ok</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/welcomedialog.ui" line="20"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
+        <location filename="../tmp/ui_welcomedialog.h" line="115"/>
         <source>Welcome!</source>
         <translation>Benvenuto!</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/welcomedialog.ui" line="59"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
+        <location filename="../tmp/ui_welcomedialog.h" line="116"/>
         <source>Welcome to qTwitter!</source>
         <translation>Benvenuto su qTwitter!</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/welcomedialog.ui" line="71"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
+        <location filename="../tmp/ui_welcomedialog.h" line="117"/>
         <source>To make the best use of this application you should setup one or more Twitter or Identi.ca accounts.</source>
         <translation>Per utilizzare nel miglior modo quest&apos;applicazione dovresti impostare uno o più account di Twitter o di Identi.ca.</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/welcomedialog.ui" line="96"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
+        <location filename="../tmp/ui_welcomedialog.h" line="118"/>
         <source>Add Account</source>
         <translation>Aggiungi Account</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/welcomedialog.ui" line="116"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
+        <location filename="../tmp/ui_welcomedialog.h" line="119"/>
         <source>Continue</source>
         <translation>Continua</translation>
     </message>

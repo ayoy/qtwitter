@@ -121,27 +121,32 @@
         <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - Qt Twitter a Identi.ca klient&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distribuováno pod licencí LGPL&lt;/p&gt;&lt;p&gt;verze 2.1 a vyšší&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/aboutdialog.ui" line="26"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
+        <location filename="../tmp/ui_aboutdialog.h" line="228"/>
         <source>About qTwitter</source>
         <translation>O qTwitter</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/aboutdialog.ui" line="97"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
+        <location filename="../tmp/ui_aboutdialog.h" line="230"/>
         <source>About</source>
         <translation>O aplikaci</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/aboutdialog.ui" line="181"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
+        <location filename="../tmp/ui_aboutdialog.h" line="231"/>
         <source>Authors</source>
         <translation>Autoři</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/aboutdialog.ui" line="265"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
+        <location filename="../tmp/ui_aboutdialog.h" line="232"/>
         <source>Credits</source>
         <translation>Poděkování</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/aboutdialog.ui" line="367"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
+        <location filename="../tmp/ui_aboutdialog.h" line="233"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
@@ -149,7 +154,8 @@
 <context>
     <name>Accounts</name>
     <message>
-        <location filename="../qtwitter-app/src/accounts/accounts.ui" line="64"/>
+        <location filename="../qtwitter-app/src/accounts/accounts.ui"/>
+        <location filename="../tmp/ui_accounts.h" line="136"/>
         <source>store passwords on disk</source>
         <translation>ukládat hesla na disk</translation>
     </message>
@@ -242,12 +248,14 @@
 <context>
     <name>AllowWidget</name>
     <message>
-        <location filename="../qtwitter-app/src/oauth/allowwidget.ui" line="23"/>
+        <location filename="../qtwitter-app/src/oauth/allowwidget.ui"/>
+        <location filename="../tmp/ui_allowwidget.h" line="61"/>
         <source>You must allow qTwitter accessing your Twitter account</source>
         <translation>Povolte prosím aplikaci přistupovat k vašemu Twitter účtu</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/oauth/allowwidget.ui" line="36"/>
+        <location filename="../qtwitter-app/src/oauth/allowwidget.ui"/>
+        <location filename="../tmp/ui_allowwidget.h" line="62"/>
         <source>Allow qTwitter access</source>
         <translation>Povolit přístup</translation>
     </message>
@@ -255,7 +263,8 @@
 <context>
     <name>AuthDialog</name>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="32"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="159"/>
         <source>Authentication required</source>
         <translation>Přihlášení vyžadováno</translation>
     </message>
@@ -264,39 +273,44 @@
         <translation type="obsolete">Poskytnuté přístupové údaje jsou nesprávné</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="65"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="161"/>
         <source>The credentials you provided for %1 are incorrect</source>
         <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
         <translation>Přístupové údaje pro %1 nejsou správné</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="78"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="162"/>
         <source>Username:</source>
         <translation>Uživ. jméno:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="108"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="164"/>
         <source>Password:</source>
         <translation>Heslo:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="144"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="166"/>
         <source>or</source>
         <translation>nebo</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="154"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="167"/>
         <source>disable account</source>
         <translation>deaktivovat účet</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="157"/>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="167"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
         <source>buttonGroup</source>
         <translation>buttonGroup</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/authdialog.ui" line="164"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="168"/>
         <source>remove account</source>
         <translation>odebrat účet</translation>
     </message>
@@ -312,12 +326,14 @@
 <context>
     <name>AutoTagWidget</name>
     <message>
-        <location filename="../plugins/autotag/autotagwidget.ui" line="20"/>
+        <location filename="../plugins/autotag/autotagwidget.ui"/>
+        <location filename="../tmp/ui_autotagwidget.h" line="115"/>
         <source>&amp;Enable automatic #tagging</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/autotag/autotagwidget.ui" line="29"/>
+        <location filename="../plugins/autotag/autotagwidget.ui"/>
+        <location filename="../tmp/ui_autotagwidget.h" line="116"/>
         <source>&amp;Add words:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -327,13 +343,13 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="311"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">Zadaná adresa není validní.</translation>
+        <translation>Zadaná adresa není validní.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="314"/>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="319"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -341,12 +357,12 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="212"/>
         <source>An error occured with b.oooom.net. Please file a bug.</source>
-        <translation type="unfinished">Chyba při komunikaci s b.oooom.net. Prosím nahlašte chybu.</translation>
+        <translation>Chyba při komunikaci s b.oooom.net. Prosím nahlašte chybu.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="217"/>
         <source>An unknown error occured when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -445,13 +461,13 @@
         <translation>Pro získávání novinek od přátel se musíte přihlásit.</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/core.cpp" line="668"/>
+        <location filename="../qtwitter-app/src/core.cpp" line="671"/>
         <source>For %1</source>
         <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
         <translation>Pro %1</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/core.cpp" line="672"/>
+        <location filename="../qtwitter-app/src/core.cpp" line="675"/>
         <source>For:
 %1</source>
         <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
@@ -552,27 +568,32 @@
         <translation>Odesílání zprávy selhalo. Pamatujte, že nelze odeslat zprávu uživateli, který vás nenásleduje.</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/dmdialog.ui" line="20"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui"/>
+        <location filename="../tmp/ui_dmdialog.h" line="128"/>
         <source>Direct Message</source>
         <translation>Přímá zpráva</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/dmdialog.ui" line="26"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui"/>
+        <location filename="../tmp/ui_dmdialog.h" line="129"/>
         <source>Write your message:</source>
         <translation>Napište zprávu:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/dmdialog.ui" line="85"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui"/>
+        <location filename="../tmp/ui_dmdialog.h" line="130"/>
         <source>Reset</source>
         <translation>Smazat</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/dmdialog.ui" line="95"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui"/>
+        <location filename="../tmp/ui_dmdialog.h" line="131"/>
         <source>Close</source>
         <translation>Zavřít</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/dmdialog.ui" line="108"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui"/>
+        <location filename="../tmp/ui_dmdialog.h" line="132"/>
         <source>Send</source>
         <translation>Odeslat</translation>
     </message>
@@ -582,7 +603,7 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="349"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -590,42 +611,42 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="69"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation type="unfinished">Přihlášení ke službě zkracování adresy selhalo. Prosím ověřte vaše uživatelské jméno a heslo.</translation>
+        <translation>Přihlášení ke službě zkracování adresy selhalo. Prosím ověřte vaše uživatelské jméno a heslo.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="74"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">Zadaná adresa není validní.</translation>
+        <translation>Zadaná adresa není validní.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="76"/>
         <source>The URL entered was too long.</source>
-        <translation type="unfinished">Zadaná adresa je příliš dlouhá.</translation>
+        <translation>Zadaná adresa je příliš dlouhá.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="78"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="unfinished">Adresa, kterou chcete zkrátit, byla zakázána blacklistem SpamHaus (SBL/XBL) nebo Spamcop.</translation>
+        <translation>Adresa, kterou chcete zkrátit, byla zakázána blacklistem SpamHaus (SBL/XBL) nebo Spamcop.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="80"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="unfinished">Adresa, kterou chcete zkrátit, je potenciální spam stránka a je zaznamenána na SURBL nebo URIBL blacklistu.</translation>
+        <translation>Adresa, kterou chcete zkrátit, je potenciální spam stránka a je zaznamenána na SURBL nebo URIBL blacklistu.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="82"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="unfinished">Adresa, kterou chcete zkrátit, se nachází na is.gd blacklistu (adresy na jiné služby zkracování adres nebo is.gd samotné jsou zakázané z důvodu předcházení nesprávného použití služby).</translation>
+        <translation>Adresa, kterou chcete zkrátit, se nachází na is.gd blacklistu (adresy na jiné služby zkracování adres nebo is.gd samotné jsou zakázané z důvodu předcházení nesprávného použití služby).</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="84"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="unfinished">Požadavek z vašeho počítače byl na is.gd zablokován (běžný výsledek porušení podmínek používání).</translation>
+        <translation>Požadavek z vašeho počítače byl na is.gd zablokován (běžný výsledek porušení podmínek používání).</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="89"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -823,19 +844,22 @@
         <translation>Přepněte pomocí %1 a %2</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/mainwindow.ui" line="179"/>
+        <location filename="../qtwitter-app/ui/mainwindow.ui"/>
         <location filename="../qtwitter-app/src/mainwindow.cpp" line="725"/>
+        <location filename="../tmp/ui_mainwindow.h" line="185"/>
         <source>More...</source>
         <translation>Více...</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/mainwindow.ui" line="248"/>
+        <location filename="../qtwitter-app/ui/mainwindow.ui"/>
         <location filename="../qtwitter-app/src/mainwindow.cpp" line="729"/>
+        <location filename="../tmp/ui_mainwindow.h" line="187"/>
         <source>What are you doing?</source>
         <translation>Co právě děláte?</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/mainwindow.ui" line="20"/>
+        <location filename="../qtwitter-app/ui/mainwindow.ui"/>
+        <location filename="../tmp/ui_mainwindow.h" line="183"/>
         <source>qTwitter</source>
         <translation>qTwitter</translation>
     </message>
@@ -849,7 +873,7 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="148"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -857,19 +881,20 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="385"/>
         <source>The URL entered was not valid.</source>
-        <translation type="unfinished">Zadaná adresa není validní.</translation>
+        <translation>Zadaná adresa není validní.</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="388"/>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="393"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
     <name>NewAccountDialog</name>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="14"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="130"/>
         <source>New account</source>
         <translation>Nový účet</translation>
     </message>
@@ -882,37 +907,44 @@
         <translation type="obsolete">Heslo:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="20"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="131"/>
         <source>&amp;Login:</source>
         <translation>&amp;Uživ. jméno:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="33"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="132"/>
         <source>&amp;Password:</source>
         <translation>&amp;Heslo:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="61"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="135"/>
         <source>Twitter</source>
         <translation>Twitter</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="66"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="136"/>
         <source>Identi.ca</source>
         <translation>Identi.ca</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="74"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="138"/>
         <source>&amp;Social network:</source>
         <translation>&amp;Síť:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="90"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="139"/>
         <source>Network &amp;name:</source>
         <translation>&amp;Jméno sítě:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui" line="100"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="140"/>
         <source>&amp;Website:</source>
         <translation>&amp;Webová adresa:</translation>
     </message>
@@ -945,12 +977,14 @@
         <translation>Zadaný PIN je nesprávný, nebo došlo k problému ve spojení. Zkuste to prosím později.</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/oauth/oauthwizard.ui" line="20"/>
+        <location filename="../qtwitter-app/src/oauth/oauthwizard.ui"/>
+        <location filename="../tmp/ui_oauthwizard.h" line="71"/>
         <source>Allow access</source>
         <translation>Povolit přístup</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/oauth/oauthwizard.ui" line="37"/>
+        <location filename="../qtwitter-app/src/oauth/oauthwizard.ui"/>
+        <location filename="../tmp/ui_oauthwizard.h" line="72"/>
         <source>Cancel</source>
         <translation>Zrušit</translation>
     </message>
@@ -958,12 +992,14 @@
 <context>
     <name>PinWidget</name>
     <message>
-        <location filename="../qtwitter-app/src/oauth/pinwidget.ui" line="23"/>
+        <location filename="../qtwitter-app/src/oauth/pinwidget.ui"/>
+        <location filename="../tmp/ui_pinwidget.h" line="77"/>
         <source>Enter PIN number received from Twitter</source>
         <translation>Zadejte PIN, který jste obdrželi od Twitteru</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/oauth/pinwidget.ui" line="44"/>
+        <location filename="../qtwitter-app/src/oauth/pinwidget.ui"/>
+        <location filename="../tmp/ui_pinwidget.h" line="78"/>
         <source>OK</source>
         <translation>OK</translation>
     </message>
@@ -1031,7 +1067,7 @@
     </message>
     <message>
         <location filename="../qtwitter-app/src/settings.cpp" line="389"/>
-        <location filename="../qtwitter-app/src/settings.cpp" line="483"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="484"/>
         <source>Default</source>
         <translation>Výchozí</translation>
     </message>
@@ -1051,38 +1087,42 @@
         <translation>Zrušit</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/settings.cpp" line="409"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="410"/>
         <source>Select your browser executable</source>
         <translation>Vyberte spustitelný soubor prohlížeče</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/settings.cpp" line="409"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="410"/>
         <source>All files (*)</source>
         <translation>Všechny soubory (*)</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/src/settings.cpp" line="477"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="478"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Česky</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="26"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="406"/>
         <source>Settings</source>
         <translation>Nastavení</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="39"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="411"/>
         <source>General</source>
         <translation>Chování</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="48"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="407"/>
         <source>Refresh every (mins)</source>
         <translation>Obnovit každých (minut)</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="123"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="409"/>
         <source>Language</source>
         <translation>Jazyk</translation>
     </message>
@@ -1091,122 +1131,146 @@
         <translation type="obsolete">Služba zkracování adres</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="143"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="410"/>
         <source>Confirm messages deletion</source>
         <translation>Potvrzovat mazání zpráv</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="351"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="428"/>
         <source>Tray icon and notifications</source>
         <translation>Ikona v liště a notifikace</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="357"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="429"/>
         <source>always visible</source>
         <translation>vždy viditelné</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="367"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="430"/>
         <source>visible only when minimized</source>
         <translation>viditelné pouze při minimalizaci</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="380"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="431"/>
         <source>Show tray notifications</source>
         <translation>Zobrazovat upozornění v liště</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="393"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="432"/>
         <source>Close button</source>
         <translation>Tlačítko Zavřít</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="399"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="433"/>
         <source>Hides the application</source>
         <translation>skryje aplikaci</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="409"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="434"/>
         <source>Closes the application</source>
         <translation>zavře aplikaci</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="151"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="412"/>
         <source>Accounts</source>
         <translation>Účty</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="161"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="422"/>
         <source>Network</source>
         <translation>Síť</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="167"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="413"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Použít HTTP &amp;proxy</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="176"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="414"/>
         <source>Host:</source>
         <translation>Adresa:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="196"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="416"/>
         <source>Port:</source>
         <translation>Port:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="224"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="418"/>
         <source>Updates</source>
         <translation>Aktualizace</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="232"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="419"/>
         <source>Automatically check for updates at startup</source>
         <translation>Automaticky kontrolovat nové verze při startu</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="249"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="420"/>
         <source>Last checked:</source>
         <translation>Poslední kontrola:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="274"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="421"/>
         <source>Check now</source>
         <translation>Zkontrolovat nyní</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="298"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="435"/>
         <source>Appearance</source>
         <translation>Vzhled</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="97"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="408"/>
         <source>Status count:</source>
         <translation>Počet stavů:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="304"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="423"/>
         <source>Color scheme:</source>
         <translation>Barevné schéma:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="318"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="424"/>
         <source>Statuses display mode</source>
         <translation>Zobrazení stavů</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="324"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="425"/>
         <source>display authors&apos; names</source>
         <translation>zobrazit jména autorů</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="334"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="426"/>
         <source>display authors&apos; nicks (logins)</source>
         <translation>zobrazit přezdívky (loginy) autorů</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/settings.ui" line="341"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="427"/>
         <source>display both authors&apos; names and nicks</source>
         <translation>zobrazit jména i přezdívky autorů</translation>
     </message>
@@ -1338,8 +1402,9 @@
         <translation>O %1</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/statuswidget.ui" line="373"/>
-        <location filename="../qtwitter-app/ui/statuswidget.ui" line="403"/>
+        <location filename="../qtwitter-app/ui/statuswidget.ui"/>
+        <location filename="../tmp/ui_statuswidget.h" line="173"/>
+        <location filename="../tmp/ui_statuswidget.h" line="178"/>
         <source>QPushButton {
 border: 1px;
 background-color: rgba(255,255,255,0);
@@ -1357,7 +1422,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="244"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -1365,7 +1430,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="175"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -1373,12 +1438,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="115"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="unfinished">Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
+        <translation>Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="121"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -1412,7 +1477,8 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicNewPhoto</name>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicnewphoto.ui" line="26"/>
+        <location filename="../qtwitter-app/ui/twitpicnewphoto.ui"/>
+        <location filename="../tmp/ui_twitpicnewphoto.h" line="118"/>
         <source>Upload completed</source>
         <translation>Nahrávání dokončeno</translation>
     </message>
@@ -1420,10 +1486,11 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicView</name>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="151"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="89"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="128"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="138"/>
+        <location filename="../tmp/ui_twitpicview.h" line="184"/>
         <source>Upload</source>
         <translation>Nahrát</translation>
     </message>
@@ -1444,30 +1511,35 @@ background-color: rgba(255,255,255,0);
         <translation>Obrázkové soubory</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="110"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="155"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="160"/>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="172"/>
+        <location filename="../tmp/ui_twitpicview.h" line="182"/>
         <source>Select a photo to upload</source>
         <translation>Vyberte fotografii k nahrání</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="20"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
+        <location filename="../tmp/ui_twitpicview.h" line="179"/>
         <source>Upload a photo to Twitpic</source>
         <translation>Nahrát fotografii na TwitPic</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="28"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
+        <location filename="../tmp/ui_twitpicview.h" line="180"/>
         <source>Choose a photo:</source>
         <translation>Vyberte fotografii:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="38"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
+        <location filename="../tmp/ui_twitpicview.h" line="181"/>
         <source>Browse</source>
         <translation>Procházet</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/twitpicview.ui" line="128"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
+        <location filename="../tmp/ui_twitpicview.h" line="183"/>
         <source>post a status</source>
         <translation>odeslat stav</translation>
     </message>
@@ -1477,12 +1549,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="270"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation type="unfinished">Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
+        <translation>Adresa, kterou chcete zkrátit, byla odmítnuta serverem</translation>
     </message>
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="275"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="unfinished">Při zkracování adresy došlo k neznámé chybě.</translation>
+        <translation>Při zkracování adresy došlo k neznámé chybě.</translation>
     </message>
 </context>
 <context>
@@ -1496,17 +1568,20 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UrlShortenerWidget</name>
     <message>
-        <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="20"/>
+        <location filename="../plugins/urlshortener/urlshortenerwidget.ui"/>
+        <location filename="../tmp/ui_urlshortenerwidget.h" line="88"/>
         <source>&amp;Automatically shorten links before posting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="27"/>
+        <location filename="../plugins/urlshortener/urlshortenerwidget.ui"/>
+        <location filename="../tmp/ui_urlshortenerwidget.h" line="89"/>
         <source>&amp;Shortcut:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../plugins/urlshortener/urlshortenerwidget.ui" line="53"/>
+        <location filename="../plugins/urlshortener/urlshortenerwidget.ui"/>
+        <location filename="../tmp/ui_urlshortenerwidget.h" line="90"/>
         <source>Shorten &amp;links via</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1534,27 +1609,32 @@ background-color: rgba(255,255,255,0);
         </translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/userinfopopup.ui" line="210"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
+        <location filename="../tmp/ui_userinfopopup.h" line="279"/>
         <source>Login:</source>
         <translation>Uživ. jméno:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/userinfopopup.ui" line="224"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
+        <location filename="../tmp/ui_userinfopopup.h" line="280"/>
         <source>Location:</source>
         <translation>Lokace:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/userinfopopup.ui" line="238"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
+        <location filename="../tmp/ui_userinfopopup.h" line="281"/>
         <source>Local time:</source>
         <translation>Lokální čas:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/userinfopopup.ui" line="252"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
+        <location filename="../tmp/ui_userinfopopup.h" line="282"/>
         <source>Homepage:</source>
         <translation>URL adresa:</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/userinfopopup.ui" line="285"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
+        <location filename="../tmp/ui_userinfopopup.h" line="283"/>
         <source>Bio:</source>
         <translation>O sobě:</translation>
     </message>
@@ -1587,27 +1667,32 @@ background-color: rgba(255,255,255,0);
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/welcomedialog.ui" line="20"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
+        <location filename="../tmp/ui_welcomedialog.h" line="115"/>
         <source>Welcome!</source>
         <translation>Vítejte!</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/welcomedialog.ui" line="59"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
+        <location filename="../tmp/ui_welcomedialog.h" line="116"/>
         <source>Welcome to qTwitter!</source>
         <translation>Vítejte v qTwitter!</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/welcomedialog.ui" line="71"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
+        <location filename="../tmp/ui_welcomedialog.h" line="117"/>
         <source>To make the best use of this application you should setup one or more Twitter or Identi.ca accounts.</source>
         <translation>Prosím přejděte k nastavení Twitter nebo Identi.ca účtů.</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/welcomedialog.ui" line="96"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
+        <location filename="../tmp/ui_welcomedialog.h" line="118"/>
         <source>Add Account</source>
         <translation>Přidat účet</translation>
     </message>
     <message>
-        <location filename="../qtwitter-app/ui/welcomedialog.ui" line="116"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
+        <location filename="../tmp/ui_welcomedialog.h" line="119"/>
         <source>Continue</source>
         <translation>Pokračovat</translation>
     </message>
