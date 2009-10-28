@@ -654,8 +654,11 @@ void Core::checkUnreadStatuses()
     QStringList unread;
     QString message;
     foreach ( Account *account, statusLists.keys() ) {
-        if ( statusLists[ account ]->hasUnread() ) {
-            unread.append( QString( "%1 @%2" ).arg( account->login(), Account::networkName( account->serviceUrl() ) ) );
+        int newStatuses = statusLists[ account ]->newStatusesCount();
+        if ( newStatuses > 0 ) {
+            unread.append( QString( "%1 @%2 (%3)" ).arg( account->login(),
+                                                         Account::networkName( account->serviceUrl() ),
+                                                         QString::number(newStatuses) ) );
         }
     }
 

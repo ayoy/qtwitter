@@ -38,6 +38,7 @@ public:
     TwitterAPI *twitterapi;
     QList<Status> data;
     bool visible;
+    int newStatuses;
     Account *account;
     int active;
     static int maxCount;
