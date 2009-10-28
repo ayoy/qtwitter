@@ -111,7 +111,7 @@
     <message>
         <location line="+28"/>
         <source>&lt;p&gt;qTwitter - a Qt-based microblogging client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
-        <translation>&lt;p&gt;qTwitter - ein Qt-basierter MicroBlogging Client&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Veröffentlichter unter der LGPL Lizens&lt;/p&gt;&lt;p&gt;Version 2.1 oder neuer&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;qTwitter - ein Qt-basierter MicroBlogging Client&lt;/p&gt;&lt;p&gt;Version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Veröffentlicht unter der LGPL Lizens&lt;/p&gt;&lt;p&gt;Version 2.1 oder neuer&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
@@ -340,7 +340,7 @@
     <message>
         <location filename="../plugins/autotag/autotagplugin.cpp" line="+59"/>
         <source>AutoTag</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -349,13 +349,13 @@
         <location filename="../plugins/autotag/autotagwidget.ui"/>
         <location filename="../tmp/ui_autotagwidget.h" line="+115"/>
         <source>&amp;Enable automatic #tagging</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Aktiviere automatisches #Tagging</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_autotagwidget.h" line="+1"/>
         <source>&amp;Add words:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Wörter hinzufügen:</translation>
     </message>
 </context>
 <context>
@@ -1013,7 +1013,7 @@
     <message>
         <location filename="../qtwitter-app/src/pluginmgr/pluginmanagerwidget.cpp" line="+44"/>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -1574,7 +1574,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerplugin.cpp" line="+85"/>
         <source>Url shortening</source>
-        <translation type="unfinished"></translation>
+        <translation>Url Verkürzung</translation>
     </message>
 </context>
 <context>
@@ -1583,19 +1583,19 @@ background-color: rgba(255,255,255,0);
         <location filename="../plugins/urlshortener/urlshortenerwidget.ui"/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+88"/>
         <source>&amp;Automatically shorten links before posting</source>
-        <translation type="unfinished"></translation>
+        <translation>Links vor dem Senden &amp;automatisch kürzen</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+1"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+1"/>
         <source>Shorten &amp;links via</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Links kürzen mit</translation>
     </message>
 </context>
 <context>
