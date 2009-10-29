@@ -87,6 +87,8 @@ public slots:
     void moveFocusToUnread( bool up );
     void setImageForUrl( const QString& url, QPixmap *image );
 
+    void unfollow( quint64 userId );
+
 signals:
     void retweet( QString message );
     void destroy( const QString &serviceUrl, const QString &login, quint64 id, Entry::Type type );

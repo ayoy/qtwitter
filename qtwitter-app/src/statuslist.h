@@ -104,6 +104,8 @@ public slots:
 
     void slotDirectMessagesChanged( bool isEnabled );
 
+    void unfollow( quint64 userId );
+
 signals:
     void statusAdded( int index );
     void statusDeleted( int index );
