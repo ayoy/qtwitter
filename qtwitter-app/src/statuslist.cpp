@@ -55,6 +55,7 @@ int StatusListPrivate::maxCount = 0;
 StatusListPrivate::StatusListPrivate() :
         twitterapi( new TwitterAPI ),
         visible( false ),
+        newStatuses(0),
         active(-1)
 {}
 
@@ -68,6 +69,7 @@ void StatusListPrivate::init()
     twitterapi->setServiceUrl( account->serviceUrl() );
     twitterapi->setLogin( account->login() );
     twitterapi->setPassword( account->password() );
+#ifdef HAVE_OAUTH
     if ( account->serviceUrl() == Account::NetworkUrlTwitter ) {
         twitterapi->setUsingOAuth( true );
         twitterapi->setConsumerKey( OAuthWizard::ConsumerKey );
@@ -75,6 +77,7 @@ void StatusListPrivate::init()
     } else {
         twitterapi->setUsingOAuth( false );
     }
+#endif
 
     connect( twitterapi, SIGNAL(newEntries(EntryList)), this, SLOT(addEntries(EntryList)));
     connect( twitterapi, SIGNAL(deleteEntry(quint64)), this, SLOT(deleteEntry(quint64)) );
@@ -98,14 +101,18 @@ void StatusListPrivate::addEntries( const EntryList &entries )
 
 void StatusListPrivate::addEntry( const Entry &entry )
 {
-    addStatus( entry );
+    int index = addStatus( entry );
 
-    if ( entry.type == Entry::Status ) {
-        if ( ImageDownload::instance()->contains( entry.userInfo.imageUrl ) ) {
-            if ( !ImageDownload::instance()->imageFromUrl( entry.userInfo.imageUrl )->isNull() )
-                setImageForUrl( entry.userInfo.imageUrl, ImageDownload::instance()->imageFromUrl( entry.userInfo.imageUrl ) );
-        } else {
-            ImageDownload::instance()->imageGet( entry.userInfo.imageUrl );
+    if ( index != -1 ) {
+        newStatuses++;
+
+        if ( entry.type == Entry::Status ) {
+            if ( ImageDownload::instance()->contains( entry.userInfo.imageUrl ) ) {
+                if ( !ImageDownload::instance()->imageFromUrl( entry.userInfo.imageUrl )->isNull() )
+                    setImageForUrl( entry.userInfo.imageUrl, ImageDownload::instance()->imageFromUrl( entry.userInfo.imageUrl ) );
+            } else {
+                ImageDownload::instance()->imageGet( entry.userInfo.imageUrl );
+            }
         }
     }
 }
@@ -249,16 +256,14 @@ StatusList::~StatusList()
     delete d_ptr;
 }
 
-bool StatusList::hasUnread()
+int StatusList::newStatusesCount()
 {
     Q_D(StatusList);
 
-    for ( QList<Status>::iterator i = d->data.begin(); i != d->data.end(); ++i ) {
-        if ( (*i).state == StatusModel::STATE_UNREAD ) {
-            return true;
-        }
-    }
-    return false;
+    int count = d->newStatuses;
+    d->newStatuses = 0;
+
+    return count;
 }
 
 void StatusList::markAllAsRead()

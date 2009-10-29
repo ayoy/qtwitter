@@ -65,7 +65,7 @@ public:
     StatusList( Account *account, QObject *parent );
     ~StatusList();
 
-    bool hasUnread();
+    int newStatusesCount();
     void markAllAsRead();
 
     bool remove( int from, int count );

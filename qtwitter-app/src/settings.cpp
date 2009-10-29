@@ -23,6 +23,7 @@
 
 #include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
+#include <pluginmanagerwidget.h>
 #include "qtwitterapp.h"
 #include "mainwindow.h"
 #include "configfile.h"
@@ -53,7 +54,8 @@ extern ConfigFile settings;
 Settings::Settings( Core *coreSettings, QWidget *parent ) :
         QDialog( parent ),
         updateAccountsOnExit( false ),
-        core( coreSettings )
+        core( coreSettings ),
+        pluginManagerTab(0)
 {
     // Sorry, but this has to be here and not in Qtwitter::Qtwitter() for the core to be aware
     // of the signal emitted in Settings::Settings()
@@ -107,7 +109,11 @@ Settings::~Settings() {}
 
 void Settings::addTab( const QString &tabName, QWidget *tabWidget )
 {
-    ui.tabs->addTab( tabWidget, tabName );
+    if ( pluginManagerTab == 0 ) {
+        pluginManagerTab = new PluginManagerWidget(this);
+        ui.tabs->addTab( pluginManagerTab, pluginManagerTab->tabName() );
+    }
+    pluginManagerTab->registerPluginWidget( tabName, tabWidget );
 }
 
 void Settings::addConfigFilePlugin( ConfigFileInterface *iface )
@@ -391,7 +397,8 @@ void Settings::retranslateUi()
     applyButton->setText( tr( "Apply" ) );
     connect( applyButton, SIGNAL(clicked()), this, SLOT(saveConfig()) );
     ui.buttonBox->addButton("Cancel", QDialogButtonBox::RejectRole)->setText( tr( "Cancel" ) );
-    update();
+    if ( pluginManagerTab )
+        ui.tabs->setTabText( ui.tabs->count() - 1, pluginManagerTab->tabName() );
 }
 
 #ifdef Q_WS_X11
@@ -446,15 +453,17 @@ void Settings::applySettings()
 
 void Settings::createLanguageMenu()
 {
-#if defined Q_WS_X11
-    QDir qmDir( SHARE_DIR );
+#if defined Q_WS_MAC
+    QDir qmDir( QApplication::applicationDirPath() );
+    qmDir.cdUp();
+    qmDir.cd( "Resources" );
 #else
-    QDir qmDir( ":" );
-#endif
+    QDir qmDir( SHARE_DIR );
     if ( !qmDir.cd( "loc" ) ) {
         qmDir.cd( QApplication::applicationDirPath() );
-        qmDir.cd( "qtwitter-app/res/loc" );
+        qmDir.cd( "loc" );
     }
+#endif
     QStringList fileNames = qmDir.entryList(QStringList("qtwitter_*.qm"));
     fileNames.append( "qtwitter_en.qm" );
     fileNames.sort();
@@ -480,15 +489,17 @@ void Settings::createLanguageMenu()
 
 void Settings::switchLanguage( int index )
 {
-#if defined Q_WS_X11
-    QDir qmDir( SHARE_DIR );
+#if defined Q_WS_MAC
+    QDir qmDir( QApplication::applicationDirPath() );
+    qmDir.cdUp();
+    qmDir.cd( "Resources" );
 #else
-    QDir qmDir( ":" );
-#endif
+    QDir qmDir( SHARE_DIR );
     if ( !qmDir.cd( "loc" ) ) {
         qmDir.cd( QApplication::applicationDirPath() );
-        qmDir.cd( "qtwitter-app/res/loc" );
+        qmDir.cd( "loc" );
     }
+#endif
     QString qmPath( qmDir.absolutePath() );
 
     QString locale = ui.languageCombo->itemData( index ).toString();

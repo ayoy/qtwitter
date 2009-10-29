@@ -18,45 +18,40 @@
  ***************************************************************************/
 
 
-#ifndef STATUSLIST_P_H
-#define STATUSLIST_P_H
+#ifndef PLUGINMANAGERWIDGET_H
+#define PLUGINMANAGERWIDGET_H
 
-#include <QObject>
-#include "statuslist.h"
+#include <QWidget>
 
-class StatusListPrivate : public QObject
+namespace Ui {
+    class PluginManagerWidget;
+}
+
+class QStandardItemModel;
+class QModelIndex;
+
+class PluginManagerWidget : public QWidget
 {
     Q_OBJECT
-    Q_DECLARE_PUBLIC(StatusList);
+    Q_PROPERTY( QString tabName READ tabName );
+
 public:
-    StatusListPrivate();
-    ~StatusListPrivate();
-    void init();
-    int addStatus( const Entry &entry );
-    void setImageForUrl( const QString &url, QPixmap *pixmap );
+    explicit PluginManagerWidget( QWidget *parent = 0 );
+    virtual ~PluginManagerWidget();
 
-    TwitterAPI *twitterapi;
-    QList<Status> data;
-    bool visible;
-    int newStatuses;
-    Account *account;
-    int active;
-    static int maxCount;
-    static const int publicMaxCount;
-
-public slots:
-    void addEntry( const Entry &entry );
-    void addEntries( const EntryList &entries );
-    void deleteEntry( quint64 id );
-    void setFavorited( quint64 id, bool favorited = true );
-    void slotUnauthorized();
-    void slotUnauthorized( const QString &status, quint64 inReplyToId );
-    void slotUnauthorized( const QString &screenName, const QString &text );
-    void slotUnauthorized( quint64 destroyId, Entry::Type type );
-    void slotRequestDone( int role );
+    QString tabName() const;
+    void registerPluginWidget( const QString &name, QWidget *widget );
 
 protected:
-    StatusList *q_ptr;
+    void changeEvent( QEvent *event );
+
+private slots:
+    void selectPlugin( const QModelIndex &index );
+
+private:
+    Ui::PluginManagerWidget *m_ui;
+
+    QStandardItemModel *pluginsModel;
 };
 
-#endif // STATUSLIST_P_H
+#endif // PLUGINMANAGERWIDGET_H

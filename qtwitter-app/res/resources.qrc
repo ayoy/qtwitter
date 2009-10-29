@@ -1,5 +1,5 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>icons/accepted_48.png</file>
         <file>icons/add_48.png</file>
         <file>icons/cancel_48.png</file>
@@ -17,14 +17,5 @@
         <file>icons/twitter_48.png</file>
         <file>icons/warning_16.png</file>
         <file>icons/warning_48.png</file>
-        <file>loc/qtwitter_ca_ES.qm</file>
-        <file>loc/qtwitter_de_DE.qm</file>
-        <file>loc/qtwitter_es_ES.qm</file>
-        <file>loc/qtwitter_fr_FR.qm</file>
-        <file>loc/qtwitter_ja_JP.qm</file>
-        <file>loc/qtwitter_pl_PL.qm</file>
-        <file>loc/qtwitter_pt_BR.qm</file>
-        <file>loc/qtwitter_it_IT.qm</file>
-        <file>loc/qtwitter_cs_CZ.qm</file>
     </qresource>
 </RCC>

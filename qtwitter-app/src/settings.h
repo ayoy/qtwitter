@@ -38,7 +38,7 @@ class Account;
 class AccountsModel;
 class AccountsController;
 class ConfigFileInterface;
-
+class PluginManagerWidget;
 
 class Settings : public QDialog
 {
@@ -89,6 +89,7 @@ private:
     QLineEdit *selectBrowserEdit;
     QPushButton *selectBrowserButton;
 #endif
+    PluginManagerWidget *pluginManagerTab;
     QList<ConfigFileInterface*> configFilePlugins;
 };
 

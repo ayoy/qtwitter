@@ -1,3 +1,3 @@
 TEMPLATE = subdirs
-SUBDIRS = twitterapi qtwitter-app plugins
+SUBDIRS = translations twitterapi qtwitter-app plugins
 CONFIG += ordered

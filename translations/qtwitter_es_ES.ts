@@ -4,32 +4,37 @@
 <context>
     <name>AboutDialog</name>
     <message>
-        <location filename="../ui/aboutdialog.ui" line="+26"/>
+        <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
+        <location filename="../tmp/ui_aboutdialog.h" line="+228"/>
         <source>About qTwitter</source>
         <translation>Sobre qTwitter</translation>
     </message>
     <message>
-        <location line="+71"/>
+        <location/>
+        <location filename="../tmp/ui_aboutdialog.h" line="+2"/>
         <source>About</source>
         <translation>Sobre</translation>
     </message>
     <message>
-        <location line="+84"/>
+        <location/>
+        <location filename="../tmp/ui_aboutdialog.h" line="+1"/>
         <source>Authors</source>
         <translation>Autores</translation>
     </message>
     <message>
-        <location line="+84"/>
+        <location/>
+        <location filename="../tmp/ui_aboutdialog.h" line="+1"/>
         <source>Credits</source>
         <translation>Créditos</translation>
     </message>
     <message>
-        <location line="+102"/>
+        <location/>
+        <location filename="../tmp/ui_aboutdialog.h" line="+1"/>
         <source>Close</source>
         <translation>Cerra</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="+61"/>
+        <location filename="../qtwitter-app/src/aboutdialog.cpp" line="+61"/>
         <source>Application concept and main development</source>
         <translation>La idea de aplicación y desarollo principal</translation>
     </message>
@@ -173,7 +178,8 @@
         <translation type="obsolete">ambos</translation>
     </message>
     <message>
-        <location filename="../src/accounts/accounts.ui" line="+64"/>
+        <location filename="../qtwitter-app/src/accounts/accounts.ui"/>
+        <location filename="../tmp/ui_accounts.h" line="+136"/>
         <source>store passwords on disk</source>
         <translation>Guardar contraseña en equipo</translation>
     </message>
@@ -181,7 +187,7 @@
 <context>
     <name>AccountsController</name>
     <message>
-        <location filename="../src/accounts/accountscontroller.cpp" line="+267"/>
+        <location filename="../qtwitter-app/src/accounts/accountscontroller.cpp" line="+267"/>
         <source>Password security</source>
         <translation>Seguridad de la contraseña</translation>
     </message>
@@ -221,7 +227,7 @@
 <context>
     <name>AccountsModel</name>
     <message>
-        <location filename="../src/accounts/accountsmodel.cpp" line="+81"/>
+        <location filename="../qtwitter-app/src/accounts/accountsmodel.cpp" line="+81"/>
         <source>authorized</source>
         <translation>Autorizado</translation>
     </message>
@@ -269,12 +275,14 @@
 <context>
     <name>AllowWidget</name>
     <message>
-        <location filename="../src/oauth/allowwidget.ui" line="+23"/>
+        <location filename="../qtwitter-app/src/oauth/allowwidget.ui"/>
+        <location filename="../tmp/ui_allowwidget.h" line="+61"/>
         <source>You must allow qTwitter accessing your Twitter account</source>
         <translation>Debe permitir a qTwitter acceder a su cuenta en Twitter</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location/>
+        <location filename="../tmp/ui_allowwidget.h" line="+1"/>
         <source>Allow qTwitter access</source>
         <translation>Permitir acceso a qtwitter</translation>
     </message>
@@ -282,7 +290,8 @@
 <context>
     <name>AuthDialog</name>
     <message>
-        <location filename="../ui/authdialog.ui" line="+32"/>
+        <location filename="../qtwitter-app/ui/authdialog.ui"/>
+        <location filename="../tmp/ui_authdialog.h" line="+159"/>
         <source>Authentication required</source>
         <translation>Autenticación necesitada</translation>
     </message>
@@ -291,64 +300,97 @@
         <translation type="obsolete">Sus datos de autenticación son incorrectos</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location/>
+        <location filename="../tmp/ui_authdialog.h" line="+2"/>
         <source>The credentials you provided for %1 are incorrect</source>
         <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
         <translatorcomment>ej Sus datos de autenticacion para ayoy@Identi.ca son incorrectos</translatorcomment>
         <translation>Sus datos de autenticacion para %1 son incorrectos</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location/>
+        <location filename="../tmp/ui_authdialog.h" line="+1"/>
         <source>Username:</source>
         <translation>Nombre de usuario:</translation>
     </message>
     <message>
-        <location line="+30"/>
+        <location/>
+        <location filename="../tmp/ui_authdialog.h" line="+2"/>
         <source>Password:</source>
         <translation>Contraseña:</translation>
     </message>
     <message>
-        <location line="+46"/>
+        <location/>
+        <location filename="../tmp/ui_authdialog.h" line="+3"/>
         <source>disable account</source>
         <translation>desactivar la cuenta</translation>
     </message>
     <message>
-        <location line="+3"/>
-        <location line="+10"/>
+        <location/>
         <source>buttonGroup</source>
         <translation></translation>
     </message>
     <message>
-        <location line="-3"/>
+        <location/>
+        <location filename="../tmp/ui_authdialog.h" line="+1"/>
         <source>remove account</source>
         <translation>suprimir la cuenta</translation>
     </message>
     <message>
-        <location line="-20"/>
+        <location/>
+        <location filename="../tmp/ui_authdialog.h" line="-2"/>
         <source>or</source>
         <translation>o</translation>
     </message>
 </context>
 <context>
-    <name>BitlyShortener</name>
+    <name>AutoTagPlugin</name>
     <message>
-        <source>The URL entered was not valid.</source>
-        <translation type="obsolete">La URL introducida no es válida.</translation>
+        <location filename="../plugins/autotag/autotagplugin.cpp" line="+59"/>
+        <source>AutoTag</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>AutoTagWidget</name>
+    <message>
+        <location filename="../plugins/autotag/autotagwidget.ui"/>
+        <location filename="../tmp/ui_autotagwidget.h" line="+115"/>
+        <source>&amp;Enable automatic #tagging</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
+        <location/>
+        <location filename="../tmp/ui_autotagwidget.h" line="+1"/>
+        <source>&amp;Add words:</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>BitlyShortener</name>
+    <message>
+        <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+311"/>
+        <source>The URL entered was not valid.</source>
+        <translation>La URL introducida no es válida.</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
+        <translation>Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
     </message>
 </context>
 <context>
     <name>BoooomShortener</name>
     <message>
+        <location line="-107"/>
         <source>An error occured with b.oooom.net. Please file a bug.</source>
-        <translation type="obsolete">Un error ha ocurrido con b-oooom.net. Por favor reporte el bug.</translation>
+        <translation>Un error ha ocurrido con b-oooom.net. Por favor reporte el bug.</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>An unknown error occured when shortening your URL.</source>
-        <translation type="obsolete">Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
+        <translation>Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
     </message>
 </context>
 <context>
@@ -358,7 +400,7 @@
         <translation type="obsolete">¿Está seguro de eliminar este mensaje?</translation>
     </message>
     <message>
-        <location filename="../src/core.cpp" line="+121"/>
+        <location filename="../qtwitter-app/src/core.cpp" line="+116"/>
         <source>It seems like qTwitter wasn&apos;t closed properly last time. If the application crashed, it may be due to inconsistency in accounts settings. Do you want to reset accounts in qTwitter?</source>
         <translation>Parece que qTwitter no fue cerrado correctamente la última vez. Si la aplicación se ha colgado, lo puede ser debido a la inconsistencia en la configuración de cuentas. ¿Desea restablecer cuentas en qTwitter?</translation>
     </message>
@@ -378,7 +420,7 @@
         <translation>&amp;No, gracias</translation>
     </message>
     <message>
-        <location line="+331"/>
+        <location line="+333"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
         <translation>&lt;vacío&gt;</translation>
@@ -399,7 +441,7 @@
         <translation>Verificación es requerida para obtener las actualizaciones de sus amigos.</translation>
     </message>
     <message>
-        <location line="+67"/>
+        <location line="+70"/>
         <source>For:
 %1</source>
         <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
@@ -407,7 +449,7 @@
         <translation>Para:%1</translation>
     </message>
     <message>
-        <location line="-76"/>
+        <location line="-79"/>
         <source>Authentication is required to post updates.</source>
         <translation>Se requiere autenticación para publicar sus actualitzaciones.</translation>
     </message>
@@ -451,7 +493,7 @@
         <translation>Foto disponible a:</translation>
     </message>
     <message>
-        <location line="-310"/>
+        <location line="-312"/>
         <source>Warning</source>
         <translation>Advertencia</translation>
     </message>
@@ -460,7 +502,7 @@
         <translation type="obsolete">Uno o más de las solicitudes no se completaron. Revise su conexión y/o la configuración de su cuenta.</translation>
     </message>
     <message>
-        <location line="+551"/>
+        <location line="+556"/>
         <source>For %1</source>
         <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
         <translation>Para %1</translation>
@@ -469,7 +511,7 @@
 <context>
     <name>DMDialog</name>
     <message>
-        <location filename="../src/dmdialog.cpp" line="+51"/>
+        <location filename="../qtwitter-app/src/dmdialog.cpp" line="+51"/>
         <source>Direct message %1</source>
         <translation>Mensaje directo %1</translation>
     </message>
@@ -555,27 +597,32 @@
         <translation>El envio del mensaje ha fallado. Nótese que no puede enviar un mensaje a un usuario que no lo sigue.</translation>
     </message>
     <message>
-        <location filename="../ui/dmdialog.ui" line="+20"/>
+        <location filename="../qtwitter-app/ui/dmdialog.ui"/>
+        <location filename="../tmp/ui_dmdialog.h" line="+128"/>
         <source>Direct Message</source>
         <translation>Mensaje directo</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location/>
+        <location filename="../tmp/ui_dmdialog.h" line="+1"/>
         <source>Write your message:</source>
         <translation>#Escriba su mensaje:</translation>
     </message>
     <message>
-        <location line="+59"/>
+        <location/>
+        <location filename="../tmp/ui_dmdialog.h" line="+1"/>
         <source>Reset</source>
         <translation>Reiniciar</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location/>
+        <location filename="../tmp/ui_dmdialog.h" line="+1"/>
         <source>Close</source>
         <translation>Cerrar</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location/>
+        <location filename="../tmp/ui_dmdialog.h" line="+1"/>
         <source>Send</source>
         <translation>Enviar</translation>
     </message>
@@ -583,78 +630,88 @@
 <context>
     <name>DiggShortener</name>
     <message>
+        <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+132"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
+        <translation>Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
     </message>
 </context>
 <context>
     <name>IsgdShortener</name>
     <message>
+        <location line="-275"/>
         <source>The URL entered was not valid.</source>
-        <translation type="obsolete">La URL introducida no es válida.</translation>
+        <translation>La URL introducida no es válida.</translation>
     </message>
     <message>
+        <location line="-5"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation type="obsolete">El servicio url no lo autoriza. Revise su nombre de usuario y contraseña.</translation>
+        <translation>El servicio url no lo autoriza. Revise su nombre de usuario y contraseña.</translation>
     </message>
     <message>
+        <location line="+7"/>
         <source>The URL entered was too long.</source>
-        <translation type="obsolete">La URL introducida es demasiado larga.</translation>
+        <translation>La URL introducida es demasiado larga.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation type="obsolete">Su dirección IP está en la lista negra de Spamhaus (SBL/XBL) o Spamcop.</translation>
+        <translation>Su dirección IP está en la lista negra de Spamhaus (SBL/XBL) o Spamcop.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation type="obsolete">La URL introducida parece una página web de spam y está en la lista negra de SURBL o URIBL.</translation>
+        <translation>La URL introducida parece una página web de spam y está en la lista negra de SURBL o URIBL.</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation type="obsolete">La URL introducida está en la lista negra de is.gd (enlaces a servicios de abreviación de URLs o a is.gd en si misma son deshabilitados).</translation>
+        <translation>La URL introducida está en la lista negra de is.gd (enlaces a servicios de abreviación de URLs o a is.gd en si misma son deshabilitados).</translation>
     </message>
     <message>
+        <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation type="obsolete">Su dirección IP está bloqueada por is.gd (normalmente esto tiene lugar en consecuencia de violación de sus reglas de uso).</translation>
+        <translation>Su dirección IP está bloqueada por is.gd (normalmente esto tiene lugar en consecuencia de violación de sus reglas de uso).</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
+        <translation>Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
     </message>
 </context>
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../src/mainwindow.cpp" line="+546"/>
+        <location filename="../qtwitter-app/src/mainwindow.cpp" line="+614"/>
         <source>Error</source>
         <translation>Error</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="+20"/>
+        <location filename="../qtwitter-app/ui/mainwindow.ui"/>
+        <location filename="../tmp/ui_mainwindow.h" line="+183"/>
         <source>qTwitter</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+225"/>
         <source>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</source>
-        <translation>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; para abreviar enlaces&lt;/span&gt;</translation>
+        <translation type="obsolete">&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; para abreviar enlaces&lt;/span&gt;</translation>
     </message>
     <message>
-        <location line="+6"/>
-        <location filename="../src/mainwindow.cpp" line="+116"/>
+        <location/>
+        <location filename="../qtwitter-app/src/mainwindow.cpp" line="+115"/>
+        <location filename="../tmp/ui_mainwindow.h" line="+4"/>
         <source>What are you doing?</source>
         <translation>QuÃ© estás haciendo ahora?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="-457"/>
-        <location line="+445"/>
+        <location filename="../qtwitter-app/src/mainwindow.cpp" line="-522"/>
+        <location line="+511"/>
         <location line="+22"/>
         <source>Settings</source>
         <translation>Configuración</translation>
     </message>
     <message>
-        <location line="-437"/>
-        <location line="+434"/>
+        <location line="-503"/>
+        <location line="+499"/>
         <source>About qTwitter...</source>
         <translation>Sobre qTwitter...</translation>
     </message>
@@ -663,7 +720,7 @@
         <translation type="obsolete">Lista pÃºblica</translation>
     </message>
     <message>
-        <location line="-313"/>
+        <location line="-310"/>
         <source>Your message is too long.</source>
         <translation>Su mensaje está demasiado largo.</translation>
     </message>
@@ -707,7 +764,7 @@
         <translation>Hay nuevos mensajes</translation>
     </message>
     <message>
-        <location line="+68"/>
+        <location line="+66"/>
         <location line="+23"/>
         <source>Update available</source>
         <translation>Actualización disponible</translation>
@@ -741,72 +798,73 @@
         <translation>Cerrar</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location line="+27"/>
         <source>Navigate using %1 and %2</source>
         <translation>Navegue usando %1 y %2</translation>
     </message>
     <message>
-        <location filename="../ui/mainwindow.ui" line="-72"/>
-        <location filename="../src/mainwindow.cpp" line="+5"/>
+        <location filename="../qtwitter-app/ui/mainwindow.ui"/>
+        <location filename="../qtwitter-app/src/mainwindow.cpp" line="+5"/>
+        <location filename="../tmp/ui_mainwindow.h" line="-2"/>
         <source>More...</source>
         <translation>Más...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="-9"/>
+        <location filename="../qtwitter-app/src/mainwindow.cpp" line="-8"/>
         <source>Update tweets</source>
         <translation>Actualizar mensajes</translation>
     </message>
     <message>
-        <location line="-446"/>
+        <location line="-512"/>
         <location line="+33"/>
-        <location line="+434"/>
+        <location line="+499"/>
         <source>Quit</source>
         <translation>Salir</translation>
     </message>
     <message>
-        <location line="-441"/>
-        <location line="+434"/>
+        <location line="-506"/>
+        <location line="+499"/>
         <source>New tweet</source>
         <translation>Nuevo mensaje</translation>
     </message>
     <message>
-        <location line="-476"/>
+        <location line="-541"/>
         <source>&amp;File</source>
         <translation>&amp;Archivo</translation>
     </message>
     <message>
         <location line="+43"/>
-        <location line="+434"/>
+        <location line="+499"/>
         <source>Upload a photo to TwitPic</source>
         <translation>Sube foto a TwitPic</translation>
     </message>
     <message>
-        <location line="-433"/>
-        <location line="+434"/>
+        <location line="-498"/>
+        <location line="+499"/>
         <source>Go to Twitter</source>
         <translation>Ir a Twitter</translation>
     </message>
     <message>
-        <location line="-433"/>
-        <location line="+434"/>
+        <location line="-498"/>
+        <location line="+499"/>
         <source>Go to Identi.ca</source>
         <translation>Ir a Identi.ca</translation>
     </message>
     <message>
-        <location line="-433"/>
-        <location line="+434"/>
+        <location line="-498"/>
+        <location line="+499"/>
         <source>Go to TwitPic</source>
         <translation>Ir a TwitPic</translation>
     </message>
     <message>
-        <location line="-463"/>
+        <location line="-528"/>
         <location line="+30"/>
-        <location line="+434"/>
+        <location line="+499"/>
         <source>Check for updates</source>
         <translation>Revisar actualizaciones</translation>
     </message>
     <message numerus="yes">
-        <location line="-333"/>
+        <location line="-336"/>
         <source>%n character left</source>
         <translation>
             <numerusform>%n carácter restante</numerusform>
@@ -814,8 +872,8 @@
         </translation>
     </message>
     <message numerus="yes">
-        <location line="-253"/>
-        <location line="+254"/>
+        <location line="-312"/>
+        <location line="+313"/>
         <source>%n characters left</source>
         <translation>
             <numerusform>%n carácter restante</numerusform>
@@ -842,25 +900,30 @@
 <context>
     <name>MetamarkShortener</name>
     <message>
+        <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+59"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
+        <translation>Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
     </message>
 </context>
 <context>
     <name>MigremeShortener</name>
     <message>
+        <location line="+237"/>
         <source>The URL entered was not valid.</source>
-        <translation type="obsolete">La dirección no es válida.</translation>
+        <translation>La dirección no es válida.</translation>
     </message>
     <message>
+        <location line="+3"/>
+        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconocido ocurrio al acortar su URL.</translation>
+        <translation>Un error desconocido ocurrio al acortar su URL.</translation>
     </message>
 </context>
 <context>
     <name>NewAccountDialog</name>
     <message>
-        <location filename="../src/accounts/newaccountdialog.ui" line="+14"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="+130"/>
         <source>New account</source>
         <translation>Nueva cuenta</translation>
     </message>
@@ -873,37 +936,44 @@
         <translation type="obsolete">Contraseña:</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="+1"/>
         <source>&amp;Login:</source>
         <translation>&amp;Inicio de sesión:</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="+1"/>
         <source>&amp;Password:</source>
         <translation>&amp;Contraseña:</translation>
     </message>
     <message>
-        <location line="+28"/>
+        <location/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="+3"/>
         <source>Twitter</source>
         <translation>Twitter</translation>
     </message>
     <message>
-        <location line="+5"/>
+        <location/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="+1"/>
         <source>Identi.ca</source>
         <translation>Identi.ca</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="+2"/>
         <source>&amp;Social network:</source>
         <translation>&amp;Red Social:</translation>
     </message>
     <message>
-        <location line="+16"/>
+        <location/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="+1"/>
         <source>Network &amp;name:</source>
         <translation>Red &amp;nombre:</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location/>
+        <location filename="../tmp/ui_newaccountdialog.h" line="+1"/>
         <source>&amp;Website:</source>
         <translation>&amp;Sitio:</translation>
     </message>
@@ -912,7 +982,7 @@
         <translation type="obsolete">Red Social:</translation>
     </message>
     <message>
-        <location filename="../src/accounts/newaccountdialog.cpp" line="+39"/>
+        <location filename="../qtwitter-app/src/accounts/newaccountdialog.cpp" line="+39"/>
         <source>Other StatusNet</source>
         <translation>Otra red de estatus</translation>
     </message>
@@ -920,7 +990,7 @@
 <context>
     <name>OAuthWizard</name>
     <message>
-        <location filename="../src/oauth/oauthwizard.cpp" line="+114"/>
+        <location filename="../qtwitter-app/src/oauth/oauthwizard.cpp" line="+114"/>
         <source>There was a network-related problem with completing the request. Please try again later.</source>
         <translation>Hay un problema relacionado con su Red al completar su solicitud. Por favor trate de nuevo en otra ocasión.</translation>
     </message>
@@ -936,12 +1006,14 @@
         <translation>O su PIN es incorrecto o un problema relacionado con su red ha ocurrido. Trate en otra ocasión.</translation>
     </message>
     <message>
-        <location filename="../src/oauth/oauthwizard.ui" line="+20"/>
+        <location filename="../qtwitter-app/src/oauth/oauthwizard.ui"/>
+        <location filename="../tmp/ui_oauthwizard.h" line="+71"/>
         <source>Allow access</source>
         <translation>Permitir acceso</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location/>
+        <location filename="../tmp/ui_oauthwizard.h" line="+1"/>
         <source>Cancel</source>
         <translation>Cancelar</translation>
     </message>
@@ -949,156 +1021,190 @@
 <context>
     <name>PinWidget</name>
     <message>
-        <location filename="../src/oauth/pinwidget.ui" line="+23"/>
+        <location filename="../qtwitter-app/src/oauth/pinwidget.ui"/>
+        <location filename="../tmp/ui_pinwidget.h" line="+77"/>
         <source>Enter PIN number received from Twitter</source>
         <translation>Escriba el PIN recibido de Twitter</translation>
     </message>
     <message>
-        <location line="+21"/>
+        <location/>
+        <location filename="../tmp/ui_pinwidget.h" line="+1"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
 </context>
 <context>
+    <name>PluginManagerWidget</name>
+    <message>
+        <location filename="../qtwitter-app/src/pluginmgr/pluginmanagerwidget.cpp" line="+44"/>
+        <source>Plugins</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>Settings</name>
     <message>
-        <location filename="../ui/settings.ui" line="+26"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="+406"/>
         <source>Settings</source>
         <translation>Configuración</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+5"/>
         <source>General</source>
         <translation></translation>
     </message>
     <message>
-        <location line="+84"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="-2"/>
         <source>Language</source>
         <translation>Idioma</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="+455"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="+478"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
         <translation>Español</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="+66"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="+13"/>
         <source>Network</source>
         <translation>Red</translation>
     </message>
     <message>
-        <location line="-141"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="-15"/>
         <source>Refresh every (mins)</source>
         <translation>Actualiza cada (min)</translation>
     </message>
     <message>
-        <location line="+95"/>
         <source>Shorten links via</source>
-        <translation>Abreviar enlaces con</translation>
+        <translation type="obsolete">Abreviar enlaces con</translation>
     </message>
     <message>
-        <location line="+109"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+11"/>
         <source>Updates</source>
         <translation>Actualizaciones</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Automatically check for updates at startup</source>
         <translation>Revisar automaticamente actualizaciones al inicio</translation>
     </message>
     <message>
-        <location line="+17"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Last checked:</source>
         <translation>Última vez revisada:</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Check now</source>
         <translation>Revisar ahora</translation>
     </message>
     <message>
-        <location line="+44"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+3"/>
         <source>Statuses display mode</source>
         <translation>Visualizacion de estados</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>display authors&apos; names</source>
         <translation>Mostrar los nombres de los autores</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>display authors&apos; nicks (logins)</source>
         <translation>Mostrar los nicks de los autores</translation>
     </message>
     <message>
-        <location line="+7"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>display both authors&apos; names and nicks</source>
         <translation>Mostrar nombres y nicks</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Tray icon and notifications</source>
         <translation>El icono del tray y las notificaciones</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>always visible</source>
         <translation>siempre visible</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>visible only when minimized</source>
         <translation>sólo visible cuando minimalizado</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Show tray notifications</source>
         <translation>Mostrar las notificaciones en la bandeja de sistema</translation>
     </message>
     <message>
-        <location line="+13"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Close button</source>
         <translation>Botón de cierre</translation>
     </message>
     <message>
-        <location line="+6"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Hides the application</source>
         <translation>Oculta la aplicación</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Closes the application</source>
         <translation>Cierra la aplicación</translation>
     </message>
     <message>
-        <location line="-281"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="-24"/>
         <source>Confirm messages deletion</source>
         <translation>Confirmar la supresión de mensajes</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+3"/>
         <source>Use HTTP &amp;proxy</source>
         <translation>Usa el &amp;proxy HTTP</translation>
     </message>
     <message>
-        <location line="+9"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Host:</source>
         <translation>Servidor:</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+2"/>
         <source>Port:</source>
         <translation>Puerto:</translation>
     </message>
     <message>
-        <location line="-127"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="-8"/>
         <source>Status count:</source>
         <translation>Conteo de mensajes:</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="-78"/>
+        <location filename="../qtwitter-app/src/settings.cpp" line="-81"/>
         <source>Apply</source>
         <translation>Aplica</translation>
     </message>
@@ -1108,35 +1214,35 @@
         <translation>Anula</translation>
     </message>
     <message>
-        <location line="-11"/>
-        <location line="+93"/>
+        <location line="-10"/>
+        <location line="+95"/>
         <source>Default</source>
         <translation>Predeterminado</translation>
     </message>
     <message>
-        <location line="-86"/>
+        <location line="-89"/>
         <source>OK</source>
         <translation>Aceptar</translation>
     </message>
     <message>
-        <location line="-289"/>
-        <location line="+285"/>
+        <location line="-314"/>
+        <location line="+310"/>
         <source>Use custom web browser</source>
         <translation>Usar otro navegador web</translation>
     </message>
     <message>
-        <location line="-283"/>
-        <location line="+284"/>
+        <location line="-308"/>
+        <location line="+309"/>
         <source>Browse</source>
         <translation>Navega</translation>
     </message>
     <message>
-        <location line="-235"/>
+        <location line="-246"/>
         <source>never</source>
         <translation>nunca</translation>
     </message>
     <message>
-        <location line="+167"/>
+        <location line="+179"/>
         <source>Update available</source>
         <translation>Actualización disponible</translation>
     </message>
@@ -1184,27 +1290,28 @@
         <translation>Todos archivos (*)</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="+229"/>
+        <location filename="../qtwitter-app/ui/settings.ui"/>
+        <location filename="../tmp/ui_settings.h" line="+27"/>
         <source>Appearance</source>
         <translation>Apariencia</translation>
     </message>
     <message>
-        <location filename="../src/settings.cpp" line="-321"/>
-        <location line="+301"/>
         <source>Tip: use %1 to shorten links</source>
-        <translation>Sugerencia: use %1 para abreviar enlaces</translation>
+        <translation type="obsolete">Sugerencia: use %1 para abreviar enlaces</translation>
     </message>
     <message>
         <source>Shorten links via:</source>
         <translation type="obsolete">Abreviar enlaces con:</translation>
     </message>
     <message>
-        <location filename="../ui/settings.ui" line="-147"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="-23"/>
         <source>Accounts</source>
         <translation>Cuentas</translation>
     </message>
     <message>
-        <location line="+153"/>
+        <location/>
+        <location filename="../tmp/ui_settings.h" line="+11"/>
         <source>Color scheme:</source>
         <translation>Esquema de color:</translation>
     </message>
@@ -1212,7 +1319,7 @@
 <context>
     <name>StatusEdit</name>
     <message>
-        <location filename="../src/statusedit.cpp" line="+85"/>
+        <location filename="../qtwitter-app/src/statusedit.cpp" line="+80"/>
         <source>What are you doing?</source>
         <translation>QuÃ© estás haciendo ahora?</translation>
     </message>
@@ -1220,7 +1327,7 @@
 <context>
     <name>StatusModel</name>
     <message>
-        <location filename="../src/statusmodel.cpp" line="+288"/>
+        <location filename="../qtwitter-app/src/statusmodel.cpp" line="+282"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
         <translation>Esta seguro?</translation>
@@ -1234,54 +1341,54 @@
 <context>
     <name>StatusWidget</name>
     <message>
-        <location filename="../src/statuswidget.cpp" line="+55"/>
+        <location filename="../qtwitter-app/src/statuswidget.cpp" line="+55"/>
         <location line="+54"/>
-        <location line="+160"/>
+        <location line="+159"/>
         <location line="+159"/>
         <source>Add to Favorites</source>
         <translation>Agregar a Favoritos</translation>
     </message>
     <message>
-        <location line="-332"/>
-        <location line="+348"/>
+        <location line="-331"/>
+        <location line="+347"/>
         <source>Retweet</source>
         <translation>Reenvía</translation>
     </message>
     <message>
-        <location line="-330"/>
-        <location line="+331"/>
+        <location line="-329"/>
+        <location line="+330"/>
         <source>Copy link to this status</source>
         <translation>Copiar enlace en este mensaje</translation>
     </message>
     <message>
-        <location line="-321"/>
-        <location line="+323"/>
+        <location line="-320"/>
+        <location line="+322"/>
         <source>Mark list as read</source>
         <translation>Marcar como leídos</translation>
     </message>
     <message>
-        <location line="-318"/>
-        <location line="+319"/>
+        <location line="-317"/>
+        <location line="+318"/>
         <source>Mark everything as read</source>
         <translation>Marcar todo como leído</translation>
     </message>
     <message>
-        <location line="-306"/>
-        <location line="+307"/>
+        <location line="-305"/>
+        <location line="+306"/>
         <source>Go to User&apos;s homepage</source>
         <translation>Ir a la página principal de usuario</translation>
     </message>
     <message>
-        <location line="-296"/>
-        <location line="+107"/>
+        <location line="-295"/>
+        <location line="+106"/>
         <location line="+27"/>
         <location line="+145"/>
         <source>Reply to %1</source>
         <translation>Responde a %1</translation>
     </message>
     <message>
-        <location line="-266"/>
-        <location line="+248"/>
+        <location line="-265"/>
+        <location line="+247"/>
         <source>Direct message %1</source>
         <translation>Mensaje directo %1</translation>
     </message>
@@ -1299,23 +1406,23 @@
         <translation type="obsolete">Ir a la página Twitter del usuario</translation>
     </message>
     <message>
-        <location line="-107"/>
-        <location line="+83"/>
+        <location line="-106"/>
+        <location line="+82"/>
         <location line="+178"/>
         <location line="+11"/>
         <source>Delete status</source>
         <translation>Suprimir status</translation>
     </message>
     <message>
-        <location line="-268"/>
-        <location line="+100"/>
+        <location line="-267"/>
+        <location line="+99"/>
         <location line="+159"/>
         <source>Delete message</source>
         <translation>Eliminar el mensaje</translation>
     </message>
     <message>
-        <location line="-245"/>
-        <location line="+259"/>
+        <location line="-244"/>
+        <location line="+258"/>
         <source>Go to User&apos;s %1 page</source>
         <translation>Ir a la pagina de %1</translation>
     </message>
@@ -1336,8 +1443,9 @@
         <translation>Acerca %1</translation>
     </message>
     <message>
-        <location filename="../ui/statuswidget.ui" line="+373"/>
-        <location line="+30"/>
+        <location filename="../qtwitter-app/ui/statuswidget.ui"/>
+        <location filename="../tmp/ui_statuswidget.h" line="+173"/>
+        <location line="+5"/>
         <source>QPushButton {
 border: 1px;
 background-color: rgba(255,255,255,0);
@@ -1349,32 +1457,36 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TinyarrowsShortener</name>
     <message>
+        <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="-149"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
+        <translation>Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
     </message>
 </context>
 <context>
     <name>TinyurlShortener</name>
     <message>
+        <location line="-69"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
+        <translation>Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
     </message>
 </context>
 <context>
     <name>TrimShortener</name>
     <message>
+        <location line="-60"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation type="obsolete">La URL ha sido rechazada por tr.im</translation>
+        <translation>La URL ha sido rechazada por tr.im</translation>
     </message>
     <message>
+        <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
+        <translation>Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
     </message>
 </context>
 <context>
     <name>TwitPicEngine</name>
     <message>
-        <location filename="../src/twitpicengine.cpp" line="+155"/>
+        <location filename="../qtwitter-app/src/twitpicengine.cpp" line="+155"/>
         <source>Invalid twitter username or password</source>
         <translation>Nombre de usuario o contraseña incorrecta</translation>
     </message>
@@ -1402,7 +1514,8 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicNewPhoto</name>
     <message>
-        <location filename="../ui/twitpicnewphoto.ui" line="+26"/>
+        <location filename="../qtwitter-app/ui/twitpicnewphoto.ui"/>
+        <location filename="../tmp/ui_twitpicnewphoto.h" line="+118"/>
         <source>Upload completed</source>
         <translation>La subida se ha acabado</translation>
     </message>
@@ -1410,15 +1523,16 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>TwitPicView</name>
     <message>
-        <location filename="../ui/twitpicview.ui" line="+151"/>
-        <location filename="../src/twitpicview.cpp" line="+89"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
+        <location filename="../qtwitter-app/src/twitpicview.cpp" line="+89"/>
         <location line="+39"/>
         <location line="+10"/>
+        <location filename="../tmp/ui_twitpicview.h" line="+184"/>
         <source>Upload</source>
         <translation>Cargar</translation>
     </message>
     <message>
-        <location filename="../src/twitpicview.cpp" line="-4"/>
+        <location filename="../qtwitter-app/src/twitpicview.cpp" line="-4"/>
         <location line="+2"/>
         <source>Abort</source>
         <translation>Anular</translation>
@@ -1434,30 +1548,35 @@ background-color: rgba(255,255,255,0);
         <translation>Imagenes</translation>
     </message>
     <message>
-        <location filename="../ui/twitpicview.ui" line="-41"/>
-        <location filename="../src/twitpicview.cpp" line="+6"/>
+        <location filename="../qtwitter-app/ui/twitpicview.ui"/>
+        <location filename="../qtwitter-app/src/twitpicview.cpp" line="+6"/>
         <location line="+5"/>
         <location line="+12"/>
+        <location filename="../tmp/ui_twitpicview.h" line="-2"/>
         <source>Select a photo to upload</source>
         <translation>Selecciona el foto para subir</translation>
     </message>
     <message>
-        <location line="-90"/>
+        <location/>
+        <location filename="../tmp/ui_twitpicview.h" line="-3"/>
         <source>Upload a photo to Twitpic</source>
         <translation>Sube el foto a TwitPic</translation>
     </message>
     <message>
-        <location line="+8"/>
+        <location/>
+        <location filename="../tmp/ui_twitpicview.h" line="+1"/>
         <source>Choose a photo:</source>
         <translation>Selecciona el foto:</translation>
     </message>
     <message>
-        <location line="+10"/>
+        <location/>
+        <location filename="../tmp/ui_twitpicview.h" line="+1"/>
         <source>Browse</source>
         <translation>Navega</translation>
     </message>
     <message>
-        <location line="+90"/>
+        <location/>
+        <location filename="../tmp/ui_twitpicview.h" line="+2"/>
         <source>post a status</source>
         <translation>añadir el mensaje</translation>
     </message>
@@ -1465,18 +1584,49 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>UnuShortener</name>
     <message>
+        <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+149"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation type="obsolete">Su URL fue rechazada por u.nu</translation>
+        <translation>Su URL fue rechazada por u.nu</translation>
     </message>
     <message>
+        <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation type="obsolete">Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
+        <translation>Un error desconocido ha sido encontrado durante la abreviación de su URL.</translation>
+    </message>
+</context>
+<context>
+    <name>UrlShortenerPlugin</name>
+    <message>
+        <location filename="../plugins/urlshortener/urlshortenerplugin.cpp" line="+85"/>
+        <source>Url shortening</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>UrlShortenerWidget</name>
+    <message>
+        <location filename="../plugins/urlshortener/urlshortenerwidget.ui"/>
+        <location filename="../tmp/ui_urlshortenerwidget.h" line="+88"/>
+        <source>&amp;Automatically shorten links before posting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../tmp/ui_urlshortenerwidget.h" line="+1"/>
+        <source>&amp;Shortcut:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location/>
+        <location filename="../tmp/ui_urlshortenerwidget.h" line="+1"/>
+        <source>Shorten &amp;links via</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>UserInfoPopup</name>
     <message numerus="yes">
-        <location filename="../src/userinfopopup.cpp" line="+60"/>
+        <location filename="../qtwitter-app/src/userinfopopup.cpp" line="+60"/>
         <source>friend</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
         <translatorcomment>Esto puede tomarse como contexto de &quot;2 amigos&quot;o &quot;300 amigos&quot;. Ignore la advertencia de linguistica, ya que en este caso particular todo esta bien</translatorcomment>
@@ -1496,27 +1646,32 @@ background-color: rgba(255,255,255,0);
         </translation>
     </message>
     <message>
-        <location filename="../ui/userinfopopup.ui" line="+210"/>
+        <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
+        <location filename="../tmp/ui_userinfopopup.h" line="+279"/>
         <source>Login:</source>
         <translation>Inicio de sesión:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location/>
+        <location filename="../tmp/ui_userinfopopup.h" line="+1"/>
         <source>Location:</source>
         <translation>Ubicación:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location/>
+        <location filename="../tmp/ui_userinfopopup.h" line="+1"/>
         <source>Local time:</source>
         <translation>Hora local:</translation>
     </message>
     <message>
-        <location line="+14"/>
+        <location/>
+        <location filename="../tmp/ui_userinfopopup.h" line="+1"/>
         <source>Homepage:</source>
         <translation>Página de inicio:</translation>
     </message>
     <message>
-        <location line="+33"/>
+        <location/>
+        <location filename="../tmp/ui_userinfopopup.h" line="+1"/>
         <source>Bio:</source>
         <translation>Bio:</translation>
     </message>
@@ -1524,7 +1679,7 @@ background-color: rgba(255,255,255,0);
 <context>
     <name>WelcomeDialog</name>
     <message>
-        <location filename="../src/welcomedialog.cpp" line="+49"/>
+        <location filename="../qtwitter-app/src/welcomedialog.cpp" line="+49"/>
         <source>Account added successfully! You may add another or just start using program.</source>
         <translation>Cuenta añadida exitosamente. Puede agregar otra o sólo iniciar la aplicación.</translation>
     </message>
@@ -1549,27 +1704,32 @@ background-color: rgba(255,255,255,0);
         <translation>Aceptar</translation>
     </message>
     <message>
-        <location filename="../ui/welcomedialog.ui" line="+20"/>
+        <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
+        <location filename="../tmp/ui_welcomedialog.h" line="+115"/>
         <source>Welcome!</source>
         <translation>¡Bienvenido!</translation>
     </message>
     <message>
-        <location line="+39"/>
+        <location/>
+        <location filename="../tmp/ui_welcomedialog.h" line="+1"/>
         <source>Welcome to qTwitter!</source>
         <translation>¡Bienvenido a qTwitter!</translation>
     </message>
     <message>
-        <location line="+12"/>
+        <location/>
+        <location filename="../tmp/ui_welcomedialog.h" line="+1"/>
         <source>To make the best use of this application you should setup one or more Twitter or Identi.ca accounts.</source>
         <translation>Para hacer un mejor uso de esta aplicación, deberia configurar una o más cuentas de Twitter o Identi.ca.</translation>
     </message>
     <message>
-        <location line="+25"/>
+        <location/>
+        <location filename="../tmp/ui_welcomedialog.h" line="+1"/>
         <source>Add Account</source>
         <translation>Agregar cuenta</translation>
     </message>
     <message>
-        <location line="+20"/>
+        <location/>
+        <location filename="../tmp/ui_welcomedialog.h" line="+1"/>
         <source>Continue</source>
         <translation>Continuar</translation>
     </message>

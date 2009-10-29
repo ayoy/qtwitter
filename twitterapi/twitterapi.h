@@ -32,7 +32,7 @@
 #include <QPointer>
 
 #ifdef HAVE_OAUTH
-#  include <QtOAuth>
+#   include <QtOAuth>
 #endif
 
 class QNetworkReply;
@@ -58,7 +58,7 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
     Q_PROPERTY( QByteArray consumerSecret READ consumerSecret WRITE setConsumerSecret );
 #endif
 
-        public:
+public:
     enum SocialNetwork {
         SOCIALNETWORK_TWITTER,
         SOCIALNETWORK_IDENTICA
@@ -120,9 +120,9 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
     QByteArray consumerSecret() const;
     void setConsumerSecret( const QByteArray &consumerSecret );
 #endif
-
     void postUpdate( const QString &data, quint64 inReplyTo = 0 );
     void deleteUpdate( quint64 id );
+    void getTimelineRequest( QNetworkRequest &request, const QString &urlStatuses, Role role, int msgCount );
     void friendsTimeline( int msgCount = 20 );
     void mentions( int msgCount = 20 );
     void directMessages( int msgCount = 20 );

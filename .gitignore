@@ -11,3 +11,5 @@ doc
 lib*.so*
 qtwitter
 commit-message.txt
+.qm-removed
+build
