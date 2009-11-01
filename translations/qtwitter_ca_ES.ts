@@ -348,7 +348,7 @@
     <message>
         <location filename="../plugins/autotag/autotagplugin.cpp" line="+59"/>
         <source>AutoTag</source>
-        <translation type="unfinished"></translation>
+        <translation>AutoTag</translation>
     </message>
 </context>
 <context>
@@ -357,13 +357,13 @@
         <location filename="../plugins/autotag/autotagwidget.ui"/>
         <location filename="../tmp/ui_autotagwidget.h" line="+115"/>
         <source>&amp;Enable automatic #tagging</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Habilitar #tags automàtics</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_autotagwidget.h" line="+1"/>
         <source>&amp;Add words:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Afegir paraules:</translation>
     </message>
 </context>
 <context>
@@ -1045,7 +1045,7 @@
     <message>
         <location filename="../qtwitter-app/src/pluginmgr/pluginmanagerwidget.cpp" line="+44"/>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translation>Plugins</translation>
     </message>
 </context>
 <context>
@@ -1606,7 +1606,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerplugin.cpp" line="+85"/>
         <source>Url shortening</source>
-        <translation type="unfinished"></translation>
+        <translation>Escurçament d&apos;urls</translation>
     </message>
 </context>
 <context>
@@ -1615,19 +1615,19 @@ background-color: rgba(255,255,255,0);
         <location filename="../plugins/urlshortener/urlshortenerwidget.ui"/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+88"/>
         <source>&amp;Automatically shorten links before posting</source>
-        <translation type="unfinished"></translation>
+        <translation>Escurçar enllaços &amp;automaticament davant d&apos;enviar</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+1"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tecla de drecera:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+1"/>
         <source>Shorten &amp;links via</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Escurçar enllaços usant</translation>
     </message>
 </context>
 <context>
