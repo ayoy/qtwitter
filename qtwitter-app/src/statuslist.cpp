@@ -263,7 +263,7 @@ int StatusList::newStatusesCount()
     int count = d->newStatuses;
     d->newStatuses = 0;
 
-    return count;
+    return qMin(count, size());
 }
 
 void StatusList::markAllAsRead()

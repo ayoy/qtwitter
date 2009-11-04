@@ -14,7 +14,8 @@ isEmpty(TRANSLATIONS_PRI) {
         ja_JP \
         nb_NO \
         pl_PL \
-        pt_BR
+        pt_BR \
+        ru_RU
 
 
     for(lang,LANGS): {

@@ -1,173 +1,173 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.0" language="ca">
+<TS version="2.0" language="ru">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../qtwitter-app/ui/aboutdialog.ui"/>
         <location filename="../tmp/ui_aboutdialog.h" line="+228"/>
         <source>About qTwitter</source>
-        <translation>Sobre qTwitter</translation>
+        <translation>О программе</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_aboutdialog.h" line="+2"/>
         <source>About</source>
-        <translation>Sobre</translation>
+        <translation>Информация</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_aboutdialog.h" line="+1"/>
         <source>Authors</source>
-        <translation>Autors</translation>
+        <translation>Авторы</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_aboutdialog.h" line="+1"/>
         <source>Credits</source>
-        <translation>Crèdits</translation>
+        <translation>Благодарности</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_aboutdialog.h" line="+1"/>
         <source>Close</source>
-        <translation>Tancar</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/src/aboutdialog.cpp" line="+61"/>
         <source>Application concept and main development</source>
-        <translation>La idea d&apos;aplicació i desenvolupament principal</translation>
+        <translation>Основные идея и исполнение</translation>
     </message>
     <message>
         <source>API library improvements and themes revisiting</source>
-        <translation type="obsolete">Milloraments en la biblioteca de API i actualització de temes</translation>
+        <translation type="obsolete">Poprawki w API i dopracowanie stylów</translation>
     </message>
     <message>
         <source>URL shortening services support</source>
-        <translation type="obsolete">Suport per escurçament d&apos;enllaços</translation>
+        <translation type="obsolete">Wsparcie dla skracania linków</translation>
     </message>
     <message>
         <location line="-2"/>
         <source>Development team as for %1:</source>
-        <translation>Equip de desenvolupament de %1:</translation>
+        <translation>Команда разработчиков версии %1:</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>URL shortening library</source>
-        <translation>Biblioteca d&apos;escurçament d&apos;enllaços</translation>
+        <translation>Библиотека сокращения URL</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Other contributions:</source>
-        <translation>Altres aportacions:</translation>
+        <translation>Также принимали участие:</translation>
     </message>
     <message>
         <location line="+8"/>
         <source>Translations:</source>
-        <translation>Traduccions:</translation>
+        <translation>Переводчики:</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Czech translation</source>
-        <translation>Traducció al txec</translation>
+        <translation>Чешский перевод</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>French translation</source>
-        <translation>Traducció al francès</translation>
+        <translation>Французский перевод</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>German translation</source>
-        <translation>Traducció a l&apos;alemany</translation>
+        <translation>Немецкий перевод</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Italian translation</source>
-        <translation>Traducció a l&apos;italiá</translation>
+        <translation>Итальянский перевод</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Japanese translation</source>
-        <translation>Traducció al japonès</translation>
+        <translation>Японский перевод</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Norwegian translation</source>
-        <translation>Traducció al noruec</translation>
+        <translation>Норвежский перевод</translation>
     </message>
     <message>
         <location line="+21"/>
         <source>qTwitter icon design by %1</source>
         <extracomment>qTwitter icon design by thedesignsuperhero.com</extracomment>
-        <translation>La icona de qTwitter per %1</translation>
+        <translation>Дизайн иконки qTwitter: %1</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Other icons by %1</source>
         <extracomment>Other icons by wefunction.com</extracomment>
-        <translation>Altres icones per %1</translation>
+        <translation>Остальные иконки: %1</translation>
     </message>
     <message>
         <location line="+28"/>
         <source>&lt;p&gt;qTwitter - a Qt-based microblogging client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
-        <translation>&lt;p&gt;qTwitter -el client dels microblogs&lt;/p&gt;&lt;p&gt;versió %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distribuint sota la licéncia LGPL&lt;/p&gt;&lt;p&gt;versió 2.1 o posteriores&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;qTwitter - основанный на Qt клиент для микроблоггинга&lt;/p&gt;&lt;p&gt;версия %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Распространяется под лицензией LGPL&lt;/p&gt;&lt;p&gt;версии 2.1 или более поздней&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;</source>
-        <translation type="obsolete">&lt;p&gt;qTwitter -el client Qt de Twitter i Identi.ca&lt;/p&gt;&lt;p&gt;versió %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distribuint sota la licéncia LGPL&lt;/p&gt;&lt;p&gt;versió 2.1 o posteriores&lt;/p&gt;</translation>
+        <translation type="obsolete">&lt;p&gt;qTwitter - klient Twittera i Identi.ca w Qt&lt;/p&gt;&lt;p&gt;wersja %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Objęty licencją LGPL&lt;/p&gt;&lt;p&gt;w wersji 2.1 lub późniejszej&lt;/p&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt-based Twitter and Identi.ca client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - el client Qt de Twitter i Identi.ca&lt;/p&gt;&lt;p&gt;versió %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distribuint sota la llicència LGPL&lt;/p&gt;&lt;p&gt;versió 2.1 o posteriores&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - klient Twittera i Identi.ca w Qt&lt;/p&gt;&lt;p&gt;wersja %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Objęty licencją LGPL&lt;/p&gt;&lt;p&gt;w wersji 2.1 lub późniejszej&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - a Qt Twitter client&lt;/p&gt;&lt;p&gt;version %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;by &lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p style=&quot;-qt-paragraph-type:empty; &quot;&gt;&lt;/p&gt;&lt;p&gt;Distributed under the LGPL license&lt;/p&gt;&lt;p&gt;version 2.1 or later&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - el client Qt de Twitter&lt;/p&gt;&lt;p&gt;versió %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Distribuint sota la llicència LGPL&lt;/p&gt;&lt;p&gt;versió 2.1 o posteriores&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation type="obsolete">&lt;html&gt;&lt;head&gt;&lt;style type=&quot;text/css&quot;&gt;p, li { white-space: pre-wrap; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; }&lt;/style&gt;&lt;/head&gt;&lt;body align=&quot;center&quot; style=&quot; font-family:&apos;Lucida Grande&apos;; font-size:10pt; font-weight:400; font-style:normal;&quot;&gt;&lt;p&gt;qTwitter - klient Twittera w Qt&lt;/p&gt;&lt;p&gt;wersja %1&lt;/p&gt;&lt;p&gt;Copyright &amp;copy; 2008-2009&lt;/p&gt;&lt;p&gt;&lt;a href=&quot;http://twitter.com/ayoy&quot;&gt;&lt;span style=&quot; text-decoration: underline; color:#0000ff;&quot;&gt;Dominik Kapusta&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;p&gt;Objęty licencją LGPL&lt;/p&gt;&lt;p&gt;w wersji 2.1 lub późniejszej&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location line="-25"/>
         <source>Testing:</source>
-        <translation>Evaluació:</translation>
+        <translation>Тестирование:</translation>
     </message>
     <message>
         <source>Development team as for 0.7.1:</source>
-        <translation type="obsolete">Equip de desenvolupament de 0.7.1:</translation>
+        <translation type="obsolete">Zespół deweloperów wydania 0.7.1:</translation>
     </message>
     <message>
         <source>Porting to Maemo platform</source>
-        <translation type="obsolete">Porting a la plataforma Maemo</translation>
+        <translation type="obsolete">Port na platformę Maemo</translation>
     </message>
     <message>
         <location line="-26"/>
         <source>Portugese translation</source>
-        <translation>Traducció al portuguès</translation>
+        <translation>Португальский перевод</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Spanish translation</source>
-        <translation>Traducció a l&apos;espanyol</translation>
+        <translation>Испанский перевод</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Polish and Catalan translation</source>
-        <translation>Traducció al polonès i català</translation>
+        <translation>Польский и каталанский переводы</translation>
     </message>
     <message>
         <location line="+29"/>
         <source>Releasing:</source>
-        <translation>Llançament:</translation>
+        <translation>Собрано:</translation>
     </message>
 </context>
 <context>
     <name>Accounts</name>
     <message>
         <source>public timeline:</source>
-        <translation type="obsolete">llista pública:</translation>
+        <translation type="obsolete">lista publiczna:</translation>
     </message>
     <message>
         <source>none</source>
-        <translation type="obsolete">cap</translation>
+        <translation type="obsolete">nie</translation>
     </message>
     <message>
         <source>Twitter</source>
@@ -179,13 +179,13 @@
     </message>
     <message>
         <source>both</source>
-        <translation type="obsolete">ambdós</translation>
+        <translation type="obsolete">obie</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/src/accounts/accounts.ui"/>
         <location filename="../tmp/ui_accounts.h" line="+136"/>
         <source>store passwords on disk</source>
-        <translation>desar les contrasenyes al disc</translation>
+        <translation>сохранять пароли на диске</translation>
     </message>
 </context>
 <context>
@@ -193,39 +193,39 @@
     <message>
         <location filename="../qtwitter-app/src/accounts/accountscontroller.cpp" line="+267"/>
         <source>Password security</source>
-        <translation>Nota de seguretat</translation>
+        <translation>Безопасность пароля</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Please note:</source>
-        <translation>Tingui en compte:</translation>
+        <translation>Внимание:</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Although passwords are stored as human unreadable data, they can be easily decoded using the application&apos;s source code, which is publicly available. You have been warned.</source>
-        <translation>Encara que les contrasenyes són desades com a dades il legibles per als humans, es pot decodificar-les fàcilment usant el codi font de l&apos;aplicació, que està obert i disponible públicament. Vostè ha estat advertit.</translation>
+        <translation>Хотя пароли и хранятся в форме, непонятной для человека, они могут быть легко расшифрованы сиспользованием исходного кода, который публично доступен. Вас предупредили.</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>Note also that Twitter authorization keys are stored anyway. Remove the account from the list if you want the key to be deleted.</source>
-        <translation>Tingeu en compte també que les claus d&apos;autorització per Twitter són desats de totes maneres. Si us plau, suprimeix el compte de la llista si voleu suprimir la clau.</translation>
+        <translation>Авторизационные ключи Twitter всегда сохраняется. Если вы хотите удалить ключ с диска, то удалите учетную запись в программе.</translation>
     </message>
     <message>
         <source>Add account</source>
-        <translation type="obsolete">Afegir el compte</translation>
+        <translation type="obsolete">Dodaj konto</translation>
     </message>
     <message>
         <source>Select social network:</source>
         <extracomment>Select social network, i.e. Twitter or Identi.ca</extracomment>
-        <translation type="obsolete">Seleccioneu el servei:</translation>
+        <translation type="obsolete">Wybierz serwis:</translation>
     </message>
     <message>
         <source>Cancel</source>
-        <translation type="obsolete">Anul·lar</translation>
+        <translation type="obsolete">Anuluj</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation type="obsolete">Bé</translation>
+        <translation type="obsolete">OK</translation>
     </message>
 </context>
 <context>
@@ -233,44 +233,44 @@
     <message>
         <location filename="../qtwitter-app/src/accounts/accountsmodel.cpp" line="+81"/>
         <source>authorized</source>
-        <translation>autoritzat</translation>
+        <translation>авторизация</translation>
     </message>
     <message>
         <location line="+26"/>
         <source>Enabled</source>
-        <translation>Habilitat</translation>
+        <translation>Активно</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Service</source>
         <extracomment>&quot;Service&quot;, i.e. Twitter or Identi.ca</extracomment>
-        <translation>Servei</translation>
+        <translation>Сервис</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Login</source>
-        <translation>Usuari</translation>
+        <translation>Логин</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Password</source>
-        <translation>Contrasenya</translation>
+        <translation>Пароль</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Direct msgs</source>
         <extracomment>This should be as short as possible (e.g. PW in Polish)</extracomment>
-        <translation>Missatges privats</translation>
+        <translation>ПМ</translation>
     </message>
     <message>
         <location line="+137"/>
         <source>empty</source>
-        <translation>buit</translation>
+        <translation>пусто</translation>
     </message>
     <message>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation type="obsolete">&lt;buit&gt;</translation>
+        <translation type="obsolete">&lt;puste&gt;</translation>
     </message>
 </context>
 <context>
@@ -279,13 +279,13 @@
         <location filename="../qtwitter-app/src/oauth/allowwidget.ui"/>
         <location filename="../tmp/ui_allowwidget.h" line="+61"/>
         <source>You must allow qTwitter accessing your Twitter account</source>
-        <translation>Heu de permetre qTwitter accedir al seu compte</translation>
+        <translation>Вы должны разрешить qTwitter доступ к своему Twitter аккаунту</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_allowwidget.h" line="+1"/>
         <source>Allow qTwitter access</source>
-        <translation>Permetre qTwitter accedir-hi</translation>
+        <translation>Дать доступ</translation>
     </message>
 </context>
 <context>
@@ -294,36 +294,36 @@
         <location filename="../qtwitter-app/ui/authdialog.ui"/>
         <location filename="../tmp/ui_authdialog.h" line="+159"/>
         <source>Authentication required</source>
-        <translation>Autenticació necessitada</translation>
+        <translation>Требуется авторизация</translation>
     </message>
     <message>
         <source>The credentials you provided are incorrect</source>
-        <translation type="obsolete">Les dades d&apos;autenticació són incorrectes</translation>
+        <translation type="obsolete">Dane które podałeś są nieprawidłowe</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_authdialog.h" line="+2"/>
         <source>The credentials you provided for %1 are incorrect</source>
         <extracomment>e.g. The credentials you provided for ayoy @Identi.ca are incorrect</extracomment>
-        <translation>Les dades d&apos;autenticació per a %1 són incorrectes</translation>
+        <translation>Данные для авторизации на %1 не верны</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_authdialog.h" line="+1"/>
         <source>Username:</source>
-        <translation>Nom d&apos;usuari:</translation>
+        <translation>Имя пользователя:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_authdialog.h" line="+2"/>
         <source>Password:</source>
-        <translation>Contrasenya:</translation>
+        <translation>Пароль:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_authdialog.h" line="+3"/>
         <source>disable account</source>
-        <translation>desactivar el compte</translation>
+        <translation>выключить аккаунт</translation>
     </message>
     <message>
         <location/>
@@ -334,13 +334,13 @@
         <location/>
         <location filename="../tmp/ui_authdialog.h" line="+1"/>
         <source>remove account</source>
-        <translation>suprimir el compte</translation>
+        <translation>удалить аккаунт</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_authdialog.h" line="-2"/>
         <source>or</source>
-        <translation>o</translation>
+        <translation>или</translation>
     </message>
 </context>
 <context>
@@ -348,7 +348,7 @@
     <message>
         <location filename="../plugins/autotag/autotagplugin.cpp" line="+59"/>
         <source>AutoTag</source>
-        <translation>AutoTag</translation>
+        <translation></translation>
     </message>
 </context>
 <context>
@@ -357,13 +357,13 @@
         <location filename="../plugins/autotag/autotagwidget.ui"/>
         <location filename="../tmp/ui_autotagwidget.h" line="+115"/>
         <source>&amp;Enable automatic #tagging</source>
-        <translation>&amp;Habilitar #tags automàtics</translation>
+        <translation>&amp;Включить автоматические #теги</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_autotagwidget.h" line="+1"/>
         <source>&amp;Add words:</source>
-        <translation>&amp;Afegir paraules:</translation>
+        <translation>Доба&amp;вить слова:</translation>
     </message>
 </context>
 <context>
@@ -371,13 +371,13 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+311"/>
         <source>The URL entered was not valid.</source>
-        <translation>La URL introduida no és vàlida.</translation>
+        <translation>Введенный URL неверен.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Неизвестная ошибка во время сокращения вашей ссылки.</translation>
     </message>
 </context>
 <context>
@@ -385,126 +385,126 @@
     <message>
         <location line="-107"/>
         <source>An error occured with b.oooom.net. Please file a bug.</source>
-        <translation>Un error ha estat trobat amb b.oooom.net.</translation>
+        <translation>Ошабка на boooom.net. Пожалуйста, сообщите нам о баге.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occured when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Неизвестная ошибка во время сокращения вашей ссылки.</translation>
     </message>
 </context>
 <context>
     <name>Core</name>
     <message>
         <source>Are you sure to delete this status?</source>
-        <translation type="obsolete">Esteu segur de suprimir aquest missatge?</translation>
+        <translation type="obsolete">Czy chcesz usunąć tę wiadomość?</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/src/core.cpp" line="+116"/>
         <source>It seems like qTwitter wasn&apos;t closed properly last time. If the application crashed, it may be due to inconsistency in accounts settings. Do you want to reset accounts in qTwitter?</source>
-        <translation>Semble que el qTwitter no s&apos;hagi tancat correctament l&apos;última vegada. Si l&apos;aplicació es va estavellar, pot ser degut a la inconsistència en la configuració de comptes. Voleu restablir comptes en qTwitter?</translation>
+        <translation>Похоже, что qTwitter не был корректно закрыт в прошлый раз. Возможно проблема была вызвана ошибками в настройках аккаунтов. Хотите сбросить аккаунты?</translation>
     </message>
     <message>
         <location line="+4"/>
         <source>If you think that it&apos;s a bug, please report it &lt;a href=&quot;http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all&quot;&gt;here&lt;/a&gt;</source>
-        <translation>Si creieu que aixó pot ser un bug, aviseu-nos anant &lt;a href=&quot;http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all&quot;&gt;aqui&lt;/a&gt;</translation>
+        <translation>Если вы считаете это багом, напишите &lt;a href=&quot;http://ayoy.lighthouseapp.com/projects/27230-qtwitter/tickets?q=all&quot;&gt;здесь&lt;/a&gt;</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>&amp;Yes, reset accounts settings</source>
-        <translation>&amp;Sí, restablir la configuració de comptes</translation>
+        <translation>&amp;Да, сбросьте настройки моих аккаунтов</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;No, thanks</source>
-        <translation>&amp;No, gràcies</translation>
+        <translation>&amp;Нет, спасибо</translation>
     </message>
     <message>
-        <location line="+333"/>
+        <location line="+267"/>
+        <source>Enter password</source>
+        <translation>Введите пароль</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Enter your Twitter password.&lt;br&gt;We&apos;re not storing it anywhere</source>
+        <translation>Введите пароль от твиттера.&lt;br&gt;Мы его нигде не сохраним</translation>
+    </message>
+    <message>
+        <location line="+66"/>
         <source>&lt;empty&gt;</source>
         <extracomment>This is for newly created account - when the login isn&apos;t given yet</extracomment>
-        <translation>&lt;buit&gt;</translation>
+        <translation>&lt;пусто&gt;</translation>
     </message>
     <message>
         <location line="+140"/>
         <source>Authentication is required to send direct messages.</source>
-        <translation>Verificació és requerida per a enviar missatges.</translation>
+        <translation>Для отправки прямых сообщений требуется аворизация.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Authentication is required to delete updates.</source>
-        <translation>Verificació és requerida per a suprimir les seves actualitzacions.</translation>
+        <translation>Для удаления требуется аворизация.</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Authentication is required to get your friends&apos; updates.</source>
-        <translation>Autenticació és requerida per a obtenir les actualitzacions dels teus amics.</translation>
+        <translation>Для получения сообщений друзей требуется аворизация.</translation>
     </message>
     <message>
-        <location line="+70"/>
+        <location line="-490"/>
+        <source>Warning</source>
+        <translation>Осторожно</translation>
+    </message>
+    <message>
+        <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
+        <translation type="obsolete">Jedno lub więcej zapytań nie powiodło się. Sprawdź swoje połączenie sieciowe i/lub ustawienia kont.</translation>
+    </message>
+    <message>
+        <location line="+560"/>
         <source>For:
 %1</source>
         <extracomment>There goes &quot;For&quot;, a colon, a new line, and a list of users that heave unread statuses.</extracomment>
-        <translation>Per a:
+        <translation>Для:
 %1</translation>
     </message>
     <message>
         <location line="-79"/>
         <source>Authentication is required to post updates.</source>
-        <translation>Es requereix autenticació per a publicar les seves actualitzacions.</translation>
+        <translation>Для отправки сообщений требуется аворизация.</translation>
     </message>
     <message>
         <source>Welcome!</source>
-        <translation type="obsolete">Benvingut!</translation>
+        <translation type="obsolete">Witaj!</translation>
     </message>
     <message>
         <source>Welcome to qTwitter %1!</source>
         <extracomment>e.g. &quot;Welcome to qTwitter 0.8.1!&quot;</extracomment>
-        <translation type="obsolete">Benvingut a qTwitter %1!</translation>
+        <translation type="obsolete">Witaj w qTwitterze %1!</translation>
     </message>
     <message>
         <source>&lt;b&gt;Please note:&lt;/b&gt; we introduced the ultra-secure OAuth authorization scheme for Twitter accounts in this release. This means that you would never be asked again to enter your Twitter password in qTwitter. However, your existing qTwitter configuration will not work any more. Your Twitter accounts and passwords have been removed from qTwitter settings, please reconfigure them in Settings to have things working. Thanks and enjoy qTwitter!</source>
-        <translation type="obsolete">&lt;b&gt;Tingeu en compte, si us plau:&lt;/b&gt; en aquesta versió hem introduït l&apos;autorització ultra-segura OAuth pels comptes de Twitter. Això significa que mai no es va preguntar per indtroduir-hi la seva contrasenya de Twitter. Tanmateix, la seva configuració actual no funccionarà correctament. Els seus comptes de Twitter i les contrasenyes han estat eliminats de la configuració de qTwitter. Si us plau, configureu-los de nou anant a Configuració. Gràcies i gaudi de qTwitter!</translation>
+        <translation type="obsolete">&lt;b&gt;Uwaga:&lt;/b&gt; w tym wydaniu wprowadziliśmy superbezpieczny system autoryzacji przez OAuth dla kont Twitterowych. To oznacza, że program nigdy więcej nie zapyta Cię o twoje hasło dostępu do Twittera. Jednak Twoja obecna konfiguracja nie będzie działała poprawnie. Wszystkie konta Twittera skonfigurowane w programie zostały usunięte - skonfiguruj je od nowa w Ustawieniach. Dzięki!</translation>
     </message>
     <message>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation type="obsolete">Esteu segur?</translation>
+        <translation type="obsolete">Czy jesteś pewien?</translation>
     </message>
     <message>
-        <location line="-203"/>
-        <source>Enter password</source>
-        <translation>La seva contrasenya</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Enter your Twitter password.&lt;br&gt;We&apos;re not storing it anywhere</source>
-        <translation>La seva contrasenya de Twitter.&lt;br&gt;No la desem en qualsevol lloc</translation>
-    </message>
-    <message>
-        <location line="+23"/>
+        <location line="-180"/>
         <source>There was a problem uploading your photo:</source>
-        <translation>Ha estat un problema de carregament el seu foto:</translation>
+        <translation>Проблемы при загрузе вашей фотографии:</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Photo available at:</source>
-        <translation>Foto disponible a:</translation>
+        <translation>Фото доступно на:</translation>
     </message>
     <message>
-        <location line="-312"/>
-        <source>Warning</source>
-        <translation>Atenció</translation>
-    </message>
-    <message>
-        <source>One or more requests didn&apos;t complete. Check your connection and/or accounts settings.</source>
-        <translation type="obsolete">Una o més peticions no s&apos;ha completat. Comproveu la seva connexió i/o configuració dels comptes.</translation>
-    </message>
-    <message>
-        <location line="+556"/>
+        <location line="+244"/>
         <source>For %1</source>
         <extracomment>&quot;For &lt;user_name&gt;&quot;</extracomment>
-        <translation>Per a %1</translation>
+        <translation>Для %1</translation>
     </message>
 </context>
 <context>
@@ -512,122 +512,130 @@
     <message>
         <location filename="../qtwitter-app/src/dmdialog.cpp" line="+51"/>
         <source>Direct message %1</source>
-        <translation>Escriu un missatge a %1</translation>
+        <translation>Прямое сообщение %1</translation>
     </message>
     <message numerus="yes">
         <location line="+35"/>
         <source>%n character over the limit</source>
         <translation>
-            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
-            <numerusform>Hi ha %n caràcters més enllà del limit</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n лишний символ</numerusform>
+            <numerusform>%n лишних символа</numerusform>
+            <numerusform>%n лишних символов</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+2"/>
         <source>%n characters over the limit</source>
         <translation>
-            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
-            <numerusform>Hi ha%n caràcters més enllà del limit</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n лишний символ</numerusform>
+            <numerusform>%n лишних символа</numerusform>
+            <numerusform>%n лишних символов</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+4"/>
         <source>%n character left</source>
         <translation>
-            <numerusform>%n caràcter disponible</numerusform>
-            <numerusform>%n caràcters disponibles</numerusform>
-            <numerusform></numerusform>
+            <numerusform>Остался %n символ</numerusform>
+            <numerusform>Осталось %n символа</numerusform>
+            <numerusform>Осталось %n символов</numerusform>
         </translation>
     </message>
     <message>
         <location line="+13"/>
         <source>&amp;Truncate</source>
-        <translation>&amp;Truncar</translation>
+        <translation>&amp;Обрезать</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>&amp;Edit</source>
-        <translation>&amp;Editar</translation>
+        <translation>&amp;Правка</translation>
+    </message>
+    <message>
+        <source>Truncate</source>
+        <translation type="obsolete">Skróć</translation>
+    </message>
+    <message>
+        <source>Edit</source>
+        <translation type="obsolete">Edytuj</translation>
     </message>
     <message numerus="yes">
         <location line="-60"/>
         <location line="+48"/>
         <source>%n characters left</source>
         <translation>
-            <numerusform>%n caràcter disponible</numerusform>
-            <numerusform>%n caràcters disponibles</numerusform>
-            <numerusform></numerusform>
+            <numerusform>Остался %n символ</numerusform>
+            <numerusform>Осталось %n символа</numerusform>
+            <numerusform>Осталось %n символов</numerusform>
         </translation>
     </message>
     <message>
         <location line="+10"/>
         <source>Message too long</source>
-        <translation>El missatge és massa llarg</translation>
+        <translation>Сообщение слишком длинное</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>Your message is too long.</source>
-        <translation>El seu missatge és massa llarg.</translation>
+        <translation>Ваше ообщение слишком длинное.</translation>
     </message>
     <message>
         <source>Cool</source>
-        <translation type="obsolete">Bé</translation>
+        <translation type="obsolete">Fajnie</translation>
     </message>
     <message>
         <source>Oops...</source>
-        <translation type="obsolete">Ai!</translation>
+        <translation type="obsolete">Ups...</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>You can still post it like this, but it will be truncated.</source>
-        <translation>Seguiu podent pujar-lo com aixi, però el serà truncat.</translation>
+        <translation>Вы можете оставить сообщение как есть, но оно будет обрезано.</translation>
     </message>
     <message>
         <location line="+12"/>
         <source>Sending...</source>
-        <translation>Enviant...</translation>
+        <translation>Отправка...</translation>
     </message>
     <message>
         <location line="+15"/>
         <source>Message sent!</source>
-        <translation>S&apos;ha enviat el missatge!</translation>
+        <translation>Сообщение отправлено!</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Message sending failed. Note that you cannot send a message to a user that doesn&apos;t follow you.</source>
-        <translation>No és pot enviar el missatge. Recordeu que no és pot enviar els missatges als usuaris que no són els seus amics.</translation>
+        <translation>Не удалось отправить сообщение. Помните, что вы не можете писать тем, кт о вас не читает.</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/ui/dmdialog.ui"/>
         <location filename="../tmp/ui_dmdialog.h" line="+128"/>
         <source>Direct Message</source>
-        <translation>El missatge privat</translation>
+        <translation>Прямое сообщение</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_dmdialog.h" line="+1"/>
         <source>Write your message:</source>
-        <translation>Escriu un missatge:</translation>
+        <translation>Напишите сообщение:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_dmdialog.h" line="+1"/>
         <source>Reset</source>
-        <translation>De nou</translation>
+        <translation>Сбросить</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_dmdialog.h" line="+1"/>
         <source>Close</source>
-        <translation>Tancar</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_dmdialog.h" line="+1"/>
         <source>Send</source>
-        <translation>Enviar</translation>
+        <translation>Отправить</translation>
     </message>
 </context>
 <context>
@@ -635,7 +643,7 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+132"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Неизвестная ошибка во время сокращения вашей ссылки.</translation>
     </message>
 </context>
 <context>
@@ -643,42 +651,42 @@
     <message>
         <location line="-275"/>
         <source>The URL entered was not valid.</source>
-        <translation>La URL introduida no és vàlida.</translation>
+        <translation>Введенный URL похоже совсем не URL.</translation>
     </message>
     <message>
         <location line="-5"/>
         <source>The url shortening service couldn&apos;t authorize you. Please check your username and password.</source>
-        <translation>El servei d&apos;escurçament no us pot autoritzar. Si us plau, comproveu el vostre nom d&apos;usuari i la contrasenya.</translation>
+        <translation>Проблемы с авторизацией на сервисе сокращения ссылок. Проверьте свой логин и пароль.</translation>
     </message>
     <message>
         <location line="+7"/>
         <source>The URL entered was too long.</source>
-        <translation>La URL introduïda és massa llarga.</translation>
+        <translation>Введенный URL слишком длинный.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blacklisted by Spamhaus (SBL/XBL) or Spamcop.</source>
-        <translation>La seva adreça IP és a la llista negre de Spamhaus (SBL/XBL) o Spamcop.</translation>
+        <translation>Ваш IP-адрес в черном списке, извините.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL entered is a potential spam site and is listed on either the SURBL or URIBL blacklist.</source>
-        <translation>La URL introduïda semble una pàgina web de spam i és a la llista negre de SURBL o URIBL.</translation>
+        <translation>Введенный URL в черном списке.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The URL you entered is on the is.gd&apos;s blacklist (links to URL shortening sites or is.gd itself are disabled to prevent misuse).</source>
-        <translation>La URL introduïda és a la llista negre de is.gd (enllaços a serveis d&apos;escurçament de URLs o a is.gd en si mateix són deshabilitats).</translation>
+        <translation>Ваш URL-адрес в спам-листе, извините.</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>The address making this request has been blocked by is.gd (normally the result of a violation of its terms of use).</source>
-        <translation>La seva adreça IP és barrada per is.gd (normalment això és una conseqüencia de violació de les seves condicions d&apos;us).</translation>
+        <translation>Ваш IP-адрес заблокирован на сервисе, извините.</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Неизвестная ошибка во время сокращения вашей ссылки.</translation>
     </message>
 </context>
 <context>
@@ -686,193 +694,60 @@
     <message>
         <location filename="../qtwitter-app/src/mainwindow.cpp" line="+614"/>
         <source>Error</source>
-        <translation>Error</translation>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/ui/mainwindow.ui"/>
         <location filename="../tmp/ui_mainwindow.h" line="+183"/>
         <source>qTwitter</source>
-        <translation></translation>
+        <translation>qTwitter</translation>
     </message>
     <message>
         <source>&lt;span style=&quot;color: black&quot;&gt;Use &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; to shorten links&lt;/span&gt;</source>
-        <translation type="obsolete">&lt;span style=&quot;color: black&quot;&gt;Utilitzeu &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt; per a escurçar enllaços&lt;/span&gt;</translation>
+        <translation type="obsolete">&lt;span style=&quot;color: black&quot;&gt;Skracaj linki używając &lt;span style=&quot;color: gray&quot;&gt;%1&lt;/span&gt;&lt;/span&gt;</translation>
     </message>
     <message>
         <location/>
         <location filename="../qtwitter-app/src/mainwindow.cpp" line="+115"/>
         <location filename="../tmp/ui_mainwindow.h" line="+4"/>
         <source>What are you doing?</source>
-        <translation>Què estàs fent ara?</translation>
+        <translation>Что вы сейчас делаете?</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/src/mainwindow.cpp" line="-522"/>
         <location line="+511"/>
         <location line="+22"/>
         <source>Settings</source>
-        <translation>Configuració</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
-        <location line="-503"/>
+        <location line="-551"/>
+        <source>&amp;File</source>
+        <translation>&amp;Файл</translation>
+    </message>
+    <message>
+        <location line="+45"/>
+        <location line="+499"/>
+        <source>Go to Identi.ca</source>
+        <translation>Перейти на Identi.ca</translation>
+    </message>
+    <message>
+        <location line="-496"/>
         <location line="+499"/>
         <source>About qTwitter...</source>
-        <translation>Sobre qTwitter...</translation>
+        <translation>О программе...</translation>
     </message>
     <message>
         <source>public timeline</source>
-        <translation type="obsolete">llista pública</translation>
-    </message>
-    <message>
-        <location line="-310"/>
-        <source>Your message is too long.</source>
-        <translation>El seu missatge és massa llarg.</translation>
-    </message>
-    <message>
-        <location line="+0"/>
-        <source>Message too long</source>
-        <translation>El missatge massa llarg</translation>
-    </message>
-    <message>
-        <source>Cool</source>
-        <translation type="obsolete">Bé</translation>
-    </message>
-    <message>
-        <source>Oops...</source>
-        <translation type="obsolete">Ai!</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <source>You can still post it like this, but it will be truncated.</source>
-        <translation>Seguiu podent pujar-lo com aixi, però el serà truncat.</translation>
-    </message>
-    <message>
-        <source>New tweets</source>
-        <extracomment>New tweets received (this pops up in tray)</extracomment>
-        <translation type="obsolete">Hi ha missatges nous</translation>
-    </message>
-    <message>
-        <location line="-2"/>
-        <source>&amp;Truncate</source>
-        <translation>&amp;Truncar</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>&amp;Edit</source>
-        <translation>&amp;Editar</translation>
-    </message>
-    <message>
-        <location line="+169"/>
-        <source>New statuses</source>
-        <extracomment>New statuses received (this pops up in tray)</extracomment>
-        <translation>Hi ha estatuts nous</translation>
-    </message>
-    <message>
-        <location line="+66"/>
-        <location line="+23"/>
-        <source>Update available</source>
-        <translation>Actualització disponible</translation>
-    </message>
-    <message>
-        <location line="-22"/>
-        <location line="+23"/>
-        <source>An update to qTwitter is available!</source>
-        <translation>L&apos;actualització de qTwitter està disponible!</translation>
-    </message>
-    <message>
-        <location line="-21"/>
-        <location line="+23"/>
-        <source>Current version is %1.&lt;br&gt;Download it from %2</source>
-        <translation>Versió actual ès %1.&lt;br&gt;Descarregeu-la des de %2</translation>
-    </message>
-    <message>
-        <location line="-18"/>
-        <source>No updates available</source>
-        <translation>No hi ha cap actualització disponible</translation>
-    </message>
-    <message>
-        <location line="+1"/>
-        <source>Sorry, no updates for qTwitter are currently available</source>
-        <translation>Ho sentim, no hi ha cap actualització de qTwitter</translation>
-    </message>
-    <message>
-        <location line="+3"/>
-        <location line="+18"/>
-        <source>Close</source>
-        <translation>Tancar</translation>
-    </message>
-    <message>
-        <location line="+27"/>
-        <source>Navigate using %1 and %2</source>
-        <translation>Navegui usant %1 i %2</translation>
-    </message>
-    <message>
-        <location filename="../qtwitter-app/ui/mainwindow.ui"/>
-        <location filename="../qtwitter-app/src/mainwindow.cpp" line="+5"/>
-        <location filename="../tmp/ui_mainwindow.h" line="-2"/>
-        <source>More...</source>
-        <translation>Més....</translation>
-    </message>
-    <message>
-        <location filename="../qtwitter-app/src/mainwindow.cpp" line="-8"/>
-        <source>Update tweets</source>
-        <translation>Actualitzar missatges</translation>
-    </message>
-    <message>
-        <location line="-512"/>
-        <location line="+33"/>
-        <location line="+499"/>
-        <source>Quit</source>
-        <translation>Sortir</translation>
-    </message>
-    <message>
-        <location line="-506"/>
-        <location line="+499"/>
-        <source>New tweet</source>
-        <translation>Nou missatge</translation>
-    </message>
-    <message>
-        <location line="-541"/>
-        <source>&amp;File</source>
-        <translation>&amp;Arxiu</translation>
-    </message>
-    <message>
-        <location line="+43"/>
-        <location line="+499"/>
-        <source>Upload a photo to TwitPic</source>
-        <translation>Pujeu el foto a TwitPic</translation>
-    </message>
-    <message>
-        <location line="-498"/>
-        <location line="+499"/>
-        <source>Go to Twitter</source>
-        <translation>Anar a Twitter</translation>
-    </message>
-    <message>
-        <location line="-498"/>
-        <location line="+499"/>
-        <source>Go to Identi.ca</source>
-        <translation>Anar a Identi.ca</translation>
-    </message>
-    <message>
-        <location line="-498"/>
-        <location line="+499"/>
-        <source>Go to TwitPic</source>
-        <translation>Anar a TwitPic</translation>
-    </message>
-    <message>
-        <location line="-528"/>
-        <location line="+30"/>
-        <location line="+499"/>
-        <source>Check for updates</source>
-        <translation>Coprovar s&apos;hi ha actualitzacions</translation>
+        <translation type="obsolete">lista publiczna</translation>
     </message>
     <message numerus="yes">
-        <location line="-336"/>
+        <location line="-337"/>
         <source>%n character left</source>
         <translation>
-            <numerusform>%n caràcter disponible</numerusform>
-            <numerusform>%n caràcters disponibles</numerusform>
-            <numerusform></numerusform>
+            <numerusform>Остался %n символ</numerusform>
+            <numerusform>Осталось %n символа</numerusform>
+            <numerusform>Осталось %n символов</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -880,28 +755,161 @@
         <location line="+313"/>
         <source>%n characters left</source>
         <translation>
-            <numerusform>%n caràcter disponible</numerusform>
-            <numerusform>%n caràcters disponibles</numerusform>
-            <numerusform></numerusform>
+            <numerusform>Остался %n символ</numerusform>
+            <numerusform>Осталось %n символа</numerusform>
+            <numerusform>Осталось %n символов</numerusform>
         </translation>
     </message>
+    <message>
+        <location line="-194"/>
+        <location line="+30"/>
+        <location line="+499"/>
+        <source>Check for updates</source>
+        <translation>Проверить обновления</translation>
+    </message>
     <message numerus="yes">
-        <location line="+5"/>
+        <location line="-330"/>
         <source>%n character over the limit</source>
         <translation>
-            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
-            <numerusform>Hi ha %n caràcters més enllà del limit</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n лишний символ</numerusform>
+            <numerusform>%n лишних символа</numerusform>
+            <numerusform>%n лишних символов</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location line="+1"/>
         <source>%n characters over the limit</source>
         <translation>
-            <numerusform>Hi ha %n caràcter més enllà del limit</numerusform>
-            <numerusform>Hi ha %n caràcters més enllà del limit</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%n лишний символ</numerusform>
+            <numerusform>%n лишних символа</numerusform>
+            <numerusform>%n лишних символов</numerusform>
         </translation>
+    </message>
+    <message>
+        <location line="+20"/>
+        <source>Your message is too long.</source>
+        <translation>Ваше ообщение слишком длинное.</translation>
+    </message>
+    <message>
+        <location line="+0"/>
+        <source>Message too long</source>
+        <translation>Сообщение слишком длинное</translation>
+    </message>
+    <message>
+        <source>Cool</source>
+        <translation type="obsolete">Fajnie</translation>
+    </message>
+    <message>
+        <source>Oops...</source>
+        <translation type="obsolete">Ups...</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Truncate</source>
+        <translation>&amp;Обрезать</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>&amp;Edit</source>
+        <translation>&amp;Правка</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>You can still post it like this, but it will be truncated.</source>
+        <translation>Вы можете отправить сообщение, но оно будет обрезано.</translation>
+    </message>
+    <message>
+        <location line="+168"/>
+        <source>New statuses</source>
+        <extracomment>New statuses received (this pops up in tray)</extracomment>
+        <translation>Новые сообщения</translation>
+    </message>
+    <message>
+        <location line="+66"/>
+        <location line="+23"/>
+        <source>Update available</source>
+        <translation>Доступны обновления</translation>
+    </message>
+    <message>
+        <location line="-22"/>
+        <location line="+23"/>
+        <source>An update to qTwitter is available!</source>
+        <translation>Доступна свежая версия qTwitter!</translation>
+    </message>
+    <message>
+        <location line="-21"/>
+        <location line="+23"/>
+        <source>Current version is %1.&lt;br&gt;Download it from %2</source>
+        <translation>Текущая версия: %1.&lt;br&gt;Загрузить на: %2</translation>
+    </message>
+    <message>
+        <location line="-18"/>
+        <source>No updates available</source>
+        <translation>Обновлений нет</translation>
+    </message>
+    <message>
+        <location line="+1"/>
+        <source>Sorry, no updates for qTwitter are currently available</source>
+        <translation>Извините, но обновления программы не доступны</translation>
+    </message>
+    <message>
+        <location line="+3"/>
+        <location line="+18"/>
+        <source>Close</source>
+        <translation>Закрыть</translation>
+    </message>
+    <message>
+        <location line="+27"/>
+        <source>Navigate using %1 and %2</source>
+        <translation>Навигация с использованием %1 и %2</translation>
+    </message>
+    <message>
+        <source>New tweets</source>
+        <extracomment>New tweets received (this pops up in tray)</extracomment>
+        <translation type="obsolete">Nowe wiadomości</translation>
+    </message>
+    <message>
+        <location filename="../qtwitter-app/ui/mainwindow.ui"/>
+        <location filename="../qtwitter-app/src/mainwindow.cpp" line="+5"/>
+        <location filename="../tmp/ui_mainwindow.h" line="-2"/>
+        <source>More...</source>
+        <translation>Действия...</translation>
+    </message>
+    <message>
+        <location filename="../qtwitter-app/src/mainwindow.cpp" line="-8"/>
+        <source>Update tweets</source>
+        <translation>Обновить</translation>
+    </message>
+    <message>
+        <location line="-512"/>
+        <location line="+33"/>
+        <location line="+499"/>
+        <source>Quit</source>
+        <translation>Выход</translation>
+    </message>
+    <message>
+        <location line="-506"/>
+        <location line="+499"/>
+        <source>New tweet</source>
+        <translation>Новое сообщение</translation>
+    </message>
+    <message>
+        <location line="-498"/>
+        <location line="+499"/>
+        <source>Upload a photo to TwitPic</source>
+        <translation>Загрузить фото на TwitPic</translation>
+    </message>
+    <message>
+        <location line="-498"/>
+        <location line="+499"/>
+        <source>Go to Twitter</source>
+        <translation>Перейти на Twitter.com</translation>
+    </message>
+    <message>
+        <location line="-497"/>
+        <location line="+499"/>
+        <source>Go to TwitPic</source>
+        <translation>Перейти на TwitPic.com</translation>
     </message>
 </context>
 <context>
@@ -909,7 +917,7 @@
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+59"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Неизвестная ошибка во время сокращения вашей ссылки.</translation>
     </message>
 </context>
 <context>
@@ -917,13 +925,13 @@
     <message>
         <location line="+237"/>
         <source>The URL entered was not valid.</source>
-        <translation>La URL introduida no és vàlida.</translation>
+        <translation>Введенный URL неверен.</translation>
     </message>
     <message>
         <location line="+3"/>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Неизвестная ошибка во время сокращения вашей ссылки.</translation>
     </message>
 </context>
 <context>
@@ -932,27 +940,27 @@
         <location filename="../qtwitter-app/src/accounts/newaccountdialog.ui"/>
         <location filename="../tmp/ui_newaccountdialog.h" line="+130"/>
         <source>New account</source>
-        <translation>Nou compte</translation>
+        <translation>Новый аккаунт</translation>
     </message>
     <message>
         <source>Login:</source>
-        <translation type="obsolete">Nom d&apos;usuari:</translation>
+        <translation type="obsolete">Login:</translation>
     </message>
     <message>
         <source>Password:</source>
-        <translation type="obsolete">Contrasenya:</translation>
+        <translation type="obsolete">Hasło:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_newaccountdialog.h" line="+1"/>
         <source>&amp;Login:</source>
-        <translation>&amp;Nom d&apos;usuari:</translation>
+        <translation>&amp;Логин:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_newaccountdialog.h" line="+1"/>
         <source>&amp;Password:</source>
-        <translation>&amp;Contrasenya:</translation>
+        <translation>&amp;Пароль:</translation>
     </message>
     <message>
         <location/>
@@ -970,28 +978,28 @@
         <location/>
         <location filename="../tmp/ui_newaccountdialog.h" line="+2"/>
         <source>&amp;Social network:</source>
-        <translation>&amp;Xarxa social:</translation>
+        <translation>&amp;Сервис:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_newaccountdialog.h" line="+1"/>
         <source>Network &amp;name:</source>
-        <translation>No&amp;m de la xarxa</translation>
+        <translation>&amp;Название:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_newaccountdialog.h" line="+1"/>
         <source>&amp;Website:</source>
-        <translation>&amp;Adreça URL:</translation>
+        <translation>&amp;Сайт:</translation>
     </message>
     <message>
         <source>Social network:</source>
-        <translation type="obsolete">Xarxa social:</translation>
+        <translation type="obsolete">Serwis:</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/src/accounts/newaccountdialog.cpp" line="+39"/>
         <source>Other StatusNet</source>
-        <translation>Altre StatusNet</translation>
+        <translation>Другой StatusNet</translation>
     </message>
 </context>
 <context>
@@ -999,30 +1007,30 @@
     <message>
         <location filename="../qtwitter-app/src/oauth/oauthwizard.cpp" line="+114"/>
         <source>There was a network-related problem with completing the request. Please try again later.</source>
-        <translation>Hi haura un problema relacionat amb la xarxa amb el seu sol·licitud. Si us plau, intenteu-ho de nou més tard.</translation>
+        <translation>Проблемы с сетью. Попробуйте позже.</translation>
     </message>
     <message>
         <location line="+1"/>
         <location line="+48"/>
         <source>Retry</source>
-        <translation>Intentar-ho de nou</translation>
+        <translation>Повторить</translation>
     </message>
     <message>
         <location line="-1"/>
         <source>Either the PIN you entered is incorrect, or a network-related problem occured. Please try again later.</source>
-        <translation>El seu PIN ès incorrecte o un problema relacionat amb la xarxa ha ocurrit. Intenteu-ho de nou més tard.</translation>
+        <translation>Введенный PIN-код не верен, либо проблемы с сетью. Попробуйте еще раз.</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/src/oauth/oauthwizard.ui"/>
         <location filename="../tmp/ui_oauthwizard.h" line="+71"/>
         <source>Allow access</source>
-        <translation>Permetre l&apos;acces</translation>
+        <translation>Разрешить доступ</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_oauthwizard.h" line="+1"/>
         <source>Cancel</source>
-        <translation>Anul·lar</translation>
+        <translation>Отмена</translation>
     </message>
 </context>
 <context>
@@ -1031,13 +1039,13 @@
         <location filename="../qtwitter-app/src/oauth/pinwidget.ui"/>
         <location filename="../tmp/ui_pinwidget.h" line="+77"/>
         <source>Enter PIN number received from Twitter</source>
-        <translation>Introduïu el PIN rebut de Twitter</translation>
+        <translation>Введите PIN-код, полученный из твиттера</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_pinwidget.h" line="+1"/>
         <source>OK</source>
-        <translation>Bé</translation>
+        <translation>ОК</translation>
     </message>
 </context>
 <context>
@@ -1045,7 +1053,7 @@
     <message>
         <location filename="../qtwitter-app/src/pluginmgr/pluginmanagerwidget.cpp" line="+44"/>
         <source>Plugins</source>
-        <translation>Plugins</translation>
+        <translation>Дополнения</translation>
     </message>
 </context>
 <context>
@@ -1054,273 +1062,273 @@
         <location filename="../qtwitter-app/ui/settings.ui"/>
         <location filename="../tmp/ui_settings.h" line="+406"/>
         <source>Settings</source>
-        <translation>Configuració</translation>
+        <translation>Настройки</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+5"/>
         <source>General</source>
-        <translation>General</translation>
+        <translation>Основное</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="-2"/>
         <source>Language</source>
-        <translation>Llengua</translation>
+        <translation>Язык</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/src/settings.cpp" line="+478"/>
         <source>English</source>
         <extracomment>Please put here your translation&apos;s language, e.g. &quot;Deutsch&quot;, &quot;Francais&quot;, &quot;Suomi&quot;, etc. DON&apos;T TRANSLATE &quot;English&quot; TO YOUR LANGUAGE</extracomment>
-        <translation>Català</translation>
+        <translation>Русский</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/ui/settings.ui"/>
         <location filename="../tmp/ui_settings.h" line="+13"/>
         <source>Network</source>
-        <translation>Xarxa</translation>
+        <translation>Сеть</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="-15"/>
         <source>Refresh every (mins)</source>
-        <translation>Actualitzar cada (min)</translation>
+        <translation>Обновлениекаждые (мин.)</translation>
     </message>
     <message>
         <source>Shorten links via</source>
-        <translation type="obsolete">Escurçar enllaços amb</translation>
+        <translation type="obsolete">Skracaj linki przez</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+11"/>
         <source>Updates</source>
-        <translation>Actualitzacions</translation>
+        <translation>Обновления</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Automatically check for updates at startup</source>
-        <translation>Automaticament comproveu s&apos;hi ha actualitzations al inici</translation>
+        <translation>Автоматическая проверка обновлений при зпапуске</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Last checked:</source>
-        <translation>Última vegada comprovat el:</translation>
+        <translation>Последняя проверка:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Check now</source>
-        <translation>Comproveu ara</translation>
+        <translation>Проверить сейчас</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+3"/>
         <source>Statuses display mode</source>
-        <translation>Moda de visualització dels estatuts</translation>
+        <translation>Показ статусов</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>display authors&apos; names</source>
-        <translation>mostrar noms d&apos;autors</translation>
+        <translation>показывать имена авторов</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>display authors&apos; nicks (logins)</source>
-        <translation>mostrar nicks (logins) dels autors</translation>
+        <translation>показывать ники(логины) авторов</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>display both authors&apos; names and nicks</source>
-        <translation>mostrar noms i nicks d&apos;autors</translation>
+        <translation>показывать имена и ники авторов</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Tray icon and notifications</source>
-        <translation>Icona de tray i les notificacions</translation>
+        <translation>Иконка и уведомления</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>always visible</source>
-        <translation>sempre visible</translation>
+        <translation>всегда показывать</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>visible only when minimized</source>
-        <translation>només visible quan minimitzada</translation>
+        <translation>показывать только когда программа скрыта</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Show tray notifications</source>
-        <translation>Mostrar les notificacions a la safata de sistema</translation>
+        <translation>показывать уведомления в трее</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Close button</source>
-        <translation>Botó &quot;Tancar&quot;</translation>
+        <translation>Кнопка закрытия</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Hides the application</source>
-        <translation>Amaga l&apos;aplicació</translation>
+        <translation>свернуть в трей</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Closes the application</source>
-        <translation>Tanca l&apos;aplicació</translation>
+        <translation>закрыть программу</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="-24"/>
         <source>Confirm messages deletion</source>
-        <translation>Confirmar la supresió de missatges</translation>
+        <translation>Подтерждение при удалении сообщения</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+3"/>
         <source>Use HTTP &amp;proxy</source>
-        <translation>Utilitzar el &amp;proxy HTTP</translation>
+        <translation>Использовать HTTP &amp;прокси</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+1"/>
         <source>Host:</source>
-        <translation></translation>
+        <translation>Хост:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+2"/>
         <source>Port:</source>
-        <translation></translation>
+        <translation>Порт:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="-8"/>
         <source>Status count:</source>
-        <translation>Quantitat d&apos;estatuts:</translation>
+        <translation>Число статусов:</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/src/settings.cpp" line="-81"/>
         <source>Apply</source>
-        <translation>Aplicar</translation>
+        <translation>Применить</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Cancel</source>
-        <translation>Anul·lar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location line="-10"/>
         <location line="+95"/>
         <source>Default</source>
-        <translation>Per defecte</translation>
+        <translation>По умолчанию</translation>
     </message>
     <message>
         <location line="-89"/>
         <source>OK</source>
-        <translation>Bé</translation>
+        <translation>ОК</translation>
     </message>
     <message>
         <location line="-314"/>
         <location line="+310"/>
         <source>Use custom web browser</source>
-        <translation>Utilitzar un altre navegador web</translation>
+        <translation>Использовать другой браузер</translation>
     </message>
     <message>
         <location line="-308"/>
         <location line="+309"/>
         <source>Browse</source>
-        <translation>Navegar</translation>
+        <translation>Обзор</translation>
     </message>
     <message>
         <location line="-246"/>
         <source>never</source>
-        <translation>mai</translation>
+        <translation>никогда</translation>
     </message>
     <message>
         <location line="+179"/>
         <source>Update available</source>
-        <translation>Actualització disponible</translation>
+        <translation>Доступны обновления</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>An update to qTwitter is available!</source>
-        <translation>L&apos;actualització de qTwitter està disponible!</translation>
+        <translation>Доступна свежая версия qTwitter!</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Current version is %1.&lt;br&gt;Download it from %2</source>
-        <translation>Versió actual ès %1.&lt;br&gt;Descarregeu-la des de %2</translation>
+        <translation>Текущая версия: %1.&lt;br&gt;Загрузить на: %2</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>No updates available</source>
-        <translation>No hi ha cap actualització disponible</translation>
+        <translation>Обновлений нет</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Sorry, no updates for qTwitter are currently available</source>
-        <translation>Ho sentim, no hi ha cap actualització de qTwitter</translation>
+        <translation>Извините, но обновления программы не доступны</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Close</source>
-        <translation>Tancar</translation>
+        <translation>Закрыть</translation>
     </message>
     <message>
         <source>Refresh every (mins):</source>
-        <translation type="obsolete">Actualitzar cada (min):</translation>
+        <translation type="obsolete">Odświeżaj co (min.):</translation>
     </message>
     <message>
         <source>Language:</source>
-        <translation type="obsolete">Llengua:</translation>
+        <translation type="obsolete">Język:</translation>
     </message>
     <message>
         <location line="+73"/>
         <source>Select your browser executable</source>
-        <translation>Escolliu l&apos;arxiu del seu navegador</translation>
+        <translation>Выбор бразузера</translation>
     </message>
     <message>
         <location line="+0"/>
         <source>All files (*)</source>
-        <translation>Tots arxius (*)</translation>
+        <translation>Все файлыi (*)</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/ui/settings.ui"/>
         <location filename="../tmp/ui_settings.h" line="+27"/>
         <source>Appearance</source>
-        <translation>Aparença</translation>
+        <translation>Внешний вид</translation>
     </message>
     <message>
         <source>Tip: use %1 to shorten links</source>
-        <translation type="obsolete">Suggeriment: Utilitzeu %1 per a escurçar enllaços</translation>
+        <translation type="obsolete">Podpowiedź: skracaj linki używając %1</translation>
     </message>
     <message>
         <source>Shorten links via:</source>
-        <translation type="obsolete">Escurçar enllaços amb:</translation>
+        <translation type="obsolete">Skracaj linki przez:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="-23"/>
         <source>Accounts</source>
-        <translation>Comptes</translation>
+        <translation>Аккаунты</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_settings.h" line="+11"/>
         <source>Color scheme:</source>
-        <translation>Esquema de color:</translation>
+        <translation>Цветовая схема:</translation>
     </message>
 </context>
 <context>
@@ -1328,7 +1336,7 @@
     <message>
         <location filename="../qtwitter-app/src/statusedit.cpp" line="+80"/>
         <source>What are you doing?</source>
-        <translation>Què estàs fent ara?</translation>
+        <translation>Что вы сейчас делаете?</translation>
     </message>
 </context>
 <context>
@@ -1337,12 +1345,12 @@
         <location filename="../qtwitter-app/src/statusmodel.cpp" line="+282"/>
         <source>Are you sure?</source>
         <extracomment>Are you sure to delete your message</extracomment>
-        <translation>Esteu segur?</translation>
+        <translation>Вы уверены?</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Are you sure to delete this status?</source>
-        <translation>Esteu segur de suprimir aquest missatge?</translation>
+        <translation>Вы уверены, что хотите удалить этот статус?</translation>
     </message>
 </context>
 <context>
@@ -1353,37 +1361,37 @@
         <location line="+159"/>
         <location line="+159"/>
         <source>Add to Favorites</source>
-        <translation>Afegir als favorits</translation>
+        <translation>Добавить в избранное</translation>
     </message>
     <message>
         <location line="-331"/>
         <location line="+347"/>
         <source>Retweet</source>
-        <translation>Reenviar</translation>
+        <translation>Ретвит</translation>
     </message>
     <message>
         <location line="-329"/>
         <location line="+330"/>
         <source>Copy link to this status</source>
-        <translation>Copiar l&apos;enllaç a aquest missatge</translation>
+        <translation>Скопировать ссылку на этот статус</translation>
     </message>
     <message>
         <location line="-320"/>
         <location line="+322"/>
         <source>Mark list as read</source>
-        <translation>Marcar la llista com a llegida</translation>
+        <translation>Отметить список прочитанным</translation>
     </message>
     <message>
         <location line="-317"/>
         <location line="+318"/>
         <source>Mark everything as read</source>
-        <translation>Marcar tot com a llegit</translation>
+        <translation>Отметить все, как прочитанное</translation>
     </message>
     <message>
         <location line="-305"/>
         <location line="+306"/>
         <source>Go to User&apos;s homepage</source>
-        <translation>Anar-hi a la pàgina principal d&apos;usuari</translation>
+        <translation>Перейти на домашнюю страницу пользователя</translation>
     </message>
     <message>
         <location line="-295"/>
@@ -1391,26 +1399,26 @@
         <location line="+27"/>
         <location line="+145"/>
         <source>Reply to %1</source>
-        <translation>Respondre a %1</translation>
+        <translation>Ответ %1</translation>
     </message>
     <message>
         <location line="-265"/>
         <location line="+247"/>
         <source>Direct message %1</source>
-        <translation>Escrivir un missatge a %1</translation>
+        <translation>Прямое сообщение от %1</translation>
     </message>
     <message>
         <location line="-133"/>
         <source>Deleting messages is not supported by StatusNet</source>
-        <translation>Supriment dels missatges no és compatible amb StatusNet</translation>
+        <translation>Удаление сообщений не поддерживается на StatusNet</translation>
     </message>
     <message>
         <source>Go to User&apos;s Identi.ca page</source>
-        <translation type="obsolete">Anar-hi a la pàgina de Identi.ca d&apos;usuari</translation>
+        <translation type="obsolete">Idź do strony użytkownika na Identi.ca</translation>
     </message>
     <message>
         <source>Go to User&apos;s Twitter page</source>
-        <translation type="obsolete">Anar-hi a la pàgina de Twitter d&apos;usuari</translation>
+        <translation type="obsolete">Idź do strony użytkownika na Twitterze</translation>
     </message>
     <message>
         <location line="-106"/>
@@ -1418,36 +1426,36 @@
         <location line="+178"/>
         <location line="+11"/>
         <source>Delete status</source>
-        <translation>Suprimir el estatut</translation>
+        <translation>Удалить статус</translation>
     </message>
     <message>
         <location line="-267"/>
         <location line="+99"/>
         <location line="+159"/>
         <source>Delete message</source>
-        <translation>Suprimir el missatge</translation>
+        <translation>Удалить сообщение</translation>
     </message>
     <message>
         <location line="-244"/>
         <location line="+258"/>
         <source>Go to User&apos;s %1 page</source>
-        <translation>Anar-hi a la pàgina de %1 d&apos;usuari</translation>
+        <translation>Перейти на страницу %1</translation>
     </message>
     <message>
         <location line="-185"/>
         <location line="+157"/>
         <source>Remove from Favorites</source>
-        <translation>Suprimir-lo dels favorits</translation>
+        <translation>Удалить из избранного</translation>
     </message>
     <message>
         <location line="-112"/>
         <source>in reply to %1</source>
-        <translation>en reposta a %1</translation>
+        <translation>ответ на %1</translation>
     </message>
     <message>
         <location line="+120"/>
         <source>About %1</source>
-        <translation>Sobre %1</translation>
+        <translation>О %1</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/ui/statuswidget.ui"/>
@@ -1466,7 +1474,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="-149"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Неизвестная ошибка во время сокращения вашей ссылки.</translation>
     </message>
 </context>
 <context>
@@ -1474,7 +1482,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-69"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Неизвестная ошибка во время сокращения вашей ссылки.</translation>
     </message>
 </context>
 <context>
@@ -1482,12 +1490,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location line="-60"/>
         <source>The URL has been rejected by the tr.im</source>
-        <translation>La URL ha estat rebutjat per tr.im</translation>
+        <translation>Введенный URL не понравился сервису</translation>
     </message>
     <message>
         <location line="+6"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Неизвестная ошибка во время сокращения вашей ссылки.</translation>
     </message>
 </context>
 <context>
@@ -1495,27 +1503,27 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../qtwitter-app/src/twitpicengine.cpp" line="+155"/>
         <source>Invalid twitter username or password</source>
-        <translation>Nom d&apos;usuari i/o contrasenya són incorrectes</translation>
+        <translation>Неправильный логин или пароль в твиттере</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Image not found</source>
-        <translation>No s&apos;ha trobat la imatge</translation>
+        <translation>Изображение не найдено</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Invalid image type</source>
-        <translation>Incorrecte fromat de la imatge</translation>
+        <translation>Некорректный формат изображения</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>Image larger than 4MB</source>
-        <translation>Imatge més gran que 4MB</translation>
+        <translation>Изображение больше 4MB</translation>
     </message>
     <message>
         <location line="+3"/>
         <source>We&apos;re sorry, but due to some mysterious error your image failed to upload</source>
-        <translation>Ho sentim, peró degut a algun error la imatge no ha estat pujat</translation>
+        <translation>Опаньки! Во время загрузки возьникла неведомая ошибка</translation>
     </message>
 </context>
 <context>
@@ -1524,7 +1532,7 @@ background-color: rgba(255,255,255,0);
         <location filename="../qtwitter-app/ui/twitpicnewphoto.ui"/>
         <location filename="../tmp/ui_twitpicnewphoto.h" line="+118"/>
         <source>Upload completed</source>
-        <translation>El carregament s&apos;ha acabat</translation>
+        <translation>Загрузка успешно завершена</translation>
     </message>
 </context>
 <context>
@@ -1536,23 +1544,23 @@ background-color: rgba(255,255,255,0);
         <location line="+10"/>
         <location filename="../tmp/ui_twitpicview.h" line="+184"/>
         <source>Upload</source>
-        <translation>Pujar</translation>
+        <translation>Загрузить</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/src/twitpicview.cpp" line="-4"/>
         <location line="+2"/>
         <source>Abort</source>
-        <translation>Anul·lar</translation>
+        <translation>Отмена</translation>
     </message>
     <message>
         <location line="+11"/>
         <source>Select photo to upload</source>
-        <translation>Seleccioneu el foto</translation>
+        <translation>Выбер фототографии</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>Image files</source>
-        <translation>Imatges</translation>
+        <translation>Изображения</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/ui/twitpicview.ui"/>
@@ -1561,31 +1569,31 @@ background-color: rgba(255,255,255,0);
         <location line="+12"/>
         <location filename="../tmp/ui_twitpicview.h" line="-2"/>
         <source>Select a photo to upload</source>
-        <translation>Seleccioneu el foto per a carregar</translation>
+        <translation>Выберите изображение для загрузки</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_twitpicview.h" line="-3"/>
         <source>Upload a photo to Twitpic</source>
-        <translation>Carregeu el foto a TwitPic</translation>
+        <translation>Загрузить фото на TwitPic</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_twitpicview.h" line="+1"/>
         <source>Choose a photo:</source>
-        <translation>Seleccioneu el foto:</translation>
+        <translation>Выберите фото:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_twitpicview.h" line="+1"/>
         <source>Browse</source>
-        <translation>Navegar</translation>
+        <translation>Обзор</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_twitpicview.h" line="+2"/>
         <source>post a status</source>
-        <translation>afegir el missatge</translation>
+        <translation>добавить статус</translation>
     </message>
 </context>
 <context>
@@ -1593,12 +1601,12 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerimplementation.cpp" line="+149"/>
         <source>Your URL has been rejected by u.nu</source>
-        <translation>La URL ha estat rebutjat per u.nu</translation>
+        <translation>Введенный URL не понравился сервису</translation>
     </message>
     <message>
         <location line="+5"/>
         <source>An unknown error occurred when shortening your URL.</source>
-        <translation>Un error desconegut ha estat trobat durant l&apos;escurçament del seu URL.</translation>
+        <translation>Неизвестная ошибка во время сокращения вашей ссылки.</translation>
     </message>
 </context>
 <context>
@@ -1606,7 +1614,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerplugin.cpp" line="+85"/>
         <source>Url shortening</source>
-        <translation>Escurçament d&apos;urls</translation>
+        <translation>Сокращение ссылок</translation>
     </message>
 </context>
 <context>
@@ -1615,19 +1623,19 @@ background-color: rgba(255,255,255,0);
         <location filename="../plugins/urlshortener/urlshortenerwidget.ui"/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+88"/>
         <source>&amp;Automatically shorten links before posting</source>
-        <translation>Escurçar enllaços &amp;automaticament davant d&apos;enviar</translation>
+        <translation>Автоматическое сокращение ссылок</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+1"/>
         <source>&amp;Shortcut:</source>
-        <translation>&amp;Tecla de drecera:</translation>
+        <translation>Ярл&amp;ык:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+1"/>
         <source>Shorten &amp;links via</source>
-        <translation>&amp;Escurçar enllaços usant</translation>
+        <translation>Сервис </translation>
     </message>
 </context>
 <context>
@@ -1637,9 +1645,9 @@ background-color: rgba(255,255,255,0);
         <source>friend</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
         <translation>
-            <numerusform>amic</numerusform>
-            <numerusform>amics</numerusform>
-            <numerusform></numerusform>
+            <numerusform>друг</numerusform>
+            <numerusform>%nдруга</numerusform>
+            <numerusform>%nдрузей</numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -1647,40 +1655,40 @@ background-color: rgba(255,255,255,0);
         <source>friends</source>
         <extracomment>This makes in context something like &quot;2 friends&quot; or &quot;300 friends&quot;. Ignore the Linguist warning, cause in this particular case everything is ok</extracomment>
         <translation>
-            <numerusform>amic</numerusform>
-            <numerusform>amics</numerusform>
-            <numerusform></numerusform>
+            <numerusform>%nдруг</numerusform>
+            <numerusform>%nдруга</numerusform>
+            <numerusform>%nдрузей</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../qtwitter-app/ui/userinfopopup.ui"/>
         <location filename="../tmp/ui_userinfopopup.h" line="+279"/>
         <source>Login:</source>
-        <translation>Nom d&apos;usuari:</translation>
+        <translation>Логин:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_userinfopopup.h" line="+1"/>
         <source>Location:</source>
-        <translation>Ubicació:</translation>
+        <translation>Место:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_userinfopopup.h" line="+1"/>
         <source>Local time:</source>
-        <translation>Hora local:</translation>
+        <translation>Время:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_userinfopopup.h" line="+1"/>
         <source>Homepage:</source>
-        <translation>Pàgina principal:</translation>
+        <translation>Вебсайт:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_userinfopopup.h" line="+1"/>
         <source>Bio:</source>
-        <translation>Sobre:</translation>
+        <translation>Био:</translation>
     </message>
 </context>
 <context>
@@ -1688,57 +1696,57 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../qtwitter-app/src/welcomedialog.cpp" line="+49"/>
         <source>Account added successfully! You may add another or just start using program.</source>
-        <translation>El compte afegida amb èxit! Podeu afegir un altre o solament iniciar usant l&apos;aplicació.</translation>
+        <translation>Аккаунт добавлен! Вы можете добавить еще один или начать использование программы.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>Add one more</source>
-        <translation>Afegiu altre més</translation>
+        <translation>Добавить еще один</translation>
     </message>
     <message>
         <location line="+2"/>
         <source>There was a problem adding your account. Please check your internet connection and try one more time.</source>
-        <translation>Un error afegint el seu compte ha ocurrit. Comproveu el seu connexió de internet i intenteu-ho altre vegada.</translation>
+        <translation>Возникли проблемы с добавлением вашего аккаунта. Пожалуйста, проверьте ваше соединение с интернетом и попробуйте еще раз.</translation>
     </message>
     <message>
         <location line="+10"/>
         <source>You can add more accounts at any time in Settings-&gt;Accounts.</source>
-        <translation>Podeu afegir més comptes anant a Conficuració-&gt;Comptes.</translation>
+        <translation>Вы можете добавить больше аккаунтов через меню Настройки-&gt;Аккаунты.</translation>
     </message>
     <message>
         <location line="+1"/>
         <source>OK</source>
-        <translation>Bé</translation>
+        <translation>OK</translation>
     </message>
     <message>
         <location filename="../qtwitter-app/ui/welcomedialog.ui"/>
         <location filename="../tmp/ui_welcomedialog.h" line="+115"/>
         <source>Welcome!</source>
-        <translation>Benvingut!</translation>
+        <translation>Добро пожаловать!</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_welcomedialog.h" line="+1"/>
         <source>Welcome to qTwitter!</source>
-        <translation>Benvingut a qTwitter!</translation>
+        <translation>Добро пожаловать в волшебный мир qTwitter!</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_welcomedialog.h" line="+1"/>
         <source>To make the best use of this application you should setup one or more Twitter or Identi.ca accounts.</source>
-        <translation>Per a fer el millor ús d&apos;aquesta aplicació, heu de configurar un o més comptes de Twitter o Identi.ca.</translation>
+        <translation>Перед использованием этой программы, вы должны добавить хотя бы один аккаунт.</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_welcomedialog.h" line="+1"/>
         <source>Add Account</source>
-        <translation>Afegir el compte</translation>
+        <translation>Добавить аккаунт</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_welcomedialog.h" line="+1"/>
         <source>Continue</source>
-        <translation>Continuar</translation>
+        <translation>Продолжить</translation>
     </message>
 </context>
 </TS>

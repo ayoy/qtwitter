@@ -1,3 +1,12 @@
+v0.10.0 (2009/11/01):
+- merging friends timeline with mentions (@-replies) timeline,
+- fixed notifications - now notify about new statuses (NOT unread ones) and display unread statuses count,
+- improved URL shortening (all urls at one go, customizable shortcut, pluggable),
+- automatic #hashtagging,
+- fixes in parsing links in statuses (by Stephan Beyer),
+- initial plugin architecture (subject to change),
+- improvements in build system (detecting correct libdir on *NIXes and automatic generation of translations),
+- code cleanup in Twitter API library (by Stephan Beyer).
 v0.9.2 (2009/10/01):
 - SSL encryption for connections to Twitter and Identi.ca (#75),
 - fixed incomplete Norwegian translation (#74),

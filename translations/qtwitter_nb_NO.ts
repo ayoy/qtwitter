@@ -340,7 +340,7 @@
     <message>
         <location filename="../plugins/autotag/autotagplugin.cpp" line="+59"/>
         <source>AutoTag</source>
-        <translation type="unfinished"></translation>
+        <translation>AutoTag</translation>
     </message>
 </context>
 <context>
@@ -349,13 +349,14 @@
         <location filename="../plugins/autotag/autotagwidget.ui"/>
         <location filename="../tmp/ui_autotagwidget.h" line="+115"/>
         <source>&amp;Enable automatic #tagging</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Tags and tagging should be the same in norwegian for internet lingua.</translatorcomment>
+        <translation>Slå på &amp;automatisk #tagging</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_autotagwidget.h" line="+1"/>
         <source>&amp;Add words:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Legg til ord:</translation>
     </message>
 </context>
 <context>
@@ -1013,7 +1014,8 @@
     <message>
         <location filename="../qtwitter-app/src/pluginmgr/pluginmanagerwidget.cpp" line="+44"/>
         <source>Plugins</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Norwegian translation is a bit loose on this one. A standard doesn&apos;t seem to exists and there are mulitiple usages (programtillegg plug-in, modul, innpluggingsmodul). I&apos;ll go with the one that&apos;s the most internetty :)</translatorcomment>
+        <translation>Plugins</translation>
     </message>
 </context>
 <context>
@@ -1574,7 +1576,7 @@ background-color: rgba(255,255,255,0);
     <message>
         <location filename="../plugins/urlshortener/urlshortenerplugin.cpp" line="+85"/>
         <source>Url shortening</source>
-        <translation type="unfinished"></translation>
+        <translation>URL forkorting</translation>
     </message>
 </context>
 <context>
@@ -1583,19 +1585,19 @@ background-color: rgba(255,255,255,0);
         <location filename="../plugins/urlshortener/urlshortenerwidget.ui"/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+88"/>
         <source>&amp;Automatically shorten links before posting</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Automatisk forkort linker før sending</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+1"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Snarvei:</translation>
     </message>
     <message>
         <location/>
         <location filename="../tmp/ui_urlshortenerwidget.h" line="+1"/>
         <source>Shorten &amp;links via</source>
-        <translation type="unfinished"></translation>
+        <translation>Forkort &amp;linker via</translation>
     </message>
 </context>
 <context>
