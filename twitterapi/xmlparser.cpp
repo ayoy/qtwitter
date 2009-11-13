@@ -279,8 +279,12 @@ QString XmlParser::textToHtml( QString newText )
     QRegExp ahref( "((https?|ftp)://[^ ]+)( ?)", Qt::CaseInsensitive );
     newText.replace( ahref, "<a href='\\1'>\\1</a>\\3" );
 
-    // recognize @mentions (letters, numbers and _ are allowed in nicks)
-    newText.replace( QRegExp( "(^| |[^a-zA-Z0-9])@([\\w\\d_]+)" ),
+    // recognize @mentions (letters, numbers are allowed in nicks)
+    // for Twitter, also allow _ in nicks and @user/list;
+    // the list name can only contain letters, numbers and dashes (-)
+    newText.replace( m_serviceUrl == TwitterAPI::URL_TWITTER ?
+                     QRegExp( "(^|[^a-zA-Z0-9])@([\\w\\d_]+(/[\\w\\d-]+)?)" ) :
+                     QRegExp( "(^|[^a-zA-Z0-9])@([\\w\\d]+)" ),
                      QString( "\\1<a href='%1/\\2'>@\\2</a>").arg( networkUrl ) );
 
     // recognize e-mail addresses
