@@ -558,3 +558,9 @@ void StatusList::setMaxCount( int maxCount )
 {
     StatusListPrivate::maxCount = maxCount;
 }
+
+void StatusList::unfollow( quint64 userId )
+{
+    Q_D(StatusList);
+    d->twitterapi->unfollow( userId );
+}

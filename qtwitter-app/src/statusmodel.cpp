@@ -494,3 +494,8 @@ void StatusModel::emitOpenBrowser( QString address )
 {
     emit openBrowser( QUrl( address ) );
 }
+
+void StatusModel::unfollow( quint64 userId )
+{
+    statusList->unfollow( userId );
+}

@@ -133,6 +133,11 @@ void StatusWidget::createMenu()
 
     menu->addSeparator();
 
+    unfollowAction = new QAction( tr( "Unfollow user" ), this );
+    menu->addAction( unfollowAction );
+    connect( unfollowAction, SIGNAL(triggered()), this , SLOT(slotUnfollow()) );
+    connect( this, SIGNAL(unfollow(quint64)), StatusModel::instance(), SLOT(unfollow(quint64)) );
+
     gototwitterpageAction = new QAction( this );
     gototwitterpageAction->setShortcut( QKeySequence( Qt::CTRL + Qt::SHIFT + Qt::Key_T ) );
     menu->addAction( gototwitterpageAction );
@@ -187,6 +192,9 @@ void StatusWidget::setupMenu()
     }
 
     menu->addSeparator();
+
+    unfollowAction->setText( tr( "Unfollow %1" ).arg( statusData->userInfo.screenName ) );
+
 
     signalMapper->removeMappings( gototwitterpageAction );
     gototwitterpageAction->setText( tr( "Go to User's %1 page" ).arg( Account::networkName( currentServiceUrl ) ) );
@@ -572,4 +580,9 @@ void StatusWidget::handleReplyDeleteButton()
         slotDelete();
     else
         slotReply();
+}
+
+void StatusWidget::slotUnfollow()
+{
+    emit unfollow( statusData->userInfo.id );
 }

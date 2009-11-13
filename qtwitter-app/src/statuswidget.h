@@ -76,6 +76,7 @@ public slots:
     void slotDelete();
     void slotFavorite();
     void adjustSize();
+    void slotUnfollow();
 
 signals:
     void reply( const QString &name, quint64 inReplyTo );
@@ -84,6 +85,7 @@ signals:
     void selectMe( StatusWidget *status );
     void deleteStatus( quint64 id );
     void getUserInfo( int userId);
+    void unfollow( quint64 userId );
 
 protected:
     void changeEvent( QEvent *e );
@@ -110,6 +112,7 @@ private:
     QAction *gototwitterpageAction;
     QAction *deleteAction;
     QAction *favoriteAction;
+    QAction *unfollowAction;
 
     StatusModel::StatusState statusState;
     const Entry *statusData;
