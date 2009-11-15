@@ -73,11 +73,11 @@ struct ThemeData
 typedef QPair<QString,ThemeData> ThemeInfo;
 
 struct Themes {
-    static const ThemeInfo STYLESHEET_COCOA;
-    static const ThemeInfo STYLESHEET_GRAY;
-    static const ThemeInfo STYLESHEET_GREEN;
-    static const ThemeInfo STYLESHEET_PURPLE;
-    static const ThemeInfo STYLESHEET_SKY;
+    static const ThemeInfo Cocoa;
+    static const ThemeInfo Gray;
+    static const ThemeInfo Green;
+    static const ThemeInfo Purple;
+    static const ThemeInfo Sky;
 };
 
 

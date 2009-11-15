@@ -32,37 +32,37 @@
 #endif // TWITTERAPI_GLOBAL_H
 
 /*!
-  \var TwitterAPI::ROLE_PUBLIC_TIMELINE
+  \var TwitterAPI::RolePublicTimeline
 
   Indicates that the request is for downloading the public timeline.
 */
 
 /*!
-  \var TwitterAPI::ROLE_FRIENDS_TIMELINE
+  \var TwitterAPI::RoleFriendsTimeline
 
   Indicates that the request is for downloading the friends timeline.
 */
 
 /*!
-  \var TwitterAPI::ROLE_DIRECT_MESSAGES
+  \var TwitterAPI::RoleDirectMessages
 
   Indicates that the request is for downloading direct messages list.
 */
 
 /*!
-  \var TwitterAPI::ROLE_POST_UPDATE
+  \var TwitterAPI::RolePostUpdate
 
   Indicates that the request is for posting a status update.
 */
 
 /*!
-  \var TwitterAPI::ROLE_DELETE_UPDATE
+  \var TwitterAPI::RoleDeleteUpdate
 
   Indicates that the request is for deleting a status update.
 */
 
 /*!
-  \var TwitterAPI::ROLE_POST_DM
+  \var TwitterAPI::RolePostDM
 
   Indicates that the request is for posting a direct message.
 
@@ -70,7 +70,7 @@
 */
 
 /*!
-  \var TwitterAPI::ROLE_DELETE_DM
+  \var TwitterAPI::RoleDeleteDM
 
   Indicates that the request is for deleting a direct message.
 

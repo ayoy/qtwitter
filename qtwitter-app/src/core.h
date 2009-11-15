@@ -121,7 +121,6 @@ signals:
     void pauseIcon();
     void timelineUpdated();
     void modelChanged( StatusModel *model );
-    void confirmDMSent( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
     void sendNewsReport( QString message );
 
     void accountDialogClosed( bool success );

@@ -65,16 +65,16 @@ public:
     QOAuth::Interface *qoauth;
 #endif
 
-    static const QNetworkRequest::Attribute ATTR_SOCIALNETWORK;
-    static const QNetworkRequest::Attribute ATTR_ROLE;
-    static const QNetworkRequest::Attribute ATTR_LOGIN;
-    static const QNetworkRequest::Attribute ATTR_PASSWORD;
-    static const QNetworkRequest::Attribute ATTR_STATUS;
-    static const QNetworkRequest::Attribute ATTR_ID;
-    static const QNetworkRequest::Attribute ATTR_DM_REQUESTED;
-    static const QNetworkRequest::Attribute ATTR_DM_RECIPIENT;
-    static const QNetworkRequest::Attribute ATTR_DELETION_REQUESTED;
-    static const QNetworkRequest::Attribute ATTR_MSGCOUNT;
+    static const QNetworkRequest::Attribute AttrSocialNetwork;
+    static const QNetworkRequest::Attribute AttrRole;
+    static const QNetworkRequest::Attribute AttrLogin;
+    static const QNetworkRequest::Attribute AttrPassword;
+    static const QNetworkRequest::Attribute AttrStatus;
+    static const QNetworkRequest::Attribute AttrID;
+    static const QNetworkRequest::Attribute AttrDMRequested;
+    static const QNetworkRequest::Attribute AttrDMRecipient;
+    static const QNetworkRequest::Attribute AttrDeletionRequested;
+    static const QNetworkRequest::Attribute AttrMsgCount;
 
     static const QString UrlStatusesPublicTimeline;
     static const QString UrlStatusesFriendsTimeline;

@@ -600,21 +600,20 @@ bool Core::retryAuthorizing( Account *account, int role )
         return true;
     case Core::DialogRejected:
         switch ( role ) {
-        case TwitterAPI::ROLE_POST_UPDATE:
+        case TwitterAPI::RolePostUpdate:
             emit errorMessage( tr( "Authentication is required to post updates." ) );
             break;
-        case TwitterAPI::ROLE_POST_DM:
+        case TwitterAPI::RolePostDM:
             emit errorMessage( tr( "Authentication is required to send direct messages." ) );
             break;
-        case TwitterAPI::ROLE_DELETE_UPDATE:
+        case TwitterAPI::RoleDeleteDM:
             emit errorMessage( tr( "Authentication is required to delete updates." ) );
             break;
-        case TwitterAPI::ROLE_FRIENDS_TIMELINE:
+        case TwitterAPI::RoleFriendsTimeline:
             emit errorMessage( tr( "Authentication is required to get your friends' updates." ) );
             break;
-        case TwitterAPI::ROLE_DIRECT_MESSAGES:
-            break;
-        case TwitterAPI::ROLE_PUBLIC_TIMELINE:
+        case TwitterAPI::RoleDirectMessages:
+        case TwitterAPI::RolePublicTimeline:
             break;
         }
     case Core::DialogOpen:
@@ -645,7 +644,7 @@ void Core::slotRequestDone( const QString &serviceUrl, const QString &login, int
          && statusList->login() == login ){
         StatusModel::instance()->updateDisplay();
     }
-    if ( role != TwitterAPI::ROLE_POST_DM && m_requestCount > 0 ) {
+    if ( role != TwitterAPI::RolePostDM && m_requestCount > 0 ) {
         m_requestCount--;
     }
     qDebug() << m_requestCount;

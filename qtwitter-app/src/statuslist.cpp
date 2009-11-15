@@ -162,7 +162,7 @@ void StatusListPrivate::slotUnauthorized()
 {
     Q_Q(StatusList);
 
-    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::RoleFriendsTimeline );
     QTwitterApp::core()->decrementRequestCount();
     if ( account->dm() )
         QTwitterApp::core()->decrementRequestCount();
@@ -180,7 +180,7 @@ void StatusListPrivate::slotUnauthorized( const QString &status, quint64 inReply
 {
     Q_Q(StatusList);
 
-    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::RolePostUpdate );
     QTwitterApp::core()->decrementRequestCount();
     if ( !result )
         return;
@@ -193,7 +193,7 @@ void StatusListPrivate::slotUnauthorized( const QString &screenName, const QStri
 {
     Q_Q(StatusList);
 
-    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_POST_DM );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::RolePostDM );
     QTwitterApp::core()->decrementRequestCount();
     if ( !result )
         return;
@@ -206,7 +206,7 @@ void StatusListPrivate::slotUnauthorized( quint64 destroyId, Entry::Type type )
 {
     Q_Q(StatusList);
 
-    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::RoleDeleteUpdate );
     QTwitterApp::core()->decrementRequestCount();
     if ( !result )
         return;
@@ -219,7 +219,7 @@ void StatusListPrivate::slotRequestDone( int role )
 {
     if ( visible )
         StatusModel::instance()->updateDisplay();
-    if ( role != TwitterAPI::ROLE_POST_DM && QTwitterApp::core()->requestCount() > 0 )
+    if ( role != TwitterAPI::RolePostDM && QTwitterApp::core()->requestCount() > 0 )
         QTwitterApp::core()->decrementRequestCount();
     qDebug() << QTwitterApp::core()->requestCount();
     //  if ( Core::requestCount() == 0 ) {

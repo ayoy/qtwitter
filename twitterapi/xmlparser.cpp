@@ -282,7 +282,7 @@ QString XmlParser::textToHtml( QString newText )
     // recognize @mentions (letters, numbers are allowed in nicks)
     // for Twitter, also allow _ in nicks and @user/list;
     // the list name can only contain letters, numbers and dashes (-)
-    newText.replace( m_serviceUrl == TwitterAPI::URL_TWITTER ?
+    newText.replace( m_serviceUrl == TwitterAPI::UrlTwitter ?
                      QRegExp( "(^|[^a-zA-Z0-9])@([\\w\\d_]+(/[\\w\\d-]+)?)" ) :
                      QRegExp( "(^|[^a-zA-Z0-9])@([\\w\\d]+)" ),
                      QString( "\\1<a href='%1/\\2'>@\\2</a>").arg( networkUrl ) );
@@ -293,12 +293,12 @@ QString XmlParser::textToHtml( QString newText )
 
     // recognize #hashtags
     QRegExp tag( "#([\\w\\d-]+)( ?)", Qt::CaseInsensitive );
-    newText.replace( tag, m_serviceUrl == TwitterAPI::URL_TWITTER ?
+    newText.replace( tag, m_serviceUrl == TwitterAPI::UrlTwitter ?
                      "<a href='http://search.twitter.com/search?q=\\1'>#\\1</a>\\2" :
                      QString( "<a href='%1/tag/\\1'>#\\1</a>\\2" ).arg(networkUrl) );
 
     // recognize !groups
-    if ( m_serviceUrl != TwitterAPI::URL_TWITTER ) {
+    if ( m_serviceUrl != TwitterAPI::UrlTwitter ) {
         QRegExp group( "!([\\w\\d-]+)( ?)", Qt::CaseInsensitive );
         newText.replace( group, QString( "<a href='%1/group/\\1'>!\\1</a>\\2" ).arg(networkUrl) );
     }
