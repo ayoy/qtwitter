@@ -18,41 +18,38 @@
  ***************************************************************************/
 
 
-#ifndef USERINFOPOPUP_H
-#define USERINFOPOPUP_H
+#ifndef STATUS_H
+#define STATUS_H
 
-#include <QWidget>
-#include "ui_userinfopopup.h"
-#include "status.h"
+#include <QObject>
+#include <QList>
+#include <QDataStream>
+#include "statusmodel.h"
 
-class QEvent;
-class QShowEvent;
+class QPixmap;
 
-class UserInfoPopup : public QWidget
-{
-    Q_OBJECT
+struct Status {
+    enum State {
+        Disabled,
+        Unread,
+        Read,
+        Active
+    };
 
-public:
-    virtual ~UserInfoPopup();
-
-    static UserInfoPopup* instantiate( const Status *status, QWidget *parent = 0, Qt::WindowFlags flags = 0);
-    static UserInfoPopup* instance();
-
-public slots:
-    void close();
-
-signals:
-    void closed();
-
-protected:
-    UserInfoPopup( const Status *status, QWidget *parent = 0, Qt::WindowFlags flags = 0 );
-
-    void leaveEvent( QEvent *event );
-    void showEvent( QShowEvent *event );
-
-private:
-    static UserInfoPopup *_instance;
-    Ui::UserInfoPopup *ui;
+    Entry entry;
+    State state;
+    QPixmap image;
+    bool operator==( const Status &other )
+    {
+        return ( entry == other.entry
+                 && state == other.state
+                 && image.cacheKey() == other.image.cacheKey() );
+    }
 };
 
-#endif // USERINFOPOPUP_H
+QDataStream& operator<<( QDataStream & out, const Status &status );
+QDataStream& operator>>( QDataStream & in, Status &status );
+
+Q_DECLARE_METATYPE(Status)
+
+#endif // STATUS_H

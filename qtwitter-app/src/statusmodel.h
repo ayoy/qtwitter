@@ -23,7 +23,7 @@
 
 #include <QStandardItemModel>
 #include <QUrl>
-#include <twitterapi/twitterapi.h>
+#include <twitterapi/entry.h>
 
 class QPixmap;
 class StatusWidget;
@@ -38,20 +38,11 @@ class StatusModel : public QStandardItemModel
     Q_OBJECT
 
 public:
-
-    enum StatusState {
-        STATE_DISABLED,
-        STATE_UNREAD,
-        STATE_READ,
-        STATE_ACTIVE
-    };
-
     enum DisplayMode {
         DisplayNames,
         DisplayNicks,
         DisplayBoth
     };
-
 
     static StatusModel* instance();
     ~StatusModel();
@@ -102,7 +93,6 @@ private slots:
     void emitOpenBrowser( QString address );
 
 private:
-    TwitterAPI::SocialNetwork network;
     QString login;
     StatusList *statusList;
     int maxStatusCount;

@@ -45,7 +45,7 @@ QDataStream& operator>>( QDataStream & in, Status &status )
     in >> status.entry;
     in >> status.image;
     in >> state;
-    status.state = (StatusModel::StatusState) state;
+    status.state = (Status::State) state;
     return in;
 }
 
@@ -127,7 +127,7 @@ void StatusListPrivate::deleteEntry( quint64 id )
             if ( active > i )
                 active--;
             else if ( i < data.size() && active == i )
-                data[active].state = StatusModel::STATE_ACTIVE;
+                data[active].state = Status::Active;
             emit q->statusDeleted(i);
             return;
         }
@@ -271,7 +271,7 @@ void StatusList::markAllAsRead()
     Q_D(StatusList);
 
     for ( int i = 0; i < d->data.size(); ++i ) {
-        d->data[i].state = StatusModel::STATE_READ;
+        d->data[i].state = Status::Read;
         emit stateChanged(i);
     }
 }
@@ -316,7 +316,7 @@ void StatusList::setData( int index, const Status &status )
     Q_D(StatusList);
 
     d->data[ index ] = status;
-    if ( status.state == StatusModel::STATE_ACTIVE ) {
+    if ( status.state == Status::Active ) {
         d->active = index;
         //    emit stateChanged( index );
     }
@@ -330,25 +330,25 @@ const Status& StatusList::data( int index ) const
     return d->data.at( index );
 }
 
-void StatusList::setState( int index, StatusModel::StatusState state )
+void StatusList::setState( int index, Status::State state )
 {
     Q_D(StatusList);
 
     if ( d->data[ index ].state == state )
         return;
 
-    if ( d->data[ index ].state == StatusModel::STATE_ACTIVE )
+    if ( d->data[ index ].state == Status::Active )
         d->active = -1;
 
     d->data[ index ].state = state;
 
-    if ( state == StatusModel::STATE_ACTIVE )
+    if ( state == Status::Active )
         d->active = index;
 
     emit stateChanged( index );
 }
 
-StatusModel::StatusState StatusList::state( int index ) const
+Status::State StatusList::state( int index ) const
 {
     Q_D(const StatusList);
 
@@ -491,7 +491,7 @@ int StatusListPrivate::addStatus( const Entry &entry )
     //  qDebug() << "adding new entry";
 
     Status status;
-    status.state = StatusModel::STATE_UNREAD;
+    status.state = Status::Unread;
     status.entry = entry;
     if ( status.entry.type == Entry::DirectMessage )
         status.image = QPixmap( ":/icons/mail_48.png" );
@@ -504,8 +504,8 @@ int StatusListPrivate::addStatus( const Entry &entry )
         if ( status.entry.timestamp > (*i).entry.timestamp ) {
             // TODO: HACK!
             int index = data.indexOf(*i);
-            if ( index > 1 && data.at( index - 1 ).state != StatusModel::STATE_UNREAD ) {
-                status.state = StatusModel::STATE_READ;
+            if ( index > 1 && data.at( index - 1 ).state != Status::Unread ) {
+                status.state = Status::Read;
             }
             data.insert( i, status );
             if ( data.size() >= maxCount && data.takeLast() == status )
@@ -518,8 +518,8 @@ int StatusListPrivate::addStatus( const Entry &entry )
     }
     if ( data.size() < maxCount ) {
         // TODO: HACK!
-        if ( data.at( data.size() - 1 ).state != StatusModel::STATE_UNREAD ) {
-            status.state = StatusModel::STATE_READ;
+        if ( data.at( data.size() - 1 ).state != Status::Unread ) {
+            status.state = Status::Read;
         }
         data.append( status );
         return data.size() - 1;

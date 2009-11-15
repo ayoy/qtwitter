@@ -42,8 +42,6 @@ class QXmlInputSource;
 class XmlParser;
 struct Interface;
 
-typedef QList<Entry> EntryList;
-
 class TwitterAPIPrivate;
 
 class TWITTERAPI_EXPORT TwitterAPI : public QObject

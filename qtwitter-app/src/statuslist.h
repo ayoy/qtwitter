@@ -24,31 +24,11 @@
 #include <QObject>
 #include <QList>
 #include <QDataStream>
-#include <twitterapi/twitterapi.h>
+#include "status.h"
 #include "statusmodel.h"
-#include "statuswidget.h"
 
-class QPixmap;
 struct Account;
-
-struct Status {
-    Entry entry;
-    StatusModel::StatusState state;
-    QPixmap image;
-    bool operator==( const Status &other )
-    {
-        return ( entry == other.entry
-                 && state == other.state
-                 && image.cacheKey() == other.image.cacheKey() );
-    }
-};
-
-QDataStream& operator<<( QDataStream & out, const Status &status );
-QDataStream& operator>>( QDataStream & in, Status &status );
-
-Q_DECLARE_METATYPE(Status)
-
-        class StatusListPrivate;
+class StatusListPrivate;
 
 class StatusList : public QObject
 {
@@ -79,8 +59,8 @@ public:
     bool isVisible() const;
     void setData( int index, const Status &status );
     const Status& data( int index ) const;
-    void setState( int index, StatusModel::StatusState state );
-    StatusModel::StatusState state( int index ) const;
+    void setState( int index, Status::State state );
+    Status::State state( int index ) const;
     void setImage( int index, const QPixmap &pixmap );
     const QList<Status>& getData() const;
     void setStatuses( const QList<Status> &statuses );

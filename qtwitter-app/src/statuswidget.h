@@ -22,13 +22,13 @@
 #define STATUSWIDGET_H
 
 #include <QtGui/QWidget>
+#include "status.h"
 #include "statusmodel.h"
 
 class QMenu;
 class QSignalMapper;
 class Entry;
 class ThemeData;
-class Status;
 
 namespace Ui {
     class StatusWidget;
@@ -40,7 +40,6 @@ class StatusWidget : public QWidget
     Q_DISABLE_COPY( StatusWidget )
 
 public:
-
     explicit StatusWidget( QWidget *parent = 0 );
     virtual ~StatusWidget();
 
@@ -51,9 +50,9 @@ public:
     void initialize();
     void setStatusData( const Status &status );
     void setImage( const QPixmap &pixmap );
-    void setState( StatusModel::StatusState state );
+    void setState( Status::State state );
     void setDisplayMode( StatusModel::DisplayMode mode );
-    StatusModel::StatusState getState() const;
+    Status::State getState() const;
 
     static ThemeData getTheme();
     static void setTheme( const ThemeData &theme );
@@ -111,7 +110,7 @@ private:
     QAction *deleteAction;
     QAction *favoriteAction;
 
-    StatusModel::StatusState statusState;
+    Status::State statusState;
     const Entry *statusData;
 
     static int scrollBarWidth;

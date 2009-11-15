@@ -24,6 +24,8 @@
 #include <QObject>
 #include "statuslist.h"
 
+class TwitterAPI;
+
 class StatusListPrivate : public QObject
 {
     Q_OBJECT

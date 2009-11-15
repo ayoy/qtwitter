@@ -447,7 +447,7 @@ void Core::openBrowser( QUrl address )
 Core::AuthDialogState Core::authDataDialog( Account *account )
 {
     if ( authDialogOpen )
-        return Core::STATE_DIALOG_OPEN;
+        return Core::DialogOpen;
     emit pauseIcon();
     QDialog *dlg = new QDialog( QTwitterApp::instance()->activeWindow() );
     Ui::AuthDialog ui;
@@ -469,14 +469,14 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
             settings.setValue( QString("Accounts/%1/enabled").arg( row ), false );
             emit accountsUpdated( accountsModel->getAccounts() );
             delete dlg;
-            return Core::STATE_DISABLE_ACCOUNT;
+            return Core::DisableAccount;
         } else if ( ui.removeBox->isChecked() ) {
             authDialogOpen = false;
             accountsModel->removeRow( row );
             settings.deleteAccount( row, accountsModel->rowCount() );
             emit accountsUpdated( accountsModel->getAccounts() );
             delete dlg;
-            return Core::STATE_REMOVE_ACCOUNT;
+            return Core::RemoveAccount;
         }
         account->setLogin( ui.loginEdit->text() );
         account->setPassword( ui.passwordEdit->text() );
@@ -492,11 +492,11 @@ Core::AuthDialogState Core::authDataDialog( Account *account )
         authDialogOpen = false;
         emit requestStarted();
         delete dlg;
-        return Core::STATE_ACCEPTED;
+        return Core::DialogAccepted;
     }
     authDialogOpen = false;
     delete dlg;
-    return Core::STATE_REJECTED;
+    return Core::DialogRejected;
 }
 
 void Core::retranslateUi()
@@ -588,9 +588,9 @@ bool Core::retryAuthorizing( Account *account, int role )
 
     Core::AuthDialogState state = authDataDialog( account );
     switch ( state ) {
-    case Core::STATE_ACCEPTED:
+    case Core::DialogAccepted:
         return true;
-    case Core::STATE_REJECTED:
+    case Core::DialogRejected:
         switch ( role ) {
         case TwitterAPI::ROLE_POST_UPDATE:
             emit errorMessage( tr( "Authentication is required to post updates." ) );
@@ -609,9 +609,9 @@ bool Core::retryAuthorizing( Account *account, int role )
         case TwitterAPI::ROLE_PUBLIC_TIMELINE:
             break;
         }
-    case Core::STATE_DIALOG_OPEN:
-    case Core::STATE_REMOVE_ACCOUNT:
-    case Core::STATE_DISABLE_ACCOUNT:
+    case Core::DialogOpen:
+    case Core::RemoveAccount:
+    case Core::DisableAccount:
     default:;
     }
     return false;

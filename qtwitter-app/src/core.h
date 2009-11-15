@@ -46,11 +46,11 @@ class Core : public QObject
 
 public:
     enum AuthDialogState {
-        STATE_ACCEPTED,
-        STATE_REJECTED,
-        STATE_DIALOG_OPEN,
-        STATE_DISABLE_ACCOUNT,
-        STATE_REMOVE_ACCOUNT
+        DialogAccepted,
+        DialogRejected,
+        DialogOpen,
+        DisableAccount,
+        RemoveAccount
     };
 
     enum CheckingForUnread {
