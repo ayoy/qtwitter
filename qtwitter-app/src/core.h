@@ -131,7 +131,7 @@ private slots:
 
     AuthDialogState authDataDialog( Account *account );
 
-    void setImageForUrl( const QString& url, QPixmap *image );
+    void setImageForUrl( const QString& url );
     void slotRequestDone( const QString &serviceUrl, const QString &login, int role );
 
     void setWaitForAccounts( bool wait );

@@ -30,6 +30,7 @@
 #include <QStringList>
 #include <QDir>
 #include <QFile>
+#include <QPixmapCache>
 #include "core.h"
 #include "mainwindow.h"
 #include "imagedownload.h"
@@ -61,7 +62,7 @@ Core::Core( QObject *parent ) :
         accountsModel(0),
         timer(0)
 {
-    connect( ImageDownload::instance(), SIGNAL(imageReadyForUrl(QString,QPixmap*)), this, SLOT(setImageForUrl(QString,QPixmap*)) );
+    connect( ImageDownload::instance(), SIGNAL(imageReadyForUrl(QString)), this, SLOT(setImageForUrl(QString)) );
 
     connect( StatusModel::instance(), SIGNAL(openBrowser(QUrl)), this, SLOT(openBrowser(QUrl)) );
     connect( StatusModel::instance(), SIGNAL(markEverythingAsRead()), this, SLOT(markEverythingAsRead()) );
@@ -173,6 +174,8 @@ void Core::restoreSession()
                 statusList->setActive( active );
                 statusList->setStatuses( list );
                 statusLists.insert( account, statusList );
+                foreach (Status status, list)
+                    QPixmapCache::insert( status.entry.userInfo.imageUrl, status.image );
             }
         }
     }
@@ -507,15 +510,20 @@ void Core::retranslateUi()
 }
 
 
-void Core::setImageForUrl( const QString& url, QPixmap *image )
+void Core::setImageForUrl( const QString& url )
 {
+    QPixmap pm;
+    QPixmapCache::find( url, &pm );
+    if ( pm.isNull() )
+        return;
+
     Status status;
     foreach ( StatusList *statusList, statusLists )
     {
         for ( int i = 0; i < statusList->size(); i++ ) {
             status = statusList->data(i);
             if ( status.entry.type == Entry::Status && url == status.entry.userInfo.imageUrl ) {
-                statusList->setImage( i, *image );
+                statusList->setImage( i, pm );
             }
         }
     }

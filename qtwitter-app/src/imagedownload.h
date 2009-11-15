@@ -34,24 +34,21 @@ class ImageDownload : public QObject
 
 public:
     static ImageDownload* instance();
+    virtual ~ImageDownload();
 
     void imageGet( const QString& imageUrl );
-    bool contains( const QString &imageUrl ) const;
-    QPixmap* imageFromUrl( const QString &imageUrl ) const;
 
 protected:
     ImageDownload( QObject *parent = 0 );
-    ~ImageDownload();
 
 signals:
-    void imageReadyForUrl( const QString& path, QPixmap *image );
+    void imageReadyForUrl( const QString& path );
 
 private slots:
     void requestFinished( QNetworkReply *reply );
 
 private:
     QMap<QString,QNetworkAccessManager*> connections;
-    QCache<QString,QPixmap> imageCache;
     static ImageDownload *m_inst;
 };
 

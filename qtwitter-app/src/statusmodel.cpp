@@ -476,20 +476,6 @@ void StatusModel::moveFocusToUnread( bool up )
     }
 }
 
-void StatusModel::setImageForUrl( const QString& url, QPixmap *image )
-{
-    Status status;
-    StatusWidget *widget;
-    for ( int i = 0; i < statusList->size(); i++ ) {
-        status = statusList->data(i);
-        if ( url == status.entry.userInfo.imageUrl ) {
-            status.image = *image;
-            widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
-            widget->setImage( *image );
-        }
-    }
-}
-
 void StatusModel::emitOpenBrowser( QString address )
 {
     emit openBrowser( QUrl( address ) );

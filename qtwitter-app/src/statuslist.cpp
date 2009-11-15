@@ -23,6 +23,7 @@
 
 #include <QDebug>
 #include <QPixmap>
+#include <QPixmapCache>
 
 #include <account.h>
 #include <oauthwizard.h>
@@ -107,12 +108,12 @@ void StatusListPrivate::addEntry( const Entry &entry )
         newStatuses++;
 
         if ( entry.type == Entry::Status ) {
-            if ( ImageDownload::instance()->contains( entry.userInfo.imageUrl ) ) {
-                if ( !ImageDownload::instance()->imageFromUrl( entry.userInfo.imageUrl )->isNull() )
-                    setImageForUrl( entry.userInfo.imageUrl, ImageDownload::instance()->imageFromUrl( entry.userInfo.imageUrl ) );
-            } else {
+            QPixmap pm;
+            QPixmapCache::find( entry.userInfo.imageUrl, &pm );
+            if ( !pm.isNull())
+                setImageForUrl( entry.userInfo.imageUrl, &pm );
+            else
                 ImageDownload::instance()->imageGet( entry.userInfo.imageUrl );
-            }
         }
     }
 }
