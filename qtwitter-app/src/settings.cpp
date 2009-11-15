@@ -21,7 +21,6 @@
 
 #include "settings.h"
 
-#include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
 #include <pluginmanagerwidget.h>
 #include "qtwitterapp.h"

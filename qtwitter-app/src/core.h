@@ -24,7 +24,6 @@
 
 #include <QTimer>
 #include <QMap>
-#include <QCache>
 #include <twitterapi/twitterapi.h>
 #include "accountsmodel.h"
 #include "statuslist.h"

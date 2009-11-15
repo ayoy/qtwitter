@@ -23,7 +23,6 @@
 
 #include <QAbstractItemModel>
 #include <QList>
-#include <twitterapi/twitterapi_global.h>
 #include "account.h"
 
 class AccountsModel : public QAbstractItemModel
