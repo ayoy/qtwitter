@@ -13,6 +13,7 @@ isEmpty(TRANSLATIONS_PRI) {
         it_IT \
         ja_JP \
         nb_NO \
+        nl_NL \
         pl_PL \
         pt_BR \
         ru_RU
