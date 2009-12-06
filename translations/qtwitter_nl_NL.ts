@@ -165,7 +165,7 @@
     <name>AllowWidget</name>
     <message>
         <source>You must allow qTwitter accessing your Twitter account</source>
-        <translation>U moet qTwitter toestaan toegang tot u Twitter-account te krijgen</translation>
+        <translation>Je moet qTwitter toegang geven tot je Twitter-account</translation>
     </message>
     <message>
         <source>Allow qTwitter access</source>
@@ -223,7 +223,7 @@
     </message>
     <message>
         <source>&amp;Add words:</source>
-        <translation>Worden &amp;toevoegen:</translation>
+        <translation>Woorden &amp;toevoegen:</translation>
     </message>
 </context>
 <context>
@@ -615,7 +615,7 @@
     <name>NewAccountDialog</name>
     <message>
         <source>Other StatusNet</source>
-        <translation>Ander StatusNet</translation>
+        <translation>Overige StatusNet</translation>
     </message>
     <message>
         <source>New account</source>
@@ -627,7 +627,7 @@
     </message>
     <message>
         <source>&amp;Password:</source>
-        <translation>&amp;Wachtwoord:</translation>
+        <translation>W&amp;achtwoord:</translation>
     </message>
     <message>
         <source>Twitter</source>
@@ -643,7 +643,7 @@
     </message>
     <message>
         <source>Network &amp;name:</source>
-        <translation>Netwerk &amp;naam:</translation>
+        <translation>Netwerk&amp;naam:</translation>
     </message>
     <message>
         <source>&amp;Website:</source>
@@ -677,11 +677,11 @@
     <name>PinWidget</name>
     <message>
         <source>Enter PIN number received from Twitter</source>
-        <translation>Voer de PIN-code in die je hebt ontvangen van Twitter</translation>
+        <translation>Voer het PIN-nummer in dat je van Twitter hebt ontvangen</translation>
     </message>
     <message>
         <source>OK</source>
-        <translation>Oke</translation>
+        <translation>Oké</translation>
     </message>
 </context>
 <context>
@@ -735,7 +735,7 @@
     </message>
     <message>
         <source>OK</source>
-        <translation>Oke</translation>
+        <translation>Oké</translation>
     </message>
     <message>
         <source>Apply</source>
@@ -1151,7 +1151,7 @@ background-color: rgba(255,255,255,0);
     </message>
     <message>
         <source>OK</source>
-        <translation>Oke</translation>
+        <translation>Oké</translation>
     </message>
     <message>
         <source>Welcome!</source>
