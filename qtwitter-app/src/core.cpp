@@ -513,7 +513,7 @@ void Core::retranslateUi()
 void Core::setImageForUrl( const QString& url )
 {
     QPixmap pm;
-    QPixmapCache::find( url, &pm );
+    QPixmapCache::find( url, pm );
     if ( pm.isNull() )
         return;
 
