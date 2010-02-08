@@ -186,7 +186,7 @@ const QNetworkRequest::Attribute TwitterAPIPrivate::AttrDeletionRequested  = (QN
 const QNetworkRequest::Attribute TwitterAPIPrivate::AttrMsgCount           = (QNetworkRequest::Attribute) (QNetworkRequest::User + 9);
 
 const QString TwitterAPIPrivate::UrlStatusesPublicTimeline  = "/statuses/public_timeline.xml";
-const QString TwitterAPIPrivate::UrlStatusesFriendsTimeline = "/statuses/friends_timeline.xml";
+const QString TwitterAPIPrivate::UrlStatusesFriendsTimeline = "/statuses/home_timeline.xml";
 const QString TwitterAPIPrivate::UrlStatusesMentions        = "/statuses/mentions.xml";
 const QString TwitterAPIPrivate::UrlStatusesUpdate          = "/statuses/update.xml";
 const QString TwitterAPIPrivate::UrlStatusesDestroy         = "/statuses/destroy/%1.xml";
