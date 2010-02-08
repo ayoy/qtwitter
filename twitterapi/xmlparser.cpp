@@ -61,7 +61,8 @@ XmlParser::XmlParser( const QString &serviceUrl, const QString &login, QObject *
         currentTag( QString() ),
         entry(),
         important( false ),
-        parsingUser( false )
+        parsingUser( false ),
+        level( 0 )
 {
     m_serviceUrl = serviceUrl;
     m_login = login;
@@ -73,7 +74,8 @@ XmlParser::XmlParser( const QString &serviceUrl, const QString &login, Entry::Ty
         currentTag( QString() ),
         entry( entryType ),
         important( false ),
-        parsingUser( false )
+        parsingUser( false ),
+        level( 0 )
 {
     m_serviceUrl = serviceUrl;
     m_login = login;
@@ -113,11 +115,12 @@ bool XmlParser::endDocument()
 
 bool XmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ )
 {
+    ++level;
     if ( qName == TAG_STATUS ) {
         entry.initialize();
         favoritedSet = false;
     }
-    if( qName == TAG_USER ) {
+    if( qName == TAG_USER && level == 3 ) {
         parsingUser = true;
     }
     important = tags.contains( qName );
@@ -128,6 +131,7 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
 
 bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
+    --level;
     if ( qName == TAG_STATUS ) {
         data << entry;
     }
