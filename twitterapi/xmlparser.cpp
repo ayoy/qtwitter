@@ -61,7 +61,8 @@ XmlParser::XmlParser( const QString &serviceUrl, const QString &login, QObject *
         currentTag( QString() ),
         entry(),
         important( false ),
-        parsingUser( false )
+        parsingUser( false ),
+        level( 0 )
 {
     m_serviceUrl = serviceUrl;
     m_login = login;
@@ -73,7 +74,8 @@ XmlParser::XmlParser( const QString &serviceUrl, const QString &login, Entry::Ty
         currentTag( QString() ),
         entry( entryType ),
         important( false ),
-        parsingUser( false )
+        parsingUser( false ),
+        level( 0 )
 {
     m_serviceUrl = serviceUrl;
     m_login = login;
@@ -113,11 +115,12 @@ bool XmlParser::endDocument()
 
 bool XmlParser::startElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName, const QXmlAttributes & /*atts*/ )
 {
+    ++level;
     if ( qName == TAG_STATUS ) {
         entry.initialize();
         favoritedSet = false;
     }
-    if( qName == TAG_USER ) {
+    if( qName == TAG_USER && level == 3 ) {
         parsingUser = true;
     }
     important = tags.contains( qName );
@@ -128,6 +131,7 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
 
 bool XmlParser::endElement( const QString & /* namespaceURI */, const QString & /* localName */, const QString &qName )
 {
+    --level;
     if ( qName == TAG_STATUS ) {
         data << entry;
     }
@@ -282,7 +286,7 @@ QString XmlParser::textToHtml( QString newText )
     // recognize @mentions (letters, numbers are allowed in nicks)
     // for Twitter, also allow _ in nicks and @user/list;
     // the list name can only contain letters, numbers and dashes (-)
-    newText.replace( m_serviceUrl == TwitterAPI::URL_TWITTER ?
+    newText.replace( m_serviceUrl == TwitterAPI::UrlTwitter ?
                      QRegExp( "(^|[^a-zA-Z0-9])@([\\w\\d_]+(/[\\w\\d-]+)?)" ) :
                      QRegExp( "(^|[^a-zA-Z0-9])@([\\w\\d]+)" ),
                      QString( "\\1<a href='%1/\\2'>@\\2</a>").arg( networkUrl ) );
@@ -293,12 +297,12 @@ QString XmlParser::textToHtml( QString newText )
 
     // recognize #hashtags
     QRegExp tag( "#([\\w\\d-]+)( ?)", Qt::CaseInsensitive );
-    newText.replace( tag, m_serviceUrl == TwitterAPI::URL_TWITTER ?
+    newText.replace( tag, m_serviceUrl == TwitterAPI::UrlTwitter ?
                      "<a href='http://search.twitter.com/search?q=\\1'>#\\1</a>\\2" :
                      QString( "<a href='%1/tag/\\1'>#\\1</a>\\2" ).arg(networkUrl) );
 
     // recognize !groups
-    if ( m_serviceUrl != TwitterAPI::URL_TWITTER ) {
+    if ( m_serviceUrl != TwitterAPI::UrlTwitter ) {
         QRegExp group( "!([\\w\\d-]+)( ?)", Qt::CaseInsensitive );
         newText.replace( group, QString( "<a href='%1/group/\\1'>!\\1</a>\\2" ).arg(networkUrl) );
     }

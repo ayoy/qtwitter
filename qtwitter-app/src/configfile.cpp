@@ -21,7 +21,6 @@
 #include "configfile.h"
 
 #include <account.h>
-#include <twitterapi/twitterapi_global.h>
 
 #include <QFileInfo>
 #include <QStringList>

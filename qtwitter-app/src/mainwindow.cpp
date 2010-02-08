@@ -40,7 +40,6 @@
 #include <stdlib.h>
 
 #include <qticonloader.h>
-#include <twitterapi/twitterapi.h>
 #include "mainwindow.h"
 #include "settings.h"
 #include "statusmodel.h"

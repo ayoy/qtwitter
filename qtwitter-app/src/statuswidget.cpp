@@ -23,11 +23,9 @@
 #include <QClipboard>
 #include <QMenu>
 #include <QSignalMapper>
-#include <twitterapi/twitterapi_global.h>
 #include <account.h>
 #include "statuswidget.h"
-#include "settings.h"
-#include "statuslist.h"
+#include "themes.h"
 #include "ui_statuswidget.h"
 
 int StatusWidget::scrollBarWidth = 0;
@@ -43,7 +41,7 @@ StatusWidget::StatusWidget( QWidget *parent ) :
         gotohomepageAction(0),
         gototwitterpageAction(0),
         deleteAction(0),
-        statusState( StatusModel::STATE_DISABLED ),
+        statusState( Status::Disabled ),
         statusData(0),
         m_ui(new Ui::StatusWidget)
 {
@@ -243,7 +241,7 @@ void StatusWidget::initialize()
     m_ui->userImage->clear();
     m_ui->timeStamp->clear();
 
-    setState( StatusModel::STATE_DISABLED );
+    setState( Status::Disabled );
     adjustSize();
 }
 
@@ -333,7 +331,7 @@ void StatusWidget::setImage( const QPixmap &pixmap )
     m_ui->userImage->setPixmap( pixmap );
 }
 
-void StatusWidget::setState( StatusModel::StatusState state )
+void StatusWidget::setState( Status::State state )
 {
     statusState = state;
     applyTheme();
@@ -355,7 +353,7 @@ void StatusWidget::setDisplayMode( StatusModel::DisplayMode mode )
     }
 }
 
-StatusModel::StatusState StatusWidget::getState() const
+Status::State StatusWidget::getState() const
 {
     return statusState;
 }
@@ -388,16 +386,16 @@ void StatusWidget::applyTheme()
     ThemeElement newState;
 
     switch ( statusState ) {
-    case StatusModel::STATE_UNREAD:
+    case Status::Unread:
         newState = currentTheme.unread;
         break;
-    case StatusModel::STATE_ACTIVE:
+    case Status::Active:
         newState = currentTheme.active;
         break;
-    case StatusModel::STATE_READ:
+    case Status::Read:
         newState = currentTheme.read;
         break;
-    case StatusModel::STATE_DISABLED:
+    case Status::Disabled:
         newState = currentTheme.disabled;
         break;
     }
@@ -419,18 +417,12 @@ void StatusWidget::retranslateUi()
 {
     if ( statusData ) {
         dmAction->setText( tr( "Direct message %1" ).arg( statusData->userInfo.screenName ) );
-        dmAction->setEnabled( !(currentLogin == TwitterAPI::PUBLIC_TIMELINE) && !statusData->isOwn );
+        dmAction->setEnabled( !statusData->isOwn );
 
         if ( statusData->favorited ) {
-            //      if ( currentNetwork == TwitterAPI::SOCIALNETWORK_IDENTICA ) {
-            //        m_ui->favoriteReplyButton->setToolTip( QString() );
-            //        favoriteAction->setText( tr( "Remove from Favorites" ) );
-            //        favoriteAction->setEnabled( false );
-            //      } else {
             m_ui->favoriteReplyButton->setToolTip( tr( "Remove from Favorites" ) );
             favoriteAction->setText( m_ui->favoriteReplyButton->toolTip() );
             favoriteAction->setEnabled( true );
-            //      }
         } else {
             m_ui->favoriteReplyButton->setToolTip( tr( "Add to Favorites" ) );
         }
@@ -543,11 +535,9 @@ void StatusWidget::changeEvent( QEvent *e )
 
 void StatusWidget::enterEvent( QEvent *e )
 {
-    if ( statusState != StatusModel::STATE_DISABLED ) {
-        if ( currentLogin != TwitterAPI::PUBLIC_TIMELINE ) {
-            m_ui->replyDeleteButton->show();
-            m_ui->favoriteReplyButton->show();
-        }
+    if ( statusState != Status::Disabled ) {
+        m_ui->replyDeleteButton->show();
+        m_ui->favoriteReplyButton->show();
         m_ui->infoButton->show();
         e->accept();
     }

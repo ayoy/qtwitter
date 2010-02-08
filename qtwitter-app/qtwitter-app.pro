@@ -41,6 +41,7 @@ HEADERS += src/qtwitterapp.h \
     src/imagedownload.h \
     src/core.h \
     src/settings.h \
+    src/status.h \
     src/statuswidget.h \
     src/statusmodel.h \
     src/statustextbrowser.h \

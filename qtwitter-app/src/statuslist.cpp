@@ -23,6 +23,7 @@
 
 #include <QDebug>
 #include <QPixmap>
+#include <QPixmapCache>
 
 #include <account.h>
 #include <oauthwizard.h>
@@ -45,7 +46,7 @@ QDataStream& operator>>( QDataStream & in, Status &status )
     in >> status.entry;
     in >> status.image;
     in >> state;
-    status.state = (StatusModel::StatusState) state;
+    status.state = (Status::State) state;
     return in;
 }
 
@@ -107,12 +108,12 @@ void StatusListPrivate::addEntry( const Entry &entry )
         newStatuses++;
 
         if ( entry.type == Entry::Status ) {
-            if ( ImageDownload::instance()->contains( entry.userInfo.imageUrl ) ) {
-                if ( !ImageDownload::instance()->imageFromUrl( entry.userInfo.imageUrl )->isNull() )
-                    setImageForUrl( entry.userInfo.imageUrl, ImageDownload::instance()->imageFromUrl( entry.userInfo.imageUrl ) );
-            } else {
+            QPixmap pm;
+            QPixmapCache::find( entry.userInfo.imageUrl, pm );
+            if ( !pm.isNull())
+                setImageForUrl( entry.userInfo.imageUrl, &pm );
+            else
                 ImageDownload::instance()->imageGet( entry.userInfo.imageUrl );
-            }
         }
     }
 }
@@ -127,7 +128,7 @@ void StatusListPrivate::deleteEntry( quint64 id )
             if ( active > i )
                 active--;
             else if ( i < data.size() && active == i )
-                data[active].state = StatusModel::STATE_ACTIVE;
+                data[active].state = Status::Active;
             emit q->statusDeleted(i);
             return;
         }
@@ -161,7 +162,7 @@ void StatusListPrivate::slotUnauthorized()
 {
     Q_Q(StatusList);
 
-    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_FRIENDS_TIMELINE );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::RoleFriendsTimeline );
     QTwitterApp::core()->decrementRequestCount();
     if ( account->dm() )
         QTwitterApp::core()->decrementRequestCount();
@@ -179,7 +180,7 @@ void StatusListPrivate::slotUnauthorized( const QString &status, quint64 inReply
 {
     Q_Q(StatusList);
 
-    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_POST_UPDATE );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::RolePostUpdate );
     QTwitterApp::core()->decrementRequestCount();
     if ( !result )
         return;
@@ -192,7 +193,7 @@ void StatusListPrivate::slotUnauthorized( const QString &screenName, const QStri
 {
     Q_Q(StatusList);
 
-    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_POST_DM );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::RolePostDM );
     QTwitterApp::core()->decrementRequestCount();
     if ( !result )
         return;
@@ -205,7 +206,7 @@ void StatusListPrivate::slotUnauthorized( quint64 destroyId, Entry::Type type )
 {
     Q_Q(StatusList);
 
-    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::ROLE_DELETE_UPDATE );
+    bool result = QTwitterApp::core()->retryAuthorizing( account, TwitterAPI::RoleDeleteUpdate );
     QTwitterApp::core()->decrementRequestCount();
     if ( !result )
         return;
@@ -218,7 +219,7 @@ void StatusListPrivate::slotRequestDone( int role )
 {
     if ( visible )
         StatusModel::instance()->updateDisplay();
-    if ( role != TwitterAPI::ROLE_POST_DM && QTwitterApp::core()->requestCount() > 0 )
+    if ( role != TwitterAPI::RolePostDM && QTwitterApp::core()->requestCount() > 0 )
         QTwitterApp::core()->decrementRequestCount();
     qDebug() << QTwitterApp::core()->requestCount();
     //  if ( Core::requestCount() == 0 ) {
@@ -271,7 +272,7 @@ void StatusList::markAllAsRead()
     Q_D(StatusList);
 
     for ( int i = 0; i < d->data.size(); ++i ) {
-        d->data[i].state = StatusModel::STATE_READ;
+        d->data[i].state = Status::Read;
         emit stateChanged(i);
     }
 }
@@ -316,7 +317,7 @@ void StatusList::setData( int index, const Status &status )
     Q_D(StatusList);
 
     d->data[ index ] = status;
-    if ( status.state == StatusModel::STATE_ACTIVE ) {
+    if ( status.state == Status::Active ) {
         d->active = index;
         //    emit stateChanged( index );
     }
@@ -330,25 +331,25 @@ const Status& StatusList::data( int index ) const
     return d->data.at( index );
 }
 
-void StatusList::setState( int index, StatusModel::StatusState state )
+void StatusList::setState( int index, Status::State state )
 {
     Q_D(StatusList);
 
     if ( d->data[ index ].state == state )
         return;
 
-    if ( d->data[ index ].state == StatusModel::STATE_ACTIVE )
+    if ( d->data[ index ].state == Status::Active )
         d->active = -1;
 
     d->data[ index ].state = state;
 
-    if ( state == StatusModel::STATE_ACTIVE )
+    if ( state == Status::Active )
         d->active = index;
 
     emit stateChanged( index );
 }
 
-StatusModel::StatusState StatusList::state( int index ) const
+Status::State StatusList::state( int index ) const
 {
     Q_D(const StatusList);
 
@@ -491,7 +492,7 @@ int StatusListPrivate::addStatus( const Entry &entry )
     //  qDebug() << "adding new entry";
 
     Status status;
-    status.state = StatusModel::STATE_UNREAD;
+    status.state = Status::Unread;
     status.entry = entry;
     if ( status.entry.type == Entry::DirectMessage )
         status.image = QPixmap( ":/icons/mail_48.png" );
@@ -504,8 +505,8 @@ int StatusListPrivate::addStatus( const Entry &entry )
         if ( status.entry.timestamp > (*i).entry.timestamp ) {
             // TODO: HACK!
             int index = data.indexOf(*i);
-            if ( index > 1 && data.at( index - 1 ).state != StatusModel::STATE_UNREAD ) {
-                status.state = StatusModel::STATE_READ;
+            if ( index > 1 && data.at( index - 1 ).state != Status::Unread ) {
+                status.state = Status::Read;
             }
             data.insert( i, status );
             if ( data.size() >= maxCount && data.takeLast() == status )
@@ -518,8 +519,8 @@ int StatusListPrivate::addStatus( const Entry &entry )
     }
     if ( data.size() < maxCount ) {
         // TODO: HACK!
-        if ( data.at( data.size() - 1 ).state != StatusModel::STATE_UNREAD ) {
-            status.state = StatusModel::STATE_READ;
+        if ( data.at( data.size() - 1 ).state != Status::Unread ) {
+            status.state = Status::Read;
         }
         data.append( status );
         return data.size() - 1;

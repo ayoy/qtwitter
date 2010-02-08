@@ -73,6 +73,7 @@ void AboutDialog::populateAuthors()
                                  "<p style=\"-qt-paragraph-type:empty; \"></p>" ).arg( tr( "Translations:" ) ) );
 
     authorsHtml.append( contributor( "Dragon Jake", "wjake@wjake.com", tr( "Czech translation") ) );
+    authorsHtml.append( contributor( "Winand Renkema", "l10n@winandrenkema.nl", tr( "Dutch translation") ) );
     authorsHtml.append( contributor( "Harry Bellemare", "behr62@gmail.com", tr( "French translation") ) );
     authorsHtml.append( contributor( "Jan Schummers", "darkadmiral@onlinehome.de", tr( "German translation" ) ) );
     authorsHtml.append( contributor( "Faster", "faster3ck@gmail.com", tr( "Italian translation" ) ) );

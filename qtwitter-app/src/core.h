@@ -24,7 +24,6 @@
 
 #include <QTimer>
 #include <QMap>
-#include <QCache>
 #include <twitterapi/twitterapi.h>
 #include "accountsmodel.h"
 #include "statuslist.h"
@@ -46,11 +45,11 @@ class Core : public QObject
 
 public:
     enum AuthDialogState {
-        STATE_ACCEPTED,
-        STATE_REJECTED,
-        STATE_DIALOG_OPEN,
-        STATE_DISABLE_ACCOUNT,
-        STATE_REMOVE_ACCOUNT
+        DialogAccepted,
+        DialogRejected,
+        DialogOpen,
+        DisableAccount,
+        RemoveAccount
     };
 
     enum CheckingForUnread {
@@ -122,7 +121,6 @@ signals:
     void pauseIcon();
     void timelineUpdated();
     void modelChanged( StatusModel *model );
-    void confirmDMSent( TwitterAPI::SocialNetwork network, const QString &login, TwitterAPI::ErrorCode error );
     void sendNewsReport( QString message );
 
     void accountDialogClosed( bool success );
@@ -132,7 +130,7 @@ private slots:
 
     AuthDialogState authDataDialog( Account *account );
 
-    void setImageForUrl( const QString& url, QPixmap *image );
+    void setImageForUrl( const QString& url );
     void slotRequestDone( const QString &serviceUrl, const QString &login, int role );
 
     void setWaitForAccounts( bool wait );

@@ -59,6 +59,7 @@ struct TWITTERAPI_EXPORT Entry
 
 Q_DECLARE_METATYPE(Entry);
 
+typedef QList<Entry> EntryList;
 
 TWITTERAPI_EXPORT QDataStream& operator<<( QDataStream &out, const Entry &entry );
 TWITTERAPI_EXPORT QDataStream& operator>>( QDataStream &in, Entry &entry );

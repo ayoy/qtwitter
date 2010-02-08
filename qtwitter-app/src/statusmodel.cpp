@@ -162,8 +162,8 @@ void StatusModel::deselectCurrentIndex()
     if ( currentIndex.isValid() ) {
         StatusWidget *widget = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
         Q_ASSERT(widget);
-        widget->setState( StatusModel::STATE_READ );
-        statusList->setState( currentIndex.row(), StatusModel::STATE_READ );
+        widget->setState( Status::Read );
+        statusList->setState( currentIndex.row(), Status::Read );
         currentIndex = QModelIndex();
     }
 }
@@ -321,13 +321,13 @@ void StatusModel::selectStatus( const QModelIndex &index )
         return;
     }
 
-    StatusModel::StatusState state;
+    Status::State state;
     StatusWidget *widget;
 
     if ( currentIndex.isValid() ) {
         state = statusList->state( currentIndex.row() );
-        if ( state != StatusModel::STATE_UNREAD ) {
-            state = StatusModel::STATE_READ;
+        if ( state != Status::Unread ) {
+            state = Status::Read;
             statusList->setState( currentIndex.row(), state );
 
             widget = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
@@ -338,37 +338,37 @@ void StatusModel::selectStatus( const QModelIndex &index )
 
     currentIndex = index;
 
-    statusList->setState( index.row(), StatusModel::STATE_ACTIVE );
+    statusList->setState( index.row(), Status::Active );
 
     widget = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
     Q_ASSERT(widget);
-    widget->setState( StatusModel::STATE_ACTIVE );
+    widget->setState( Status::Active );
 
     view->setCurrentIndex( currentIndex );
 }
 
 void StatusModel::selectStatus( StatusWidget *statusWidget )
 {
-    if ( !statusList || statusWidget->getState() == StatusModel::STATE_DISABLED )
+    if ( !statusList || statusWidget->getState() == Status::Disabled )
         return;
 
     Status status;
     StatusWidget *widget;
     if ( currentIndex.isValid() && currentIndex.row() < statusList->size() ) {
         status = statusList->data( currentIndex.row() );
-        if ( status.state != StatusModel::STATE_UNREAD ) {
-            statusList->setState( currentIndex.row(), StatusModel::STATE_READ );
+        if ( status.state != Status::Unread ) {
+            statusList->setState( currentIndex.row(), Status::Read );
             widget = static_cast<StatusWidget*>( view->indexWidget( currentIndex ) );
             Q_ASSERT(widget);
-            widget->setState( StatusModel::STATE_READ );
+            widget->setState( Status::Read );
         }
     }
     for ( int i = 0; i < statusList->size(); i++ ) {
         status = statusList->data( i );
         if ( status.entry.id == statusWidget->getId() ) {
             currentIndex = item(i)->index();
-            statusList->setState( currentIndex.row(), StatusModel::STATE_ACTIVE );
-            statusWidget->setState( StatusModel::STATE_ACTIVE );
+            statusList->setState( currentIndex.row(), Status::Active );
+            statusWidget->setState( Status::Active );
             view->setCurrentIndex( currentIndex );
         }
     }
@@ -383,9 +383,9 @@ void StatusModel::markAllAsRead()
         for ( int i = 0; i < count; i++ ) {
             status = statusList->data(i);
             if ( i == currentIndex.row() )
-                status.state = StatusModel::STATE_ACTIVE;
+                status.state = Status::Active;
             else
-                status.state = StatusModel::STATE_READ;
+                status.state = Status::Read;
             statusList->setState(i, status.state );
         }
     }
@@ -456,9 +456,9 @@ void StatusModel::moveFocusToUnread( bool up )
     row = start;
 
     do {
-        StatusModel::StatusState state;
+        Status::State state;
         state = statusList->state( row );
-        if ( state != StatusModel::STATE_UNREAD ) {
+        if ( state != Status::Unread ) {
             row += diff;
             if ( row < 0 ) {
                 row = count - 1;
@@ -473,20 +473,6 @@ void StatusModel::moveFocusToUnread( bool up )
 
     if (row != start) {
         selectStatus( currentIndex.sibling( row, 0 ) );
-    }
-}
-
-void StatusModel::setImageForUrl( const QString& url, QPixmap *image )
-{
-    Status status;
-    StatusWidget *widget;
-    for ( int i = 0; i < statusList->size(); i++ ) {
-        status = statusList->data(i);
-        if ( url == status.entry.userInfo.imageUrl ) {
-            status.image = *image;
-            widget = static_cast<StatusWidget*>( view->indexWidget( index( i, 0 ) ) );
-            widget->setImage( *image );
-        }
     }
 }
 

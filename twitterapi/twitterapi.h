@@ -42,8 +42,6 @@ class QXmlInputSource;
 class XmlParser;
 struct Interface;
 
-typedef QList<Entry> EntryList;
-
 class TwitterAPIPrivate;
 
 class TWITTERAPI_EXPORT TwitterAPI : public QObject
@@ -59,42 +57,37 @@ class TWITTERAPI_EXPORT TwitterAPI : public QObject
 #endif
 
 public:
-    enum SocialNetwork {
-        SOCIALNETWORK_TWITTER,
-        SOCIALNETWORK_IDENTICA
-    };
-
     /*!
       Set for sent requests, represents the activity performed by the specific request.
     */
     enum Role {
-        ROLE_PUBLIC_TIMELINE = 101,
-        ROLE_FRIENDS_TIMELINE,
-        ROLE_MENTIONS,
-        ROLE_DIRECT_MESSAGES,
-        ROLE_POST_UPDATE,
-        ROLE_DELETE_UPDATE,
-        ROLE_POST_DM,
-        ROLE_DELETE_DM,
-        ROLE_FAVORITES_CREATE,
-        ROLE_FAVORITES_DESTROY,
-        ROLE_FRIENDSHIP_CREATE,
-        ROLE_FRIENDSHIP_DESTROY
+        RolePublicTimeline = 101,
+        RoleFriendsTimeline,
+        RoleMentionsTimeline,
+        RoleDirectMessages,
+        RolePostUpdate,
+        RoleDeleteUpdate,
+        RolePostDM,
+        RoleDeleteDM,
+        RoleCreateFavorite,
+        RoleDestroyFavorite,
+        RoleCreateFriendship,
+        RoleDestroyFriendship
     };
 
     enum ErrorCode {
-        ERROR_NO_ERROR = 0,
-        ERROR_DM_NOT_ALLOWED,
-        ERROR_DM_USER_NOT_FOUND
+        NoError = 0,
+        DMNotAllowed,
+        DMUserNotFound
     };
 
     /*!
       A constant used as a "login" for public timeline requests.
     */
-    static const QString PUBLIC_TIMELINE;
+    static const QString PublicTimeline;
 
-    static const QString URL_IDENTICA;
-    static const QString URL_TWITTER;
+    static const QString UrlIdentica;
+    static const QString UrlTwitter;
 
     TwitterAPI( QObject *parent = 0 );
 #ifdef HAVE_OAUTH

@@ -22,7 +22,6 @@
 #include <QProcess>
 #include <QDebug>
 #include <QStringList>
-#include <twitterapi/twitterapi_global.h>
 #include "twitpicview.h"
 #include "ui_twitpicview.h"
 #include "configfile.h"

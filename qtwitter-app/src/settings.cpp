@@ -21,7 +21,6 @@
 
 #include "settings.h"
 
-#include <twitterapi/twitterapi_global.h>
 #include <qticonloader.h>
 #include <pluginmanagerwidget.h>
 #include "qtwitterapp.h"
@@ -63,11 +62,11 @@ Settings::Settings( Core *coreSettings, QWidget *parent ) :
 
     ui.setupUi( this );
 
-    themes.insert( Themes::STYLESHEET_COCOA.first,   Themes::STYLESHEET_COCOA.second);
-    themes.insert( Themes::STYLESHEET_GRAY.first,    Themes::STYLESHEET_GRAY.second);
-    themes.insert( Themes::STYLESHEET_GREEN.first,   Themes::STYLESHEET_GREEN.second);
-    themes.insert( Themes::STYLESHEET_PURPLE.first,  Themes::STYLESHEET_PURPLE.second);
-    themes.insert( Themes::STYLESHEET_SKY.first,     Themes::STYLESHEET_SKY.second);
+    themes.insert( Themes::Cocoa.first,   Themes::Cocoa.second);
+    themes.insert( Themes::Gray.first,    Themes::Gray.second);
+    themes.insert( Themes::Green.first,   Themes::Green.second);
+    themes.insert( Themes::Purple.first,  Themes::Purple.second);
+    themes.insert( Themes::Sky.first,     Themes::Sky.second);
 
     for (int i = 0; i < themes.keys().size(); ++i ) {
         ui.colorBox->addItem( themes.keys()[i] );

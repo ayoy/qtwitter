@@ -77,6 +77,7 @@ protected:
     bool important;
     bool parsingUser;
     bool favoritedSet;
+    int level;
 
     static const int timeShift;
     static const QSet<QString> tags;

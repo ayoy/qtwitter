@@ -130,7 +130,7 @@ void DMDialog::showResult( TwitterAPI::ErrorCode error )
 {
     progress->stop();
     m_ui->progressLabel->hide();
-    if ( error == TwitterAPI::ERROR_NO_ERROR ) {
+    if ( error == TwitterAPI::NoError ) {
         m_ui->sendingLabel->setText( tr( "Message sent!" ) );
         QTimer::singleShot( 2000, this, SLOT(resetDisplay()) );
     } else {

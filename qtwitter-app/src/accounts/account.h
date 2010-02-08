@@ -23,7 +23,6 @@
 
 #include <QPair>
 #include <QMetaType>
-#include <twitterapi/twitterapi.h>
 #include <QDataStream>
 
 class Account

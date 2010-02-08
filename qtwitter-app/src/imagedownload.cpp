@@ -20,6 +20,7 @@
 
 #include <QNetworkRequest>
 #include <QNetworkReply>
+#include <QPixmapCache>
 #include <QApplication>
 #include "imagedownload.h"
 
@@ -36,7 +37,6 @@ ImageDownload* ImageDownload::instance()
 ImageDownload::ImageDownload( QObject *parent ) :
         QObject( parent )
 {
-    imageCache.setMaxCost( 50 );
 }
 
 ImageDownload::~ImageDownload()
@@ -46,11 +46,6 @@ ImageDownload::~ImageDownload()
 
 void ImageDownload::imageGet( const QString &imageUrl )
 {
-    if ( imageCache.contains( imageUrl ) ) {
-        emit imageReadyForUrl( imageUrl, imageCache[ imageUrl ] );
-        return;
-    }
-
     QUrl url( imageUrl );
     QString host( url.host() );
     QNetworkRequest request( url );
@@ -61,17 +56,8 @@ void ImageDownload::imageGet( const QString &imageUrl )
     }
 
     connections[ host ]->get( request );
-    imageCache.insert( imageUrl, new QPixmap );
-}
-
-bool ImageDownload::contains( const QString &imageUrl ) const
-{
-    return imageCache.contains( imageUrl );
-}
-
-QPixmap* ImageDownload::imageFromUrl( const QString &imageUrl ) const
-{
-    return imageCache[ imageUrl ];
+    QPixmap pm;
+    QPixmapCache::insert( imageUrl, pm );
 }
 
 void ImageDownload::requestFinished( QNetworkReply *reply )
@@ -81,10 +67,10 @@ void ImageDownload::requestFinished( QNetworkReply *reply )
     if ( replyCode != 200 )
         return;
 
-    QPixmap *pixmap = new QPixmap;
-    pixmap->loadFromData( reply->readAll() );
-    imageCache.insert( reply->url().toString(), pixmap );
-    emit imageReadyForUrl( reply->url().toString(), pixmap );
+    QPixmap pixmap;
+    pixmap.loadFromData( reply->readAll() );
+    QPixmapCache::insert( reply->url().toString(), pixmap );
+    emit imageReadyForUrl( reply->url().toString() );
 }
 
 

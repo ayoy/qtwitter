@@ -38,7 +38,7 @@ HOW TO INSTALL:
 
 You can either compile qTwitter with support for OAuth authorization you will need
 
-To compile qTwitter you'll need Qt libraries version 4.4.3 or newer. You will need QCA and QOAuth library to enable support for OAuth authorization. From version 0.8.3 qTwitter depends on qoauth 1.0 or higher. You'll find all needed info at http://wiki.github.com/ayoy/qoauth.
+To compile qTwitter you'll need Qt libraries version 4.5.0 or newer. You will need QCA and QOAuth library to enable support for OAuth authorization. From version 0.8.3 qTwitter depends on qoauth 1.0 or higher. You'll find all needed info at http://wiki.github.com/ayoy/qoauth.
 
 Follow the steps to compile qTwitter:
 
