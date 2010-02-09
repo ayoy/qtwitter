@@ -120,7 +120,7 @@ bool XmlParser::startElement( const QString & /* namespaceURI */, const QString 
         entry.initialize();
         favoritedSet = false;
     }
-    if( qName == TAG_USER && level == 3 ) {
+    if( qName == TAG_USER && level <= 3 ) {
         parsingUser = true;
     }
     important = tags.contains( qName );
