@@ -82,7 +82,8 @@ macx {
 }
 else:unix {
     LIBS += -L$${DESTDIR} \
-        $$TWITTERAPI_LIB
+        $$TWITTERAPI_LIB \
+        -lX11
     target.path = $${INSTALL_PREFIX}/bin
     PLUGINS_DIR = $${INSTALL_PREFIX}/lib$${LIB_SUFFIX}/$${TARGET}/plugins
     DEFINES += PLUGINS_DIR='\\\"$${PLUGINS_DIR}\\\"'
